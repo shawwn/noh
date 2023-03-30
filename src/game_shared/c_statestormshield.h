@@ -17,15 +17,15 @@
 class CStateStormShield : public IEntityState
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(State, StormShield);
+    DECLARE_ENT_ALLOCATOR2(State, StormShield);
 
 public:
-	~CStateStormShield()	{}
-	CStateStormShield() :
-	IEntityState(GetEntityConfig())
-	{}
+    ~CStateStormShield()    {}
+    CStateStormShield() :
+    IEntityState(GetEntityConfig())
+    {}
 
-	float	OwnerDamaged(float fDamage, int iFlags, IVisualEntity *pAttacker);
+    float   OwnerDamaged(float fDamage, int iFlags, IVisualEntity *pAttacker);
 };
 //=============================================================================
 

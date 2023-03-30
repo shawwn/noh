@@ -24,62 +24,62 @@ DECLARE_ENTITY_DEFINITION_XML_PROCESSOR(CLinearAffector, LinearAffector, lineara
 //=============================================================================
 class CLinearAffectorDefinition : public IEntityDefinition
 {
-	DECLARE_DEFINITION_TYPE_INFO
+    DECLARE_DEFINITION_TYPE_INFO
 
-	ENT_DEF_ARRAY_PROPERTY(Lifetime, uint)
-	ENT_DEF_TEMPORAL_ARRAY_PROPERTY(Radius, float)
-	ENT_DEF_TEMPORAL_ARRAY_PROPERTY(MinLength, float)
-	ENT_DEF_TEMPORAL_ARRAY_PROPERTY(MaxLength, float)
-	ENT_DEF_ARRAY_PROPERTY(ImpactDelay, uint)
-	ENT_DEF_ARRAY_PROPERTY(ImpactInterval, uint)
-	ENT_DEF_ARRAY_PROPERTY(MaxIntervals, uint)
-	ENT_DEF_ARRAY_PROPERTY(MaxTotalImpacts, uint)
-	ENT_DEF_ARRAY_PROPERTY(MaxImpactsPerInterval, uint)
-	ENT_DEF_ARRAY_PROPERTY(MaxImpactsPerTarget, uint)
-	ENT_DEF_ARRAY_PROPERTY(MaxImpactsPerTargetPerInterval, uint)
-	ENT_DEF_ARRAY_PROPERTY(SubSegmentLength, float)
-	ENT_DEF_ARRAY_PROPERTY(SubSegmentOffset, float)
-	ENT_DEF_ARRAY_PROPERTY(TargetSelection, ETargetSelection)
-	ENT_DEF_ARRAY_PROPERTY_EX(TargetScheme, uint, Game.LookupTargetScheme)
-	ENT_DEF_ARRAY_PROPERTY_EX(EffectType, uint, Game.LookupEffectType)
-	ENT_DEF_ARRAY_PROPERTY(Persist, bool)
-	ENT_DEF_ARRAY_PROPERTY(DestroyTrees, bool)
+    ENT_DEF_ARRAY_PROPERTY(Lifetime, uint)
+    ENT_DEF_TEMPORAL_ARRAY_PROPERTY(Radius, float)
+    ENT_DEF_TEMPORAL_ARRAY_PROPERTY(MinLength, float)
+    ENT_DEF_TEMPORAL_ARRAY_PROPERTY(MaxLength, float)
+    ENT_DEF_ARRAY_PROPERTY(ImpactDelay, uint)
+    ENT_DEF_ARRAY_PROPERTY(ImpactInterval, uint)
+    ENT_DEF_ARRAY_PROPERTY(MaxIntervals, uint)
+    ENT_DEF_ARRAY_PROPERTY(MaxTotalImpacts, uint)
+    ENT_DEF_ARRAY_PROPERTY(MaxImpactsPerInterval, uint)
+    ENT_DEF_ARRAY_PROPERTY(MaxImpactsPerTarget, uint)
+    ENT_DEF_ARRAY_PROPERTY(MaxImpactsPerTargetPerInterval, uint)
+    ENT_DEF_ARRAY_PROPERTY(SubSegmentLength, float)
+    ENT_DEF_ARRAY_PROPERTY(SubSegmentOffset, float)
+    ENT_DEF_ARRAY_PROPERTY(TargetSelection, ETargetSelection)
+    ENT_DEF_ARRAY_PROPERTY_EX(TargetScheme, uint, Game.LookupTargetScheme)
+    ENT_DEF_ARRAY_PROPERTY_EX(EffectType, uint, Game.LookupEffectType)
+    ENT_DEF_ARRAY_PROPERTY(Persist, bool)
+    ENT_DEF_ARRAY_PROPERTY(DestroyTrees, bool)
 
-	ENT_DEF_RESOURCE_PROPERTY(Effect, Effect)
-	ENT_DEF_RESOURCE_PROPERTY(ImpactEffect, Effect)
-	ENT_DEF_RESOURCE_PROPERTY(BridgeEffect, Effect)
-	ENT_DEF_RESOURCE_PROPERTY(LinkEffect, Effect)
+    ENT_DEF_RESOURCE_PROPERTY(Effect, Effect)
+    ENT_DEF_RESOURCE_PROPERTY(ImpactEffect, Effect)
+    ENT_DEF_RESOURCE_PROPERTY(BridgeEffect, Effect)
+    ENT_DEF_RESOURCE_PROPERTY(LinkEffect, Effect)
 
 public:
-	~CLinearAffectorDefinition()	{}
-	CLinearAffectorDefinition() :
-	IEntityDefinition(&g_allocatorLinearAffector)
-	{}
+    ~CLinearAffectorDefinition()    {}
+    CLinearAffectorDefinition() :
+    IEntityDefinition(&g_allocatorLinearAffector)
+    {}
 
-	IEntityDefinition*	GetCopy() const	{ return K2_NEW(g_heapResources,    CLinearAffectorDefinition)(*this); }
+    IEntityDefinition*  GetCopy() const { return K2_NEW(g_heapResources,    CLinearAffectorDefinition)(*this); }
 
-	virtual void	Precache(EPrecacheScheme eScheme)
-	{
-		IEntityDefinition::Precache(eScheme);
+    virtual void    Precache(EPrecacheScheme eScheme)
+    {
+        IEntityDefinition::Precache(eScheme);
 
-		PRECACHE_GUARD
-			PrecacheEffect();
-			PrecacheImpactEffect();
-			PrecacheBridgeEffect();
-			PrecacheLinkEffect();
-		PRECACHE_GUARD_END
-	}
+        PRECACHE_GUARD
+            PrecacheEffect();
+            PrecacheImpactEffect();
+            PrecacheBridgeEffect();
+            PrecacheLinkEffect();
+        PRECACHE_GUARD_END
+    }
 
-	virtual void	GetPrecacheList(EPrecacheScheme eScheme, HeroPrecacheList &deqPrecache)
-	{
-		IEntityDefinition::GetPrecacheList(eScheme, deqPrecache);
+    virtual void    GetPrecacheList(EPrecacheScheme eScheme, HeroPrecacheList &deqPrecache)
+    {
+        IEntityDefinition::GetPrecacheList(eScheme, deqPrecache);
 
-		PRECACHE_GUARD
-			deqPrecache.push_back(SHeroPrecache(GetName(), eScheme));
-		PRECACHE_GUARD_END
-	}
+        PRECACHE_GUARD
+            deqPrecache.push_back(SHeroPrecache(GetName(), eScheme));
+        PRECACHE_GUARD_END
+    }
 
-	virtual void	ImportDefinition(IEntityDefinition *pOtherDefinition);
+    virtual void    ImportDefinition(IEntityDefinition *pOtherDefinition);
 };
 //=============================================================================
 

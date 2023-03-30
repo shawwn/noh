@@ -12,17 +12,17 @@
 //=============================================================================
 
 #ifdef K2_USE_STL_ALLOCATOR
-#define K2_STRINGS_allocator		K2StringAllocator
+#define K2_STRINGS_allocator        K2StringAllocator
 #else
-#define K2_STRINGS_allocator		std::allocator
+#define K2_STRINGS_allocator        std::allocator
 #endif
 
 namespace K2
 {
-	typedef std::basic_string<char, std::char_traits<char>, K2_STRINGS_allocator<char> >			string;
-	typedef std::basic_string<wchar_t, std::char_traits<wchar_t>, K2_STRINGS_allocator<wchar_t> >	wstring;
-	typedef std::basic_string<TCHAR, std::char_traits<TCHAR>, K2_STRINGS_allocator<TCHAR> >			tstring;
-	typedef std::basic_fstream<TCHAR, std::char_traits<TCHAR> > tfstream;
+    typedef std::basic_string<char, std::char_traits<char>, K2_STRINGS_allocator<char> >            string;
+    typedef std::basic_string<wchar_t, std::char_traits<wchar_t>, K2_STRINGS_allocator<wchar_t> >   wstring;
+    typedef std::basic_string<TCHAR, std::char_traits<TCHAR>, K2_STRINGS_allocator<TCHAR> >         tstring;
+    typedef std::basic_fstream<TCHAR, std::char_traits<TCHAR> > tfstream;
 }
 
 using K2::tstring;
@@ -44,29 +44,29 @@ template<class _Elem, class _Traits, class _Ax>
 class const_string : public std::basic_string<_Elem, _Traits, _Ax>
 {
 private:
-	uint	m_uiPad;
+    uint    m_uiPad;
 
 public:
-	~const_string()
-	{
-		_Bx._Ptr = NULL;
-	}
+    ~const_string()
+    {
+        _Bx._Ptr = NULL;
+    }
 
-	const_string(const _Elem * const _Ptr) :
-	basic_string()
-	{
-		_Bx._Ptr = (_Elem *)_Ptr;
-		_Mysize = _Traits::length(_Ptr);
-		_Myres = uint(-1);
-	}
+    const_string(const _Elem * const _Ptr) :
+    basic_string()
+    {
+        _Bx._Ptr = (_Elem *)_Ptr;
+        _Mysize = _Traits::length(_Ptr);
+        _Myres = uint(-1);
+    }
 
-	const_string(const _Elem * const _Ptr, size_type _Count) :
-	basic_string()
-	{
-		_Bx._Ptr = (_Elem *)_Ptr;
-		_Mysize = _Count;
-		_Myres = uint(-1);
-	}
+    const_string(const _Elem * const _Ptr, size_type _Count) :
+    basic_string()
+    {
+        _Bx._Ptr = (_Elem *)_Ptr;
+        _Mysize = _Count;
+        _Myres = uint(-1);
+    }
 };
 
 #pragma pack(pop)

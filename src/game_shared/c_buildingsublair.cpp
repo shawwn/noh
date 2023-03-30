@@ -20,18 +20,18 @@ DEFINE_ENT_ALLOCATOR2(Building, SubLair)
 /*====================
   CBuildingSubLair::Use
   ====================*/
-void	CBuildingSubLair::Use(IGameEntity *pActivator)
+void    CBuildingSubLair::Use(IGameEntity *pActivator)
 {
-	if (GetStatus() != ENTITY_STATUS_ACTIVE)
-	{
-		IBuildingEntity::Use(pActivator);
-		return;
-	}
+    if (GetStatus() != ENTITY_STATUS_ACTIVE)
+    {
+        IBuildingEntity::Use(pActivator);
+        return;
+    }
 
-	if (Game.IsServer())
-	{
-		IPlayerEntity *pPlayer(pActivator->GetAsPlayerEnt());
-		if (pPlayer != NULL && pPlayer->GetTeam() == m_iTeam && pPlayer->GetCanEnterLoadout())
-			pPlayer->EnterLoadout();
-	}
+    if (Game.IsServer())
+    {
+        IPlayerEntity *pPlayer(pActivator->GetAsPlayerEnt());
+        if (pPlayer != NULL && pPlayer->GetTeam() == m_iTeam && pPlayer->GetCanEnterLoadout())
+            pPlayer->EnterLoadout();
+    }
 }

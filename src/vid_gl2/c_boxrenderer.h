@@ -22,19 +22,19 @@
 class CBoxRenderer : public IDebugRenderer
 {
 private:
-	int		m_iNumBoxes;
+    int     m_iNumBoxes;
 
 public:
-	static CPool<CBoxRenderer>		s_Pool;
-	
-	void*	operator new(size_t z, const char *szContext = NULL, const char *szType = NULL, const char *szFile = NULL, short nLine = 0); // Uses CPool of preallocated instances
-	void	operator delete(void *p) { }
-	void	operator delete(void *p, const char *szContext, const char *szType, const char *szFile, short nLine) { }
-	
-	~CBoxRenderer();
-	CBoxRenderer(int iNumBoxes);
+    static CPool<CBoxRenderer>      s_Pool;
+    
+    void*   operator new(size_t z, const char *szContext = NULL, const char *szType = NULL, const char *szFile = NULL, short nLine = 0); // Uses CPool of preallocated instances
+    void    operator delete(void *p) { }
+    void    operator delete(void *p, const char *szContext, const char *szType, const char *szFile, short nLine) { }
+    
+    ~CBoxRenderer();
+    CBoxRenderer(int iNumBoxes);
 
-	void	Render(EMaterialPhase ePhase);
+    void    Render(EMaterialPhase ePhase);
 };
 //=============================================================================
 #endif //__C_BOXRENDERER_H__

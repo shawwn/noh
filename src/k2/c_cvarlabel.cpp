@@ -37,36 +37,36 @@ m_sPrefix(style.GetProperty(_T("prefix"))),
 m_sSuffix(style.GetProperty(_T("suffix"))),
 m_sCvar(style.GetProperty(_T("cvar")))
 {
-	if (ui_translateLabels)
-	{
-		m_sPrefix = UIManager.Translate(m_sPrefix);
-		m_sSuffix = UIManager.Translate(m_sSuffix);
-	}
+    if (ui_translateLabels)
+    {
+        m_sPrefix = UIManager.Translate(m_sPrefix);
+        m_sSuffix = UIManager.Translate(m_sSuffix);
+    }
 }
 
 
 /*====================
   CCvarLabel::Frame
   ====================*/
-void	CCvarLabel::Frame(uint uiFrameLength, bool bProcessFrame)
+void    CCvarLabel::Frame(uint uiFrameLength, bool bProcessFrame)
 {
-	if (!HasFlags(WFLAG_VISIBLE) || !HasFlags(WFLAG_ENABLED))
-		return;
+    if (!HasFlags(WFLAG_VISIBLE) || !HasFlags(WFLAG_ENABLED))
+        return;
 
-	if (!m_sCvar.empty() && !m_refCvar.IsValid())
-		m_refCvar.Assign(m_sCvar);
+    if (!m_sCvar.empty() && !m_refCvar.IsValid())
+        m_refCvar.Assign(m_sCvar);
 
-	DO_EVENT(WEVENT_FRAME)
+    DO_EVENT(WEVENT_FRAME)
 
-	if (!m_refCvar.IsIgnored())
-	{
-		if (m_bNumeric)
-			m_sText = m_sPrefix + XtoA(m_refCvar.GetFloat(), 0, 0, m_iPrecision) + m_sSuffix;
-		else
-			m_sText = m_sPrefix + m_refCvar.GetString() + m_sSuffix;
-	}
+    if (!m_refCvar.IsIgnored())
+    {
+        if (m_bNumeric)
+            m_sText = m_sPrefix + XtoA(m_refCvar.GetFloat(), 0, 0, m_iPrecision) + m_sSuffix;
+        else
+            m_sText = m_sPrefix + m_refCvar.GetString() + m_sSuffix;
+    }
 
-	// Recursively call children frame functions
-	for (WidgetPointerVector_rit it(m_vChildren.rbegin()), itEnd(m_vChildren.rend()); it != itEnd; ++it)
-		(*it)->Frame(uiFrameLength, bProcessFrame);
+    // Recursively call children frame functions
+    for (WidgetPointerVector_rit it(m_vChildren.rbegin()), itEnd(m_vChildren.rend()); it != itEnd; ++it)
+        (*it)->Frame(uiFrameLength, bProcessFrame);
 }

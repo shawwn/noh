@@ -24,15 +24,15 @@ DECLARE_ENTITY_DEFINITION_XML_PROCESSOR(INeutralEntity, Neutral, neutral)
 //=============================================================================
 class CNeutralDefinition : public IUnitDefinition
 {
-	DECLARE_DEFINITION_TYPE_INFO
+    DECLARE_DEFINITION_TYPE_INFO
 
 public:
-	~CNeutralDefinition()	{}
-	CNeutralDefinition() :
-	IUnitDefinition(&g_allocatorNeutral)
-	{}
+    ~CNeutralDefinition()   {}
+    CNeutralDefinition() :
+    IUnitDefinition(&g_allocatorNeutral)
+    {}
 
-	IEntityDefinition*	GetCopy() const	{ return K2_NEW(ctx_Game,    CNeutralDefinition)(*this); }
+    IEntityDefinition*  GetCopy() const { return K2_NEW(ctx_Game,    CNeutralDefinition)(*this); }
 };
 //=============================================================================
 

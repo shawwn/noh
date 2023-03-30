@@ -22,7 +22,7 @@
   ====================*/
 CTextureList::~CTextureList()
 {
-	Release();
+    Release();
 }
 
 
@@ -38,216 +38,216 @@ IWorldComponent(eComponent, _T("TextureList"))
 /*====================
   CTextureList::Load
   ====================*/
-bool	CTextureList::Load(CArchive &archive, const CWorld *pWorld)
+bool    CTextureList::Load(CArchive &archive, const CWorld *pWorld)
 {
-	PROFILE("CTextureList::Load");
+    PROFILE("CTextureList::Load");
 
-	try
-	{
-		m_pWorld = pWorld;
-		if (m_pWorld == NULL)
-			EX_ERROR(_T("Invalid CWorld"));
+    try
+    {
+        m_pWorld = pWorld;
+        if (m_pWorld == NULL)
+            EX_ERROR(_T("Invalid CWorld"));
 
-		CFileHandle	hTextureList(m_sName, FILE_READ | FILE_BINARY, archive);
-		if (!hTextureList.IsOpen())
-			EX_ERROR(_T("No TextureList found in archive"));
+        CFileHandle hTextureList(m_sName, FILE_READ | FILE_BINARY, archive);
+        if (!hTextureList.IsOpen())
+            EX_ERROR(_T("No TextureList found in archive"));
 
-		K2_WITH_GAME_RESOURCE_SCOPE()
-			XMLManager.Process(hTextureList, _T("texturelist"), this);
+        K2_WITH_GAME_RESOURCE_SCOPE()
+            XMLManager.Process(hTextureList, _T("texturelist"), this);
 
-		m_bChanged = false;
-		return true;
-	}
-	catch (CException &ex)
-	{
-		ex.Process(_T("CTextureList::Load() - "), NO_THROW);
-		return false;
-	}
+        m_bChanged = false;
+        return true;
+    }
+    catch (CException &ex)
+    {
+        ex.Process(_T("CTextureList::Load() - "), NO_THROW);
+        return false;
+    }
 }
 
 
 /*====================
   CTextureList::Generate
   ====================*/
-bool	CTextureList::Generate(const CWorld *pWorld)
+bool    CTextureList::Generate(const CWorld *pWorld)
 {
-	try
-	{
-		Release();
+    try
+    {
+        Release();
 
-		m_pWorld = pWorld;
-		if (m_pWorld == NULL)
-			EX_ERROR(_T("Invalid CWorld"));
+        m_pWorld = pWorld;
+        if (m_pWorld == NULL)
+            EX_ERROR(_T("Invalid CWorld"));
 
-		return true;
-	}
-	catch (CException &ex)
-	{
-		ex.Process(_T("CTextureList::Generate() - "), NO_THROW);
-		return false;
-	}
+        return true;
+    }
+    catch (CException &ex)
+    {
+        ex.Process(_T("CTextureList::Generate() - "), NO_THROW);
+        return false;
+    }
 }
 
 
 /*====================
   CTextureList::Serialize
   ====================*/
-bool	CTextureList::Serialize(IBuffer *pBuffer)
+bool    CTextureList::Serialize(IBuffer *pBuffer)
 {
-	CXMLDoc xmlTextureList;
-	xmlTextureList.NewNode("texturelist");
-	for (TextureHandleMap::iterator it(m_mapTextures.begin()); it != m_mapTextures.end(); ++it)
-	{
-		if (m_setUsed.find(it->first) == m_setUsed.end())
-			continue;
+    CXMLDoc xmlTextureList;
+    xmlTextureList.NewNode("texturelist");
+    for (TextureHandleMap::iterator it(m_mapTextures.begin()); it != m_mapTextures.end(); ++it)
+    {
+        if (m_setUsed.find(it->first) == m_setUsed.end())
+            continue;
 
-		xmlTextureList.NewNode("texture");
-		xmlTextureList.AddProperty("id", it->first);
-		xmlTextureList.AddProperty("name", g_ResourceManager.GetPath(it->second));
-		xmlTextureList.EndNode();
-	}
-	xmlTextureList.EndNode();
-	pBuffer->Clear();
-	pBuffer->Write(xmlTextureList.GetBuffer()->Get(), xmlTextureList.GetBuffer()->GetLength());
+        xmlTextureList.NewNode("texture");
+        xmlTextureList.AddProperty("id", it->first);
+        xmlTextureList.AddProperty("name", g_ResourceManager.GetPath(it->second));
+        xmlTextureList.EndNode();
+    }
+    xmlTextureList.EndNode();
+    pBuffer->Clear();
+    pBuffer->Write(xmlTextureList.GetBuffer()->Get(), xmlTextureList.GetBuffer()->GetLength());
 
-	if (pBuffer->GetFaults())
-		return false;
+    if (pBuffer->GetFaults())
+        return false;
 
-	return true;
+    return true;
 }
 
 
 /*====================
   CTextureList::Release
   ====================*/
-void	CTextureList::Release()
+void    CTextureList::Release()
 {
-	m_pWorld = NULL;
+    m_pWorld = NULL;
 
-	m_mapTextures.clear();
-	m_mapResHandles.clear();
-	m_setUsed.clear();
+    m_mapTextures.clear();
+    m_mapResHandles.clear();
+    m_setUsed.clear();
 }
 
 
 /*====================
   CTextureList::ClearTextureIDUsage
   ====================*/
-void	CTextureList::ClearTextureIDUsage()
+void    CTextureList::ClearTextureIDUsage()
 {
-	m_setUsed.clear();
+    m_setUsed.clear();
 }
 
 
 /*====================
   CTextureList::AddTexture
   ====================*/
-uint	CTextureList::AddTexture(ResHandle hTexture)
+uint    CTextureList::AddTexture(ResHandle hTexture)
 {
-	try
-	{
-		TextureHandleMap::iterator findit(m_mapResHandles.find(hTexture));
-		if (findit != m_mapResHandles.end())
-			return findit->second;
+    try
+    {
+        TextureHandleMap::iterator findit(m_mapResHandles.find(hTexture));
+        if (findit != m_mapResHandles.end())
+            return findit->second;
 
-		uint uiID(0);
-		while (m_mapTextures.find(uiID) != m_mapTextures.end())
-			++uiID;
+        uint uiID(0);
+        while (m_mapTextures.find(uiID) != m_mapTextures.end())
+            ++uiID;
 
-		m_mapTextures[uiID] = hTexture;
-		m_mapResHandles[hTexture] = uiID;
-		return uiID;
-	}
-	catch (CException &ex)
-	{
-		ex.Process(_T("CTextureList::AddTexture() - "), NO_THROW);
-		return 0;
-	}
+        m_mapTextures[uiID] = hTexture;
+        m_mapResHandles[hTexture] = uiID;
+        return uiID;
+    }
+    catch (CException &ex)
+    {
+        ex.Process(_T("CTextureList::AddTexture() - "), NO_THROW);
+        return 0;
+    }
 }
 
 
 /*====================
   CTextureList::GetTextureHandle
   ====================*/
-ResHandle	CTextureList::GetTextureHandle(uint uiID)
+ResHandle   CTextureList::GetTextureHandle(uint uiID)
 {
-	try
-	{
-		TextureIDMap::iterator findit(m_mapTextures.find(uiID));
-		if (findit == m_mapTextures.end())
-			return INVALID_RESOURCE;
+    try
+    {
+        TextureIDMap::iterator findit(m_mapTextures.find(uiID));
+        if (findit == m_mapTextures.end())
+            return INVALID_RESOURCE;
 
-		return findit->second;
-	}
-	catch (CException &ex)
-	{
-		ex.Process(_T("CTextureList::GetTextureHandle() - "), NO_THROW);
-		return g_ResourceManager.GetWhiteTexture();
-	}
+        return findit->second;
+    }
+    catch (CException &ex)
+    {
+        ex.Process(_T("CTextureList::GetTextureHandle() - "), NO_THROW);
+        return g_ResourceManager.GetWhiteTexture();
+    }
 }
 
 
 /*====================
   CTextureList::GetTextureID
   ====================*/
-uint	CTextureList::GetTextureID(ResHandle hTexture)
+uint    CTextureList::GetTextureID(ResHandle hTexture)
 {
-	try
-	{
-		TextureHandleMap::iterator findit(m_mapResHandles.find(hTexture));
-		if (findit == m_mapResHandles.end())
-			EX_ERROR(_T("Invalid resource handle: ") + XtoA(hTexture));
+    try
+    {
+        TextureHandleMap::iterator findit(m_mapResHandles.find(hTexture));
+        if (findit == m_mapResHandles.end())
+            EX_ERROR(_T("Invalid resource handle: ") + XtoA(hTexture));
 
-		return findit->second;
-	}
-	catch (CException &ex)
-	{
-		ex.Process(_T("CTextureList::GetTextureID() - "), NO_THROW);
-		return 0;
-	}
+        return findit->second;
+    }
+    catch (CException &ex)
+    {
+        ex.Process(_T("CTextureList::GetTextureID() - "), NO_THROW);
+        return 0;
+    }
 }
 
 
 /*====================
   CTextureList::AddTexture
   ====================*/
-void	CTextureList::AddTexture(uint uiID, const tstring &sTexture)
+void    CTextureList::AddTexture(uint uiID, const tstring &sTexture)
 {
-	ResHandle hTexture(INVALID_RESOURCE);
-	if (!sTexture.empty())
-	{
-		tstring sShortName(Filename_GetName(sTexture));
+    ResHandle hTexture(INVALID_RESOURCE);
+    if (!sTexture.empty())
+    {
+        tstring sShortName(Filename_GetName(sTexture));
 
-		bool bNormalmap(sShortName.length() >= 2 && sShortName.substr(sShortName.length() - 2, tstring::npos) == _T("_n"));
+        bool bNormalmap(sShortName.length() >= 2 && sShortName.substr(sShortName.length() - 2, tstring::npos) == _T("_n"));
 
-		hTexture = g_ResourceManager.Register(K2_NEW(ctx_World,  CTexture)(sTexture, TEXTURE_2D, 0, bNormalmap ? TEXFMT_NORMALMAP : TEXFMT_A8R8G8B8), RES_TEXTURE);
-	}
+        hTexture = g_ResourceManager.Register(K2_NEW(ctx_World,  CTexture)(sTexture, TEXTURE_2D, 0, bNormalmap ? TEXFMT_NORMALMAP : TEXFMT_A8R8G8B8), RES_TEXTURE);
+    }
 
-	if (hTexture == INVALID_RESOURCE)
-	{
-		m_mapTextures[uiID] = g_ResourceManager.GetCheckerTexture();
-		return;
-	}
+    if (hTexture == INVALID_RESOURCE)
+    {
+        m_mapTextures[uiID] = g_ResourceManager.GetCheckerTexture();
+        return;
+    }
 
-	m_mapTextures[uiID] = hTexture;
-	m_mapResHandles[hTexture] = uiID;
+    m_mapTextures[uiID] = hTexture;
+    m_mapResHandles[hTexture] = uiID;
 }
 
 
 /*====================
   CTextureList::GetTextureIDList
   ====================*/
-void	CTextureList::GetTextureIDList(vector<uint> &vuiID)
+void    CTextureList::GetTextureIDList(vector<uint> &vuiID)
 {
-	for (TextureIDMap::iterator it = m_mapTextures.begin(); it != m_mapTextures.end(); it++)
-		vuiID.push_back((*it).first);
+    for (TextureIDMap::iterator it = m_mapTextures.begin(); it != m_mapTextures.end(); it++)
+        vuiID.push_back((*it).first);
 }
 
 
 /*====================
   CTextureList::SetTextureIDUsed
   ====================*/
-void	CTextureList::SetTextureIDUsed(uint uiID)
+void    CTextureList::SetTextureIDUsed(uint uiID)
 {
-	m_setUsed.insert(uiID);
+    m_setUsed.insert(uiID);
 }

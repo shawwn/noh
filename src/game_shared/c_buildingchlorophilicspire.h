@@ -17,14 +17,14 @@
 class CBuildingChlorophilicSpire : public IBuildingEntity
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Building, ChlorophilicSpire)
-	
+    DECLARE_ENT_ALLOCATOR2(Building, ChlorophilicSpire)
+    
 
 public:
-	~CBuildingChlorophilicSpire()	{}
-	CBuildingChlorophilicSpire() :
-	IBuildingEntity(GetEntityConfig())
-	{}
+    ~CBuildingChlorophilicSpire()   {}
+    CBuildingChlorophilicSpire() :
+    IBuildingEntity(GetEntityConfig())
+    {}
 };
 //=============================================================================
 

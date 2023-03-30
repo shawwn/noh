@@ -17,11 +17,11 @@
 class CPetDevourer : public IPetEntity
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Pet, Devourer);
+    DECLARE_ENT_ALLOCATOR2(Pet, Devourer);
 
 public:
-	~CPetDevourer()	{}
-	CPetDevourer() : IPetEntity(GetEntityConfig()) {}
+    ~CPetDevourer() {}
+    CPetDevourer() : IPetEntity(GetEntityConfig()) {}
 };
 //=============================================================================
 

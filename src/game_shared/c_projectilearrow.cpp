@@ -29,7 +29,7 @@ IProjectile(GetEntityConfig())
 /*====================
   CProjectileArrow::ApplyCharge
   ====================*/
-void	CProjectileArrow::ApplyCharge(float fValue)
+void    CProjectileArrow::ApplyCharge(float fValue)
 {
-	m_v3Velocity *= fValue;
+    m_v3Velocity *= fValue;
 }

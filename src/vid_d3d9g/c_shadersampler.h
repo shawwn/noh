@@ -19,9 +19,9 @@ typedef bool(*ShaderSamplerFn_t)(CShaderSampler *pThis, int iStageIndex);
 
 // Declaration macros
 #define SHADER_SAMPLER(name) \
-bool	shaderSampler##name##Fn(CShaderSampler *pThis, int iStageIndex); \
+bool    shaderSampler##name##Fn(CShaderSampler *pThis, int iStageIndex); \
 CShaderSampler  shaderSampler##name(_T(#name), shaderSampler##name##Fn); \
-bool	shaderSampler##name##Fn(CShaderSampler *pThis, int iStageIndex)
+bool    shaderSampler##name##Fn(CShaderSampler *pThis, int iStageIndex)
 //=============================================================================
 
 //=============================================================================
@@ -30,20 +30,20 @@ bool	shaderSampler##name##Fn(CShaderSampler *pThis, int iStageIndex)
 class CShaderSampler
 {
 private:
-	tstring				m_sName;
-	ShaderSamplerFn_t	m_pfnShaderSampler;
+    tstring             m_sName;
+    ShaderSamplerFn_t   m_pfnShaderSampler;
 
-	// CShaderSamplers should not be copied
-	CShaderSampler(CShaderSampler&);
-	CShaderSampler& operator=(CShaderSampler&);
+    // CShaderSamplers should not be copied
+    CShaderSampler(CShaderSampler&);
+    CShaderSampler& operator=(CShaderSampler&);
 
 public:
-	~CShaderSampler();
-	CShaderSampler(const tstring &sName, ShaderSamplerFn_t pfnCShaderSamplerCmd);
+    ~CShaderSampler();
+    CShaderSampler(const tstring &sName, ShaderSamplerFn_t pfnCShaderSamplerCmd);
 
-	const tstring&	GetName()			{ return m_sName; }
+    const tstring&  GetName()           { return m_sName; }
 
-	bool	Get(int iStageIndex);
+    bool    Get(int iStageIndex);
 };
 //=============================================================================
 #endif //__C_SHADERSAMPLER_H__

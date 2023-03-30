@@ -20,8 +20,8 @@ class COccluder;
 //=============================================================================
 // Definitions
 //=============================================================================
-typedef map<uint, COccluder *>		OccluderMap;
-typedef OccluderMap::iterator		OccluderMap_it;
+typedef map<uint, COccluder *>      OccluderMap;
+typedef OccluderMap::iterator       OccluderMap_it;
 //=============================================================================
 
 //=============================================================================
@@ -30,21 +30,21 @@ typedef OccluderMap::iterator		OccluderMap_it;
 class CWorldOccluderList : public IWorldComponent
 {
 private:
-	OccluderMap		m_mapOccluders;
+    OccluderMap     m_mapOccluders;
 
 public:
-	~CWorldOccluderList();
-	CWorldOccluderList(EWorldComponent eComponent);
+    ~CWorldOccluderList();
+    CWorldOccluderList(EWorldComponent eComponent);
 
-	bool	Load(CArchive &archive, const CWorld *pWorld);
-	bool	Generate(const CWorld *pWorld);
-	void	Release();
-	bool	Serialize(IBuffer *pBuffer);
+    bool    Load(CArchive &archive, const CWorld *pWorld);
+    bool    Generate(const CWorld *pWorld);
+    void    Release();
+    bool    Serialize(IBuffer *pBuffer);
 
-	K2_API uint				AllocateNewOccluder(uint uiIndex = INVALID_INDEX);
-	K2_API COccluder*		GetOccluder(uint uiIndex, bool bThrow = NO_THROW);
-	K2_API OccluderMap&		GetOccluderMap()					{ return m_mapOccluders; }
-	K2_API void				DeleteOccluder(uint uiIndex);
+    K2_API uint             AllocateNewOccluder(uint uiIndex = INVALID_INDEX);
+    K2_API COccluder*       GetOccluder(uint uiIndex, bool bThrow = NO_THROW);
+    K2_API OccluderMap&     GetOccluderMap()                    { return m_mapOccluders; }
+    K2_API void             DeleteOccluder(uint uiIndex);
 };
 //=============================================================================
 #endif //__C_WORLDOCCLUDERLIST_H__

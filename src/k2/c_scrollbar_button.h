@@ -18,8 +18,8 @@
 //=============================================================================
 enum EScrollbarButton
 {
-	SCROLLBAR_BUTTON_MIN = 0,
-	SCROLLBAR_BUTTON_MAX
+    SCROLLBAR_BUTTON_MIN = 0,
+    SCROLLBAR_BUTTON_MAX
 };
 //=============================================================================
 
@@ -29,17 +29,17 @@ enum EScrollbarButton
 class CScrollbarButton : public CButton
 {
 private:
-	EScrollbarButton	m_eType;
+    EScrollbarButton    m_eType;
 
-	uint				m_uiNextRepeat;
-	uint				m_uiRepeatInterval;
+    uint                m_uiNextRepeat;
+    uint                m_uiRepeatInterval;
 
 public:
-	~CScrollbarButton()	{}
-	CScrollbarButton(CInterface *pInterface, IWidget *pParent, EScrollbarButton eType, const CWidgetStyle& style);
+    ~CScrollbarButton() {}
+    CScrollbarButton(CInterface *pInterface, IWidget *pParent, EScrollbarButton eType, const CWidgetStyle& style);
 
-	void	Frame(uint uiFrameLength, bool bProcessFrame);
-	void	MouseDown(EButton button, const CVec2f &v2CursorPos);
+    void    Frame(uint uiFrameLength, bool bProcessFrame);
+    void    MouseDown(EButton button, const CVec2f &v2CursorPos);
 };
 //=============================================================================
 

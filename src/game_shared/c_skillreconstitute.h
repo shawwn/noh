@@ -17,12 +17,12 @@
 class CSkillReconstitute : public ISkillSelfBuff
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Skill, Reconstitute);
+    DECLARE_ENT_ALLOCATOR2(Skill, Reconstitute);
 
 public:
-	~CSkillReconstitute() {}
-	CSkillReconstitute() :
-	ISkillSelfBuff(GetEntityConfig()) {}
+    ~CSkillReconstitute() {}
+    CSkillReconstitute() :
+    ISkillSelfBuff(GetEntityConfig()) {}
 };
 //=============================================================================
 

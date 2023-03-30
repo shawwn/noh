@@ -17,13 +17,13 @@
 class CGunVenom : public IGunItem
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Gun, Venom);
+    DECLARE_ENT_ALLOCATOR2(Gun, Venom);
 
 public:
-	~CGunVenom()	{}
-	CGunVenom() :
-	IGunItem(GetEntityConfig())
-	{}
+    ~CGunVenom()    {}
+    CGunVenom() :
+    IGunItem(GetEntityConfig())
+    {}
 };
 //=============================================================================
 

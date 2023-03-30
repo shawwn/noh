@@ -27,30 +27,30 @@ class CBitmap;
 class CVisibilityMap
 {
 private:
-	uint	m_uiWidth;
-	uint	m_uiHeight;
+    uint    m_uiWidth;
+    uint    m_uiHeight;
 
-	byte	*m_pCells;
+    byte    *m_pCells;
 
-	uint	GetCellIndex(uint uiX, uint uiY) const	{ return (uiY * m_uiHeight + uiX); }
+    uint    GetCellIndex(uint uiX, uint uiY) const  { return (uiY * m_uiHeight + uiX); }
 
 public:
-	GAME_SHARED_API ~CVisibilityMap();
-	GAME_SHARED_API CVisibilityMap();
+    GAME_SHARED_API ~CVisibilityMap();
+    GAME_SHARED_API CVisibilityMap();
 
-	uint					GetWidth() const		{ return m_uiWidth; }
-	uint					GetHeight() const		{ return m_uiHeight; }
+    uint                    GetWidth() const        { return m_uiWidth; }
+    uint                    GetHeight() const       { return m_uiHeight; }
 
-	GAME_SHARED_API void	Initialize(uint uiWidth, uint uiHeight);
-	GAME_SHARED_API void	Clear(byte yValue = 0);
+    GAME_SHARED_API void    Initialize(uint uiWidth, uint uiHeight);
+    GAME_SHARED_API void    Clear(byte yValue = 0);
 
-	GAME_SHARED_API void	AddVision(const CRectui &recRegion, const byte *pBuffer, uint uiBufferSpan, byte yVision);
-	GAME_SHARED_API void	RemoveVision(const CRectui &recRegion, const byte *pBuffer, uint uiBufferSpan, byte yVision);
+    GAME_SHARED_API void    AddVision(const CRectui &recRegion, const byte *pBuffer, uint uiBufferSpan, byte yVision);
+    GAME_SHARED_API void    RemoveVision(const CRectui &recRegion, const byte *pBuffer, uint uiBufferSpan, byte yVision);
 
-	GAME_SHARED_API void	FillBitmap(CBitmap &cBmp, byte yBlocked, byte yUnblocked);
+    GAME_SHARED_API void    FillBitmap(CBitmap &cBmp, byte yBlocked, byte yUnblocked);
 
-	inline bool				IsVisible(uint uiX, uint uiY) const	{ return m_pCells[GetCellIndex(uiX, uiY)] != 0; }
-	inline byte				GetVision(uint uiX, uint uiY) const	{ return m_pCells[GetCellIndex(uiX, uiY)]; }
+    inline bool             IsVisible(uint uiX, uint uiY) const { return m_pCells[GetCellIndex(uiX, uiY)] != 0; }
+    inline byte             GetVision(uint uiX, uint uiY) const { return m_pCells[GetCellIndex(uiX, uiY)]; }
 };
 //=============================================================================
 

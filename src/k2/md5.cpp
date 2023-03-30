@@ -14,7 +14,7 @@
 /*====================
   Transform
   ====================*/
-void	Transform(uint *buf, uint *in)
+void    Transform(uint *buf, uint *in)
 {
   uint a(buf[0]), b(buf[1]), c(buf[2]), d(buf[3]);
 
@@ -116,119 +116,119 @@ void	Transform(uint *buf, uint *in)
 /*====================
   MD5Update
   ====================*/
-void	MD5Update(SMD5Context &mdContext, const unsigned char *inBuf, uint inLen)
+void    MD5Update(SMD5Context &mdContext, const unsigned char *inBuf, uint inLen)
 {
-	// compute number of bytes mod 64
-	int mdi((mdContext.i[0] >> 3) & 0x3F);
+    // compute number of bytes mod 64
+    int mdi((mdContext.i[0] >> 3) & 0x3F);
 
-	// update number of bits
-	if ((mdContext.i[0] + (inLen << 3)) < mdContext.i[0])
-		mdContext.i[1]++;
+    // update number of bits
+    if ((mdContext.i[0] + (inLen << 3)) < mdContext.i[0])
+        mdContext.i[1]++;
 
-	mdContext.i[0] += (inLen << 3);
-	mdContext.i[1] += (inLen >> 29);
+    mdContext.i[0] += (inLen << 3);
+    mdContext.i[1] += (inLen >> 29);
 
-	while (inLen--)
-	{
-		// add new character to buffer, increment mdi
-		mdContext.in[mdi++] = *inBuf++;
+    while (inLen--)
+    {
+        // add new character to buffer, increment mdi
+        mdContext.in[mdi++] = *inBuf++;
 
-		// transform if necessary
-		if (mdi == 0x40)
-		{
-			uint in[16];
-			for (uint i(0), ii(0); i < 16; ++i, ii += 4)
-			{
-				in[i] = (((uint)mdContext.in[ii+3]) << 24) |
-						(((uint)mdContext.in[ii+2]) << 16) |
-						(((uint)mdContext.in[ii+1]) << 8) |
-						((uint)mdContext.in[ii]);
-			}
-			Transform (mdContext.buf, in);
-			mdi = 0;
-		}
-	}
+        // transform if necessary
+        if (mdi == 0x40)
+        {
+            uint in[16];
+            for (uint i(0), ii(0); i < 16; ++i, ii += 4)
+            {
+                in[i] = (((uint)mdContext.in[ii+3]) << 24) |
+                        (((uint)mdContext.in[ii+2]) << 16) |
+                        (((uint)mdContext.in[ii+1]) << 8) |
+                        ((uint)mdContext.in[ii]);
+            }
+            Transform (mdContext.buf, in);
+            mdi = 0;
+        }
+    }
 }
 
 
 /*====================
   MD5Final
   ====================*/
-void	MD5Final(SMD5Context &mdContext)
+void    MD5Final(SMD5Context &mdContext)
 {
-	// save number of bits
-	uint in[16];
-	in[14] = mdContext.i[0];
-	in[15] = mdContext.i[1];
+    // save number of bits
+    uint in[16];
+    in[14] = mdContext.i[0];
+    in[15] = mdContext.i[1];
 
-	// compute number of bytes mod 64
-	int mdi((mdContext.i[0] >> 3) & 0x3F);
+    // compute number of bytes mod 64
+    int mdi((mdContext.i[0] >> 3) & 0x3F);
 
-	// pad out to 56 mod 64
-	uint padLen((mdi < 56) ? (56 - mdi) : (120 - mdi));
-	MD5Update (mdContext, PADDING, padLen);
+    // pad out to 56 mod 64
+    uint padLen((mdi < 56) ? (56 - mdi) : (120 - mdi));
+    MD5Update (mdContext, PADDING, padLen);
 
-	// append length in bits and transform
-	for (uint i(0), ii(0); i < 14; ++i, ii += 4)
-	in[i] = (((uint)mdContext.in[ii + 3]) << 24) |
-			(((uint)mdContext.in[ii + 2]) << 16) |
-			(((uint)mdContext.in[ii + 1]) << 8) |
-			((uint)mdContext.in[ii]);
+    // append length in bits and transform
+    for (uint i(0), ii(0); i < 14; ++i, ii += 4)
+    in[i] = (((uint)mdContext.in[ii + 3]) << 24) |
+            (((uint)mdContext.in[ii + 2]) << 16) |
+            (((uint)mdContext.in[ii + 1]) << 8) |
+            ((uint)mdContext.in[ii]);
 
-	Transform(mdContext.buf, in);
+    Transform(mdContext.buf, in);
 
-	// store buffer in digest
-	for (uint i(0), ii(0); i < 4; ++i, ii += 4)
-	{
-		mdContext.digest[ii] = (unsigned char)(mdContext.buf[i] & 0xFF);
-		mdContext.digest[ii + 1] = (unsigned char)((mdContext.buf[i] >> 8) & 0xFF);
-		mdContext.digest[ii + 2] = (unsigned char)((mdContext.buf[i] >> 16) & 0xFF);
-		mdContext.digest[ii + 3] = (unsigned char)((mdContext.buf[i] >> 24) & 0xFF);
-	}
+    // store buffer in digest
+    for (uint i(0), ii(0); i < 4; ++i, ii += 4)
+    {
+        mdContext.digest[ii] = (unsigned char)(mdContext.buf[i] & 0xFF);
+        mdContext.digest[ii + 1] = (unsigned char)((mdContext.buf[i] >> 8) & 0xFF);
+        mdContext.digest[ii + 2] = (unsigned char)((mdContext.buf[i] >> 16) & 0xFF);
+        mdContext.digest[ii + 3] = (unsigned char)((mdContext.buf[i] >> 24) & 0xFF);
+    }
 }
 
 
 /*====================
   MD5String
   ====================*/
-tstring	MD5String(const string &sSource)
+tstring MD5String(const string &sSource)
 {
-	SMD5Context mdContext;
+    SMD5Context mdContext;
 
-	mdContext.i[0] = mdContext.i[1] = 0;
+    mdContext.i[0] = mdContext.i[1] = 0;
 
-	mdContext.buf[0] = 0x67452301;
-	mdContext.buf[1] = 0xefcdab89;
-	mdContext.buf[2] = 0x98badcfe;
-	mdContext.buf[3] = 0x10325476;
+    mdContext.buf[0] = 0x67452301;
+    mdContext.buf[1] = 0xefcdab89;
+    mdContext.buf[2] = 0x98badcfe;
+    mdContext.buf[3] = 0x10325476;
 
-	MD5Update(mdContext, (byte*)sSource.c_str(), INT_SIZE(sSource.length()));
-	MD5Final(mdContext);
+    MD5Update(mdContext, (byte*)sSource.c_str(), INT_SIZE(sSource.length()));
+    MD5Final(mdContext);
 
-	tstring sReturn;
-	for (int i(0); i < 16; ++i)
-		sReturn += XtoA(ushort(mdContext.digest[i]), FMT_NOPREFIX | FMT_PADZERO | FMT_LOWERCASE, 2, 16);
+    tstring sReturn;
+    for (int i(0); i < 16; ++i)
+        sReturn += XtoA(ushort(mdContext.digest[i]), FMT_NOPREFIX | FMT_PADZERO | FMT_LOWERCASE, 2, 16);
 
-	return sReturn;
+    return sReturn;
 }
 
-tstring	MD5String(const wstring &sSource)
+tstring MD5String(const wstring &sSource)
 {
-	SMD5Context mdContext;
+    SMD5Context mdContext;
 
-	mdContext.i[0] = mdContext.i[1] = 0;
+    mdContext.i[0] = mdContext.i[1] = 0;
 
-	mdContext.buf[0] = 0x67452301;
-	mdContext.buf[1] = 0xefcdab89;
-	mdContext.buf[2] = 0x98badcfe;
-	mdContext.buf[3] = 0x10325476;
+    mdContext.buf[0] = 0x67452301;
+    mdContext.buf[1] = 0xefcdab89;
+    mdContext.buf[2] = 0x98badcfe;
+    mdContext.buf[3] = 0x10325476;
 
-	MD5Update(mdContext, (byte*)sSource.c_str(), INT_SIZE(sSource.length()));
-	MD5Final(mdContext);
+    MD5Update(mdContext, (byte*)sSource.c_str(), INT_SIZE(sSource.length()));
+    MD5Final(mdContext);
 
-	tstring sReturn;
-	for (int i(0); i < 16; ++i)
-		sReturn += XtoA(ushort(mdContext.digest[i]), FMT_NOPREFIX | FMT_PADZERO | FMT_LOWERCASE, 2, 16);
+    tstring sReturn;
+    for (int i(0); i < 16; ++i)
+        sReturn += XtoA(ushort(mdContext.digest[i]), FMT_NOPREFIX | FMT_PADZERO | FMT_LOWERCASE, 2, 16);
 
-	return sReturn;
+    return sReturn;
 }

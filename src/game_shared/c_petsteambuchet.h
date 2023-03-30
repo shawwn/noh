@@ -17,11 +17,11 @@
 class CPetSteambuchet : public IPetEntity
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Pet, Steambuchet);
+    DECLARE_ENT_ALLOCATOR2(Pet, Steambuchet);
 
 public:
-	~CPetSteambuchet()	{}
-	CPetSteambuchet() : IPetEntity(GetEntityConfig()) {}
+    ~CPetSteambuchet()  {}
+    CPetSteambuchet() : IPetEntity(GetEntityConfig()) {}
 };
 //=============================================================================
 

@@ -25,78 +25,78 @@ INIT_ENTITY_CVAR(UseExperience, 50.0f)
 /*====================
   IGadgetUsable::Use
   ====================*/
-bool	IGadgetUsable::Use(IGameEntity *pActivator)
+bool    IGadgetUsable::Use(IGameEntity *pActivator)
 {
-	if (GetStatus() != ENTITY_STATUS_ACTIVE)
-		return false;
+    if (GetStatus() != ENTITY_STATUS_ACTIVE)
+        return false;
 
-	IPlayerEntity *pPlayer(pActivator->GetAsPlayerEnt());
-	if (pPlayer == NULL)
-		return false;
-	if (pPlayer->GetTeam() != m_iTeam)
-		return false;
-	if (m_bAccessed || m_setAccessors.find(pPlayer->GetClientID()) != m_setAccessors.end())
-		return false;
+    IPlayerEntity *pPlayer(pActivator->GetAsPlayerEnt());
+    if (pPlayer == NULL)
+        return false;
+    if (pPlayer->GetTeam() != m_iTeam)
+        return false;
+    if (m_bAccessed || m_setAccessors.find(pPlayer->GetClientID()) != m_setAccessors.end())
+        return false;
 
-	if (!UseEffect(pActivator))
-		return false;
+    if (!UseEffect(pActivator))
+        return false;
 
-	IPlayerEntity *pOwner(Game.GetPlayerEntity(m_uiOwnerIndex));
-	if (pOwner != NULL)
-	{
-		m_fTotalExperience += m_pEntityConfig->GetUseExperience();
-		pOwner->GiveExperience(m_pEntityConfig->GetUseExperience(), GetPosition() + GetBounds().GetMid());
-	}
+    IPlayerEntity *pOwner(Game.GetPlayerEntity(m_uiOwnerIndex));
+    if (pOwner != NULL)
+    {
+        m_fTotalExperience += m_pEntityConfig->GetUseExperience();
+        pOwner->GiveExperience(m_pEntityConfig->GetUseExperience(), GetPosition() + GetBounds().GetMid());
+    }
 
-	if (!m_pEntityConfig->GetUseEffectPath().empty() && Game.IsServer())
-	{
-		CGameEvent evReload;
-		evReload.SetSourceEntity(GetIndex());
-		evReload.SetTargetEntity(pPlayer->GetIndex());
-		evReload.SetEffect(Game.RegisterEffect(m_pEntityConfig->GetUseEffectPath()));
-		Game.AddEvent(evReload);
-	}
+    if (!m_pEntityConfig->GetUseEffectPath().empty() && Game.IsServer())
+    {
+        CGameEvent evReload;
+        evReload.SetSourceEntity(GetIndex());
+        evReload.SetTargetEntity(pPlayer->GetIndex());
+        evReload.SetEffect(Game.RegisterEffect(m_pEntityConfig->GetUseEffectPath()));
+        Game.AddEvent(evReload);
+    }
 
-	m_setAccessors.insert(pPlayer->GetClientID());
+    m_setAccessors.insert(pPlayer->GetClientID());
 
-	if (Game.IsServer())
-	{
-		CBufferFixed<9> buffer;
-		buffer << GAME_CMD_GADGET_ACCESSED << GetIndex() << GetSpawnTime();
-		Game.SendGameData(pPlayer->GetClientID(), buffer, true);
-	}
+    if (Game.IsServer())
+    {
+        CBufferFixed<9> buffer;
+        buffer << GAME_CMD_GADGET_ACCESSED << GetIndex() << GetSpawnTime();
+        Game.SendGameData(pPlayer->GetClientID(), buffer, true);
+    }
 
-	m_auiCounter[0] = INT_SIZE(m_setAccessors.size());
-	return true;
+    m_auiCounter[0] = INT_SIZE(m_setAccessors.size());
+    return true;
 }
 
 
 /*====================
   IGadgetUsable::ClientPrecache
   ====================*/
-void	IGadgetUsable::ClientPrecache(CEntityConfig *pConfig)
+void    IGadgetUsable::ClientPrecache(CEntityConfig *pConfig)
 {
-	IGadgetEntity::ClientPrecache(pConfig);
+    IGadgetEntity::ClientPrecache(pConfig);
 
-	if (!pConfig)
-		return;
+    if (!pConfig)
+        return;
 
-	if (!pConfig->GetUseEffectPath().empty())
-		g_ResourceManager.Register(pConfig->GetUseEffectPath(), RES_EFFECT);
+    if (!pConfig->GetUseEffectPath().empty())
+        g_ResourceManager.Register(pConfig->GetUseEffectPath(), RES_EFFECT);
 }
 
 
 /*====================
   IGadgetUsable::ServerPrecache
   ====================*/
-void	IGadgetUsable::ServerPrecache(CEntityConfig *pConfig)
+void    IGadgetUsable::ServerPrecache(CEntityConfig *pConfig)
 {
-	IGadgetEntity::ServerPrecache(pConfig);
+    IGadgetEntity::ServerPrecache(pConfig);
 
-	if (!pConfig)
-		return;
+    if (!pConfig)
+        return;
 
-	if (!pConfig->GetUseEffectPath().empty())
-		g_NetworkResourceManager.GetNetIndex(g_ResourceManager.Register(pConfig->GetUseEffectPath(), RES_EFFECT, RES_EFFECT_IGNORE_ALL));
+    if (!pConfig->GetUseEffectPath().empty())
+        g_NetworkResourceManager.GetNetIndex(g_ResourceManager.Register(pConfig->GetUseEffectPath(), RES_EFFECT, RES_EFFECT_IGNORE_ALL));
 }
 

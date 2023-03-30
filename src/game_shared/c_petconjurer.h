@@ -17,11 +17,11 @@
 class CPetConjurer : public IPetEntity
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Pet, Conjurer);
+    DECLARE_ENT_ALLOCATOR2(Pet, Conjurer);
 
 public:
-	~CPetConjurer()	{}
-	CPetConjurer() : IPetEntity(GetEntityConfig()) {}
+    ~CPetConjurer() {}
+    CPetConjurer() : IPetEntity(GetEntityConfig()) {}
 };
 //=============================================================================
 

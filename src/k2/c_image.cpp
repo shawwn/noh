@@ -27,45 +27,45 @@
 CImage::CImage(CInterface *pInterface, IWidget *pParent, const CWidgetStyle& style) :
 IWidget(pInterface, pParent, WIDGET_IMAGE, style)
 {
-	// Color
-	if (!style.HasProperty(_T("color")))
-		SetColor(WHITE);
+    // Color
+    if (!style.HasProperty(_T("color")))
+        SetColor(WHITE);
 
-	if (IsAbsoluteVisible())
-		DO_EVENT(WEVENT_SHOW)
+    if (IsAbsoluteVisible())
+        DO_EVENT(WEVENT_SHOW)
 }
 
 
 /*====================
   CImage::MouseDown
   ====================*/
-void	CImage::MouseDown(EButton button, const CVec2f &v2CursorPos)
+void    CImage::MouseDown(EButton button, const CVec2f &v2CursorPos)
 {
-	if (button == BUTTON_MOUSEL)
-	{
-		DO_EVENT(WEVENT_MOUSELDOWN)
-		DO_EVENT(WEVENT_CLICK)
-		
-	}
-	else if (button == BUTTON_MOUSER)
-	{
-		DO_EVENT(WEVENT_MOUSERDOWN)
-		DO_EVENT(WEVENT_RIGHTCLICK)
-	}
+    if (button == BUTTON_MOUSEL)
+    {
+        DO_EVENT(WEVENT_MOUSELDOWN)
+        DO_EVENT(WEVENT_CLICK)
+        
+    }
+    else if (button == BUTTON_MOUSER)
+    {
+        DO_EVENT(WEVENT_MOUSERDOWN)
+        DO_EVENT(WEVENT_RIGHTCLICK)
+    }
 }
 
 
 /*====================
   CImage::MouseUp
   ====================*/
-void	CImage::MouseUp(EButton button, const CVec2f &v2CursorPos)
+void    CImage::MouseUp(EButton button, const CVec2f &v2CursorPos)
 {
-	if (button == BUTTON_MOUSEL)
-	{
-		DO_EVENT(WEVENT_MOUSELUP)
-	}
-	else if (button == BUTTON_MOUSER)
-	{
-		DO_EVENT(WEVENT_MOUSERUP)
-	}
+    if (button == BUTTON_MOUSEL)
+    {
+        DO_EVENT(WEVENT_MOUSELUP)
+    }
+    else if (button == BUTTON_MOUSER)
+    {
+        DO_EVENT(WEVENT_MOUSERUP)
+    }
 }

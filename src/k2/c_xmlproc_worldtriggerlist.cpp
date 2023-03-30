@@ -16,7 +16,7 @@
 // <triggerlist>
 DECLARE_XML_PROCESSOR(triggerlist)
 BEGIN_XML_REGISTRATION(triggerlist)
-	REGISTER_XML_PROCESSOR(root)
+    REGISTER_XML_PROCESSOR(root)
 END_XML_REGISTRATION
 BEGIN_XML_PROCESSOR(triggerlist, CWorldTriggerList)
 END_XML_PROCESSOR(pObject)
@@ -24,14 +24,14 @@ END_XML_PROCESSOR(pObject)
 // <trigger>
 DECLARE_XML_PROCESSOR(trigger)
 BEGIN_XML_REGISTRATION(trigger)
-	REGISTER_XML_PROCESSOR(triggerlist)
+    REGISTER_XML_PROCESSOR(triggerlist)
 END_XML_REGISTRATION
 BEGIN_XML_PROCESSOR(trigger, CWorldTriggerList)
-	if (!node.HasProperty(_T("name")))
-	{
-		Console.Warn << _T("Skipping unnamed trigger") << newl;
-		return false;
-	}
+    if (!node.HasProperty(_T("name")))
+    {
+        Console.Warn << _T("Skipping unnamed trigger") << newl;
+        return false;
+    }
 
-	pObject->RegisterNewScript(node.GetProperty(_T("name")), node.GetProperty(_T("content")));
+    pObject->RegisterNewScript(node.GetProperty(_T("name")), node.GetProperty(_T("content")));
 END_XML_PROCESSOR(NULL)

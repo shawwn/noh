@@ -26,20 +26,20 @@ extern class CTreeSceneManager *g_pTreeSceneManager;
 //=============================================================================
 class CTreeSceneManager
 {
-	SINGLETON_DEF(CTreeSceneManager)
+    SINGLETON_DEF(CTreeSceneManager)
 
 private:
-	vector<CTreeModelDef *>			m_vpTreeDefs;
+    vector<CTreeModelDef *>         m_vpTreeDefs;
 
 public:
-	~CTreeSceneManager();
+    ~CTreeSceneManager();
 
-	uint	AddDefinition(CTreeModelDef *pTreeDef);
-	uint	RemoveDefinition(uint uiIndex);
-	const CTreeModelDef*	GetDefinition(uint uiIndex);
-	void	ResetLeaves();
-	void	Shutdown();
-	void	Destroy();
+    uint    AddDefinition(CTreeModelDef *pTreeDef);
+    uint    RemoveDefinition(uint uiIndex);
+    const CTreeModelDef*    GetDefinition(uint uiIndex);
+    void    ResetLeaves();
+    void    Shutdown();
+    void    Destroy();
 };
 //=============================================================================
 

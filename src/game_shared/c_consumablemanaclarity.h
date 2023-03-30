@@ -17,12 +17,12 @@
 class CConsumableManaClarity : public IConsumableItem
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Consumable, ManaClarity);
+    DECLARE_ENT_ALLOCATOR2(Consumable, ManaClarity);
 
 public:
-	~CConsumableManaClarity() {}
-	CConsumableManaClarity() :
-	IConsumableItem(GetEntityConfig()) {}
+    ~CConsumableManaClarity() {}
+    CConsumableManaClarity() :
+    IConsumableItem(GetEntityConfig()) {}
 };
 //=============================================================================
 

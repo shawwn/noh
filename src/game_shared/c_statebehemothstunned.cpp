@@ -40,10 +40,10 @@ m_pEntityConfig(GetEntityConfig())
 /*====================
   CStateBehemothStunned::Activated
   ====================*/
-void	CStateBehemothStunned::Activated()
+void    CStateBehemothStunned::Activated()
 {
-	IEntityState::Activated();
-	IPlayerEntity *pOwner(Game.GetPlayerEntity(m_uiOwnerIndex));
-	if (pOwner != NULL)
-		pOwner->Stun(GetExpireTime());
+    IEntityState::Activated();
+    IPlayerEntity *pOwner(Game.GetPlayerEntity(m_uiOwnerIndex));
+    if (pOwner != NULL)
+        pOwner->Stun(GetExpireTime());
 }

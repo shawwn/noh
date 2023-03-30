@@ -16,19 +16,19 @@
 // Definitions
 //=============================================================================
 // Common vectors
-#define V_ZERO		CVec3f(0.0f, 0.0f, 0.0f)
+#define V_ZERO      CVec3f(0.0f, 0.0f, 0.0f)
 
-#define V_ONE		CVec3f(1.0f, 1.0f, 1.0f)
+#define V_ONE       CVec3f(1.0f, 1.0f, 1.0f)
 
-#define V2_ZERO		CVec2f(0.0f, 0.0f)
-#define V3_ZERO		CVec3f(0.0f, 0.0f, 0.0f)
-#define V4_ZERO		CVec4f(0.0f, 0.0f, 0.0f, 0.0f)
+#define V2_ZERO     CVec2f(0.0f, 0.0f)
+#define V3_ZERO     CVec3f(0.0f, 0.0f, 0.0f)
+#define V4_ZERO     CVec4f(0.0f, 0.0f, 0.0f, 0.0f)
 
-#define V2_ONE		CVec2f(1.0f, 1.0f)
-#define V3_ONE		CVec3f(1.0f, 1.0f, 1.0f)
-#define V4_ONE		CVec4f(1.0f, 1.0f, 1.0f, 1.0f)
+#define V2_ONE      CVec2f(1.0f, 1.0f)
+#define V3_ONE      CVec3f(1.0f, 1.0f, 1.0f)
+#define V4_ONE      CVec4f(1.0f, 1.0f, 1.0f, 1.0f)
 
-#define V_UP		CVec3f(0.0f, 0.0f, 1.0f)
+#define V_UP        CVec3f(0.0f, 0.0f, 1.0f)
 //=============================================================================
 
 #endif //__C_VEC_H__

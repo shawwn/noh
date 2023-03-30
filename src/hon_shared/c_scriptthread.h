@@ -27,36 +27,36 @@
 class CScriptThread : public IActionScript
 {
 private:
-	tstring					m_sName;
+    tstring                 m_sName;
 
-	uint					m_uiStartTime;
-	uint					m_uiLastUpdateTime;
-	uint					m_uiWaitTime;
-	
-	const CombatActionScript	*m_pvActions;
+    uint                    m_uiStartTime;
+    uint                    m_uiLastUpdateTime;
+    uint                    m_uiWaitTime;
+    
+    const CombatActionScript    *m_pvActions;
 
-	uint					m_uiThisUID;
-	uint					m_uiLevel;
+    uint                    m_uiThisUID;
+    uint                    m_uiLevel;
 
-	SCombatActionEnv		m_cEnv;
+    SCombatActionEnv        m_cEnv;
 
-	CombatActionScript		m_vActions;
+    CombatActionScript      m_vActions;
 
 public:
-	GAME_SHARED_API ~CScriptThread();
-	GAME_SHARED_API CScriptThread(const tstring &sName);
-	GAME_SHARED_API CScriptThread(CScriptThread &cDef, uint uiStartTime);
+    GAME_SHARED_API ~CScriptThread();
+    GAME_SHARED_API CScriptThread(const tstring &sName);
+    GAME_SHARED_API CScriptThread(CScriptThread &cDef, uint uiStartTime);
 
-	virtual void	AddAction(ICombatAction *pAction)				{ m_vActions.push_back(pAction); }
-	
-	GAME_SHARED_API bool Execute(uint uiTime);
+    virtual void    AddAction(ICombatAction *pAction)               { m_vActions.push_back(pAction); }
+    
+    GAME_SHARED_API bool Execute(uint uiTime);
 
-	void					Wait(uint uiDuration)					{ m_uiWaitTime += uiDuration; }
-	uint					GetWaitTime() const						{ return m_uiWaitTime; }
+    void                    Wait(uint uiDuration)                   { m_uiWaitTime += uiDuration; }
+    uint                    GetWaitTime() const                     { return m_uiWaitTime; }
 
-	GAME_SHARED_API void	Precache(EPrecacheScheme eScheme, const tstring &sModifier);
+    GAME_SHARED_API void    Precache(EPrecacheScheme eScheme, const tstring &sModifier);
 
-	const tstring&	GetName() const			{ return m_sName; }
+    const tstring&  GetName() const         { return m_sName; }
 };
 //=============================================================================
 

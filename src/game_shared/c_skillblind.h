@@ -17,13 +17,13 @@
 class CSkillBlind : public ISkillMelee
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Skill, Blind)
+    DECLARE_ENT_ALLOCATOR2(Skill, Blind)
 
 public:
-	~CSkillBlind()	{}
-	CSkillBlind() :
-	ISkillMelee(GetEntityConfig())
-	{}
+    ~CSkillBlind()  {}
+    CSkillBlind() :
+    ISkillMelee(GetEntityConfig())
+    {}
 };
 //=============================================================================
 

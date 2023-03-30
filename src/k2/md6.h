@@ -147,50 +147,50 @@ typedef md6_uint8_t md6_word;
 */
 
 extern int md6_default_r( int d,      /* returns default r for given d */ 
-			  int keylen  /* and keylen                    */
-			  );    
+              int keylen  /* and keylen                    */
+              );    
 
 void md6_main_compression_loop( md6_word *A,          /* working array */
-				int r              /* number of rounds */
-				);
+                int r              /* number of rounds */
+                );
 
 int md6_compress( md6_word *C,                               /* output */  
-		  md6_word *N,                                /* input */
-		  int r,                              /* number rounds */
-		  md6_word *A /* (optional) working array, may be NULL */
+          md6_word *N,                                /* input */
+          int r,                              /* number rounds */
+          md6_word *A /* (optional) working array, may be NULL */
                 );
 
 
 typedef md6_uint64_t md6_control_word;                      /* (r,L,z,p,d) */
 md6_control_word md6_make_control_word( int r,        /* number rounds */
-					int L,      /* parallel passes */
-					int z,      /* final node flag */
-					int p,         /* padding bits */
-					int keylen,    /* bytes in key */
-					int d           /* digest size */
-					);
+                    int L,      /* parallel passes */
+                    int z,      /* final node flag */
+                    int p,         /* padding bits */
+                    int keylen,    /* bytes in key */
+                    int d           /* digest size */
+                    );
 
 typedef md6_uint64_t md6_nodeID;                                /* (ell,i) */
 md6_nodeID md6_make_nodeID( int ell,                   /* level number */
-			    int i    /* index (0,1,2,...) within level */
-			    );
+                int i    /* index (0,1,2,...) within level */
+                );
 
 void md6_pack( md6_word* N,                                  /* output */
-	       const md6_word* Q,           /* fractional part sqrt(6) */
-	       md6_word* K,                                     /* key */
-	       int ell, int i,                                /* for U */
-	       int r, int L, int z, int p, int keylen, int d, /* for V */
-	       md6_word* B                               /* data input */
-	       );
+           const md6_word* Q,           /* fractional part sqrt(6) */
+           md6_word* K,                                     /* key */
+           int ell, int i,                                /* for U */
+           int r, int L, int z, int p, int keylen, int d, /* for V */
+           md6_word* B                               /* data input */
+           );
 
 int md6_standard_compress( 
         md6_word *C,                                     /* output */
-	const md6_word *Q,              /* fractional part sqrt(6) */
-	md6_word *K,                                        /* key */
-	int ell, int i,                                   /* for U */
-	int r, int L, int z, int p, int keylen, int d,    /* for V */
-	md6_word* B                                  /* data input */
-			   );
+    const md6_word *Q,              /* fractional part sqrt(6) */
+    md6_word *K,                                        /* key */
+    int ell, int i,                                   /* for U */
+    int r, int L, int z, int p, int keylen, int d,    /* for V */
+    md6_word* B                                  /* data input */
+               );
 
 /* MD6 mode of operation.
 **
@@ -300,25 +300,25 @@ typedef struct {
 */
 
 extern int md6_init( md6_state *st,             /* state to initialize */
-		     int d                          /* hash bit length */
-		     );
+             int d                          /* hash bit length */
+             );
 
 extern int md6_full_init( md6_state *st,        /* state to initialize */
-			  int d,                    /* hash bit length */
-			  unsigned char *key,       /* OK to give NULL */
-			  int keylen,       /* (in bytes) OK to give 0 */
-			  int L,     /* mode; OK to give md6_default_L */
-			  int r                    /* number of rounds */
-			  );
+              int d,                    /* hash bit length */
+              unsigned char *key,       /* OK to give NULL */
+              int keylen,       /* (in bytes) OK to give 0 */
+              int L,     /* mode; OK to give md6_default_L */
+              int r                    /* number of rounds */
+              );
 
 extern int md6_update( md6_state *st,             /* initialized state */
-		       unsigned char *data,            /* data portion */
-		       md6_uint64_t databitlen       /* its length in bits */
-		       );
+               unsigned char *data,            /* data portion */
+               md6_uint64_t databitlen       /* its length in bits */
+               );
 
 extern int md6_final( md6_state *st,            /* initialized/updated */
-		      unsigned char *hashval       /* output; NULL OK  */
-		      );
+              unsigned char *hashval       /* output; NULL OK  */
+              );
 
 /* MD6 main interface routines
 **
@@ -331,20 +331,20 @@ extern int md6_final( md6_state *st,            /* initialized/updated */
 */
 
 extern int md6_hash( int d,                         /* hash bit length */
-		     unsigned char *data,     /* complete data to hash */
-		     md6_uint64_t databitlen,        /* its length in bits */
-		     unsigned char *hashval                 /* output */
-		     );
+             unsigned char *data,     /* complete data to hash */
+             md6_uint64_t databitlen,        /* its length in bits */
+             unsigned char *hashval                 /* output */
+             );
 
 extern int md6_full_hash( int d,                    /* hash bit length */
-			  unsigned char *data,/* complete data to hash */
-			  md6_uint64_t databitlen,   /* its length in bits */
-			  unsigned char *key,       /* OK to give NULL */
-			  int keylen,       /* (in bytes) OK to give 0 */
-			  int L,     /* mode; OK to give md6_default_L */
-			  int r,                   /* number of rounds */
-			  unsigned char *hashval             /* output */
-			  );
+              unsigned char *data,/* complete data to hash */
+              md6_uint64_t databitlen,   /* its length in bits */
+              unsigned char *key,       /* OK to give NULL */
+              int keylen,       /* (in bytes) OK to give 0 */
+              int L,     /* mode; OK to give md6_default_L */
+              int r,                   /* number of rounds */
+              unsigned char *hashval             /* output */
+              );
 
 
 /* MD6 return codes.
@@ -438,18 +438,18 @@ extern int md6_full_hash( int d,                    /* hash bit length */
 
 #ifdef MD6_COMPRESSION_HOOK
 void (* compression_hook)(md6_word *C,
-			  const md6_word *Q,
-			  md6_word *K,
-			  int ell,
-			  int i,
-			  int r,
-			  int L,
-			  int z,
-			  int p,
-			  int keylen,
-			  int d,
-			  md6_word *N
-			  );
+              const md6_word *Q,
+              md6_word *K,
+              int ell,
+              int i,
+              int r,
+              int L,
+              int z,
+              int p,
+              int keylen,
+              int d,
+              md6_word *N
+              );
 #endif
 
 /* end of #ifndef MD6_H_INCLUDED for multiple inclusion protection

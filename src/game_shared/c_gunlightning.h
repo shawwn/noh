@@ -17,13 +17,13 @@
 class CGunLightning : public IGunItem
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Gun, Lightning);
+    DECLARE_ENT_ALLOCATOR2(Gun, Lightning);
 
 public:
-	~CGunLightning()	{}
-	CGunLightning() :
-	IGunItem(GetEntityConfig())
-	{}
+    ~CGunLightning()    {}
+    CGunLightning() :
+    IGunItem(GetEntityConfig())
+    {}
 };
 //=============================================================================
 

@@ -17,19 +17,19 @@
 class CStateRainOfFire : public IEntityState
 {
 private:
-	START_ENTITY_CONFIG(IEntityState)
-		DECLARE_ENTITY_CVAR(float, DamagePerSecond)
-	END_ENTITY_CONFIG
+    START_ENTITY_CONFIG(IEntityState)
+        DECLARE_ENTITY_CVAR(float, DamagePerSecond)
+    END_ENTITY_CONFIG
 
-	CEntityConfig*	m_pEntityConfig;
+    CEntityConfig*  m_pEntityConfig;
 
-	DECLARE_ENT_ALLOCATOR2(State, RainOfFire);
+    DECLARE_ENT_ALLOCATOR2(State, RainOfFire);
 
 public:
-	~CStateRainOfFire()	{}
-	CStateRainOfFire();
+    ~CStateRainOfFire() {}
+    CStateRainOfFire();
 
-	void	StateFrame();
+    void    StateFrame();
 };
 //=============================================================================
 

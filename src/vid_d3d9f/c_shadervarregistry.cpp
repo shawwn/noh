@@ -17,73 +17,73 @@
 //=============================================================================
 // Globals
 //=============================================================================
-CShaderVarRegistry	*CShaderVarRegistry::s_pInstance;
-bool			CShaderVarRegistry::s_bRequested;
-bool			CShaderVarRegistry::s_bReleased;
+CShaderVarRegistry  *CShaderVarRegistry::s_pInstance;
+bool            CShaderVarRegistry::s_bRequested;
+bool            CShaderVarRegistry::s_bReleased;
 
-CShaderVarRegistry	*pShaderVarRegistry = CShaderVarRegistry::GetInstance();
+CShaderVarRegistry  *pShaderVarRegistry = CShaderVarRegistry::GetInstance();
 //=============================================================================
 
 
 /*====================
   CShaderVarRegistry::GetInstance
   ====================*/
-CShaderVarRegistry*	CShaderVarRegistry::GetInstance()
+CShaderVarRegistry* CShaderVarRegistry::GetInstance()
 {
-	assert(!s_bReleased);
+    assert(!s_bReleased);
 
-	if (s_pInstance == NULL)
-	{
-		assert(!s_bRequested);
-		s_bRequested = true;
-		s_pInstance = new CShaderVarRegistry;
-	}
+    if (s_pInstance == NULL)
+    {
+        assert(!s_bRequested);
+        s_bRequested = true;
+        s_pInstance = new CShaderVarRegistry;
+    }
 
-	return s_pInstance;
+    return s_pInstance;
 }
 
 
 /*====================
   CShaderVarRegistry::Release
   ====================*/
-void	CShaderVarRegistry::Release()
+void    CShaderVarRegistry::Release()
 {
-	assert(!s_bReleased);
+    assert(!s_bReleased);
 
-	if (s_pInstance != NULL)
-		delete s_pInstance;
+    if (s_pInstance != NULL)
+        delete s_pInstance;
 
-	s_bReleased = true;
+    s_bReleased = true;
 }
 
 
 /*====================
   CShaderVarRegistry::Register
   ====================*/
-void	CShaderVarRegistry::Register(CShaderVar *pShaderVar)
+void    CShaderVarRegistry::Register(CShaderVar *pShaderVar)
 {
-	// Make sure there is no name collision
-	ShaderVarMap::iterator findit = m_mapShaderVars.find(pShaderVar->GetName());
-	if (findit != m_mapShaderVars.end())
-	{
-		Console.Err << _T("A shader variable named ") << QuoteStr(pShaderVar->GetName())
-					<< _T(" already exists.") << newl;
-		return;
-	}
+    // Make sure there is no name collision
+    ShaderVarMap::iterator findit = m_mapShaderVars.find(pShaderVar->GetName());
+    if (findit != m_mapShaderVars.end())
+    {
+        Console.Err << _T("A shader variable named ") << QuoteStr(pShaderVar->GetName())
+                    << _T(" already exists.") << newl;
+        return;
+    }
 
-	m_mapShaderVars[pShaderVar->GetName()] = pShaderVar;
+    m_mapShaderVars[pShaderVar->GetName()] = pShaderVar;
 }
 
 
 /*====================
   CShaderVarRegistry::Unregister
   ====================*/
-void	CShaderVarRegistry::Unregister(const tstring &sName)
+void    CShaderVarRegistry::Unregister(const tstring &sName)
 {
-	ShaderVarMap::iterator findit = m_mapShaderVars.find(sName);
-	if (findit != m_mapShaderVars.end())
-	{
-		//Console.Dev << _T("Shader Variable ") << sName << _T(" has been unregistered.") << newl;
-		m_mapShaderVars.erase(findit);
-	}
+    ShaderVarMap::iterator findit = m_mapShaderVars.find(sName);
+    if (findit != m_mapShaderVars.end())
+    {
+        //Console.Dev << _T("Shader Variable ") << sName << _T(" has been unregistered.") << newl;
+        m_mapShaderVars.erase(findit);
+    }
 }

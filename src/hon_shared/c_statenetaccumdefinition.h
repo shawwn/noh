@@ -25,12 +25,12 @@ DECLARE_ENTITY_DEFINITION_XML_PROCESSOR(IEntityStateNetAccum, StateNetAccum, sta
 class CStateNetAccumDefinition : public CStateDefinition
 {
 public:
-	~CStateNetAccumDefinition()	{}
-	CStateNetAccumDefinition() :
-	CStateDefinition(&g_allocatorStateNetAccum)
-	{}
+    ~CStateNetAccumDefinition() {}
+    CStateNetAccumDefinition() :
+    CStateDefinition(&g_allocatorStateNetAccum)
+    {}
 
-	IEntityDefinition*	GetCopy() const	{ return K2_NEW(g_heapResources, CStateNetAccumDefinition)(*this); }
+    IEntityDefinition*  GetCopy() const { return K2_NEW(g_heapResources, CStateNetAccumDefinition)(*this); }
 };
 //=============================================================================
 

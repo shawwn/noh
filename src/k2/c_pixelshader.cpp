@@ -16,21 +16,21 @@
 //=============================================================================
 // Declarations
 //=============================================================================
-IResource*	AllocPixelShader(const tstring &sPath);
+IResource*  AllocPixelShader(const tstring &sPath);
 //=============================================================================
 
 //=============================================================================
 // Globals
 //=============================================================================
-IResourceLibrary	g_ResLibPixelShader(RES_PIXEL_SHADER, _T("Pixel Shaders"), CPixelShader::ResTypeName(), false, AllocPixelShader);
+IResourceLibrary    g_ResLibPixelShader(RES_PIXEL_SHADER, _T("Pixel Shaders"), CPixelShader::ResTypeName(), false, AllocPixelShader);
 //=============================================================================
 
 /*====================
   AllocPixelShader
   ====================*/
-IResource*	AllocPixelShader(const tstring &sPath)
+IResource*  AllocPixelShader(const tstring &sPath)
 {
-	return K2_NEW(ctx_Resources,  CPixelShader)(sPath);
+    return K2_NEW(ctx_Resources,  CPixelShader)(sPath);
 }
 
 
@@ -39,7 +39,7 @@ IResource*	AllocPixelShader(const tstring &sPath)
   ====================*/
 CPixelShader::~CPixelShader()
 {
-	//Free();
+    //Free();
 }
 
 
@@ -64,39 +64,39 @@ m_iShaderFlags(iShaderFlags)
 /*====================
   CPixelShader::Load
   ====================*/
-int		CPixelShader::Load(uint uiIgnoreFlags, const char *pData, uint uiSize)
+int     CPixelShader::Load(uint uiIgnoreFlags, const char *pData, uint uiSize)
 {
-	PROFILE("CPixelShader::Load");
+    PROFILE("CPixelShader::Load");
 
-	try
-	{
-		// Dedicated servers don't need pixel shader files so skip this and save some memory
-		if (K2System.IsDedicatedServer() || K2System.IsServerManager())
-			return false;
-	
-		if (!m_sPath.empty())
-			Console.Res << "Loading PixelShader " << SingleQuoteStr(m_sPath) << newl;
-		else if (!m_sName.empty())
-			Console.Res << "Loading PixelShader " << SingleQuoteStr(m_sName) << newl;
-		else
-			Console.Res << "Loading Unknown PixelShader" << newl;
+    try
+    {
+        // Dedicated servers don't need pixel shader files so skip this and save some memory
+        if (K2System.IsDedicatedServer() || K2System.IsServerManager())
+            return false;
+    
+        if (!m_sPath.empty())
+            Console.Res << "Loading PixelShader " << SingleQuoteStr(m_sPath) << newl;
+        else if (!m_sName.empty())
+            Console.Res << "Loading PixelShader " << SingleQuoteStr(m_sName) << newl;
+        else
+            Console.Res << "Loading Unknown PixelShader" << newl;
 
-		Vid.RegisterPixelShader(this);
-	}
-	catch (CException &ex)
-	{
-		ex.Process(_TS("CPixelShader::Load(") + m_sName + _TS(") - "), NO_THROW);
-		return RES_LOAD_FAILED;
-	}
+        Vid.RegisterPixelShader(this);
+    }
+    catch (CException &ex)
+    {
+        ex.Process(_TS("CPixelShader::Load(") + m_sName + _TS(") - "), NO_THROW);
+        return RES_LOAD_FAILED;
+    }
 
-	return 0;
+    return 0;
 }
 
 
 /*====================
   CPixelShader::Free
   ====================*/
-void	CPixelShader::Free()
+void    CPixelShader::Free()
 {
-	Vid.UnregisterPixelShader(this);
+    Vid.UnregisterPixelShader(this);
 }

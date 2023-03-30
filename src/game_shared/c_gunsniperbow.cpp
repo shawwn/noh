@@ -24,19 +24,19 @@ CVAR_FLOATF(Gun_SniperBow_ZoomFov, 20.0f, CVAR_TRANSMIT | CVAR_GAMECONFIG);
 /*====================
   CGunSniperBow::ActivateSecondary
   ====================*/
-bool	CGunSniperBow::ActivateSecondary(int iButtonStatus)
+bool    CGunSniperBow::ActivateSecondary(int iButtonStatus)
 {
-	ICombatEntity *pOwner(GetOwnerEnt());
-	if (!pOwner)
-		return true;
+    ICombatEntity *pOwner(GetOwnerEnt());
+    if (!pOwner)
+        return true;
 
-	if (!(iButtonStatus & GAME_BUTTON_STATUS_PRESSED))
-		return false;
+    if (!(iButtonStatus & GAME_BUTTON_STATUS_PRESSED))
+        return false;
 
-	if (pOwner->GetFov() != Gun_SniperBow_ZoomFov)
-		pOwner->SetFov(Gun_SniperBow_ZoomFov);
-	else
-		pOwner->SetFov(90.0f);
+    if (pOwner->GetFov() != Gun_SniperBow_ZoomFov)
+        pOwner->SetFov(Gun_SniperBow_ZoomFov);
+    else
+        pOwner->SetFov(90.0f);
 
-	return true;
+    return true;
 }

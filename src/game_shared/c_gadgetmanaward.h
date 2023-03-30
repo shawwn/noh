@@ -17,13 +17,13 @@
 class CGadgetManaWard : public IGadgetEntity
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Gadget, ManaWard)
+    DECLARE_ENT_ALLOCATOR2(Gadget, ManaWard)
 
 public:
-	~CGadgetManaWard()	{}
-	CGadgetManaWard() :
-	IGadgetEntity(GetEntityConfig())
-	{}
+    ~CGadgetManaWard()  {}
+    CGadgetManaWard() :
+    IGadgetEntity(GetEntityConfig())
+    {}
 };
 //=============================================================================
 

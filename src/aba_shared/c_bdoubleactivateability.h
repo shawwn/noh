@@ -23,30 +23,30 @@ class IEntityTool;
 class CBDoubleActivateAbility : public IBehavior
 {
 private:
-	int				m_iInventorySlot;
-	IEntityTool*	m_pAbility;
+    int             m_iInventorySlot;
+    IEntityTool*    m_pAbility;
 
-	CBDoubleActivateAbility();
+    CBDoubleActivateAbility();
 
 public:
-	~CBDoubleActivateAbility() {}
-	CBDoubleActivateAbility(int iInventorySlot) :
-	IBehavior(EBT_DOUBLE_ACTIVATE_ABILITY),
-	m_iInventorySlot(iInventorySlot)
-	{
-	}
+    ~CBDoubleActivateAbility() {}
+    CBDoubleActivateAbility(int iInventorySlot) :
+    IBehavior(EBT_DOUBLE_ACTIVATE_ABILITY),
+    m_iInventorySlot(iInventorySlot)
+    {
+    }
 
-	virtual void		CopyFrom(const IBehavior* pBehavior);
-	virtual IBehavior*	Clone(CBrain* pNewBrain, IUnitEntity* pNewSelf) const;
+    virtual void        CopyFrom(const IBehavior* pBehavior);
+    virtual IBehavior*  Clone(CBrain* pNewBrain, IUnitEntity* pNewSelf) const;
 
-	virtual bool	Validate();
-	virtual void	Update();
-	virtual void	BeginBehavior();
-	virtual void	ThinkFrame();
-	virtual void	MovementFrame();
-	virtual void	ActionFrame();
-	virtual void	CleanupFrame();
-	virtual void	EndBehavior();
+    virtual bool    Validate();
+    virtual void    Update();
+    virtual void    BeginBehavior();
+    virtual void    ThinkFrame();
+    virtual void    MovementFrame();
+    virtual void    ActionFrame();
+    virtual void    CleanupFrame();
+    virtual void    EndBehavior();
 };
 //=============================================================================
 

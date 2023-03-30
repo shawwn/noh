@@ -41,9 +41,9 @@ CPool<CBoxRenderer> CBoxRenderer::s_Pool(1, -1);
 /*====================
   CBoxRenderer::operator new
   ====================*/
-void*	CBoxRenderer::operator new(size_t z, const char *szContext, const char *szType, const char *szFile, short nLine)
+void*   CBoxRenderer::operator new(size_t z, const char *szContext, const char *szType, const char *szFile, short nLine)
 {
-	return s_Pool.Allocate();
+    return s_Pool.Allocate();
 }
 
 
@@ -67,27 +67,27 @@ CBoxRenderer::~CBoxRenderer()
 /*====================
   CBoxRenderer::Render
   ====================*/
-void	CBoxRenderer::Render(EMaterialPhase ePhase)
+void    CBoxRenderer::Render(EMaterialPhase ePhase)
 {
-	PROFILE("CBoxRenderer::Render");
+    PROFILE("CBoxRenderer::Render");
 
-	if (!m_bRender)
-		return;
+    if (!m_bRender)
+        return;
 
-	SetShaderVars();
+    SetShaderVars();
 
-	D3D_SetStreamSource(0, g_pVBBox, 0, sizeof(SLineVertex));
-	D3D_SetIndices(g_pIBBox);
+    D3D_SetStreamSource(0, g_pVBBox, 0, sizeof(SLineVertex));
+    D3D_SetIndices(g_pIBBox);
 
-	D3D_SelectMaterial(g_SimpleMaterial3DColored, ePhase, VERTEX_LINE, g_pCam->GetTime(), gfx_depthFirst);
+    D3D_SelectMaterial(g_SimpleMaterial3DColored, ePhase, VERTEX_LINE, g_pCam->GetTime(), gfx_depthFirst);
 
-	D3D_SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
-	D3D_SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
-	D3D_SetRenderState(D3DRS_ZENABLE, FALSE);
-	D3D_SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
-	D3D_SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
+    D3D_SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
+    D3D_SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
+    D3D_SetRenderState(D3DRS_ZENABLE, FALSE);
+    D3D_SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
+    D3D_SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
 
-	D3D_DrawIndexedPrimitive(D3DPT_LINELIST, 0, 0, m_iNumBoxes * 8, 0, m_iNumBoxes * 12);
+    D3D_DrawIndexedPrimitive(D3DPT_LINELIST, 0, 0, m_iNumBoxes * 8, 0, m_iNumBoxes * 12);
 
-	SceneStats.RecordBatch(m_iNumBoxes * 8, m_iNumBoxes * 12, ePhase, SSBATCH_DEBUG);
+    SceneStats.RecordBatch(m_iNumBoxes * 8, m_iNumBoxes * 12, ePhase, SSBATCH_DEBUG);
 }

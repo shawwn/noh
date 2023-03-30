@@ -23,7 +23,7 @@ if %source_hotfixversion% GTR %local_hotfixversion% set local_buildnumber=0
 call :update_record
 
 rem Set the number in the source
-echo #define BUILDNUMBER	_T("%local_buildnumber%") > ..\shell\buildnumber.h
+echo #define BUILDNUMBER    _T("%local_buildnumber%") > ..\shell\buildnumber.h
 goto :eof
 
 :initialize_vars

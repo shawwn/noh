@@ -17,13 +17,13 @@
 class CGunMortar : public IGunItem
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Gun, Mortar);
+    DECLARE_ENT_ALLOCATOR2(Gun, Mortar);
 
 public:
-	~CGunMortar()	{}
-	CGunMortar() :
-	IGunItem(GetEntityConfig())
-	{}
+    ~CGunMortar()   {}
+    CGunMortar() :
+    IGunItem(GetEntityConfig())
+    {}
 };
 //=============================================================================
 

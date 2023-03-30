@@ -14,10 +14,10 @@
 //=============================================================================
 struct SFoliagemapVertex
 {
-	CVec4b	v4Color;
-	float	fDensity;
-	CVec3f	vSize;		// width, height, scale
-	CVec2f	vRandSize;  // width, height
+    CVec4b  v4Color;
+    float   fDensity;
+    CVec3f  vSize;      // width, height, scale
+    CVec2f  vRandSize;  // width, height
 };
 //=============================================================================
 #endif // __S_FOLIAGEMAPVERTEX_H__

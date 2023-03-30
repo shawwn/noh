@@ -17,19 +17,19 @@
 class CGadgetMole : public IGadgetEntity
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Gadget, Mole)
+    DECLARE_ENT_ALLOCATOR2(Gadget, Mole)
 
-	static CCvarf	s_cvarRepairRadius;
-	static CCvarf	s_cvarRepairRate;
-	
-	float	m_fRepairAccumulator;
+    static CCvarf   s_cvarRepairRadius;
+    static CCvarf   s_cvarRepairRate;
+    
+    float   m_fRepairAccumulator;
 
 public:
-	~CGadgetMole()	{}
-	CGadgetMole();
+    ~CGadgetMole()  {}
+    CGadgetMole();
 
-	bool	ServerFrame();
-	void	Kill(IVisualEntity *pAttacker = NULL, ushort unKillingObjectID = INVALID_ENT_TYPE);
+    bool    ServerFrame();
+    void    Kill(IVisualEntity *pAttacker = NULL, ushort unKillingObjectID = INVALID_ENT_TYPE);
 };
 //=============================================================================
 

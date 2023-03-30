@@ -17,14 +17,14 @@
 class CStateWhirlingBlade : public IEntityState
 {
 private:
-	DECLARE_STATE_ALLOCATOR(WhirlingBlade);
-	DECLARE_ENTITY_STATE_CVARS;
+    DECLARE_STATE_ALLOCATOR(WhirlingBlade);
+    DECLARE_ENTITY_STATE_CVARS;
 
 public:
-	~CStateWhirlingBlade();
-	CStateWhirlingBlade();
+    ~CStateWhirlingBlade();
+    CStateWhirlingBlade();
 
-	void	DoAttack(CMeleeAttackEvent &attack);
+    void    DoAttack(CMeleeAttackEvent &attack);
 };
 //=============================================================================
 

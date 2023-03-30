@@ -17,11 +17,11 @@
 class CPropTowerFoundation : public IPropFoundation
 {
 private:
-	DECLARE_ENT_ALLOCATOR(Prop, TowerFoundation);
+    DECLARE_ENT_ALLOCATOR(Prop, TowerFoundation);
 
 public:
-	~CPropTowerFoundation()	{}
-	CPropTowerFoundation()	{}
+    ~CPropTowerFoundation() {}
+    CPropTowerFoundation()  {}
 };
 //=============================================================================
 

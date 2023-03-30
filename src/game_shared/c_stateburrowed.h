@@ -17,16 +17,16 @@
 class CStateBurrowed : public IEntityState
 {
 private:
-	START_ENTITY_CONFIG(IEntityState)
-	END_ENTITY_CONFIG
+    START_ENTITY_CONFIG(IEntityState)
+    END_ENTITY_CONFIG
 
-	CEntityConfig*	m_pEntityConfig;
+    CEntityConfig*  m_pEntityConfig;
 
-	DECLARE_ENT_ALLOCATOR2(State, Burrowed)
+    DECLARE_ENT_ALLOCATOR2(State, Burrowed)
 
 public:
-	~CStateBurrowed()	{}
-	CStateBurrowed();
+    ~CStateBurrowed()   {}
+    CStateBurrowed();
 };
 //=============================================================================
 

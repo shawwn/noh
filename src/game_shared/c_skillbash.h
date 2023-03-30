@@ -17,12 +17,12 @@
 class CSkillBash : public ISkillMelee
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Skill, Bash);
+    DECLARE_ENT_ALLOCATOR2(Skill, Bash);
 
 public:
-	~CSkillBash() {}
-	CSkillBash() :
-	ISkillMelee(GetEntityConfig()) {}
+    ~CSkillBash() {}
+    CSkillBash() :
+    ISkillMelee(GetEntityConfig()) {}
 };
 //=============================================================================
 

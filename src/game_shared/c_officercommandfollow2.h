@@ -17,13 +17,13 @@
 class COfficerCommandFollow2 : public ISpellItem
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(OfficerCommand, Follow2);
+    DECLARE_ENT_ALLOCATOR2(OfficerCommand, Follow2);
 
 public:
-	~COfficerCommandFollow2()	{}
-	COfficerCommandFollow2() : ISpellItem(GetEntityConfig())	{}
+    ~COfficerCommandFollow2()   {}
+    COfficerCommandFollow2() : ISpellItem(GetEntityConfig())    {}
 
-	virtual bool	ImpactEntity(uint uiTargetIndex, CGameEvent &evImpact, bool bCheckTarget = true);
+    virtual bool    ImpactEntity(uint uiTargetIndex, CGameEvent &evImpact, bool bCheckTarget = true);
 };
 //=============================================================================
 

@@ -17,12 +17,12 @@
 class CSkillSentry : public ISpellItem
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Skill, Sentry)
+    DECLARE_ENT_ALLOCATOR2(Skill, Sentry)
 
 public:
-	~CSkillSentry() {}
-	CSkillSentry() :
-	ISpellItem(GetEntityConfig()) {}
+    ~CSkillSentry() {}
+    CSkillSentry() :
+    ISpellItem(GetEntityConfig()) {}
 };
 //=============================================================================
 

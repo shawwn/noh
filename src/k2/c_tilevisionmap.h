@@ -23,24 +23,24 @@ class CWorld;
 class CTileVisBlockerMap : public IWorldComponent
 {
 private:
-	byte*			m_pTileVisBlockers;
+    byte*           m_pTileVisBlockers;
 
 public:
-	~CTileVisBlockerMap();
-	CTileVisBlockerMap(EWorldComponent eComponent);
+    ~CTileVisBlockerMap();
+    CTileVisBlockerMap(EWorldComponent eComponent);
 
-	bool	Load(CArchive &archive, const CWorld *pWorld);
-	bool	Generate(const CWorld *pWorld);
-	void	Release();
-	bool	Serialize(IBuffer *pBuffer);
+    bool    Load(CArchive &archive, const CWorld *pWorld);
+    bool    Generate(const CWorld *pWorld);
+    void    Release();
+    bool    Serialize(IBuffer *pBuffer);
 
-	bool	GetRegion(const CRecti &recArea, void *pDest, int iLayer) const;
-	bool	SetRegion(const CRecti &recArea, void *pSource, int iLayer);
+    bool    GetRegion(const CRecti &recArea, void *pDest, int iLayer) const;
+    bool    SetRegion(const CRecti &recArea, void *pSource, int iLayer);
 
-	byte*	GetVisBlockerMap() const		{ return m_pTileVisBlockers; }
+    byte*   GetVisBlockerMap() const        { return m_pTileVisBlockers; }
 
-	K2_API byte	GetVisBlocker(int x, int y);
-	K2_API void	SetVisBlocker(int x, int y, byte yVisBlocker);
+    K2_API byte GetVisBlocker(int x, int y);
+    K2_API void SetVisBlocker(int x, int y, byte yVisBlocker);
 };
 //=============================================================================
 

@@ -17,11 +17,11 @@
 class CProjectileBolt : public IProjectile
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Projectile, Bolt);
+    DECLARE_ENT_ALLOCATOR2(Projectile, Bolt);
 
 public:
-	~CProjectileBolt()	{}
-	CProjectileBolt();
+    ~CProjectileBolt()  {}
+    CProjectileBolt();
 };
 //=============================================================================
 

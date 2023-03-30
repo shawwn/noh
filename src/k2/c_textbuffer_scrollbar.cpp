@@ -24,9 +24,9 @@ CScrollbar(pInterface, pParent, style)
 /*====================
   CTextBufferScrollbar::DoChange
   ====================*/
-void	CTextBufferScrollbar::DoChange()
+void    CTextBufferScrollbar::DoChange()
 {
-	static_cast<CTextBuffer *>(m_pParent)->VerticalScrollbarChange(GetValueFloat());
+    static_cast<CTextBuffer *>(m_pParent)->VerticalScrollbarChange(GetValueFloat());
 
-	CScrollbar::DoChange();
+    CScrollbar::DoChange();
 }

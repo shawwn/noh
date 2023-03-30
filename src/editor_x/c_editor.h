@@ -28,7 +28,7 @@ struct STraceInfo;
 
 enum EEditorResourceType
 {
-	RES_TREE = NUM_GAME_RESOURCE_TYPES,
+    RES_TREE = NUM_GAME_RESOURCE_TYPES,
 };
 //=============================================================================
 
@@ -38,27 +38,27 @@ enum EEditorResourceType
 class CWorldEntityEx
 {
 private:
-	CSkeleton	*m_pSkeleton;
-	vector<PoolHandle>	m_vPathBlockers;
+    CSkeleton   *m_pSkeleton;
+    vector<PoolHandle>  m_vPathBlockers;
 
 public:
-	~CWorldEntityEx()
-	{
-		SAFE_DELETE(m_pSkeleton);
-	}
+    ~CWorldEntityEx()
+    {
+        SAFE_DELETE(m_pSkeleton);
+    }
 
-	CWorldEntityEx() :
-	m_pSkeleton(NULL)
-	{
-	}
+    CWorldEntityEx() :
+    m_pSkeleton(NULL)
+    {
+    }
 
-	CSkeleton*	GetSkeleton()						{ return m_pSkeleton; }
-	void		SetSkeleton(CSkeleton *pSkeleton)	{ m_pSkeleton = pSkeleton; }
+    CSkeleton*  GetSkeleton()                       { return m_pSkeleton; }
+    void        SetSkeleton(CSkeleton *pSkeleton)   { m_pSkeleton = pSkeleton; }
 
-	vector<PoolHandle>&	GetPathBlockers()			{ return m_vPathBlockers; }
+    vector<PoolHandle>& GetPathBlockers()           { return m_vPathBlockers; }
 };
 
-extern map<uint, CWorldEntityEx>	g_WorldEntData;
+extern map<uint, CWorldEntityEx>    g_WorldEntData;
 //=============================================================================
 
 //=============================================================================
@@ -67,112 +67,112 @@ extern map<uint, CWorldEntityEx>	g_WorldEntData;
 class CEditor : public IGame
 {
 private:
-	CCamera*		m_pCamera;
-	CVec3f			m_v3CamAngles;
-	
-	CVec3f			m_v3TargetCamPosition;
-	CVec3f			m_v3TargetCamAngles;
-	
-	float			m_fCameraShift;
+    CCamera*        m_pCamera;
+    CVec3f          m_v3CamAngles;
+    
+    CVec3f          m_v3TargetCamPosition;
+    CVec3f          m_v3TargetCamAngles;
+    
+    float           m_fCameraShift;
 
-	vector<CVec3f>  m_vRulerPoints;
+    vector<CVec3f>  m_vRulerPoints;
 
-	CHostClient*	m_pHostClient;
-	CWorld*			m_pWorld;
+    CHostClient*    m_pHostClient;
+    CWorld*         m_pWorld;
 
-	ResHandle		m_hLineMaterial;
-	ResHandle		m_hOccluderMaterial;
+    ResHandle       m_hLineMaterial;
+    ResHandle       m_hOccluderMaterial;
 
-	ResHandle		m_hMinimapReference;
-	ResHandle		m_hMinimapTexture;
-	CBitmap*		m_pMinimapBitmap;
+    ResHandle       m_hMinimapReference;
+    ResHandle       m_hMinimapTexture;
+    CBitmap*        m_pMinimapBitmap;
 
-	CVec2f			m_v2PathStart;
-	CVec2f			m_v2PathEnd;
-	bool			m_bPathStartValid;
-	bool			m_bPathEndValid;
+    CVec2f          m_v2PathStart;
+    CVec2f          m_v2PathEnd;
+    bool            m_bPathStartValid;
+    bool            m_bPathEndValid;
 
-	PoolHandle		m_hPath;
+    PoolHandle      m_hPath;
 
-	bool			m_bRuler;
-	CVec3f			m_v3RulerStart;
-	CVec3f			m_v3RulerEnd;
+    bool            m_bRuler;
+    CVec3f          m_v3RulerStart;
+    CVec3f          m_v3RulerEnd;
 
-	void	DrawEntities();
-	void	AddLights();
-	void	AddOccluders();
-	void	DrawOccluderPoly(const COccluder &occluder);
-	void	DrawOccluders();
-	void	UpdateMinimap();
-	void	DrawNavGrid();
+    void    DrawEntities();
+    void    AddLights();
+    void    AddOccluders();
+    void    DrawOccluderPoly(const COccluder &occluder);
+    void    DrawOccluders();
+    void    UpdateMinimap();
+    void    DrawNavGrid();
 
 public:
-	~CEditor();
-	CEditor();
+    ~CEditor();
+    CEditor();
 
-	////
-	void			SetGamePointer()						{ IGame::SetCurrentGamePointer(this); }
-	ResHandle		RegisterModel(const tstring&)			{ return INVALID_RESOURCE; }
-	ResHandle		RegisterEffect(const tstring&)			{ return INVALID_RESOURCE; }
-	ResHandle		RegisterIcon(const tstring&)			{ return INVALID_RESOURCE; }
-	void			Precache(ushort, EPrecacheScheme)		{}
-	void			Precache(const tstring&, EPrecacheScheme) {}
-	CStateString&	GetStateString(uint)					{ static CStateString ss; return ss; }
-	CStateBlock&	GetStateBlock(uint)						{ static CStateBlock block; return block; }
-	uint			GetServerFrame(void)					{ return 0; }
-	uint			GetServerTime(void) const				{ return INVALID_TIME; }
-	uint			GetPrevServerTime(void)					{ return INVALID_TIME; }
-	uint			GetServerFrameLength(void)				{ return INVALID_TIME; }
-	////
+    ////
+    void            SetGamePointer()                        { IGame::SetCurrentGamePointer(this); }
+    ResHandle       RegisterModel(const tstring&)           { return INVALID_RESOURCE; }
+    ResHandle       RegisterEffect(const tstring&)          { return INVALID_RESOURCE; }
+    ResHandle       RegisterIcon(const tstring&)            { return INVALID_RESOURCE; }
+    void            Precache(ushort, EPrecacheScheme)       {}
+    void            Precache(const tstring&, EPrecacheScheme) {}
+    CStateString&   GetStateString(uint)                    { static CStateString ss; return ss; }
+    CStateBlock&    GetStateBlock(uint)                     { static CStateBlock block; return block; }
+    uint            GetServerFrame(void)                    { return 0; }
+    uint            GetServerTime(void) const               { return INVALID_TIME; }
+    uint            GetPrevServerTime(void)                 { return INVALID_TIME; }
+    uint            GetServerFrameLength(void)              { return INVALID_TIME; }
+    ////
 
-	bool			Init(CHostClient *pHostClient);
-	void			Frame();
+    bool            Init(CHostClient *pHostClient);
+    void            Frame();
 
-	uint			GetFrameCount() const	{ return m_pHostClient->GetFrameCount(); }
-	float			GetFrameSeconds() const	{ return MsToSec(Host.GetFrameLength()); }
+    uint            GetFrameCount() const   { return m_pHostClient->GetFrameCount(); }
+    float           GetFrameSeconds() const { return MsToSec(Host.GetFrameLength()); }
 
-	CHostClient&	GetClient()				{ return *m_pHostClient; }
-	CWorld&			GetWorld()				{ return *m_pWorld; }
-	CCamera&		GetCamera()				{ return *m_pCamera; }
+    CHostClient&    GetClient()             { return *m_pHostClient; }
+    CWorld&         GetWorld()              { return *m_pWorld; }
+    CCamera&        GetCamera()             { return *m_pCamera; }
 
-	bool			LoadWorld(const tstring &sWorldName);
+    bool            LoadWorld(const tstring &sWorldName);
 
-	bool			TraceCursor(STraceInfo &result, int iIgnoreSurface);
-	bool			TracePoint(STraceInfo &result, int iIgnoreSurface, CVec2f point);
+    bool            TraceCursor(STraceInfo &result, int iIgnoreSurface);
+    bool            TracePoint(STraceInfo &result, int iIgnoreSurface, CVec2f point);
 
-	void			UpdateCamera();
-	void			CenterCamera(const CVec3f &v3Pos);
-	void			SetCameraPosition(const CVec3f &v3Pos);
-	void			SetCameraAngles(const CVec3f &v3Angles);
-	void			ShiftCamera(float fShift)		{ m_fCameraShift += fShift; }
-	void			AdjustCameraPitch(float fPitch);
-	void			AdjustCameraYaw(float fYaw);
+    void            UpdateCamera();
+    void            CenterCamera(const CVec3f &v3Pos);
+    void            SetCameraPosition(const CVec3f &v3Pos);
+    void            SetCameraAngles(const CVec3f &v3Angles);
+    void            ShiftCamera(float fShift)       { m_fCameraShift += fShift; }
+    void            AdjustCameraPitch(float fPitch);
+    void            AdjustCameraYaw(float fYaw);
 
-	void			SetTextureScale(float fScale);
-	void			SetFancyName(const tstring &sFancyName);
-	
-	void			UpdateMinimapTexture();
-	void			RenderMinimapBitmap(CBitmap &cMinimap);
+    void            SetTextureScale(float fScale);
+    void            SetFancyName(const tstring &sFancyName);
+    
+    void            UpdateMinimapTexture();
+    void            RenderMinimapBitmap(CBitmap &cMinimap);
 
-	void			UpdateScripts();
-	void			UpdateImportedFiles();
+    void            UpdateScripts();
+    void            UpdateImportedFiles();
 
-	void			PathSetStart();
-	void			PathSetEnd();
-	void			PathClear();
-	void			PathSpam();
-	void			Path(const CVec2f &v2Start, const CVec2f &v2End);
+    void            PathSetStart();
+    void            PathSetEnd();
+    void            PathClear();
+    void            PathSpam();
+    void            Path(const CVec2f &v2Start, const CVec2f &v2End);
 
-	void			DebugRender();
+    void            DebugRender();
 
-	bool			GetLookAtPoint(CVec3f &v3Pos);
+    bool            GetLookAtPoint(CVec3f &v3Pos);
 
-	void			RulerStart();
-	void			RulerEnd();
-	bool			IsRulerActive()		{ return m_bRuler; }
-	CVec3f			GetRulerStart()		{ return m_v3RulerStart; }
-	CVec3f			GetRulerEnd()		{ return m_v3RulerEnd; }
-	void			RulerPointCreate();
+    void            RulerStart();
+    void            RulerEnd();
+    bool            IsRulerActive()     { return m_bRuler; }
+    CVec3f          GetRulerStart()     { return m_v3RulerStart; }
+    CVec3f          GetRulerEnd()       { return m_v3RulerEnd; }
+    void            RulerPointCreate();
 
 };
 //=============================================================================

@@ -45,120 +45,120 @@ m_uiBlockerIndex(INVALID_INDEX)
 /*====================
   CPropTree::Spawn
   ====================*/
-void	CPropTree::Spawn()
+void    CPropTree::Spawn()
 {
-	IBitEntity::Spawn();
+    IBitEntity::Spawn();
 
-	if (m_uiWorldIndex == INVALID_INDEX || !Game.WorldEntityExists(m_uiWorldIndex))
-		return;
+    if (m_uiWorldIndex == INVALID_INDEX || !Game.WorldEntityExists(m_uiWorldIndex))
+        return;
 
-	CWorldEntity *pWorldEnt(Game.GetWorldEntity(m_uiWorldIndex));
-	if (pWorldEnt == NULL)
-		return;
+    CWorldEntity *pWorldEnt(Game.GetWorldEntity(m_uiWorldIndex));
+    if (pWorldEnt == NULL)
+        return;
 
-	float fOcclusionRadius(GetOcclusionRadius());
+    float fOcclusionRadius(GetOcclusionRadius());
 
-	m_bbBounds.SetCylinder(GetBoundsRadius(), GetBoundsHeight());
+    m_bbBounds.SetCylinder(GetBoundsRadius(), GetBoundsHeight());
 
-	pWorldEnt->SetBounds(m_bbBounds);
-	pWorldEnt->SetModelHandle(Game.RegisterModel(pWorldEnt->GetModelPath()));
+    pWorldEnt->SetBounds(m_bbBounds);
+    pWorldEnt->SetModelHandle(Game.RegisterModel(pWorldEnt->GetModelPath()));
 
-	if (Game.IsServer())
-		NetworkResourceManager.GetNetIndex(pWorldEnt->GetModelHandle());
+    if (Game.IsServer())
+        NetworkResourceManager.GetNetIndex(pWorldEnt->GetModelHandle());
 
-	pWorldEnt->SetOcclusionRadius(fOcclusionRadius);
+    pWorldEnt->SetOcclusionRadius(fOcclusionRadius);
 
-	Game.LinkEntity(pWorldEnt->GetIndex(), LINK_BOUNDS | LINK_RENDER, SURF_TREE | SURF_STATIC);
+    Game.LinkEntity(pWorldEnt->GetIndex(), LINK_BOUNDS | LINK_RENDER, SURF_TREE | SURF_STATIC);
 
-	Activate();
+    Activate();
 }
 
 
 /*====================
   CPropTree::Activate
   ====================*/
-void	CPropTree::Activate()
+void    CPropTree::Activate()
 {
-	if (m_uiBlockerIndex != INVALID_INDEX)
-	{
-		Game.ClearPath(m_uiBlockerIndex);
-		m_uiBlockerIndex = INVALID_INDEX;
-	}
+    if (m_uiBlockerIndex != INVALID_INDEX)
+    {
+        Game.ClearPath(m_uiBlockerIndex);
+        m_uiBlockerIndex = INVALID_INDEX;
+    }
 
-	CWorldEntity *pWorldEnt(Game.GetWorldEntity(m_uiWorldIndex));
-	if (pWorldEnt == NULL)
-		return;
+    CWorldEntity *pWorldEnt(Game.GetWorldEntity(m_uiWorldIndex));
+    if (pWorldEnt == NULL)
+        return;
 
-	pWorldEnt->SetSurfFlags(pWorldEnt->GetSurfFlags() & ~SURF_IGNORE);
+    pWorldEnt->SetSurfFlags(pWorldEnt->GetSurfFlags() & ~SURF_IGNORE);
 
-	float fOcclusionRadius(GetOcclusionRadius());
+    float fOcclusionRadius(GetOcclusionRadius());
 
-	m_uiBlockerIndex = Game.BlockPath(NAVIGATION_TREE, pWorldEnt->GetPosition().xy() - CVec2f(fOcclusionRadius), fOcclusionRadius * 2.0f, fOcclusionRadius * 2.0f);
+    m_uiBlockerIndex = Game.BlockPath(NAVIGATION_TREE, pWorldEnt->GetPosition().xy() - CVec2f(fOcclusionRadius), fOcclusionRadius * 2.0f, fOcclusionRadius * 2.0f);
 
-	Game.AddOccludeRegion(pWorldEnt->GetPosition(), fOcclusionRadius);
+    Game.AddOccludeRegion(pWorldEnt->GetPosition(), fOcclusionRadius);
 
-	SetVisibilityFlags(VIS_SIGHTED(1));
-	SetVisibilityFlags(VIS_SIGHTED(2));
+    SetVisibilityFlags(VIS_SIGHTED(1));
+    SetVisibilityFlags(VIS_SIGHTED(2));
 
-	m_yStatus = ENTITY_STATUS_ACTIVE;
+    m_yStatus = ENTITY_STATUS_ACTIVE;
 }
 
 
 /*====================
   CPropTree::Deactivate
   ====================*/
-void	CPropTree::Deactivate()
+void    CPropTree::Deactivate()
 {
-	CWorldEntity *pWorldEnt(Game.GetWorldEntity(m_uiWorldIndex));
-	if (pWorldEnt == NULL)
-		return;
+    CWorldEntity *pWorldEnt(Game.GetWorldEntity(m_uiWorldIndex));
+    if (pWorldEnt == NULL)
+        return;
 
-	pWorldEnt->SetSurfFlags(pWorldEnt->GetSurfFlags() | SURF_IGNORE);
+    pWorldEnt->SetSurfFlags(pWorldEnt->GetSurfFlags() | SURF_IGNORE);
 
-	if (m_uiBlockerIndex != INVALID_INDEX)
-	{
-		Game.ClearPath(m_uiBlockerIndex);
-		m_uiBlockerIndex = INVALID_INDEX;
-	}
+    if (m_uiBlockerIndex != INVALID_INDEX)
+    {
+        Game.ClearPath(m_uiBlockerIndex);
+        m_uiBlockerIndex = INVALID_INDEX;
+    }
 
-	float fOcclusionRadius(GetOcclusionRadius());
+    float fOcclusionRadius(GetOcclusionRadius());
 
-	Game.RemoveOccludeRegion(pWorldEnt->GetPosition(), fOcclusionRadius);
+    Game.RemoveOccludeRegion(pWorldEnt->GetPosition(), fOcclusionRadius);
 
-	ClearVisibilityFlags();
-	
-	m_yStatus = ENTITY_STATUS_DORMANT;
+    ClearVisibilityFlags();
+    
+    m_yStatus = ENTITY_STATUS_DORMANT;
 
-	ReleaseBinds();
+    ReleaseBinds();
 }
 
 
 /*====================
   CPropTree::IsTargetType
   ====================*/
-bool	CPropTree::IsTargetType(const CTargetScheme::STestRecord &test, const IUnitEntity *pInitiator) const
+bool    CPropTree::IsTargetType(const CTargetScheme::STestRecord &test, const IUnitEntity *pInitiator) const
 {
-	if (test.m_eTest == CTargetScheme::TARGET_SCHEME_TEST_TRAIT && test.m_eTrait == TARGET_TRAIT_TREE)
-		return true;
-	if (test.m_eTest == CTargetScheme::TARGET_SCHEME_TEST_NOT_TRAIT && test.m_eTrait == TARGET_TRAIT_TREE)
-		return false;
-	
-	return IUnitEntity::IsTargetType(test, pInitiator);
+    if (test.m_eTest == CTargetScheme::TARGET_SCHEME_TEST_TRAIT && test.m_eTrait == TARGET_TRAIT_TREE)
+        return true;
+    if (test.m_eTest == CTargetScheme::TARGET_SCHEME_TEST_NOT_TRAIT && test.m_eTrait == TARGET_TRAIT_TREE)
+        return false;
+    
+    return IUnitEntity::IsTargetType(test, pInitiator);
 }
 
 
 /*====================
   IVisualEntity::GetApproachPosition
   ====================*/
-CVec3f	CPropTree::GetApproachPosition(const CVec3f &v3Start, const CBBoxf &bbBounds)
+CVec3f  CPropTree::GetApproachPosition(const CVec3f &v3Start, const CBBoxf &bbBounds)
 {
-	// construct our world space bounding box.
-	CVec3f v3Extents(0.5f*GetBounds().GetDim(X), 0.5f*GetBounds().GetDim(Y), 0.0f);
-	CBBoxf bbWorldspace;
-	bbWorldspace.AddPoint(m_v3Position + v3Extents);
-	bbWorldspace.AddPoint(m_v3Position - v3Extents);
+    // construct our world space bounding box.
+    CVec3f v3Extents(0.5f*GetBounds().GetDim(X), 0.5f*GetBounds().GetDim(Y), 0.0f);
+    CBBoxf bbWorldspace;
+    bbWorldspace.AddPoint(m_v3Position + v3Extents);
+    bbWorldspace.AddPoint(m_v3Position - v3Extents);
 
-	// the approach position is the start position clamped to our world space bounding box.
-	return bbWorldspace.Clamp(v3Start);
+    // the approach position is the start position clamped to our world space bounding box.
+    return bbWorldspace.Clamp(v3Start);
 }
 

@@ -17,13 +17,13 @@
 class CBuildingCharmShrine : public IBuildingEntity
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Building, CharmShrine)
+    DECLARE_ENT_ALLOCATOR2(Building, CharmShrine)
 
 public:
-	~CBuildingCharmShrine()	{}
-	CBuildingCharmShrine() :
-	IBuildingEntity(GetEntityConfig())
-	{}
+    ~CBuildingCharmShrine() {}
+    CBuildingCharmShrine() :
+    IBuildingEntity(GetEntityConfig())
+    {}
 };
 //=============================================================================
 

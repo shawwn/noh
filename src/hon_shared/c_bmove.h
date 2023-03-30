@@ -19,24 +19,24 @@ class CBMove : public IBehavior
 private:
 
 public:
-	CBMove() :
-	IBehavior(EBT_MOVE)
-	{ }
+    CBMove() :
+    IBehavior(EBT_MOVE)
+    { }
 
-	virtual void		CopyFrom(const IBehavior* pBehavior);
-	virtual IBehavior*	Clone(CBrain* pNewBrain, IUnitEntity* pNewSelf) const;
+    virtual void        CopyFrom(const IBehavior* pBehavior);
+    virtual IBehavior*  Clone(CBrain* pNewBrain, IUnitEntity* pNewSelf) const;
 
-	virtual bool	Validate();
-	virtual void	Update();
-	virtual void	BeginBehavior();
-	virtual void	EndBehavior();
-	virtual void	ThinkFrame();
-	virtual void	MovementFrame();
-	virtual void	ActionFrame() {}
-	virtual void	CleanupFrame();
-	virtual void	Moved();
+    virtual bool    Validate();
+    virtual void    Update();
+    virtual void    BeginBehavior();
+    virtual void    EndBehavior();
+    virtual void    ThinkFrame();
+    virtual void    MovementFrame();
+    virtual void    ActionFrame() {}
+    virtual void    CleanupFrame();
+    virtual void    Moved();
 
-	virtual bool	IsTraveling() const		{ return true; }
+    virtual bool    IsTraveling() const     { return true; }
 };
 //=============================================================================
 

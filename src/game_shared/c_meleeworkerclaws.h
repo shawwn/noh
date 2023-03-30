@@ -17,13 +17,13 @@
 class CMeleeWorkerClaws : public IMeleeItem
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Melee, WorkerClaws);
+    DECLARE_ENT_ALLOCATOR2(Melee, WorkerClaws);
 
 public:
-	~CMeleeWorkerClaws()	{}
-	CMeleeWorkerClaws() :
-	IMeleeItem(GetEntityConfig())
-	{}
+    ~CMeleeWorkerClaws()    {}
+    CMeleeWorkerClaws() :
+    IMeleeItem(GetEntityConfig())
+    {}
 };
 //=============================================================================
 

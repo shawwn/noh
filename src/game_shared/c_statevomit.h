@@ -17,21 +17,21 @@
 class CStateVomit : public IEntityState
 {
 private:
-	START_ENTITY_CONFIG(IEntityState)
-		DECLARE_ENTITY_CVAR(float, DamagePerSecond)
-		DECLARE_ENTITY_CVAR(float, ArmorAdd)
-		DECLARE_ENTITY_CVAR(float, ArmorMult)
-	END_ENTITY_CONFIG
+    START_ENTITY_CONFIG(IEntityState)
+        DECLARE_ENTITY_CVAR(float, DamagePerSecond)
+        DECLARE_ENTITY_CVAR(float, ArmorAdd)
+        DECLARE_ENTITY_CVAR(float, ArmorMult)
+    END_ENTITY_CONFIG
 
-	CEntityConfig*	m_pEntityConfig;
+    CEntityConfig*  m_pEntityConfig;
 
-	DECLARE_ENT_ALLOCATOR2(State, Vomit);
+    DECLARE_ENT_ALLOCATOR2(State, Vomit);
 
 public:
-	~CStateVomit()	{}
-	CStateVomit();
+    ~CStateVomit()  {}
+    CStateVomit();
 
-	void	StateFrame();
+    void    StateFrame();
 };
 //=============================================================================
 

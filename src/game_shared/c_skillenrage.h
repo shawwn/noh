@@ -17,13 +17,13 @@
 class CSkillEnrage : public ISkillSelfBuff
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Skill, Enrage)
+    DECLARE_ENT_ALLOCATOR2(Skill, Enrage)
 
 public:
-	~CSkillEnrage()	{}
-	CSkillEnrage() :
-	ISkillSelfBuff(GetEntityConfig())
-	{}
+    ~CSkillEnrage() {}
+    CSkillEnrage() :
+    ISkillSelfBuff(GetEntityConfig())
+    {}
 };
 //=============================================================================
 

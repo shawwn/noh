@@ -17,13 +17,13 @@
 class CGunShotgun : public IGunItem
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Gun, Shotgun);
+    DECLARE_ENT_ALLOCATOR2(Gun, Shotgun);
 
 public:
-	~CGunShotgun()	{}
-	CGunShotgun() :
-	IGunItem(GetEntityConfig())
-	{}
+    ~CGunShotgun()  {}
+    CGunShotgun() :
+    IGunItem(GetEntityConfig())
+    {}
 };
 //=============================================================================
 

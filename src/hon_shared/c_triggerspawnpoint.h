@@ -17,15 +17,15 @@
 class CTriggerSpawnPoint : public IVisualEntity
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Trigger, SpawnPoint);
+    DECLARE_ENT_ALLOCATOR2(Trigger, SpawnPoint);
 
 public:
-	~CTriggerSpawnPoint()	{}
-	CTriggerSpawnPoint()	{}
+    ~CTriggerSpawnPoint()   {}
+    CTriggerSpawnPoint()    {}
 
-	virtual bool		IsServerEntity() const			{ return true; }
+    virtual bool        IsServerEntity() const          { return true; }
 
-	virtual void		ApplyWorldEntity(const CWorldEntity &ent);
+    virtual void        ApplyWorldEntity(const CWorldEntity &ent);
 };
 //=============================================================================
 

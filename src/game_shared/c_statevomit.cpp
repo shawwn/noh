@@ -37,19 +37,19 @@ CStateVomit::CStateVomit() :
 IEntityState(GetEntityConfig()),
 m_pEntityConfig(GetEntityConfig())
 {
-	m_modArmor.Set(m_pEntityConfig->GetArmorAdd(), m_pEntityConfig->GetArmorMult(), 0.0f);
+    m_modArmor.Set(m_pEntityConfig->GetArmorAdd(), m_pEntityConfig->GetArmorMult(), 0.0f);
 }
 
 
 /*====================
   CStateVomit::StateFrame
   ====================*/
-void	CStateVomit::StateFrame()
+void    CStateVomit::StateFrame()
 {
-	IVisualEntity *pInflictor(Game.GetVisualEntity(m_uiInflictorIndex));
-	IVisualEntity *pOwner(Game.GetVisualEntity(m_uiOwnerIndex));
-	if (pOwner != NULL)
-		pOwner->Damage(m_pEntityConfig->GetDamagePerSecond() * MsToSec(Game.GetFrameLength()), DAMAGE_FLAG_DIRECT, pInflictor, m_unDamageID);
+    IVisualEntity *pInflictor(Game.GetVisualEntity(m_uiInflictorIndex));
+    IVisualEntity *pOwner(Game.GetVisualEntity(m_uiOwnerIndex));
+    if (pOwner != NULL)
+        pOwner->Damage(m_pEntityConfig->GetDamagePerSecond() * MsToSec(Game.GetFrameLength()), DAMAGE_FLAG_DIRECT, pInflictor, m_unDamageID);
 
-	return;
+    return;
 }

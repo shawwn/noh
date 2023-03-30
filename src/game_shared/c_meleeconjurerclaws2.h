@@ -17,13 +17,13 @@
 class CMeleeConjurerClaws2 : public IMeleeItem
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Melee, ConjurerClaws2);
+    DECLARE_ENT_ALLOCATOR2(Melee, ConjurerClaws2);
 
 public:
-	~CMeleeConjurerClaws2()	{}
-	CMeleeConjurerClaws2() :
-	IMeleeItem(GetEntityConfig())
-	{}
+    ~CMeleeConjurerClaws2() {}
+    CMeleeConjurerClaws2() :
+    IMeleeItem(GetEntityConfig())
+    {}
 };
 //=============================================================================
 

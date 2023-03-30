@@ -27,17 +27,17 @@
 #ifndef __GNUC__
 #pragma message("*** Unicode is enabled ***")
 #endif
-#define WideToTCHAR(out, size, in, len)		WCSNCPY_S(out, size, in, len)
-#define TCHARToWide(out, size, in, len)		WCSNCPY_S(out, sizem in, len)
-#define SingleToTCHAR(out, size, in, len)	SingleToWide(out, in, len)
-#define TCHARToSingle(out, size, in, len)	WideToSingle(out, in, len)
+#define WideToTCHAR(out, size, in, len)     WCSNCPY_S(out, size, in, len)
+#define TCHARToWide(out, size, in, len)     WCSNCPY_S(out, sizem in, len)
+#define SingleToTCHAR(out, size, in, len)   SingleToWide(out, in, len)
+#define TCHARToSingle(out, size, in, len)   WideToSingle(out, in, len)
 
-#define TStringToString(in)			WideToSingle(in)
-#define StringToTString(in)			SingleToWide(in)
-#define WStringToTString(in)		(in)
-#define TStringToWString(in)		(in)
+#define TStringToString(in)         WideToSingle(in)
+#define StringToTString(in)         SingleToWide(in)
+#define WStringToTString(in)        (in)
+#define TStringToWString(in)        (in)
 
-#define StrToTString(out, in)		{ size_t z(strlen(in) + 1); TCHAR *pBuffer(K2_NEW_ARRAY(ctx_FileSystem, TCHAR, z)); SingleToWide(pBuffer, (in), z); (out) = pBuffer; SAFE_DELETE_ARRAY(pBuffer); }
+#define StrToTString(out, in)       { size_t z(strlen(in) + 1); TCHAR *pBuffer(K2_NEW_ARRAY(ctx_FileSystem, TCHAR, z)); SingleToWide(pBuffer, (in), z); (out) = pBuffer; SAFE_DELETE_ARRAY(pBuffer); }
 
 #ifdef _WIN32
 // system libraries use wchar_t versions
@@ -63,17 +63,17 @@
 #ifndef __GNUC__
 #pragma message("*** Unicode is disabled ***")
 #endif
-#define WideToTCHAR(out, size, in, len)		WideToSingle(out, in, len)
-#define TCHARToWide(out, size, in, len)		SingleToWide(out, in, len)
-#define SingleToTCHAR(out, size, in, len)	STRNCPY_S(out, size, in, len)
-#define TCHARToSingle(out, size, in, len)	STRNCPY_S(out, size, in, len)
+#define WideToTCHAR(out, size, in, len)     WideToSingle(out, in, len)
+#define TCHARToWide(out, size, in, len)     SingleToWide(out, in, len)
+#define SingleToTCHAR(out, size, in, len)   STRNCPY_S(out, size, in, len)
+#define TCHARToSingle(out, size, in, len)   STRNCPY_S(out, size, in, len)
 
-#define TStringToString(in)			(in)
-#define StringToTString(in)			(in)
-#define WStringToTString(in)		WideToSingle(in)
-#define TStringToWString(in)		SingleToWide(in)
+#define TStringToString(in)         (in)
+#define StringToTString(in)         (in)
+#define WStringToTString(in)        WideToSingle(in)
+#define TStringToWString(in)        SingleToWide(in)
 
-#define StrToTString(out, in)		{ if ((in) != NULL) (out) = (in); }
+#define StrToTString(out, in)       { if ((in) != NULL) (out) = (in); }
 
 #define NativeToTString(in) (in)
 #define TStringToNative(in) (in)
@@ -82,15 +82,15 @@
 #endif //_UNICODE
 
 #ifdef UNICODE
-#define XtoA			XtoW
-#define FormatTime		FormatTimeW
-#define UTF8ToTString	UTF8ToWString
-#define TStringToUTF8	WStringToUTF8
+#define XtoA            XtoW
+#define FormatTime      FormatTimeW
+#define UTF8ToTString   UTF8ToWString
+#define TStringToUTF8   WStringToUTF8
 #else
-#define XtoA			XtoS
-#define FormatTime		FormatTimeS
-#define UTF8ToTString	UTF8ToString
-#define TStringToUTF8	StringToUTF8
+#define XtoA            XtoS
+#define FormatTime      FormatTimeS
+#define UTF8ToTString   UTF8ToString
+#define TStringToUTF8   StringToUTF8
 #endif
 
 #ifdef _WIN32
@@ -109,9 +109,9 @@
 #include <fstream>
 
 #ifdef _WIN32
-#define	tfopen( path, mode )		_wfopen( path, _T( mode ) )
+#define tfopen( path, mode )        _wfopen( path, _T( mode ) )
 #else
-#define	tfopen( path, mode )		fopen( path, mode )
+#define tfopen( path, mode )        fopen( path, mode )
 #endif
 //=============================================================================
 

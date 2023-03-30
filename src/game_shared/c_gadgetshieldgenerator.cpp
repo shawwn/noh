@@ -17,7 +17,7 @@
 //=============================================================================
 DEFINE_ENT_ALLOCATOR2(Gadget, ShieldGenerator)
 
-CVAR_FLOATF(	g_expShieldBlockedProjectile,	5.0f,	CVAR_GAMECONFIG);
+CVAR_FLOATF(    g_expShieldBlockedProjectile,   5.0f,   CVAR_GAMECONFIG);
 //=============================================================================
 
 /*====================
@@ -34,11 +34,11 @@ INIT_ENTITY_CVAR(ShieldSurfaceModelPath, _T(""))
   ====================*/
 CGadgetShieldGenerator::~CGadgetShieldGenerator()
 {
-	if (m_uiShieldSurfaceWorldIndex != INVALID_INDEX && Game.WorldEntityExists(m_uiShieldSurfaceWorldIndex))
-	{
-		Game.UnlinkEntity(m_uiShieldSurfaceWorldIndex);
-		Game.DeleteWorldEntity(m_uiShieldSurfaceWorldIndex);
-	}
+    if (m_uiShieldSurfaceWorldIndex != INVALID_INDEX && Game.WorldEntityExists(m_uiShieldSurfaceWorldIndex))
+    {
+        Game.UnlinkEntity(m_uiShieldSurfaceWorldIndex);
+        Game.DeleteWorldEntity(m_uiShieldSurfaceWorldIndex);
+    }
 }
 
 
@@ -51,159 +51,159 @@ m_pEntityConfig(GetEntityConfig()),
 
 m_uiShieldSurfaceWorldIndex(INVALID_INDEX)
 {
-	m_vCounterLabels.push_back(_T("Deflections"));
-	m_auiCounter[0] = 0;
+    m_vCounterLabels.push_back(_T("Deflections"));
+    m_auiCounter[0] = 0;
 }
 
 
 /*====================
   CGadgetShieldGenerator::Baseline
   ====================*/
-void	CGadgetShieldGenerator::Baseline()
+void    CGadgetShieldGenerator::Baseline()
 {
-	IGadgetEntity::Baseline();
-	m_auiCounter[0] = 0;
+    IGadgetEntity::Baseline();
+    m_auiCounter[0] = 0;
 }
 
 
 /*====================
   CGadgetShieldGenerator::Spawn
   ====================*/
-void	CGadgetShieldGenerator::Spawn()
+void    CGadgetShieldGenerator::Spawn()
 {
-	m_uiShieldSurfaceWorldIndex = Game.AllocateNewWorldEntity();
-	CWorldEntity *pWorldEnt(Game.GetWorldEntity(m_uiShieldSurfaceWorldIndex));
-	if (pWorldEnt == NULL)
-	{
-		m_uiShieldSurfaceWorldIndex = INVALID_INDEX;
-		return;
-	}
+    m_uiShieldSurfaceWorldIndex = Game.AllocateNewWorldEntity();
+    CWorldEntity *pWorldEnt(Game.GetWorldEntity(m_uiShieldSurfaceWorldIndex));
+    if (pWorldEnt == NULL)
+    {
+        m_uiShieldSurfaceWorldIndex = INVALID_INDEX;
+        return;
+    }
 
-	m_hShieldSurfaceModel = Game.RegisterModel(m_pEntityConfig->GetShieldSurfaceModelPath());
+    m_hShieldSurfaceModel = Game.RegisterModel(m_pEntityConfig->GetShieldSurfaceModelPath());
 
-	pWorldEnt->SetPosition(GetPosition());
-	pWorldEnt->SetScale(GetScale());
-	pWorldEnt->SetScale2(GetScale2());
-	pWorldEnt->SetAngles(GetAngles());
-	pWorldEnt->SetGameIndex(GetIndex());
-	pWorldEnt->SetModelHandle(m_hShieldSurfaceModel);
-	pWorldEnt->SetTeam(GetTeam());
+    pWorldEnt->SetPosition(GetPosition());
+    pWorldEnt->SetScale(GetScale());
+    pWorldEnt->SetScale2(GetScale2());
+    pWorldEnt->SetAngles(GetAngles());
+    pWorldEnt->SetGameIndex(GetIndex());
+    pWorldEnt->SetModelHandle(m_hShieldSurfaceModel);
+    pWorldEnt->SetTeam(GetTeam());
 
-	IGadgetEntity::Spawn();
+    IGadgetEntity::Spawn();
 }
 
 
 /*====================
   CGadgetShieldGenerator::Link
   ====================*/
-void	CGadgetShieldGenerator::Link()
+void    CGadgetShieldGenerator::Link()
 {
-	IGadgetEntity::Link();
+    IGadgetEntity::Link();
 
-	if (m_uiShieldSurfaceWorldIndex == INVALID_INDEX)
-		return;
+    if (m_uiShieldSurfaceWorldIndex == INVALID_INDEX)
+        return;
 
-	CWorldEntity *pWorldEnt(Game.GetWorldEntity(m_uiShieldSurfaceWorldIndex));
-	if (pWorldEnt == NULL)
-		return;
-	
-	pWorldEnt->SetPosition(GetPosition());
-	pWorldEnt->SetScale(GetScale());
-	pWorldEnt->SetScale2(GetScale2());
-	pWorldEnt->SetAngles(GetAngles());
-	pWorldEnt->SetModelHandle(m_hShieldSurfaceModel);
-	Game.LinkEntity(m_uiShieldSurfaceWorldIndex, LINK_SURFACE, SURF_SHIELD);
+    CWorldEntity *pWorldEnt(Game.GetWorldEntity(m_uiShieldSurfaceWorldIndex));
+    if (pWorldEnt == NULL)
+        return;
+    
+    pWorldEnt->SetPosition(GetPosition());
+    pWorldEnt->SetScale(GetScale());
+    pWorldEnt->SetScale2(GetScale2());
+    pWorldEnt->SetAngles(GetAngles());
+    pWorldEnt->SetModelHandle(m_hShieldSurfaceModel);
+    Game.LinkEntity(m_uiShieldSurfaceWorldIndex, LINK_SURFACE, SURF_SHIELD);
 }
 
 
 /*====================
   CGadgetShieldGenerator::Unlink
   ====================*/
-void	CGadgetShieldGenerator::Unlink()
+void    CGadgetShieldGenerator::Unlink()
 {
-	IGadgetEntity::Unlink();
+    IGadgetEntity::Unlink();
 
-	if (m_uiShieldSurfaceWorldIndex != INVALID_INDEX)
-		Game.UnlinkEntity(m_uiShieldSurfaceWorldIndex);
+    if (m_uiShieldSurfaceWorldIndex != INVALID_INDEX)
+        Game.UnlinkEntity(m_uiShieldSurfaceWorldIndex);
 }
 
 
 /*====================
   CGadgetShieldGenerator::Impact
   ====================*/
-bool	CGadgetShieldGenerator::Impact(STraceInfo &trace, IVisualEntity *pSource)
+bool    CGadgetShieldGenerator::Impact(STraceInfo &trace, IVisualEntity *pSource)
 {
-	if (trace.uiEntityIndex != m_uiShieldSurfaceWorldIndex)
-		return true;
-	
-	if (pSource != NULL && pSource->GetTeam() != GetTeam() && m_setReflected.find(pSource->GetIndex()) == m_setReflected.end())
-	{
-		IPlayerEntity *pOwner(Game.GetPlayerEntity(m_uiOwnerIndex));
-		if (pOwner != NULL)
-		{
-			pOwner->GiveExperience(g_expShieldBlockedProjectile, trace.v3EndPos);
-			m_fTotalExperience += g_expShieldBlockedProjectile;
-			++m_auiCounter[SHIELD_COUNTER_SHOTS_DEFLECTED];
-		}
+    if (trace.uiEntityIndex != m_uiShieldSurfaceWorldIndex)
+        return true;
+    
+    if (pSource != NULL && pSource->GetTeam() != GetTeam() && m_setReflected.find(pSource->GetIndex()) == m_setReflected.end())
+    {
+        IPlayerEntity *pOwner(Game.GetPlayerEntity(m_uiOwnerIndex));
+        if (pOwner != NULL)
+        {
+            pOwner->GiveExperience(g_expShieldBlockedProjectile, trace.v3EndPos);
+            m_fTotalExperience += g_expShieldBlockedProjectile;
+            ++m_auiCounter[SHIELD_COUNTER_SHOTS_DEFLECTED];
+        }
 
-		m_setReflected.insert(pSource->GetIndex());
-	}
+        m_setReflected.insert(pSource->GetIndex());
+    }
 
-	ResHandle hHitEffectPath(Game.RegisterEffect(GetHitByRangedEffectPath()));
+    ResHandle hHitEffectPath(Game.RegisterEffect(GetHitByRangedEffectPath()));
 
-	if (hHitEffectPath == INVALID_RESOURCE)
-		return false;
+    if (hHitEffectPath == INVALID_RESOURCE)
+        return false;
 
-	//TODO: Set up impact angle properly
-	CGameEvent evImpact;
-	evImpact.SetSourcePosition(trace.v3EndPos);
-	evImpact.SetEffect(hHitEffectPath);
-	Game.AddEvent(evImpact);
+    //TODO: Set up impact angle properly
+    CGameEvent evImpact;
+    evImpact.SetSourcePosition(trace.v3EndPos);
+    evImpact.SetEffect(hHitEffectPath);
+    Game.AddEvent(evImpact);
 
-	return false;
+    return false;
 }
 
 
 /*====================
   CGadgetShieldGenerator::Copy
   ====================*/
-void	CGadgetShieldGenerator::Copy(const IGameEntity &B)
+void    CGadgetShieldGenerator::Copy(const IGameEntity &B)
 {
-	IGadgetEntity::Copy(B);
+    IGadgetEntity::Copy(B);
 
-	if (GetType() != B.GetType())
-		return;
+    if (GetType() != B.GetType())
+        return;
 
-	const CGadgetShieldGenerator &C(static_cast<const CGadgetShieldGenerator&>(B));
-	m_uiShieldSurfaceWorldIndex =	C.m_uiShieldSurfaceWorldIndex;
+    const CGadgetShieldGenerator &C(static_cast<const CGadgetShieldGenerator&>(B));
+    m_uiShieldSurfaceWorldIndex =   C.m_uiShieldSurfaceWorldIndex;
 }
 
 
 /*====================
   CGadgetShieldGenerator::ClientPrecache
   ====================*/
-void	CGadgetShieldGenerator::ClientPrecache(CEntityConfig *pConfig)
+void    CGadgetShieldGenerator::ClientPrecache(CEntityConfig *pConfig)
 {
-	IGadgetEntity::ClientPrecache(pConfig);
+    IGadgetEntity::ClientPrecache(pConfig);
 
-	if (!pConfig)
-		return;
+    if (!pConfig)
+        return;
 
-	if (!pConfig->GetShieldSurfaceModelPath().empty())
-		g_ResourceManager.Register(pConfig->GetShieldSurfaceModelPath(), RES_MODEL);
+    if (!pConfig->GetShieldSurfaceModelPath().empty())
+        g_ResourceManager.Register(pConfig->GetShieldSurfaceModelPath(), RES_MODEL);
 }
 
 
 /*====================
   CGadgetShieldGenerator::ServerPrecache
   ====================*/
-void	CGadgetShieldGenerator::ServerPrecache(CEntityConfig *pConfig)
+void    CGadgetShieldGenerator::ServerPrecache(CEntityConfig *pConfig)
 {
-	IGadgetEntity::ServerPrecache(pConfig);
+    IGadgetEntity::ServerPrecache(pConfig);
 
-	if (!pConfig)
-		return;
+    if (!pConfig)
+        return;
 
-	if (!pConfig->GetShieldSurfaceModelPath().empty())
-		g_NetworkResourceManager.GetNetIndex(g_ResourceManager.Register(pConfig->GetShieldSurfaceModelPath(), RES_MODEL, RES_MODEL_SERVER));
+    if (!pConfig->GetShieldSurfaceModelPath().empty())
+        g_NetworkResourceManager.GetNetIndex(g_ResourceManager.Register(pConfig->GetShieldSurfaceModelPath(), RES_MODEL, RES_MODEL_SERVER));
 }

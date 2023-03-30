@@ -23,26 +23,26 @@ class CWorld;
 class CVertexBlockerMap : public IWorldComponent
 {
 private:
-	byte*			m_pVertexBlockers;
+    byte*           m_pVertexBlockers;
 
 public:
-	~CVertexBlockerMap();
-	CVertexBlockerMap(EWorldComponent eComponent);
+    ~CVertexBlockerMap();
+    CVertexBlockerMap(EWorldComponent eComponent);
 
-	bool	Load(CArchive &archive, const CWorld *pWorld);
-	bool	Generate(const CWorld *pWorld);
-	void	Release();
-	bool	Serialize(IBuffer *pBuffer);
+    bool    Load(CArchive &archive, const CWorld *pWorld);
+    bool    Generate(const CWorld *pWorld);
+    void    Release();
+    bool    Serialize(IBuffer *pBuffer);
 
-	bool	GetRegion(const CRecti &recArea, void *pDest, int iLayer) const;
-	bool	SetRegion(const CRecti &recArea, void *pSource, int iLayer);
+    bool    GetRegion(const CRecti &recArea, void *pDest, int iLayer) const;
+    bool    SetRegion(const CRecti &recArea, void *pSource, int iLayer);
 
-	byte*	GetBlockerMap() const	{ return m_pVertexBlockers; }
+    byte*   GetBlockerMap() const   { return m_pVertexBlockers; }
 
-	K2_API byte	GetBlockers(int x, int y);
-	K2_API void	SetBlockers(int x, int y, byte yBlockers);
+    K2_API byte GetBlockers(int x, int y);
+    K2_API void SetBlockers(int x, int y, byte yBlockers);
 
-	K2_API bool	CalcBlocked(const CRecti &recArea) const;
+    K2_API bool CalcBlocked(const CRecti &recArea) const;
 };
 //=============================================================================
 

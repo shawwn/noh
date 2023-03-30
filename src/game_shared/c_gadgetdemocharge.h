@@ -17,22 +17,22 @@
 class CGadgetDemoCharge : public IGadgetEntity
 {
 private:
-	START_ENTITY_CONFIG(IGadgetEntity)
-		DECLARE_ENTITY_CVAR(float, BlastRadius)
-		DECLARE_ENTITY_CVAR(float, BlastDamage)
-	END_ENTITY_CONFIG
+    START_ENTITY_CONFIG(IGadgetEntity)
+        DECLARE_ENTITY_CVAR(float, BlastRadius)
+        DECLARE_ENTITY_CVAR(float, BlastDamage)
+    END_ENTITY_CONFIG
 
-	CEntityConfig*	m_pEntityConfig;
+    CEntityConfig*  m_pEntityConfig;
 
-	DECLARE_ENT_ALLOCATOR2(Gadget, DemoCharge);
+    DECLARE_ENT_ALLOCATOR2(Gadget, DemoCharge);
 
 public:
-	~CGadgetDemoCharge()	{}
-	CGadgetDemoCharge();
-	
-	virtual void		Spawn();
+    ~CGadgetDemoCharge()    {}
+    CGadgetDemoCharge();
+    
+    virtual void        Spawn();
 
-	virtual bool		ServerFrame();
+    virtual bool        ServerFrame();
 };
 //=============================================================================
 

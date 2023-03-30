@@ -16,17 +16,17 @@
 //=============================================================================
 // Definitions
 //=============================================================================
-ELoadingDisplay	IModalDialog::s_eDisplay(LOADING_DISPLAY_NONE);
+ELoadingDisplay IModalDialog::s_eDisplay(LOADING_DISPLAY_NONE);
 
-CUITrigger	IModalDialog::s_triggerTitle(_T("LoadingTitle"));
-CUITrigger	IModalDialog::s_triggerProgress(_T("LoadingProgress"));
-CUITrigger	IModalDialog::s_triggerLoadingImage(_T("LoadingImage"));
-CUITrigger	IModalDialog::s_triggerVisible(_T("LoadingVisible"));
-uint		IModalDialog::s_uiLastUpdate(INVALID_TIME);
-uint		IModalDialog::s_uiNumLoadingJobs(1);
-uint		IModalDialog::s_uiLoadingJob(0);
-float		IModalDialog::s_fProgress(0.0f);
-tstring		IModalDialog::s_sLoadingInterface;
+CUITrigger  IModalDialog::s_triggerTitle(_T("LoadingTitle"));
+CUITrigger  IModalDialog::s_triggerProgress(_T("LoadingProgress"));
+CUITrigger  IModalDialog::s_triggerLoadingImage(_T("LoadingImage"));
+CUITrigger  IModalDialog::s_triggerVisible(_T("LoadingVisible"));
+uint        IModalDialog::s_uiLastUpdate(INVALID_TIME);
+uint        IModalDialog::s_uiNumLoadingJobs(1);
+uint        IModalDialog::s_uiLoadingJob(0);
+float       IModalDialog::s_fProgress(0.0f);
+tstring     IModalDialog::s_sLoadingInterface;
 //=============================================================================
 
 /*--------------------
@@ -34,12 +34,12 @@ tstring		IModalDialog::s_sLoadingInterface;
   --------------------*/
 CMD(HideModalDialog)
 {
-	IModalDialog::Hide();
+    IModalDialog::Hide();
 
-	return true;
+    return true;
 }
 
 UI_VOID_CMD(HideModalDialog, 0)
 {
-	IModalDialog::Hide();
+    IModalDialog::Hide();
 }

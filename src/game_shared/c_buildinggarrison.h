@@ -17,13 +17,13 @@
 class CBuildingGarrison : public IBuildingEntity
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Building, Garrison);
+    DECLARE_ENT_ALLOCATOR2(Building, Garrison);
 
 public:
-	~CBuildingGarrison()	{}
-	CBuildingGarrison();
+    ~CBuildingGarrison()    {}
+    CBuildingGarrison();
 
-	void	Use(IGameEntity *pActivator);
+    void    Use(IGameEntity *pActivator);
 };
 //=============================================================================
 

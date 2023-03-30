@@ -21,30 +21,30 @@ class CNavGridZ;
 class CNavGridUnits
 {
 private:
-	// Inverted from CNavGridZ -> 0 means passible, any greater value is a refcount of the blockers on the grid (impassible)
-	uint *m_pHorizontal;
-	uint *m_pVertical;
-	uint m_uiCnxnWidth, m_uiCnxnHeight;
-	uint m_uiIntsPerRow, m_uiIntsPerColumn;
-	CNavGridZ *m_pLinkedTo;
+    // Inverted from CNavGridZ -> 0 means passible, any greater value is a refcount of the blockers on the grid (impassible)
+    uint *m_pHorizontal;
+    uint *m_pVertical;
+    uint m_uiCnxnWidth, m_uiCnxnHeight;
+    uint m_uiIntsPerRow, m_uiIntsPerColumn;
+    CNavGridZ *m_pLinkedTo;
 
-	inline uint IntOffsetFromIndex(uint uiIndex) const;
-	inline uint MinMaskFromIndex(uint uiIndex) const;
-	inline uint MaxMaskFromIndex(uint uiIndex) const;
-	inline byte DwordToByte(uint uiRefCount);
+    inline uint IntOffsetFromIndex(uint uiIndex) const;
+    inline uint MinMaskFromIndex(uint uiIndex) const;
+    inline uint MaxMaskFromIndex(uint uiIndex) const;
+    inline byte DwordToByte(uint uiRefCount);
 
-	void UpdateLinked(uint uiMinSegmentX, uint uiMaxSegmentX, uint uiMinSegmentY, uint uiMaxSegmentY);
+    void UpdateLinked(uint uiMinSegmentX, uint uiMaxSegmentX, uint uiMinSegmentY, uint uiMaxSegmentY);
 
 public:
-	~CNavGridUnits();
-	CNavGridUnits(uint uiWidth, uint uiHeight);
+    ~CNavGridUnits();
+    CNavGridUnits(uint uiWidth, uint uiHeight);
 
-	void Reset();
-	void ClearBlocker(uint uiMinSegmentX, uint uiMaxSegmentX, uint uiMinSegmentY, uint uiMaxSegmentY);
-	void AddBlocker(uint uiMinSegmentX, uint uiMaxSegmentX, uint uiMinSegmentY, uint uiMaxSegmentY);
+    void Reset();
+    void ClearBlocker(uint uiMinSegmentX, uint uiMaxSegmentX, uint uiMinSegmentY, uint uiMaxSegmentY);
+    void AddBlocker(uint uiMinSegmentX, uint uiMaxSegmentX, uint uiMinSegmentY, uint uiMaxSegmentY);
 
-	void Standardize(CNavGridZ *pStandardGrid);
-	void LinkTo(CNavGridZ *pStandardGrid);
+    void Standardize(CNavGridZ *pStandardGrid);
+    void LinkTo(CNavGridZ *pStandardGrid);
 };
 //=============================================================================
 

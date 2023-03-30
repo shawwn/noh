@@ -42,9 +42,9 @@ CPool<CPointRenderer> CPointRenderer::s_Pool(1, -1);
 /*====================
   CPointRenderer::operator new
   ====================*/
-void*	CPointRenderer::operator new(size_t z)
+void*   CPointRenderer::operator new(size_t z)
 {
-	return s_Pool.Allocate();
+    return s_Pool.Allocate();
 }
 
 
@@ -68,27 +68,27 @@ CPointRenderer::~CPointRenderer()
 /*====================
   CPointRenderer::Render
   ====================*/
-void	CPointRenderer::Render(EMaterialPhase ePhase)
+void    CPointRenderer::Render(EMaterialPhase ePhase)
 {
-	PROFILE("CPointRenderer::Render");
+    PROFILE("CPointRenderer::Render");
 
-	if (!m_bRender)
-		return;
+    if (!m_bRender)
+        return;
 
-	SetShaderVars();
+    SetShaderVars();
 
-	D3D_SetStreamSource(0, g_pVBPoint, 0, sizeof(SLineVertex));
+    D3D_SetStreamSource(0, g_pVBPoint, 0, sizeof(SLineVertex));
 
-	D3D_SelectMaterial(g_SimpleMaterial3DColored, ePhase, VERTEX_LINE, g_pCam->GetTime(), gfx_depthFirst);
+    D3D_SelectMaterial(g_SimpleMaterial3DColored, ePhase, VERTEX_LINE, g_pCam->GetTime(), gfx_depthFirst);
 
-	D3D_SetRenderState(D3DRS_POINTSIZE, D3D_DWORD(4.0f));
-	D3D_SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
-	D3D_SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
-	D3D_SetRenderState(D3DRS_ZENABLE, FALSE);
-	D3D_SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
-	D3D_SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
+    D3D_SetRenderState(D3DRS_POINTSIZE, D3D_DWORD(4.0f));
+    D3D_SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
+    D3D_SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
+    D3D_SetRenderState(D3DRS_ZENABLE, FALSE);
+    D3D_SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
+    D3D_SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
 
-	D3D_DrawPrimitive(D3DPT_POINTLIST, 0, m_iNumPoints);
+    D3D_DrawPrimitive(D3DPT_POINTLIST, 0, m_iNumPoints);
 
-	SceneStats.RecordBatch(m_iNumPoints, m_iNumPoints, ePhase, SSBATCH_DEBUG);
+    SceneStats.RecordBatch(m_iNumPoints, m_iNumPoints, ePhase, SSBATCH_DEBUG);
 }

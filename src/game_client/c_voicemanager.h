@@ -24,8 +24,8 @@ extern CCvari cg_voiceSampleSize;
 //=============================================================================
 const int VOICE_SAMPLE_RATE(11025);
 
-typedef map<int, CVoice*>			ClientVoiceMap;
-typedef ClientVoiceMap::iterator	ClientVoiceMap_it;
+typedef map<int, CVoice*>           ClientVoiceMap;
+typedef ClientVoiceMap::iterator    ClientVoiceMap_it;
 //=============================================================================
 
 //=============================================================================
@@ -34,39 +34,39 @@ typedef ClientVoiceMap::iterator	ClientVoiceMap_it;
 class CVoiceManager
 {
 private:
-	bool				m_bValid;
+    bool                m_bValid;
 
-	ICvar*				m_pSoundVoiceChatVolume;
+    ICvar*              m_pSoundVoiceChatVolume;
 
-	CVoice*				m_pLocalVoice;
-	ClientVoiceMap		m_mapPeerVoices;
+    CVoice*             m_pLocalVoice;
+    ClientVoiceMap      m_mapPeerVoices;
 
-	void*		 		m_pEncoder;
-	byte*				m_pEncodeBuffer;
-	uint				m_uiEncodeBufferLen;
+    void*               m_pEncoder;
+    byte*               m_pEncodeBuffer;
+    uint                m_uiEncodeBufferLen;
 
-	SpeexBits			m_bitsClientDecode;
-	SpeexBits			m_bitsClientEncode;
+    SpeexBits           m_bitsClientDecode;
+    SpeexBits           m_bitsClientEncode;
 
-	uint				m_uiVoiceDataRemaining;
+    uint                m_uiVoiceDataRemaining;
 
 public:
-	~CVoiceManager();
-	CVoiceManager();
+    ~CVoiceManager();
+    CVoiceManager();
 
-	void			StartRecording();
-	void			StopRecording();
+    void            StartRecording();
+    void            StopRecording();
 
-	void			SendData(uint uiBytes, const byte *pBuffer);
-	void			ReadData(int iClientIndex, uint uiLength, char *pData);
+    void            SendData(uint uiBytes, const byte *pBuffer);
+    void            ReadData(int iClientIndex, uint uiLength, char *pData);
 
-	void			Frame();
+    void            Frame();
 
-	CVoice*			AddClient(int iClientIndex);
-	void			RemoveClient(int iClientIndex);
-	CVoice*			GetClientVoice(int iClientIndex);
+    CVoice*         AddClient(int iClientIndex);
+    void            RemoveClient(int iClientIndex);
+    CVoice*         GetClientVoice(int iClientIndex);
 
-	void			StartTalking(int iClientIndex);
+    void            StartTalking(int iClientIndex);
 };
 //=============================================================================
 

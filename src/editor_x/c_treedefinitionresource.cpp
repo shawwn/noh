@@ -14,45 +14,45 @@
 #include "../k2/c_xmlmanager.h"
 //=============================================================================
 
-IResource*	AllocTreeDefinition(const tstring &sPath);
+IResource*  AllocTreeDefinition(const tstring &sPath);
 
 //=============================================================================
 // Globals
 //=============================================================================
-IResourceLibrary	g_ResLibTree(RES_TREE, _T("TreeDefinition"), true, AllocTreeDefinition);
+IResourceLibrary    g_ResLibTree(RES_TREE, _T("TreeDefinition"), true, AllocTreeDefinition);
 
 //=============================================================================
 // Definitions
 //=============================================================================
-IResource*	AllocTreeDefinition(const tstring &sPath)
+IResource*  AllocTreeDefinition(const tstring &sPath)
 {
-	return K2_NEW(g_heapResources,   CTreeDefinitionResource)(sPath);
+    return K2_NEW(g_heapResources,   CTreeDefinitionResource)(sPath);
 }
 
 /*====================
   CTreeDefinitionResource::Load
   ====================*/
-int		CTreeDefinitionResource::Load(uint uiIgnoreFlags, const char *pData, uint uiSize)
+int     CTreeDefinitionResource::Load(uint uiIgnoreFlags, const char *pData, uint uiSize)
 {
-	PROFILE("CTreeDefinitionResource::Load");
+    PROFILE("CTreeDefinitionResource::Load");
 
-	Console.Res << _T("Loading ^970Tree definition^*: ") << m_sPath << newl;
+    Console.Res << _T("Loading ^970Tree definition^*: ") << m_sPath << newl;
 
-	// Process the XML
-	if (!XMLManager.ReadBuffer(pData, uiSize, _T(""), this))
-	{
-		Console.Warn << _T("CTreeDefinitionResource::Load(") + m_sPath + _T(") - couldn't read XML") << newl;
-		return RES_LOAD_FAILED;
-	}
+    // Process the XML
+    if (!XMLManager.ReadBuffer(pData, uiSize, _T(""), this))
+    {
+        Console.Warn << _T("CTreeDefinitionResource::Load(") + m_sPath + _T(") - couldn't read XML") << newl;
+        return RES_LOAD_FAILED;
+    }
 
-	return 0;
+    return 0;
 }
 
 
 /*====================
   CTreeDefinitionResource::PostLoad
   ====================*/
-void	CTreeDefinitionResource::PostLoad()
+void    CTreeDefinitionResource::PostLoad()
 {
 }
 
@@ -60,7 +60,7 @@ void	CTreeDefinitionResource::PostLoad()
 /*====================
   CTreeDefinitionResource::Reloaded
   ====================*/
-void	CTreeDefinitionResource::Reloaded()
+void    CTreeDefinitionResource::Reloaded()
 {
 }
 

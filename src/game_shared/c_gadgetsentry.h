@@ -17,18 +17,18 @@
 class CGadgetSentry : public IGadgetEntity
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Gadget, Sentry);
-	
-	static	CCvarf		s_cvarRadius;
-	static	CCvars		s_cvarSightedEffectPath;
+    DECLARE_ENT_ALLOCATOR2(Gadget, Sentry);
+    
+    static  CCvarf      s_cvarRadius;
+    static  CCvars      s_cvarSightedEffectPath;
 
 public:
-	~CGadgetSentry()	{}
-	CGadgetSentry() :
-	IGadgetEntity(GetEntityConfig())
-	{}
+    ~CGadgetSentry()    {}
+    CGadgetSentry() :
+    IGadgetEntity(GetEntityConfig())
+    {}
 
-	bool					ServerFrame();
+    bool                    ServerFrame();
 };
 //=============================================================================
 

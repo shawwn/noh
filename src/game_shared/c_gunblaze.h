@@ -17,13 +17,13 @@
 class CGunBlaze : public IGunItem
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Gun, Blaze);
+    DECLARE_ENT_ALLOCATOR2(Gun, Blaze);
 
 public:
-	~CGunBlaze()	{}
-	CGunBlaze() :
-	IGunItem(GetEntityConfig())
-	{}
+    ~CGunBlaze()    {}
+    CGunBlaze() :
+    IGunItem(GetEntityConfig())
+    {}
 };
 //=============================================================================
 

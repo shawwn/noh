@@ -17,24 +17,24 @@
 class CStateEthereal : public IEntityState
 {
 private:
-	START_ENTITY_CONFIG(IEntityState)
-		DECLARE_ENTITY_CVAR(float, SpeedMult)
-	END_ENTITY_CONFIG
+    START_ENTITY_CONFIG(IEntityState)
+        DECLARE_ENTITY_CVAR(float, SpeedMult)
+    END_ENTITY_CONFIG
 
-	CEntityConfig*	m_pEntityConfig;
+    CEntityConfig*  m_pEntityConfig;
 
-	DECLARE_ENT_ALLOCATOR2(State, Ethereal);
+    DECLARE_ENT_ALLOCATOR2(State, Ethereal);
 
 public:
-	~CStateEthereal()	{}
-	CStateEthereal() :
-	m_pEntityConfig(GetEntityConfig()),
-	IEntityState(GetEntityConfig())
-	{
-		m_modSpeed.SetMult(m_pEntityConfig->GetSpeedMult());
-	}
+    ~CStateEthereal()   {}
+    CStateEthereal() :
+    m_pEntityConfig(GetEntityConfig()),
+    IEntityState(GetEntityConfig())
+    {
+        m_modSpeed.SetMult(m_pEntityConfig->GetSpeedMult());
+    }
 
-	float	OwnerDamaged(float fDamage, int iFlags, IVisualEntity *pAttacker)	{ return 0.0f; }
+    float   OwnerDamaged(float fDamage, int iFlags, IVisualEntity *pAttacker)   { return 0.0f; }
 };
 //=============================================================================
 

@@ -25,18 +25,18 @@ class ITag;
 class IXMLProc_Tag : public IXMLProcessor
 {
 protected:
-	ITag *m_pParent;
-	tstring m_sInterfaceName;
+    ITag *m_pParent;
+    tstring m_sInterfaceName;
 
 public:
-	IXMLProc_Tag(const tstring &sElement) : IXMLProcessor(sElement) {}
-	virtual ~IXMLProc_Tag() {}
+    IXMLProc_Tag(const tstring &sElement) : IXMLProcessor(sElement) {}
+    virtual ~IXMLProc_Tag() {}
 
-	void	SetParameters(ITag *pTag, const tstring &sInterfaceName)
-	{
-		m_pParent = pTag;
-		m_sInterfaceName = sInterfaceName;
-	}
+    void    SetParameters(ITag *pTag, const tstring &sInterfaceName)
+    {
+        m_pParent = pTag;
+        m_sInterfaceName = sInterfaceName;
+    }
 };
 //=============================================================================
 #endif //__I_XMLPROC_TAG_H__

@@ -34,8 +34,8 @@ CBlockHandle::CBlockHandle(const CBlockHandle &handle) :
 m_sName(handle.m_sName),
 m_pReference(handle.m_pReference),
 m_bIsValid(handle.m_bIsValid)
-{	
-	++(*m_pReference);
+{   
+    ++(*m_pReference);
 }
 
 
@@ -44,47 +44,47 @@ m_bIsValid(handle.m_bIsValid)
   ====================*/
 CBlockHandle::~CBlockHandle()
 {
-	Release();
+    Release();
 }
 
 
 /*====================
   CBlockHandle::Release
   ====================*/
-void	CBlockHandle::Release()
+void    CBlockHandle::Release()
 {
-	// Decrease the ref count
-	--(*m_pReference);
-	
-	// If there is only one reference, this is the
-	// world's handle, no client is using the block
-	if (*m_pReference == 1 && m_pReference->Get() != NULL)
-	{
-		(*m_pReference)->Free();
-		Invalidate();
-	}
+    // Decrease the ref count
+    --(*m_pReference);
+    
+    // If there is only one reference, this is the
+    // world's handle, no client is using the block
+    if (*m_pReference == 1 && m_pReference->Get() != NULL)
+    {
+        (*m_pReference)->Free();
+        Invalidate();
+    }
 
-	// If this was the last reference, the world must
-	// have been destroyed, so it's safe to kill the
-	// reference counter
-	if (*m_pReference == 0)
-	{
-		K2_DELETE(m_pReference);
-		m_pReference = NULL;
-	}
+    // If this was the last reference, the world must
+    // have been destroyed, so it's safe to kill the
+    // reference counter
+    if (*m_pReference == 0)
+    {
+        K2_DELETE(m_pReference);
+        m_pReference = NULL;
+    }
 }
 
 
 /*====================
   CBlockHandle::operator=
   ====================*/
-CBlockHandle&	CBlockHandle::operator=(const CBlockHandle &handle)
+CBlockHandle&   CBlockHandle::operator=(const CBlockHandle &handle)
 {
-	Release();
+    Release();
 
-	m_sName = handle.m_sName;
-	m_bIsValid = handle.m_bIsValid;
-	m_pReference = handle.m_pReference;
-	++(*m_pReference);
-	return *this;
+    m_sName = handle.m_sName;
+    m_bIsValid = handle.m_bIsValid;
+    m_pReference = handle.m_pReference;
+    ++(*m_pReference);
+    return *this;
 }

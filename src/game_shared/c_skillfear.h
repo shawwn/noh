@@ -17,13 +17,13 @@
 class CSkillFear : public ISkillSelfBuff
 {
 private:
-	DECLARE_ITEM_ALLOCATOR(Skill, Fear)
+    DECLARE_ITEM_ALLOCATOR(Skill, Fear)
 
 public:
-	~CSkillFear()	{}
-	CSkillFear() :
-	ISkillSelfBuff(GetItemConfig())
-	{}
+    ~CSkillFear()   {}
+    CSkillFear() :
+    ISkillSelfBuff(GetItemConfig())
+    {}
 };
 //=============================================================================
 

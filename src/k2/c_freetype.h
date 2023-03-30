@@ -17,16 +17,16 @@
 class IFreeTypeResource : public IResource
 {
 protected:
-	static FT_Library	s_FTLibrary;
-	static bool			s_bInitialized;
+    static FT_Library   s_FTLibrary;
+    static bool         s_bInitialized;
 
-	IFreeTypeResource();
+    IFreeTypeResource();
 
 public:
-	virtual ~IFreeTypeResource();
-	IFreeTypeResource(const tstring &sPath, const tstring &sName);
+    virtual ~IFreeTypeResource();
+    IFreeTypeResource(const tstring &sPath, const tstring &sName);
 
-	static FT_Library	GetFreetypeLib();
+    static FT_Library   GetFreetypeLib();
 };
 //=============================================================================
 

@@ -43,50 +43,50 @@ m_sName(sName),
 m_sBaseDir(sBaseDir),
 m_pModel(pModel)
 {
-	m_vReferences.resize(m_pModel->GetNumMaterials());
+    m_vReferences.resize(m_pModel->GetNumMaterials());
 
-	switch (m_pModel->GetType())
-	{
-	case MODEL_K2:
-		{
-			CK2Model *pK2Model = static_cast<CK2Model *>(m_pModel);
+    switch (m_pModel->GetType())
+    {
+    case MODEL_K2:
+        {
+            CK2Model *pK2Model = static_cast<CK2Model *>(m_pModel);
 
-			for (vector<SSkinReference>::iterator it(m_vReferences.begin()); it != m_vReferences.end(); ++it)
-			{
-				tstring sDefaultShaderName(pK2Model->GetMesh(it - m_vReferences.begin())->GetDefaultShaderName());
-				if (!sDefaultShaderName.empty())
-					sDefaultShaderName += _T(".material");
+            for (vector<SSkinReference>::iterator it(m_vReferences.begin()); it != m_vReferences.end(); ++it)
+            {
+                tstring sDefaultShaderName(pK2Model->GetMesh(it - m_vReferences.begin())->GetDefaultShaderName());
+                if (!sDefaultShaderName.empty())
+                    sDefaultShaderName += _T(".material");
 
-				*it = SSkinReference(sDefaultShaderName);
-			}
-		} break;
-	case MODEL_SPEEDTREE:
-		{
-		} break;
-	}
+                *it = SSkinReference(sDefaultShaderName);
+            }
+        } break;
+    case MODEL_SPEEDTREE:
+        {
+        } break;
+    }
 
-	
+    
 }
 
 
 /*====================
   CSkin::LoadMaterials
   ====================*/
-void	CSkin::LoadMaterials()
+void    CSkin::LoadMaterials()
 {
-	if (m_bLoaded)
-		return;
+    if (m_bLoaded)
+        return;
 
-	// Touch all the materials the skin uses
-	for (vector<SSkinReference>::iterator it = m_vReferences.begin(); it != m_vReferences.end(); ++it)
-	{
-		if (!it->sMaterialName.empty())
-			it->hMaterial = g_ResourceManager.Register(m_sBaseDir + it->sMaterialName, RES_MATERIAL);
-		else
-			it->hMaterial = INVALID_RESOURCE;
-	}
+    // Touch all the materials the skin uses
+    for (vector<SSkinReference>::iterator it = m_vReferences.begin(); it != m_vReferences.end(); ++it)
+    {
+        if (!it->sMaterialName.empty())
+            it->hMaterial = g_ResourceManager.Register(m_sBaseDir + it->sMaterialName, RES_MATERIAL);
+        else
+            it->hMaterial = INVALID_RESOURCE;
+    }
 
-	m_bLoaded = true;
+    m_bLoaded = true;
 }
 
 
@@ -95,34 +95,34 @@ void	CSkin::LoadMaterials()
 
   TODO: Make this virtual class friendly
   ====================*/
-void	 CSkin::SetSkinRef(const tstring &sSkinRef, const tstring &sMaterialName)
+void     CSkin::SetSkinRef(const tstring &sSkinRef, const tstring &sMaterialName)
 {
-	switch (m_pModel->GetType())
-	{
-	case MODEL_K2:
-		{
-			CK2Model *pK2Model = static_cast<CK2Model *>(m_pModel);
+    switch (m_pModel->GetType())
+    {
+    case MODEL_K2:
+        {
+            CK2Model *pK2Model = static_cast<CK2Model *>(m_pModel);
 
-			int iMeshIndex = pK2Model->GetMeshIndex(sSkinRef);
+            int iMeshIndex = pK2Model->GetMeshIndex(sSkinRef);
 
-			if (iMeshIndex == -1)
-				return;
+            if (iMeshIndex == -1)
+                return;
 
-			m_vReferences[iMeshIndex] = SSkinReference(sMaterialName);
-		} break;
-	case MODEL_SPEEDTREE:
-		{
-		} break;
-	}
+            m_vReferences[iMeshIndex] = SSkinReference(sMaterialName);
+        } break;
+    case MODEL_SPEEDTREE:
+        {
+        } break;
+    }
 }
 
 
 /*====================
   CSkin::SetSkinRef
   ====================*/
-void	 CSkin::SetSkinRef(size_t zMesh, const tstring &sMaterialName)
+void     CSkin::SetSkinRef(size_t zMesh, const tstring &sMaterialName)
 {
-	m_vReferences[zMesh] = SSkinReference(sMaterialName);
+    m_vReferences[zMesh] = SSkinReference(sMaterialName);
 }
 
 
@@ -131,10 +131,10 @@ void	 CSkin::SetSkinRef(size_t zMesh, const tstring &sMaterialName)
 
   TODO: Make this virtual class friendly
   ====================*/
-void	 CSkin::SetSkinRef(const tstring &sMaterialName)
+void     CSkin::SetSkinRef(const tstring &sMaterialName)
 {
-	for (vector<SSkinReference>::iterator it(m_vReferences.begin()); it != m_vReferences.end(); ++it)
-		*it = SSkinReference(sMaterialName);
+    for (vector<SSkinReference>::iterator it(m_vReferences.begin()); it != m_vReferences.end(); ++it)
+        *it = SSkinReference(sMaterialName);
 }
 
 

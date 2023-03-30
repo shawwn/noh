@@ -17,7 +17,7 @@ class ITag
 {
 protected:
 public:
-	ITag();
-	~ITag();
+    ITag();
+    ~ITag();
 };
 #endif

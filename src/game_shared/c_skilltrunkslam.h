@@ -17,13 +17,13 @@
 class CSkillTrunkSlam : public ISkillMelee
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Skill, TrunkSlam);
+    DECLARE_ENT_ALLOCATOR2(Skill, TrunkSlam);
 
 public:
-	~CSkillTrunkSlam()	{}
-	CSkillTrunkSlam() :
-	ISkillMelee(GetEntityConfig())
-	{}
+    ~CSkillTrunkSlam()  {}
+    CSkillTrunkSlam() :
+    ISkillMelee(GetEntityConfig())
+    {}
 };
 //=============================================================================
 

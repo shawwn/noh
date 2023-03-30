@@ -17,12 +17,12 @@
 class CSkillBackStab : public ISkillMelee
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Skill, BackStab)
+    DECLARE_ENT_ALLOCATOR2(Skill, BackStab)
 
 public:
-	~CSkillBackStab() {}
-	CSkillBackStab() :
-	ISkillMelee(GetEntityConfig()) {}
+    ~CSkillBackStab() {}
+    CSkillBackStab() :
+    ISkillMelee(GetEntityConfig()) {}
 };
 //=============================================================================
 

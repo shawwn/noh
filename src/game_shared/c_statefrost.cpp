@@ -35,5 +35,5 @@ CStateFrost::CStateFrost() :
 IEntityState(GetEntityConfig()),
 m_pEntityConfig(GetEntityConfig())
 {
-	m_modSpeed.SetMult(m_pEntityConfig->GetFrostSlow());
+    m_modSpeed.SetMult(m_pEntityConfig->GetFrostSlow());
 }

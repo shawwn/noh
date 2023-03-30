@@ -17,15 +17,15 @@
 class CSpellGrenade : public ISpellItem
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Spell, Grenade);
+    DECLARE_ENT_ALLOCATOR2(Spell, Grenade);
 
 public:
-	~CSpellGrenade()	{}
-	CSpellGrenade() :
-	ISpellItem(GetEntityConfig())
-	{}
+    ~CSpellGrenade()    {}
+    CSpellGrenade() :
+    ISpellItem(GetEntityConfig())
+    {}
 
-	bool	TryImpact();
+    bool    TryImpact();
 };
 //=============================================================================
 

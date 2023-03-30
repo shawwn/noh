@@ -13,18 +13,18 @@ const bool NO_THROW(false);
 
 enum EExceptionType
 {
-	E_DEBUG,
-	E_MESSAGE,
-	E_WARNING,
-	E_ERROR,
-	E_FATAL
+    E_DEBUG,
+    E_MESSAGE,
+    E_WARNING,
+    E_ERROR,
+    E_FATAL
 };
 
-#define EX_DEBUG(msg)	throw CException((msg), E_DEBUG)
-#define EX_MESSAGE(msg)	throw CException((msg), E_MESSAGE)
-#define EX_WARN(msg)	throw CException((msg), E_WARNING)
-#define EX_ERROR(msg)	throw CException((msg), E_ERROR)
-#define EX_FATAL(msg)	throw CException((msg), E_FATAL)
+#define EX_DEBUG(msg)   throw CException((msg), E_DEBUG)
+#define EX_MESSAGE(msg) throw CException((msg), E_MESSAGE)
+#define EX_WARN(msg)    throw CException((msg), E_WARNING)
+#define EX_ERROR(msg)   throw CException((msg), E_ERROR)
+#define EX_FATAL(msg)   throw CException((msg), E_FATAL)
 //=============================================================================
 
 //=============================================================================
@@ -33,20 +33,20 @@ enum EExceptionType
 class K2_API CException
 {
 private:
-	EExceptionType	m_eType;
-	tstring			m_sMessage;
+    EExceptionType  m_eType;
+    tstring         m_sMessage;
 
-	CException();
+    CException();
 
 public:
-	~CException()	{}
-	CException(const tstring &sMessage, EExceptionType eType);
+    ~CException()   {}
+    CException(const tstring &sMessage, EExceptionType eType);
 
-	void			Process(const tstring &sPrefix, bool bThrow = THROW);
+    void            Process(const tstring &sPrefix, bool bThrow = THROW);
 
-	tstring			GetMsg() const					{ return m_sMessage; }
-	EExceptionType	GetType() const					{ return m_eType; }
-	void			SetType(EExceptionType eType)	{ m_eType = eType; }
+    tstring         GetMsg() const                  { return m_sMessage; }
+    EExceptionType  GetType() const                 { return m_eType; }
+    void            SetType(EExceptionType eType)   { m_eType = eType; }
 };
 //=============================================================================
 

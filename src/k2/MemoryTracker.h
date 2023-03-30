@@ -59,19 +59,19 @@ enum MemoryType
 
 namespace physx
 {
-	namespace shdfnd2
-	{
+    namespace shdfnd2
+    {
 
 struct TrackInfo
 {
-	const void		*mMemory;
-	MemoryType		 mType;
-	unsigned int	 mSize;
-	const char		*mContext;
-	const char		*mClassName;
-	const char		*mFileName;
-	int				 mLineNo;
-	unsigned int	 mAllocCount; // allocated at what time
+    const void      *mMemory;
+    MemoryType       mType;
+    unsigned int     mSize;
+    const char      *mContext;
+    const char      *mClassName;
+    const char      *mFileName;
+    int              mLineNo;
+    unsigned int     mAllocCount; // allocated at what time
 };
 
 class MemoryTracker
@@ -83,7 +83,7 @@ public:
     virtual void lock(void) = 0; // mutex lock.
     virtual void unlock(void) = 0; // mutex unlock
 
-	virtual bool trackInfo(const void *mem,TrackInfo &info) = 0;
+    virtual bool trackInfo(const void *mem,TrackInfo &info) = 0;
 
     // it will also fire asserts in a debug build.  The default is false for performance reasons.
 

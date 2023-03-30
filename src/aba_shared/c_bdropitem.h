@@ -17,21 +17,21 @@
 class CBDropItem : public CBMove
 {
 private:
-	uint	m_uiItemUID;
+    uint    m_uiItemUID;
 
 public:
-	CBDropItem(uint uiItemUID) :
-	m_uiItemUID(uiItemUID)
-	{
-		SetType(EBT_DROPITEM);
-	}
+    CBDropItem(uint uiItemUID) :
+    m_uiItemUID(uiItemUID)
+    {
+        SetType(EBT_DROPITEM);
+    }
 
-	virtual void		CopyFrom(const IBehavior* pBehavior);
-	virtual IBehavior*	Clone(CBrain* pNewBrain, IUnitEntity* pNewSelf) const;
+    virtual void        CopyFrom(const IBehavior* pBehavior);
+    virtual IBehavior*  Clone(CBrain* pNewBrain, IUnitEntity* pNewSelf) const;
 
-	virtual bool	Validate();
-	virtual void	MovementFrame();
-	virtual void	ActionFrame();
+    virtual bool    Validate();
+    virtual void    MovementFrame();
+    virtual void    ActionFrame();
 };
 //=============================================================================
 

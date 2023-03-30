@@ -37,9 +37,9 @@ CPool<CEffectTriangleRenderer> CEffectTriangleRenderer::s_Pool(1, uint(-1));
 /*====================
   CEffectTriangleRenderer::operator new
   ====================*/
-void*	CEffectTriangleRenderer::operator new(size_t z, const char *szContext, const char *szType, const char *szFile, short nLine)
+void*   CEffectTriangleRenderer::operator new(size_t z, const char *szContext, const char *szType, const char *szFile, short nLine)
 {
-	return s_Pool.Allocate();
+    return s_Pool.Allocate();
 }
 
 
@@ -63,39 +63,39 @@ CEffectTriangleRenderer::~CEffectTriangleRenderer()
 /*====================
   CEffectTriangleRenderer::Render
   ====================*/
-void	CEffectTriangleRenderer::Render(EMaterialPhase ePhase)
+void    CEffectTriangleRenderer::Render(EMaterialPhase ePhase)
 {
-	if (!m_bRender)
-		return;
+    if (!m_bRender)
+        return;
 
-	SetShaderVars();
+    SetShaderVars();
 
-	CMaterial &cMaterial(GfxUtils->GetMaterial(m_hMaterial));
+    CMaterial &cMaterial(GfxUtils->GetMaterial(m_hMaterial));
 
-	const SMaterialState &cMaterialState(GfxMaterials->GetMaterialState());
-	if (cMaterialState.ePhase == ePhase && cMaterialState.pMaterial == &cMaterial)
-	{
-		// Do nothing!
-	}
-	else
-	{
-		GfxMaterials->SelectMaterial(cMaterial, ePhase, 0.0f, 0);
-	}
+    const SMaterialState &cMaterialState(GfxMaterials->GetMaterialState());
+    if (cMaterialState.ePhase == ePhase && cMaterialState.pMaterial == &cMaterial)
+    {
+        // Do nothing!
+    }
+    else
+    {
+        GfxMaterials->SelectMaterial(cMaterial, ePhase, 0.0f, 0);
+    }
 
-	glEnableClientState(GL_VERTEX_ARRAY);
-	glEnableClientState(GL_COLOR_ARRAY);
-	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+    glEnableClientState(GL_VERTEX_ARRAY);
+    glEnableClientState(GL_COLOR_ARRAY);
+    glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 
-	glBindBufferARB(GL_ARRAY_BUFFER_ARB, Gfx3D->VBEffectTriangle);
-	glTexCoordPointer(4, GL_FLOAT, 32, BUFFER_OFFSET(16));
-	glColorPointer(4, GL_UNSIGNED_BYTE, 32, BUFFER_OFFSET(12));
-	glVertexPointer(3, GL_FLOAT, 32, BUFFER_OFFSET(0));
+    glBindBufferARB(GL_ARRAY_BUFFER_ARB, Gfx3D->VBEffectTriangle);
+    glTexCoordPointer(4, GL_FLOAT, 32, BUFFER_OFFSET(16));
+    glColorPointer(4, GL_UNSIGNED_BYTE, 32, BUFFER_OFFSET(12));
+    glVertexPointer(3, GL_FLOAT, 32, BUFFER_OFFSET(0));
 
-	glDrawArrays(GL_TRIANGLES, m_uiStartIndex * 3, (m_uiEndIndex - m_uiStartIndex) * 3);
+    glDrawArrays(GL_TRIANGLES, m_uiStartIndex * 3, (m_uiEndIndex - m_uiStartIndex) * 3);
 
-	glDisableClientState(GL_VERTEX_ARRAY);
-	glDisableClientState(GL_COLOR_ARRAY);
-	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+    glDisableClientState(GL_VERTEX_ARRAY);
+    glDisableClientState(GL_COLOR_ARRAY);
+    glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 
-	SceneStats.RecordBatch((m_uiEndIndex - m_uiStartIndex) * 3, m_uiEndIndex - m_uiStartIndex, ePhase, SSBATCH_EFFECT);
+    SceneStats.RecordBatch((m_uiEndIndex - m_uiStartIndex) * 3, m_uiEndIndex - m_uiStartIndex, ePhase, SSBATCH_EFFECT);
 }

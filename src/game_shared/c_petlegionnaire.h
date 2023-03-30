@@ -17,11 +17,11 @@
 class CPetLegionnaire : public IPetEntity
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Pet, Legionnaire);
+    DECLARE_ENT_ALLOCATOR2(Pet, Legionnaire);
 
 public:
-	~CPetLegionnaire()	{}
-	CPetLegionnaire() : IPetEntity(GetEntityConfig()) {}
+    ~CPetLegionnaire()  {}
+    CPetLegionnaire() : IPetEntity(GetEntityConfig()) {}
 };
 //=============================================================================
 

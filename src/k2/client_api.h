@@ -36,12 +36,12 @@ typedef void (*clientShutdown_t)();
 
 struct SClientAPI
 {
-	clientInitialize_t		Initialize;
-	clientStart_t			Start;
-	clientFrame_t			Frame;
-	clientReadFrameUpdate_t	ReadFrameUpdate;
-	clientPacket_t			Packet;
-	clientShutdown_t		Shutdown;
+    clientInitialize_t      Initialize;
+    clientStart_t           Start;
+    clientFrame_t           Frame;
+    clientReadFrameUpdate_t ReadFrameUpdate;
+    clientPacket_t          Packet;
+    clientShutdown_t        Shutdown;
 };
 //=============================================================================
 #endif

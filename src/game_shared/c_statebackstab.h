@@ -17,16 +17,16 @@
 class CStateBackStab : public IEntityState
 {
 private:
-	DECLARE_STATE_ALLOCATOR(BackStab);
-	DECLARE_ENTITY_STATE_CVARS;
-	static CCvarui	s_cvarAttackTime;
-	static CCvarf	s_cvarAttackDamage;
+    DECLARE_STATE_ALLOCATOR(BackStab);
+    DECLARE_ENTITY_STATE_CVARS;
+    static CCvarui  s_cvarAttackTime;
+    static CCvarf   s_cvarAttackDamage;
 
 public:
-	~CStateBackStab();
-	CStateBackStab();
+    ~CStateBackStab();
+    CStateBackStab();
 
-	void	DoAttack(CMeleeAttackEvent &attack);
+    void    DoAttack(CMeleeAttackEvent &attack);
 };
 //=============================================================================
 

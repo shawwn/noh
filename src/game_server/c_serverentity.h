@@ -24,16 +24,16 @@ class CBufferDynamic;
 class CServerEntity : public IGameEntity
 {
 private:
-	CServerEntity();
+    CServerEntity();
 
 public:
-	~CServerEntity();
-	CServerEntity(EGameEntType eType);
-	CServerEntity(EGameEntType eType, const CWorldEntity *worldEnt);
+    ~CServerEntity();
+    CServerEntity(EGameEntType eType);
+    CServerEntity(EGameEntType eType, const CWorldEntity *worldEnt);
 
-	void	GetUpdateData(CBufferDynamic &buffer) const;
+    void    GetUpdateData(CBufferDynamic &buffer) const;
 
-	bool	ReadUpdate(CGameFrameUpdate &frame)	{ return true; }
+    bool    ReadUpdate(CGameFrameUpdate &frame) { return true; }
 };
 //=============================================================================
 

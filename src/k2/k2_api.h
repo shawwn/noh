@@ -20,10 +20,10 @@
 #endif
 #else
 #ifdef K2_EXPORTS
-#define K2_API	__declspec(dllexport)
+#define K2_API  __declspec(dllexport)
 #define K2_EXTERN
 #else
-#define K2_API	__declspec(dllimport)
+#define K2_API  __declspec(dllimport)
 #define K2_EXTERN extern
 #endif
 #endif

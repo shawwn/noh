@@ -23,38 +23,38 @@ class CWorldLight;
 class ILight : public IVisualEntity
 {
 private:
-	static vector<SDataField>	*s_pvFields;
-	
-	START_ENTITY_CONFIG(IVisualEntity)
-	END_ENTITY_CONFIG
-	
-	CVec3f	m_v3Color;
-	float	m_fFalloffStart;
-	float	m_fFalloffEnd;
+    static vector<SDataField>   *s_pvFields;
+    
+    START_ENTITY_CONFIG(IVisualEntity)
+    END_ENTITY_CONFIG
+    
+    CVec3f  m_v3Color;
+    float   m_fFalloffStart;
+    float   m_fFalloffEnd;
 
 public:
-	~ILight()	{}
-	ILight();
+    ~ILight()   {}
+    ILight();
 
-	bool				IsLight() const				{ return true; }
+    bool                IsLight() const             { return true; }
 
-	// Network
-	virtual void	Baseline();
-	virtual void	GetSnapshot(CEntitySnapshot &snapshot) const;
-	virtual bool	ReadSnapshot(CEntitySnapshot &snapshot);
+    // Network
+    virtual void    Baseline();
+    virtual void    GetSnapshot(CEntitySnapshot &snapshot) const;
+    virtual bool    ReadSnapshot(CEntitySnapshot &snapshot);
 
-	GAME_SHARED_API static const vector<SDataField>&	GetTypeVector();
+    GAME_SHARED_API static const vector<SDataField>&    GetTypeVector();
 
-	GAME_SHARED_API void		Spawn();
+    GAME_SHARED_API void        Spawn();
 
-	virtual bool	ServerFrame()					{ return true; }
+    virtual bool    ServerFrame()                   { return true; }
 
-	virtual bool	AddToScene(const CVec4f &v4Color, int iFlags);
+    virtual bool    AddToScene(const CVec4f &v4Color, int iFlags);
 
-	void			Copy(const IGameEntity &B);
+    void            Copy(const IGameEntity &B);
 
-	virtual bool	AIShouldTarget()												{ return false; }
-	virtual bool	IsVisibleOnMinimap(IPlayerEntity *pLocalPlayer, bool bLargeMap)	{ return false; }
+    virtual bool    AIShouldTarget()                                                { return false; }
+    virtual bool    IsVisibleOnMinimap(IPlayerEntity *pLocalPlayer, bool bLargeMap) { return false; }
 };
 //=============================================================================
 

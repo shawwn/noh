@@ -19,11 +19,11 @@ class CPanel : public IDragWidget
 protected:
 
 public:
-	virtual ~CPanel()	{}
-	CPanel(CInterface *pInterface, IWidget *pParent, const CWidgetStyle& style, EWidgetType eWidgetType = WIDGET_PANEL);
+    virtual ~CPanel()   {}
+    CPanel(CInterface *pInterface, IWidget *pParent, const CWidgetStyle& style, EWidgetType eWidgetType = WIDGET_PANEL);
 
-	virtual void		MouseUp(EButton button, const CVec2f &v2CursorPos);
-	virtual void		MouseDown(EButton button, const CVec2f &v2CursorPos);
+    virtual void        MouseUp(EButton button, const CVec2f &v2CursorPos);
+    virtual void        MouseDown(EButton button, const CVec2f &v2CursorPos);
 };
 //=============================================================================
 

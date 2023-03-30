@@ -17,13 +17,13 @@
 class CSkillVomit : public ISkillMelee
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Skill, Vomit)
+    DECLARE_ENT_ALLOCATOR2(Skill, Vomit)
 
 public:
-	~CSkillVomit()	{}
-	CSkillVomit() :
-	ISkillMelee(GetEntityConfig())
-	{}
+    ~CSkillVomit()  {}
+    CSkillVomit() :
+    ISkillMelee(GetEntityConfig())
+    {}
 };
 //=============================================================================
 

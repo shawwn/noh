@@ -18,7 +18,7 @@
   ====================*/
 IResource::~IResource()
 {
-	SAFE_DELETE_ARRAY(m_pData);
+    SAFE_DELETE_ARRAY(m_pData);
 }
 
 
@@ -50,59 +50,59 @@ m_hHandle(c.m_hHandle),
 m_uiNetIndex(c.m_uiNetIndex),
 m_uiIgnoreFlags(c.m_uiIgnoreFlags)
 {
-	if (c.m_pData != NULL)
-	{
-		m_pData = K2_NEW_ARRAY(ctx_Resources, char, m_uiSize);
-		MemManager.Copy((char *)m_pData, c.m_pData, m_uiSize);
-	}
-	else
-		m_pData = NULL;
+    if (c.m_pData != NULL)
+    {
+        m_pData = K2_NEW_ARRAY(ctx_Resources, char, m_uiSize);
+        MemManager.Copy((char *)m_pData, c.m_pData, m_uiSize);
+    }
+    else
+        m_pData = NULL;
 }
 
 
 /*====================
   IResource::IsVirtualResource
   ====================*/
-bool	IResource::IsVirtualResource() const
+bool    IResource::IsVirtualResource() const
 {
-	const tstring &sPath(GetPath());
+    const tstring &sPath(GetPath());
 
-	if (sPath.empty())
-		return false;
+    if (sPath.empty())
+        return false;
 
-	if (sPath[0] == _T('$') || sPath[0] == _T('!') || sPath[0] == _T('*') || sPath.find(_CWS("%"), 0) != tstring::npos) 
-		return true;
+    if (sPath[0] == _T('$') || sPath[0] == _T('!') || sPath[0] == _T('*') || sPath.find(_CWS("%"), 0) != tstring::npos) 
+        return true;
 
-	return false;
+    return false;
 }
 
 
 /*====================
   IResource::MatchesWildcard
   ====================*/
-bool	IResource::MatchesWildcard(const tstring &sWild,
-								   bool bMatchAgainstPath,
-								   bool bMatchAgainstName,
-								   bool bMatchAgainstType) const
+bool    IResource::MatchesWildcard(const tstring &sWild,
+                                   bool bMatchAgainstPath,
+                                   bool bMatchAgainstName,
+                                   bool bMatchAgainstType) const
 {
-	if (bMatchAgainstPath)
-	{
-		if (EqualsWildcards(sWild, m_sPath))
-			return true;
-	}
+    if (bMatchAgainstPath)
+    {
+        if (EqualsWildcards(sWild, m_sPath))
+            return true;
+    }
 
-	if (bMatchAgainstName)
-	{
-		if (EqualsWildcards(sWild, m_sName))
-			return true;
-	}
+    if (bMatchAgainstName)
+    {
+        if (EqualsWildcards(sWild, m_sName))
+            return true;
+    }
 
-	if (bMatchAgainstType)
-	{
-		if (EqualsWildcards(sWild, GetResTypeName()))
-			return true;
-	}
+    if (bMatchAgainstType)
+    {
+        if (EqualsWildcards(sWild, GetResTypeName()))
+            return true;
+    }
 
-	return false;
+    return false;
 }
 

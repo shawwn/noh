@@ -18,30 +18,30 @@
 class CPropScenery : public IPropEntity
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Prop, Scenery);
+    DECLARE_ENT_ALLOCATOR2(Prop, Scenery);
 
-	CSceneEntity		m_cSceneEntity;
+    CSceneEntity        m_cSceneEntity;
 
 public:
-	~CPropScenery()	{}
-	CPropScenery() :
-	IPropEntity(GetEntityConfig())
-	{}
+    ~CPropScenery() {}
+    CPropScenery() :
+    IPropEntity(GetEntityConfig())
+    {}
 
-	virtual bool		IsStatic() const				{ return true; }
+    virtual bool        IsStatic() const                { return true; }
 
-	virtual void		Spawn();
+    virtual void        Spawn();
 
-	virtual bool		ServerFrame()					{ return true; }
+    virtual bool        ServerFrame()                   { return true; }
 
-	virtual void		DrawOnMap(class CUITrigger &minimap, IPlayerEntity *pLocalPlayer, bool bLargeMap) {}
-	virtual bool		IsVisibleOnMinimap(IPlayerEntity *pLocalPlayer, bool bLargeMap)	{ return false; }
+    virtual void        DrawOnMap(class CUITrigger &minimap, IPlayerEntity *pLocalPlayer, bool bLargeMap) {}
+    virtual bool        IsVisibleOnMinimap(IPlayerEntity *pLocalPlayer, bool bLargeMap) { return false; }
 
-	virtual	void		UpdateSighting(const vector<IVisualEntity *> &vVision)		{}
+    virtual void        UpdateSighting(const vector<IVisualEntity *> &vVision)      {}
 
-	virtual bool		AddToScene(const CVec4f &v4Color, int iFlags);
-	
-	virtual void		Copy(const IGameEntity &B);
+    virtual bool        AddToScene(const CVec4f &v4Color, int iFlags);
+    
+    virtual void        Copy(const IGameEntity &B);
 };
 //=============================================================================
 

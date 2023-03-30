@@ -17,19 +17,19 @@
 class CStateCarnivorous : public IEntityState
 {
 private:
-	START_ENTITY_CONFIG(IEntityState)
-		DECLARE_ENTITY_CVAR(float, LeachAmount)
-	END_ENTITY_CONFIG
+    START_ENTITY_CONFIG(IEntityState)
+        DECLARE_ENTITY_CVAR(float, LeachAmount)
+    END_ENTITY_CONFIG
 
-	CEntityConfig*	m_pEntityConfig;
+    CEntityConfig*  m_pEntityConfig;
 
-	DECLARE_ENT_ALLOCATOR2(State, Carnivorous)
+    DECLARE_ENT_ALLOCATOR2(State, Carnivorous)
 
 public:
-	~CStateCarnivorous()	{}
-	CStateCarnivorous();
+    ~CStateCarnivorous()    {}
+    CStateCarnivorous();
 
-	void	DoAttack(CMeleeAttackEvent &attack);
+    void    DoAttack(CMeleeAttackEvent &attack);
 };
 //=============================================================================
 

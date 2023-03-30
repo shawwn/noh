@@ -17,13 +17,13 @@
 class CProjectileArrow : public IProjectile
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Projectile, Arrow);
+    DECLARE_ENT_ALLOCATOR2(Projectile, Arrow);
 
 public:
-	~CProjectileArrow()	{}
-	CProjectileArrow();
+    ~CProjectileArrow() {}
+    CProjectileArrow();
 
-	void	ApplyCharge(float fValue);
+    void    ApplyCharge(float fValue);
 };
 //=============================================================================
 

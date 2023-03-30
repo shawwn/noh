@@ -17,13 +17,13 @@
 class CSkillCheetah : public ISkillToggle
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Skill, Cheetah)
+    DECLARE_ENT_ALLOCATOR2(Skill, Cheetah)
 
 public:
-	~CSkillCheetah()	{}
-	CSkillCheetah() :
-	ISkillToggle(GetEntityConfig())
-	{}
+    ~CSkillCheetah()    {}
+    CSkillCheetah() :
+    ISkillToggle(GetEntityConfig())
+    {}
 };
 //=============================================================================
 

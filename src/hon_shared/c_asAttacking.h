@@ -17,38 +17,38 @@
 class CASAttacking : public IActionState
 {
 private:
-	uint	m_uiBeginTargetIndex;
+    uint    m_uiBeginTargetIndex;
 
-	uint	m_uiInitTime;
-	uint	m_uiTargetIndex;
-	uint	m_uiTargetOrderDisjointSequence;
-	
-	inline void Reset()
-	{
-		ClearAllFlags();
-		m_uiInitTime = 0;
-		m_uiTargetIndex = INVALID_INDEX;
-		m_uiTargetOrderDisjointSequence = uint(-1);
-	}
+    uint    m_uiInitTime;
+    uint    m_uiTargetIndex;
+    uint    m_uiTargetOrderDisjointSequence;
+    
+    inline void Reset()
+    {
+        ClearAllFlags();
+        m_uiInitTime = 0;
+        m_uiTargetIndex = INVALID_INDEX;
+        m_uiTargetOrderDisjointSequence = uint(-1);
+    }
 
 public:
-	CASAttacking(CBrain &cParent);
+    CASAttacking(CBrain &cParent);
 
-	void			CopyFrom(const CASAttacking *pActionState);
+    void            CopyFrom(const CASAttacking *pActionState);
 
-	// Core Operations
-	virtual bool	BeginState();
-	virtual bool	ContinueStateMovement();
-	virtual bool	ContinueStateAction();
-	virtual bool	ContinueStateCleanup() { return true; }
-	virtual bool	EndState(uint uiPriority);
+    // Core Operations
+    virtual bool    BeginState();
+    virtual bool    ContinueStateMovement();
+    virtual bool    ContinueStateAction();
+    virtual bool    ContinueStateCleanup() { return true; }
+    virtual bool    EndState(uint uiPriority);
 
-	// Begin parameters
-	void	SetBeginAttackTarget(uint uiIndex)	{ m_uiBeginTargetIndex = uiIndex; }
+    // Begin parameters
+    void    SetBeginAttackTarget(uint uiIndex)  { m_uiBeginTargetIndex = uiIndex; }
 
-	// Actual parameters
-	void	SetAttackTarget(uint uiIndex)		{ m_uiTargetIndex = uiIndex; }
-	uint	GetAttackTarget() const				{ return m_uiTargetIndex; }
+    // Actual parameters
+    void    SetAttackTarget(uint uiIndex)       { m_uiTargetIndex = uiIndex; }
+    uint    GetAttackTarget() const             { return m_uiTargetIndex; }
 };
 //=============================================================================
 

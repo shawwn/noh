@@ -17,13 +17,13 @@
 class CBuildingStrataSpire : public IAttackBuildingEntity
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Building, StrataSpire)
+    DECLARE_ENT_ALLOCATOR2(Building, StrataSpire)
 
 public:
-	~CBuildingStrataSpire()	{}
-	CBuildingStrataSpire() :
-	IAttackBuildingEntity(GetEntityConfig())
-	{}
+    ~CBuildingStrataSpire() {}
+    CBuildingStrataSpire() :
+    IAttackBuildingEntity(GetEntityConfig())
+    {}
 };
 //=============================================================================
 

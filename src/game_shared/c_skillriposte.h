@@ -17,12 +17,12 @@
 class CSkillRiposte : public ISkillSelfBuff
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Skill, Riposte);
+    DECLARE_ENT_ALLOCATOR2(Skill, Riposte);
 
 public:
-	~CSkillRiposte() {}
-	CSkillRiposte() :
-	ISkillSelfBuff(GetEntityConfig()) {}
+    ~CSkillRiposte() {}
+    CSkillRiposte() :
+    ISkillSelfBuff(GetEntityConfig()) {}
 };
 //=============================================================================
 

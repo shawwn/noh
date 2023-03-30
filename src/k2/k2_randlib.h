@@ -15,48 +15,48 @@
 //=============================================================================
 // Globals
 //=============================================================================
-extern K2_API MersenneTwister*		gMersenneTwister;
+extern K2_API MersenneTwister*      gMersenneTwister;
 //=============================================================================
 
 /*====================
   K2_SRAND
   ====================*/
-inline void		K2_SRAND(LONGLONG seed)
+inline void     K2_SRAND(LONGLONG seed)
 {
-	assert(gMersenneTwister == NULL);
-	if (gMersenneTwister == NULL)
-		gMersenneTwister = K2_NEW(ctx_Singleton,  MersenneTwister)( uint(seed & UINT_MAX) );
+    assert(gMersenneTwister == NULL);
+    if (gMersenneTwister == NULL)
+        gMersenneTwister = K2_NEW(ctx_Singleton,  MersenneTwister)( uint(seed & UINT_MAX) );
 }
 
 /*====================
   K2_RAND
-	generates a random value in [lo, hi]
+    generates a random value in [lo, hi]
   ====================*/
-inline double		K2_RAND(double lo, double hi)
+inline double       K2_RAND(double lo, double hi)
 {
-	assert(gMersenneTwister != NULL);
-	assert(lo < hi);
-	return gMersenneTwister->genrand(lo, hi);
+    assert(gMersenneTwister != NULL);
+    assert(lo < hi);
+    return gMersenneTwister->genrand(lo, hi);
 }
 
 /*====================
   K2_RAND_NOT_INCLUSIVE
-	generates a random value in [lo, hi)
+    generates a random value in [lo, hi)
   ====================*/
-inline double		K2_RAND_NOT_INCLUSIVE(double lo, double hi)
+inline double       K2_RAND_NOT_INCLUSIVE(double lo, double hi)
 {
-	assert(gMersenneTwister != NULL);
-	return gMersenneTwister->genrand2(lo, hi);
+    assert(gMersenneTwister != NULL);
+    return gMersenneTwister->genrand2(lo, hi);
 }
 
 /*====================
   K2_RAND_UINT32
-	generates a random value in [0, 0xffffffff]
+    generates a random value in [0, 0xffffffff]
   ====================*/
-inline uint			K2_RAND_UINT32()
+inline uint         K2_RAND_UINT32()
 {
-	assert(gMersenneTwister != NULL);
-	return gMersenneTwister->genrand_uint32();
+    assert(gMersenneTwister != NULL);
+    return gMersenneTwister->genrand_uint32();
 }
 
 #endif

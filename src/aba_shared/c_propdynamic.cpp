@@ -32,34 +32,34 @@ m_uiCorpseTime(INVALID_TIME)
 /*====================
   CPropDynamic::Spawn
   ====================*/
-void	CPropDynamic::Spawn()
+void    CPropDynamic::Spawn()
 {
-	IPropEntity::Spawn();
+    IPropEntity::Spawn();
 }
 
 
 /*====================
   CPropDynamic::ServerFrameMovement
   ====================*/
-bool	CPropDynamic::ServerFrameMovement()
+bool    CPropDynamic::ServerFrameMovement()
 {
-	if (!IPropEntity::ServerFrameMovement())
-		return false;
+    if (!IPropEntity::ServerFrameMovement())
+        return false;
 
-	SetVisibilityFlags(Game.GetVision(GetPosition().x, GetPosition().y));
+    SetVisibilityFlags(Game.GetVision(GetPosition().x, GetPosition().y));
 
-	return true;
+    return true;
 }
 
 
 /*====================
   CPropDynamic::ServerFrameCleanup
   ====================*/
-bool	CPropDynamic::ServerFrameCleanup()
+bool    CPropDynamic::ServerFrameCleanup()
 {
-	// Corpse
-	if (GetStatus() == ENTITY_STATUS_CORPSE && Game.GetGameTime() >= m_uiCorpseTime)
-		return false;
+    // Corpse
+    if (GetStatus() == ENTITY_STATUS_CORPSE && Game.GetGameTime() >= m_uiCorpseTime)
+        return false;
 
-	return IPropEntity::ServerFrameCleanup();
+    return IPropEntity::ServerFrameCleanup();
 }

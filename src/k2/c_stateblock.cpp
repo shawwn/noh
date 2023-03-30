@@ -23,25 +23,25 @@ m_iModifiedCount(0)
 CStateBlock::CStateBlock(const IBuffer &buffer) :
 m_iModifiedCount(0)
 {
-	Set(buffer);
+    Set(buffer);
 }
 
 
 /*====================
   CStateBlock::GetDifference
   ====================*/
-void	CStateBlock::GetDifference(CStateBlock &ss)
+void    CStateBlock::GetDifference(CStateBlock &ss)
 {
-	PROFILE("CStateBlock::GetDifference");
+    PROFILE("CStateBlock::GetDifference");
 
-	ss.Set(m_cBuffer);
+    ss.Set(m_cBuffer);
 }
 
 
 /*====================
   CStateBlock::Set
   ====================*/
-void	CStateBlock::Set(const IBuffer &buffer)
+void    CStateBlock::Set(const IBuffer &buffer)
 {
-	m_cBuffer.Write(buffer.Get(), buffer.GetLength());
+    m_cBuffer.Write(buffer.Get(), buffer.GetLength());
 }

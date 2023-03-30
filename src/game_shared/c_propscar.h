@@ -17,24 +17,24 @@
 class CPropScar : public IPropFoundation
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Prop, Scar);
+    DECLARE_ENT_ALLOCATOR2(Prop, Scar);
 
 public:
-	~CPropScar()	{}
-	CPropScar() :
-	IPropFoundation(GetEntityConfig())
-	{}
+    ~CPropScar()    {}
+    CPropScar() :
+    IPropFoundation(GetEntityConfig())
+    {}
 
-	bool	IsSelectable() const	{ return true; }
+    bool    IsSelectable() const    { return true; }
 
-	GAME_SHARED_API void	Spawn();
-	bool					AddToScene(const CVec4f &v4Color, int iFlags);
+    GAME_SHARED_API void    Spawn();
+    bool                    AddToScene(const CVec4f &v4Color, int iFlags);
 
-	bool					IsVisibleOnMinimap() const			{ return true; }
+    bool                    IsVisibleOnMinimap() const          { return true; }
 
-	CSkeleton*				AllocateSkeleton()	{ return IPropEntity::AllocateSkeleton(); }
+    CSkeleton*              AllocateSkeleton()  { return IPropEntity::AllocateSkeleton(); }
 
-	virtual void			Link();
+    virtual void            Link();
 };
 //=============================================================================
 

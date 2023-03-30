@@ -13,12 +13,12 @@ class classname##Allocator : public IModelAllocator \
 { \
 private: \
 public: \
-	~classname##Allocator()	{} \
-	classname##Allocator() : \
-	IModelAllocator(_T(#tagname)) \
-	{} \
+    ~classname##Allocator() {} \
+    classname##Allocator() : \
+    IModelAllocator(_T(#tagname)) \
+    {} \
  \
- IModel*	Allocate()	{ PROFILE(#classname L"Allocator::Allocate"); return K2_NEW(ctx_Resources,  classname); } \
+ IModel*    Allocate()  { PROFILE(#classname L"Allocator::Allocate"); return K2_NEW(ctx_Resources,  classname); } \
 } \
 g_##classname##Allocator
 //=============================================================================
@@ -29,15 +29,15 @@ g_##classname##Allocator
 class IModelAllocator
 {
 protected:
-	tstring m_sType;
+    tstring m_sType;
 
-	IModelAllocator();
+    IModelAllocator();
 
 public:
-	virtual ~IModelAllocator();
-	IModelAllocator(const tstring &sType);
+    virtual ~IModelAllocator();
+    IModelAllocator(const tstring &sType);
 
-	virtual class IModel*	Allocate() = 0;
+    virtual class IModel*   Allocate() = 0;
 };
 //=============================================================================
 

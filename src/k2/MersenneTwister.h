@@ -47,8 +47,8 @@ class MersenneTwister;
 #ifndef _MERSENNETWISTER_H_
 #define _MERSENNETWISTER_H_
 
-typedef int					MTint32;
-typedef uint				MTuint32;
+typedef int                 MTint32;
+typedef uint                MTuint32;
 
 /* Period parameters */  
 #define MT_N 624
@@ -58,115 +58,115 @@ typedef uint				MTuint32;
 #define MT_LOWER_MASK 0x7fffffffUL /* least significant r bits */
 
 // mag01[x] = x * MT_MATRIX_A  for x=0,1
-static MTuint32	mag01[2] = {0x0UL, MT_MATRIX_A};
+static MTuint32 mag01[2] = {0x0UL, MT_MATRIX_A};
 
 class MersenneTwister {
-	MTuint32	mt[MT_N];
-	int			mti;
+    MTuint32    mt[MT_N];
+    int         mti;
 
-	void init_genrand(MTuint32 seed);
-	void init_by_array(MTuint32 init_key[], int key_length);
+    void init_genrand(MTuint32 seed);
+    void init_by_array(MTuint32 init_key[], int key_length);
 public:
-	MersenneTwister() {
-		init_genrand(5489UL);	// a default initial seed is used
-	}
+    MersenneTwister() {
+        init_genrand(5489UL);   // a default initial seed is used
+    }
 
-	// initializes mt[MT_N] with a seed
-	MersenneTwister(MTuint32 seed) {
-		init_genrand(seed);
-	}
+    // initializes mt[MT_N] with a seed
+    MersenneTwister(MTuint32 seed) {
+        init_genrand(seed);
+    }
 
-	// initialize by an array with array-length
-	// init_key is the array for initializing keys
-	// key_length is its length
-	// slight change for C++, 2004/2/26
-	MersenneTwister(MTuint32 init_key[], int key_length) {
-		init_by_array(init_key, key_length);
-	}
+    // initialize by an array with array-length
+    // init_key is the array for initializing keys
+    // key_length is its length
+    // slight change for C++, 2004/2/26
+    MersenneTwister(MTuint32 init_key[], int key_length) {
+        init_by_array(init_key, key_length);
+    }
 
-	// generates a random number on [0,0xffffffff]-interval
-	inline MTuint32 genrand_uint32() {
-		MTuint32 y;
+    // generates a random number on [0,0xffffffff]-interval
+    inline MTuint32 genrand_uint32() {
+        MTuint32 y;
 
-		if (mti >= MT_N) { /* generate MT_N words at one time */
-			int kk;
+        if (mti >= MT_N) { /* generate MT_N words at one time */
+            int kk;
 
-			for (kk = 0; kk < MT_N-MT_M; kk++) {
-				y = (mt[kk] & MT_UPPER_MASK) | (mt[kk + 1] & MT_LOWER_MASK);
-				mt[kk] = mt[kk + MT_M] ^ (y >> 1) ^ mag01[y & 0x1UL];
-			}
-			for (; kk< MT_N-1; kk++) {
-				y = (mt[kk] & MT_UPPER_MASK) | (mt[kk + 1] & MT_LOWER_MASK);
-				mt[kk] = mt[kk + (MT_M-MT_N)] ^ (y >> 1) ^ mag01[y & 0x1UL];
-			}
-			y = (mt[MT_N-1] & MT_UPPER_MASK) | (mt[0] & MT_LOWER_MASK);
-			mt[MT_N-1] = mt[MT_M-1] ^ (y >> 1) ^ mag01[y & 0x1UL];
+            for (kk = 0; kk < MT_N-MT_M; kk++) {
+                y = (mt[kk] & MT_UPPER_MASK) | (mt[kk + 1] & MT_LOWER_MASK);
+                mt[kk] = mt[kk + MT_M] ^ (y >> 1) ^ mag01[y & 0x1UL];
+            }
+            for (; kk< MT_N-1; kk++) {
+                y = (mt[kk] & MT_UPPER_MASK) | (mt[kk + 1] & MT_LOWER_MASK);
+                mt[kk] = mt[kk + (MT_M-MT_N)] ^ (y >> 1) ^ mag01[y & 0x1UL];
+            }
+            y = (mt[MT_N-1] & MT_UPPER_MASK) | (mt[0] & MT_LOWER_MASK);
+            mt[MT_N-1] = mt[MT_M-1] ^ (y >> 1) ^ mag01[y & 0x1UL];
 
-			mti = 0;
-		}
+            mti = 0;
+        }
 
-		y = mt[mti++];
+        y = mt[mti++];
 
-		/* Tempering */
-		y ^= (y >> 11);
-		y ^= (y << 7) & 0x9d2c5680UL;
-		y ^= (y << 15) & 0xefc60000UL;
-		y ^= (y >> 18);
+        /* Tempering */
+        y ^= (y >> 11);
+        y ^= (y << 7) & 0x9d2c5680UL;
+        y ^= (y << 15) & 0xefc60000UL;
+        y ^= (y >> 18);
 
-		return y;
-	}
+        return y;
+    }
 
-	// generates a random number on [0,0x7fffffff]-interval
-	inline MTint32 genrand_int31() {
-		return (MTint32)(genrand_uint32() >> 1);
-	}
+    // generates a random number on [0,0x7fffffff]-interval
+    inline MTint32 genrand_int31() {
+        return (MTint32)(genrand_uint32() >> 1);
+    }
 
-	// generates a random number on [lo,hi]-real-interval
-	inline double genrand(double lo, double hi) {
-		// divided by 2^32-1
-		double r = genrand_uint32() * (1.0 / 4294967295.0);
+    // generates a random number on [lo,hi]-real-interval
+    inline double genrand(double lo, double hi) {
+        // divided by 2^32-1
+        double r = genrand_uint32() * (1.0 / 4294967295.0);
 
-		return lo + r*(hi-lo);
-	}
+        return lo + r*(hi-lo);
+    }
 
-	// generates a random number on [lo,hi)-real-interval
-	inline double genrand2(double lo, double hi) {
-		// divided by 2^32
-		double r = genrand_uint32() * (1.0 / 4294967296.0);
+    // generates a random number on [lo,hi)-real-interval
+    inline double genrand2(double lo, double hi) {
+        // divided by 2^32
+        double r = genrand_uint32() * (1.0 / 4294967296.0);
 
-		return lo + r*(hi-lo);
-	}
+        return lo + r*(hi-lo);
+    }
 
-	// generates a random number on [0,1]-real-interval
-	inline double genrand_real1() {
-		// divided by 2^32-1
-		return genrand_uint32() * (1.0 / 4294967295.0);
-	}
+    // generates a random number on [0,1]-real-interval
+    inline double genrand_real1() {
+        // divided by 2^32-1
+        return genrand_uint32() * (1.0 / 4294967295.0);
+    }
 
-	// generates a random number on [0,1)-real-interval
-	inline double genrand_real2() {
-		// divided by 2^32
-		return genrand_uint32() * (1.0 / 4294967296.0);
-	}
+    // generates a random number on [0,1)-real-interval
+    inline double genrand_real2() {
+        // divided by 2^32
+        return genrand_uint32() * (1.0 / 4294967296.0);
+    }
 
-	// generates a random number on [0,1)-real-interval
-	inline double genrand_real3() {
-		// divided by 2^32
-		return (((double)genrand_uint32()) + 0.5) * (1.0 / 4294967296.0);
-	}
+    // generates a random number on [0,1)-real-interval
+    inline double genrand_real3() {
+        // divided by 2^32
+        return (((double)genrand_uint32()) + 0.5) * (1.0 / 4294967296.0);
+    }
 
-	// generates a random number on [0,1) with 53-bit resolution
-	inline double genrand_res53() {
-		MTuint32 a = genrand_uint32() >> 5;
-		MTuint32 b = genrand_uint32() >> 6;
-		return (a *67108864.0 + b) * (1.0 / 9007199254740992.0);
-	}
+    // generates a random number on [0,1) with 53-bit resolution
+    inline double genrand_res53() {
+        MTuint32 a = genrand_uint32() >> 5;
+        MTuint32 b = genrand_uint32() >> 6;
+        return (a *67108864.0 + b) * (1.0 / 9007199254740992.0);
+    }
 
-	// These real versions are due to Isaku Wada, 2002/01/09 added
+    // These real versions are due to Isaku Wada, 2002/01/09 added
 
-	// fills in a buffer of length buflen with random data
-	// added 2005/2/5 by Zubin Dittia
-	void genrand_buf(void *buf, MTuint32 buflen);
+    // fills in a buffer of length buflen with random data
+    // added 2005/2/5 by Zubin Dittia
+    void genrand_buf(void *buf, MTuint32 buflen);
 };
 
 #endif // _MERSENNETWISTER_H_

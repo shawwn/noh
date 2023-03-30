@@ -17,19 +17,19 @@
 class CStateCommanderHeal : public IEntityState
 {
 private:
-	START_ENTITY_CONFIG(IEntityState)
-		DECLARE_ENTITY_CVAR(float, HealthPerSecond)
-	END_ENTITY_CONFIG
+    START_ENTITY_CONFIG(IEntityState)
+        DECLARE_ENTITY_CVAR(float, HealthPerSecond)
+    END_ENTITY_CONFIG
 
-	CEntityConfig*	m_pEntityConfig;
+    CEntityConfig*  m_pEntityConfig;
 
-	DECLARE_ENT_ALLOCATOR2(State, CommanderHeal);
+    DECLARE_ENT_ALLOCATOR2(State, CommanderHeal);
 
 public:
-	~CStateCommanderHeal()	{}
-	CStateCommanderHeal();
-	
-	void	StateFrame();
+    ~CStateCommanderHeal()  {}
+    CStateCommanderHeal();
+    
+    void    StateFrame();
 };
 //=============================================================================
 

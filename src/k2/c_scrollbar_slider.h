@@ -19,13 +19,13 @@
 class CScrollbarSlider : public CSlider
 {
 protected:
-	void DoChange();
+    void DoChange();
 
 public:
-	~CScrollbarSlider();
-	CScrollbarSlider(CInterface *pInterface, IWidget *pParent, const CWidgetStyle& style);
+    ~CScrollbarSlider();
+    CScrollbarSlider(CInterface *pInterface, IWidget *pParent, const CWidgetStyle& style);
 
-	void	MouseDown(EButton button, const CVec2f &v2CursorPos);
+    void    MouseDown(EButton button, const CVec2f &v2CursorPos);
 };
 //=============================================================================
 

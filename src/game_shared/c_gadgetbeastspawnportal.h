@@ -17,11 +17,11 @@
 class CGadgetBeastSpawnPortal : public IOfficerSpawnFlag
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Gadget, BeastSpawnPortal);
+    DECLARE_ENT_ALLOCATOR2(Gadget, BeastSpawnPortal);
 
 public:
-	~CGadgetBeastSpawnPortal() {}
-	CGadgetBeastSpawnPortal() : IOfficerSpawnFlag(GetEntityConfig()) {}
+    ~CGadgetBeastSpawnPortal() {}
+    CGadgetBeastSpawnPortal() : IOfficerSpawnFlag(GetEntityConfig()) {}
 };
 //=============================================================================
 

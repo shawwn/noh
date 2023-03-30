@@ -35,5 +35,5 @@ CStateManaStone::CStateManaStone() :
 IEntityState(GetEntityConfig()),
 m_pEntityConfig(GetEntityConfig())
 {
-	m_modGunManaCost.SetMult(m_pEntityConfig->GetManaCostMultiplier());
+    m_modGunManaCost.SetMult(m_pEntityConfig->GetManaCostMultiplier());
 }

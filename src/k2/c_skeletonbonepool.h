@@ -16,7 +16,7 @@
 //=============================================================================
 const uint NUM_SKELETONBONEPOOL_BUCKETS(128);
 
-#define SkeletonBonePool	(*CSkeletonBonePool::GetInstance())
+#define SkeletonBonePool    (*CSkeletonBonePool::GetInstance())
 
 struct SBoneState;
 struct SBoneXForm;
@@ -27,14 +27,14 @@ struct SBoneXForm;
 //=============================================================================
 struct SSkeletonBoneData
 {
-	uint			uiNumBones;
+    uint            uiNumBones;
 
-	SBoneState*		pBoneStates;
-	SBoneState*		pTempBoneStates;
+    SBoneState*     pBoneStates;
+    SBoneState*     pTempBoneStates;
 
-	SBoneXForm*		pSavedPose[NUM_ANIM_CHANNELS];
-	SBoneXForm*		pCurrentPose[NUM_ANIM_CHANNELS];
-	SBoneXForm*		pTempPose[NUM_ANIM_CHANNELS];
+    SBoneXForm*     pSavedPose[NUM_ANIM_CHANNELS];
+    SBoneXForm*     pCurrentPose[NUM_ANIM_CHANNELS];
+    SBoneXForm*     pTempPose[NUM_ANIM_CHANNELS];
 };
 //=============================================================================
 
@@ -43,17 +43,17 @@ struct SSkeletonBoneData
 //=============================================================================
 class CSkeletonBonePool
 {
-	SINGLETON_DEF(CSkeletonBonePool)
+    SINGLETON_DEF(CSkeletonBonePool)
 
 private:
-	vector<SSkeletonBoneData>	m_vFreeLists[NUM_SKELETONBONEPOOL_BUCKETS];
+    vector<SSkeletonBoneData>   m_vFreeLists[NUM_SKELETONBONEPOOL_BUCKETS];
 
 public:
-	~CSkeletonBonePool();
+    ~CSkeletonBonePool();
 
-	void				Allocate(uint uiNumBones, SSkeletonBoneData &cBoneData);
-	void				Deallocate(const SSkeletonBoneData &cBoneData);
+    void                Allocate(uint uiNumBones, SSkeletonBoneData &cBoneData);
+    void                Deallocate(const SSkeletonBoneData &cBoneData);
 };
 //=============================================================================
 
-#endif	//__C_SKELETONBONEPOOL_H__
+#endif  //__C_SKELETONBONEPOOL_H__

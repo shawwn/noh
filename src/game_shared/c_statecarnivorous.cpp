@@ -41,7 +41,7 @@ m_pEntityConfig(GetEntityConfig())
 /*====================
   CStateCarnivorous::DoAttack
   ====================*/
-void	CStateCarnivorous::DoAttack(CMeleeAttackEvent &attack)
+void    CStateCarnivorous::DoAttack(CMeleeAttackEvent &attack)
 {
-	attack.SetHealthLeach(m_pEntityConfig->GetLeachAmount());
+    attack.SetHealthLeach(m_pEntityConfig->GetLeachAmount());
 }

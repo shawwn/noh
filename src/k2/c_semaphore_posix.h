@@ -18,71 +18,71 @@
 //=============================================================================
 class CK2Semaphore
 {
-	// Prevent copying
-	CK2Semaphore(const CK2Semaphore &)	{}
-	void	operator=(const CK2Semaphore &)	{}
+    // Prevent copying
+    CK2Semaphore(const CK2Semaphore &)  {}
+    void    operator=(const CK2Semaphore &) {}
 
 private:
-	// Member variables
-	sem_t	m_hHandle;
+    // Member variables
+    sem_t   m_hHandle;
 
 public:
-	// Constructor
-	CK2Semaphore(int iVal = 0)
-	{
-		sem_init(&m_hHandle, 0, iVal);
-	}
+    // Constructor
+    CK2Semaphore(int iVal = 0)
+    {
+        sem_init(&m_hHandle, 0, iVal);
+    }
 
 
-	// Destructor
-	virtual	~CK2Semaphore()
-	{
-		sem_destroy(&m_hHandle);
-	}
+    // Destructor
+    virtual ~CK2Semaphore()
+    {
+        sem_destroy(&m_hHandle);
+    }
 
 
-	// Wait
-	void	Wait() const
-	{
-		sem_wait((sem_t *)&m_hHandle);
-	}
+    // Wait
+    void    Wait() const
+    {
+        sem_wait((sem_t *)&m_hHandle);
+    }
 
 
-	// Wait_Try
-	int		Wait_Try() const
-	{
-		if (sem_trywait((sem_t *)&m_hHandle))
-			return errno;
-		else
-			return 0;
-	}
+    // Wait_Try
+    int     Wait_Try() const
+    {
+        if (sem_trywait((sem_t *)&m_hHandle))
+            return errno;
+        else
+            return 0;
+    }
 
 
-	// Post
-	int		Post() const
-	{
-		if (sem_post((sem_t *)&m_hHandle))
-			return errno;
-		else
-			return 0;
-	}
+    // Post
+    int     Post() const
+    {
+        if (sem_post((sem_t *)&m_hHandle))
+            return errno;
+        else
+            return 0;
+    }
 
 
-	// Value
-	int		Value() const
-	{
-		int iVal = -1;
-		sem_getvalue((sem_t *)&m_hHandle, &iVal);
-		return iVal;
-	}
+    // Value
+    int     Value() const
+    {
+        int iVal = -1;
+        sem_getvalue((sem_t *)&m_hHandle, &iVal);
+        return iVal;
+    }
 
 
-	// Reset
-	void	Reset(int iVal = 0)
-	{
-		sem_destroy(&m_hHandle);
-		sem_init(&m_hHandle, 0, iVal);
-	}
+    // Reset
+    void    Reset(int iVal = 0)
+    {
+        sem_destroy(&m_hHandle);
+        sem_init(&m_hHandle, 0, iVal);
+    }
 };
 //=============================================================================
 

@@ -17,13 +17,13 @@
 class CGunFrostBolts : public IGunItem
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Gun, FrostBolts);
+    DECLARE_ENT_ALLOCATOR2(Gun, FrostBolts);
 
 public:
-	~CGunFrostBolts()	{}
-	CGunFrostBolts() :
-	IGunItem(GetEntityConfig())
-	{}
+    ~CGunFrostBolts()   {}
+    CGunFrostBolts() :
+    IGunItem(GetEntityConfig())
+    {}
 };
 //=============================================================================
 

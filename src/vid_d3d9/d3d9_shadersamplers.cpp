@@ -36,47 +36,47 @@
   --------------------*/
 SHADER_SAMPLER(shadowmap)
 {
-	D3D_SetSamplerState(iStageIndex, D3DSAMP_MIPFILTER, D3DTEXF_NONE);
+    D3D_SetSamplerState(iStageIndex, D3DSAMP_MIPFILTER, D3DTEXF_NONE);
 
-	if (vid_shadowmapType == SHADOWMAP_R32F)
-	{
-		if (vid_shadowmapMagFilter)
-		{
-			D3D_SetSamplerState(iStageIndex, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
-			D3D_SetSamplerState(iStageIndex, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
-		}
-		else
-		{
-			D3D_SetSamplerState(iStageIndex, D3DSAMP_MINFILTER, D3DTEXF_POINT);
-			D3D_SetSamplerState(iStageIndex, D3DSAMP_MAGFILTER, D3DTEXF_POINT);
-		}
+    if (vid_shadowmapType == SHADOWMAP_R32F)
+    {
+        if (vid_shadowmapMagFilter)
+        {
+            D3D_SetSamplerState(iStageIndex, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
+            D3D_SetSamplerState(iStageIndex, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
+        }
+        else
+        {
+            D3D_SetSamplerState(iStageIndex, D3DSAMP_MINFILTER, D3DTEXF_POINT);
+            D3D_SetSamplerState(iStageIndex, D3DSAMP_MAGFILTER, D3DTEXF_POINT);
+        }
 
-	}
-	else if (vid_shadowmapType == SHADOWMAP_DEPTH)
-	{
-		if (vid_shadowmapFilterWidth == 0)
-		{
-			D3D_SetSamplerState(iStageIndex, D3DSAMP_MINFILTER, D3DTEXF_POINT);
-			D3D_SetSamplerState(iStageIndex, D3DSAMP_MAGFILTER, D3DTEXF_POINT);
-		}
-		else
-		{
-			D3D_SetSamplerState(iStageIndex, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
-			D3D_SetSamplerState(iStageIndex, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
-		}
-	}
-	if (vid_shadowmapType == SHADOWMAP_VARIANCE)
-	{
-		D3D_SetSamplerState(iStageIndex, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
-		D3D_SetSamplerState(iStageIndex, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
-	}
+    }
+    else if (vid_shadowmapType == SHADOWMAP_DEPTH)
+    {
+        if (vid_shadowmapFilterWidth == 0)
+        {
+            D3D_SetSamplerState(iStageIndex, D3DSAMP_MINFILTER, D3DTEXF_POINT);
+            D3D_SetSamplerState(iStageIndex, D3DSAMP_MAGFILTER, D3DTEXF_POINT);
+        }
+        else
+        {
+            D3D_SetSamplerState(iStageIndex, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
+            D3D_SetSamplerState(iStageIndex, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
+        }
+    }
+    if (vid_shadowmapType == SHADOWMAP_VARIANCE)
+    {
+        D3D_SetSamplerState(iStageIndex, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
+        D3D_SetSamplerState(iStageIndex, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
+    }
 
-	D3D_SetSamplerState(iStageIndex, D3DSAMP_ADDRESSU, D3DTADDRESS_BORDER);
-	D3D_SetSamplerState(iStageIndex, D3DSAMP_ADDRESSV, D3DTADDRESS_BORDER);
-	D3D_SetSamplerState(iStageIndex, D3DSAMP_BORDERCOLOR, D3DCOLOR_ARGB(255, 255, 255, 255));
+    D3D_SetSamplerState(iStageIndex, D3DSAMP_ADDRESSU, D3DTADDRESS_BORDER);
+    D3D_SetSamplerState(iStageIndex, D3DSAMP_ADDRESSV, D3DTADDRESS_BORDER);
+    D3D_SetSamplerState(iStageIndex, D3DSAMP_BORDERCOLOR, D3DCOLOR_ARGB(255, 255, 255, 255));
 
-	D3D_SetTexture(iStageIndex, g_pTextures[g_Shadowmap.GetShadowmapIndex()]);
-	return true;
+    D3D_SetTexture(iStageIndex, g_pTextures[g_Shadowmap.GetShadowmapIndex()]);
+    return true;
 }
 
 
@@ -85,14 +85,14 @@ SHADER_SAMPLER(shadowmap)
   --------------------*/
 SHADER_SAMPLER(specularLookup)
 {
-	D3D_SetSamplerState(iStageIndex, D3DSAMP_ADDRESSU, D3DTADDRESS_CLAMP);
-	D3D_SetSamplerState(iStageIndex, D3DSAMP_ADDRESSV, D3DTADDRESS_CLAMP);
-	D3D_SetSamplerState(iStageIndex, D3DSAMP_MIPFILTER, D3DTEXF_LINEAR);
-	D3D_SetSamplerState(iStageIndex, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
-	D3D_SetSamplerState(iStageIndex, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
+    D3D_SetSamplerState(iStageIndex, D3DSAMP_ADDRESSU, D3DTADDRESS_CLAMP);
+    D3D_SetSamplerState(iStageIndex, D3DSAMP_ADDRESSV, D3DTADDRESS_CLAMP);
+    D3D_SetSamplerState(iStageIndex, D3DSAMP_MIPFILTER, D3DTEXF_LINEAR);
+    D3D_SetSamplerState(iStageIndex, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
+    D3D_SetSamplerState(iStageIndex, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
 
-	D3D_SetTexture(iStageIndex, g_pTextures[CProceduralRegistry::GetInstance()->GetTextureIndex(_T("specularLookup"))]);
-	return true;
+    D3D_SetTexture(iStageIndex, g_pTextures[CProceduralRegistry::GetInstance()->GetTextureIndex(_T("specularLookup"))]);
+    return true;
 }
 
 
@@ -101,18 +101,18 @@ SHADER_SAMPLER(specularLookup)
   --------------------*/
 SHADER_SAMPLER(clouds)
 {
-	D3D_SetSamplerState(iStageIndex, D3DSAMP_ADDRESSU, D3DTADDRESS_WRAP);
-	D3D_SetSamplerState(iStageIndex, D3DSAMP_ADDRESSV, D3DTADDRESS_WRAP);
-	D3D_SetSamplerState(iStageIndex, D3DSAMP_MIPFILTER, D3DTEXF_LINEAR);
-	D3D_SetSamplerState(iStageIndex, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
-	D3D_SetSamplerState(iStageIndex, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
+    D3D_SetSamplerState(iStageIndex, D3DSAMP_ADDRESSU, D3DTADDRESS_WRAP);
+    D3D_SetSamplerState(iStageIndex, D3DSAMP_ADDRESSV, D3DTADDRESS_WRAP);
+    D3D_SetSamplerState(iStageIndex, D3DSAMP_MIPFILTER, D3DTEXF_LINEAR);
+    D3D_SetSamplerState(iStageIndex, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
+    D3D_SetSamplerState(iStageIndex, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
 
-	CTexture *pTexture(g_ResourceManager.GetTexture(g_hCloudTexture));
+    CTexture *pTexture(g_ResourceManager.GetTexture(g_hCloudTexture));
 
-	int iTexture(pTexture ? pTexture->GetIndex() : -1);
+    int iTexture(pTexture ? pTexture->GetIndex() : -1);
 
-	D3D_SetTexture(iStageIndex, iTexture == -1 ? NULL : g_pTextures[iTexture]);
-	return true;
+    D3D_SetTexture(iStageIndex, iTexture == -1 ? NULL : g_pTextures[iTexture]);
+    return true;
 }
 
 
@@ -121,14 +121,14 @@ SHADER_SAMPLER(clouds)
   --------------------*/
 SHADER_SAMPLER(terrainFudge)
 {
-	D3D_SetSamplerState(iStageIndex, D3DSAMP_ADDRESSU, D3DTADDRESS_CLAMP);
-	D3D_SetSamplerState(iStageIndex, D3DSAMP_ADDRESSV, D3DTADDRESS_CLAMP);
-	D3D_SetSamplerState(iStageIndex, D3DSAMP_MIPFILTER, D3DTEXF_NONE);
-	D3D_SetSamplerState(iStageIndex, D3DSAMP_MINFILTER, D3DTEXF_POINT);
-	D3D_SetSamplerState(iStageIndex, D3DSAMP_MAGFILTER, D3DTEXF_POINT);
+    D3D_SetSamplerState(iStageIndex, D3DSAMP_ADDRESSU, D3DTADDRESS_CLAMP);
+    D3D_SetSamplerState(iStageIndex, D3DSAMP_ADDRESSV, D3DTADDRESS_CLAMP);
+    D3D_SetSamplerState(iStageIndex, D3DSAMP_MIPFILTER, D3DTEXF_NONE);
+    D3D_SetSamplerState(iStageIndex, D3DSAMP_MINFILTER, D3DTEXF_POINT);
+    D3D_SetSamplerState(iStageIndex, D3DSAMP_MAGFILTER, D3DTEXF_POINT);
 
-	D3D_SetTexture(iStageIndex, g_pTextures[CProceduralRegistry::GetInstance()->GetTextureIndex(_T("terrainFudge"))]);
-	return true;
+    D3D_SetTexture(iStageIndex, g_pTextures[CProceduralRegistry::GetInstance()->GetTextureIndex(_T("terrainFudge"))]);
+    return true;
 }
 
 
@@ -137,14 +137,14 @@ SHADER_SAMPLER(terrainFudge)
   --------------------*/
 SHADER_SAMPLER(alpha)
 {
-	D3D_SetSamplerState(iStageIndex, D3DSAMP_ADDRESSU, D3DTADDRESS_CLAMP);
-	D3D_SetSamplerState(iStageIndex, D3DSAMP_ADDRESSV, D3DTADDRESS_CLAMP);
-	D3D_SetSamplerState(iStageIndex, D3DSAMP_MIPFILTER, D3DTEXF_LINEAR);
-	D3D_SetSamplerState(iStageIndex, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
-	D3D_SetSamplerState(iStageIndex, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
+    D3D_SetSamplerState(iStageIndex, D3DSAMP_ADDRESSU, D3DTADDRESS_CLAMP);
+    D3D_SetSamplerState(iStageIndex, D3DSAMP_ADDRESSV, D3DTADDRESS_CLAMP);
+    D3D_SetSamplerState(iStageIndex, D3DSAMP_MIPFILTER, D3DTEXF_LINEAR);
+    D3D_SetSamplerState(iStageIndex, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
+    D3D_SetSamplerState(iStageIndex, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
 
-	D3D_SetTexture(iStageIndex, g_pTextures[g_iTerrainAlphaMap]);
-	return true;
+    D3D_SetTexture(iStageIndex, g_pTextures[g_iTerrainAlphaMap]);
+    return true;
 }
 
 
@@ -153,18 +153,18 @@ SHADER_SAMPLER(alpha)
   --------------------*/
 SHADER_SAMPLER(fogofwar)
 {
-	D3D_SetSamplerState(iStageIndex, D3DSAMP_MIPFILTER, D3DTEXF_NONE);
-	D3D_SetSamplerState(iStageIndex, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
-	D3D_SetSamplerState(iStageIndex, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
-	D3D_SetSamplerState(iStageIndex, D3DSAMP_ADDRESSU, D3DTADDRESS_CLAMP);
-	D3D_SetSamplerState(iStageIndex, D3DSAMP_ADDRESSV, D3DTADDRESS_CLAMP);
+    D3D_SetSamplerState(iStageIndex, D3DSAMP_MIPFILTER, D3DTEXF_NONE);
+    D3D_SetSamplerState(iStageIndex, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
+    D3D_SetSamplerState(iStageIndex, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
+    D3D_SetSamplerState(iStageIndex, D3DSAMP_ADDRESSU, D3DTADDRESS_CLAMP);
+    D3D_SetSamplerState(iStageIndex, D3DSAMP_ADDRESSV, D3DTADDRESS_CLAMP);
 
-	if (g_FogofWar.IsValid())
-		D3D_SetTexture(iStageIndex, g_pTextures[g_FogofWar.GetTextureIndex()]);
-	else
-		D3D_SetTexture(iStageIndex, g_pTextures[g_iWhite]);
+    if (g_FogofWar.IsValid())
+        D3D_SetTexture(iStageIndex, g_pTextures[g_FogofWar.GetTextureIndex()]);
+    else
+        D3D_SetTexture(iStageIndex, g_pTextures[g_iWhite]);
 
-	return true;
+    return true;
 }
 
 
@@ -173,14 +173,14 @@ SHADER_SAMPLER(fogofwar)
   --------------------*/
 SHADER_SAMPLER(scene)
 {
-	D3D_SetSamplerState(iStageIndex, D3DSAMP_MIPFILTER, vid_sceneBufferMipmap ? D3DTEXF_LINEAR : D3DTEXF_NONE);
-	D3D_SetSamplerState(iStageIndex, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
-	D3D_SetSamplerState(iStageIndex, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
-	D3D_SetSamplerState(iStageIndex, D3DSAMP_ADDRESSU, D3DTADDRESS_CLAMP);
-	D3D_SetSamplerState(iStageIndex, D3DSAMP_ADDRESSV, D3DTADDRESS_CLAMP);
+    D3D_SetSamplerState(iStageIndex, D3DSAMP_MIPFILTER, vid_sceneBufferMipmap ? D3DTEXF_LINEAR : D3DTEXF_NONE);
+    D3D_SetSamplerState(iStageIndex, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
+    D3D_SetSamplerState(iStageIndex, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
+    D3D_SetSamplerState(iStageIndex, D3DSAMP_ADDRESSU, D3DTADDRESS_CLAMP);
+    D3D_SetSamplerState(iStageIndex, D3DSAMP_ADDRESSV, D3DTADDRESS_CLAMP);
 
-	D3D_SetTexture(iStageIndex, g_pTextures[g_SceneBuffer.GetTextureIndex()]);
-	return true;
+    D3D_SetTexture(iStageIndex, g_pTextures[g_SceneBuffer.GetTextureIndex()]);
+    return true;
 }
 
 
@@ -189,14 +189,14 @@ SHADER_SAMPLER(scene)
   --------------------*/
 SHADER_SAMPLER(reflection)
 {
-	D3D_SetSamplerState(iStageIndex, D3DSAMP_MIPFILTER, REFLECTIONS_MIPMAP ? D3DTEXF_LINEAR : D3DTEXF_NONE);
-	D3D_SetSamplerState(iStageIndex, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
-	D3D_SetSamplerState(iStageIndex, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
-	D3D_SetSamplerState(iStageIndex, D3DSAMP_ADDRESSU, D3DTADDRESS_CLAMP);
-	D3D_SetSamplerState(iStageIndex, D3DSAMP_ADDRESSV, D3DTADDRESS_CLAMP);
+    D3D_SetSamplerState(iStageIndex, D3DSAMP_MIPFILTER, REFLECTIONS_MIPMAP ? D3DTEXF_LINEAR : D3DTEXF_NONE);
+    D3D_SetSamplerState(iStageIndex, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
+    D3D_SetSamplerState(iStageIndex, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
+    D3D_SetSamplerState(iStageIndex, D3DSAMP_ADDRESSU, D3DTADDRESS_CLAMP);
+    D3D_SetSamplerState(iStageIndex, D3DSAMP_ADDRESSV, D3DTADDRESS_CLAMP);
 
-	D3D_SetTexture(iStageIndex, g_pTextures[g_ReflectionMap.GetTextureIndex()]);
-	return true;
+    D3D_SetTexture(iStageIndex, g_pTextures[g_ReflectionMap.GetTextureIndex()]);
+    return true;
 }
 
 
@@ -205,12 +205,12 @@ SHADER_SAMPLER(reflection)
   --------------------*/
 SHADER_SAMPLER(velocity)
 {
-	D3D_SetSamplerState(iStageIndex, D3DSAMP_MIPFILTER, D3DTEXF_NONE);
-	D3D_SetSamplerState(iStageIndex, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
-	D3D_SetSamplerState(iStageIndex, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
-	D3D_SetSamplerState(iStageIndex, D3DSAMP_ADDRESSU, D3DTADDRESS_CLAMP);
-	D3D_SetSamplerState(iStageIndex, D3DSAMP_ADDRESSV, D3DTADDRESS_CLAMP);
+    D3D_SetSamplerState(iStageIndex, D3DSAMP_MIPFILTER, D3DTEXF_NONE);
+    D3D_SetSamplerState(iStageIndex, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
+    D3D_SetSamplerState(iStageIndex, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
+    D3D_SetSamplerState(iStageIndex, D3DSAMP_ADDRESSU, D3DTADDRESS_CLAMP);
+    D3D_SetSamplerState(iStageIndex, D3DSAMP_ADDRESSV, D3DTADDRESS_CLAMP);
 
-	D3D_SetTexture(iStageIndex, g_pTextures[g_VelocityMap.GetTextureIndex()]);
-	return true;
+    D3D_SetTexture(iStageIndex, g_pTextures[g_VelocityMap.GetTextureIndex()]);
+    return true;
 }

@@ -22,17 +22,17 @@
 class CEntityPowerupSpawner : public IVisualEntity
 {
 protected:
-	DECLARE_ENT_ALLOCATOR2(Entity, PowerupSpawner);
+    DECLARE_ENT_ALLOCATOR2(Entity, PowerupSpawner);
 
 public:
-	~CEntityPowerupSpawner()	{}
-	CEntityPowerupSpawner();
+    ~CEntityPowerupSpawner()    {}
+    CEntityPowerupSpawner();
 
-	virtual bool		IsServerEntity() const			{ return true; }
+    virtual bool        IsServerEntity() const          { return true; }
 
-	void	ApplyWorldEntity(const CWorldEntity &ent);
+    void    ApplyWorldEntity(const CWorldEntity &ent);
 
-	void	Spawn();
+    void    Spawn();
 };
 //=============================================================================
 

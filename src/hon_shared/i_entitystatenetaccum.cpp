@@ -16,15 +16,15 @@
 //=============================================================================
 // Definitions
 //=============================================================================
-uint	IEntityStateNetAccum::s_uiBaseType(ENTITY_BASE_TYPE_STATE_NET_ACCUM);
+uint    IEntityStateNetAccum::s_uiBaseType(ENTITY_BASE_TYPE_STATE_NET_ACCUM);
 
 DEFINE_ENTITY_DESC(IEntityStateNetAccum, 1)
 {
-	s_cDesc.pFieldTypes = K2_NEW(g_heapTypeVector, TypeVector)();
-	const TypeVector &vBase(IEntityState::GetTypeVector());
-	s_cDesc.pFieldTypes->insert(s_cDesc.pFieldTypes->begin(), vBase.begin(), vBase.end());
+    s_cDesc.pFieldTypes = K2_NEW(g_heapTypeVector, TypeVector)();
+    const TypeVector &vBase(IEntityState::GetTypeVector());
+    s_cDesc.pFieldTypes->insert(s_cDesc.pFieldTypes->begin(), vBase.begin(), vBase.end());
 
-	s_cDesc.pFieldTypes->push_back(SDataField(_T("m_fAccumulator"), TYPE_FLOAT, 0, 0));
+    s_cDesc.pFieldTypes->push_back(SDataField(_T("m_fAccumulator"), TYPE_FLOAT, 0, 0));
 }
 //=============================================================================
 
@@ -32,7 +32,7 @@ DEFINE_ENTITY_DESC(IEntityStateNetAccum, 1)
 // Entity definition
 //=============================================================================
 START_ENTITY_DEFINITION_XML_PROCESSOR(IEntityStateNetAccum, StateNetAccum)
-	CStateDefinition::ReadSettings(pDefinition, node, bMod);
+    CStateDefinition::ReadSettings(pDefinition, node, bMod);
 END_ENTITY_DEFINITION_XML_PROCESSOR(StateNetAccum, statenetaccum)
 //=============================================================================
 
@@ -47,41 +47,41 @@ IEntityStateNetAccum::IEntityStateNetAccum()
 /*====================
   IEntityStateNetAccum::Baseline
   ====================*/
-void	IEntityStateNetAccum::Baseline()
+void    IEntityStateNetAccum::Baseline()
 {
-	IEntityState::Baseline();
+    IEntityState::Baseline();
 
-	m_fAccumulator = 0.0f;
+    m_fAccumulator = 0.0f;
 }
 
 
 /*====================
   IEntityStateNetAccum::GetSnapshot
   ====================*/
-void	IEntityStateNetAccum::GetSnapshot(CEntitySnapshot &snapshot, uint uiFlags) const
+void    IEntityStateNetAccum::GetSnapshot(CEntitySnapshot &snapshot, uint uiFlags) const
 {
-	IEntityState::GetSnapshot(snapshot, uiFlags);
+    IEntityState::GetSnapshot(snapshot, uiFlags);
 
-	snapshot.WriteField(m_fAccumulator);
+    snapshot.WriteField(m_fAccumulator);
 }
 
 
 /*====================
   IEntityStateNetAccum::ReadSnapshot
   ====================*/
-bool	IEntityStateNetAccum::ReadSnapshot(CEntitySnapshot &snapshot, uint uiVersion)
+bool    IEntityStateNetAccum::ReadSnapshot(CEntitySnapshot &snapshot, uint uiVersion)
 {
-	try
-	{
-		IEntityState::ReadSnapshot(snapshot, 1);
+    try
+    {
+        IEntityState::ReadSnapshot(snapshot, 1);
 
-		snapshot.ReadField(m_fAccumulator);
+        snapshot.ReadField(m_fAccumulator);
 
-		return true;
-	}
-	catch (CException &ex)
-	{
-		ex.Process(_T("IEntityStateNetAccum::ReadSnapshot() - "), NO_THROW);
-		return false;
-	}
+        return true;
+    }
+    catch (CException &ex)
+    {
+        ex.Process(_T("IEntityStateNetAccum::ReadSnapshot() - "), NO_THROW);
+        return false;
+    }
 }

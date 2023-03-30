@@ -17,13 +17,13 @@
 class CGadgetManaShrine : public IGadgetEntity
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Gadget, ManaShrine);
+    DECLARE_ENT_ALLOCATOR2(Gadget, ManaShrine);
 
 public:
-	~CGadgetManaShrine()	{}
-	CGadgetManaShrine() :
-	IGadgetEntity(GetEntityConfig())
-	{}
+    ~CGadgetManaShrine()    {}
+    CGadgetManaShrine() :
+    IGadgetEntity(GetEntityConfig())
+    {}
 };
 //=============================================================================
 

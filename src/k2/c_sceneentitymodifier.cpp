@@ -34,20 +34,20 @@ CModifierDef::~CModifierDef()
   ====================*/
 CModifierDef::CModifierDef
 (
-	const CRangei &riLife,
-	const CRangei &riExpireLife,
-	const CRangei &riTimeNudge,
-	const CRangei &riDelay,
-	bool bLoop,
-	const CTemporalPropertyv3 &tv3Color,
-	const CTemporalPropertyf &tfAlpha,
-	const CTemporalPropertyf &tfParam0,
-	const CTemporalPropertyf &tfParam1,
-	const CTemporalPropertyf &tfParam2,
-	const CTemporalPropertyf &tfParam3,
-	ResHandle hMaterial,
-	const CTemporalPropertyv3 &tv3Offset,
-	const tstring &sSkin
+    const CRangei &riLife,
+    const CRangei &riExpireLife,
+    const CRangei &riTimeNudge,
+    const CRangei &riDelay,
+    bool bLoop,
+    const CTemporalPropertyv3 &tv3Color,
+    const CTemporalPropertyf &tfAlpha,
+    const CTemporalPropertyf &tfParam0,
+    const CTemporalPropertyf &tfParam1,
+    const CTemporalPropertyf &tfParam2,
+    const CTemporalPropertyf &tfParam3,
+    ResHandle hMaterial,
+    const CTemporalPropertyv3 &tv3Offset,
+    const tstring &sSkin
 ) :
 m_riLife(riLife),
 m_riExpireLife(riExpireLife),
@@ -105,92 +105,92 @@ m_hMaterial(eSettings.GetMaterial()),
 m_tv3Offset(eSettings.GetOffset()),
 m_sSkin(eSettings.GetSkin())
 {
-	m_pEffectThread = pEffectThread;
-	m_bActive = false;
+    m_pEffectThread = pEffectThread;
+    m_bActive = false;
 }
 
 
 /*====================
   CSceneEntityModifier::Update
   ====================*/
-bool	CSceneEntityModifier::Update(uint uiMilliseconds, ParticleTraceFn_t pfnTrace)
+bool    CSceneEntityModifier::Update(uint uiMilliseconds, ParticleTraceFn_t pfnTrace)
 {
-	PROFILE("CSceneEntityModifier::Update");
+    PROFILE("CSceneEntityModifier::Update");
 
-	int iDeltaTime(uiMilliseconds - m_uiLastUpdateTime);
+    int iDeltaTime(uiMilliseconds - m_uiLastUpdateTime);
 
-	if (iDeltaTime <= 0)
-		return true;
-	
-	// Kill us if we've lived out our entire life
-	if (m_iLife != -1 && (uiMilliseconds > m_iLife + m_uiStartTime))
-	{
-		if (m_bLoop)
-		{
-			m_uiStartTime += m_iLife * ((uiMilliseconds - m_uiStartTime) / m_iLife);
-		}
-		else
-		{
-			m_bActive = false;
-			m_bDead = true;
-			return false;
-		}
-	}
+    if (iDeltaTime <= 0)
+        return true;
+    
+    // Kill us if we've lived out our entire life
+    if (m_iLife != -1 && (uiMilliseconds > m_iLife + m_uiStartTime))
+    {
+        if (m_bLoop)
+        {
+            m_uiStartTime += m_iLife * ((uiMilliseconds - m_uiStartTime) / m_iLife);
+        }
+        else
+        {
+            m_bActive = false;
+            m_bDead = true;
+            return false;
+        }
+    }
 
-	m_uiLastUpdateTime = uiMilliseconds;
+    m_uiLastUpdateTime = uiMilliseconds;
 
-	m_bActive = GetActive();
+    m_bActive = GetActive();
 
-	if (m_pEffectThread->GetExpire() && m_iLife == -1)
-	{
-		m_bDead = true;
-		return false;
-	}
+    if (m_pEffectThread->GetExpire() && m_iLife == -1)
+    {
+        m_bDead = true;
+        return false;
+    }
 
-	return true;
+    return true;
 }
 
 
 /*====================
   CSceneEntityModifier::IsDead
   ====================*/
-bool	CSceneEntityModifier::IsDead()
+bool    CSceneEntityModifier::IsDead()
 {
-	return m_bDead;
+    return m_bDead;
 }
 
 
 /*====================
   CSceneEntityModifier::Modify
   ====================*/
-void	CSceneEntityModifier::Modify(CSceneEntity &cEntity) const
+void    CSceneEntityModifier::Modify(CSceneEntity &cEntity) const
 {
-	if (!m_bActive)
-		return;
+    if (!m_bActive)
+        return;
 
-	float fTime((m_uiLastUpdateTime - m_uiStartTime) * SEC_PER_MS);
+    float fTime((m_uiLastUpdateTime - m_uiStartTime) * SEC_PER_MS);
 
-	float fLerp;
-	if (m_iLife != -1)
-		fLerp = float(m_uiLastUpdateTime - m_uiStartTime) / m_iLife;
-	else
-		fLerp = 0.0f;
+    float fLerp;
+    if (m_iLife != -1)
+        fLerp = float(m_uiLastUpdateTime - m_uiStartTime) / m_iLife;
+    else
+        fLerp = 0.0f;
 
-	cEntity.color *= CVec4f(m_tv3Color.Evaluate(fLerp, fTime), m_tfAlpha.Evaluate(fLerp, fTime));
-	cEntity.s1 = m_tfParam0.Evaluate(fLerp, fTime);
-	cEntity.t1 = m_tfParam1.Evaluate(fLerp, fTime);
-	cEntity.s2 = m_tfParam2.Evaluate(fLerp, fTime);
-	cEntity.t2 = m_tfParam3.Evaluate(fLerp, fTime);
+    cEntity.color *= CVec4f(m_tv3Color.Evaluate(fLerp, fTime), m_tfAlpha.Evaluate(fLerp, fTime));
+    cEntity.s1 = m_tfParam0.Evaluate(fLerp, fTime);
+    cEntity.t1 = m_tfParam1.Evaluate(fLerp, fTime);
+    cEntity.s2 = m_tfParam2.Evaluate(fLerp, fTime);
+    cEntity.t2 = m_tfParam3.Evaluate(fLerp, fTime);
 
-	if (m_hMaterial != INVALID_RESOURCE)
-	{
-		cEntity.flags |= SCENEENT_SINGLE_MATERIAL;
-		cEntity.hSkin = m_hMaterial;
-	}
-	else if (!m_sSkin.empty())
-	{
-		cEntity.hSkin = g_ResourceManager.GetSkin(cEntity.hRes, m_sSkin);
-	}
+    if (m_hMaterial != INVALID_RESOURCE)
+    {
+        cEntity.flags |= SCENEENT_SINGLE_MATERIAL;
+        cEntity.hSkin = m_hMaterial;
+    }
+    else if (!m_sSkin.empty())
+    {
+        cEntity.hSkin = g_ResourceManager.GetSkin(cEntity.hRes, m_sSkin);
+    }
 
-	cEntity.SetPosition(cEntity.GetPosition() + m_tv3Offset.Evaluate(fLerp, fTime));
+    cEntity.SetPosition(cEntity.GetPosition() + m_tv3Offset.Evaluate(fLerp, fTime));
 }

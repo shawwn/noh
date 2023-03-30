@@ -17,13 +17,13 @@
 class CSpellCommanderHeal : public ISpellItem
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Spell, CommanderHeal)
+    DECLARE_ENT_ALLOCATOR2(Spell, CommanderHeal)
 
 public:
-	~CSpellCommanderHeal()	{}
-	CSpellCommanderHeal() :
-	ISpellItem(GetEntityConfig())
-	{}
+    ~CSpellCommanderHeal()  {}
+    CSpellCommanderHeal() :
+    ISpellItem(GetEntityConfig())
+    {}
 };
 //=============================================================================
 

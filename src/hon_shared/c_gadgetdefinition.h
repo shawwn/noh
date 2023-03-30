@@ -24,19 +24,19 @@ DECLARE_ENTITY_DEFINITION_XML_PROCESSOR(IGadgetEntity, Gadget, gadget)
 //=============================================================================
 class CGadgetDefinition : public IUnitDefinition
 {
-	DECLARE_DEFINITION_TYPE_INFO
+    DECLARE_DEFINITION_TYPE_INFO
 
-	ENT_DEF_ARRAY_PROPERTY(Lifetime, uint)
-	ENT_DEF_ARRAY_PROPERTY(InitialCharges, uint)
-	ENT_DEF_PROPERTY(ShowLifetime, bool)
+    ENT_DEF_ARRAY_PROPERTY(Lifetime, uint)
+    ENT_DEF_ARRAY_PROPERTY(InitialCharges, uint)
+    ENT_DEF_PROPERTY(ShowLifetime, bool)
 
 public:
-	~CGadgetDefinition()	{}
-	CGadgetDefinition() :
-	IUnitDefinition(&g_allocatorGadget)
-	{}
+    ~CGadgetDefinition()    {}
+    CGadgetDefinition() :
+    IUnitDefinition(&g_allocatorGadget)
+    {}
 
-	IEntityDefinition*	GetCopy() const	{ return K2_NEW(ctx_Game,    CGadgetDefinition)(*this); }
+    IEntityDefinition*  GetCopy() const { return K2_NEW(ctx_Game,    CGadgetDefinition)(*this); }
 };
 //=============================================================================
 

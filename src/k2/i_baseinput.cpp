@@ -21,7 +21,7 @@ m_sName(sName),
 m_iFlags(iFlags),
 m_eType(eType)
 {
-	CActionRegistry::GetInstance()->Register(this);
+    CActionRegistry::GetInstance()->Register(this);
 }
 
 
@@ -30,9 +30,9 @@ m_eType(eType)
   ====================*/
 IBaseInput::~IBaseInput()
 {
-	// If the registry is still valid, unregister the action
-	// This is important for any actions declared in a client dll that
-	// is being unloaded
-	if (!CActionRegistry::IsReleased())
-		CActionRegistry::GetInstance()->Unregister(this);
+    // If the registry is still valid, unregister the action
+    // This is important for any actions declared in a client dll that
+    // is being unloaded
+    if (!CActionRegistry::IsReleased())
+        CActionRegistry::GetInstance()->Unregister(this);
 }

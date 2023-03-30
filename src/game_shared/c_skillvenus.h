@@ -17,13 +17,13 @@
 class CSkillVenus : public ISkillDeploy
 {
 private:
-	DECLARE_ITEM_ALLOCATOR(Skill, Venus);
+    DECLARE_ITEM_ALLOCATOR(Skill, Venus);
 
 public:
-	~CSkillVenus()	{}
-	CSkillVenus() :
-	ISkillDeploy(GetItemConfig())
-	{}
+    ~CSkillVenus()  {}
+    CSkillVenus() :
+    ISkillDeploy(GetItemConfig())
+    {}
 };
 //=============================================================================
 

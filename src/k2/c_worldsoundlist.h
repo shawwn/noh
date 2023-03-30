@@ -20,9 +20,9 @@ class CWorldSound;
 //=============================================================================
 // Definitions
 //=============================================================================
-typedef map<uint, CWorldSound*>		WorldSoundsMap;
-typedef pair<uint, CWorldSound*>	WorldSoundsEntry;
-typedef WorldSoundsMap::iterator	WorldSoundsMap_it;
+typedef map<uint, CWorldSound*>     WorldSoundsMap;
+typedef pair<uint, CWorldSound*>    WorldSoundsEntry;
+typedef WorldSoundsMap::iterator    WorldSoundsMap_it;
 //=============================================================================
 
 //=============================================================================
@@ -31,21 +31,21 @@ typedef WorldSoundsMap::iterator	WorldSoundsMap_it;
 class CWorldSoundList : public IWorldComponent
 {
 private:
-	WorldSoundsMap	m_mapSounds;
+    WorldSoundsMap  m_mapSounds;
 
 public:
-	~CWorldSoundList();
-	CWorldSoundList(EWorldComponent eComponent);
+    ~CWorldSoundList();
+    CWorldSoundList(EWorldComponent eComponent);
 
-	bool	Load(CArchive &archive, const CWorld *pWorld);
-	bool	Generate(const CWorld *pWorld);
-	void	Release();
-	bool	Serialize(IBuffer *pBuffer);
+    bool    Load(CArchive &archive, const CWorld *pWorld);
+    bool    Generate(const CWorld *pWorld);
+    void    Release();
+    bool    Serialize(IBuffer *pBuffer);
 
-	K2_API uint				AllocateNewSound(uint uiIndex = INVALID_INDEX);
-	K2_API CWorldSound*		GetSound(uint uiIndex, bool bThrow = NO_THROW);
-	K2_API WorldSoundsMap&	GetSoundsMap()									{ return m_mapSounds; }
-	K2_API void				DeleteSound(uint uiIndex);
+    K2_API uint             AllocateNewSound(uint uiIndex = INVALID_INDEX);
+    K2_API CWorldSound*     GetSound(uint uiIndex, bool bThrow = NO_THROW);
+    K2_API WorldSoundsMap&  GetSoundsMap()                                  { return m_mapSounds; }
+    K2_API void             DeleteSound(uint uiIndex);
 };
 //=============================================================================
 

@@ -15,194 +15,194 @@ template <class T>
 class CReferenceRecyclePool
 {
 private:
-	T* m_pBuffer;
-	uint m_uiSize;
-	uint m_uiPos;
+    T* m_pBuffer;
+    uint m_uiSize;
+    uint m_uiPos;
 
-	RefAllocMap m_vAllocated;
-	stack<uint> m_Released;
+    RefAllocMap m_vAllocated;
+    stack<uint> m_Released;
 
-	mutable int m_iFaults;
+    mutable int m_iFaults;
 
-	CReferenceRecyclePool();
+    CReferenceRecyclePool();
 
-	inline void		CheckForResize()
-	{
-		if (m_uiPos >= m_uiSize && m_Released.size() == 0)
-		{
-			PROFILE("CRecyclePool::CheckForResize");
+    inline void     CheckForResize()
+    {
+        if (m_uiPos >= m_uiSize && m_Released.size() == 0)
+        {
+            PROFILE("CRecyclePool::CheckForResize");
 
-			uint uiNewSize(m_uiSize + (m_uiSize >> 1)); // Grow by 50%
+            uint uiNewSize(m_uiSize + (m_uiSize >> 1)); // Grow by 50%
 
-			if (uiNewSize >= INVALID_POOL_HANDLE)
-			{
+            if (uiNewSize >= INVALID_POOL_HANDLE)
+            {
 #if defined(UNICODE) && defined(__GNUC__)
-				Console.Err << StringToTString(__FUNCTION__) << _T(" Pool overflow") << newl;
+                Console.Err << StringToTString(__FUNCTION__) << _T(" Pool overflow") << newl;
 #else
-				Console.Err << _T(__FUNCTION__) << _T(" Pool overflow") << newl;
+                Console.Err << _T(__FUNCTION__) << _T(" Pool overflow") << newl;
 #endif
-				m_iFaults |= POOL_FAULT_OUTOFRANGE;
-				return;
-			}
-			
+                m_iFaults |= POOL_FAULT_OUTOFRANGE;
+                return;
+            }
+            
 #if defined(UNICODE) && defined(__GNUC__)
-			Console.Dev << StringToTString(__FUNCTION__) << _T(" Resize ") << uiNewSize << newl;
+            Console.Dev << StringToTString(__FUNCTION__) << _T(" Resize ") << uiNewSize << newl;
 #else
-			Console.Dev << _T(__FUNCTION__) <<_T(" Resize ") << uiNewSize << newl;
+            Console.Dev << _T(__FUNCTION__) <<_T(" Resize ") << uiNewSize << newl;
 #endif
 
-			T *pNew(K2_NEW_ARRAY(ctx_Pools, T, uiNewSize));
+            T *pNew(K2_NEW_ARRAY(ctx_Pools, T, uiNewSize));
 
-			// Transfer data to new buffer
-			for (uint ui(0); ui < m_uiPos; ++ui)
-				pNew[ui] = m_pBuffer[ui]; // Explicit call to the buffer operator=
+            // Transfer data to new buffer
+            for (uint ui(0); ui < m_uiPos; ++ui)
+                pNew[ui] = m_pBuffer[ui]; // Explicit call to the buffer operator=
 
-			// Release old buffer
-			K2_DELETE_ARRAY(m_pBuffer);
+            // Release old buffer
+            K2_DELETE_ARRAY(m_pBuffer);
 
-			// Store new buffer
-			m_pBuffer = pNew;
-			m_uiSize = uiNewSize;
-			// Resize the alloc status vector
-			m_vAllocated.resize(m_uiSize, 0);
-		}
-	}
+            // Store new buffer
+            m_pBuffer = pNew;
+            m_uiSize = uiNewSize;
+            // Resize the alloc status vector
+            m_vAllocated.resize(m_uiSize, 0);
+        }
+    }
 
-	inline PoolHandle	GetAvailableHandle()
-	{
-		PoolHandle hHandle(INVALID_POOL_HANDLE);
+    inline PoolHandle   GetAvailableHandle()
+    {
+        PoolHandle hHandle(INVALID_POOL_HANDLE);
 
-		if (m_Released.size())
-		{
-			hHandle = m_Released.top();
-			m_Released.pop();
-		}
-		else if (m_uiPos < m_uiSize)
-		{
-			hHandle = m_uiPos++;
-		}
+        if (m_Released.size())
+        {
+            hHandle = m_Released.top();
+            m_Released.pop();
+        }
+        else if (m_uiPos < m_uiSize)
+        {
+            hHandle = m_uiPos++;
+        }
 
-		return hHandle;
-	}
+        return hHandle;
+    }
 
 public:
-	inline CReferenceRecyclePool(uint size) : m_uiSize(size), m_uiPos(0), m_vAllocated(size), m_iFaults(0) { m_pBuffer = K2_NEW_ARRAY(ctx_Pools, T, m_uiSize); }
-	~CReferenceRecyclePool() { SAFE_DELETE_ARRAY(m_pBuffer); }
+    inline CReferenceRecyclePool(uint size) : m_uiSize(size), m_uiPos(0), m_vAllocated(size), m_iFaults(0) { m_pBuffer = K2_NEW_ARRAY(ctx_Pools, T, m_uiSize); }
+    ~CReferenceRecyclePool() { SAFE_DELETE_ARRAY(m_pBuffer); }
 
-	// DO NOT CALL w/ A REFERENCE OBTAINED FROM Get()
-	// Allocating can invalidate references into the pool
-	PoolHandle	New(const T &cInitialState)
-	{
-		CheckForResize();
+    // DO NOT CALL w/ A REFERENCE OBTAINED FROM Get()
+    // Allocating can invalidate references into the pool
+    PoolHandle  New(const T &cInitialState)
+    {
+        CheckForResize();
 
-		PoolHandle hHandle(GetAvailableHandle());
+        PoolHandle hHandle(GetAvailableHandle());
 
-		if (hHandle == INVALID_POOL_HANDLE)
-			return INVALID_POOL_HANDLE;
+        if (hHandle == INVALID_POOL_HANDLE)
+            return INVALID_POOL_HANDLE;
 
-		m_pBuffer[hHandle] = cInitialState;
-		m_vAllocated[hHandle] = 1;
+        m_pBuffer[hHandle] = cInitialState;
+        m_vAllocated[hHandle] = 1;
 
-		return hHandle;
-	}
+        return hHandle;
+    }
 
-	// Used to create a new member w/ a value copied from within the pool
-	PoolHandle	NewFromHandle(PoolHandle hCopyFrom)
-	{
-		CheckForResize();
+    // Used to create a new member w/ a value copied from within the pool
+    PoolHandle  NewFromHandle(PoolHandle hCopyFrom)
+    {
+        CheckForResize();
 
-		PoolHandle hCopyTo(GetAvailableHandle());
-		
-		if (hCopyTo == INVALID_POOL_HANDLE)
-			return INVALID_POOL_HANDLE;
+        PoolHandle hCopyTo(GetAvailableHandle());
+        
+        if (hCopyTo == INVALID_POOL_HANDLE)
+            return INVALID_POOL_HANDLE;
 
-		m_pBuffer[hCopyTo] = m_pBuffer[hCopyFrom];
-		m_vAllocated[hCopyTo] = 1;
+        m_pBuffer[hCopyTo] = m_pBuffer[hCopyFrom];
+        m_vAllocated[hCopyTo] = 1;
 
-		return hCopyTo;
-	}
+        return hCopyTo;
+    }
 
-	T*	GetReferenceByHandle(PoolHandle hHandle)
-	{
-		if (hHandle == INVALID_POOL_HANDLE)
-			return NULL;
-
-#ifdef K2_FAULT_NOTEXIST
-		if (!m_vAllocated[hHandle])
-		{
-			m_iFaults |= POOL_FAULT_NOTEXISTS;
-			return NULL;
-		}
-		else
-			return &m_pBuffer[hHandle];
-#else
-		return &m_pBuffer[hHandle];
-#endif
-			
-	}
-
-	PoolOffset	GetHandleByReference(T *pRef)
-	{
-		ptrdiff_t iOffset(pRef - m_pBuffer);
+    T*  GetReferenceByHandle(PoolHandle hHandle)
+    {
+        if (hHandle == INVALID_POOL_HANDLE)
+            return NULL;
 
 #ifdef K2_FAULT_NOTEXIST
-		if (iOffset < 0 || iOffset >= int(m_uiSize) || !m_vAllocated[PoolHandle(iOffset)])
-		{
-			m_iFaults |= POOL_FAULT_NOTEXISTS;
-			return INVALID_POOL_OFFSET;
-		}
-		else
-		{
-			return PoolHandle(iOffset);
-		}
+        if (!m_vAllocated[hHandle])
+        {
+            m_iFaults |= POOL_FAULT_NOTEXISTS;
+            return NULL;
+        }
+        else
+            return &m_pBuffer[hHandle];
 #else
-		return PoolHandle(iOffset);
+        return &m_pBuffer[hHandle];
 #endif
-	}
+            
+    }
 
-	void	Free(PoolHandle hHandle)
-	{
-		if (hHandle == INVALID_POOL_HANDLE)
-			return;
+    PoolOffset  GetHandleByReference(T *pRef)
+    {
+        ptrdiff_t iOffset(pRef - m_pBuffer);
 
-		if (m_vAllocated[hHandle])
-		{
-			--m_vAllocated[hHandle];
+#ifdef K2_FAULT_NOTEXIST
+        if (iOffset < 0 || iOffset >= int(m_uiSize) || !m_vAllocated[PoolHandle(iOffset)])
+        {
+            m_iFaults |= POOL_FAULT_NOTEXISTS;
+            return INVALID_POOL_OFFSET;
+        }
+        else
+        {
+            return PoolHandle(iOffset);
+        }
+#else
+        return PoolHandle(iOffset);
+#endif
+    }
 
-			if (!m_vAllocated[hHandle])
-				m_Released.push(hHandle);
-		}
-		else
-		{
-			m_iFaults |= POOL_FAULT_FREEDNULL;
-		}
-	}
+    void    Free(PoolHandle hHandle)
+    {
+        if (hHandle == INVALID_POOL_HANDLE)
+            return;
 
-	int		GetFaults() const
-	{
-		return m_iFaults;
-	}
+        if (m_vAllocated[hHandle])
+        {
+            --m_vAllocated[hHandle];
 
-	uint	GetNumAllocated()
-	{
-		return uint(m_uiPos - m_Released.size());
-	}
+            if (!m_vAllocated[hHandle])
+                m_Released.push(hHandle);
+        }
+        else
+        {
+            m_iFaults |= POOL_FAULT_FREEDNULL;
+        }
+    }
 
-	void	AddRef(PoolHandle hHandle)
-	{
-		if (hHandle != INVALID_POOL_HANDLE && m_vAllocated[hHandle])
-			++m_vAllocated[hHandle];
-		else
-			m_iFaults |= POOL_FAULT_REFEDNULL;
-	}
+    int     GetFaults() const
+    {
+        return m_iFaults;
+    }
 
-	uint	GetRefCount(PoolHandle hHandle)
-	{
-		if (hHandle == INVALID_POOL_HANDLE)
-			return 0;
+    uint    GetNumAllocated()
+    {
+        return uint(m_uiPos - m_Released.size());
+    }
 
-		return m_vAllocated[hHandle];
-	}
+    void    AddRef(PoolHandle hHandle)
+    {
+        if (hHandle != INVALID_POOL_HANDLE && m_vAllocated[hHandle])
+            ++m_vAllocated[hHandle];
+        else
+            m_iFaults |= POOL_FAULT_REFEDNULL;
+    }
+
+    uint    GetRefCount(PoolHandle hHandle)
+    {
+        if (hHandle == INVALID_POOL_HANDLE)
+            return 0;
+
+        return m_vAllocated[hHandle];
+    }
 
 };
 

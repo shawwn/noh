@@ -16,17 +16,17 @@
 const int MAX_SHADER_SLOTS(256);
 const int BONE_UNIT(36);
 
-typedef	int						ShaderHandle;
+typedef int                     ShaderHandle;
 
-typedef dword					ShaderKey;
-typedef	map<tstring, int>		ShaderMap;
-typedef vector<int>				ShaderInstanceVector;
+typedef dword                   ShaderKey;
+typedef map<tstring, int>       ShaderMap;
+typedef vector<int>             ShaderInstanceVector;
 
-struct	SShaderEntry
+struct  SShaderEntry
 {
-	bool	bActive;
-	tstring	sName;
-	int		iFlags;
+    bool    bActive;
+    tstring sName;
+    int     iFlags;
 };
 //=============================================================================
 
@@ -36,69 +36,69 @@ struct	SShaderEntry
 class CShaderRegistry
 {
 private:
-	vector<SShaderEntry>	m_vVertexShaderSlots;
-	vector<SShaderEntry>	m_vPixelShaderSlots;
-	ShaderMap				m_mapVertexShaders;
-	ShaderMap				m_mapPixelShaders;
-	ShaderInstanceVector	m_vVertexShaderInstances;
-	ShaderInstanceVector	m_vPixelShaderInstances;
+    vector<SShaderEntry>    m_vVertexShaderSlots;
+    vector<SShaderEntry>    m_vPixelShaderSlots;
+    ShaderMap               m_mapVertexShaders;
+    ShaderMap               m_mapPixelShaders;
+    ShaderInstanceVector    m_vVertexShaderInstances;
+    ShaderInstanceVector    m_vPixelShaderInstances;
 
-	bool				m_bLighting;
-	bool				m_bShadows;
-	bool				m_bFogofWar;
-	bool				m_bFog;
-	int					m_iNumPointLights; // NUM_POINT_LIGHTS
-	int					m_iNumBones; // NUM_BONES
-	int					m_iTexcoords;
-	bool				m_bTexkill;
+    bool                m_bLighting;
+    bool                m_bShadows;
+    bool                m_bFogofWar;
+    bool                m_bFog;
+    int                 m_iNumPointLights; // NUM_POINT_LIGHTS
+    int                 m_iNumBones; // NUM_BONES
+    int                 m_iTexcoords;
+    bool                m_bTexkill;
 
-	ShaderKey		GetMaxVertexShaderKeys();
-	ShaderKey		GetMaxPixelShaderKeys();
-	
-	int				GetShaderIndexFromKey(ShaderKey kKey);
+    ShaderKey       GetMaxVertexShaderKeys();
+    ShaderKey       GetMaxPixelShaderKeys();
+    
+    int             GetShaderIndexFromKey(ShaderKey kKey);
 
-	void			PrecacheVertexShader(ShaderHandle hShader);
-	void			PrecachePixelShader(ShaderHandle hShader);
+    void            PrecacheVertexShader(ShaderHandle hShader);
+    void            PrecachePixelShader(ShaderHandle hShader);
 
 public:
-	~CShaderRegistry();
-	CShaderRegistry();
+    ~CShaderRegistry();
+    CShaderRegistry();
 
-	ShaderHandle	RegisterVertexShader(const tstring &sName, int iFlags);
-	ShaderHandle	RegisterPixelShader(const tstring &sName, int iFlags);
+    ShaderHandle    RegisterVertexShader(const tstring &sName, int iFlags);
+    ShaderHandle    RegisterPixelShader(const tstring &sName, int iFlags);
 
-	void			UnregisterVertexShader(const tstring &sName);
-	void			UnregisterPixelShader(const tstring &sName);
+    void            UnregisterVertexShader(const tstring &sName);
+    void            UnregisterPixelShader(const tstring &sName);
 
-	void	ReloadShaders();
-	void	ReloadVertexShader(ShaderHandle hShader);
-	void	ReloadPixelShader(ShaderHandle hShader);
+    void    ReloadShaders();
+    void    ReloadVertexShader(ShaderHandle hShader);
+    void    ReloadPixelShader(ShaderHandle hShader);
 
-	static void	ShaderFileChangeCallback(const tstring &sPath);
+    static void ShaderFileChangeCallback(const tstring &sPath);
 
-	int		GetVertexShaderInstance(ShaderHandle hShader);
-	int		GetPixelShaderInstance(ShaderHandle hShader);
+    int     GetVertexShaderInstance(ShaderHandle hShader);
+    int     GetPixelShaderInstance(ShaderHandle hShader);
 
-	int		GetVertexShaderInstance(ResHandle hShader);
-	int		GetPixelShaderInstance(ResHandle hShader);
+    int     GetVertexShaderInstance(ResHandle hShader);
+    int     GetPixelShaderInstance(ResHandle hShader);
 
-	void	FreeVertexShaderInstance(int iShaderIndex);
-	void	FreePixelShaderInstance(int iShaderIndex);
+    void    FreeVertexShaderInstance(int iShaderIndex);
+    void    FreePixelShaderInstance(int iShaderIndex);
 
-	void	SetNumPointLights(int iNumPointLights);
-	void	SetNumBones(int iNumBones);
-	void	SetLighting(bool bLighting);
-	void	SetShadows(bool bShadows);
-	void	SetFogofWar(bool bFogofWar);
-	void	SetFog(bool bFog);
-	void	SetTexcoords(int iTexcoords);
-	void	SetTexkill(bool bTexkill);
+    void    SetNumPointLights(int iNumPointLights);
+    void    SetNumBones(int iNumBones);
+    void    SetLighting(bool bLighting);
+    void    SetShadows(bool bShadows);
+    void    SetFogofWar(bool bFogofWar);
+    void    SetFog(bool bFog);
+    void    SetTexcoords(int iTexcoords);
+    void    SetTexkill(bool bTexkill);
 
-	ShaderKey	GenerateVertexShaderKey(ShaderHandle hShader);
-	ShaderKey	GeneratePixelShaderKey(ShaderHandle hShader);
+    ShaderKey   GenerateVertexShaderKey(ShaderHandle hShader);
+    ShaderKey   GeneratePixelShaderKey(ShaderHandle hShader);
 };
 
-extern	CShaderRegistry		g_ShaderRegistry;
+extern  CShaderRegistry     g_ShaderRegistry;
 //=============================================================================
 
 //=============================================================================
@@ -109,9 +109,9 @@ extern	CShaderRegistry		g_ShaderRegistry;
   CShaderRegistry::SetNumPointLights
   ====================*/
 inline
-void	CShaderRegistry::SetNumPointLights(int iNumPointLights)
+void    CShaderRegistry::SetNumPointLights(int iNumPointLights)
 {
-	m_iNumPointLights = iNumPointLights;
+    m_iNumPointLights = iNumPointLights;
 }
 
 
@@ -119,9 +119,9 @@ void	CShaderRegistry::SetNumPointLights(int iNumPointLights)
   CShaderRegistry::SetNumBones
   ====================*/
 inline
-void	CShaderRegistry::SetNumBones(int iNumBones)
+void    CShaderRegistry::SetNumBones(int iNumBones)
 {
-	m_iNumBones = (iNumBones + (BONE_UNIT - 1)) / BONE_UNIT * BONE_UNIT;
+    m_iNumBones = (iNumBones + (BONE_UNIT - 1)) / BONE_UNIT * BONE_UNIT;
 }
 
 
@@ -129,9 +129,9 @@ void	CShaderRegistry::SetNumBones(int iNumBones)
   CShaderRegistry::SetLighting
   ====================*/
 inline
-void	CShaderRegistry::SetLighting(bool bLighting)
+void    CShaderRegistry::SetLighting(bool bLighting)
 {
-	m_bLighting = bLighting;
+    m_bLighting = bLighting;
 }
 
 
@@ -139,9 +139,9 @@ void	CShaderRegistry::SetLighting(bool bLighting)
   CShaderRegistry::SetShadows
   ====================*/
 inline
-void	CShaderRegistry::SetShadows(bool bShadows)
+void    CShaderRegistry::SetShadows(bool bShadows)
 {
-	m_bShadows = bShadows;
+    m_bShadows = bShadows;
 }
 
 
@@ -149,9 +149,9 @@ void	CShaderRegistry::SetShadows(bool bShadows)
   CShaderRegistry::SetFogofWar
   ====================*/
 inline
-void	CShaderRegistry::SetFogofWar(bool bFogofWar)
+void    CShaderRegistry::SetFogofWar(bool bFogofWar)
 {
-	m_bFogofWar = bFogofWar;
+    m_bFogofWar = bFogofWar;
 }
 
 
@@ -159,9 +159,9 @@ void	CShaderRegistry::SetFogofWar(bool bFogofWar)
   CShaderRegistry::SetFog
   ====================*/
 inline
-void	CShaderRegistry::SetFog(bool bFog)
+void    CShaderRegistry::SetFog(bool bFog)
 {
-	m_bFog = bFog;
+    m_bFog = bFog;
 }
 
 
@@ -169,9 +169,9 @@ void	CShaderRegistry::SetFog(bool bFog)
   CShaderRegistry::SetTexcoords
   ====================*/
 inline
-void	CShaderRegistry::SetTexcoords(int iTexcoords)
+void    CShaderRegistry::SetTexcoords(int iTexcoords)
 {
-	m_iTexcoords = iTexcoords;
+    m_iTexcoords = iTexcoords;
 }
 
 
@@ -179,9 +179,9 @@ void	CShaderRegistry::SetTexcoords(int iTexcoords)
   CShaderRegistry::SetTexkill
   ====================*/
 inline
-void	CShaderRegistry::SetTexkill(bool bTexkill)
+void    CShaderRegistry::SetTexkill(bool bTexkill)
 {
-	m_bTexkill = bTexkill;
+    m_bTexkill = bTexkill;
 }
 //=============================================================================
 

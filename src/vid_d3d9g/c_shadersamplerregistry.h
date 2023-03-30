@@ -15,7 +15,7 @@ class CShaderSampler;
 //=============================================================================
 // Definitions
 //=============================================================================
-typedef map<tstring, CShaderSampler*>			ShaderSamplerMap;
+typedef map<tstring, CShaderSampler*>           ShaderSamplerMap;
 
 //=============================================================================
 
@@ -25,56 +25,56 @@ typedef map<tstring, CShaderSampler*>			ShaderSamplerMap;
 class CShaderSamplerRegistry
 {
 private:
-	static CShaderSamplerRegistry	*s_pInstance;
-	static bool				s_bRequested, s_bReleased;
+    static CShaderSamplerRegistry   *s_pInstance;
+    static bool             s_bRequested, s_bReleased;
 
-	CShaderSamplerRegistry() {}
-	CShaderSamplerRegistry(CShaderSamplerRegistry&);
-	CShaderSamplerRegistry& operator=(CShaderSamplerRegistry&);
+    CShaderSamplerRegistry() {}
+    CShaderSamplerRegistry(CShaderSamplerRegistry&);
+    CShaderSamplerRegistry& operator=(CShaderSamplerRegistry&);
 
-	ShaderSamplerMap		m_mapShaderSamplers;
+    ShaderSamplerMap        m_mapShaderSamplers;
 
 public:
-	static CShaderSamplerRegistry*	GetInstance();
-	static void				Release();
-	static bool				IsReleased()	{ return s_bReleased; }
+    static CShaderSamplerRegistry*  GetInstance();
+    static void             Release();
+    static bool             IsReleased()    { return s_bReleased; }
 
-	void					Register(CShaderSampler *pShaderSampler);
-	void					Unregister(const tstring &sName);
+    void                    Register(CShaderSampler *pShaderSampler);
+    void                    Unregister(const tstring &sName);
 
-	inline CShaderSampler*		GetShaderSampler(const tstring &sShaderSampler);
+    inline CShaderSampler*      GetShaderSampler(const tstring &sShaderSampler);
 
-	const ShaderSamplerMap&		GetShaderSamplerMap()	{ return m_mapShaderSamplers; }
+    const ShaderSamplerMap&     GetShaderSamplerMap()   { return m_mapShaderSamplers; }
 
-	inline bool				Exists(const tstring &sShaderSampler);
+    inline bool             Exists(const tstring &sShaderSampler);
 };
 
 
 /*====================
   CShaderSamplerRegistry::Exists
   ====================*/
-bool	CShaderSamplerRegistry::Exists(const tstring &sShaderSampler)
+bool    CShaderSamplerRegistry::Exists(const tstring &sShaderSampler)
 {
-	ShaderSamplerMap::iterator find = m_mapShaderSamplers.find(sShaderSampler);
+    ShaderSamplerMap::iterator find = m_mapShaderSamplers.find(sShaderSampler);
 
-	if (find == m_mapShaderSamplers.end())
-		return false;
+    if (find == m_mapShaderSamplers.end())
+        return false;
 
-	return true;
+    return true;
 }
 
 
 /*====================
   CShaderSamplerRegistry::GetShaderSampler
   ====================*/
-CShaderSampler	*CShaderSamplerRegistry::GetShaderSampler(const tstring &sShaderSampler)
+CShaderSampler  *CShaderSamplerRegistry::GetShaderSampler(const tstring &sShaderSampler)
 {
-	ShaderSamplerMap::iterator find = m_mapShaderSamplers.find(sShaderSampler);
+    ShaderSamplerMap::iterator find = m_mapShaderSamplers.find(sShaderSampler);
 
-	if (find == m_mapShaderSamplers.end())
-		return NULL;
-	else
-		return find->second;
+    if (find == m_mapShaderSamplers.end())
+        return NULL;
+    else
+        return find->second;
 }
 //=============================================================================
 #endif //__C_SHADERSAMPLERREGISTRY_H__

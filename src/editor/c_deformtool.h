@@ -23,19 +23,19 @@ class CBrush;
 //=============================================================================
 enum EDeformMode
 {
-	DEFORM_ADD,
-	DEFORM_FLATTEN,
-	DEFORM_SMOOTH,
-	DEFORM_CUT,
-	DEFORM_SLICE,
-	DEFORM_CLEAR,
-	DEFORM_REDUCE,
-	DEFORM_NOISE,
-	DEFORM_HARMONIC,
-	DEFORM_CLONE,
-	DEFORM_STAMP,
+    DEFORM_ADD,
+    DEFORM_FLATTEN,
+    DEFORM_SMOOTH,
+    DEFORM_CUT,
+    DEFORM_SLICE,
+    DEFORM_CLEAR,
+    DEFORM_REDUCE,
+    DEFORM_NOISE,
+    DEFORM_HARMONIC,
+    DEFORM_CLONE,
+    DEFORM_STAMP,
 
-	NUM_DEFORM_MODES
+    NUM_DEFORM_MODES
 };
 //=============================================================================
 
@@ -46,54 +46,54 @@ enum EDeformMode
 class CDeformTool : public ITool
 {
 private:
-	bool		m_bWorking;
-	bool		m_bInverse;
-	bool		m_bValidPosition;
-	CVec3f		m_v3EndPos;
-	float		m_fRX, m_fRY;
-	ResHandle	m_hLineMaterial;
-	ResHandle	m_hFont;
-	int			m_iOldX, m_iOldY, m_iXOffset, m_iYOffset;
+    bool        m_bWorking;
+    bool        m_bInverse;
+    bool        m_bValidPosition;
+    CVec3f      m_v3EndPos;
+    float       m_fRX, m_fRY;
+    ResHandle   m_hLineMaterial;
+    ResHandle   m_hFont;
+    int         m_iOldX, m_iOldY, m_iXOffset, m_iYOffset;
 
-	void	TerrainAdd(float *pRegion, CRecti &recArea, CBrush &brush, float fScale);
-	void	TerrainFlatten(float *pRegion, CRecti &recArea, CBrush &brush, float fScale, float fFlattenHeight);
-	void	TerrainSmooth(float *pRegion, CRecti &recArea, CBrush &brush, float fScale);
-	void	TerrainCut(float *pRegion, CRecti &recArea, CBrush &brush, float fScale, float fCutHeight);
-	void	TerrainSlice(float *pRegion, CRecti &recArea, CBrush &brush, float fSliceHeight);
-	void	TerrainClear(float *pRegion, CRecti &recArea, CBrush &brush);
-	void	TerrainReduce(float *pRegion, CRecti &recArea, CBrush &brush, float fScale);
-	void	TerrainNoise(float *pRegion, CRecti &recArea, CBrush &brush, float fScale, float fRX, float fRY, float fOctave);
-	void	TerrainHarmonic(float *pRegion, CRecti &recArea, CBrush &brush, float fScale, float fRX, float fRY, int iHarmonics);
-	void	TerrainClone(float *pRegion, CRecti &recArea, CBrush &brush, float fScale, int iTileX, int iTileY);
-	void	TerrainStamp(float *pRegion, CRecti &recArea);
-	bool	CanPantVert(int iX, int iY);
+    void    TerrainAdd(float *pRegion, CRecti &recArea, CBrush &brush, float fScale);
+    void    TerrainFlatten(float *pRegion, CRecti &recArea, CBrush &brush, float fScale, float fFlattenHeight);
+    void    TerrainSmooth(float *pRegion, CRecti &recArea, CBrush &brush, float fScale);
+    void    TerrainCut(float *pRegion, CRecti &recArea, CBrush &brush, float fScale, float fCutHeight);
+    void    TerrainSlice(float *pRegion, CRecti &recArea, CBrush &brush, float fSliceHeight);
+    void    TerrainClear(float *pRegion, CRecti &recArea, CBrush &brush);
+    void    TerrainReduce(float *pRegion, CRecti &recArea, CBrush &brush, float fScale);
+    void    TerrainNoise(float *pRegion, CRecti &recArea, CBrush &brush, float fScale, float fRX, float fRY, float fOctave);
+    void    TerrainHarmonic(float *pRegion, CRecti &recArea, CBrush &brush, float fScale, float fRX, float fRY, int iHarmonics);
+    void    TerrainClone(float *pRegion, CRecti &recArea, CBrush &brush, float fScale, int iTileX, int iTileY);
+    void    TerrainStamp(float *pRegion, CRecti &recArea);
+    bool    CanPantVert(int iX, int iY);
 
-	void	RenderBrush();
-	void	RenderStamp();
+    void    RenderBrush();
+    void    RenderStamp();
 
 public:
-	CDeformTool();
-	~CDeformTool()				{}
+    CDeformTool();
+    ~CDeformTool()              {}
 
-	void	CalcToolProperties();
-	void	DeformTerrain(float fFrameTime);
+    void    CalcToolProperties();
+    void    DeformTerrain(float fFrameTime);
 
-	void	PrimaryUp();
-	void	PrimaryDown();
-	void	SecondaryUp();
-	void	SecondaryDown();
-	void	TertiaryUp();
-	void	TertiaryDown();
-	void	QuaternaryUp();
-	void	QuaternaryDown();
+    void    PrimaryUp();
+    void    PrimaryDown();
+    void    SecondaryUp();
+    void    SecondaryDown();
+    void    TertiaryUp();
+    void    TertiaryDown();
+    void    QuaternaryUp();
+    void    QuaternaryDown();
 
-	void	Cancel();
-	void	Delete();
+    void    Cancel();
+    void    Delete();
 
-	void	Frame(float fFrameTime);
+    void    Frame(float fFrameTime);
 
-	void	Draw();
-	void	Render();
+    void    Draw();
+    void    Render();
 };
 //=============================================================================
 #endif // __C_DEFORMTOOL_H__

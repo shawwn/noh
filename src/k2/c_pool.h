@@ -24,26 +24,26 @@ template <class T>
 class CPool
 {
 private:
-	T*			m_pBuffer;
-	uint		m_uiSize;
-	uint		m_uiPos;
+    T*          m_pBuffer;
+    uint        m_uiSize;
+    uint        m_uiPos;
 
-	uint		m_uiMaxSize;
+    uint        m_uiMaxSize;
 
-	vector<T*>	m_vOldBuffers;
+    vector<T*>  m_vOldBuffers;
 
-	CPool();
-	
+    CPool();
+    
 public:
-	~CPool()	{ Reset(); MemManager.Deallocate(m_pBuffer, "c_pool"); m_pBuffer = NULL; }
-	CPool(uint uiStartSize, uint uiMaxSize);
-	CPool(const CPool &C);
-	CPool&	operator=(const CPool &A);
+    ~CPool()    { Reset(); MemManager.Deallocate(m_pBuffer, "c_pool"); m_pBuffer = NULL; }
+    CPool(uint uiStartSize, uint uiMaxSize);
+    CPool(const CPool &C);
+    CPool&  operator=(const CPool &A);
 
-	uint						GetSize() const				{ return m_uiSize; }
+    uint                        GetSize() const             { return m_uiSize; }
 
-	T*							Allocate();
-	void						Reset();
+    T*                          Allocate();
+    void                        Reset();
 };
 
 
@@ -80,17 +80,17 @@ m_uiMaxSize(C.m_uiMaxSize)
   ====================*/
 template <class T>
 inline
-CPool<T>&	CPool<T>::operator=(const CPool &A)
+CPool<T>&   CPool<T>::operator=(const CPool &A)
 {
-	//Reset();
-	MemManager.Deallocate(m_pBuffer, "c_pool");
+    //Reset();
+    MemManager.Deallocate(m_pBuffer, "c_pool");
 
-	m_pBuffer = static_cast<T*>(MemManager.Allocate(sizeof(T) * A.m_uiSize, "c_pool"));
-	m_uiSize = A.m_uiSize;
-	m_uiPos = 0;
-	m_uiMaxSize = A.m_uiMaxSize;
+    m_pBuffer = static_cast<T*>(MemManager.Allocate(sizeof(T) * A.m_uiSize, "c_pool"));
+    m_uiSize = A.m_uiSize;
+    m_uiPos = 0;
+    m_uiMaxSize = A.m_uiMaxSize;
 
-	return *this;
+    return *this;
 }
 
 
@@ -99,14 +99,14 @@ CPool<T>&	CPool<T>::operator=(const CPool &A)
   ====================*/
 template <class T>
 inline
-void	CPool<T>::Reset()
+void    CPool<T>::Reset()
 {
-	for (typename vector<T*>::iterator it(m_vOldBuffers.begin()); it != m_vOldBuffers.end(); ++it)
-		MemManager.Deallocate(*it, "c_pool");
+    for (typename vector<T*>::iterator it(m_vOldBuffers.begin()); it != m_vOldBuffers.end(); ++it)
+        MemManager.Deallocate(*it, "c_pool");
 
-	m_vOldBuffers.clear();
+    m_vOldBuffers.clear();
 
-	m_uiPos = 0;
+    m_uiPos = 0;
 }
 
 
@@ -115,21 +115,21 @@ void	CPool<T>::Reset()
   ====================*/
 template <class T>
 inline
-T*	CPool<T>::Allocate()
+T*  CPool<T>::Allocate()
 {
-	if (m_uiPos == m_uiSize)
-	{
-		if (m_uiSize != m_uiMaxSize)
-		{
-			m_uiSize = uint(MIN(m_uiSize * 2u, m_uiMaxSize));
-			m_vOldBuffers.push_back(m_pBuffer);
-			m_pBuffer = static_cast<T*>(MemManager.Allocate(sizeof(T) * m_uiSize, "c_pool"));
-		}
-		else
-			EX_WARN(_T("Pool new() requested more instances than are available"));
-	}
+    if (m_uiPos == m_uiSize)
+    {
+        if (m_uiSize != m_uiMaxSize)
+        {
+            m_uiSize = uint(MIN(m_uiSize * 2u, m_uiMaxSize));
+            m_vOldBuffers.push_back(m_pBuffer);
+            m_pBuffer = static_cast<T*>(MemManager.Allocate(sizeof(T) * m_uiSize, "c_pool"));
+        }
+        else
+            EX_WARN(_T("Pool new() requested more instances than are available"));
+    }
 
-	return &m_pBuffer[m_uiPos++];
+    return &m_pBuffer[m_uiPos++];
 }
 //=============================================================================
 #endif // __C_POOL_H__

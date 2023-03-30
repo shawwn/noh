@@ -41,15 +41,15 @@ m_pEntityConfig(GetEntityConfig())
 /*====================
   CStateDecay::StateFrame
   ====================*/
-void	CStateDecay::StateFrame()
+void    CStateDecay::StateFrame()
 {
-	IVisualEntity *pInflictor(Game.GetVisualEntity(m_uiInflictorIndex));
-	IVisualEntity *pOwner(Game.GetVisualEntity(m_uiOwnerIndex));
+    IVisualEntity *pInflictor(Game.GetVisualEntity(m_uiInflictorIndex));
+    IVisualEntity *pOwner(Game.GetVisualEntity(m_uiOwnerIndex));
 
-	if (pOwner != NULL && pOwner != pInflictor)
-		pOwner->Damage(m_pEntityConfig->GetDamagePerSecond() * MsToSec(Game.GetFrameLength()), 0, pInflictor, m_unDamageID);
-	else if (pOwner != NULL && pOwner == pInflictor)
-		pOwner->Damage(m_pEntityConfig->GetDamagePerSecond() * MsToSec(Game.GetFrameLength()), DAMAGE_FLAG_DIRECT, pInflictor, m_unDamageID);
+    if (pOwner != NULL && pOwner != pInflictor)
+        pOwner->Damage(m_pEntityConfig->GetDamagePerSecond() * MsToSec(Game.GetFrameLength()), 0, pInflictor, m_unDamageID);
+    else if (pOwner != NULL && pOwner == pInflictor)
+        pOwner->Damage(m_pEntityConfig->GetDamagePerSecond() * MsToSec(Game.GetFrameLength()), DAMAGE_FLAG_DIRECT, pInflictor, m_unDamageID);
 
-	return;
+    return;
 }

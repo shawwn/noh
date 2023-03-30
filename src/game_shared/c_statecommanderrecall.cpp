@@ -32,53 +32,53 @@ INIT_ENTITY_CVAR(TerminationEffect, _T(""))
 /*====================
   CStateCommanderRecall::StateFrame
   ====================*/
-void	CStateCommanderRecall::StateFrame()
+void    CStateCommanderRecall::StateFrame()
 {
-	IEntityState::StateFrame();
+    IEntityState::StateFrame();
 
-	if (m_uiActivationTime > 0 && Game.GetGameTime() >= m_uiActivationTime)
-	{
-		IPlayerEntity *pPlayer(Game.GetPlayerEntity(m_uiOwnerIndex));
-		if (pPlayer != NULL)
-		{
-			CGameEvent evPoof;
-			evPoof.SetSourcePosition(pPlayer->GetPosition());
-			evPoof.SetSourceAngles(pPlayer->GetAngles());
-			evPoof.SetEffect(Game.RegisterEffect(m_pEntityConfig->GetTerminationEffect()));
-			Game.AddEvent(evPoof);
+    if (m_uiActivationTime > 0 && Game.GetGameTime() >= m_uiActivationTime)
+    {
+        IPlayerEntity *pPlayer(Game.GetPlayerEntity(m_uiOwnerIndex));
+        if (pPlayer != NULL)
+        {
+            CGameEvent evPoof;
+            evPoof.SetSourcePosition(pPlayer->GetPosition());
+            evPoof.SetSourceAngles(pPlayer->GetAngles());
+            evPoof.SetEffect(Game.RegisterEffect(m_pEntityConfig->GetTerminationEffect()));
+            Game.AddEvent(evPoof);
 
-			pPlayer->Spawn2();
-		}
+            pPlayer->Spawn2();
+        }
 
-		m_uiActivationTime = -1;
-	}
+        m_uiActivationTime = -1;
+    }
 }
 
 
 /*====================
   CStateCommanderRecall::Use
   ====================*/
-bool	CStateCommanderRecall::Use(IGameEntity *pActivator)
+bool    CStateCommanderRecall::Use(IGameEntity *pActivator)
 {
-	if (m_uiActivationTime != 0)
-		return false;
+    if (m_uiActivationTime != 0)
+        return false;
 
-	m_uiActivationTime = Game.GetGameTime() + m_pEntityConfig->GetActivationDelay();
-	m_uiDuration = -1;
-	
-	ICombatEntity *pOwner(Game.GetCombatEntity(m_uiOwnerIndex));
-	if (pOwner == NULL)
-		return false;
+    m_uiActivationTime = Game.GetGameTime() + m_pEntityConfig->GetActivationDelay();
+    m_uiDuration = -1;
+    
+    ICombatEntity *pOwner(Game.GetCombatEntity(m_uiOwnerIndex));
+    if (pOwner == NULL)
+        return false;
 
-	ResHandle hEffect(Game.RegisterEffect(m_pEntityConfig->GetActivationEffect()));
-	if (hEffect != INVALID_RESOURCE)
-	{
-		CGameEvent evEffect;
-		evEffect.SetSourceEntity(pOwner->GetIndex());
-		evEffect.SetEffect(hEffect);
-		Game.AddEvent(evEffect);
-	}
+    ResHandle hEffect(Game.RegisterEffect(m_pEntityConfig->GetActivationEffect()));
+    if (hEffect != INVALID_RESOURCE)
+    {
+        CGameEvent evEffect;
+        evEffect.SetSourceEntity(pOwner->GetIndex());
+        evEffect.SetEffect(hEffect);
+        Game.AddEvent(evEffect);
+    }
 
-	pOwner->SetAction(PLAYER_ACTION_IMMOBILE, m_uiActivationTime);
-	return true;
+    pOwner->SetAction(PLAYER_ACTION_IMMOBILE, m_uiActivationTime);
+    return true;
 }

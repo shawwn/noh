@@ -36,10 +36,10 @@ CSkillHeal::CSkillHeal()
 /*====================
   CSkillHeal::ActivatePrimary
   ====================*/
-bool	CSkillHeal::ActivatePrimary(int iButtonStatus)
+bool    CSkillHeal::ActivatePrimary(int iButtonStatus)
 {
-	if (!ISkillItem::ActivatePrimary(iButtonStatus))
-		return false;
+    if (!ISkillItem::ActivatePrimary(iButtonStatus))
+        return false;
 
-	return true;
+    return true;
 }

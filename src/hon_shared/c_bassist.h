@@ -26,42 +26,42 @@
 class CBAssist : public CBFollow
 {
 private:
-	CBAttack	m_Attack;
-	uint		m_uiLastAggroUpdate;
-	bool		m_bAttacking;
-	float		m_fAssistRange;
+    CBAttack    m_Attack;
+    uint        m_uiLastAggroUpdate;
+    bool        m_bAttacking;
+    float       m_fAssistRange;
 
-	void	UpdateAggro();
-	void	Aggro(IUnitEntity *pAttacker, uint uiChaseTime);
+    void    UpdateAggro();
+    void    Aggro(IUnitEntity *pAttacker, uint uiChaseTime);
 
 public:
-	virtual	~CBAssist()	{}
-	
-	CBAssist() :
-	m_Attack(INVALID_INDEX),
-	m_uiLastAggroUpdate(INVALID_TIME),
-	m_bAttacking(false)
-	{
-		SetType(EBT_ASSIST);
-	}
+    virtual ~CBAssist() {}
+    
+    CBAssist() :
+    m_Attack(INVALID_INDEX),
+    m_uiLastAggroUpdate(INVALID_TIME),
+    m_bAttacking(false)
+    {
+        SetType(EBT_ASSIST);
+    }
 
-	virtual void		CopyFrom(const IBehavior* pBehavior);
-	virtual IBehavior*	Clone(CBrain* pNewBrain, IUnitEntity* pNewSelf) const;
+    virtual void        CopyFrom(const IBehavior* pBehavior);
+    virtual IBehavior*  Clone(CBrain* pNewBrain, IUnitEntity* pNewSelf) const;
 
-	virtual bool	Validate();
-	virtual void	Update();
-	virtual void	BeginBehavior();
-	virtual void	ThinkFrame();
-	virtual void	MovementFrame();
-	virtual void	ActionFrame();
-	virtual void	CleanupFrame();
-	virtual void	EndBehavior();
+    virtual bool    Validate();
+    virtual void    Update();
+    virtual void    BeginBehavior();
+    virtual void    ThinkFrame();
+    virtual void    MovementFrame();
+    virtual void    ActionFrame();
+    virtual void    CleanupFrame();
+    virtual void    EndBehavior();
 
-	virtual void	Damaged(IUnitEntity *pAttacker);
-	virtual void	Assist(IUnitEntity *pAlly, IUnitEntity *pAttacker);
-	virtual uint	GetAttackTarget() const		{ return m_bAttacking ? m_Attack.GetAttackTarget() : INVALID_INDEX; }
+    virtual void    Damaged(IUnitEntity *pAttacker);
+    virtual void    Assist(IUnitEntity *pAlly, IUnitEntity *pAttacker);
+    virtual uint    GetAttackTarget() const     { return m_bAttacking ? m_Attack.GetAttackTarget() : INVALID_INDEX; }
 
-	virtual void	SetValue0(float fValue)		{ m_fAssistRange = fValue; }
+    virtual void    SetValue0(float fValue)     { m_fAssistRange = fValue; }
 };
 //=============================================================================
 

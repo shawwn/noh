@@ -17,11 +17,11 @@
 class CPropSecondaryFoundation : public IPropFoundation
 {
 private:
-	DECLARE_ENT_ALLOCATOR(Prop, SecondaryFoundation)
+    DECLARE_ENT_ALLOCATOR(Prop, SecondaryFoundation)
 
 public:
-	~CPropSecondaryFoundation()	{}
-	CPropSecondaryFoundation()	{}
+    ~CPropSecondaryFoundation() {}
+    CPropSecondaryFoundation()  {}
 };
 //=============================================================================
 

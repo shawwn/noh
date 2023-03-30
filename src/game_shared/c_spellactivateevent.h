@@ -19,32 +19,32 @@ class ISpellItem;
 class CSpellActivateEvent
 {
 private:
-	ICombatEntity*	m_pOwner;
-	int				m_iSlot;
+    ICombatEntity*  m_pOwner;
+    int             m_iSlot;
 
-	bool			m_bActive;
-	uint			m_uiActivateTime;
-	bool			m_bActivated;
-	bool			m_bSucceeded;
+    bool            m_bActive;
+    uint            m_uiActivateTime;
+    bool            m_bActivated;
+    bool            m_bSucceeded;
 
 public:
-	~CSpellActivateEvent()	{}
-	CSpellActivateEvent();
+    ~CSpellActivateEvent()  {}
+    CSpellActivateEvent();
 
-	void	Clear();
+    void    Clear();
 
-	void	SetActive()								{ m_bActive = true; }
-	void	SetInactive()							{ m_bActive = false; }
-	bool	IsActive() const						{ return m_bActive; }
+    void    SetActive()                             { m_bActive = true; }
+    void    SetInactive()                           { m_bActive = false; }
+    bool    IsActive() const                        { return m_bActive; }
 
-	void	SetOwner(ICombatEntity *pOwner)			{ m_pOwner = pOwner; }
-	void	SetSlot(int iSlot)						{ m_iSlot = iSlot; }
-	void	SetActivateTime(uint uiTime)			{ m_uiActivateTime = uiTime; }
+    void    SetOwner(ICombatEntity *pOwner)         { m_pOwner = pOwner; }
+    void    SetSlot(int iSlot)                      { m_iSlot = iSlot; }
+    void    SetActivateTime(uint uiTime)            { m_uiActivateTime = uiTime; }
 
-	bool	GetActivated() const					{ return m_bActivated; }
-	bool	GetSucceeded() const					{ return m_bSucceeded; }
+    bool    GetActivated() const                    { return m_bActivated; }
+    bool    GetSucceeded() const                    { return m_bSucceeded; }
 
-	bool	TryImpact();
+    bool    TryImpact();
 };
 //=============================================================================
 

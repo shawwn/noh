@@ -17,15 +17,15 @@
 
 namespace XMLTreeDefinitionResource
 {
-	// <tree>
-	DECLARE_XML_PROCESSOR(tree)
-	BEGIN_XML_REGISTRATION(tree)
-		REGISTER_XML_PROCESSOR(root)
-	END_XML_REGISTRATION
-	BEGIN_XML_PROCESSOR(tree, CTreeDefinitionResource)
-		pObject->SetTreeScaleMin(node.GetPropertyFloat(_CWS("minscale"), 1.0f));
-		pObject->SetTreeScaleMax(node.GetPropertyFloat(_CWS("maxscale"), 1.0f));
-		pObject->SetTreeModelPath(node.GetProperty(_CWS("model"), _T("undefined")));
-		pObject->SetTreeName(node.GetProperty(_CWS("name"), _T("undefined")));
-	END_XML_PROCESSOR(pObject)
+    // <tree>
+    DECLARE_XML_PROCESSOR(tree)
+    BEGIN_XML_REGISTRATION(tree)
+        REGISTER_XML_PROCESSOR(root)
+    END_XML_REGISTRATION
+    BEGIN_XML_PROCESSOR(tree, CTreeDefinitionResource)
+        pObject->SetTreeScaleMin(node.GetPropertyFloat(_CWS("minscale"), 1.0f));
+        pObject->SetTreeScaleMax(node.GetPropertyFloat(_CWS("maxscale"), 1.0f));
+        pObject->SetTreeModelPath(node.GetProperty(_CWS("model"), _T("undefined")));
+        pObject->SetTreeName(node.GetProperty(_CWS("name"), _T("undefined")));
+    END_XML_PROCESSOR(pObject)
 }

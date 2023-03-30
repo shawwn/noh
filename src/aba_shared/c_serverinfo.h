@@ -21,21 +21,21 @@
 //=============================================================================
 class CServerInfo : public IGameEntity
 {
-	DECLARE_ENTITY_DESC
+    DECLARE_ENTITY_DESC
 
 private:
-	DECLARE_ENT_ALLOCATOR3(ServerInfo);
+    DECLARE_ENT_ALLOCATOR3(ServerInfo);
 
-	tstring				m_sName;
+    tstring             m_sName;
 
 public:
-	~CServerInfo();
-	CServerInfo();
+    ~CServerInfo();
+    CServerInfo();
 
-	// Network
-	virtual void	Baseline();
-	virtual void	GetSnapshot(CEntitySnapshot &snapshot) const;
-	virtual bool	ReadSnapshot(CEntitySnapshot &snapshot);
+    // Network
+    virtual void    Baseline();
+    virtual void    GetSnapshot(CEntitySnapshot &snapshot) const;
+    virtual bool    ReadSnapshot(CEntitySnapshot &snapshot);
 };
 //=============================================================================
 

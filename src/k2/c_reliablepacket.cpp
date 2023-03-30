@@ -40,9 +40,9 @@ m_pktSaved(pkt.m_pktSaved)
 /*====================
   CReliablePacket::operator=
   ====================*/
-CReliablePacket&	CReliablePacket::operator=(const CReliablePacket &pkt)
+CReliablePacket&    CReliablePacket::operator=(const CReliablePacket &pkt)
 {
-	m_uiTimeStamp = pkt.m_uiTimeStamp;
-	m_pktSaved = pkt.m_pktSaved;
-	return *this;
+    m_uiTimeStamp = pkt.m_uiTimeStamp;
+    m_pktSaved = pkt.m_pktSaved;
+    return *this;
 }

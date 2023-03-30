@@ -10,26 +10,26 @@ class CInterface;
 
 struct SGameInterfaceLib
 {
-	tstring	sName;
-	int		iMajorVersion;
-	int		iMinorVersion;
+    tstring sName;
+    int     iMajorVersion;
+    int     iMinorVersion;
 
-	bool	(*Initialize)(CHostInterface *pHostInterface);
-	//void	(*Frame)(); ?
-	IWidget*	(*AllocateWidgetExt)(const tstring &sName, CInterface *pInterface, IWidget *pParent, const CWidgetStyle &style);
-	void	(*Shutdown)();
+    bool    (*Initialize)(CHostInterface *pHostInterface);
+    //void  (*Frame)(); ?
+    IWidget*    (*AllocateWidgetExt)(const tstring &sName, CInterface *pInterface, IWidget *pParent, const CWidgetStyle &style);
+    void    (*Shutdown)();
 
-	SGameInterfaceLib() :
-	iMajorVersion(0),
-	iMinorVersion(0),
-	Initialize(NULL),
-	//Frame(NULL),
-	Shutdown(NULL)
-	{
-	}
+    SGameInterfaceLib() :
+    iMajorVersion(0),
+    iMinorVersion(0),
+    Initialize(NULL),
+    //Frame(NULL),
+    Shutdown(NULL)
+    {
+    }
 };
 
-typedef void	(FnInitInterfaceLib)(SGameInterfaceLib&);
+typedef void    (FnInitInterfaceLib)(SGameInterfaceLib&);
 typedef vector<IWidget *> WidgetVector;
 typedef map<string, IWidget *> ChannelToWidgetMap;
 
@@ -45,11 +45,11 @@ private:
   SGameInterfaceLib m_InterfaceLib;
 
 public:
-	K2_API ~CHostInterface();
-	K2_API CHostInterface();
+    K2_API ~CHostInterface();
+    K2_API CHostInterface();
 
-	K2_API bool Initialize();
-	K2_API IWidget*	AllocateWidgetExt(const tstring &sName, CInterface *pInterface, IWidget *pParent, const CWidgetStyle &style);
+    K2_API bool Initialize();
+    K2_API IWidget* AllocateWidgetExt(const tstring &sName, CInterface *pInterface, IWidget *pParent, const CWidgetStyle &style);
 };
 
 #endif //__C_HOSTINTERFACE_H__

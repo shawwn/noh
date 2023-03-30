@@ -42,18 +42,18 @@ vertexStride(0),
 vertexFVF(0),
 vertexDecl(0)
 {
-	M_ClearVec3(bmin);
-	M_ClearVec3(bmax);
+    M_ClearVec3(bmin);
+    M_ClearVec3(bmax);
 
-	for (int n = 0; n < MAX_UV_CHANNELS; ++n)
-	{
-		tverts[n] = NULL;
-		tangents[n] = NULL;
-		signs[n] = NULL;
-	}
+    for (int n = 0; n < MAX_UV_CHANNELS; ++n)
+    {
+        tverts[n] = NULL;
+        tangents[n] = NULL;
+        signs[n] = NULL;
+    }
 
-	for (int n = 0; n < MAX_VERTEX_COLOR_CHANNELS; ++n)
-		colors[n] = NULL;
+    for (int n = 0; n < MAX_VERTEX_COLOR_CHANNELS; ++n)
+        colors[n] = NULL;
 }
 
 
@@ -70,57 +70,57 @@ CMesh::~CMesh()
 
   Throw away data we don't need during runtime
   ====================*/
-void	CMesh::PostLoad()
+void    CMesh::PostLoad()
 {
-	if (normals)
-		renderflags |= MESH_NORMALS;
+    if (normals)
+        renderflags |= MESH_NORMALS;
 
-	// TODO: Detect the renderer and decide to keep it or not based on that
-	//SAFE_DELETE_ARRAY(normals);
-	//SAFE_DELETE_ARRAY(linkPool);
-	//SAFE_DELETE_ARRAY(blendedLinks);
-	//SAFE_DELETE_ARRAY(singleLinks);
+    // TODO: Detect the renderer and decide to keep it or not based on that
+    //SAFE_DELETE_ARRAY(normals);
+    //SAFE_DELETE_ARRAY(linkPool);
+    //SAFE_DELETE_ARRAY(blendedLinks);
+    //SAFE_DELETE_ARRAY(singleLinks);
 
-	for (int n = 0; n < MAX_UV_CHANNELS; ++n)
-	{
-		if (tverts[n] != NULL)
-			++num_uv_channels;
+    for (int n = 0; n < MAX_UV_CHANNELS; ++n)
+    {
+        if (tverts[n] != NULL)
+            ++num_uv_channels;
 
-		//SAFE_DELETE_ARRAY(tverts[n]);
-		//SAFE_DELETE_ARRAY(tangents[n]);
-	}
+        //SAFE_DELETE_ARRAY(tverts[n]);
+        //SAFE_DELETE_ARRAY(tangents[n]);
+    }
 
-	for (int n = 0; n < MAX_VERTEX_COLOR_CHANNELS; ++n)
-	{
-		if (colors[n] != NULL)
-			++num_color_channels;
+    for (int n = 0; n < MAX_VERTEX_COLOR_CHANNELS; ++n)
+    {
+        if (colors[n] != NULL)
+            ++num_color_channels;
 
-		//SAFE_DELETE_ARRAY(colors[n]);
-	}
+        //SAFE_DELETE_ARRAY(colors[n]);
+    }
 }
 
 
 /*====================
   CMesh::Free
   ====================*/
-void	CMesh::Free()
+void    CMesh::Free()
 {
-	SAFE_DELETE_ARRAY(faceList);
-	SAFE_DELETE_ARRAY(normals);
-	SAFE_DELETE_ARRAY(verts);
-	SAFE_DELETE_ARRAY(linkPool);
-	SAFE_DELETE_ARRAY(blendedLinks);
-	SAFE_DELETE_ARRAY(singleLinks);
+    SAFE_DELETE_ARRAY(faceList);
+    SAFE_DELETE_ARRAY(normals);
+    SAFE_DELETE_ARRAY(verts);
+    SAFE_DELETE_ARRAY(linkPool);
+    SAFE_DELETE_ARRAY(blendedLinks);
+    SAFE_DELETE_ARRAY(singleLinks);
 
-	for (int n = 0; n < MAX_UV_CHANNELS; ++n)
-	{
-		SAFE_DELETE_ARRAY(tverts[n]);
-		SAFE_DELETE_ARRAY(tangents[n]);
-		SAFE_DELETE_ARRAY(signs[n]);
-	}
+    for (int n = 0; n < MAX_UV_CHANNELS; ++n)
+    {
+        SAFE_DELETE_ARRAY(tverts[n]);
+        SAFE_DELETE_ARRAY(tangents[n]);
+        SAFE_DELETE_ARRAY(signs[n]);
+    }
 
-	for (int n = 0; n < MAX_VERTEX_COLOR_CHANNELS; ++n)
-	{
-		SAFE_DELETE_ARRAY(colors[n]);
-	}
+    for (int n = 0; n < MAX_VERTEX_COLOR_CHANNELS; ++n)
+    {
+        SAFE_DELETE_ARRAY(colors[n]);
+    }
 }

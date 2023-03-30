@@ -17,12 +17,12 @@
 class CConsumableAmmoSatchel : public IConsumableItem
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Consumable, AmmoSatchel);
+    DECLARE_ENT_ALLOCATOR2(Consumable, AmmoSatchel);
 
 public:
-	~CConsumableAmmoSatchel() {}
-	CConsumableAmmoSatchel() :
-	IConsumableItem(GetEntityConfig()) {}
+    ~CConsumableAmmoSatchel() {}
+    CConsumableAmmoSatchel() :
+    IConsumableItem(GetEntityConfig()) {}
 };
 //=============================================================================
 

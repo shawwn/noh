@@ -17,15 +17,15 @@
 class CGunImpFire: public IGunItem
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Gun, ImpFire);
+    DECLARE_ENT_ALLOCATOR2(Gun, ImpFire);
 
-	IProjectile*	FireProjectile(const CVec3f &v3Origin, const CVec3f &v3Dir, float fCharge);
+    IProjectile*    FireProjectile(const CVec3f &v3Origin, const CVec3f &v3Dir, float fCharge);
 
 public:
-	~CGunImpFire()	{}
-	CGunImpFire() :
-	IGunItem(GetEntityConfig())
-	{}
+    ~CGunImpFire()  {}
+    CGunImpFire() :
+    IGunItem(GetEntityConfig())
+    {}
 };
 //=============================================================================
 

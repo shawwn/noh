@@ -17,13 +17,13 @@
 class CLightStatic : public ILight
 {
 private:
-	DECLARE_ENT_ALLOCATOR(Light, Static);
+    DECLARE_ENT_ALLOCATOR(Light, Static);
 
 public:
-	~CLightStatic()	{}
-	CLightStatic()	{}
+    ~CLightStatic() {}
+    CLightStatic()  {}
 
-	virtual bool		IsStatic() const				{ return true; }
+    virtual bool        IsStatic() const                { return true; }
 };
 //=============================================================================
 

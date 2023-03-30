@@ -17,11 +17,11 @@
 class CPetSummoner : public IPetEntity
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Pet, Summoner);
+    DECLARE_ENT_ALLOCATOR2(Pet, Summoner);
 
 public:
-	~CPetSummoner()	{}
-	CPetSummoner() : IPetEntity(GetEntityConfig()) {}
+    ~CPetSummoner() {}
+    CPetSummoner() : IPetEntity(GetEntityConfig()) {}
 };
 //=============================================================================
 

@@ -35,5 +35,5 @@ CStateAttrition::CStateAttrition() :
 IEntityState(GetEntityConfig()),
 m_pEntityConfig(GetEntityConfig())
 {
-	m_modArmor.SetMult(m_pEntityConfig->GetArmorFactor());
+    m_modArmor.SetMult(m_pEntityConfig->GetArmorFactor());
 }

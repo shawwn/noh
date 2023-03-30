@@ -17,13 +17,13 @@
 class CMeleeShifterClaws : public IMeleeItem
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Melee, ShifterClaws);
+    DECLARE_ENT_ALLOCATOR2(Melee, ShifterClaws);
 
 public:
-	~CMeleeShifterClaws()	{}
-	CMeleeShifterClaws() :
-	IMeleeItem(GetEntityConfig())
-	{}
+    ~CMeleeShifterClaws()   {}
+    CMeleeShifterClaws() :
+    IMeleeItem(GetEntityConfig())
+    {}
 };
 //=============================================================================
 

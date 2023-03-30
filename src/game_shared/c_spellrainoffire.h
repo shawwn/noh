@@ -17,17 +17,17 @@
 class CSpellRainOfFire : public ISpellItem
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Spell, RainOfFire);
+    DECLARE_ENT_ALLOCATOR2(Spell, RainOfFire);
 
 public:
-	~CSpellRainOfFire()	{}
-	CSpellRainOfFire() :
-	ISpellItem(GetEntityConfig())
-	{}
+    ~CSpellRainOfFire() {}
+    CSpellRainOfFire() :
+    ISpellItem(GetEntityConfig())
+    {}
 
-	bool	TryImpact();
+    bool    TryImpact();
 
-	bool	ActivatePrimary(int iButtonStatus);
+    bool    ActivatePrimary(int iButtonStatus);
 };
 //=============================================================================
 

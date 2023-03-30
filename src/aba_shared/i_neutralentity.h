@@ -17,35 +17,35 @@
 //=============================================================================
 class INeutralEntity : public IUnitEntity
 {
-	DECLARE_ENTITY_DESC
+    DECLARE_ENTITY_DESC
 
 public:
-	typedef CNeutralDefinition TDefinition;
-	
+    typedef CNeutralDefinition TDefinition;
+    
 protected:
-	CVec3f				m_v3SpawnPosition;
+    CVec3f              m_v3SpawnPosition;
 
-	uint				m_uiSpawnControllerUID;
+    uint                m_uiSpawnControllerUID;
 
 public:
-	virtual ~INeutralEntity()	{}
-	INeutralEntity();
+    virtual ~INeutralEntity()   {}
+    INeutralEntity();
 
-	SUB_ENTITY_ACCESSOR(INeutralEntity, Neutral)
+    SUB_ENTITY_ACCESSOR(INeutralEntity, Neutral)
 
-	virtual void		Baseline();
-	virtual void		GetSnapshot(CEntitySnapshot &snapshot, uint uiFlags) const;
-	virtual bool		ReadSnapshot(CEntitySnapshot &snapshot, uint uiVersion);
-	virtual void		Copy(const IGameEntity &B);
+    virtual void        Baseline();
+    virtual void        GetSnapshot(CEntitySnapshot &snapshot, uint uiFlags) const;
+    virtual bool        ReadSnapshot(CEntitySnapshot &snapshot, uint uiVersion);
+    virtual void        Copy(const IGameEntity &B);
 
-	virtual bool		ServerFrameThink();
+    virtual bool        ServerFrameThink();
 
-	virtual void		Spawn();
-	virtual void		Die(IUnitEntity *pAttacker = NULL, ushort unKillingObjectID = INVALID_ENT_TYPE);
+    virtual void        Spawn();
+    virtual void        Die(IUnitEntity *pAttacker = NULL, ushort unKillingObjectID = INVALID_ENT_TYPE);
 
-	virtual void		OnTakeControl(IUnitEntity *pOwner);
+    virtual void        OnTakeControl(IUnitEntity *pOwner);
 
-	void				SetSpawnControllerUID(uint uiSpawnControllerUID)	{ m_uiSpawnControllerUID = uiSpawnControllerUID; }
+    void                SetSpawnControllerUID(uint uiSpawnControllerUID)    { m_uiSpawnControllerUID = uiSpawnControllerUID; }
 };
 //=============================================================================
 

@@ -5,9 +5,9 @@ env['GchSh'] = env.GchSh(target = '../editor_common.h.gch/'+build_type+'-'+arch,
 
 # libs to link against
 if build_type == 'debug':
-	env.Append(LIBS=['k2_debug-'+arch, 'game_shared_debug-'+arch])
+    env.Append(LIBS=['k2_debug-'+arch, 'game_shared_debug-'+arch])
 else:
-	env.Append(LIBS=['k2-'+arch, 'game_shared-'+arch])
+    env.Append(LIBS=['k2-'+arch, 'game_shared-'+arch])
 
 # cpp defines
 env.Append(CPPDEFINES = ['K2_DLL', 'GAME_SHARED_DLL', 'EDITOR_EXPORTS'])
@@ -30,16 +30,16 @@ env.Replace(SHLIBPREFIX='')
 
 # create the library, dependencies, install to game dir, target
 if build_type == 'debug':
-	libname = 'cgame_debug-'+arch+'.so'
-	env.SharedLibrary(target = libname, source = src)
-	env.Depends(libname, Alias('hon_shared-' + build_type + '-' + arch))
-	env.Install('#../Heroes of Newerth/editor', libname)
-	Alias(project + '-' + build_type + '-' + arch, libname)
-	Alias('install-' + project + '-' + build_type + '-' + arch, '#../Heroes of Newerth/editor/'+libname)
+    libname = 'cgame_debug-'+arch+'.so'
+    env.SharedLibrary(target = libname, source = src)
+    env.Depends(libname, Alias('hon_shared-' + build_type + '-' + arch))
+    env.Install('#../Heroes of Newerth/editor', libname)
+    Alias(project + '-' + build_type + '-' + arch, libname)
+    Alias('install-' + project + '-' + build_type + '-' + arch, '#../Heroes of Newerth/editor/'+libname)
 else:
-	libname = 'cgame-'+arch+'.so'
-	env.SplitSharedLibrary(target = [libname, libname+'.dbg'], source = src)
-	env.Depends([libname, libname+'.dbg'], Alias('hon_shared-' + build_type + '-' + arch))
-	env.Install('#../Heroes of Newerth/editor', [libname, libname+'.dbg'])
-	Alias(project + '-' + build_type + '-' + arch, [libname, libname+'.dbg'])
-	Alias('install-' + project + '-' + build_type + '-' + arch, ['#../Heroes of Newerth/editor/'+libname, '#../Heroes of Newerth/editor/'+libname+'.dbg'])
+    libname = 'cgame-'+arch+'.so'
+    env.SplitSharedLibrary(target = [libname, libname+'.dbg'], source = src)
+    env.Depends([libname, libname+'.dbg'], Alias('hon_shared-' + build_type + '-' + arch))
+    env.Install('#../Heroes of Newerth/editor', [libname, libname+'.dbg'])
+    Alias(project + '-' + build_type + '-' + arch, [libname, libname+'.dbg'])
+    Alias('install-' + project + '-' + build_type + '-' + arch, ['#../Heroes of Newerth/editor/'+libname, '#../Heroes of Newerth/editor/'+libname+'.dbg'])

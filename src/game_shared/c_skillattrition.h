@@ -17,13 +17,13 @@
 class CSkillAttrition : public ISkillItem
 {
 private:
-	DECLARE_ITEM_ALLOCATOR(Skill, Attrition)
+    DECLARE_ITEM_ALLOCATOR(Skill, Attrition)
 
 public:
-	~CSkillAttrition();
-	CSkillAttrition();
+    ~CSkillAttrition();
+    CSkillAttrition();
 
-	bool	ActivatePrimary(int iButtonStatus);
+    bool    ActivatePrimary(int iButtonStatus);
 };
 //=============================================================================
 

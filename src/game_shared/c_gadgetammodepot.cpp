@@ -20,11 +20,11 @@ DEFINE_ENT_ALLOCATOR2(Gadget, AmmoDepot);
 /*====================
   CGadgetAmmoDepot::UseEffect
   ====================*/
-bool	CGadgetAmmoDepot::UseEffect(IGameEntity *pActivator)
+bool    CGadgetAmmoDepot::UseEffect(IGameEntity *pActivator)
 {
-	IPlayerEntity *pPlayer(pActivator->GetAsPlayerEnt());
-	if (pPlayer == NULL)
-		return false;
+    IPlayerEntity *pPlayer(pActivator->GetAsPlayerEnt());
+    if (pPlayer == NULL)
+        return false;
 
-	return pPlayer->RefillAmmo();
+    return pPlayer->RefillAmmo();
 }

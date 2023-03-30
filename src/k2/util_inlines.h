@@ -8,9 +8,9 @@
   K2_SetVectorBit
   ====================*/
 inline
-void	K2_SetVectorBit(byte ayVector[], uint uiIndex)
+void    K2_SetVectorBit(byte ayVector[], uint uiIndex)
 {
-	ayVector[uiIndex >> 3] |= (1 << (uiIndex & 7));
+    ayVector[uiIndex >> 3] |= (1 << (uiIndex & 7));
 }
 
 
@@ -18,9 +18,9 @@ void	K2_SetVectorBit(byte ayVector[], uint uiIndex)
   K2_GetVectorBit
   ====================*/
 inline
-bool	K2_GetVectorBit(byte ayVector[], uint uiIndex)
+bool    K2_GetVectorBit(byte ayVector[], uint uiIndex)
 {
-	return (ayVector[uiIndex >> 3] & (1 << (uiIndex & 7))) != 0;
+    return (ayVector[uiIndex >> 3] & (1 << (uiIndex & 7))) != 0;
 }
 
 
@@ -31,9 +31,9 @@ bool	K2_GetVectorBit(byte ayVector[], uint uiIndex)
   Please don't cross byte boundries 
   ====================*/
 inline
-uint	K2_GetVectorQuad(byte ayVector[], uint uiIndex)
+uint    K2_GetVectorQuad(byte ayVector[], uint uiIndex)
 {
-	return (ayVector[uiIndex >> 3] & (3 << (uiIndex & 7))) >> (uiIndex & 7);
+    return (ayVector[uiIndex >> 3] & (3 << (uiIndex & 7))) >> (uiIndex & 7);
 }
 
 
@@ -41,10 +41,10 @@ uint	K2_GetVectorQuad(byte ayVector[], uint uiIndex)
   K2_SetTreeBit
   ====================*/
 inline
-void	K2_SetTreeBit(byte ayTree[], uint uiTreeWidth, uint uiIndex)
+void    K2_SetTreeBit(byte ayTree[], uint uiTreeWidth, uint uiIndex)
 {
-	for (uint uiPos(uiIndex + uiTreeWidth); uiPos != 0; uiPos >>= 1)
-		ayTree[uiPos >> 3] |= (1 << (uiPos & 7));
+    for (uint uiPos(uiIndex + uiTreeWidth); uiPos != 0; uiPos >>= 1)
+        ayTree[uiPos >> 3] |= (1 << (uiPos & 7));
 }
 
 
@@ -52,10 +52,10 @@ void	K2_SetTreeBit(byte ayTree[], uint uiTreeWidth, uint uiIndex)
   K2_SetTreeBit2
   ====================*/
 inline
-void	K2_SetTreeBit2(byte ayTree[], uint uiTreeWidth, uint uiIndex)
+void    K2_SetTreeBit2(byte ayTree[], uint uiTreeWidth, uint uiIndex)
 {
-	for (uint uiPos(uiIndex + uiTreeWidth); uiPos != 0 && (ayTree[uiPos >> 3] & (1 << (uiPos & 7))) == 0; uiPos >>= 1)
-		ayTree[uiPos >> 3] |= (1 << (uiPos & 7));
+    for (uint uiPos(uiIndex + uiTreeWidth); uiPos != 0 && (ayTree[uiPos >> 3] & (1 << (uiPos & 7))) == 0; uiPos >>= 1)
+        ayTree[uiPos >> 3] |= (1 << (uiPos & 7));
 }
 
 
@@ -63,22 +63,22 @@ void	K2_SetTreeBit2(byte ayTree[], uint uiTreeWidth, uint uiIndex)
   K2_SetTreeBits
   ====================*/
 inline
-void	K2_SetTreeBits(byte ayTree[], uint uiTreeWidth)
+void    K2_SetTreeBits(byte ayTree[], uint uiTreeWidth)
 {
-	while (uiTreeWidth > 1)
-	{
-		uint uiEnd(uiTreeWidth << 1);
-		for (uint uiPos(uiTreeWidth); uiPos != uiEnd; uiPos += 2)
-		{
-			if ((ayTree[uiPos >> 3] & (3 << (uiPos & 7))) != 0) // Check two bits
-			{
-				uint uiParentPos(uiPos >> 1);
-				ayTree[uiParentPos >> 3] |= (1 << (uiParentPos & 7));
-			}
-		}
+    while (uiTreeWidth > 1)
+    {
+        uint uiEnd(uiTreeWidth << 1);
+        for (uint uiPos(uiTreeWidth); uiPos != uiEnd; uiPos += 2)
+        {
+            if ((ayTree[uiPos >> 3] & (3 << (uiPos & 7))) != 0) // Check two bits
+            {
+                uint uiParentPos(uiPos >> 1);
+                ayTree[uiParentPos >> 3] |= (1 << (uiParentPos & 7));
+            }
+        }
 
-		uiTreeWidth >>= 1;
-	}
+        uiTreeWidth >>= 1;
+    }
 }
 
 
@@ -86,9 +86,9 @@ void	K2_SetTreeBits(byte ayTree[], uint uiTreeWidth)
   K2_IsParentTrue
   ====================*/
 inline
-bool	K2_IsParentTrue(byte ayTree[], uint uiIndex)
+bool    K2_IsParentTrue(byte ayTree[], uint uiIndex)
 {
-	return K2_GetVectorBit(ayTree, uiIndex >> 1);
+    return K2_GetVectorBit(ayTree, uiIndex >> 1);
 }
 
 
@@ -99,17 +99,17 @@ bool	K2_IsParentTrue(byte ayTree[], uint uiIndex)
   otherwise 4 component
   ====================*/
 inline
-tstring	K2_Version(const tstring &sVersion)
+tstring K2_Version(const tstring &sVersion)
 {
-	tstring sNewVersion(sVersion);
-	tsvector vsNewVersion(TokenizeString(sNewVersion, '.'));
+    tstring sNewVersion(sVersion);
+    tsvector vsNewVersion(TokenizeString(sNewVersion, '.'));
 
-	if (vsNewVersion.size() > 1 && (vsNewVersion.size() < 4 || CompareNoCase(vsNewVersion[3], _T("0")) == 0))
-		sNewVersion = ConcatinateArgs(vsNewVersion.begin(), vsNewVersion.end() - 1, _T("."));
-	else
-		sNewVersion = ConcatinateArgs(vsNewVersion, _T("."));
+    if (vsNewVersion.size() > 1 && (vsNewVersion.size() < 4 || CompareNoCase(vsNewVersion[3], _T("0")) == 0))
+        sNewVersion = ConcatinateArgs(vsNewVersion.begin(), vsNewVersion.end() - 1, _T("."));
+    else
+        sNewVersion = ConcatinateArgs(vsNewVersion, _T("."));
 
-	return sNewVersion;
+    return sNewVersion;
 }
 
 
@@ -119,17 +119,17 @@ tstring	K2_Version(const tstring &sVersion)
   3 Component version number
   ====================*/
 inline
-tstring	K2_Version3(const tstring &sVersion)
+tstring K2_Version3(const tstring &sVersion)
 {
-	tstring sNewVersion(sVersion);
-	tsvector vsNewVersion(TokenizeString(sNewVersion, '.'));
+    tstring sNewVersion(sVersion);
+    tsvector vsNewVersion(TokenizeString(sNewVersion, '.'));
 
-	while (vsNewVersion.size() < 3)
-		vsNewVersion.push_back(_T("0"));
+    while (vsNewVersion.size() < 3)
+        vsNewVersion.push_back(_T("0"));
 
-	sNewVersion = ConcatinateArgs(vsNewVersion.begin(), vsNewVersion.begin() + 3, _T("."));
+    sNewVersion = ConcatinateArgs(vsNewVersion.begin(), vsNewVersion.begin() + 3, _T("."));
 
-	return sNewVersion;
+    return sNewVersion;
 }
 
 
@@ -139,19 +139,19 @@ tstring	K2_Version3(const tstring &sVersion)
   Compute a FNV-1a hash of a block of memory
   ====================*/
 inline
-size_t	K2_HashMem(const void *pMem, size_t size)
+size_t  K2_HashMem(const void *pMem, size_t size)
 {
-	const size_t FNV_OFFSET_BASIS(2166136261UL);
-	const size_t FNV_PRIME(16777619UL);
+    const size_t FNV_OFFSET_BASIS(2166136261UL);
+    const size_t FNV_PRIME(16777619UL);
 
-	const char *p((const char*)pMem);
-	size_t ret(FNV_OFFSET_BASIS);
-	while (size-- > 0)
-	{
-		ret ^= *p++;
-		ret *= FNV_PRIME;
-	}
-	return ret;
+    const char *p((const char*)pMem);
+    size_t ret(FNV_OFFSET_BASIS);
+    while (size-- > 0)
+    {
+        ret ^= *p++;
+        ret *= FNV_PRIME;
+    }
+    return ret;
 }
 //=============================================================================
 

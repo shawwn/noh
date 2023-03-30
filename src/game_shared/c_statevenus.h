@@ -17,20 +17,20 @@
 class CStateVenus : public IEntityState
 {
 private:
-	START_ENTITY_CONFIG(IEntityState)
-		DECLARE_ENTITY_CVAR(float, DamagePerSecond)
-		DECLARE_ENTITY_CVAR(float, SpeedMult)
-	END_ENTITY_CONFIG
+    START_ENTITY_CONFIG(IEntityState)
+        DECLARE_ENTITY_CVAR(float, DamagePerSecond)
+        DECLARE_ENTITY_CVAR(float, SpeedMult)
+    END_ENTITY_CONFIG
 
-	CEntityConfig*	m_pEntityConfig;
+    CEntityConfig*  m_pEntityConfig;
 
-	DECLARE_ENT_ALLOCATOR2(State, Venus)
+    DECLARE_ENT_ALLOCATOR2(State, Venus)
 
 public:
-	~CStateVenus()	{}
-	CStateVenus();
+    ~CStateVenus()  {}
+    CStateVenus();
 
-	void	StateFrame();
+    void    StateFrame();
 };
 //=============================================================================
 

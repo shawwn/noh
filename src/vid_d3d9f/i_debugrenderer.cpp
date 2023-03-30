@@ -43,23 +43,23 @@
 IDebugRenderer::IDebugRenderer() :
 IRenderer(RT_UNKNOWN)
 {
-	m_iNumActivePointLights = 0;
-	m_iNumActiveBones = 0;
+    m_iNumActivePointLights = 0;
+    m_iNumActiveBones = 0;
 
-	m_bObjectColor = false;
-	m_pCurrentEntity = NULL;
+    m_bObjectColor = false;
+    m_pCurrentEntity = NULL;
 
-	m_mWorld = g_mIdentity;
-	m_mWorldRotate = g_mIdentity;
+    m_mWorld = g_mIdentity;
+    m_mWorldRotate = g_mIdentity;
 
-	// Set static sorting variables
-	m_bTranslucent = false;
-	m_iLayer = INT_MAX;
-	m_iEffectLayer = 0;
-	m_iVertexType = VERTEX_LINE;
-	m_uiVertexBuffer = 0;
-	m_uiIndexBuffer = 0;
-	m_fDepth = 0.0f;
+    // Set static sorting variables
+    m_bTranslucent = false;
+    m_iLayer = INT_MAX;
+    m_iEffectLayer = 0;
+    m_iVertexType = VERTEX_LINE;
+    m_uiVertexBuffer = 0;
+    m_uiIndexBuffer = 0;
+    m_fDepth = 0.0f;
 }
 
 
@@ -74,36 +74,36 @@ IDebugRenderer::~IDebugRenderer()
 /*====================
   IDebugRenderer::Setup
   ====================*/
-void	IDebugRenderer::Setup(EMaterialPhase ePhase)
+void    IDebugRenderer::Setup(EMaterialPhase ePhase)
 {
-	PROFILE("IDebugRenderer::Setup");
+    PROFILE("IDebugRenderer::Setup");
 
-	m_bRender = false; // Set to true if we make it to the end of the function
+    m_bRender = false; // Set to true if we make it to the end of the function
 
-	if (ePhase != PHASE_COLOR)
-		return;
+    if (ePhase != PHASE_COLOR)
+        return;
 
-	m_pCam = g_pCam;
-	m_bLighting = gfx_lighting;
-	m_bShadows = g_bCamShadows;
-	m_bFog = g_bCamFog;
-	m_vAmbient = SceneManager.GetEntityAmbientColor();
-	m_vSunColor = SceneManager.GetEntitySunColor();
+    m_pCam = g_pCam;
+    m_bLighting = gfx_lighting;
+    m_bShadows = g_bCamShadows;
+    m_bFog = g_bCamFog;
+    m_vAmbient = SceneManager.GetEntityAmbientColor();
+    m_vSunColor = SceneManager.GetEntitySunColor();
 
-	m_mWorldViewProj = g_mViewProj;
+    m_mWorldViewProj = g_mViewProj;
 
-	g_ShaderRegistry.SetNumPointLights(m_iNumActivePointLights);
-	g_ShaderRegistry.SetNumBones(m_iNumActiveBones);
-	g_ShaderRegistry.SetLighting(m_bLighting);
-	g_ShaderRegistry.SetShadows(m_bShadows);
-	g_ShaderRegistry.SetFogofWar(g_bFogofWar);
-	g_ShaderRegistry.SetFog(m_bFog);
-	g_ShaderRegistry.SetTexcoords(m_iTexcoords);
-	g_ShaderRegistry.SetTexkill(m_bTexkill);
+    g_ShaderRegistry.SetNumPointLights(m_iNumActivePointLights);
+    g_ShaderRegistry.SetNumBones(m_iNumActiveBones);
+    g_ShaderRegistry.SetLighting(m_bLighting);
+    g_ShaderRegistry.SetShadows(m_bShadows);
+    g_ShaderRegistry.SetFogofWar(g_bFogofWar);
+    g_ShaderRegistry.SetFog(m_bFog);
+    g_ShaderRegistry.SetTexcoords(m_iTexcoords);
+    g_ShaderRegistry.SetTexkill(m_bTexkill);
 
-	// Set dynamic sorting variables
-	m_iVertexShaderInstance = g_ShaderRegistry.GetVertexShaderInstance(g_SimpleMaterial3DColored.GetPhase(ePhase).GetVertexShader());
-	m_iPixelShaderInstance = g_ShaderRegistry.GetPixelShaderInstance(g_SimpleMaterial3DColored.GetPhase(ePhase).GetPixelShader());
+    // Set dynamic sorting variables
+    m_iVertexShaderInstance = g_ShaderRegistry.GetVertexShaderInstance(g_SimpleMaterial3DColored.GetPhase(ePhase).GetVertexShader());
+    m_iPixelShaderInstance = g_ShaderRegistry.GetPixelShaderInstance(g_SimpleMaterial3DColored.GetPhase(ePhase).GetPixelShader());
 
-	m_bRender = true;
+    m_bRender = true;
 }

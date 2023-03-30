@@ -24,67 +24,67 @@ DECLARE_ENTITY_DEFINITION_XML_PROCESSOR(IAffector, Affector, affector)
 //=============================================================================
 class CAffectorDefinition : public IEntityDefinition
 {
-	DECLARE_DEFINITION_TYPE_INFO
+    DECLARE_DEFINITION_TYPE_INFO
 
-	ENT_DEF_ARRAY_PROPERTY(Lifetime, uint)
-	ENT_DEF_TEMPORAL_ARRAY_PROPERTY(Radius, float)
-	ENT_DEF_TEMPORAL_ARRAY_PROPERTY(InnerRadiusOffset, float)
-	ENT_DEF_TEMPORAL_ARRAY_PROPERTY(Arc, float)
-	ENT_DEF_TEMPORAL_ARRAY_PROPERTY(Angle, float)
-	ENT_DEF_TEMPORAL_ARRAY_PROPERTY(Speed, float)
-	ENT_DEF_ARRAY_PROPERTY(ImpactDelay, uint)
-	ENT_DEF_ARRAY_PROPERTY(ImpactInterval, uint)
-	ENT_DEF_ARRAY_PROPERTY(MaxIntervals, uint)
-	ENT_DEF_ARRAY_PROPERTY(MaxTotalImpacts, uint)
-	ENT_DEF_ARRAY_PROPERTY(MaxImpactsPerInterval, uint)
-	ENT_DEF_ARRAY_PROPERTY(MaxImpactsPerTarget, uint)
-	ENT_DEF_ARRAY_PROPERTY(MaxImpactsPerTargetPerInterval, uint)
-	ENT_DEF_ARRAY_PROPERTY(TargetSelection, ETargetSelection)
-	ENT_DEF_ARRAY_PROPERTY_EX(TargetScheme, uint, Game.LookupTargetScheme)
-	ENT_DEF_ARRAY_PROPERTY_EX(EffectType, uint, Game.LookupEffectType)
-	ENT_DEF_ARRAY_PROPERTY(IgnoreInvulnerable, bool)
-	ENT_DEF_ARRAY_PROPERTY(Persist, bool)
-	ENT_DEF_ARRAY_PROPERTY(DestroyTrees, bool)
-	ENT_DEF_ARRAY_PROPERTY(CanTurn, bool)
+    ENT_DEF_ARRAY_PROPERTY(Lifetime, uint)
+    ENT_DEF_TEMPORAL_ARRAY_PROPERTY(Radius, float)
+    ENT_DEF_TEMPORAL_ARRAY_PROPERTY(InnerRadiusOffset, float)
+    ENT_DEF_TEMPORAL_ARRAY_PROPERTY(Arc, float)
+    ENT_DEF_TEMPORAL_ARRAY_PROPERTY(Angle, float)
+    ENT_DEF_TEMPORAL_ARRAY_PROPERTY(Speed, float)
+    ENT_DEF_ARRAY_PROPERTY(ImpactDelay, uint)
+    ENT_DEF_ARRAY_PROPERTY(ImpactInterval, uint)
+    ENT_DEF_ARRAY_PROPERTY(MaxIntervals, uint)
+    ENT_DEF_ARRAY_PROPERTY(MaxTotalImpacts, uint)
+    ENT_DEF_ARRAY_PROPERTY(MaxImpactsPerInterval, uint)
+    ENT_DEF_ARRAY_PROPERTY(MaxImpactsPerTarget, uint)
+    ENT_DEF_ARRAY_PROPERTY(MaxImpactsPerTargetPerInterval, uint)
+    ENT_DEF_ARRAY_PROPERTY(TargetSelection, ETargetSelection)
+    ENT_DEF_ARRAY_PROPERTY_EX(TargetScheme, uint, Game.LookupTargetScheme)
+    ENT_DEF_ARRAY_PROPERTY_EX(EffectType, uint, Game.LookupEffectType)
+    ENT_DEF_ARRAY_PROPERTY(IgnoreInvulnerable, bool)
+    ENT_DEF_ARRAY_PROPERTY(Persist, bool)
+    ENT_DEF_ARRAY_PROPERTY(DestroyTrees, bool)
+    ENT_DEF_ARRAY_PROPERTY(CanTurn, bool)
 
-	ENT_DEF_RESOURCE_ARRAY_PROPERTY(Effect, Effect)
-	ENT_DEF_RESOURCE_ARRAY_PROPERTY(ImpactEffect, Effect)
-	ENT_DEF_RESOURCE_ARRAY_PROPERTY(BridgeEffect, Effect)
-	ENT_DEF_RESOURCE_ARRAY_PROPERTY(LinkEffect, Effect)
+    ENT_DEF_RESOURCE_ARRAY_PROPERTY(Effect, Effect)
+    ENT_DEF_RESOURCE_ARRAY_PROPERTY(ImpactEffect, Effect)
+    ENT_DEF_RESOURCE_ARRAY_PROPERTY(BridgeEffect, Effect)
+    ENT_DEF_RESOURCE_ARRAY_PROPERTY(LinkEffect, Effect)
 
 protected:
-	virtual void	PrecacheV(EPrecacheScheme eScheme, const tstring &sModifier)
-	{
-		IEntityDefinition::PrecacheV(eScheme, sModifier);
+    virtual void    PrecacheV(EPrecacheScheme eScheme, const tstring &sModifier)
+    {
+        IEntityDefinition::PrecacheV(eScheme, sModifier);
 
-		PRECACHE_GUARD
+        PRECACHE_GUARD
 
-			PrecacheEffect();
-			PrecacheImpactEffect();
-			PrecacheBridgeEffect();
-			PrecacheLinkEffect();
+            PrecacheEffect();
+            PrecacheImpactEffect();
+            PrecacheBridgeEffect();
+            PrecacheLinkEffect();
 
-		PRECACHE_GUARD_END
-	}
+        PRECACHE_GUARD_END
+    }
 
-	virtual void	GetPrecacheListV(EPrecacheScheme eScheme, const tstring &sModifier, HeroPrecacheList &deqPrecache)
-	{
-		IEntityDefinition::GetPrecacheListV(eScheme, sModifier, deqPrecache);
+    virtual void    GetPrecacheListV(EPrecacheScheme eScheme, const tstring &sModifier, HeroPrecacheList &deqPrecache)
+    {
+        IEntityDefinition::GetPrecacheListV(eScheme, sModifier, deqPrecache);
 
-		PRECACHE_GUARD
-			// ...
-		PRECACHE_GUARD_END
-	}
+        PRECACHE_GUARD
+            // ...
+        PRECACHE_GUARD_END
+    }
 
 public:
-	~CAffectorDefinition()	{}
-	CAffectorDefinition() :
-	IEntityDefinition(&g_allocatorAffector)
-	{}
+    ~CAffectorDefinition()  {}
+    CAffectorDefinition() :
+    IEntityDefinition(&g_allocatorAffector)
+    {}
 
-	IEntityDefinition*	GetCopy() const	{ return K2_NEW(ctx_Game,    CAffectorDefinition)(*this); }
+    IEntityDefinition*  GetCopy() const { return K2_NEW(ctx_Game,    CAffectorDefinition)(*this); }
 
-	virtual void	ImportDefinition(IEntityDefinition *pOtherDefinition);
+    virtual void    ImportDefinition(IEntityDefinition *pOtherDefinition);
 };
 //=============================================================================
 

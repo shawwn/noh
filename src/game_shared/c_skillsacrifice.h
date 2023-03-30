@@ -17,15 +17,15 @@
 class CSkillSacrifice : public ISkillSelfBuff
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Skill, Sacrifice)
+    DECLARE_ENT_ALLOCATOR2(Skill, Sacrifice)
 
 public:
-	~CSkillSacrifice()	{}
-	CSkillSacrifice() :
-	ISkillSelfBuff(GetEntityConfig())
-	{}
+    ~CSkillSacrifice()  {}
+    CSkillSacrifice() :
+    ISkillSelfBuff(GetEntityConfig())
+    {}
 
-	virtual void	Impact();
+    virtual void    Impact();
 };
 //=============================================================================
 

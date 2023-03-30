@@ -18,17 +18,17 @@
 //=============================================================================
 // Definitions
 //=============================================================================
-IResource*	AllocPetDefinition(const tstring &sPath, const char *pData, int iSize);
+IResource*  AllocPetDefinition(const tstring &sPath, const char *pData, int iSize);
 
-IResourceLibrary	g_ResLibPetDef(RES_PET_DEF, _T("PetDefs"), true, AllocPetDefinition);
+IResourceLibrary    g_ResLibPetDef(RES_PET_DEF, _T("PetDefs"), true, AllocPetDefinition);
 //=============================================================================
 
 /*====================
   AllocPetDefinition
   ====================*/
-IResource*	AllocPetDefinition(const tstring &sPath, const char *pData, int iSize)
+IResource*  AllocPetDefinition(const tstring &sPath, const char *pData, int iSize)
 {
-	return K2_NEW(g_heapResources,    CPetDefinition)(sPath, pData, iSize);
+    return K2_NEW(g_heapResources,    CPetDefinition)(sPath, pData, iSize);
 }
 
 
@@ -44,19 +44,19 @@ IEntityDefinition(sPath, pData, iSize, &g_allocatorPet)
 /*====================
   CPetDefinition::Load
   ====================*/
-int		CPetDefinition::Load(uint uiIgnoreFlags)
+int     CPetDefinition::Load(uint uiIgnoreFlags)
 {
-	PROFILE("CPetDefinition::Load");
+    PROFILE("CPetDefinition::Load");
 
-	Console.Res << "Loading pet definition " << SingleQuoteStr(m_sPath) << newl;
+    Console.Res << "Loading pet definition " << SingleQuoteStr(m_sPath) << newl;
 
-	// Process the XML
-	if (!XMLManager.ReadBuffer(m_pData, m_iSize, this))
-	{
-		Console.Warn << _T("CPetDefinition::Load(") + m_sPath + _T(") - couldn't read XML") << newl;
-		return RES_LOAD_FAILED;
-	}
+    // Process the XML
+    if (!XMLManager.ReadBuffer(m_pData, m_iSize, this))
+    {
+        Console.Warn << _T("CPetDefinition::Load(") + m_sPath + _T(") - couldn't read XML") << newl;
+        return RES_LOAD_FAILED;
+    }
 
-	SAFE_DELETE_ARRAY(m_pData);
-	return 0;
+    SAFE_DELETE_ARRAY(m_pData);
+    return 0;
 }

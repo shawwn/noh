@@ -39,76 +39,76 @@ CScriptThread::~CScriptThread()
 /*====================
   CScriptThread::Frame
   ====================*/
-void	CScriptThread::Frame()
+void    CScriptThread::Frame()
 {
-	while (!m_qActiveScripts.empty())
-	{
-		CScript *pScript = m_qActiveScripts.back();
+    while (!m_qActiveScripts.empty())
+    {
+        CScript *pScript = m_qActiveScripts.back();
 
-		if (pScript->Execute())
-		{
-			m_qActiveScripts.pop_back();
-			K2_DELETE(pScript);
-		}
-		else
-		{
-			break;
-		}
-	}
+        if (pScript->Execute())
+        {
+            m_qActiveScripts.pop_back();
+            K2_DELETE(pScript);
+        }
+        else
+        {
+            break;
+        }
+    }
 
-	if (m_qActiveScripts.empty())
-		m_bFinished = true;
+    if (m_qActiveScripts.empty())
+        m_bFinished = true;
 }
 
 
 /*====================
   CScriptThread::ExecuteScript
   ====================*/
-void	CScriptThread::ExecuteScript(const tstring &sData, bool bFile, tsmapts *mapParams)
+void    CScriptThread::ExecuteScript(const tstring &sData, bool bFile, tsmapts *mapParams)
 {
-	CScript	*pNewScript = K2_NEW(ctx_Script,  CScript)(mapParams);
-	CScript	*pOldScript = !m_qActiveScripts.empty() ? m_qActiveScripts.back() : NULL;
+    CScript *pNewScript = K2_NEW(ctx_Script,  CScript)(mapParams);
+    CScript *pOldScript = !m_qActiveScripts.empty() ? m_qActiveScripts.back() : NULL;
 
-	if (bFile)
-		pNewScript->LoadFile(sData);
-	else
-		pNewScript->LoadScript(sData);
+    if (bFile)
+        pNewScript->LoadFile(sData);
+    else
+        pNewScript->LoadScript(sData);
 
-	if (!pNewScript->IsLoaded())
-	{
-		K2_DELETE(pNewScript);
-		return;
-	}
+    if (!pNewScript->IsLoaded())
+    {
+        K2_DELETE(pNewScript);
+        return;
+    }
 
-	m_qActiveScripts.push_back(pNewScript);
+    m_qActiveScripts.push_back(pNewScript);
 
-	if (pNewScript->Execute())
-	{
-		K2_DELETE(pNewScript);
-		m_qActiveScripts.pop_back();
-	}
-	else if (pOldScript)
-	{
-		pOldScript->Sleep(0); // Pause the script that called this script
-	}
+    if (pNewScript->Execute())
+    {
+        K2_DELETE(pNewScript);
+        m_qActiveScripts.pop_back();
+    }
+    else if (pOldScript)
+    {
+        pOldScript->Sleep(0); // Pause the script that called this script
+    }
 }
 
 /*====================
   CScriptThread::GotoScriptLabel
   ====================*/
-void	CScriptThread::GotoScriptLabel(const tstring &sLabel)
+void    CScriptThread::GotoScriptLabel(const tstring &sLabel)
 {
-	if (!m_qActiveScripts.empty())
-		m_qActiveScripts.back()->Goto(sLabel);
+    if (!m_qActiveScripts.empty())
+        m_qActiveScripts.back()->Goto(sLabel);
 }
 
 
 /*====================
   CScriptThread::PauseScript
   ====================*/
-void	CScriptThread::PauseScript(dword dwMilliseconds)
+void    CScriptThread::PauseScript(dword dwMilliseconds)
 {
-	if (!m_qActiveScripts.empty())
-		m_qActiveScripts.back()->Sleep(dwMilliseconds);
+    if (!m_qActiveScripts.empty())
+        m_qActiveScripts.back()->Sleep(dwMilliseconds);
 }
 

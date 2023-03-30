@@ -16,26 +16,26 @@
 //=============================================================================
 DEFINE_ENT_ALLOCATOR2(Consumable, HealthMajor);
 
-CCvarf	CConsumableHealthMajor::s_cvarHealthAmount(_T("Consumable_HealthMajor_HealthAmount"),	350.0f,	CVAR_GAMECONFIG | CVAR_TRANSMIT);
+CCvarf  CConsumableHealthMajor::s_cvarHealthAmount(_T("Consumable_HealthMajor_HealthAmount"),   350.0f, CVAR_GAMECONFIG | CVAR_TRANSMIT);
 //=============================================================================
 
 /*====================
   CConsumableHealthMajor::ActivatePrimary
   ====================*/
-bool	CConsumableHealthMajor::ActivatePrimary(int iButtonStatus)
+bool    CConsumableHealthMajor::ActivatePrimary(int iButtonStatus)
 {
-	ICombatEntity *pOwner(GetOwnerEnt());
-	if (!pOwner)
-		return false;
+    ICombatEntity *pOwner(GetOwnerEnt());
+    if (!pOwner)
+        return false;
 
-	if (IsReady() && pOwner->GetAmmoCount(m_ySlot) > 0)
-	{
-		pOwner->SetHealth(MIN(pOwner->GetMaxHealth(), pOwner->GetHealth() + s_cvarHealthAmount.GetValue()));
+    if (IsReady() && pOwner->GetAmmoCount(m_ySlot) > 0)
+    {
+        pOwner->SetHealth(MIN(pOwner->GetMaxHealth(), pOwner->GetHealth() + s_cvarHealthAmount.GetValue()));
 
-		SetCooldownTimer(Game.GetGameTime(), GetCooldownTime());
-		pOwner->UseItem(m_ySlot, 1);
-		return true;
-	}
+        SetCooldownTimer(Game.GetGameTime(), GetCooldownTime());
+        pOwner->UseItem(m_ySlot, 1);
+        return true;
+    }
 
-	return false;
+    return false;
 }

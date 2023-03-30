@@ -25,9 +25,9 @@ class CHTTPRequest;
 //=============================================================================
 enum EWebPanelState
 {
-	WEBPANEL_BLANK = 0,
-	WEBPANEL_DOWNLOADING,
-	WEBPANEL_FINISHED
+    WEBPANEL_BLANK = 0,
+    WEBPANEL_DOWNLOADING,
+    WEBPANEL_FINISHED
 };
 //=============================================================================
 
@@ -37,32 +37,32 @@ enum EWebPanelState
 class CWebPanel : public CPanel
 {
 private:
-	CHTTPManager*			m_pHTTPManager;
-	CHTTPRequest*			m_pRequest;
+    CHTTPManager*           m_pHTTPManager;
+    CHTTPRequest*           m_pRequest;
 
-	tstring					m_sName;
-	tstring					m_sTargetHost;
-	tstring					m_sTargetURI;
-	CFileHTTP				m_fileHTTP;
-	EWebPanelState			m_eState;
-	CUITrigger*				m_pStatusTrigger;
+    tstring                 m_sName;
+    tstring                 m_sTargetHost;
+    tstring                 m_sTargetURI;
+    CFileHTTP               m_fileHTTP;
+    EWebPanelState          m_eState;
+    CUITrigger*             m_pStatusTrigger;
 
-	bool					m_bUseSSL;
+    bool                    m_bUseSSL;
 
-	void			ProcessResponse();
+    void            ProcessResponse();
 
 public:
-	~CWebPanel();
-	K2_API CWebPanel(CInterface *pInterface, IWidget *pParent, const CWidgetStyle& style, CHTTPManager* pHTTPManager);
+    ~CWebPanel();
+    K2_API CWebPanel(CInterface *pInterface, IWidget *pParent, const CWidgetStyle& style, CHTTPManager* pHTTPManager);
 
-	void			SetTargetHost(const tstring &sTargetHost)		{ m_sTargetHost = sTargetHost; }
-	void			SetTargetURI(const tstring &sTargetURI)			{ m_sTargetURI = sTargetURI; }
-	void			SetUseSSL(bool bUseSSL)							{ m_bUseSSL = bUseSSL; }
+    void            SetTargetHost(const tstring &sTargetHost)       { m_sTargetHost = sTargetHost; }
+    void            SetTargetURI(const tstring &sTargetURI)         { m_sTargetURI = sTargetURI; }
+    void            SetUseSSL(bool bUseSSL)                         { m_bUseSSL = bUseSSL; }
 
-	void			SetStatusTrigger(const tstring &sName);
+    void            SetStatusTrigger(const tstring &sName);
 
-	void			Submit(const tsvector &vParams);
-	virtual void	Frame(uint uiFrameLength, bool bProcessFrame);
+    void            Submit(const tsvector &vParams);
+    virtual void    Frame(uint uiFrameLength, bool bProcessFrame);
 };
 //=============================================================================
 

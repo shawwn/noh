@@ -3,14 +3,14 @@
 
 typedef struct mousepos_s
 {
-	int x;
-	int y;
+    int x;
+    int y;
 
-	int deltax;
-	int deltay;
+    int deltax;
+    int deltay;
 
-	float realpitch;
-	float realyaw;
+    float realpitch;
+    float realyaw;
 }
 mousepos_t;
 

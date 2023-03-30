@@ -20,23 +20,23 @@ DEFINE_ENT_ALLOCATOR2(OfficerCommand, Attack2);
 /*====================
   COfficerCommandAttack2::ImpactEntity
   ====================*/
-bool	COfficerCommandAttack2::ImpactEntity(uint uiTargetIndex, CGameEvent &evImpact, bool bCheckTarget)
+bool    COfficerCommandAttack2::ImpactEntity(uint uiTargetIndex, CGameEvent &evImpact, bool bCheckTarget)
 {
-	ICombatEntity *pOwner(GetOwnerEnt());
-	if (!pOwner)
-		return false;
+    ICombatEntity *pOwner(GetOwnerEnt());
+    if (!pOwner)
+        return false;
 
-	IVisualEntity *pTarget(Game.GetVisualEntity(uiTargetIndex));
-	if (pTarget == NULL)
-		return false;
-	if (bCheckTarget && !IsValidTarget(pTarget, false))
-		return false;
+    IVisualEntity *pTarget(Game.GetVisualEntity(uiTargetIndex));
+    if (pTarget == NULL)
+        return false;
+    if (bCheckTarget && !IsValidTarget(pTarget, false))
+        return false;
 
-	if (pOwner->IsPlayer())
-		pOwner->GetAsPlayerEnt()->OfficerCommand(OFFICERCMD_ATTACK, uiTargetIndex, V3_ZERO);
-	
-	evImpact.SetSourcePosition(pTarget->GetPosition());
-	evImpact.SetSourceAngles(pTarget->GetAngles());
+    if (pOwner->IsPlayer())
+        pOwner->GetAsPlayerEnt()->OfficerCommand(OFFICERCMD_ATTACK, uiTargetIndex, V3_ZERO);
+    
+    evImpact.SetSourcePosition(pTarget->GetPosition());
+    evImpact.SetSourceAngles(pTarget->GetAngles());
 
-	return true;
+    return true;
 }

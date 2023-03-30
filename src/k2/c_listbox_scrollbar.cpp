@@ -33,12 +33,12 @@ m_eType(eType)
 /*====================
   CListBoxScrollbar::DoChange
   ====================*/
-void	CListBoxScrollbar::DoChange()
+void    CListBoxScrollbar::DoChange()
 {
-	if (m_eType == LISTBOX_SCROLLBAR_HORIZONTAL)
-		static_cast<CListBox *>(m_pParent)->HorizontalScrollbarChange(GetValueFloat());
-	else if (m_eType == LISTBOX_SCROLLBAR_VERTICAL)
-		static_cast<CListBox *>(m_pParent)->VerticalScrollbarChange(GetValueFloat());
+    if (m_eType == LISTBOX_SCROLLBAR_HORIZONTAL)
+        static_cast<CListBox *>(m_pParent)->HorizontalScrollbarChange(GetValueFloat());
+    else if (m_eType == LISTBOX_SCROLLBAR_VERTICAL)
+        static_cast<CListBox *>(m_pParent)->VerticalScrollbarChange(GetValueFloat());
 
-	CScrollbar::DoChange();
+    CScrollbar::DoChange();
 }

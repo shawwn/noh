@@ -17,11 +17,11 @@
 class CBuildingSiegeWorkshop : public IBuildingEntity
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Building, SiegeWorkshop);
+    DECLARE_ENT_ALLOCATOR2(Building, SiegeWorkshop);
 
 public:
-	~CBuildingSiegeWorkshop()	{}
-	CBuildingSiegeWorkshop();
+    ~CBuildingSiegeWorkshop()   {}
+    CBuildingSiegeWorkshop();
 };
 //=============================================================================
 

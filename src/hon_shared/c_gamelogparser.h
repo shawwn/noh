@@ -12,8 +12,8 @@ class CGameLogParser
 {
 private:
 public:
-	~CGameLogParser()	{}
-	CGameLogParser()	{}
+    ~CGameLogParser()   {}
+    CGameLogParser()    {}
 };
 //=============================================================================
 

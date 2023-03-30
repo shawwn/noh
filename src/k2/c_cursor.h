@@ -23,31 +23,31 @@ class CBitmap;
 class CCursor : public IResource
 {
 protected:
-	ResHandle	m_hBitmap;
-	CVec2i		m_v2Hotspot;
+    ResHandle   m_hBitmap;
+    CVec2i      m_v2Hotspot;
 
-	CCursor();
+    CCursor();
 
 public:
-	~CCursor()	{}
-	CCursor(const tstring &sPath) :
-	IResource(sPath, TSNULL)
-	{}
+    ~CCursor()  {}
+    CCursor(const tstring &sPath) :
+    IResource(sPath, TSNULL)
+    {}
 
-	K2_API	virtual uint			GetResType() const			{ return RES_K2CURSOR; }
-	K2_API	virtual const tstring&	GetResTypeName() const		{ return ResTypeName(); }
-	K2_API	static const tstring&	ResTypeName()				{ static tstring sTypeName(_T("{cursor}")); return sTypeName; }
+    K2_API  virtual uint            GetResType() const          { return RES_K2CURSOR; }
+    K2_API  virtual const tstring&  GetResTypeName() const      { return ResTypeName(); }
+    K2_API  static const tstring&   ResTypeName()               { static tstring sTypeName(_T("{cursor}")); return sTypeName; }
 
-	ResHandle		GetBitmap() const					{ return m_hBitmap; }
-	void			SetBitmap(ResHandle hBitmap)		{ m_hBitmap = hBitmap; }
+    ResHandle       GetBitmap() const                   { return m_hBitmap; }
+    void            SetBitmap(ResHandle hBitmap)        { m_hBitmap = hBitmap; }
 
-	const CVec2i&	GetHotspot() const					{ return m_v2Hotspot; }
-	void			SetHotspot(const CVec2i &v2Hotspot)	{ m_v2Hotspot = v2Hotspot; }
-	
-	int		Load(uint uiIgnoreFlags, const char *pData, uint uiSize);
-	void	Free()								{}
+    const CVec2i&   GetHotspot() const                  { return m_v2Hotspot; }
+    void            SetHotspot(const CVec2i &v2Hotspot) { m_v2Hotspot = v2Hotspot; }
+    
+    int     Load(uint uiIgnoreFlags, const char *pData, uint uiSize);
+    void    Free()                              {}
 
-	K2_API CBitmap*	GetBitmapPointer();
+    K2_API CBitmap* GetBitmapPointer();
 };
 //=============================================================================
 

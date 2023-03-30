@@ -25,7 +25,7 @@
 //=============================================================================
 // Globals
 //=============================================================================
-CTextureCache		g_TextureCache;
+CTextureCache       g_TextureCache;
 //=============================================================================
 
 /*====================
@@ -49,7 +49,7 @@ m_sDefines(sDefines)
 /*====================
   CTextureCacheNode::Load
   ====================*/
-void	CTextureCacheNode::Load()
+void    CTextureCacheNode::Load()
 {
 }
 
@@ -57,22 +57,22 @@ void	CTextureCacheNode::Load()
 /*====================
   CTextureCacheNode::CacheTexture
   ====================*/
-void	CTextureCacheNode::CacheTexture(const tstring &sPath, uint uiTextureID, time_t tModTime)
-{	
+void    CTextureCacheNode::CacheTexture(const tstring &sPath, uint uiTextureID, time_t tModTime)
+{   
 #if 0
-	tstring sTexturePath(Filename_StripExtension(sPath) + _T(".dds"));
-	tstring sFilePath(_T("#/texturecache/") + m_sDirectory + sTexturePath);
+    tstring sTexturePath(Filename_StripExtension(sPath) + _T(".dds"));
+    tstring sFilePath(_T("#/texturecache/") + m_sDirectory + sTexturePath);
 
-	FileManager.MakeDir(Filename_GetPath(sFilePath));
-	
-	tstring sSystemPath(FileManager.GetSystemPath(sFilePath, TSNULL, true));
-	D3DXSaveTextureToFile(sSystemPath.c_str(), D3DXIFF_DDS, pTexture, NULL);
+    FileManager.MakeDir(Filename_GetPath(sFilePath));
+    
+    tstring sSystemPath(FileManager.GetSystemPath(sFilePath, TSNULL, true));
+    D3DXSaveTextureToFile(sSystemPath.c_str(), D3DXIFF_DDS, pTexture, NULL);
 
-	_utimbuf cTime;
-	cTime.actime = tModTime;
-	cTime.modtime = tModTime;
+    _utimbuf cTime;
+    cTime.actime = tModTime;
+    cTime.modtime = tModTime;
 
-	_tutime(sSystemPath.c_str(), &cTime);
+    _tutime(sSystemPath.c_str(), &cTime);
 #endif
 }
 
@@ -80,20 +80,20 @@ void	CTextureCacheNode::CacheTexture(const tstring &sPath, uint uiTextureID, tim
 /*====================
   CTextureCacheNode::LoadTexture
   ====================*/
-bool	CTextureCacheNode::LoadTexture(const tstring &sPath, time_t tModTime, tstring &sFilePath)
+bool    CTextureCacheNode::LoadTexture(const tstring &sPath, time_t tModTime, tstring &sFilePath)
 {
-	tstring sTexturePath(Filename_StripExtension(sPath) + _T(".dds"));
+    tstring sTexturePath(Filename_StripExtension(sPath) + _T(".dds"));
 
-	sFilePath = _T("#/texturecache/") + m_sDirectory + sTexturePath;
+    sFilePath = _T("#/texturecache/") + m_sDirectory + sTexturePath;
 
-	struct _stat s;
-	if (FileManager.Stat(sFilePath, s))
-	{
-		if (s.st_mtime == tModTime)
-			return true;
-	}
+    struct _stat s;
+    if (FileManager.Stat(sFilePath, s))
+    {
+        if (s.st_mtime == tModTime)
+            return true;
+    }
 
-	return false;
+    return false;
 }
 
 
@@ -102,7 +102,7 @@ bool	CTextureCacheNode::LoadTexture(const tstring &sPath, time_t tModTime, tstri
   ====================*/
 CTextureCache::~CTextureCache()
 {
-	Close();
+    Close();
 }
 
 
@@ -114,190 +114,190 @@ m_sVersion(_T("4")),
 
 m_uiActiveNode(-1),
 m_bInitialized(false)
-{	
+{   
 }
 
 
 /*====================
   CTextureCache::Initialize
   ====================*/
-void	CTextureCache::Initialize()
+void    CTextureCache::Initialize()
 {
-	if (FileManager.Exists(TEXTURECACHE_FILENAME, FILE_NOARCHIVES))
-		XMLManager.Process(TEXTURECACHE_FILENAME, _T("texturecache"), NULL, FILE_ALLOW_CUSTOM);
-	else
-		FileManager.DeleteTree(_T("#/texturecache"));
+    if (FileManager.Exists(TEXTURECACHE_FILENAME, FILE_NOARCHIVES))
+        XMLManager.Process(TEXTURECACHE_FILENAME, _T("texturecache"), NULL, FILE_ALLOW_CUSTOM);
+    else
+        FileManager.DeleteTree(_T("#/texturecache"));
 
-	m_bInitialized = true;
+    m_bInitialized = true;
 }
 
 
 /*====================
   CTextureCache::Close
   ====================*/
-void	CTextureCache::Close()
+void    CTextureCache::Close()
 {
-	if (!m_bInitialized)
-		return;
+    if (!m_bInitialized)
+        return;
 
-	for (vector<CTextureCacheNode *>::iterator it(m_vTextureCacheNodes.begin()); it != m_vTextureCacheNodes.end(); ++it)
-		K2_DELETE(*it);
+    for (vector<CTextureCacheNode *>::iterator it(m_vTextureCacheNodes.begin()); it != m_vTextureCacheNodes.end(); ++it)
+        K2_DELETE(*it);
 
-	m_vTextureCacheNodes.clear();
+    m_vTextureCacheNodes.clear();
 }
 
 
 /*====================
   CTextureCache::RegisterNode
   ====================*/
-uint	CTextureCache::RegisterNode(const tstring &sDirectory, const string &sDefines)
+uint    CTextureCache::RegisterNode(const tstring &sDirectory, const string &sDefines)
 {
-	m_vTextureCacheNodes.push_back(K2_NEW(ctx_GL2,    CTextureCacheNode)(sDirectory, sDefines));
+    m_vTextureCacheNodes.push_back(K2_NEW(ctx_GL2,    CTextureCacheNode)(sDirectory, sDefines));
 
-	return uint(m_vTextureCacheNodes.size() - 1);
+    return uint(m_vTextureCacheNodes.size() - 1);
 }
 
 
 /*====================
   CTextureCache::ActivateNode
   ====================*/
-void	CTextureCache::ActivateNode(const string &sDefines)
+void    CTextureCache::ActivateNode(const string &sDefines)
 {
-	for (vector<CTextureCacheNode *>::iterator it(m_vTextureCacheNodes.begin()); it != m_vTextureCacheNodes.end(); ++it)
-	{
-		if ((*it)->GetDefines() == sDefines)
-		{
-			m_uiActiveNode = it - m_vTextureCacheNodes.begin();
-			return;
-		}
-	}
+    for (vector<CTextureCacheNode *>::iterator it(m_vTextureCacheNodes.begin()); it != m_vTextureCacheNodes.end(); ++it)
+    {
+        if ((*it)->GetDefines() == sDefines)
+        {
+            m_uiActiveNode = it - m_vTextureCacheNodes.begin();
+            return;
+        }
+    }
 
-	m_uiActiveNode = -1;
+    m_uiActiveNode = -1;
 }
 
 
 /*====================
   CTextureCache::LoadTexture
   ====================*/
-bool	CTextureCache::LoadTexture(const tstring &sPath, const tstring &sReference, tstring &sFilePath)
+bool    CTextureCache::LoadTexture(const tstring &sPath, const tstring &sReference, tstring &sFilePath)
 {
-	if (!m_bInitialized || m_uiActiveNode == -1)
-		return false;
+    if (!m_bInitialized || m_uiActiveNode == -1)
+        return false;
 
-	struct _stat s;
-	if (FileManager.Stat(sReference, s))
-		return m_vTextureCacheNodes[m_uiActiveNode]->LoadTexture(sPath, s.st_mtime, sFilePath);
-	else
-		return false;
+    struct _stat s;
+    if (FileManager.Stat(sReference, s))
+        return m_vTextureCacheNodes[m_uiActiveNode]->LoadTexture(sPath, s.st_mtime, sFilePath);
+    else
+        return false;
 }
 
 
 /*====================
   CTextureCache::CacheTexture
   ====================*/
-void	CTextureCache::CacheTexture(const tstring &sPath, uint uiTextureID, const tstring &sReference)
+void    CTextureCache::CacheTexture(const tstring &sPath, uint uiTextureID, const tstring &sReference)
 {
-	if (!m_bInitialized)
-		return;
+    if (!m_bInitialized)
+        return;
 
-	// Create a new texture cache node if we don't have one set
-	if (m_uiActiveNode == -1)
-	{
-		uint uiNextNode(0);
-		for (;;)
-		{
-			vector<CTextureCacheNode *>::iterator it(m_vTextureCacheNodes.begin());
+    // Create a new texture cache node if we don't have one set
+    if (m_uiActiveNode == -1)
+    {
+        uint uiNextNode(0);
+        for (;;)
+        {
+            vector<CTextureCacheNode *>::iterator it(m_vTextureCacheNodes.begin());
 
-			for (; it != m_vTextureCacheNodes.end(); ++it)
-			{
-				if (AtoI((*it)->GetDirectory()) == uiNextNode)
-				{
-					++uiNextNode;
-					break;
-				}
-			}
+            for (; it != m_vTextureCacheNodes.end(); ++it)
+            {
+                if (AtoI((*it)->GetDirectory()) == uiNextNode)
+                {
+                    ++uiNextNode;
+                    break;
+                }
+            }
 
-			if (it == m_vTextureCacheNodes.end())
-				break;
-		}
+            if (it == m_vTextureCacheNodes.end())
+                break;
+        }
 
-		const tstring &sDirectory(XtoA(uiNextNode, FMT_PADZERO, 8));
+        const tstring &sDirectory(XtoA(uiNextNode, FMT_PADZERO, 8));
 
-		m_uiActiveNode = RegisterNode(sDirectory, GfxTextures->GetTextureDefinitionString());
+        m_uiActiveNode = RegisterNode(sDirectory, GfxTextures->GetTextureDefinitionString());
 
-		WriteCacheDescriptor();
-	}
+        WriteCacheDescriptor();
+    }
 
-	if (!sReference.empty() && sReference[0] == _T('$'))
-	{
-		m_vTextureCacheNodes[m_uiActiveNode]->CacheTexture(_T("/") + sReference.substr(1), uiTextureID, 0);
-	}
-	else
-	{
-		struct _stat s;
-		if (FileManager.Stat(sReference, s))
-			m_vTextureCacheNodes[m_uiActiveNode]->CacheTexture(sPath, uiTextureID, s.st_mtime);
-	}
+    if (!sReference.empty() && sReference[0] == _T('$'))
+    {
+        m_vTextureCacheNodes[m_uiActiveNode]->CacheTexture(_T("/") + sReference.substr(1), uiTextureID, 0);
+    }
+    else
+    {
+        struct _stat s;
+        if (FileManager.Stat(sReference, s))
+            m_vTextureCacheNodes[m_uiActiveNode]->CacheTexture(sPath, uiTextureID, s.st_mtime);
+    }
 }
 
 
 /*====================
   CTextureCache::CacheTexture
   ====================*/
-void	CTextureCache::CacheTexture(const tstring &sPath, uint uiTextureID)
+void    CTextureCache::CacheTexture(const tstring &sPath, uint uiTextureID)
 {
-	CacheTexture(sPath, uiTextureID, sPath);
+    CacheTexture(sPath, uiTextureID, sPath);
 }
 
 
 /*====================
   CTextureCache::WriteCacheDescriptor
   ====================*/
-void	CTextureCache::WriteCacheDescriptor()
+void    CTextureCache::WriteCacheDescriptor()
 {
-	CXMLDoc	xmlDescriptor(XML_ENCODE_UTF8);
+    CXMLDoc xmlDescriptor(XML_ENCODE_UTF8);
 
-	xmlDescriptor.NewNode("texturecache");
+    xmlDescriptor.NewNode("texturecache");
 
-		xmlDescriptor.AddProperty("version", m_sVersion);
-		xmlDescriptor.AddProperty("gamma", XtoA(vid_textureGammaCorrect));
+        xmlDescriptor.AddProperty("version", m_sVersion);
+        xmlDescriptor.AddProperty("gamma", XtoA(vid_textureGammaCorrect));
 
-		for (vector<CTextureCacheNode*>::iterator it(m_vTextureCacheNodes.begin()); it != m_vTextureCacheNodes.end(); ++it)
-		{
-			xmlDescriptor.NewNode("node");
-				xmlDescriptor.AddProperty("directory", (*it)->GetDirectory());
-				xmlDescriptor.AddProperty("defines", StringToTString((*it)->GetDefines()));
-			xmlDescriptor.EndNode();
-		}
+        for (vector<CTextureCacheNode*>::iterator it(m_vTextureCacheNodes.begin()); it != m_vTextureCacheNodes.end(); ++it)
+        {
+            xmlDescriptor.NewNode("node");
+                xmlDescriptor.AddProperty("directory", (*it)->GetDirectory());
+                xmlDescriptor.AddProperty("defines", StringToTString((*it)->GetDefines()));
+            xmlDescriptor.EndNode();
+        }
 
-	xmlDescriptor.EndNode();
+    xmlDescriptor.EndNode();
 
-	xmlDescriptor.WriteFile(TEXTURECACHE_FILENAME);
+    xmlDescriptor.WriteFile(TEXTURECACHE_FILENAME);
 
-	Console.Video << _T("Wrote texturecache descriptor") << newl;
+    Console.Video << _T("Wrote texturecache descriptor") << newl;
 }
 
 
 /*====================
   CTextureCache::Clear
   ====================*/
-void	CTextureCache::Clear()
+void    CTextureCache::Clear()
 {
-	Close();
+    Close();
 
-	FileManager.DeleteTree(_T("#/texturecache"));
+    FileManager.DeleteTree(_T("#/texturecache"));
 
-	m_bInitialized = true;
+    m_bInitialized = true;
 }
 
 
 /*====================
   CTextureCache::Reload
   ====================*/
-void	CTextureCache::Reload()
+void    CTextureCache::Reload()
 {
-	Close();
-	Initialize();
+    Close();
+    Initialize();
 }
 
 
@@ -306,35 +306,35 @@ void	CTextureCache::Reload()
   ====================*/
 CMD(TextureCacheClear)
 {
-	g_TextureCache.Clear();
-	return true;
+    g_TextureCache.Clear();
+    return true;
 }
 
 
 namespace XMLTextureCache
 {
-	// <texturecache>
-	DECLARE_XML_PROCESSOR(texturecache)
-	BEGIN_XML_REGISTRATION(texturecache)
-		REGISTER_XML_PROCESSOR(root)
-	END_XML_REGISTRATION
-	BEGIN_XML_PROCESSOR(texturecache, void)
-		const tstring &sVersion(node.GetProperty(_T("version")));
-		float fGamma(node.GetPropertyFloat(_T("gamma")));
-		if (sVersion != g_TextureCache.GetVersion() || fGamma != vid_textureGammaCorrect)
-		{
-			FileManager.DeleteTree(_T("#/texturecache"));
-			return true;
-		}
-	END_XML_PROCESSOR(pVoid)
+    // <texturecache>
+    DECLARE_XML_PROCESSOR(texturecache)
+    BEGIN_XML_REGISTRATION(texturecache)
+        REGISTER_XML_PROCESSOR(root)
+    END_XML_REGISTRATION
+    BEGIN_XML_PROCESSOR(texturecache, void)
+        const tstring &sVersion(node.GetProperty(_T("version")));
+        float fGamma(node.GetPropertyFloat(_T("gamma")));
+        if (sVersion != g_TextureCache.GetVersion() || fGamma != vid_textureGammaCorrect)
+        {
+            FileManager.DeleteTree(_T("#/texturecache"));
+            return true;
+        }
+    END_XML_PROCESSOR(pVoid)
 
 
-	// <node>
-	DECLARE_XML_PROCESSOR(node)
-	BEGIN_XML_REGISTRATION(node)
-		REGISTER_XML_PROCESSOR(texturecache)
-	END_XML_REGISTRATION
-	BEGIN_XML_PROCESSOR(node, void)
-		g_TextureCache.RegisterNode(node.GetProperty(_T("directory")), TStringToString(node.GetProperty(_T("defines"))));
-	END_XML_PROCESSOR_NO_CHILDREN
+    // <node>
+    DECLARE_XML_PROCESSOR(node)
+    BEGIN_XML_REGISTRATION(node)
+        REGISTER_XML_PROCESSOR(texturecache)
+    END_XML_REGISTRATION
+    BEGIN_XML_PROCESSOR(node, void)
+        g_TextureCache.RegisterNode(node.GetProperty(_T("directory")), TStringToString(node.GetProperty(_T("defines"))));
+    END_XML_PROCESSOR_NO_CHILDREN
 };

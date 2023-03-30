@@ -26,36 +26,36 @@ template<class T>
 class K2Allocator : public std::allocator<T>
 {
 public:
-	typedef typename std::allocator<T>::size_type	size_type;
-	typedef typename std::allocator<T>::pointer		pointer;
-	
-	template<class _Other>
-	struct rebind
-	{
-		typedef K2Allocator<_Other> other;
-	};
+    typedef typename std::allocator<T>::size_type   size_type;
+    typedef typename std::allocator<T>::pointer     pointer;
+    
+    template<class _Other>
+    struct rebind
+    {
+        typedef K2Allocator<_Other> other;
+    };
 
-	K2Allocator()
-	{
-		// ensure that the memory manager is initialized.
-		CMemManager::GetInstance();
-	}
+    K2Allocator()
+    {
+        // ensure that the memory manager is initialized.
+        CMemManager::GetInstance();
+    }
 
-	template<class _Other>
-	K2Allocator(const K2Allocator<_Other>&) {}
-	K2Allocator(const K2Allocator &al) : std::allocator<T>(al) {}
+    template<class _Other>
+    K2Allocator(const K2Allocator<_Other>&) {}
+    K2Allocator(const K2Allocator &al) : std::allocator<T>(al) {}
 
-	~K2Allocator() {}
+    ~K2Allocator() {}
 
-	template<class _Other>
-	std::allocator<T>& operator=(const std::allocator<_Other>&)
-	{	// assign from a related allocator (do nothing)
-		return (*this);
-	}
+    template<class _Other>
+    std::allocator<T>& operator=(const std::allocator<_Other>&)
+    {   // assign from a related allocator (do nothing)
+        return (*this);
+    }
 
-	pointer	allocate(size_type _Count)				{ return (pointer)MemManager.Allocate(_Count * sizeof(T), "ctx_STL"); }
-	pointer allocate(size_type _Count, const void*)	{ return (pointer)MemManager.Allocate(_Count * sizeof(T), "ctx_STL"); }
-	void	deallocate(pointer _Ptr, size_type)		{ MemManager.Deallocate(_Ptr, "ctx_STL"); }
+    pointer allocate(size_type _Count)              { return (pointer)MemManager.Allocate(_Count * sizeof(T), "ctx_STL"); }
+    pointer allocate(size_type _Count, const void*) { return (pointer)MemManager.Allocate(_Count * sizeof(T), "ctx_STL"); }
+    void    deallocate(pointer _Ptr, size_type)     { MemManager.Deallocate(_Ptr, "ctx_STL"); }
 };
 //=============================================================================
 
@@ -66,36 +66,36 @@ template<class T>
 class K2StringAllocator : public std::allocator<T>
 {
 public:
-	typedef typename std::allocator<T>::size_type	size_type;
-	typedef typename std::allocator<T>::pointer		pointer;
-	
-	template<class _Other>
-	struct rebind
-	{
-		typedef K2StringAllocator<_Other> other;
-	};
+    typedef typename std::allocator<T>::size_type   size_type;
+    typedef typename std::allocator<T>::pointer     pointer;
+    
+    template<class _Other>
+    struct rebind
+    {
+        typedef K2StringAllocator<_Other> other;
+    };
 
-	K2StringAllocator()
-	{
-		// ensure that the memory manager is initialized.
-		CMemManager::GetInstance();
-	}
+    K2StringAllocator()
+    {
+        // ensure that the memory manager is initialized.
+        CMemManager::GetInstance();
+    }
 
-	template<class _Other>
-	K2StringAllocator(const K2StringAllocator<_Other>&) {}
-	K2StringAllocator(const K2StringAllocator &al) : std::allocator<T>(al) {}
+    template<class _Other>
+    K2StringAllocator(const K2StringAllocator<_Other>&) {}
+    K2StringAllocator(const K2StringAllocator &al) : std::allocator<T>(al) {}
 
-	~K2StringAllocator() {}
+    ~K2StringAllocator() {}
 
-	template<class _Other>
-	std::allocator<T>& operator=(const std::allocator<_Other>&)
-	{	// assign from a related allocator (do nothing)
-		return (*this);
-	}
+    template<class _Other>
+    std::allocator<T>& operator=(const std::allocator<_Other>&)
+    {   // assign from a related allocator (do nothing)
+        return (*this);
+    }
 
-	pointer	allocate(size_type _Count)				{ return (pointer)MemManager.Allocate(_Count * sizeof(T), "ctx_STL_string"); }
-	pointer allocate(size_type _Count, const void*)	{ return (pointer)MemManager.Allocate(_Count * sizeof(T), "ctx_STL_string"); }
-	void	deallocate(pointer _Ptr, size_type)		{ MemManager.Deallocate(_Ptr, "ctx_STL_string"); }
+    pointer allocate(size_type _Count)              { return (pointer)MemManager.Allocate(_Count * sizeof(T), "ctx_STL_string"); }
+    pointer allocate(size_type _Count, const void*) { return (pointer)MemManager.Allocate(_Count * sizeof(T), "ctx_STL_string"); }
+    void    deallocate(pointer _Ptr, size_type)     { MemManager.Deallocate(_Ptr, "ctx_STL_string"); }
 };
 //=============================================================================
 
@@ -106,36 +106,36 @@ template<class T>
 class K2VectorAllocator : public std::allocator<T>
 {
 public:
-	typedef typename std::allocator<T>::size_type	size_type;
-	typedef typename std::allocator<T>::pointer		pointer;
-	
-	template<class _Other>
-	struct rebind
-	{
-		typedef K2VectorAllocator<_Other> other;
-	};
+    typedef typename std::allocator<T>::size_type   size_type;
+    typedef typename std::allocator<T>::pointer     pointer;
+    
+    template<class _Other>
+    struct rebind
+    {
+        typedef K2VectorAllocator<_Other> other;
+    };
 
-	K2VectorAllocator()
-	{
-		// ensure that the memory manager is initialized.
-		CMemManager::GetInstance();
-	}
+    K2VectorAllocator()
+    {
+        // ensure that the memory manager is initialized.
+        CMemManager::GetInstance();
+    }
 
-	template<class _Other>
-	K2VectorAllocator(const K2VectorAllocator<_Other>&) {}
-	K2VectorAllocator(const K2VectorAllocator &al) : std::allocator<T>(al) {}
+    template<class _Other>
+    K2VectorAllocator(const K2VectorAllocator<_Other>&) {}
+    K2VectorAllocator(const K2VectorAllocator &al) : std::allocator<T>(al) {}
 
-	~K2VectorAllocator() {}
+    ~K2VectorAllocator() {}
 
-	template<class _Other>
-	std::allocator<T>& operator=(const std::allocator<_Other>&)
-	{	// assign from a related allocator (do nothing)
-		return (*this);
-	}
+    template<class _Other>
+    std::allocator<T>& operator=(const std::allocator<_Other>&)
+    {   // assign from a related allocator (do nothing)
+        return (*this);
+    }
 
-	pointer	allocate(size_type _Count)				{ return (pointer)MemManager.Allocate(_Count * sizeof(T), "ctx_STL_vector"); }
-	pointer allocate(size_type _Count, const void*)	{ return (pointer)MemManager.Allocate(_Count * sizeof(T), "ctx_STL_vector"); }
-	void	deallocate(pointer _Ptr, size_type)		{ MemManager.Deallocate(_Ptr, "ctx_STL_vector"); }
+    pointer allocate(size_type _Count)              { return (pointer)MemManager.Allocate(_Count * sizeof(T), "ctx_STL_vector"); }
+    pointer allocate(size_type _Count, const void*) { return (pointer)MemManager.Allocate(_Count * sizeof(T), "ctx_STL_vector"); }
+    void    deallocate(pointer _Ptr, size_type)     { MemManager.Deallocate(_Ptr, "ctx_STL_vector"); }
 };
 //=============================================================================
 
@@ -146,36 +146,36 @@ template<class T>
 class K2ListAllocator : public std::allocator<T>
 {
 public:
-	typedef typename std::allocator<T>::size_type	size_type;
-	typedef typename std::allocator<T>::pointer		pointer;
-	
-	template<class _Other>
-	struct rebind
-	{
-		typedef K2ListAllocator<_Other> other;
-	};
+    typedef typename std::allocator<T>::size_type   size_type;
+    typedef typename std::allocator<T>::pointer     pointer;
+    
+    template<class _Other>
+    struct rebind
+    {
+        typedef K2ListAllocator<_Other> other;
+    };
 
-	K2ListAllocator()
-	{
-		// ensure that the memory manager is initialized.
-		CMemManager::GetInstance();
-	}
+    K2ListAllocator()
+    {
+        // ensure that the memory manager is initialized.
+        CMemManager::GetInstance();
+    }
 
-	template<class _Other>
-	K2ListAllocator(const K2ListAllocator<_Other>&) {}
-	K2ListAllocator(const K2ListAllocator &al) : std::allocator<T>(al) {}
+    template<class _Other>
+    K2ListAllocator(const K2ListAllocator<_Other>&) {}
+    K2ListAllocator(const K2ListAllocator &al) : std::allocator<T>(al) {}
 
-	~K2ListAllocator() {}
+    ~K2ListAllocator() {}
 
-	template<class _Other>
-	std::allocator<T>& operator=(const std::allocator<_Other>&)
-	{	// assign from a related allocator (do nothing)
-		return (*this);
-	}
+    template<class _Other>
+    std::allocator<T>& operator=(const std::allocator<_Other>&)
+    {   // assign from a related allocator (do nothing)
+        return (*this);
+    }
 
-	pointer	allocate(size_type _Count)				{ return (pointer)MemManager.Allocate(_Count * sizeof(T), "ctx_STL_list"); }
-	pointer allocate(size_type _Count, const void*)	{ return (pointer)MemManager.Allocate(_Count * sizeof(T), "ctx_STL_list"); }
-	void	deallocate(pointer _Ptr, size_type)		{ MemManager.Deallocate(_Ptr, "ctx_STL_list"); }
+    pointer allocate(size_type _Count)              { return (pointer)MemManager.Allocate(_Count * sizeof(T), "ctx_STL_list"); }
+    pointer allocate(size_type _Count, const void*) { return (pointer)MemManager.Allocate(_Count * sizeof(T), "ctx_STL_list"); }
+    void    deallocate(pointer _Ptr, size_type)     { MemManager.Deallocate(_Ptr, "ctx_STL_list"); }
 };
 //=============================================================================
 
@@ -186,36 +186,36 @@ template<class T>
 class K2DequeAllocator : public std::allocator<T>
 {
 public:
-	typedef typename std::allocator<T>::size_type	size_type;
-	typedef typename std::allocator<T>::pointer		pointer;
-	
-	template<class _Other>
-	struct rebind
-	{
-		typedef K2DequeAllocator<_Other> other;
-	};
+    typedef typename std::allocator<T>::size_type   size_type;
+    typedef typename std::allocator<T>::pointer     pointer;
+    
+    template<class _Other>
+    struct rebind
+    {
+        typedef K2DequeAllocator<_Other> other;
+    };
 
-	K2DequeAllocator()
-	{
-		// ensure that the memory manager is initialized.
-		CMemManager::GetInstance();
-	}
+    K2DequeAllocator()
+    {
+        // ensure that the memory manager is initialized.
+        CMemManager::GetInstance();
+    }
 
-	template<class _Other>
-	K2DequeAllocator(const K2DequeAllocator<_Other>&) {}
-	K2DequeAllocator(const K2DequeAllocator &al) : std::allocator<T>(al) {}
+    template<class _Other>
+    K2DequeAllocator(const K2DequeAllocator<_Other>&) {}
+    K2DequeAllocator(const K2DequeAllocator &al) : std::allocator<T>(al) {}
 
-	~K2DequeAllocator() {}
+    ~K2DequeAllocator() {}
 
-	template<class _Other>
-	std::allocator<T>& operator=(const std::allocator<_Other>&)
-	{	// assign from a related allocator (do nothing)
-		return (*this);
-	}
+    template<class _Other>
+    std::allocator<T>& operator=(const std::allocator<_Other>&)
+    {   // assign from a related allocator (do nothing)
+        return (*this);
+    }
 
-	pointer	allocate(size_type _Count)				{ return (pointer)MemManager.Allocate(_Count * sizeof(T), "ctx_STL_deque"); }
-	pointer allocate(size_type _Count, const void*)	{ return (pointer)MemManager.Allocate(_Count * sizeof(T), "ctx_STL_deque"); }
-	void	deallocate(pointer _Ptr, size_type)		{ MemManager.Deallocate(_Ptr, "ctx_STL_deque"); }
+    pointer allocate(size_type _Count)              { return (pointer)MemManager.Allocate(_Count * sizeof(T), "ctx_STL_deque"); }
+    pointer allocate(size_type _Count, const void*) { return (pointer)MemManager.Allocate(_Count * sizeof(T), "ctx_STL_deque"); }
+    void    deallocate(pointer _Ptr, size_type)     { MemManager.Deallocate(_Ptr, "ctx_STL_deque"); }
 };
 //=============================================================================
 
@@ -226,36 +226,36 @@ template<class T>
 class K2MapAllocator : public std::allocator<T>
 {
 public:
-	typedef typename std::allocator<T>::size_type	size_type;
-	typedef typename std::allocator<T>::pointer		pointer;
-	
-	template<class _Other>
-	struct rebind
-	{
-		typedef K2MapAllocator<_Other> other;
-	};
+    typedef typename std::allocator<T>::size_type   size_type;
+    typedef typename std::allocator<T>::pointer     pointer;
+    
+    template<class _Other>
+    struct rebind
+    {
+        typedef K2MapAllocator<_Other> other;
+    };
 
-	K2MapAllocator()
-	{
-		// ensure that the memory manager is initialized.
-		CMemManager::GetInstance();
-	}
+    K2MapAllocator()
+    {
+        // ensure that the memory manager is initialized.
+        CMemManager::GetInstance();
+    }
 
-	template<class _Other>
-	K2MapAllocator(const K2MapAllocator<_Other>&) {}
-	K2MapAllocator(const K2MapAllocator &al) : std::allocator<T>(al) {}
+    template<class _Other>
+    K2MapAllocator(const K2MapAllocator<_Other>&) {}
+    K2MapAllocator(const K2MapAllocator &al) : std::allocator<T>(al) {}
 
-	~K2MapAllocator() {}
+    ~K2MapAllocator() {}
 
-	template<class _Other>
-	std::allocator<T>& operator=(const std::allocator<_Other>&)
-	{	// assign from a related allocator (do nothing)
-		return (*this);
-	}
+    template<class _Other>
+    std::allocator<T>& operator=(const std::allocator<_Other>&)
+    {   // assign from a related allocator (do nothing)
+        return (*this);
+    }
 
-	pointer	allocate(size_type _Count)				{ return (pointer)MemManager.Allocate(_Count * sizeof(T), "ctx_STL_map"); }
-	pointer allocate(size_type _Count, const void*)	{ return (pointer)MemManager.Allocate(_Count * sizeof(T), "ctx_STL_map"); }
-	void	deallocate(pointer _Ptr, size_type)		{ MemManager.Deallocate(_Ptr, "ctx_STL_map"); }
+    pointer allocate(size_type _Count)              { return (pointer)MemManager.Allocate(_Count * sizeof(T), "ctx_STL_map"); }
+    pointer allocate(size_type _Count, const void*) { return (pointer)MemManager.Allocate(_Count * sizeof(T), "ctx_STL_map"); }
+    void    deallocate(pointer _Ptr, size_type)     { MemManager.Deallocate(_Ptr, "ctx_STL_map"); }
 };
 //=============================================================================
 
@@ -266,36 +266,36 @@ template<class T>
 class K2SetAllocator : public std::allocator<T>
 {
 public:
-	typedef typename std::allocator<T>::size_type	size_type;
-	typedef typename std::allocator<T>::pointer		pointer;
-	
-	template<class _Other>
-	struct rebind
-	{
-		typedef K2SetAllocator<_Other> other;
-	};
+    typedef typename std::allocator<T>::size_type   size_type;
+    typedef typename std::allocator<T>::pointer     pointer;
+    
+    template<class _Other>
+    struct rebind
+    {
+        typedef K2SetAllocator<_Other> other;
+    };
 
-	K2SetAllocator()
-	{
-		// ensure that the memory manager is initialized.
-		CMemManager::GetInstance();
-	}
+    K2SetAllocator()
+    {
+        // ensure that the memory manager is initialized.
+        CMemManager::GetInstance();
+    }
 
-	template<class _Other>
-	K2SetAllocator(const K2SetAllocator<_Other>&) {}
-	K2SetAllocator(const K2SetAllocator &al) : std::allocator<T>(al) {}
+    template<class _Other>
+    K2SetAllocator(const K2SetAllocator<_Other>&) {}
+    K2SetAllocator(const K2SetAllocator &al) : std::allocator<T>(al) {}
 
-	~K2SetAllocator() {}
+    ~K2SetAllocator() {}
 
-	template<class _Other>
-	std::allocator<T>& operator=(const std::allocator<_Other>&)
-	{	// assign from a related allocator (do nothing)
-		return (*this);
-	}
+    template<class _Other>
+    std::allocator<T>& operator=(const std::allocator<_Other>&)
+    {   // assign from a related allocator (do nothing)
+        return (*this);
+    }
 
-	pointer	allocate(size_type _Count)				{ return (pointer)MemManager.Allocate(_Count * sizeof(T), "ctx_STL_set"); }
-	pointer allocate(size_type _Count, const void*)	{ return (pointer)MemManager.Allocate(_Count * sizeof(T), "ctx_STL_set"); }
-	void	deallocate(pointer _Ptr, size_type)		{ MemManager.Deallocate(_Ptr, "ctx_STL_set"); }
+    pointer allocate(size_type _Count)              { return (pointer)MemManager.Allocate(_Count * sizeof(T), "ctx_STL_set"); }
+    pointer allocate(size_type _Count, const void*) { return (pointer)MemManager.Allocate(_Count * sizeof(T), "ctx_STL_set"); }
+    void    deallocate(pointer _Ptr, size_type)     { MemManager.Deallocate(_Ptr, "ctx_STL_set"); }
 };
 //=============================================================================
 
@@ -306,36 +306,36 @@ template<class T>
 class K2HashMapAllocator : public std::allocator<T>
 {
 public:
-	typedef typename std::allocator<T>::size_type	size_type;
-	typedef typename std::allocator<T>::pointer		pointer;
-	
-	template<class _Other>
-	struct rebind
-	{
-		typedef K2HashMapAllocator<_Other> other;
-	};
+    typedef typename std::allocator<T>::size_type   size_type;
+    typedef typename std::allocator<T>::pointer     pointer;
+    
+    template<class _Other>
+    struct rebind
+    {
+        typedef K2HashMapAllocator<_Other> other;
+    };
 
-	K2HashMapAllocator()
-	{
-		// ensure that the memory manager is initialized.
-		CMemManager::GetInstance();
-	}
+    K2HashMapAllocator()
+    {
+        // ensure that the memory manager is initialized.
+        CMemManager::GetInstance();
+    }
 
-	template<class _Other>
-	K2HashMapAllocator(const K2HashMapAllocator<_Other>&) {}
-	K2HashMapAllocator(const K2HashMapAllocator &al) : std::allocator<T>(al) {}
+    template<class _Other>
+    K2HashMapAllocator(const K2HashMapAllocator<_Other>&) {}
+    K2HashMapAllocator(const K2HashMapAllocator &al) : std::allocator<T>(al) {}
 
-	~K2HashMapAllocator() {}
+    ~K2HashMapAllocator() {}
 
-	template<class _Other>
-	std::allocator<T>& operator=(const std::allocator<_Other>&)
-	{	// assign from a related allocator (do nothing)
-		return (*this);
-	}
+    template<class _Other>
+    std::allocator<T>& operator=(const std::allocator<_Other>&)
+    {   // assign from a related allocator (do nothing)
+        return (*this);
+    }
 
-	pointer	allocate(size_type _Count)				{ return (pointer)MemManager.Allocate(_Count * sizeof(T), "ctx_STL_hash_map"); }
-	pointer allocate(size_type _Count, const void*)	{ return (pointer)MemManager.Allocate(_Count * sizeof(T), "ctx_STL_hash_map"); }
-	void	deallocate(pointer _Ptr, size_type)		{ MemManager.Deallocate(_Ptr, "ctx_STL_hash_map"); }
+    pointer allocate(size_type _Count)              { return (pointer)MemManager.Allocate(_Count * sizeof(T), "ctx_STL_hash_map"); }
+    pointer allocate(size_type _Count, const void*) { return (pointer)MemManager.Allocate(_Count * sizeof(T), "ctx_STL_hash_map"); }
+    void    deallocate(pointer _Ptr, size_type)     { MemManager.Deallocate(_Ptr, "ctx_STL_hash_map"); }
 };
 //=============================================================================
 
@@ -346,36 +346,36 @@ template<class T>
 class K2HashSetAllocator : public std::allocator<T>
 {
 public:
-	typedef typename std::allocator<T>::size_type	size_type;
-	typedef typename std::allocator<T>::pointer		pointer;
-	
-	template<class _Other>
-	struct rebind
-	{
-		typedef K2HashSetAllocator<_Other> other;
-	};
+    typedef typename std::allocator<T>::size_type   size_type;
+    typedef typename std::allocator<T>::pointer     pointer;
+    
+    template<class _Other>
+    struct rebind
+    {
+        typedef K2HashSetAllocator<_Other> other;
+    };
 
-	K2HashSetAllocator()
-	{
-		// ensure that the memory manager is initialized.
-		CMemManager::GetInstance();
-	}
+    K2HashSetAllocator()
+    {
+        // ensure that the memory manager is initialized.
+        CMemManager::GetInstance();
+    }
 
-	template<class _Other>
-	K2HashSetAllocator(const K2HashSetAllocator<_Other>&) {}
-	K2HashSetAllocator(const K2HashSetAllocator &al) : std::allocator<T>(al) {}
+    template<class _Other>
+    K2HashSetAllocator(const K2HashSetAllocator<_Other>&) {}
+    K2HashSetAllocator(const K2HashSetAllocator &al) : std::allocator<T>(al) {}
 
-	~K2HashSetAllocator() {}
+    ~K2HashSetAllocator() {}
 
-	template<class _Other>
-	std::allocator<T>& operator=(const std::allocator<_Other>&)
-	{	// assign from a related allocator (do nothing)
-		return (*this);
-	}
+    template<class _Other>
+    std::allocator<T>& operator=(const std::allocator<_Other>&)
+    {   // assign from a related allocator (do nothing)
+        return (*this);
+    }
 
-	pointer	allocate(size_type _Count)				{ return (pointer)MemManager.Allocate(_Count * sizeof(T), "ctx_STL_hash_set"); }
-	pointer allocate(size_type _Count, const void*)	{ return (pointer)MemManager.Allocate(_Count * sizeof(T), "ctx_STL_hash_set"); }
-	void	deallocate(pointer _Ptr, size_type)		{ MemManager.Deallocate(_Ptr, "ctx_STL_hash_set"); }
+    pointer allocate(size_type _Count)              { return (pointer)MemManager.Allocate(_Count * sizeof(T), "ctx_STL_hash_set"); }
+    pointer allocate(size_type _Count, const void*) { return (pointer)MemManager.Allocate(_Count * sizeof(T), "ctx_STL_hash_set"); }
+    void    deallocate(pointer _Ptr, size_type)     { MemManager.Deallocate(_Ptr, "ctx_STL_hash_set"); }
 };
 //=============================================================================
 

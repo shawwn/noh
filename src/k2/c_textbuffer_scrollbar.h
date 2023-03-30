@@ -19,11 +19,11 @@
 //=============================================================================
 class CTextBufferScrollbar : public CScrollbar
 {
-	void	DoChange();
+    void    DoChange();
 
 public:
-	~CTextBufferScrollbar()	{}
-	CTextBufferScrollbar(CInterface *pInterface, IWidget *pParent, const CWidgetStyle& style);
+    ~CTextBufferScrollbar() {}
+    CTextBufferScrollbar(CInterface *pInterface, IWidget *pParent, const CWidgetStyle& style);
 };
 //=============================================================================
 

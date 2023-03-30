@@ -17,13 +17,13 @@
 class CMeleePush : public IMeleeItem
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Melee, Push)
+    DECLARE_ENT_ALLOCATOR2(Melee, Push)
 
 public:
-	~CMeleePush()	{}
-	CMeleePush() :
-	IMeleeItem(GetEntityConfig())
-	{}
+    ~CMeleePush()   {}
+    CMeleePush() :
+    IMeleeItem(GetEntityConfig())
+    {}
 };
 //=============================================================================
 

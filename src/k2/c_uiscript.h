@@ -19,9 +19,9 @@ extern K2_API class CUIScript *g_pUIScript;
 // Definitions
 //=============================================================================
 #ifdef K2_EXPORTS
-#define UIScript	(*g_pUIScript)
+#define UIScript    (*g_pUIScript)
 #else
-#define UIScript	(*CUIScript::GetInstance())
+#define UIScript    (*CUIScript::GetInstance())
 #endif
 //=============================================================================
 
@@ -30,17 +30,17 @@ extern K2_API class CUIScript *g_pUIScript;
 //=============================================================================
 class CUIScript
 {
-	SINGLETON_DEF(CUIScript)
+    SINGLETON_DEF(CUIScript)
 
 private:
-	IWidget*	m_pActiveWidget;
+    IWidget*    m_pActiveWidget;
 
 public:
-	~CUIScript()	{}
+    ~CUIScript()    {}
 
-	IWidget*		GetActiveWidget()	{ return m_pActiveWidget; }
+    IWidget*        GetActiveWidget()   { return m_pActiveWidget; }
 
-	K2_API tstring		Evaluate(IWidget *pCaller, const tstring &sScript, const tsvector &vParams = VSNULL);
+    K2_API tstring      Evaluate(IWidget *pCaller, const tstring &sScript, const tsvector &vParams = VSNULL);
 };
 //=============================================================================
 #endif //__C_UISCRIPT_H__

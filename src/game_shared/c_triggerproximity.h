@@ -17,32 +17,32 @@
 class CTriggerProximity : public ITriggerEntity
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Trigger, Proximity);
+    DECLARE_ENT_ALLOCATOR2(Trigger, Proximity);
 
-	uiset				m_setEntitiesInRadius;
+    uiset               m_setEntitiesInRadius;
 
-	bool				m_bTriggerOnPlayer;
-	bool				m_bTriggerOnNPC;
-	bool				m_bTriggerOnBuilding;
-	bool				m_bTriggerOnProp;
-	bool				m_bTriggerOnGadget;
+    bool                m_bTriggerOnPlayer;
+    bool                m_bTriggerOnNPC;
+    bool                m_bTriggerOnBuilding;
+    bool                m_bTriggerOnProp;
+    bool                m_bTriggerOnGadget;
 
-	float				m_fRadius;
+    float               m_fRadius;
 
 public:
-	~CTriggerProximity()	{}
-	CTriggerProximity() :
-	ITriggerEntity(GetEntityConfig())
-	{}
+    ~CTriggerProximity()    {}
+    CTriggerProximity() :
+    ITriggerEntity(GetEntityConfig())
+    {}
 
-	virtual void			ApplyWorldEntity(const CWorldEntity &ent);
-	virtual void			RegisterEntityScripts(const CWorldEntity &ent);
+    virtual void            ApplyWorldEntity(const CWorldEntity &ent);
+    virtual void            RegisterEntityScripts(const CWorldEntity &ent);
 
-	virtual void			Copy(const IGameEntity &B);
+    virtual void            Copy(const IGameEntity &B);
 
-	GAME_SHARED_API bool	ServerFrame();
+    GAME_SHARED_API bool    ServerFrame();
 
-	const bool				IsProximityTrigger() const		{ return true; }
+    const bool              IsProximityTrigger() const      { return true; }
 };
 //=============================================================================
 

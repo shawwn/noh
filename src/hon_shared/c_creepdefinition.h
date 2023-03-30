@@ -24,15 +24,15 @@ DECLARE_ENTITY_DEFINITION_XML_PROCESSOR(ICreepEntity, Creep, creep)
 //=============================================================================
 class CCreepDefinition : public IUnitDefinition
 {
-	DECLARE_DEFINITION_TYPE_INFO
+    DECLARE_DEFINITION_TYPE_INFO
 
 public:
-	~CCreepDefinition()	{}
-	CCreepDefinition() :
-	IUnitDefinition(&g_allocatorCreep)
-	{}
+    ~CCreepDefinition() {}
+    CCreepDefinition() :
+    IUnitDefinition(&g_allocatorCreep)
+    {}
 
-	IEntityDefinition*	GetCopy() const	{ return K2_NEW(ctx_Game,    CCreepDefinition)(*this); }
+    IEntityDefinition*  GetCopy() const { return K2_NEW(ctx_Game,    CCreepDefinition)(*this); }
 };
 //=============================================================================
 

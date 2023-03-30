@@ -32,59 +32,59 @@ class CEffectThread;
 class CEffectPanel : public IWidget
 {
 protected:
-	struct SEffect
-	{
-		CEffectThread	*pEffectThread;
+    struct SEffect
+    {
+        CEffectThread   *pEffectThread;
 
-		CVec3f			v3EffectPos;
-		CVec3f			v3EffectAngles;
-		float			fEffectScale;
+        CVec3f          v3EffectPos;
+        CVec3f          v3EffectAngles;
+        float           fEffectScale;
 
-		SEffect() :
-		pEffectThread(NULL),
-		v3EffectPos(0.0f, 0.0f, 0.0f),
-		v3EffectAngles(0.0f, 0.0f, 0.0f),
-		fEffectScale(1.0f)
-		{}
-	};
+        SEffect() :
+        pEffectThread(NULL),
+        v3EffectPos(0.0f, 0.0f, 0.0f),
+        v3EffectAngles(0.0f, 0.0f, 0.0f),
+        fEffectScale(1.0f)
+        {}
+    };
 
-	map<int, SEffect>	m_mapEffects;
+    map<int, SEffect>   m_mapEffects;
 
-	CCamera			m_Camera;
+    CCamera         m_Camera;
 
-	CVec3f			m_v3SunColor;
-	CVec3f			m_v3AmbientColor;
-	float			m_fSunAltitude;
-	float			m_fSunAzimuth;
+    CVec3f          m_v3SunColor;
+    CVec3f          m_v3AmbientColor;
+    float           m_fSunAltitude;
+    float           m_fSunAzimuth;
 
-	bool			m_bFog;
-	CVec3f			m_v3FogColor;
-	float			m_fFogNear;
-	float			m_fFogFar;
-	float			m_fFogScale;
-	float			m_fFogDensity;
+    bool            m_bFog;
+    CVec3f          m_v3FogColor;
+    float           m_fFogNear;
+    float           m_fFogFar;
+    float           m_fFogScale;
+    float           m_fFogDensity;
 
-	bool			m_bFovY;
+    bool            m_bFovY;
 
-	float			m_fCameraNear;
-	float			m_fCameraFar;
+    float           m_fCameraNear;
+    float           m_fCameraFar;
 
-	CVec2f			m_v2SceneSize;
+    CVec2f          m_v2SceneSize;
 
-	void			UpdateEffect(CEffectThread *&pEffectThread, const CVec3f &v3EffectPos, const CVec3f &v3EffectAngles, float fEffectScale);
+    void            UpdateEffect(CEffectThread *&pEffectThread, const CVec3f &v3EffectPos, const CVec3f &v3EffectAngles, float fEffectScale);
 
 public:
-	~CEffectPanel();
-	CEffectPanel(CInterface* pInterface, IWidget* pParent, const CWidgetStyle& style);
+    ~CEffectPanel();
+    CEffectPanel(CInterface* pInterface, IWidget* pParent, const CWidgetStyle& style);
 
-	void	RenderWidget(const CVec2f &vOrigin, float fFade);
+    void    RenderWidget(const CVec2f &vOrigin, float fFade);
 
-	void	StartEffect(int iChannel, const tstring &sEffect, const CVec3f &v3EffectPos, const CVec3f &v3Color);
+    void    StartEffect(int iChannel, const tstring &sEffect, const CVec3f &v3EffectPos, const CVec3f &v3Color);
 
-	void	RecalculateSize();
+    void    RecalculateSize();
 
-	virtual void		MouseUp(EButton button, const CVec2f &v2CursorPos);
-	virtual void		MouseDown(EButton button, const CVec2f &v2CursorPos);
+    virtual void        MouseUp(EButton button, const CVec2f &v2CursorPos);
+    virtual void        MouseDown(EButton button, const CVec2f &v2CursorPos);
 };
 //=============================================================================
 

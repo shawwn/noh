@@ -17,13 +17,13 @@
 class CPetCommandMove : public ISpellItem
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(PetCommand, Move);
+    DECLARE_ENT_ALLOCATOR2(PetCommand, Move);
 
 public:
-	~CPetCommandMove()	{}
-	CPetCommandMove() : ISpellItem(GetEntityConfig())	{}
+    ~CPetCommandMove()  {}
+    CPetCommandMove() : ISpellItem(GetEntityConfig())   {}
 
-	virtual void			ImpactPosition(const CVec3f &v3target, CGameEvent &evImpact);
+    virtual void            ImpactPosition(const CVec3f &v3target, CGameEvent &evImpact);
 };
 //=============================================================================
 

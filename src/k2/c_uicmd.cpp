@@ -23,10 +23,10 @@ m_pfnUICmd(pfnUICmd),
 m_iMinArgs(iMinArgs),
 m_iFlags(iFlags)
 {
-	if (m_pfnUICmd == NULL)
-		K2System.Error(_T("Tried to register an UICmd with a NULL function."));
+    if (m_pfnUICmd == NULL)
+        K2System.Error(_T("Tried to register an UICmd with a NULL function."));
 
-	CUICmdRegistry::GetInstance()->Register(this);
+    CUICmdRegistry::GetInstance()->Register(this);
 }
 
 
@@ -35,26 +35,26 @@ m_iFlags(iFlags)
   ====================*/
 CUICmd::~CUICmd()
 {
-	// If the registry is still valid, unregister the uicmd
-	// This is important for any actions declared in a client dll that
-	// is being unloaded
-	if (!CUICmdRegistry::IsReleased())
-		CUICmdRegistry::GetInstance()->Unregister(m_sName);
+    // If the registry is still valid, unregister the uicmd
+    // This is important for any actions declared in a client dll that
+    // is being unloaded
+    if (!CUICmdRegistry::IsReleased())
+        CUICmdRegistry::GetInstance()->Unregister(m_sName);
 }
 
 
 /*====================
   CUICmd::Execute
   ====================*/
-tstring	CUICmd::Execute(IWidget *pCaller, const ScriptTokenVector &vArgList)
+tstring CUICmd::Execute(IWidget *pCaller, const ScriptTokenVector &vArgList)
 {
-	if (int(vArgList.size()) < m_iMinArgs)
-	{
-		Console.Warn << _T("Insufficient arg count to command ") << m_sName << newl;
-		return TSNULL;
-	}
+    if (int(vArgList.size()) < m_iMinArgs)
+    {
+        Console.Warn << _T("Insufficient arg count to command ") << m_sName << newl;
+        return TSNULL;
+    }
 
-	return m_pfnUICmd(pCaller, vArgList);
+    return m_pfnUICmd(pCaller, vArgList);
 }
 
 
@@ -65,25 +65,25 @@ tstring	CUICmd::Execute(IWidget *pCaller, const ScriptTokenVector &vArgList)
   --------------------*/
 CMD(UICmdList)
 {
-	int iNumFound(0);
-	tstring sFind;
+    int iNumFound(0);
+    tstring sFind;
 
-	if (!vArgList.empty())
-		sFind = LowerString(vArgList[0]);
+    if (!vArgList.empty())
+        sFind = LowerString(vArgList[0]);
 
-	const UICmdMap &lCmds = CUICmdRegistry::GetInstance()->GetUICmdMap();
+    const UICmdMap &lCmds = CUICmdRegistry::GetInstance()->GetUICmdMap();
 
-	// Print uicmds
-	for (UICmdMap::const_iterator it(lCmds.begin()); it != lCmds.end(); ++it)
-	{
-		if (sFind.empty() || LowerString(it->second->GetName()).find(sFind) != string::npos)
-		{
-			Console << it->second->GetName() << newl;
-			++iNumFound;
-		}
-	}
+    // Print uicmds
+    for (UICmdMap::const_iterator it(lCmds.begin()); it != lCmds.end(); ++it)
+    {
+        if (sFind.empty() || LowerString(it->second->GetName()).find(sFind) != string::npos)
+        {
+            Console << it->second->GetName() << newl;
+            ++iNumFound;
+        }
+    }
 
-	Console << newl << iNumFound << _T(" matching ui commands found") << newl;
+    Console << newl << iNumFound << _T(" matching ui commands found") << newl;
 
-	return true;
+    return true;
 }

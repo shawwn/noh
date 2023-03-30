@@ -13,5 +13,5 @@
 # include <windows.h>
 #endif
 
-#endif	//__K2_INCLUDE_WINDOWS_H__
+#endif  //__K2_INCLUDE_WINDOWS_H__
 

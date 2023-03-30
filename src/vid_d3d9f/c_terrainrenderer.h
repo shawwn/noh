@@ -22,30 +22,30 @@
 class CTerrainRenderer : public IRenderer
 {
 private:
-	void	RenderChunk(EMaterialPhase ePhase, int iChunkX, int iChunkY);
-	void	RenderChunkNormals(EMaterialPhase ePhase, int iChunkX, int iChunkY);
-	void	RenderChunkGrid(EMaterialPhase ePhase, int iChunkX, int iChunkY);
-	void	RenderChunkCliffs(EMaterialPhase ePhase, int iChunkX, int iChunkY);
+    void    RenderChunk(EMaterialPhase ePhase, int iChunkX, int iChunkY);
+    void    RenderChunkNormals(EMaterialPhase ePhase, int iChunkX, int iChunkY);
+    void    RenderChunkGrid(EMaterialPhase ePhase, int iChunkX, int iChunkY);
+    void    RenderChunkCliffs(EMaterialPhase ePhase, int iChunkX, int iChunkY);
 
-	bool	m_bFirstChunk;
-	int		m_iAlphaStageIndex;
-	int		m_iDiffuse0StageIndex;
-	int		m_iNormalmap0StageIndex;
-	int		m_iNormalmap01StageIndex;
-	int		m_iDiffuse1StageIndex;
-	int		m_iNormalmap1StageIndex;
-	int		m_iNormalmap11StageIndex;
+    bool    m_bFirstChunk;
+    int     m_iAlphaStageIndex;
+    int     m_iDiffuse0StageIndex;
+    int     m_iNormalmap0StageIndex;
+    int     m_iNormalmap01StageIndex;
+    int     m_iDiffuse1StageIndex;
+    int     m_iNormalmap1StageIndex;
+    int     m_iNormalmap11StageIndex;
 
 public:
-	static CPool<CTerrainRenderer>		s_Pool;
-	
-	void*	operator new(size_t z); // Uses CPool of preallocated instances
+    static CPool<CTerrainRenderer>      s_Pool;
+    
+    void*   operator new(size_t z); // Uses CPool of preallocated instances
 
-	~CTerrainRenderer();
-	CTerrainRenderer();
+    ~CTerrainRenderer();
+    CTerrainRenderer();
 
-	void	Setup(EMaterialPhase ePhase);
-	void	Render(EMaterialPhase ePhase);
+    void    Setup(EMaterialPhase ePhase);
+    void    Render(EMaterialPhase ePhase);
 };
 //=============================================================================
 #endif //__C_TERRAINRENDERER_H__

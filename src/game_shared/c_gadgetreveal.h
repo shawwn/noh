@@ -17,15 +17,15 @@
 class CGadgetReveal : public IGadgetEntity
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Gadget, Reveal)
+    DECLARE_ENT_ALLOCATOR2(Gadget, Reveal)
 
 public:
-	~CGadgetReveal()	{}
-	CGadgetReveal() :
-	IGadgetEntity(GetEntityConfig())
-	{}
+    ~CGadgetReveal()    {}
+    CGadgetReveal() :
+    IGadgetEntity(GetEntityConfig())
+    {}
 
-	bool	CanSpawn()	{ return true; }
+    bool    CanSpawn()  { return true; }
 };
 //=============================================================================
 

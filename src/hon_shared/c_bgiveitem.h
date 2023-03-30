@@ -17,29 +17,29 @@
 class CBGiveItem : public IBehavior
 {
 private:
-	uint	m_uiItemUID;
+    uint    m_uiItemUID;
 
-	// Parameters calculated during setup frame
-	float	m_fDistSq;		
-	CVec2f	m_v2ApproachPosition;
-	float	m_fRange;
+    // Parameters calculated during setup frame
+    float   m_fDistSq;      
+    CVec2f  m_v2ApproachPosition;
+    float   m_fRange;
 
 public:
-	CBGiveItem(uint uiItemUID) :
-	IBehavior(EBT_GIVEITEM),
-	m_uiItemUID(uiItemUID)
-	{}
+    CBGiveItem(uint uiItemUID) :
+    IBehavior(EBT_GIVEITEM),
+    m_uiItemUID(uiItemUID)
+    {}
 
-	virtual void		CopyFrom(const IBehavior* pBehavior);
-	virtual IBehavior*	Clone(CBrain* pNewBrain, IUnitEntity* pNewSelf) const;
+    virtual void        CopyFrom(const IBehavior* pBehavior);
+    virtual IBehavior*  Clone(CBrain* pNewBrain, IUnitEntity* pNewSelf) const;
 
-	virtual bool	Validate();
-	virtual void	Update();
-	virtual void	BeginBehavior();
-	virtual void	ThinkFrame();
-	virtual void	MovementFrame();
-	virtual void	ActionFrame();
-	virtual void	CleanupFrame();
+    virtual bool    Validate();
+    virtual void    Update();
+    virtual void    BeginBehavior();
+    virtual void    ThinkFrame();
+    virtual void    MovementFrame();
+    virtual void    ActionFrame();
+    virtual void    CleanupFrame();
 };
 //=============================================================================
 

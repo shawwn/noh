@@ -23,28 +23,28 @@ class IWidget;
 //=============================================================================
 // Definitions
 //=============================================================================
-typedef vector<class CWidgetDefinition>		WidgetDefinitionVector;
-typedef WidgetDefinitionVector::iterator	WidgetDefinitionVector_it;
+typedef vector<class CWidgetDefinition>     WidgetDefinitionVector;
+typedef WidgetDefinitionVector::iterator    WidgetDefinitionVector_it;
 
 class CWidgetDefinition
 {
 private:
-	CWidgetStyle			m_style;
-	WidgetDefinitionVector	m_vChildren;
+    CWidgetStyle            m_style;
+    WidgetDefinitionVector  m_vChildren;
 
-	CWidgetDefinition();
+    CWidgetDefinition();
 
 public:
-	~CWidgetDefinition()	{}
-	CWidgetDefinition(CInterface *pInterface, const CXMLNode &node) :
-	m_style(pInterface, node)
-	{
-	}
+    ~CWidgetDefinition()    {}
+    CWidgetDefinition(CInterface *pInterface, const CXMLNode &node) :
+    m_style(pInterface, node)
+    {
+    }
 
-	WidgetDefinitionVector*	GetChildVector()	{ return &m_vChildren; }
-	CWidgetStyle&			GetStyle()			{ return m_style; }
+    WidgetDefinitionVector* GetChildVector()    { return &m_vChildren; }
+    CWidgetStyle&           GetStyle()          { return m_style; }
 
-	void					Instantiate(CInterface *pInterface, IWidget *pParent, const CWidgetStyle &style);
+    void                    Instantiate(CInterface *pInterface, IWidget *pParent, const CWidgetStyle &style);
 };
 //=============================================================================
 
@@ -54,24 +54,24 @@ public:
 class CWidgetTemplate
 {
 private:
-	tstring							m_sName;
-	CInterface*						m_pParentInterface;
+    tstring                         m_sName;
+    CInterface*                     m_pParentInterface;
 
-	WidgetDefinitionVector			m_vChildren;
-	stack<WidgetDefinitionVector*>	m_stackDefinitions;
+    WidgetDefinitionVector          m_vChildren;
+    stack<WidgetDefinitionVector*>  m_stackDefinitions;
 
-	CWidgetTemplate();
+    CWidgetTemplate();
 
 public:
-	K2_API ~CWidgetTemplate()	{}
-	K2_API CWidgetTemplate(CInterface *pInterface, const CXMLNode &node);
+    K2_API ~CWidgetTemplate()   {}
+    K2_API CWidgetTemplate(CInterface *pInterface, const CXMLNode &node);
 
-	K2_API tstring	GetName() const	{ return m_sName; }
+    K2_API tstring  GetName() const { return m_sName; }
 
-	K2_API void	AddChild(const tstring &sType, const CXMLNode &node);
-	K2_API void	EndChild();
+    K2_API void AddChild(const tstring &sType, const CXMLNode &node);
+    K2_API void EndChild();
 
-	K2_API void	Instantiate(IWidget *pParent, const CWidgetStyle &style);
+    K2_API void Instantiate(IWidget *pParent, const CWidgetStyle &style);
 };
 //=============================================================================
 

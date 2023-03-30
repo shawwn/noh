@@ -39,14 +39,14 @@ typedef void (*serverRemoveClient_t)(int iClientNum, IBuffer &SaveData);
 
 struct SServerAPI
 {
-	serverInitialize_t			Initialize;			// Called when the server starts
-	serverFrame_t				Frame;				// Called at a fixed interval while the servver runs
-	serverAddClient_t			AddClient;			// Called when a new client connects
-	serverRemoveClient_t		RemoveClient;		// Called when a client disconnects
-	serverProcessClientInput_t	ProcessClientInput;	// Called when an input state is received
-	serverWriteFrameUpdate_t	WriteFrameUpdate;	// Called for each client every frame
-	serverPacket_t				Packet;				// Called for any packet that core does not handle
-	serverShutdown_t			Shutdown;			// Called when the server is killed
+    serverInitialize_t          Initialize;         // Called when the server starts
+    serverFrame_t               Frame;              // Called at a fixed interval while the servver runs
+    serverAddClient_t           AddClient;          // Called when a new client connects
+    serverRemoveClient_t        RemoveClient;       // Called when a client disconnects
+    serverProcessClientInput_t  ProcessClientInput; // Called when an input state is received
+    serverWriteFrameUpdate_t    WriteFrameUpdate;   // Called for each client every frame
+    serverPacket_t              Packet;             // Called for any packet that core does not handle
+    serverShutdown_t            Shutdown;           // Called when the server is killed
 };
 //=============================================================================
 #endif

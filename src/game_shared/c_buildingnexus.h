@@ -17,13 +17,13 @@
 class CBuildingNexus : public IBuildingEntity
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Building, Nexus)
+    DECLARE_ENT_ALLOCATOR2(Building, Nexus)
 
 public:
-	~CBuildingNexus()	{}
-	CBuildingNexus() :
-	IBuildingEntity(GetEntityConfig())
-	{}
+    ~CBuildingNexus()   {}
+    CBuildingNexus() :
+    IBuildingEntity(GetEntityConfig())
+    {}
 };
 //=============================================================================
 

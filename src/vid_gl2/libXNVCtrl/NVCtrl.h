@@ -862,9 +862,9 @@
  * NV_CTRL_GVO_SDI_SYNC_INPUT_DETECTED to detect what input syncs are
  * present.
  * 
- *†(If no analog sync is detected but it is known†that a valid
+ *¿†(If no analog sync is detected but it is known¿†that a valid
  * bi-level or tri-level sync is connected set
- * NV_CTRL_GVO_COMPOSITE_SYNC_INPUT_DETECT_MODE†appropriately and
+ * NV_CTRL_GVO_COMPOSITE_SYNC_INPUT_DETECT_MODE¿†appropriately and
  * retest with NV_CTRL_GVO_COMPOSITE_SYNC_INPUT_DETECTED).
  *
  * - if syncing to input sync, query the
@@ -1176,7 +1176,7 @@
 /*
  * NV_CTRL_GVO_INPUT_VIDEO_FORMAT_REACQUIRE - must be set for a period
  * of about 2 seconds for the new InputVideoFormat to be properly
- * locked to.† In nvidia-settings, we do a reacquire whenever genlock
+ * locked to.¿† In nvidia-settings, we do a reacquire whenever genlock
  * or frame lock mode is entered into, when the user clicks the
  * "detect" button.  This value can be written, but always reads back
  * _FALSE.
@@ -2317,7 +2317,7 @@
  * NV_CTRL_GVO_ENABLE_RGB_DATA - Allows clients to specify when
  * the GVO board should process colors as RGB when the output data
  * format is one of the NV_CTRL_GVO_DATA_FORMAT_???_PASSTRHU modes.
- */	
+ */ 
 
 #define NV_CTRL_GVO_ENABLE_RGB_DATA                             304 /* RW- */
 #define NV_CTRL_GVO_ENABLE_RGB_DATA_DISABLE                       0

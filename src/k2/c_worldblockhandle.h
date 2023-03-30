@@ -32,27 +32,27 @@ typedef CReferenceCounter<CWorldBlock> BlockReference;
 class SHARED_API CBlockHandle
 {
 private:
-	bool			m_bIsValid;
-	tstring			m_sName;
-	BlockReference	*m_pReference;
+    bool            m_bIsValid;
+    tstring         m_sName;
+    BlockReference  *m_pReference;
 
-	void	Release();
+    void    Release();
 
 public:
-	CBlockHandle();
-	CBlockHandle(const tstring &sName);
-	CBlockHandle(const CBlockHandle &handle);
-	~CBlockHandle();
+    CBlockHandle();
+    CBlockHandle(const tstring &sName);
+    CBlockHandle(const CBlockHandle &handle);
+    ~CBlockHandle();
 
-	CBlockHandle&	operator=(const CBlockHandle &handle);
+    CBlockHandle&   operator=(const CBlockHandle &handle);
 
-	bool				IsValid() const		{ return m_bIsValid; }
-	void				Validate()			{ m_bIsValid = true; }
-	void				Invalidate()		{ m_bIsValid = false; }
+    bool                IsValid() const     { return m_bIsValid; }
+    void                Validate()          { m_bIsValid = true; }
+    void                Invalidate()        { m_bIsValid = false; }
 
-	CWorldBlock*		Get() const			{ return m_pReference->Get(); }
-	CWorldBlock*		operator->() const	{ return m_pReference->Get(); }
-	//CWorldBlock&		operator*()			{ return *m_pReference; }
+    CWorldBlock*        Get() const         { return m_pReference->Get(); }
+    CWorldBlock*        operator->() const  { return m_pReference->Get(); }
+    //CWorldBlock&      operator*()         { return *m_pReference; }
 };
 //=============================================================================
 #endif //__C_WORLDBLOCKHANDLE_H__

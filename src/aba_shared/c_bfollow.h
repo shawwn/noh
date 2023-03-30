@@ -17,32 +17,32 @@
 class CBFollow : public IBehavior
 {
 private:
-	float	m_fMinFollowDistance;
-	float	m_fMaxFollowDistance;
+    float   m_fMinFollowDistance;
+    float   m_fMaxFollowDistance;
 
-	// Parameters calculated during setup frame
-	float	m_fDistSq;
-	CVec2f	m_v2ApproachPosition;
-	float	m_fFollowRangeMin;
-	float	m_fFollowRangeMax;
+    // Parameters calculated during setup frame
+    float   m_fDistSq;
+    CVec2f  m_v2ApproachPosition;
+    float   m_fFollowRangeMin;
+    float   m_fFollowRangeMax;
 
 public:
-	CBFollow() :
-	IBehavior(EBT_FOLLOW),
-	m_fMinFollowDistance(64.0f),
-	m_fMaxFollowDistance(128.0f)
-	{}
+    CBFollow() :
+    IBehavior(EBT_FOLLOW),
+    m_fMinFollowDistance(64.0f),
+    m_fMaxFollowDistance(128.0f)
+    {}
 
-	virtual void		CopyFrom(const IBehavior* pBehavior);
-	virtual IBehavior*	Clone(CBrain* pNewBrain, IUnitEntity* pNewSelf) const;
+    virtual void        CopyFrom(const IBehavior* pBehavior);
+    virtual IBehavior*  Clone(CBrain* pNewBrain, IUnitEntity* pNewSelf) const;
 
-	virtual bool	Validate();
-	virtual void	Update();
-	virtual void	BeginBehavior();
-	virtual void	ThinkFrame();
-	virtual void	MovementFrame();
-	virtual void	ActionFrame();
-	virtual void	CleanupFrame();
+    virtual bool    Validate();
+    virtual void    Update();
+    virtual void    BeginBehavior();
+    virtual void    ThinkFrame();
+    virtual void    MovementFrame();
+    virtual void    ActionFrame();
+    virtual void    CleanupFrame();
 };
 //=============================================================================
 

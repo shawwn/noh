@@ -17,37 +17,37 @@
 class CTriggerSpawn : public ITriggerEntity
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Trigger, Spawn);
+    DECLARE_ENT_ALLOCATOR2(Trigger, Spawn);
 
-	tstring				m_sSpawnType;
+    tstring             m_sSpawnType;
 
-	uint				m_uiSpawnDelay;
-	uint				m_uiLastSpawn;
+    uint                m_uiSpawnDelay;
+    uint                m_uiLastSpawn;
 
-	ushort				m_unSpawnType;
+    ushort              m_unSpawnType;
 
-	uint				m_uiTotalSpawned;
+    uint                m_uiTotalSpawned;
 
 public:
-	~CTriggerSpawn()	{}
-	CTriggerSpawn() :
-	ITriggerEntity(GetEntityConfig()),
-	m_uiSpawnDelay(-1),
-	m_uiLastSpawn(-1),
-	m_unSpawnType(INVALID_ENT_TYPE),
-	m_uiTotalSpawned(0)
-	{}
+    ~CTriggerSpawn()    {}
+    CTriggerSpawn() :
+    ITriggerEntity(GetEntityConfig()),
+    m_uiSpawnDelay(-1),
+    m_uiLastSpawn(-1),
+    m_unSpawnType(INVALID_ENT_TYPE),
+    m_uiTotalSpawned(0)
+    {}
 
-	virtual void			ApplyWorldEntity(const CWorldEntity &ent);
-	virtual void			RegisterEntityScripts(const CWorldEntity &ent);
+    virtual void            ApplyWorldEntity(const CWorldEntity &ent);
+    virtual void            RegisterEntityScripts(const CWorldEntity &ent);
 
-	virtual void			Copy(const IGameEntity &B);
+    virtual void            Copy(const IGameEntity &B);
 
-	GAME_SHARED_API bool	ServerFrame();
+    GAME_SHARED_API bool    ServerFrame();
 
-	const bool				IsSpawnTrigger() const		{ return true; }
+    const bool              IsSpawnTrigger() const      { return true; }
 
-	GAME_SHARED_API	virtual void		Trigger(uint uiTriggeringEntIndex, const tstring &sTrigger, bool bPlayEffect = true);
+    GAME_SHARED_API virtual void        Trigger(uint uiTriggeringEntIndex, const tstring &sTrigger, bool bPlayEffect = true);
 };
 //=============================================================================
 

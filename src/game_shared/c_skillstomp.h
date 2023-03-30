@@ -17,13 +17,13 @@
 class CSkillStomp : public ISkillMelee
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Skill, Stomp);
+    DECLARE_ENT_ALLOCATOR2(Skill, Stomp);
 
 public:
-	~CSkillStomp()	{}
-	CSkillStomp() :
-	ISkillMelee(GetEntityConfig())
-	{}
+    ~CSkillStomp()  {}
+    CSkillStomp() :
+    ISkillMelee(GetEntityConfig())
+    {}
 };
 //=============================================================================
 

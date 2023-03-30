@@ -29,45 +29,45 @@ IBuildingEntity(GetEntityConfig())
 /*====================
   CBuildingHumanHellShrine::Spawn
   ====================*/
-void	CBuildingHumanHellShrine::Spawn()
+void    CBuildingHumanHellShrine::Spawn()
 {
-	IBuildingEntity::Spawn();
+    IBuildingEntity::Spawn();
 
-	if (Game.IsServer())
-	{
-		CBufferFixed<2> buffer;
-		buffer << GAME_CMD_HELLSHRINE_BUILDING;
-		Game.BroadcastGameData(buffer, true);
-		Game.GetTeam(GetTeam())->HellShrineConstructionStarted();
-	}
+    if (Game.IsServer())
+    {
+        CBufferFixed<2> buffer;
+        buffer << GAME_CMD_HELLSHRINE_BUILDING;
+        Game.BroadcastGameData(buffer, true);
+        Game.GetTeam(GetTeam())->HellShrineConstructionStarted();
+    }
 }
 
 
 /*====================
   CBuildingHumanHellShrine::Kill
   ====================*/
-void	CBuildingHumanHellShrine::Kill(IVisualEntity *pAttacker, ushort unKillingObjectID)
+void    CBuildingHumanHellShrine::Kill(IVisualEntity *pAttacker, ushort unKillingObjectID)
 {
-	IBuildingEntity::Kill(pAttacker, unKillingObjectID);
+    IBuildingEntity::Kill(pAttacker, unKillingObjectID);
 
-	if (Game.IsServer())
-	{
-		Game.GetTeam(GetTeam())->HellShrineDestroyed();
-	}
+    if (Game.IsServer())
+    {
+        Game.GetTeam(GetTeam())->HellShrineDestroyed();
+    }
 }
 
 
 /*====================
   CBuildingHumanHellShrine::Use
   ====================*/
-void	CBuildingHumanHellShrine::Use(IGameEntity *pActivator)
+void    CBuildingHumanHellShrine::Use(IGameEntity *pActivator)
 {
-	if (GetStatus() == ENTITY_STATUS_ACTIVE &&
-		pActivator->IsPlayer() &&
-		pActivator->GetAsPlayerEnt()->GetTeam() == m_iTeam &&
-		!pActivator->GetAsPlayerEnt()->GetIsHellbourne())
-	{
-		pActivator->GetAsPlayerEnt()->SetNetFlags(ENT_NET_FLAG_SACRIFICE_MENU);
-	}
+    if (GetStatus() == ENTITY_STATUS_ACTIVE &&
+        pActivator->IsPlayer() &&
+        pActivator->GetAsPlayerEnt()->GetTeam() == m_iTeam &&
+        !pActivator->GetAsPlayerEnt()->GetIsHellbourne())
+    {
+        pActivator->GetAsPlayerEnt()->SetNetFlags(ENT_NET_FLAG_SACRIFICE_MENU);
+    }
 }
 

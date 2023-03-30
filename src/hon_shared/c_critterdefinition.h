@@ -24,15 +24,15 @@ DECLARE_ENTITY_DEFINITION_XML_PROCESSOR(ICritterEntity, Critter, critter)
 //=============================================================================
 class CCritterDefinition : public IUnitDefinition
 {
-	DECLARE_DEFINITION_TYPE_INFO
+    DECLARE_DEFINITION_TYPE_INFO
 
 public:
-	~CCritterDefinition()	{}
-	CCritterDefinition() :
-	IUnitDefinition(&g_allocatorCritter)
-	{}
+    ~CCritterDefinition()   {}
+    CCritterDefinition() :
+    IUnitDefinition(&g_allocatorCritter)
+    {}
 
-	IEntityDefinition*	GetCopy() const	{ return K2_NEW(ctx_Game,    CCritterDefinition)(*this); }
+    IEntityDefinition*  GetCopy() const { return K2_NEW(ctx_Game,    CCritterDefinition)(*this); }
 };
 //=============================================================================
 

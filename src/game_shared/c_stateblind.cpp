@@ -37,6 +37,6 @@ CStateBlind::CStateBlind() :
 IEntityState(GetEntityConfig()),
 m_pEntityConfig(GetEntityConfig())
 {
-	m_modArmor.SetMult(m_pEntityConfig->GetArmorMult());
-	m_modSpeed.SetMult(m_pEntityConfig->GetSpeedMult());
+    m_modArmor.SetMult(m_pEntityConfig->GetArmorMult());
+    m_modSpeed.SetMult(m_pEntityConfig->GetSpeedMult());
 }

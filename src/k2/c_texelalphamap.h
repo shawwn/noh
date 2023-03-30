@@ -23,22 +23,22 @@ class CWorld;
 class CTexelAlphaMap : public IWorldComponent
 {
 private:
-	byte		*m_pTexelAlpha;
+    byte        *m_pTexelAlpha;
 
 public:
-	~CTexelAlphaMap();
-	CTexelAlphaMap(EWorldComponent eComponent);
+    ~CTexelAlphaMap();
+    CTexelAlphaMap(EWorldComponent eComponent);
 
-	bool	Load(CArchive &archive, const CWorld *pWorld);
-	bool	Generate(const CWorld *pWorld);
-	void	Release();
-	bool	Serialize(IBuffer *pBuffer);
+    bool    Load(CArchive &archive, const CWorld *pWorld);
+    bool    Generate(const CWorld *pWorld);
+    void    Release();
+    bool    Serialize(IBuffer *pBuffer);
 
-	bool	GetRegion(const CRecti &recArea, void *pDest, int iLayer) const;
-	bool	SetRegion(const CRecti &recArea, void *pSource, int iLayer);
+    bool    GetRegion(const CRecti &recArea, void *pDest, int iLayer) const;
+    bool    SetRegion(const CRecti &recArea, void *pSource, int iLayer);
 
-	K2_API byte	GetTexelAlpha(int iX, int iY);
-	K2_API void	SetAlpha(int iX, int iY, byte yAlpha);
+    K2_API byte GetTexelAlpha(int iX, int iY);
+    K2_API void SetAlpha(int iX, int iY, byte yAlpha);
 };
 //=============================================================================
 #endif //__C_TEXELALPHAMAP_H__

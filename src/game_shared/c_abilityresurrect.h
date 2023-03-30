@@ -19,11 +19,11 @@ class CAbilityResurrect : public IMeleeItem
 private:
 
 public:
-	~CAbilityResurrect();
-	CAbilityResurrect();
+    ~CAbilityResurrect();
+    CAbilityResurrect();
 
-	void	Selected();
-	bool	ActivatePrimary();
+    void    Selected();
+    bool    ActivatePrimary();
 };
 //=============================================================================
 

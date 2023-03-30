@@ -36,5 +36,5 @@ CStateCommanderSpeedBoost::CStateCommanderSpeedBoost() :
 IEntityState(GetEntityConfig()),
 m_pEntityConfig(GetEntityConfig())
 {
-	m_modSpeed.Set(m_pEntityConfig->GetSpeedAdd(), m_pEntityConfig->GetSpeedMult(), 0.0f);
+    m_modSpeed.Set(m_pEntityConfig->GetSpeedAdd(), m_pEntityConfig->GetSpeedMult(), 0.0f);
 }

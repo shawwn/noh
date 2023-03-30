@@ -35,51 +35,51 @@ CTerrainEmitterDef::~CTerrainEmitterDef()
   ====================*/
 CTerrainEmitterDef::CTerrainEmitterDef
 (
-	const tstring &sOwner,
-	const CRangei &riLife,
-	const CRangei &riExpireLife,
-	const CRangei &riCount,
-	const CRangei &riTimeNudge,
-	const CRangei &riDelay,
-	bool bLoop,
-	const CTemporalPropertyRangef &rfSpawnRate,
-	const CTemporalPropertyRangei &riMinParticleLife,
-	const CTemporalPropertyRangei &riMaxParticleLife,
-	int iParticleLifeAlloc,
-	const CTemporalPropertyRangei &riParticleTimeNudge,
-	const CTemporalPropertyRangef &rfGravity,
-	const CTemporalPropertyRangef &rfMinSpeed,
-	const CTemporalPropertyRangef &rfMaxSpeed,
-	const CTemporalPropertyRangef &rfMinAcceleration,
-	const CTemporalPropertyRangef &rfMaxAcceleration,
-	const CTemporalPropertyRangef &rfMinAngle,
-	const CTemporalPropertyRangef &rfMaxAngle,
-	const CTemporalPropertyRangef &rfMinInheritVelocity,
-	const CTemporalPropertyRangef &rfMaxInheritVelocity,
-	const CTemporalPropertyRangef &rfLimitInheritVelocity,
-	ResHandle hMaterial,
-	const CVec3f &v3Dir,
-	EDirectionalSpace eDirectionalSpace,
-	float fDrag,
-	float fFriction,
-	const tstring &sBone,
-	const CVec3f &v3Pos,
-	const CVec3f &v3Offset,
-	const CTemporalPropertyv3 &tv3OffsetSphere,
-	const CTemporalPropertyv3 &tv3OffsetCube,
-	const CTemporalPropertyRangef &rfMinOffsetDirection,
-	const CTemporalPropertyRangef &rfMaxOffsetDirection,
-	const CTemporalPropertyRangef &rfMinOffsetRadial,
-	const CTemporalPropertyRangef &rfMaxOffsetRadial,
-	const CTemporalPropertyRangef &rfMinOffsetRadialAngle,
-	const CTemporalPropertyRangef &rfMaxOffsetRadialAngle,
-	bool bCollide,
-	const CTemporalPropertyRangef &rfRange,
-	EDirectionalSpace eParticleDirectionalSpace,
-	const CTemporalPropertyv3 &tv3ParticleColor,
-	const CTemporalPropertyRangef &rfParticleAlpha,
-	const CTemporalPropertyRangef &rfParticleScale,
-	float fDepthBias
+    const tstring &sOwner,
+    const CRangei &riLife,
+    const CRangei &riExpireLife,
+    const CRangei &riCount,
+    const CRangei &riTimeNudge,
+    const CRangei &riDelay,
+    bool bLoop,
+    const CTemporalPropertyRangef &rfSpawnRate,
+    const CTemporalPropertyRangei &riMinParticleLife,
+    const CTemporalPropertyRangei &riMaxParticleLife,
+    int iParticleLifeAlloc,
+    const CTemporalPropertyRangei &riParticleTimeNudge,
+    const CTemporalPropertyRangef &rfGravity,
+    const CTemporalPropertyRangef &rfMinSpeed,
+    const CTemporalPropertyRangef &rfMaxSpeed,
+    const CTemporalPropertyRangef &rfMinAcceleration,
+    const CTemporalPropertyRangef &rfMaxAcceleration,
+    const CTemporalPropertyRangef &rfMinAngle,
+    const CTemporalPropertyRangef &rfMaxAngle,
+    const CTemporalPropertyRangef &rfMinInheritVelocity,
+    const CTemporalPropertyRangef &rfMaxInheritVelocity,
+    const CTemporalPropertyRangef &rfLimitInheritVelocity,
+    ResHandle hMaterial,
+    const CVec3f &v3Dir,
+    EDirectionalSpace eDirectionalSpace,
+    float fDrag,
+    float fFriction,
+    const tstring &sBone,
+    const CVec3f &v3Pos,
+    const CVec3f &v3Offset,
+    const CTemporalPropertyv3 &tv3OffsetSphere,
+    const CTemporalPropertyv3 &tv3OffsetCube,
+    const CTemporalPropertyRangef &rfMinOffsetDirection,
+    const CTemporalPropertyRangef &rfMaxOffsetDirection,
+    const CTemporalPropertyRangef &rfMinOffsetRadial,
+    const CTemporalPropertyRangef &rfMaxOffsetRadial,
+    const CTemporalPropertyRangef &rfMinOffsetRadialAngle,
+    const CTemporalPropertyRangef &rfMaxOffsetRadialAngle,
+    bool bCollide,
+    const CTemporalPropertyRangef &rfRange,
+    EDirectionalSpace eParticleDirectionalSpace,
+    const CTemporalPropertyv3 &tv3ParticleColor,
+    const CTemporalPropertyRangef &rfParticleAlpha,
+    const CTemporalPropertyRangef &rfParticleScale,
+    float fDepthBias
 ) :
 m_sOwner(sOwner),
 m_riLife(riLife),
@@ -133,11 +133,11 @@ m_fDepthBias(fDepthBias)
 /*====================
   CTerrainEmitterDef::Spawn
   ====================*/
-IEmitter*	CTerrainEmitterDef::Spawn(uint uiStartTime, CParticleSystem *pParticleSystem, IEmitter *pOwner)
+IEmitter*   CTerrainEmitterDef::Spawn(uint uiStartTime, CParticleSystem *pParticleSystem, IEmitter *pOwner)
 {
-	PROFILE("CTerrainEmitterDef::Spawn");
+    PROFILE("CTerrainEmitterDef::Spawn");
 
-	return K2_NEW(ctx_Effects, CTerrainEmitter)(uiStartTime, pParticleSystem, pOwner, *this);
+    return K2_NEW(ctx_Effects, CTerrainEmitter)(uiStartTime, pParticleSystem, pOwner, *this);
 }
 
 
@@ -155,21 +155,21 @@ CTerrainEmitter::~CTerrainEmitter()
 CTerrainEmitter::CTerrainEmitter(uint uiStartTime, CParticleSystem *pParticleSystem, IEmitter *pOwner, const CTerrainEmitterDef &eSettings) :
 IEmitter
 (
-	eSettings.GetLife(),
-	eSettings.GetExpireLife(),
-	eSettings.GetTimeNudge(),
-	eSettings.GetDelay(),
-	eSettings.GetLoop(),
-	TSNULL,
-	eSettings.GetOwner(),
-	eSettings.GetBone(),
-	eSettings.GetPos(),
-	eSettings.GetOffset(),
-	eSettings.GetDirectionalSpace(),
-	&eSettings.GetParticleDefinitions(),
-	pParticleSystem,
-	pOwner,
-	uiStartTime
+    eSettings.GetLife(),
+    eSettings.GetExpireLife(),
+    eSettings.GetTimeNudge(),
+    eSettings.GetDelay(),
+    eSettings.GetLoop(),
+    TSNULL,
+    eSettings.GetOwner(),
+    eSettings.GetBone(),
+    eSettings.GetPos(),
+    eSettings.GetOffset(),
+    eSettings.GetDirectionalSpace(),
+    &eSettings.GetParticleDefinitions(),
+    pParticleSystem,
+    pOwner,
+    uiStartTime
 ),
 m_fSelectionWeightRange(0.0f),
 m_fAccumulator(0.0f),
@@ -211,81 +211,81 @@ m_tfParticleAlpha(eSettings.GetParticleAlpha()),
 m_tfParticleScale(eSettings.GetParticleScale()),
 m_fDepthBias(eSettings.GetDepthBias())
 {
-	int iMaxActive;
+    int iMaxActive;
 
-	if (m_riMaxParticleLife.Max() == -1 || m_rfSpawnRate.Max() == 0.0f)
-	{
-		if (m_iCount == -1)
-		{
-			iMaxActive = 1024;
-			Console.Warn << m_pParticleSystem->GetEffect()->GetPath() << _T(": <terrainemitter> Infinite spawning emitter with infinite life particles") << newl;
-		}
-		else
-			iMaxActive = m_iCount + 1;
-	}
-	else
-		iMaxActive = INT_CEIL(m_rfSpawnRate.Max() * ((eSettings.GetParticleLifeAlloc() != -1) ? eSettings.GetParticleLifeAlloc() : m_riMaxParticleLife.Max()) * SEC_PER_MS) + 1;
+    if (m_riMaxParticleLife.Max() == -1 || m_rfSpawnRate.Max() == 0.0f)
+    {
+        if (m_iCount == -1)
+        {
+            iMaxActive = 1024;
+            Console.Warn << m_pParticleSystem->GetEffect()->GetPath() << _T(": <terrainemitter> Infinite spawning emitter with infinite life particles") << newl;
+        }
+        else
+            iMaxActive = m_iCount + 1;
+    }
+    else
+        iMaxActive = INT_CEIL(m_rfSpawnRate.Max() * ((eSettings.GetParticleLifeAlloc() != -1) ? eSettings.GetParticleLifeAlloc() : m_riMaxParticleLife.Max()) * SEC_PER_MS) + 1;
 
-	if (m_iCount != -1)
-	{
-		if (iMaxActive > m_iCount + 1)
-			iMaxActive = m_iCount + 1;
-	}
+    if (m_iCount != -1)
+    {
+        if (iMaxActive > m_iCount + 1)
+            iMaxActive = m_iCount + 1;
+    }
 
-	if (m_iLife != -1 && m_rfSpawnRate.Max() > 0.0f)
-	{
-		int iMaxSpawned(INT_CEIL(m_rfSpawnRate.Max() * (m_iLife * SEC_PER_MS)));
+    if (m_iLife != -1 && m_rfSpawnRate.Max() > 0.0f)
+    {
+        int iMaxSpawned(INT_CEIL(m_rfSpawnRate.Max() * (m_iLife * SEC_PER_MS)));
 
-		if (iMaxActive > iMaxSpawned)
-			iMaxActive = iMaxSpawned;
-	}
+        if (iMaxActive > iMaxSpawned)
+            iMaxActive = iMaxSpawned;
+    }
 
-	if (m_iCount == -1 && m_iLife == -1 && m_rfSpawnRate.Max() == 0.0f)
-		iMaxActive = 0;
+    if (m_iCount == -1 && m_iLife == -1 && m_rfSpawnRate.Max() == 0.0f)
+        iMaxActive = 0;
 
-	m_vParticles.resize(iMaxActive);
+    m_vParticles.resize(iMaxActive);
 
-	m_uiFrontSlot = 0;
-	m_uiBackSlot = 0;
+    m_uiFrontSlot = 0;
+    m_uiBackSlot = 0;
 
-	// Initialize Last* vars
-	m_v3LastPos = GetPosition();
-	m_aLastAxis = GetAxis();
-	m_fLastScale = GetScale();
+    // Initialize Last* vars
+    m_v3LastPos = GetPosition();
+    m_aLastAxis = GetAxis();
+    m_fLastScale = GetScale();
 
-	m_v3LastBasePos = TransformPoint(GetBonePosition(uiStartTime, m_pOwner, m_sBone), m_aLastAxis, m_v3LastPos, m_fLastScale);
+    m_v3LastBasePos = TransformPoint(GetBonePosition(uiStartTime, m_pOwner, m_sBone), m_aLastAxis, m_v3LastPos, m_fLastScale);
 
-	m_bLastActive = m_pParticleSystem->GetActive() && GetVisibility();
+    m_bLastActive = m_pParticleSystem->GetActive() && GetVisibility();
 
-	for (vector<CSimpleParticleDef *>::const_iterator it(m_pvParticleDefinitions->begin()); it != m_pvParticleDefinitions->end(); ++it)
-		m_fSelectionWeightRange += (*it)->GetSelectionWeight();
+    for (vector<CSimpleParticleDef *>::const_iterator it(m_pvParticleDefinitions->begin()); it != m_pvParticleDefinitions->end(); ++it)
+        m_fSelectionWeightRange += (*it)->GetSelectionWeight();
 
-	m_uiLastUpdateTime -= m_iTimeNudge;
+    m_uiLastUpdateTime -= m_iTimeNudge;
 
-	m_uiStartTime += m_iDelay;
-	m_uiLastUpdateTime += m_iDelay;
+    m_uiStartTime += m_iDelay;
+    m_uiLastUpdateTime += m_iDelay;
 
-	m_bActive = true;
+    m_bActive = true;
 
-	m_fParticleScale = m_tfParticleScale.Evaluate(0.0f, 0.0f);
-	m_v3ParticleColor = m_tv3ParticleColor.Evaluate(0.0f, 0.0f);
-	m_fParticleAlpha = m_tfParticleAlpha.Evaluate(0.0f, 0.0f);
+    m_fParticleScale = m_tfParticleScale.Evaluate(0.0f, 0.0f);
+    m_v3ParticleColor = m_tv3ParticleColor.Evaluate(0.0f, 0.0f);
+    m_fParticleAlpha = m_tfParticleAlpha.Evaluate(0.0f, 0.0f);
 }
 
 
 /*====================
   CTerrainEmitter::ResumeFromPause
   ====================*/
-void	CTerrainEmitter::ResumeFromPause(uint uiMilliseconds)
+void    CTerrainEmitter::ResumeFromPause(uint uiMilliseconds)
 {
-	uint uiPauseDuration(uiMilliseconds - m_uiPauseBegin);
-	m_uiStartTime += uiPauseDuration;
-	m_uiLastUpdateTime = uiMilliseconds;
-	m_uiPauseBegin = 0;
+    uint uiPauseDuration(uiMilliseconds - m_uiPauseBegin);
+    m_uiStartTime += uiPauseDuration;
+    m_uiLastUpdateTime = uiMilliseconds;
+    m_uiPauseBegin = 0;
 
-	ParticleList::iterator itEnd(m_vParticles.end());
-	for (ParticleList::iterator it(m_vParticles.begin()); it != itEnd; ++it)
-		it->AddToStartTime(uiPauseDuration);
+    ParticleList::iterator itEnd(m_vParticles.end());
+    for (ParticleList::iterator it(m_vParticles.begin()); it != itEnd; ++it)
+        it->AddToStartTime(uiPauseDuration);
 }
 
 
@@ -293,783 +293,783 @@ void	CTerrainEmitter::ResumeFromPause(uint uiMilliseconds)
   CTerrainEmitter::UpdateEmbeddedEmitter
   ====================*/
 inline
-bool	CTerrainEmitter::UpdateEmbeddedEmitter(uint uiMilliseconds, ParticleTraceFn_t pfnTrace, IEmitter *pEmitter, CSimpleParticle &cParticle)
+bool    CTerrainEmitter::UpdateEmbeddedEmitter(uint uiMilliseconds, ParticleTraceFn_t pfnTrace, IEmitter *pEmitter, CSimpleParticle &cParticle)
 {
-	if (!cParticle.IsActive() && !pEmitter->GetExpire())
-		pEmitter->Expire(uiMilliseconds);
+    if (!cParticle.IsActive() && !pEmitter->GetExpire())
+        pEmitter->Expire(uiMilliseconds);
 
-	float fLerp(cParticle.GetLerp(uiMilliseconds));
-	float fTime(cParticle.GetTime(uiMilliseconds));
+    float fLerp(cParticle.GetLerp(uiMilliseconds));
+    float fTime(cParticle.GetTime(uiMilliseconds));
 
-	pEmitter->SetCustomPos(cParticle.GetPos());
-	pEmitter->SetCustomScale(cParticle.GetScale(fLerp, fTime) * m_fParticleScale);
+    pEmitter->SetCustomPos(cParticle.GetPos());
+    pEmitter->SetCustomScale(cParticle.GetScale(fLerp, fTime) * m_fParticleScale);
 
-	CAxis aAxis(m_eParticleDirectionalSpace == DIRSPACE_LOCAL ? GetAxis() : AXIS_IDENTITY);
+    CAxis aAxis(m_eParticleDirectionalSpace == DIRSPACE_LOCAL ? GetAxis() : AXIS_IDENTITY);
 
-	if (cParticle.GetFlags() & BBOARD_TURN)
-	{
-		CAxis aDir;
+    if (cParticle.GetFlags() & BBOARD_TURN)
+    {
+        CAxis aDir;
 
-		const CVec3f &v3Velocity(cParticle.GetVelocity());
-		if (v3Velocity == V3_ZERO)
-			aDir.SetFromForwardVec(cParticle.GetDir());
-		else
-			aDir.SetFromForwardVec(cParticle.GetVelocity());
+        const CVec3f &v3Velocity(cParticle.GetVelocity());
+        if (v3Velocity == V3_ZERO)
+            aDir.SetFromForwardVec(cParticle.GetDir());
+        else
+            aDir.SetFromForwardVec(cParticle.GetVelocity());
 
-		aAxis = aAxis * aDir;
-	}
+        aAxis = aAxis * aDir;
+    }
 
-	aAxis = aAxis * CAxis(cParticle.GetPitch(fLerp, fTime), cParticle.GetRoll(fLerp, fTime), cParticle.GetYaw(fLerp, fTime));
+    aAxis = aAxis * CAxis(cParticle.GetPitch(fLerp, fTime), cParticle.GetRoll(fLerp, fTime), cParticle.GetYaw(fLerp, fTime));
 
-	pEmitter->SetCustomAxis(aAxis);
+    pEmitter->SetCustomAxis(aAxis);
 
-	bool bRet(pEmitter->Update(uiMilliseconds, pfnTrace));
+    bool bRet(pEmitter->Update(uiMilliseconds, pfnTrace));
 
-	return bRet;
+    return bRet;
 }
 
 
 /*====================
   CTerrainEmitter::Update
   ====================*/
-bool	CTerrainEmitter::Update(uint uiMilliseconds, ParticleTraceFn_t pfnTrace)
+bool    CTerrainEmitter::Update(uint uiMilliseconds, ParticleTraceFn_t pfnTrace)
 {
-	PROFILE("CTerrainEmitter::Update");
+    PROFILE("CTerrainEmitter::Update");
 
-	if (m_vParticles.size() == 0)
-		return false;
+    if (m_vParticles.size() == 0)
+        return false;
 
-	if (m_uiPauseBegin)
-		ResumeFromPause(uiMilliseconds);
+    if (m_uiPauseBegin)
+        ResumeFromPause(uiMilliseconds);
 
-	int iDeltaTime(uiMilliseconds - m_uiLastUpdateTime);
+    int iDeltaTime(uiMilliseconds - m_uiLastUpdateTime);
 
-	if (iDeltaTime <= 0)
-	{
-		UpdateNextEmitter(uiMilliseconds, pfnTrace);
-		return true;
-	}
+    if (iDeltaTime <= 0)
+    {
+        UpdateNextEmitter(uiMilliseconds, pfnTrace);
+        return true;
+    }
 
 #if 0
-	if (iDeltaTime > 0xffff)
-	{
-		Console.Warn << m_pParticleSystem->GetEffect()->GetPath() << _T(": <terrainemitter> iDeltaTime == ") << iDeltaTime << newl;
-		iDeltaTime = 0xffff;
-	}
+    if (iDeltaTime > 0xffff)
+    {
+        Console.Warn << m_pParticleSystem->GetEffect()->GetPath() << _T(": <terrainemitter> iDeltaTime == ") << iDeltaTime << newl;
+        iDeltaTime = 0xffff;
+    }
 #else
-	if (iDeltaTime > 0x1000)
-		iDeltaTime = 0x1000;
+    if (iDeltaTime > 0x1000)
+        iDeltaTime = 0x1000;
 #endif
 
-	float fDeltaTime(iDeltaTime * SEC_PER_MS);
+    float fDeltaTime(iDeltaTime * SEC_PER_MS);
 
-	// Calculate temporal properties
-	float fTime((uiMilliseconds - m_uiStartTime) * SEC_PER_MS);
-	float fLerp;
+    // Calculate temporal properties
+    float fTime((uiMilliseconds - m_uiStartTime) * SEC_PER_MS);
+    float fLerp;
 
-	if (m_uiExpireTime != INVALID_TIME && m_uiExpireTime <= uiMilliseconds && (m_iLife == -1 || m_bLoop) && m_iExpireLife != 0.0f)
-		fLerp = m_iExpireLife != -1 ? MIN(float(uiMilliseconds - m_uiExpireTime) / m_iExpireLife, 1.0f) : 0.0f;
-	else
-		fLerp = m_iLife != -1 ? MIN(float(uiMilliseconds - m_uiStartTime) / m_iLife, 1.0f) : 0.0f;
+    if (m_uiExpireTime != INVALID_TIME && m_uiExpireTime <= uiMilliseconds && (m_iLife == -1 || m_bLoop) && m_iExpireLife != 0.0f)
+        fLerp = m_iExpireLife != -1 ? MIN(float(uiMilliseconds - m_uiExpireTime) / m_iExpireLife, 1.0f) : 0.0f;
+    else
+        fLerp = m_iLife != -1 ? MIN(float(uiMilliseconds - m_uiStartTime) / m_iLife, 1.0f) : 0.0f;
 
-	float	fSpawnRate(m_rfSpawnRate.Evaluate(fLerp, fTime));
-	float	fGravity(m_rfGravity.Evaluate(fLerp, fTime));
-	float	fRange(m_tfRange.Evaluate(fLerp, fTime));
+    float   fSpawnRate(m_rfSpawnRate.Evaluate(fLerp, fTime));
+    float   fGravity(m_rfGravity.Evaluate(fLerp, fTime));
+    float   fRange(m_tfRange.Evaluate(fLerp, fTime));
 
-	m_fParticleScale = m_tfParticleScale.Evaluate(fLerp, fTime);
-	m_v3ParticleColor = m_tv3ParticleColor.Evaluate(fLerp, fTime);
-	m_fParticleAlpha = m_tfParticleAlpha.Evaluate(fLerp, fTime);
+    m_fParticleScale = m_tfParticleScale.Evaluate(fLerp, fTime);
+    m_v3ParticleColor = m_tv3ParticleColor.Evaluate(fLerp, fTime);
+    m_fParticleAlpha = m_tfParticleAlpha.Evaluate(fLerp, fTime);
 
-	bool bExpired(m_uiExpireTime != INVALID_TIME);
+    bool bExpired(m_uiExpireTime != INVALID_TIME);
 
-	START_PROFILE("Update Particles");
+    START_PROFILE("Update Particles");
 
-	m_bbBounds.Clear();
+    m_bbBounds.Clear();
 
-	// Update existing particles
-	if (fGravity == 0.0f && m_fDrag == 0.0f && m_fFriction == 0.0f && !m_bCollide)
-	{
-		ParticleList::iterator itEnd(m_vParticles.end());
-		for (ParticleList::iterator it(m_vParticles.begin()); it != itEnd; ++it)
-		{
-			if (it->IsActive())
-			{
-				if (it->IsDead(uiMilliseconds, bExpired))
-					it->SetActive(false);
-				else
-				{
-					it->Update(fDeltaTime);
-					m_bbBounds.AddPoint(it->GetPos());
-				}
-			}
+    // Update existing particles
+    if (fGravity == 0.0f && m_fDrag == 0.0f && m_fFriction == 0.0f && !m_bCollide)
+    {
+        ParticleList::iterator itEnd(m_vParticles.end());
+        for (ParticleList::iterator it(m_vParticles.begin()); it != itEnd; ++it)
+        {
+            if (it->IsActive())
+            {
+                if (it->IsDead(uiMilliseconds, bExpired))
+                    it->SetActive(false);
+                else
+                {
+                    it->Update(fDeltaTime);
+                    m_bbBounds.AddPoint(it->GetPos());
+                }
+            }
 
-			if (it->GetImbeddedEmitter() != NULL)
-			{
-				IEmitter *pEmitter(it->GetImbeddedEmitter());
+            if (it->GetImbeddedEmitter() != NULL)
+            {
+                IEmitter *pEmitter(it->GetImbeddedEmitter());
 
-				if (!UpdateEmbeddedEmitter(uiMilliseconds, pfnTrace, pEmitter, *it))
-				{
-					if (pEmitter->GetNextEmitter() != NULL)
-					{
-						it->SetImbeddedEmitter(pEmitter->GetNextEmitter());
-						pEmitter->SetNextEmitter(NULL);
-					}
-					else
-					{
-						it->SetImbeddedEmitter(NULL);
-					}
+                if (!UpdateEmbeddedEmitter(uiMilliseconds, pfnTrace, pEmitter, *it))
+                {
+                    if (pEmitter->GetNextEmitter() != NULL)
+                    {
+                        it->SetImbeddedEmitter(pEmitter->GetNextEmitter());
+                        pEmitter->SetNextEmitter(NULL);
+                    }
+                    else
+                    {
+                        it->SetImbeddedEmitter(NULL);
+                    }
 
-					K2_DELETE(pEmitter);
-				}
-				else
-				{
-					m_bbBounds.AddPoint(it->GetPos());
-				}
-			}
-		}
-	}
-	else if (m_fDrag == 0.0f && m_fFriction == 0.0f && !m_bCollide)
-	{
-		CVec3f v3Acceleration(0.0f, 0.0f, fGravity * -20.0f);
-		CVec3f v3AccelTime(v3Acceleration * fDeltaTime);
-		CVec3f v3AccelTimeSq(v3AccelTime * (0.5f * fDeltaTime));
+                    K2_DELETE(pEmitter);
+                }
+                else
+                {
+                    m_bbBounds.AddPoint(it->GetPos());
+                }
+            }
+        }
+    }
+    else if (m_fDrag == 0.0f && m_fFriction == 0.0f && !m_bCollide)
+    {
+        CVec3f v3Acceleration(0.0f, 0.0f, fGravity * -20.0f);
+        CVec3f v3AccelTime(v3Acceleration * fDeltaTime);
+        CVec3f v3AccelTimeSq(v3AccelTime * (0.5f * fDeltaTime));
 
-		ParticleList::iterator itEnd(m_vParticles.end());
-		for (ParticleList::iterator it(m_vParticles.begin()); it != itEnd; ++it)
-		{
-			if (it->IsActive())
-			{
-				if (it->IsDead(uiMilliseconds, bExpired))
-					it->SetActive(false);
-				else
-				{
-					it->Update(fDeltaTime, v3Acceleration, v3AccelTime, v3AccelTimeSq);
-					m_bbBounds.AddPoint(it->GetPos());
-				}
-			}
+        ParticleList::iterator itEnd(m_vParticles.end());
+        for (ParticleList::iterator it(m_vParticles.begin()); it != itEnd; ++it)
+        {
+            if (it->IsActive())
+            {
+                if (it->IsDead(uiMilliseconds, bExpired))
+                    it->SetActive(false);
+                else
+                {
+                    it->Update(fDeltaTime, v3Acceleration, v3AccelTime, v3AccelTimeSq);
+                    m_bbBounds.AddPoint(it->GetPos());
+                }
+            }
 
-			if (it->GetImbeddedEmitter() != NULL)
-			{
-				IEmitter *pEmitter(it->GetImbeddedEmitter());
+            if (it->GetImbeddedEmitter() != NULL)
+            {
+                IEmitter *pEmitter(it->GetImbeddedEmitter());
 
-				if (!UpdateEmbeddedEmitter(uiMilliseconds, pfnTrace, pEmitter, *it))
-				{
-					if (pEmitter->GetNextEmitter() != NULL)
-					{
-						it->SetImbeddedEmitter(pEmitter->GetNextEmitter());
-						pEmitter->SetNextEmitter(NULL);
-					}
-					else
-					{
-						it->SetImbeddedEmitter(NULL);
-					}
+                if (!UpdateEmbeddedEmitter(uiMilliseconds, pfnTrace, pEmitter, *it))
+                {
+                    if (pEmitter->GetNextEmitter() != NULL)
+                    {
+                        it->SetImbeddedEmitter(pEmitter->GetNextEmitter());
+                        pEmitter->SetNextEmitter(NULL);
+                    }
+                    else
+                    {
+                        it->SetImbeddedEmitter(NULL);
+                    }
 
-					K2_DELETE(pEmitter);
-				}
-				else
-				{
-					m_bbBounds.AddPoint(it->GetPos());
-				}
-			}
-		}
-	}
-	else
-	{
-		CVec3f v3Acceleration(0.0f, 0.0f, fGravity * -20.0f);
+                    K2_DELETE(pEmitter);
+                }
+                else
+                {
+                    m_bbBounds.AddPoint(it->GetPos());
+                }
+            }
+        }
+    }
+    else
+    {
+        CVec3f v3Acceleration(0.0f, 0.0f, fGravity * -20.0f);
 
-		ParticleList::iterator itEnd(m_vParticles.end());
-		for (ParticleList::iterator it(m_vParticles.begin()); it != itEnd; ++it)
-		{
-			if (it->IsActive())
-			{
-				if (it->IsDead(uiMilliseconds, bExpired))
-					it->SetActive(false);
-				else
-				{
-					it->Update(fDeltaTime, v3Acceleration, m_fDrag, m_fFriction, m_bCollide ? pfnTrace : NULL);
-					m_bbBounds.AddPoint(it->GetPos());
-				}
-			}
+        ParticleList::iterator itEnd(m_vParticles.end());
+        for (ParticleList::iterator it(m_vParticles.begin()); it != itEnd; ++it)
+        {
+            if (it->IsActive())
+            {
+                if (it->IsDead(uiMilliseconds, bExpired))
+                    it->SetActive(false);
+                else
+                {
+                    it->Update(fDeltaTime, v3Acceleration, m_fDrag, m_fFriction, m_bCollide ? pfnTrace : NULL);
+                    m_bbBounds.AddPoint(it->GetPos());
+                }
+            }
 
-			if (it->GetImbeddedEmitter() != NULL)
-			{
-				IEmitter *pEmitter(it->GetImbeddedEmitter());
+            if (it->GetImbeddedEmitter() != NULL)
+            {
+                IEmitter *pEmitter(it->GetImbeddedEmitter());
 
-				if (!UpdateEmbeddedEmitter(uiMilliseconds, pfnTrace, pEmitter, *it))
-				{
-					if (pEmitter->GetNextEmitter() != NULL)
-					{
-						it->SetImbeddedEmitter(pEmitter->GetNextEmitter());
-						pEmitter->SetNextEmitter(NULL);
-					}
-					else
-					{
-						it->SetImbeddedEmitter(NULL);
-					}
+                if (!UpdateEmbeddedEmitter(uiMilliseconds, pfnTrace, pEmitter, *it))
+                {
+                    if (pEmitter->GetNextEmitter() != NULL)
+                    {
+                        it->SetImbeddedEmitter(pEmitter->GetNextEmitter());
+                        pEmitter->SetNextEmitter(NULL);
+                    }
+                    else
+                    {
+                        it->SetImbeddedEmitter(NULL);
+                    }
 
-					K2_DELETE(pEmitter);
-				}
-				else
-				{
-					m_bbBounds.AddPoint(it->GetPos());
-				}
-			}
-		}
-	}
+                    K2_DELETE(pEmitter);
+                }
+                else
+                {
+                    m_bbBounds.AddPoint(it->GetPos());
+                }
+            }
+        }
+    }
 
-	END_PROFILE; // Update Particles
+    END_PROFILE; // Update Particles
 
-	while ((!m_vParticles[m_uiFrontSlot].IsActive() && m_vParticles[m_uiFrontSlot].GetImbeddedEmitter() == NULL) && m_uiFrontSlot != m_uiBackSlot)
-		m_uiFrontSlot = (m_uiFrontSlot + 1) % m_vParticles.size();
+    while ((!m_vParticles[m_uiFrontSlot].IsActive() && m_vParticles[m_uiFrontSlot].GetImbeddedEmitter() == NULL) && m_uiFrontSlot != m_uiBackSlot)
+        m_uiFrontSlot = (m_uiFrontSlot + 1) % m_vParticles.size();
 
-	bool bActive(m_bActive && m_pParticleSystem->GetActive() && m_pParticleSystem->GetWorld() != NULL);
+    bool bActive(m_bActive && m_pParticleSystem->GetActive() && m_pParticleSystem->GetWorld() != NULL);
 
-	if (m_uiExpireTime != INVALID_TIME && (m_iLife == -1 || m_bLoop))
-		if ((m_iExpireLife != -1 && (uiMilliseconds > m_iExpireLife + m_uiExpireTime)) || m_iExpireLife == 0)
-			bActive = false;
+    if (m_uiExpireTime != INVALID_TIME && (m_iLife == -1 || m_bLoop))
+        if ((m_iExpireLife != -1 && (uiMilliseconds > m_iExpireLife + m_uiExpireTime)) || m_iExpireLife == 0)
+            bActive = false;
 
-	if (!GetVisibility())
-		bActive = false;
+    if (!GetVisibility())
+        bActive = false;
 
-	CVec3f v3Pos(GetPosition());
-	CAxis aAxis(GetAxis());
-	float fScale(GetScale());
+    CVec3f v3Pos(GetPosition());
+    CAxis aAxis(GetAxis());
+    float fScale(GetScale());
 
-	float fClampedDeltaTime;
+    float fClampedDeltaTime;
 
-	if (m_iLife != -1)
-		fClampedDeltaTime = MIN(fDeltaTime, (m_iLife + int(m_uiStartTime) - int(m_uiLastUpdateTime)) * SEC_PER_MS);
-	else
-		fClampedDeltaTime = fDeltaTime;
+    if (m_iLife != -1)
+        fClampedDeltaTime = MIN(fDeltaTime, (m_iLife + int(m_uiStartTime) - int(m_uiLastUpdateTime)) * SEC_PER_MS);
+    else
+        fClampedDeltaTime = fDeltaTime;
 
-	if (fClampedDeltaTime < 0.0f)
-		fClampedDeltaTime = 0.0f;
+    if (fClampedDeltaTime < 0.0f)
+        fClampedDeltaTime = 0.0f;
 
-	if (m_iCount != -1)
-	{
-		if (bActive && m_bLastActive)
-		{
-			if (fSpawnRate == 0.0f)
-				m_fAccumulator = float(m_iCount);
-			else
-				m_fAccumulator += fSpawnRate * fClampedDeltaTime;
-		}
-		else
-		{
-			if (fSpawnRate == 0.0f)
-			{
-				m_iSpawnCount = m_iCount;
-			}
-			else
-			{
-				m_fAccumulator += fSpawnRate * fClampedDeltaTime;
+    if (m_iCount != -1)
+    {
+        if (bActive && m_bLastActive)
+        {
+            if (fSpawnRate == 0.0f)
+                m_fAccumulator = float(m_iCount);
+            else
+                m_fAccumulator += fSpawnRate * fClampedDeltaTime;
+        }
+        else
+        {
+            if (fSpawnRate == 0.0f)
+            {
+                m_iSpawnCount = m_iCount;
+            }
+            else
+            {
+                m_fAccumulator += fSpawnRate * fClampedDeltaTime;
 
-				if (m_fAccumulator >= 1.0f)
-				{
-					m_iSpawnCount += INT_FLOOR(m_fAccumulator);
-					m_fAccumulator = fmod(m_fAccumulator, 1.0f);
-				}
-			}
-		}
-	}
-	else if (bActive && m_bLastActive)
-	{
-		m_fAccumulator += fSpawnRate * fClampedDeltaTime;
-	}
+                if (m_fAccumulator >= 1.0f)
+                {
+                    m_iSpawnCount += INT_FLOOR(m_fAccumulator);
+                    m_fAccumulator = fmod(m_fAccumulator, 1.0f);
+                }
+            }
+        }
+    }
+    else if (bActive && m_bLastActive)
+    {
+        m_fAccumulator += fSpawnRate * fClampedDeltaTime;
+    }
 
-	if (m_fAccumulator >= 1.0f && (m_iCount == -1 || m_iSpawnCount < m_iCount))
-	{
-		bool bLerpAxis(false);
-		vec4_t quat0;
-		vec4_t quat1;
+    if (m_fAccumulator >= 1.0f && (m_iCount == -1 || m_iSpawnCount < m_iCount))
+    {
+        bool bLerpAxis(false);
+        vec4_t quat0;
+        vec4_t quat1;
 
-		M_AxisToQuat((const vec3_t *)(&m_aLastAxis), quat0);
-		M_AxisToQuat((const vec3_t *)(&aAxis), quat1);
+        M_AxisToQuat((const vec3_t *)(&m_aLastAxis), quat0);
+        M_AxisToQuat((const vec3_t *)(&aAxis), quat1);
 
-		bLerpAxis = !M_CompareVec4(quat0, quat1, 0.001f);
+        bLerpAxis = !M_CompareVec4(quat0, quat1, 0.001f);
 
-		CVec3f	v3BasePos(v3Pos);
+        CVec3f  v3BasePos(v3Pos);
 
-		CVec3f	v3BaseVelocity(m_bLastActive && bActive ? (v3BasePos - m_v3LastBasePos) / fDeltaTime : V3_ZERO);
+        CVec3f  v3BaseVelocity(m_bLastActive && bActive ? (v3BasePos - m_v3LastBasePos) / fDeltaTime : V3_ZERO);
 
-		while (m_fAccumulator >= 1.0f && (m_iCount == -1 || m_iSpawnCount < m_iCount))
-		{
-			m_fAccumulator -= 1.0f;
+        while (m_fAccumulator >= 1.0f && (m_iCount == -1 || m_iSpawnCount < m_iCount))
+        {
+            m_fAccumulator -= 1.0f;
 
-			float	fTimeNudge(fSpawnRate > 0.0f ? m_fAccumulator / fSpawnRate : 0.0f);
-			uint	uiMillisecondNudge(INT_FLOOR(fTimeNudge * MS_PER_SEC));
-			float	fLerp(m_iLife != -1 ? CLAMP(ILERP(uiMilliseconds - m_uiStartTime - uiMillisecondNudge, 0u, uint(m_iLife)), 0.0f, 1.0f) : 0.0f);
+            float   fTimeNudge(fSpawnRate > 0.0f ? m_fAccumulator / fSpawnRate : 0.0f);
+            uint    uiMillisecondNudge(INT_FLOOR(fTimeNudge * MS_PER_SEC));
+            float   fLerp(m_iLife != -1 ? CLAMP(ILERP(uiMilliseconds - m_uiStartTime - uiMillisecondNudge, 0u, uint(m_iLife)), 0.0f, 1.0f) : 0.0f);
 
-			// Calculate new particle temporal properties
-			int		iMinParticleLife(m_riMinParticleLife.Lerp(fLerp));
-			int		iMaxParticleLife(m_riMaxParticleLife.Lerp(fLerp));
-			int		iParticleTimeNudge(m_riParticleTimeNudge.Lerp(fLerp));
+            // Calculate new particle temporal properties
+            int     iMinParticleLife(m_riMinParticleLife.Lerp(fLerp));
+            int     iMaxParticleLife(m_riMaxParticleLife.Lerp(fLerp));
+            int     iParticleTimeNudge(m_riParticleTimeNudge.Lerp(fLerp));
 
-			int iParticleLife(M_Randnum(iMinParticleLife, iMaxParticleLife));
-			if (iParticleLife != -1 && uint(iParticleLife) < uiMillisecondNudge + iParticleTimeNudge)
-			{
-				// Skip dead particles
-				++m_iSpawnCount;
-				continue;
-			}
+            int iParticleLife(M_Randnum(iMinParticleLife, iMaxParticleLife));
+            if (iParticleLife != -1 && uint(iParticleLife) < uiMillisecondNudge + iParticleTimeNudge)
+            {
+                // Skip dead particles
+                ++m_iSpawnCount;
+                continue;
+            }
 
-			float	fMinSpeed(m_rfMinSpeed.Lerp(fLerp));
-			float	fMaxSpeed(m_rfMaxSpeed.Lerp(fLerp));
-			float	fMinAcceleration(m_rfMinAcceleration.Lerp(fLerp));
-			float	fMaxAcceleration(m_rfMaxAcceleration.Lerp(fLerp));
-			float	fMinAngle(m_rfMinAngle.Lerp(fLerp));
-			float	fMaxAngle(m_rfMaxAngle.Lerp(fLerp));
-			float	fMinInheritVelocity(m_rfMinInheritVelocity.Lerp(fLerp));
-			float	fMaxInheritVelocity(m_rfMaxInheritVelocity.Lerp(fLerp));
-			float	fMinOffsetDirection(m_rfMinOffsetDirection.Lerp(fLerp));
-			float	fMaxOffsetDirection(m_rfMaxOffsetDirection.Lerp(fLerp));
-			float	fMinOffsetRadial(m_rfMinOffsetRadial.Lerp(fLerp));
-			float	fMaxOffsetRadial(m_rfMaxOffsetRadial.Lerp(fLerp));
-			float	fMinOffsetRadialAngle(m_rfMinOffsetRadialAngle.Lerp(fLerp));
-			float	fMaxOffsetRadialAngle(m_rfMaxOffsetRadialAngle.Lerp(fLerp));
-			CVec3f	v3OffsetSphere(m_tv3OffsetSphere.Lerp(fLerp));
-			CVec3f	v3OffsetCube(m_tv3OffsetCube.Lerp(fLerp));
+            float   fMinSpeed(m_rfMinSpeed.Lerp(fLerp));
+            float   fMaxSpeed(m_rfMaxSpeed.Lerp(fLerp));
+            float   fMinAcceleration(m_rfMinAcceleration.Lerp(fLerp));
+            float   fMaxAcceleration(m_rfMaxAcceleration.Lerp(fLerp));
+            float   fMinAngle(m_rfMinAngle.Lerp(fLerp));
+            float   fMaxAngle(m_rfMaxAngle.Lerp(fLerp));
+            float   fMinInheritVelocity(m_rfMinInheritVelocity.Lerp(fLerp));
+            float   fMaxInheritVelocity(m_rfMaxInheritVelocity.Lerp(fLerp));
+            float   fMinOffsetDirection(m_rfMinOffsetDirection.Lerp(fLerp));
+            float   fMaxOffsetDirection(m_rfMaxOffsetDirection.Lerp(fLerp));
+            float   fMinOffsetRadial(m_rfMinOffsetRadial.Lerp(fLerp));
+            float   fMaxOffsetRadial(m_rfMaxOffsetRadial.Lerp(fLerp));
+            float   fMinOffsetRadialAngle(m_rfMinOffsetRadialAngle.Lerp(fLerp));
+            float   fMaxOffsetRadialAngle(m_rfMaxOffsetRadialAngle.Lerp(fLerp));
+            CVec3f  v3OffsetSphere(m_tv3OffsetSphere.Lerp(fLerp));
+            CVec3f  v3OffsetCube(m_tv3OffsetCube.Lerp(fLerp));
 
-			float fFrameLerp(CLAMP(1.0f - fTimeNudge / fDeltaTime, 0.0f, 1.0f));
+            float fFrameLerp(CLAMP(1.0f - fTimeNudge / fDeltaTime, 0.0f, 1.0f));
 
-			CVec3f	v3LerpedPos(LERP(fFrameLerp, m_v3LastPos, v3Pos));
-			CAxis	aLerpedAxis;
+            CVec3f  v3LerpedPos(LERP(fFrameLerp, m_v3LastPos, v3Pos));
+            CAxis   aLerpedAxis;
 
-			if (bLerpAxis)
-			{
-				vec4_t	lerpedQuat;
-				M_LerpQuat(fFrameLerp, quat0, quat1, lerpedQuat);
+            if (bLerpAxis)
+            {
+                vec4_t  lerpedQuat;
+                M_LerpQuat(fFrameLerp, quat0, quat1, lerpedQuat);
 
-				M_QuatToAxis(lerpedQuat, (vec3_t *)(&aLerpedAxis));
-			}
-			else
-				aLerpedAxis = aAxis;
+                M_QuatToAxis(lerpedQuat, (vec3_t *)(&aLerpedAxis));
+            }
+            else
+                aLerpedAxis = aAxis;
 
-			float fLerpedScale(LERP(fFrameLerp, m_fLastScale, fScale));
-			
-			CVec3f v3WorldPos(v3LerpedPos);
+            float fLerpedScale(LERP(fFrameLerp, m_fLastScale, fScale));
+            
+            CVec3f v3WorldPos(v3LerpedPos);
 
-			CVec2f v2Circle(M_RandomPointInCircle());
+            CVec2f v2Circle(M_RandomPointInCircle());
 
-			CVec3f v3TerrainPos;
-			v3TerrainPos.x = v2Circle.x * fRange + v3WorldPos.x;
-			v3TerrainPos.y = v2Circle.y * fRange + v3WorldPos.y;
+            CVec3f v3TerrainPos;
+            v3TerrainPos.x = v2Circle.x * fRange + v3WorldPos.x;
+            v3TerrainPos.y = v2Circle.y * fRange + v3WorldPos.y;
 
-			if (m_pParticleSystem->GetWorld()->IsInBounds(v3TerrainPos.x, v3TerrainPos.y))
-				v3TerrainPos.z = m_pParticleSystem->GetWorld()->GetTerrainHeight(v3TerrainPos.x, v3TerrainPos.y);
-			else
-			{
-				++m_iSpawnCount;
-				continue;
-			}
+            if (m_pParticleSystem->GetWorld()->IsInBounds(v3TerrainPos.x, v3TerrainPos.y))
+                v3TerrainPos.z = m_pParticleSystem->GetWorld()->GetTerrainHeight(v3TerrainPos.x, v3TerrainPos.y);
+            else
+            {
+                ++m_iSpawnCount;
+                continue;
+            }
 
 #if 0
-			if (DistanceSq(v3TerrainPos, v3WorldPos) > SQR(fRange))
-			{
-				++m_iSpawnCount;
-				continue;
-			}
+            if (DistanceSq(v3TerrainPos, v3WorldPos) > SQR(fRange))
+            {
+                ++m_iSpawnCount;
+                continue;
+            }
 #endif
 
-			CVec3f v3FaceNormal(m_pParticleSystem->GetWorld()->GetTerrainNormal(v3TerrainPos.x, v3TerrainPos.y));
-			CVec3f v3Dir;
-			if (m_v3Dir != CVec3f(0.0f, 0.0f, 1.0f))
-			{
-				CAxis aAxis(GetAxisFromUpVec(v3FaceNormal));
-				CVec3f v3Tmp(TransformPoint(m_v3Dir, aAxis));
-				v3Dir = M_RandomDirection((v3Tmp == V3_ZERO) ? v3FaceNormal : v3Tmp, fMinAngle, fMaxAngle);
-			}
-			else
-			{
-				v3Dir = M_RandomDirection(v3FaceNormal, fMinAngle, fMaxAngle);
-			}
+            CVec3f v3FaceNormal(m_pParticleSystem->GetWorld()->GetTerrainNormal(v3TerrainPos.x, v3TerrainPos.y));
+            CVec3f v3Dir;
+            if (m_v3Dir != CVec3f(0.0f, 0.0f, 1.0f))
+            {
+                CAxis aAxis(GetAxisFromUpVec(v3FaceNormal));
+                CVec3f v3Tmp(TransformPoint(m_v3Dir, aAxis));
+                v3Dir = M_RandomDirection((v3Tmp == V3_ZERO) ? v3FaceNormal : v3Tmp, fMinAngle, fMaxAngle);
+            }
+            else
+            {
+                v3Dir = M_RandomDirection(v3FaceNormal, fMinAngle, fMaxAngle);
+            }
 
-			//
-			// Position
-			//
+            //
+            // Position
+            //
 
-			CVec3f	v3OffsetPos(0.0f, 0.0f, 0.0f);
-			{
-				if (v3OffsetSphere != V3_ZERO)
-				{
-					CVec3f	v3Rand(M_RandomPointInSphere());
+            CVec3f  v3OffsetPos(0.0f, 0.0f, 0.0f);
+            {
+                if (v3OffsetSphere != V3_ZERO)
+                {
+                    CVec3f  v3Rand(M_RandomPointInSphere());
 
-					v3OffsetPos += v3OffsetSphere * v3Rand;
-				}
+                    v3OffsetPos += v3OffsetSphere * v3Rand;
+                }
 
-				if (v3OffsetCube != V3_ZERO)
-				{
-					CVec3f	v3Rand(M_Randnum(-1.0f, 1.0f), M_Randnum(-1.0f, 1.0f), M_Randnum(-1.0f, 1.0f));
+                if (v3OffsetCube != V3_ZERO)
+                {
+                    CVec3f  v3Rand(M_Randnum(-1.0f, 1.0f), M_Randnum(-1.0f, 1.0f), M_Randnum(-1.0f, 1.0f));
 
-					v3OffsetPos += v3OffsetCube * v3Rand;
-				}
+                    v3OffsetPos += v3OffsetCube * v3Rand;
+                }
 
-				float	fOffsetDirection(M_Randnum(fMinOffsetDirection, fMaxOffsetDirection));
-				if (fOffsetDirection != 0.0f)
-				{
-					v3OffsetPos += v3Dir * fOffsetDirection;
-				}
+                float   fOffsetDirection(M_Randnum(fMinOffsetDirection, fMaxOffsetDirection));
+                if (fOffsetDirection != 0.0f)
+                {
+                    v3OffsetPos += v3Dir * fOffsetDirection;
+                }
 
-				float	fOffsetRadial(M_Randnum(fMinOffsetRadial, fMaxOffsetRadial));
-				if (fOffsetRadial != 0.0f)
-				{
-					v3OffsetPos += M_RandomDirection(m_v3Dir, fMinOffsetRadialAngle, fMaxOffsetRadialAngle) * fOffsetRadial;
-				}
-			}
+                float   fOffsetRadial(M_Randnum(fMinOffsetRadial, fMaxOffsetRadial));
+                if (fOffsetRadial != 0.0f)
+                {
+                    v3OffsetPos += M_RandomDirection(m_v3Dir, fMinOffsetRadialAngle, fMaxOffsetRadialAngle) * fOffsetRadial;
+                }
+            }
 
-			CVec3f	v3Position(v3OffsetPos + v3TerrainPos);
+            CVec3f  v3Position(v3OffsetPos + v3TerrainPos);
 
-			CVec3f	v3Velocity(v3Dir * (M_Randnum(fMinSpeed, fMaxSpeed) * fLerpedScale));
+            CVec3f  v3Velocity(v3Dir * (M_Randnum(fMinSpeed, fMaxSpeed) * fLerpedScale));
 
-			float	fLimitInheritVelocity(m_rfLimitInheritVelocity.Lerp(fLerp) * fLerpedScale);
+            float   fLimitInheritVelocity(m_rfLimitInheritVelocity.Lerp(fLerp) * fLerpedScale);
 
-			CVec3f	v3InheritVelocity(LERP(fTimeNudge / fDeltaTime, v3BaseVelocity, m_v3LastBaseVelocity) * M_Randnum(fMinInheritVelocity, fMaxInheritVelocity));
-			if (fLimitInheritVelocity > 0.0f && v3InheritVelocity.LengthSq() > SQR(fLimitInheritVelocity))
-				v3InheritVelocity.SetLength(fLimitInheritVelocity);
+            CVec3f  v3InheritVelocity(LERP(fTimeNudge / fDeltaTime, v3BaseVelocity, m_v3LastBaseVelocity) * M_Randnum(fMinInheritVelocity, fMaxInheritVelocity));
+            if (fLimitInheritVelocity > 0.0f && v3InheritVelocity.LengthSq() > SQR(fLimitInheritVelocity))
+                v3InheritVelocity.SetLength(fLimitInheritVelocity);
 
-			v3Velocity += v3InheritVelocity;
+            v3Velocity += v3InheritVelocity;
 
-			float	fAcceleration(M_Randnum(fMinAcceleration, fMaxAcceleration) * fLerpedScale);
+            float   fAcceleration(M_Randnum(fMinAcceleration, fMaxAcceleration) * fLerpedScale);
 
-			//
-			// Particle selection and spawning
-			//
+            //
+            // Particle selection and spawning
+            //
 
-			uiMillisecondNudge += iParticleTimeNudge;
-			fTimeNudge += iParticleTimeNudge * SEC_PER_MS;
+            uiMillisecondNudge += iParticleTimeNudge;
+            fTimeNudge += iParticleTimeNudge * SEC_PER_MS;
 
-			vector<CSimpleParticleDef *>::const_iterator	itDef(m_pvParticleDefinitions->begin());
-			if (m_pvParticleDefinitions->size() > 1)
-			{
-				float	fRand(M_Randnum(0.0f, m_fSelectionWeightRange));
+            vector<CSimpleParticleDef *>::const_iterator    itDef(m_pvParticleDefinitions->begin());
+            if (m_pvParticleDefinitions->size() > 1)
+            {
+                float   fRand(M_Randnum(0.0f, m_fSelectionWeightRange));
 
-				while (itDef != m_pvParticleDefinitions->end())
-				{
-					fRand -= (*itDef)->GetSelectionWeight();
+                while (itDef != m_pvParticleDefinitions->end())
+                {
+                    fRand -= (*itDef)->GetSelectionWeight();
 
-					if (fRand > 0.0f)
-						++itDef;
-					else
-						break;
-				}
-			}
+                    if (fRand > 0.0f)
+                        ++itDef;
+                    else
+                        break;
+                }
+            }
 
-			if (itDef == m_pvParticleDefinitions->end())
-				continue;
+            if (itDef == m_pvParticleDefinitions->end())
+                continue;
 
-			// Spawn embedded emitters
-			IEmitter *pImbeddedEmitter(NULL);
-			IEmitter *pCurrentEmitter(NULL);
-			const tsvector &vEmitters((*itDef)->GetEmitters());
-			if (!vEmitters.empty())
-			{
-				CEffect *pEffect(m_pParticleSystem->GetEffect());
+            // Spawn embedded emitters
+            IEmitter *pImbeddedEmitter(NULL);
+            IEmitter *pCurrentEmitter(NULL);
+            const tsvector &vEmitters((*itDef)->GetEmitters());
+            if (!vEmitters.empty())
+            {
+                CEffect *pEffect(m_pParticleSystem->GetEffect());
 
-				tsvector_cit cit(vEmitters.begin());
+                tsvector_cit cit(vEmitters.begin());
 
-				IEmitterDef *pEmitterDef(pEffect->GetEmitterDef(*cit));
+                IEmitterDef *pEmitterDef(pEffect->GetEmitterDef(*cit));
 
-				m_pParticleSystem->SetCustomPos(v3Position);
-				m_pParticleSystem->SetCustomAxis(AXIS_IDENTITY);
-				m_pParticleSystem->SetCustomScale(fLerpedScale * m_fParticleScale);
+                m_pParticleSystem->SetCustomPos(v3Position);
+                m_pParticleSystem->SetCustomAxis(AXIS_IDENTITY);
+                m_pParticleSystem->SetCustomScale(fLerpedScale * m_fParticleScale);
 
-				if (pEmitterDef != NULL)
-					pImbeddedEmitter = pEmitterDef->Spawn(uiMilliseconds - uiMillisecondNudge, m_pParticleSystem, OWNER_CUSTOM);
+                if (pEmitterDef != NULL)
+                    pImbeddedEmitter = pEmitterDef->Spawn(uiMilliseconds - uiMillisecondNudge, m_pParticleSystem, OWNER_CUSTOM);
 
-				if (pImbeddedEmitter != NULL)
-				{
-					m_bChildEmitters = true;
+                if (pImbeddedEmitter != NULL)
+                {
+                    m_bChildEmitters = true;
 
-					++cit;
+                    ++cit;
 
-					pCurrentEmitter = pImbeddedEmitter;
-					for (; cit != vEmitters.end(); ++cit)
-					{
-						IEmitterDef *pEmitterDef(pEffect->GetEmitterDef(*cit));
-						IEmitter *pNewEmitter(NULL);
+                    pCurrentEmitter = pImbeddedEmitter;
+                    for (; cit != vEmitters.end(); ++cit)
+                    {
+                        IEmitterDef *pEmitterDef(pEffect->GetEmitterDef(*cit));
+                        IEmitter *pNewEmitter(NULL);
 
-						if (pEmitterDef != NULL)
-							pNewEmitter = pEmitterDef->Spawn(uiMilliseconds - uiMillisecondNudge, m_pParticleSystem, OWNER_CUSTOM);
+                        if (pEmitterDef != NULL)
+                            pNewEmitter = pEmitterDef->Spawn(uiMilliseconds - uiMillisecondNudge, m_pParticleSystem, OWNER_CUSTOM);
 
-						pCurrentEmitter->SetNextEmitter(pNewEmitter);
-						pCurrentEmitter = pNewEmitter;
-					}
-				}
-			}
+                        pCurrentEmitter->SetNextEmitter(pNewEmitter);
+                        pCurrentEmitter = pNewEmitter;
+                    }
+                }
+            }
 
-			vector<IEmitterDef *>::const_iterator itEnd((*itDef)->GetEmitterDefs().end());
-			for (vector<IEmitterDef *>::const_iterator it((*itDef)->GetEmitterDefs().begin()); it != itEnd; ++it)
-			{
-				m_pParticleSystem->SetCustomPos(v3Position);
-				m_pParticleSystem->SetCustomAxis(AXIS_IDENTITY);
-				m_pParticleSystem->SetCustomScale(fLerpedScale * m_fParticleScale);
+            vector<IEmitterDef *>::const_iterator itEnd((*itDef)->GetEmitterDefs().end());
+            for (vector<IEmitterDef *>::const_iterator it((*itDef)->GetEmitterDefs().begin()); it != itEnd; ++it)
+            {
+                m_pParticleSystem->SetCustomPos(v3Position);
+                m_pParticleSystem->SetCustomAxis(AXIS_IDENTITY);
+                m_pParticleSystem->SetCustomScale(fLerpedScale * m_fParticleScale);
 
-				for (int i(0); i < (*it)->GetCount(); ++i)
-				{
-					IEmitter *pNewEmitter((*it)->Spawn(uiMilliseconds - uiMillisecondNudge, m_pParticleSystem, OWNER_CUSTOM));
-					if (pNewEmitter != NULL)
-					{
-						m_bChildEmitters = true;
+                for (int i(0); i < (*it)->GetCount(); ++i)
+                {
+                    IEmitter *pNewEmitter((*it)->Spawn(uiMilliseconds - uiMillisecondNudge, m_pParticleSystem, OWNER_CUSTOM));
+                    if (pNewEmitter != NULL)
+                    {
+                        m_bChildEmitters = true;
 
-						if (pCurrentEmitter == NULL)
-						{
-							pImbeddedEmitter = pNewEmitter;
-							pCurrentEmitter = pImbeddedEmitter;
-						}
-						else
-						{
-							pCurrentEmitter->SetNextEmitter(pNewEmitter);
-							pCurrentEmitter = pNewEmitter;
-						}
-					}
-				}
-			}
+                        if (pCurrentEmitter == NULL)
+                        {
+                            pImbeddedEmitter = pNewEmitter;
+                            pCurrentEmitter = pImbeddedEmitter;
+                        }
+                        else
+                        {
+                            pCurrentEmitter->SetNextEmitter(pNewEmitter);
+                            pCurrentEmitter = pNewEmitter;
+                        }
+                    }
+                }
+            }
 
-			uint uiSlot(m_uiBackSlot);
+            uint uiSlot(m_uiBackSlot);
 
-			m_vParticles[uiSlot].Spawn
-			(
-				uiMilliseconds - uiMillisecondNudge,
-				iParticleLife,
-				v3Position,
-				v3Velocity,
-				v3Dir,
-				fAcceleration,
-				fLerpedScale,
-				v3LerpedPos,
-				pImbeddedEmitter,
-				**itDef
-			);
+            m_vParticles[uiSlot].Spawn
+            (
+                uiMilliseconds - uiMillisecondNudge,
+                iParticleLife,
+                v3Position,
+                v3Velocity,
+                v3Dir,
+                fAcceleration,
+                fLerpedScale,
+                v3LerpedPos,
+                pImbeddedEmitter,
+                **itDef
+            );
 
-			m_vParticles[uiSlot].SetActive(true);
+            m_vParticles[uiSlot].SetActive(true);
 
-			if (m_vParticles[uiSlot].IsDead(uiMilliseconds, bExpired))
-				m_vParticles[uiSlot].SetActive(false);
-			else
-			{
-				// Update the particle a bit to get rid of any framerate dependent spawning patterns
-				m_vParticles[uiSlot].Update(fTimeNudge, CVec3f(0.0f, 0.0f, fGravity * -20.0f), m_fDrag, m_fFriction);
-				m_bbBounds.AddPoint(m_vParticles[uiSlot].GetPos());
-			}
+            if (m_vParticles[uiSlot].IsDead(uiMilliseconds, bExpired))
+                m_vParticles[uiSlot].SetActive(false);
+            else
+            {
+                // Update the particle a bit to get rid of any framerate dependent spawning patterns
+                m_vParticles[uiSlot].Update(fTimeNudge, CVec3f(0.0f, 0.0f, fGravity * -20.0f), m_fDrag, m_fFriction);
+                m_bbBounds.AddPoint(m_vParticles[uiSlot].GetPos());
+            }
 
-			if (m_vParticles[uiSlot].GetImbeddedEmitter() != NULL)
-			{
-				IEmitter *pEmitter(m_vParticles[uiSlot].GetImbeddedEmitter());
+            if (m_vParticles[uiSlot].GetImbeddedEmitter() != NULL)
+            {
+                IEmitter *pEmitter(m_vParticles[uiSlot].GetImbeddedEmitter());
 
-				if (!UpdateEmbeddedEmitter(uiMilliseconds, pfnTrace, pEmitter, m_vParticles[uiSlot]))
-				{
-					if (pEmitter->GetNextEmitter() != NULL)
-					{
-						m_vParticles[uiSlot].SetImbeddedEmitter(pEmitter->GetNextEmitter());
-						pEmitter->SetNextEmitter(NULL);
-					}
-					else
-					{
-						m_vParticles[uiSlot].SetImbeddedEmitter(NULL);
-					}
+                if (!UpdateEmbeddedEmitter(uiMilliseconds, pfnTrace, pEmitter, m_vParticles[uiSlot]))
+                {
+                    if (pEmitter->GetNextEmitter() != NULL)
+                    {
+                        m_vParticles[uiSlot].SetImbeddedEmitter(pEmitter->GetNextEmitter());
+                        pEmitter->SetNextEmitter(NULL);
+                    }
+                    else
+                    {
+                        m_vParticles[uiSlot].SetImbeddedEmitter(NULL);
+                    }
 
-					K2_DELETE(pEmitter);
-				}
-			}
+                    K2_DELETE(pEmitter);
+                }
+            }
 
-			m_uiBackSlot = (uiSlot + 1) % m_vParticles.size();
+            m_uiBackSlot = (uiSlot + 1) % m_vParticles.size();
 
-			// Push front slot forward if we wrapped around and caught it
-			if (m_uiBackSlot == m_uiFrontSlot)
-			{
-				if (m_vParticles[m_uiFrontSlot].GetImbeddedEmitter())
-				{
-					K2_DELETE(m_vParticles[m_uiFrontSlot].GetImbeddedEmitter());
-					m_vParticles[m_uiFrontSlot].SetImbeddedEmitter(NULL);
-				}
+            // Push front slot forward if we wrapped around and caught it
+            if (m_uiBackSlot == m_uiFrontSlot)
+            {
+                if (m_vParticles[m_uiFrontSlot].GetImbeddedEmitter())
+                {
+                    K2_DELETE(m_vParticles[m_uiFrontSlot].GetImbeddedEmitter());
+                    m_vParticles[m_uiFrontSlot].SetImbeddedEmitter(NULL);
+                }
 
-				m_uiFrontSlot = (m_uiFrontSlot + 1) % m_vParticles.size();
-			}
+                m_uiFrontSlot = (m_uiFrontSlot + 1) % m_vParticles.size();
+            }
 
-			while ((!m_vParticles[m_uiFrontSlot].IsActive() && m_vParticles[m_uiFrontSlot].GetImbeddedEmitter() == NULL) && m_uiFrontSlot != m_uiBackSlot)
-				m_uiFrontSlot = (m_uiFrontSlot + 1) % m_vParticles.size();
+            while ((!m_vParticles[m_uiFrontSlot].IsActive() && m_vParticles[m_uiFrontSlot].GetImbeddedEmitter() == NULL) && m_uiFrontSlot != m_uiBackSlot)
+                m_uiFrontSlot = (m_uiFrontSlot + 1) % m_vParticles.size();
 
-			++m_iSpawnCount;
-		}
+            ++m_iSpawnCount;
+        }
 
-		m_v3LastPos = v3Pos;
-		m_aLastAxis = aAxis;
-		m_fLastScale = fScale;
-		m_v3LastBasePos = v3BasePos;
-		m_v3LastBaseVelocity = v3BaseVelocity;
-	}
-	else
-	{
-		CVec3f v3BasePos(v3Pos);
-		CVec3f v3BaseVelocity((v3BasePos - m_v3LastBasePos) / fDeltaTime);
+        m_v3LastPos = v3Pos;
+        m_aLastAxis = aAxis;
+        m_fLastScale = fScale;
+        m_v3LastBasePos = v3BasePos;
+        m_v3LastBaseVelocity = v3BaseVelocity;
+    }
+    else
+    {
+        CVec3f v3BasePos(v3Pos);
+        CVec3f v3BaseVelocity((v3BasePos - m_v3LastBasePos) / fDeltaTime);
 
-		m_v3LastPos = v3Pos;
-		m_aLastAxis = aAxis;
-		m_fLastScale = fScale;
-		m_v3LastBasePos = v3BasePos;
-		m_v3LastBaseVelocity = v3BaseVelocity;
-	}
+        m_v3LastPos = v3Pos;
+        m_aLastAxis = aAxis;
+        m_fLastScale = fScale;
+        m_v3LastBasePos = v3BasePos;
+        m_v3LastBaseVelocity = v3BaseVelocity;
+    }
 
-	m_uiLastUpdateTime = uiMilliseconds;
+    m_uiLastUpdateTime = uiMilliseconds;
 
-	m_bLastActive = bActive;
+    m_bLastActive = bActive;
 
-	UpdateNextEmitter(uiMilliseconds, pfnTrace);
+    UpdateNextEmitter(uiMilliseconds, pfnTrace);
 
-	if (m_uiExpireTime != INVALID_TIME && m_uiFrontSlot == m_uiBackSlot && !m_vParticles[m_uiFrontSlot].IsActive())
-		return false;
+    if (m_uiExpireTime != INVALID_TIME && m_uiFrontSlot == m_uiBackSlot && !m_vParticles[m_uiFrontSlot].IsActive())
+        return false;
 
-	if (m_iLife != -1 && (uiMilliseconds > m_iLife + m_uiStartTime))
-	{
-		if (m_bLoop)
-		{
-			m_uiStartTime += m_iLife * ((uiMilliseconds - m_uiStartTime) / m_iLife);
-		}
-		else
-		{
-			if (m_uiFrontSlot == m_uiBackSlot)
-				return m_vParticles[m_uiFrontSlot].IsActive();
-			else
-				return true;
-		}
-	}
-	else if (m_iCount != -1 && m_iSpawnCount >= m_iCount)
-	{
-		if (m_uiFrontSlot == m_uiBackSlot)
-			return m_vParticles[m_uiFrontSlot].IsActive();
-		else
-			return true;
-	}
+    if (m_iLife != -1 && (uiMilliseconds > m_iLife + m_uiStartTime))
+    {
+        if (m_bLoop)
+        {
+            m_uiStartTime += m_iLife * ((uiMilliseconds - m_uiStartTime) / m_iLife);
+        }
+        else
+        {
+            if (m_uiFrontSlot == m_uiBackSlot)
+                return m_vParticles[m_uiFrontSlot].IsActive();
+            else
+                return true;
+        }
+    }
+    else if (m_iCount != -1 && m_iSpawnCount >= m_iCount)
+    {
+        if (m_uiFrontSlot == m_uiBackSlot)
+            return m_vParticles[m_uiFrontSlot].IsActive();
+        else
+            return true;
+    }
 
-	return true;
+    return true;
 }
 
 
 /*====================
   CTerrainEmitter::GetNumBillboards
   ====================*/
-uint	CTerrainEmitter::GetNumBillboards()
+uint    CTerrainEmitter::GetNumBillboards()
 {
-	if (m_vParticles.size() == 0 || m_hMaterial == INVALID_RESOURCE)
-		return 0;
+    if (m_vParticles.size() == 0 || m_hMaterial == INVALID_RESOURCE)
+        return 0;
 
-	int iNumParticles(int(m_uiBackSlot) - int(m_uiFrontSlot));
+    int iNumParticles(int(m_uiBackSlot) - int(m_uiFrontSlot));
 
-	if (iNumParticles == 0 && m_vParticles[m_uiFrontSlot].IsActive())
-		iNumParticles += int(m_vParticles.size());
-	else if (iNumParticles < 0)
-		iNumParticles += int(m_vParticles.size());
+    if (iNumParticles == 0 && m_vParticles[m_uiFrontSlot].IsActive())
+        iNumParticles += int(m_vParticles.size());
+    else if (iNumParticles < 0)
+        iNumParticles += int(m_vParticles.size());
 
-	return uint(iNumParticles);
+    return uint(iNumParticles);
 }
 
 
 /*====================
   CTerrainEmitter::GetBillboard
   ====================*/
-bool	CTerrainEmitter::GetBillboard(uint uiIndex, SBillboard &outBillboard)
+bool    CTerrainEmitter::GetBillboard(uint uiIndex, SBillboard &outBillboard)
 {
-	uint uiParticle((m_uiFrontSlot + uiIndex) % m_vParticles.size());
+    uint uiParticle((m_uiFrontSlot + uiIndex) % m_vParticles.size());
 
-	CSimpleParticle &cParticle(m_vParticles[uiParticle]);
+    CSimpleParticle &cParticle(m_vParticles[uiParticle]);
 
-	if (!cParticle.IsActive())
-		return false;
+    if (!cParticle.IsActive())
+        return false;
 
-	float fStickiness;
-	float fAnchor;
+    float fStickiness;
+    float fAnchor;
 
-	cParticle.GetBillboard(m_uiLastUpdateTime, outBillboard, &fStickiness, &fAnchor);
+    cParticle.GetBillboard(m_uiLastUpdateTime, outBillboard, &fStickiness, &fAnchor);
 
-	if (fStickiness == 1.0f)
-		outBillboard.v3Pos = m_v3LastBasePos;
-	else if (fStickiness != 0.0f)
-		outBillboard.v3Pos = LERP(fStickiness, outBillboard.v3Pos, m_v3LastBasePos);
+    if (fStickiness == 1.0f)
+        outBillboard.v3Pos = m_v3LastBasePos;
+    else if (fStickiness != 0.0f)
+        outBillboard.v3Pos = LERP(fStickiness, outBillboard.v3Pos, m_v3LastBasePos);
 
-	if (fAnchor == 1.0f)
-		outBillboard.v3Pos += m_v3LastBasePos - cParticle.GetEmitterPos();
-	else if (fAnchor != 0.0f)
-		outBillboard.v3Pos += (m_v3LastBasePos - cParticle.GetEmitterPos()) * fAnchor;
+    if (fAnchor == 1.0f)
+        outBillboard.v3Pos += m_v3LastBasePos - cParticle.GetEmitterPos();
+    else if (fAnchor != 0.0f)
+        outBillboard.v3Pos += (m_v3LastBasePos - cParticle.GetEmitterPos()) * fAnchor;
 
-	switch (m_pParticleSystem->GetSpace())
-	{
-	case WORLD_SPACE:
-		{
-			if (outBillboard.uiFlags & (BBOARD_LOCK_UP | BBOARD_LOCK_RIGHT | BBOARD_GENERATE_AXIS))
-			{
-				if (m_eParticleDirectionalSpace == DIRSPACE_LOCAL)
-					outBillboard.aAxis = m_aLastAxis;
-				else
-					outBillboard.aAxis = AXIS_IDENTITY;
-			}
-		} break;
-	case ENTITY_SPACE:
-		{
-			const CVec3f	&v3Pos(m_pParticleSystem->GetSourcePosition());
-			const CAxis		&aAxis(m_pParticleSystem->GetSourceAxis());
-			float			fScale(m_pParticleSystem->GetSourceScale());
+    switch (m_pParticleSystem->GetSpace())
+    {
+    case WORLD_SPACE:
+        {
+            if (outBillboard.uiFlags & (BBOARD_LOCK_UP | BBOARD_LOCK_RIGHT | BBOARD_GENERATE_AXIS))
+            {
+                if (m_eParticleDirectionalSpace == DIRSPACE_LOCAL)
+                    outBillboard.aAxis = m_aLastAxis;
+                else
+                    outBillboard.aAxis = AXIS_IDENTITY;
+            }
+        } break;
+    case ENTITY_SPACE:
+        {
+            const CVec3f    &v3Pos(m_pParticleSystem->GetSourcePosition());
+            const CAxis     &aAxis(m_pParticleSystem->GetSourceAxis());
+            float           fScale(m_pParticleSystem->GetSourceScale());
 
-			outBillboard.height *= fScale;
-			outBillboard.width *= fScale;
-			outBillboard.v3Pos = TransformPoint(outBillboard.v3Pos, aAxis, v3Pos, fScale);
+            outBillboard.height *= fScale;
+            outBillboard.width *= fScale;
+            outBillboard.v3Pos = TransformPoint(outBillboard.v3Pos, aAxis, v3Pos, fScale);
 
-			if (outBillboard.uiFlags & (BBOARD_LOCK_UP | BBOARD_LOCK_RIGHT | BBOARD_GENERATE_AXIS))
-			{
-				if (m_eParticleDirectionalSpace == DIRSPACE_LOCAL)
-					outBillboard.aAxis = aAxis * m_aLastAxis;
-				else
-					outBillboard.aAxis = AXIS_IDENTITY;
-			}
-		} break;
-	}
+            if (outBillboard.uiFlags & (BBOARD_LOCK_UP | BBOARD_LOCK_RIGHT | BBOARD_GENERATE_AXIS))
+            {
+                if (m_eParticleDirectionalSpace == DIRSPACE_LOCAL)
+                    outBillboard.aAxis = aAxis * m_aLastAxis;
+                else
+                    outBillboard.aAxis = AXIS_IDENTITY;
+            }
+        } break;
+    }
 
-	outBillboard.hMaterial = m_hMaterial;
+    outBillboard.hMaterial = m_hMaterial;
 
-	if (!m_tfParticleScale.IsOne())
-	{
-		outBillboard.width *= m_fParticleScale;
-		outBillboard.height *= m_fParticleScale;
-	}
+    if (!m_tfParticleScale.IsOne())
+    {
+        outBillboard.width *= m_fParticleScale;
+        outBillboard.height *= m_fParticleScale;
+    }
 
-	if (!m_tv3ParticleColor.IsOne())
-		outBillboard.color.xyz() *= m_v3ParticleColor;
+    if (!m_tv3ParticleColor.IsOne())
+        outBillboard.color.xyz() *= m_v3ParticleColor;
 
-	if (!m_tfParticleAlpha.IsOne())
-		outBillboard.color.w *= m_fParticleAlpha;
+    if (!m_tfParticleAlpha.IsOne())
+        outBillboard.color.w *= m_fParticleAlpha;
 
-	outBillboard.fDepthBias = m_fDepthBias;
+    outBillboard.fDepthBias = m_fDepthBias;
 
-	return true;
+    return true;
 }
 
 
 /*====================
   CTerrainEmitter::GetNumEmitters
   ====================*/
-uint	CTerrainEmitter::GetNumEmitters()
+uint    CTerrainEmitter::GetNumEmitters()
 {
-	if (!m_bChildEmitters || m_vParticles.size() == 0)
-		return 0;
+    if (!m_bChildEmitters || m_vParticles.size() == 0)
+        return 0;
 
-	int iNumParticles(int(m_uiBackSlot) - int(m_uiFrontSlot));
+    int iNumParticles(int(m_uiBackSlot) - int(m_uiFrontSlot));
 
-	if (iNumParticles == 0 && m_vParticles[m_uiFrontSlot].IsActive())
-		iNumParticles += int(m_vParticles.size());
-	else if (iNumParticles < 0)
-		iNumParticles += int(m_vParticles.size());
+    if (iNumParticles == 0 && m_vParticles[m_uiFrontSlot].IsActive())
+        iNumParticles += int(m_vParticles.size());
+    else if (iNumParticles < 0)
+        iNumParticles += int(m_vParticles.size());
 
-	return uint(iNumParticles);
+    return uint(iNumParticles);
 }
 
 
 /*====================
   CTerrainEmitter::GetEmitter
   ====================*/
-IEmitter*	CTerrainEmitter::GetEmitter(uint uiIndex)
+IEmitter*   CTerrainEmitter::GetEmitter(uint uiIndex)
 {
-	uint uiParticle((m_uiFrontSlot + uiIndex) % m_vParticles.size());
+    uint uiParticle((m_uiFrontSlot + uiIndex) % m_vParticles.size());
 
-	return m_vParticles[uiParticle].GetImbeddedEmitter();
+    return m_vParticles[uiParticle].GetImbeddedEmitter();
 }
 
 

@@ -17,17 +17,17 @@
 class CBuildingLair : public IBuildingEntity
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Building, Lair)
+    DECLARE_ENT_ALLOCATOR2(Building, Lair)
 
 public:
-	~CBuildingLair()	{}
-	CBuildingLair() :
-	IBuildingEntity(GetEntityConfig())
-	{}
+    ~CBuildingLair()    {}
+    CBuildingLair() :
+    IBuildingEntity(GetEntityConfig())
+    {}
 
-	virtual bool	IsCommandCenter() const		{ return true; }
+    virtual bool    IsCommandCenter() const     { return true; }
 
-	void	Use(IGameEntity *pActivator)		{ PlayerEnter(pActivator); }
+    void    Use(IGameEntity *pActivator)        { PlayerEnter(pActivator); }
 };
 //=============================================================================
 

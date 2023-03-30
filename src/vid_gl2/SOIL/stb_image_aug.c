@@ -88,7 +88,7 @@ typedef unsigned char validate_uint32[sizeof(uint32)==4];
 #include "stbi_DDS_aug.h"
 #endif
 
-//	I (JLD) want full messages for SOIL
+//  I (JLD) want full messages for SOIL
 #define STBI_FAILURE_USERMSG 1
 
 //////////////////////////////////////////////////////////////////////////////
@@ -2576,22 +2576,22 @@ stbi_uc *stbi_bmp_load_from_memory (stbi_uc *buffer, int len, int *x, int *y, in
 
 static int tga_test(void)
 {
-	int sz;
-	get8u();		//	discard Offset
-	sz = get8u();	//	color type
-	if( sz > 1 ) return 0;	//	only RGB or indexed allowed
-	sz = get8u();	//	image type
-	if( (sz != 1) && (sz != 2) && (sz != 3) && (sz != 9) && (sz != 10) && (sz != 11) ) return 0;	//	only RGB or grey allowed, +/- RLE
-	get16();		//	discard palette start
-	get16();		//	discard palette length
-	get8();			//	discard bits per palette color entry
-	get16();		//	discard x origin
-	get16();		//	discard y origin
-	if( get16() < 1 ) return 0;		//	test width
-	if( get16() < 1 ) return 0;		//	test height
-	sz = get8();	//	bits per pixel
-	if( (sz != 8) && (sz != 16) && (sz != 24) && (sz != 32) ) return 0;	//	only RGB or RGBA or grey allowed
-	return 1;		//	seems to have passed everything
+    int sz;
+    get8u();        //  discard Offset
+    sz = get8u();   //  color type
+    if( sz > 1 ) return 0;  //  only RGB or indexed allowed
+    sz = get8u();   //  image type
+    if( (sz != 1) && (sz != 2) && (sz != 3) && (sz != 9) && (sz != 10) && (sz != 11) ) return 0;    //  only RGB or grey allowed, +/- RLE
+    get16();        //  discard palette start
+    get16();        //  discard palette length
+    get8();         //  discard bits per palette color entry
+    get16();        //  discard x origin
+    get16();        //  discard y origin
+    if( get16() < 1 ) return 0;     //  test width
+    if( get16() < 1 ) return 0;     //  test height
+    sz = get8();    //  bits per pixel
+    if( (sz != 8) && (sz != 16) && (sz != 24) && (sz != 32) ) return 0; //  only RGB or RGBA or grey allowed
+    return 1;       //  seems to have passed everything
 }
 
 #ifndef STBI_NO_STDIO
@@ -2613,223 +2613,223 @@ int      stbi_tga_test_memory      (stbi_uc *buffer, int len)
 
 static stbi_uc *tga_load(int *x, int *y, int *comp, int req_comp)
 {
-	//	read in the TGA header stuff
-	int tga_offset = get8u();
-	int tga_indexed = get8u();
-	int tga_image_type = get8u();
-	int tga_is_RLE = 0;
-	int tga_palette_start = get16le();
-	int tga_palette_len = get16le();
-	int tga_palette_bits = get8u();
-	int tga_x_origin = get16le();
-	int tga_y_origin = get16le();
-	int tga_width = get16le();
-	int tga_height = get16le();
-	int tga_bits_per_pixel = get8u();
-	int tga_inverted = get8u();
-	//	image data
-	unsigned char *tga_data;
-	unsigned char *tga_palette = NULL;
-	int i, j;
-	unsigned char raw_data[4];
-	unsigned char trans_data[] = { 0, 0, 0, 0 };
-	int RLE_count = 0;
-	int RLE_repeating = 0;
-	int read_next_pixel = 1;
-	//	do a tiny bit of precessing
-	if( tga_image_type >= 8 )
-	{
-		tga_image_type -= 8;
-		tga_is_RLE = 1;
-	}
-	/* int tga_alpha_bits = tga_inverted & 15; */
-	tga_inverted = 1 - ((tga_inverted >> 5) & 1);
+    //  read in the TGA header stuff
+    int tga_offset = get8u();
+    int tga_indexed = get8u();
+    int tga_image_type = get8u();
+    int tga_is_RLE = 0;
+    int tga_palette_start = get16le();
+    int tga_palette_len = get16le();
+    int tga_palette_bits = get8u();
+    int tga_x_origin = get16le();
+    int tga_y_origin = get16le();
+    int tga_width = get16le();
+    int tga_height = get16le();
+    int tga_bits_per_pixel = get8u();
+    int tga_inverted = get8u();
+    //  image data
+    unsigned char *tga_data;
+    unsigned char *tga_palette = NULL;
+    int i, j;
+    unsigned char raw_data[4];
+    unsigned char trans_data[] = { 0, 0, 0, 0 };
+    int RLE_count = 0;
+    int RLE_repeating = 0;
+    int read_next_pixel = 1;
+    //  do a tiny bit of precessing
+    if( tga_image_type >= 8 )
+    {
+        tga_image_type -= 8;
+        tga_is_RLE = 1;
+    }
+    /* int tga_alpha_bits = tga_inverted & 15; */
+    tga_inverted = 1 - ((tga_inverted >> 5) & 1);
 
-	//	error check
-	if( //(tga_indexed) ||
-		(tga_width < 1) || (tga_height < 1) ||
-		(tga_image_type < 1) || (tga_image_type > 3) ||
-		((tga_bits_per_pixel != 8) && (tga_bits_per_pixel != 16) &&
-		(tga_bits_per_pixel != 24) && (tga_bits_per_pixel != 32))
-		)
-	{
-		return NULL;
-	}
+    //  error check
+    if( //(tga_indexed) ||
+        (tga_width < 1) || (tga_height < 1) ||
+        (tga_image_type < 1) || (tga_image_type > 3) ||
+        ((tga_bits_per_pixel != 8) && (tga_bits_per_pixel != 16) &&
+        (tga_bits_per_pixel != 24) && (tga_bits_per_pixel != 32))
+        )
+    {
+        return NULL;
+    }
 
-	//	If I'm paletted, then I'll use the number of bits from the palette
-	if( tga_indexed )
-	{
-		tga_bits_per_pixel = tga_palette_bits;
-	}
+    //  If I'm paletted, then I'll use the number of bits from the palette
+    if( tga_indexed )
+    {
+        tga_bits_per_pixel = tga_palette_bits;
+    }
 
-	//	tga info
-	*x = tga_width;
-	*y = tga_height;
-	if( (req_comp < 1) || (req_comp > 4) )
-	{
-		//	just use whatever the file was
-		req_comp = tga_bits_per_pixel / 8;
-		//	*comp holds the original number of components
-		*comp = req_comp;
-	} else
-	{
-		//	force a new number of components, so don't update req_comp,
-		//	but just use whatever the file was, because
-		//	*comp holds the original number of components
-		*comp = tga_bits_per_pixel / 8;
-	}
-	tga_data = (unsigned char*)malloc( tga_width * tga_height * req_comp );
+    //  tga info
+    *x = tga_width;
+    *y = tga_height;
+    if( (req_comp < 1) || (req_comp > 4) )
+    {
+        //  just use whatever the file was
+        req_comp = tga_bits_per_pixel / 8;
+        //  *comp holds the original number of components
+        *comp = req_comp;
+    } else
+    {
+        //  force a new number of components, so don't update req_comp,
+        //  but just use whatever the file was, because
+        //  *comp holds the original number of components
+        *comp = tga_bits_per_pixel / 8;
+    }
+    tga_data = (unsigned char*)malloc( tga_width * tga_height * req_comp );
 
-	//	skip to the data's starting position (offset usually = 0)
-	skip( tga_offset );
-	//	do I need to load a palette?
-	if( tga_indexed )
-	{
-		//	any data to skip? (offset usually = 0)
-		skip( tga_palette_start );
-		//	load the palette
-		tga_palette = (unsigned char*)malloc( tga_palette_len * tga_palette_bits / 8 );
-		getn( tga_palette, tga_palette_len * tga_palette_bits / 8 );
-	}
-	//	load the data
-	for( i = 0; i < tga_width * tga_height; ++i )
-	{
-		//	if I'm in RLE mode, do I need to get a RLE chunk?
-		if( tga_is_RLE )
-		{
-			if( RLE_count == 0 )
-			{
-				//	yep, get the next byte as a RLE command
-				int RLE_cmd = get8u();
-				RLE_count = 1 + (RLE_cmd & 127);
-				RLE_repeating = RLE_cmd >> 7;
-				read_next_pixel = 1;
-			} else if( !RLE_repeating )
-			{
-				read_next_pixel = 1;
-			}
-		} else
-		{
-			read_next_pixel = 1;
-		}
-		//	OK, if I need to read a pixel, do it now
-		if( read_next_pixel )
-		{
-			//	load however much data we did have
-			if( tga_indexed )
-			{
-				//	read in 1 byte, then perform the lookup
-				int pal_idx = get8u();
-				if( pal_idx >= tga_palette_len )
-				{
-					//	invalid index
-					pal_idx = 0;
-				}
-				pal_idx *= tga_bits_per_pixel / 8;
-				for( j = 0; j*8 < tga_bits_per_pixel; ++j )
-				{
-					raw_data[j] = tga_palette[pal_idx+j];
-				}
-			} else
-			{
-				//	read in the data raw
-				for( j = 0; j*8 < tga_bits_per_pixel; ++j )
-				{
-					raw_data[j] = get8u();
-				}
-			}
-			//	convert raw to the intermediate format
-			switch( tga_bits_per_pixel )
-			{
-			case 8:
-				//	Luminance => RGBA
-				trans_data[0] = raw_data[0];
-				trans_data[1] = raw_data[0];
-				trans_data[2] = raw_data[0];
-				trans_data[3] = 255;
-				break;
-			case 16:
-				//	Luminance,Alpha => RGBA
-				trans_data[0] = raw_data[0];
-				trans_data[1] = raw_data[0];
-				trans_data[2] = raw_data[0];
-				trans_data[3] = raw_data[1];
-				break;
-			case 24:
-				//	BGR => RGBA
-				trans_data[0] = raw_data[2];
-				trans_data[1] = raw_data[1];
-				trans_data[2] = raw_data[0];
-				trans_data[3] = 255;
-				break;
-			case 32:
-				//	BGRA => RGBA
-				trans_data[0] = raw_data[2];
-				trans_data[1] = raw_data[1];
-				trans_data[2] = raw_data[0];
-				trans_data[3] = raw_data[3];
-				break;
-			}
-			//	clear the reading flag for the next pixel
-			read_next_pixel = 0;
-		} // end of reading a pixel
-		//	convert to final format
-		switch( req_comp )
-		{
-		case 1:
-			//	RGBA => Luminance
-			tga_data[i*req_comp+0] = compute_y( trans_data[0], trans_data[1], trans_data[2] );
-			break;
-		case 2:
-			//	RGBA => Luminance,Alpha
-			tga_data[i*req_comp+0] = compute_y( trans_data[0], trans_data[1], trans_data[2] );
-			tga_data[i*req_comp+1] = trans_data[3];
-			break;
-		case 3:
-			//	RGBA => RGB
-			tga_data[i*req_comp+0] = trans_data[0];
-			tga_data[i*req_comp+1] = trans_data[1];
-			tga_data[i*req_comp+2] = trans_data[2];
-			break;
-		case 4:
-			//	RGBA => RGBA
-			tga_data[i*req_comp+0] = trans_data[0];
-			tga_data[i*req_comp+1] = trans_data[1];
-			tga_data[i*req_comp+2] = trans_data[2];
-			tga_data[i*req_comp+3] = trans_data[3];
-			break;
-		}
-		//	in case we're in RLE mode, keep counting down
-		--RLE_count;
-	}
-	//	do I need to invert the image?
-	if( tga_inverted )
-	{
-		for( j = 0; j*2 < tga_height; ++j )
-		{
-			int index1 = j * tga_width * req_comp;
-			int index2 = (tga_height - 1 - j) * tga_width * req_comp;
-			for( i = tga_width * req_comp; i > 0; --i )
-			{
-				unsigned char temp = tga_data[index1];
-				tga_data[index1] = tga_data[index2];
-				tga_data[index2] = temp;
-				++index1;
-				++index2;
-			}
-		}
-	}
-	//	clear my palette, if I had one
-	if( tga_palette != NULL )
-	{
-		free( tga_palette );
-	}
-	//	the things I do to get rid of an error message, and yet keep
-	//	Microsoft's C compilers happy... [8^(
-	tga_palette_start = tga_palette_len = tga_palette_bits =
-			tga_x_origin = tga_y_origin = 0;
-	//	OK, done
-	return tga_data;
+    //  skip to the data's starting position (offset usually = 0)
+    skip( tga_offset );
+    //  do I need to load a palette?
+    if( tga_indexed )
+    {
+        //  any data to skip? (offset usually = 0)
+        skip( tga_palette_start );
+        //  load the palette
+        tga_palette = (unsigned char*)malloc( tga_palette_len * tga_palette_bits / 8 );
+        getn( tga_palette, tga_palette_len * tga_palette_bits / 8 );
+    }
+    //  load the data
+    for( i = 0; i < tga_width * tga_height; ++i )
+    {
+        //  if I'm in RLE mode, do I need to get a RLE chunk?
+        if( tga_is_RLE )
+        {
+            if( RLE_count == 0 )
+            {
+                //  yep, get the next byte as a RLE command
+                int RLE_cmd = get8u();
+                RLE_count = 1 + (RLE_cmd & 127);
+                RLE_repeating = RLE_cmd >> 7;
+                read_next_pixel = 1;
+            } else if( !RLE_repeating )
+            {
+                read_next_pixel = 1;
+            }
+        } else
+        {
+            read_next_pixel = 1;
+        }
+        //  OK, if I need to read a pixel, do it now
+        if( read_next_pixel )
+        {
+            //  load however much data we did have
+            if( tga_indexed )
+            {
+                //  read in 1 byte, then perform the lookup
+                int pal_idx = get8u();
+                if( pal_idx >= tga_palette_len )
+                {
+                    //  invalid index
+                    pal_idx = 0;
+                }
+                pal_idx *= tga_bits_per_pixel / 8;
+                for( j = 0; j*8 < tga_bits_per_pixel; ++j )
+                {
+                    raw_data[j] = tga_palette[pal_idx+j];
+                }
+            } else
+            {
+                //  read in the data raw
+                for( j = 0; j*8 < tga_bits_per_pixel; ++j )
+                {
+                    raw_data[j] = get8u();
+                }
+            }
+            //  convert raw to the intermediate format
+            switch( tga_bits_per_pixel )
+            {
+            case 8:
+                //  Luminance => RGBA
+                trans_data[0] = raw_data[0];
+                trans_data[1] = raw_data[0];
+                trans_data[2] = raw_data[0];
+                trans_data[3] = 255;
+                break;
+            case 16:
+                //  Luminance,Alpha => RGBA
+                trans_data[0] = raw_data[0];
+                trans_data[1] = raw_data[0];
+                trans_data[2] = raw_data[0];
+                trans_data[3] = raw_data[1];
+                break;
+            case 24:
+                //  BGR => RGBA
+                trans_data[0] = raw_data[2];
+                trans_data[1] = raw_data[1];
+                trans_data[2] = raw_data[0];
+                trans_data[3] = 255;
+                break;
+            case 32:
+                //  BGRA => RGBA
+                trans_data[0] = raw_data[2];
+                trans_data[1] = raw_data[1];
+                trans_data[2] = raw_data[0];
+                trans_data[3] = raw_data[3];
+                break;
+            }
+            //  clear the reading flag for the next pixel
+            read_next_pixel = 0;
+        } // end of reading a pixel
+        //  convert to final format
+        switch( req_comp )
+        {
+        case 1:
+            //  RGBA => Luminance
+            tga_data[i*req_comp+0] = compute_y( trans_data[0], trans_data[1], trans_data[2] );
+            break;
+        case 2:
+            //  RGBA => Luminance,Alpha
+            tga_data[i*req_comp+0] = compute_y( trans_data[0], trans_data[1], trans_data[2] );
+            tga_data[i*req_comp+1] = trans_data[3];
+            break;
+        case 3:
+            //  RGBA => RGB
+            tga_data[i*req_comp+0] = trans_data[0];
+            tga_data[i*req_comp+1] = trans_data[1];
+            tga_data[i*req_comp+2] = trans_data[2];
+            break;
+        case 4:
+            //  RGBA => RGBA
+            tga_data[i*req_comp+0] = trans_data[0];
+            tga_data[i*req_comp+1] = trans_data[1];
+            tga_data[i*req_comp+2] = trans_data[2];
+            tga_data[i*req_comp+3] = trans_data[3];
+            break;
+        }
+        //  in case we're in RLE mode, keep counting down
+        --RLE_count;
+    }
+    //  do I need to invert the image?
+    if( tga_inverted )
+    {
+        for( j = 0; j*2 < tga_height; ++j )
+        {
+            int index1 = j * tga_width * req_comp;
+            int index2 = (tga_height - 1 - j) * tga_width * req_comp;
+            for( i = tga_width * req_comp; i > 0; --i )
+            {
+                unsigned char temp = tga_data[index1];
+                tga_data[index1] = tga_data[index2];
+                tga_data[index2] = temp;
+                ++index1;
+                ++index2;
+            }
+        }
+    }
+    //  clear my palette, if I had one
+    if( tga_palette != NULL )
+    {
+        free( tga_palette );
+    }
+    //  the things I do to get rid of an error message, and yet keep
+    //  Microsoft's C compilers happy... [8^(
+    tga_palette_start = tga_palette_len = tga_palette_bits =
+            tga_x_origin = tga_y_origin = 0;
+    //  OK, done
+    return tga_data;
 }
 
 #ifndef STBI_NO_STDIO
@@ -2867,13 +2867,13 @@ static int hdr_test(void)
    for (i=0; signature[i]; ++i)
       if (get8() != signature[i])
          return 0;
-	return 1;
+    return 1;
 }
 
 int stbi_hdr_test_memory(stbi_uc *buffer, int len)
 {
-	start_mem(buffer, len);
-	return hdr_test();
+    start_mem(buffer, len);
+    return hdr_test();
 }
 
 #ifndef STBI_NO_STDIO
@@ -2896,8 +2896,8 @@ static char *hdr_gettoken(char *buffer)
 
    c = get8();
 
-	while (!at_eof() && c != '\n') {
-		buffer[len++] = c;
+    while (!at_eof() && c != '\n') {
+        buffer[len++] = c;
       if (len == HDR_BUFLEN-1) {
          // flush to end of line
          while (!at_eof() && get8() != '\n')
@@ -2905,18 +2905,18 @@ static char *hdr_gettoken(char *buffer)
          break;
       }
       c = get8();
-	}
+    }
 
    buffer[len] = 0;
-	return buffer;
+    return buffer;
 }
 
 static void hdr_convert(float *output, stbi_uc *input, int req_comp)
 {
-	if( input[3] != 0 ) {
+    if( input[3] != 0 ) {
       float f1;
-		// Exponent
-		f1 = (float) ldexp(1.0f, input[3] - (int)(128 + 8));
+        // Exponent
+        f1 = (float) ldexp(1.0f, input[3] - (int)(128 + 8));
       if (req_comp <= 2)
          output[0] = (input[0] + input[1] + input[2]) * f1 / 3;
       else {
@@ -2926,7 +2926,7 @@ static void hdr_convert(float *output, stbi_uc *input, int req_comp)
       }
       if (req_comp == 2) output[1] = 1;
       if (req_comp == 4) output[3] = 1;
-	} else {
+    } else {
       switch (req_comp) {
          case 4: output[3] = 1; /* fallthrough */
          case 3: output[0] = output[1] = output[2] = 0;
@@ -2935,35 +2935,35 @@ static void hdr_convert(float *output, stbi_uc *input, int req_comp)
          case 1: output[0] = 0;
                  break;
       }
-	}
+    }
 }
 
 
 static float *hdr_load(int *x, int *y, int *comp, int req_comp)
 {
    char buffer[HDR_BUFLEN];
-	char *token;
-	int valid = 0;
-	int width, height;
+    char *token;
+    int valid = 0;
+    int width, height;
    stbi_uc *scanline;
-	float *hdr_data;
-	int len;
-	unsigned char count, value;
-	int i, j, k, c1,c2, z;
+    float *hdr_data;
+    int len;
+    unsigned char count, value;
+    int i, j, k, c1,c2, z;
 
 
-	// Check identifier
-	if (strcmp(hdr_gettoken(buffer), "#?RADIANCE") != 0)
-		return epf("not HDR", "Corrupt HDR image");
+    // Check identifier
+    if (strcmp(hdr_gettoken(buffer), "#?RADIANCE") != 0)
+        return epf("not HDR", "Corrupt HDR image");
 
-	// Parse header
-	while(1) {
-		token = hdr_gettoken(buffer);
+    // Parse header
+    while(1) {
+        token = hdr_gettoken(buffer);
       if (token[0] == 0) break;
-		if (strcmp(token, "FORMAT=32-bit_rle_rgbe") == 0) valid = 1;
+        if (strcmp(token, "FORMAT=32-bit_rle_rgbe") == 0) valid = 1;
    }
 
-	if (!valid)    return epf("unsupported format", "Unsupported HDR format");
+    if (!valid)    return epf("unsupported format", "Unsupported HDR format");
 
    // Parse width and height
    // can't use sscanf() if we're not using stdio!
@@ -2976,19 +2976,19 @@ static float *hdr_load(int *x, int *y, int *comp, int req_comp)
    token += 3;
    width = strtol(token, NULL, 10);
 
-	*x = width;
-	*y = height;
+    *x = width;
+    *y = height;
 
    *comp = 3;
-	if (req_comp == 0) req_comp = 3;
+    if (req_comp == 0) req_comp = 3;
 
-	// Read data
-	hdr_data = (float *) malloc(height * width * req_comp * sizeof(float));
+    // Read data
+    hdr_data = (float *) malloc(height * width * req_comp * sizeof(float));
 
-	// Load image data
+    // Load image data
    // image data is stored as some number of sca
-	if( width < 8 || width >= 32768) {
-		// Read flat data
+    if( width < 8 || width >= 32768) {
+        // Read flat data
       for (j=0; j < height; ++j) {
          for (i=0; i < width; ++i) {
             stbi_uc rgbe[4];
@@ -2997,11 +2997,11 @@ static float *hdr_load(int *x, int *y, int *comp, int req_comp)
             hdr_convert(hdr_data + j * width * req_comp + i * req_comp, rgbe, req_comp);
          }
       }
-	} else {
-		// Read RLE-encoded data
-		scanline = NULL;
+    } else {
+        // Read RLE-encoded data
+        scanline = NULL;
 
-		for (j = 0; j < height; ++j) {
+        for (j = 0; j < height; ++j) {
          c1 = get8();
          c2 = get8();
          len = get8();
@@ -3020,28 +3020,28 @@ static float *hdr_load(int *x, int *y, int *comp, int req_comp)
          if (len != width) { free(hdr_data); free(scanline); return epf("invalid decoded scanline length", "corrupt HDR"); }
          if (scanline == NULL) scanline = (stbi_uc *) malloc(width * 4);
 
-			for (k = 0; k < 4; ++k) {
-				i = 0;
-				while (i < width) {
-					count = get8();
-					if (count > 128) {
-						// Run
-						value = get8();
+            for (k = 0; k < 4; ++k) {
+                i = 0;
+                while (i < width) {
+                    count = get8();
+                    if (count > 128) {
+                        // Run
+                        value = get8();
                   count -= 128;
-						for (z = 0; z < count; ++z)
-							scanline[i++ * 4 + k] = value;
-					} else {
-						// Dump
-						for (z = 0; z < count; ++z)
-							scanline[i++ * 4 + k] = get8();
-					}
-				}
-			}
+                        for (z = 0; z < count; ++z)
+                            scanline[i++ * 4 + k] = value;
+                    } else {
+                        // Dump
+                        for (z = 0; z < count; ++z)
+                            scanline[i++ * 4 + k] = get8();
+                    }
+                }
+            }
          for (i=0; i < width; ++i)
             hdr_convert(hdr_data+(j*width + i)*req_comp, scanline + i*4, req_comp);
-		}
+        }
       free(scanline);
-	}
+    }
 
    return hdr_data;
 }
@@ -3168,7 +3168,7 @@ int stbi_write_tga(char *filename, int x, int y, int comp, void *data)
 
 #endif /* STBI_NO_WRITE */
 
-//	add in my DDS loading support
+//  add in my DDS loading support
 #ifndef STBI_NO_DDS
 #include "stbi_DDS_aug_c.h"
 #endif

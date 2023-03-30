@@ -17,21 +17,21 @@
 class CVertexFoliageMap : public IWorldComponent
 {
 private:
-	float*	m_pFoliageDensity;
-	CVec3f*	m_pFoliageSize;
-	CVec3f*	m_pFoliageVariance;
+    float*  m_pFoliageDensity;
+    CVec3f* m_pFoliageSize;
+    CVec3f* m_pFoliageVariance;
 
 public:
-	~CVertexFoliageMap();
-	CVertexFoliageMap();
+    ~CVertexFoliageMap();
+    CVertexFoliageMap();
 
-	bool	Load(CArchive &archive, const CWorld *pWorld);
-	bool	Generate(const CWorld *pWorld);
-	void	Release();
+    bool    Load(CArchive &archive, const CWorld *pWorld);
+    bool    Generate(const CWorld *pWorld);
+    void    Release();
 
-	float	GetFoliageDensity(int iX, int iY);
-	CVec3f	GetFoliageSize(int iX, int iY);
-	CVec3f	GetFoliageVariance(int iX, int iY);
+    float   GetFoliageDensity(int iX, int iY);
+    CVec3f  GetFoliageSize(int iX, int iY);
+    CVec3f  GetFoliageVariance(int iX, int iY);
 };
 //=============================================================================
 

@@ -14,9 +14,9 @@
 //=============================================================================
 // Definitions
 //=============================================================================
-typedef vector<class CStateBlock>			StateBlockVector;
-typedef StateBlockVector::iterator			StateBlockVector_it;
-typedef StateBlockVector::const_iterator	StateBlockVector_cit;
+typedef vector<class CStateBlock>           StateBlockVector;
+typedef StateBlockVector::iterator          StateBlockVector_it;
+typedef StateBlockVector::const_iterator    StateBlockVector_cit;
 //=============================================================================
 
 //=============================================================================
@@ -25,29 +25,29 @@ typedef StateBlockVector::const_iterator	StateBlockVector_cit;
 class CStateBlock
 {
 private:
-	CBufferDynamic	m_cBuffer;
-	int				m_iModifiedCount;
+    CBufferDynamic  m_cBuffer;
+    int             m_iModifiedCount;
 
 protected:
-	
+    
 
 public:
-	~CStateBlock()	{}
-	K2_API CStateBlock();
-	CStateBlock(const IBuffer &buffer);
+    ~CStateBlock()  {}
+    K2_API CStateBlock();
+    CStateBlock(const IBuffer &buffer);
 
-	void					Clear()									{ m_cBuffer.Clear(); m_iModifiedCount = 0; }
-	CBufferDynamic&			GetBuffer()								{ return m_cBuffer; }
-	const CBufferDynamic&	GetBuffer() const						{ return m_cBuffer; }
-	bool					IsEmpty() const							{ return m_cBuffer.GetLength() == 0; }
-	int						GetModifiedCount() const				{ return m_iModifiedCount; }
-	K2_API void				Set(const IBuffer &buffer);
-	void					Modify(const IBuffer &buffer)			{ Set(buffer); ++m_iModifiedCount; }
-	void					Modify()								{ ++m_iModifiedCount; }
-	void					AppendToBuffer(IBuffer &buffer) const	{ buffer << m_cBuffer; }
-	void					GetDifference(CStateBlock &ss);
+    void                    Clear()                                 { m_cBuffer.Clear(); m_iModifiedCount = 0; }
+    CBufferDynamic&         GetBuffer()                             { return m_cBuffer; }
+    const CBufferDynamic&   GetBuffer() const                       { return m_cBuffer; }
+    bool                    IsEmpty() const                         { return m_cBuffer.GetLength() == 0; }
+    int                     GetModifiedCount() const                { return m_iModifiedCount; }
+    K2_API void             Set(const IBuffer &buffer);
+    void                    Modify(const IBuffer &buffer)           { Set(buffer); ++m_iModifiedCount; }
+    void                    Modify()                                { ++m_iModifiedCount; }
+    void                    AppendToBuffer(IBuffer &buffer) const   { buffer << m_cBuffer; }
+    void                    GetDifference(CStateBlock &ss);
 
-	template <class T> CStateBlock&		operator<<(T _a)			{ m_cBuffer << _a; ++m_iModifiedCount; return *this; }
+    template <class T> CStateBlock&     operator<<(T _a)            { m_cBuffer << _a; ++m_iModifiedCount; return *this; }
 };
 //=============================================================================
 

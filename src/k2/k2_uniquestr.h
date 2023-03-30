@@ -15,17 +15,17 @@
 // Definitions
 //=============================================================================
 #if 0
-typedef CPooledString						uniquestr;
+typedef CPooledString                       uniquestr;
 
-typedef vector<uniquestr>					UStringVec;
+typedef vector<uniquestr>                   UStringVec;
 
-typedef hash_set<uniquestr>					UStringSet;
-typedef UStringSet::iterator				UStringSet_it;
-typedef UStringSet::const_iterator			UStringSet_cit;
+typedef hash_set<uniquestr>                 UStringSet;
+typedef UStringSet::iterator                UStringSet_it;
+typedef UStringSet::const_iterator          UStringSet_cit;
 
-typedef set<uniquestr>						UStringSortedSet;
-typedef UStringSortedSet::iterator			UStringSortedSet_it;
-typedef UStringSortedSet::const_iterator	UStringSortedSet_cit;
+typedef set<uniquestr>                      UStringSortedSet;
+typedef UStringSortedSet::iterator          UStringSortedSet_it;
+typedef UStringSortedSet::const_iterator    UStringSortedSet_cit;
 #endif
 //=============================================================================
 

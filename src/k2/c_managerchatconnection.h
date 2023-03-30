@@ -23,40 +23,40 @@ class CSocket;
 class CManagerChatConnection
 {
 private:
-	enum EState
-	{
-		STATE_IDLE,
-		STATE_DISCONNECTED,
-		STATE_CONNECTING,
-		STATE_AUTHENTICATING,
-		STATE_CONNECTED
-	};
+    enum EState
+    {
+        STATE_IDLE,
+        STATE_DISCONNECTED,
+        STATE_CONNECTING,
+        STATE_AUTHENTICATING,
+        STATE_CONNECTED
+    };
 
-	CSocket*		m_pSocket;
-	CPacket			m_pktSend;
+    CSocket*        m_pSocket;
+    CPacket         m_pktSend;
 
-	wstring			m_sAddress;
-	ushort			m_unPort;
+    wstring         m_sAddress;
+    ushort          m_unPort;
 
-	EState			m_eState;
-	uint			m_uiReconnectTime;
-	uint			m_uiTimeout;
-	uint			m_uiLastReceiveTime;
-	bool			m_bSentPing;
+    EState          m_eState;
+    uint            m_uiReconnectTime;
+    uint            m_uiTimeout;
+    uint            m_uiLastReceiveTime;
+    bool            m_bSentPing;
 
-	uint			m_uiNextConnectReminder;
+    uint            m_uiNextConnectReminder;
 
-	void	ReadSocket();
-	bool	HandleAccept(CPacket &pkt);
-	bool	HandleReject(CPacket &pkt);
+    void    ReadSocket();
+    bool    HandleAccept(CPacket &pkt);
+    bool    HandleReject(CPacket &pkt);
 
-	void	Reconnect(uint uiTimeout);
+    void    Reconnect(uint uiTimeout);
 
-	void	Handshake();
+    void    Handshake();
 
 public:
-	~CManagerChatConnection();
-	CManagerChatConnection();
+    ~CManagerChatConnection();
+    CManagerChatConnection();
 };
 #endif //K2_CLIENT
 //=============================================================================

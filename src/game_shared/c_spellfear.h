@@ -17,13 +17,13 @@
 class CSpellFear : public ISpellItem
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Spell, Fear)
+    DECLARE_ENT_ALLOCATOR2(Spell, Fear)
 
 public:
-	~CSpellFear()	{}
-	CSpellFear() :
-	ISpellItem(GetEntityConfig())
-	{}
+    ~CSpellFear()   {}
+    CSpellFear() :
+    ISpellItem(GetEntityConfig())
+    {}
 };
 //=============================================================================
 

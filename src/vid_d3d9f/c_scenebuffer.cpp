@@ -34,10 +34,10 @@
 //=============================================================================
 // Globals
 //=============================================================================
-CSceneBuffer	g_SceneBuffer;
+CSceneBuffer    g_SceneBuffer;
 
-CVAR_BOOLF	(vid_sceneBuffer,			true,				CVAR_SAVECONFIG);
-CVAR_BOOLF	(vid_sceneBufferMipmap,		true,				CVAR_SAVECONFIG);
+CVAR_BOOLF  (vid_sceneBuffer,           true,               CVAR_SAVECONFIG);
+CVAR_BOOLF  (vid_sceneBufferMipmap,     true,               CVAR_SAVECONFIG);
 //=============================================================================
 
 /*====================
@@ -48,9 +48,9 @@ m_bActive(false),
 m_uiWidth(0),
 m_uiHeight(0)
 {
-	m_iSceneBuffer = -1;
-	m_pSceneBuffer = NULL;
-	m_pSceneBufferSurface = NULL;
+    m_iSceneBuffer = -1;
+    m_pSceneBuffer = NULL;
+    m_pSceneBufferSurface = NULL;
 }
 
 
@@ -65,125 +65,125 @@ CSceneBuffer::~CSceneBuffer()
 /*====================
   CSceneBuffer::Initialize
   ====================*/
-void	CSceneBuffer::Initialize(int iWidth, int iHeight)
+void    CSceneBuffer::Initialize(int iWidth, int iHeight)
 {
-	PROFILE("CSceneBuffer::Initialize");
+    PROFILE("CSceneBuffer::Initialize");
 
-	if (!vid_sceneBuffer || true)
-	{
-		m_iSceneBuffer = g_iWhite;
-		return;
-	}
+    if (!vid_sceneBuffer || true)
+    {
+        m_iSceneBuffer = g_iWhite;
+        return;
+    }
 
 #if 0
-	m_uiWidth = 800;
-	m_uiHeight = 800 * g_CurrentVidMode.iHeight / g_CurrentVidMode.iWidth;
+    m_uiWidth = 800;
+    m_uiHeight = 800 * g_CurrentVidMode.iHeight / g_CurrentVidMode.iWidth;
 #else
-	m_uiWidth = iWidth;
-	m_uiHeight = iHeight;
+    m_uiWidth = iWidth;
+    m_uiHeight = iHeight;
 #endif
 
-	Console.Video << _T("Using A8R8G8B8 Scene Buffer ") << m_uiWidth << _T(" x ") << m_uiHeight << newl;
+    Console.Video << _T("Using A8R8G8B8 Scene Buffer ") << m_uiWidth << _T(" x ") << m_uiHeight << newl;
 
-	m_iSceneBuffer = D3D_RegisterRenderTargetTexture(_T("$scene"), m_uiWidth, m_uiHeight, D3DFMT_A8R8G8B8, vid_sceneBufferMipmap);
+    m_iSceneBuffer = D3D_RegisterRenderTargetTexture(_T("$scene"), m_uiWidth, m_uiHeight, D3DFMT_A8R8G8B8, vid_sceneBufferMipmap);
 
-	if (m_iSceneBuffer == -1)
-	{
-		m_bActive = false;
-		return;
-	}
+    if (m_iSceneBuffer == -1)
+    {
+        m_bActive = false;
+        return;
+    }
 
-	m_pSceneBuffer = g_pTextures2D[m_iSceneBuffer];
-	m_pSceneBuffer->GetSurfaceLevel(0, &m_pSceneBufferSurface);
+    m_pSceneBuffer = g_pTextures2D[m_iSceneBuffer];
+    m_pSceneBuffer->GetSurfaceLevel(0, &m_pSceneBufferSurface);
 
-	int iTextureFlags(TEX_FULL_QUALITY | TEX_NO_COMPRESS);
-	if (!vid_sceneBufferMipmap)
-		iTextureFlags |= TEX_NO_MIPMAPS;
+    int iTextureFlags(TEX_FULL_QUALITY | TEX_NO_COMPRESS);
+    if (!vid_sceneBufferMipmap)
+        iTextureFlags |= TEX_NO_MIPMAPS;
 
-	m_hSceneBufferTexture = g_ResourceManager.Register(new CTexture(_T("$scene"), TEXTURE_2D, iTextureFlags, TEXFMT_A8R8G8B8), RES_TEXTURE);
+    m_hSceneBufferTexture = g_ResourceManager.Register(new CTexture(_T("$scene"), TEXTURE_2D, iTextureFlags, TEXFMT_A8R8G8B8), RES_TEXTURE);
 
-	// Update reference texture
-	CTexture *pSceneBufferTexture(g_ResourceManager.GetTexture(m_hSceneBufferTexture));
-	if (pSceneBufferTexture != NULL)
-		pSceneBufferTexture->SetIndex(m_iSceneBuffer);
+    // Update reference texture
+    CTexture *pSceneBufferTexture(g_ResourceManager.GetTexture(m_hSceneBufferTexture));
+    if (pSceneBufferTexture != NULL)
+        pSceneBufferTexture->SetIndex(m_iSceneBuffer);
 
-	m_bActive = true;
+    m_bActive = true;
 }
 
 
 /*====================
   CSceneBuffer::Release
   ====================*/
-void	CSceneBuffer::Release()
+void    CSceneBuffer::Release()
 {
-	SAFE_RELEASE(m_pSceneBufferSurface);
-	D3D_Unregister2DTexture(_T("$scene"));
-	m_iSceneBuffer = g_iWhite;
-	m_pSceneBuffer = NULL;
+    SAFE_RELEASE(m_pSceneBufferSurface);
+    D3D_Unregister2DTexture(_T("$scene"));
+    m_iSceneBuffer = g_iWhite;
+    m_pSceneBuffer = NULL;
 
-	// Update reference texture
-	CTexture *pSceneBufferTexture(g_ResourceManager.GetTexture(m_hSceneBufferTexture));
-	if (pSceneBufferTexture != NULL)
-		pSceneBufferTexture->SetIndex(m_iSceneBuffer);
-	
-	m_bActive = false;
+    // Update reference texture
+    CTexture *pSceneBufferTexture(g_ResourceManager.GetTexture(m_hSceneBufferTexture));
+    if (pSceneBufferTexture != NULL)
+        pSceneBufferTexture->SetIndex(m_iSceneBuffer);
+    
+    m_bActive = false;
 }
 
 
 /*====================
   CSceneBuffer::Render
   ====================*/
-void	CSceneBuffer::Render()
+void    CSceneBuffer::Render()
 {
-	PROFILE("CSceneBuffer::Render");
+    PROFILE("CSceneBuffer::Render");
 
-	if (!vid_sceneBuffer)
-		return;
+    if (!vid_sceneBuffer)
+        return;
 
-	if (!m_bActive)
-		return;
+    if (!m_bActive)
+        return;
 
-	if (m_uiWidth != g_Viewport.Width || m_uiHeight != g_Viewport.Height)
-	{
-		Release();
-		Initialize(g_Viewport.Width, g_Viewport.Height);
+    if (m_uiWidth != g_Viewport.Width || m_uiHeight != g_Viewport.Height)
+    {
+        Release();
+        Initialize(g_Viewport.Width, g_Viewport.Height);
 
-		if (!m_bActive)
-			return;
-	}
+        if (!m_bActive)
+            return;
+    }
 
-	vid_sceneBuffer.SetModified(false);
-	vid_sceneBufferMipmap.SetModified(false);
+    vid_sceneBuffer.SetModified(false);
+    vid_sceneBufferMipmap.SetModified(false);
 
-	g_uiImageWidth = m_uiWidth;
-	g_uiImageHeight = m_uiHeight;
+    g_uiImageWidth = m_uiWidth;
+    g_uiImageHeight = m_uiHeight;
 
-	g_fSceneScaleX = 1.0f;
-	g_fSceneScaleY = g_Viewport.Width / g_Viewport.Height;
+    g_fSceneScaleX = 1.0f;
+    g_fSceneScaleY = g_Viewport.Width / g_Viewport.Height;
 
-	D3D_SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
+    D3D_SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
 
-	RECT cSrc;
-	cSrc.left = g_Viewport.X;
-	cSrc.top = g_Viewport.Y;
-	cSrc.right = g_Viewport.X + g_Viewport.Width;
-	cSrc.bottom = g_Viewport.Y + g_Viewport.Height;
+    RECT cSrc;
+    cSrc.left = g_Viewport.X;
+    cSrc.top = g_Viewport.Y;
+    cSrc.right = g_Viewport.X + g_Viewport.Width;
+    cSrc.bottom = g_Viewport.Y + g_Viewport.Height;
 
-	D3DVIEWPORT9 PostViewport;
+    D3DVIEWPORT9 PostViewport;
 
-	PostViewport.X = 0;
-	PostViewport.Y = 0;
-	PostViewport.Width = m_uiWidth;
-	PostViewport.Height = m_uiHeight;
-	PostViewport.MinZ = g_Viewport.MinZ;
-	PostViewport.MaxZ = g_Viewport.MaxZ;
+    PostViewport.X = 0;
+    PostViewport.Y = 0;
+    PostViewport.Width = m_uiWidth;
+    PostViewport.Height = m_uiHeight;
+    PostViewport.MinZ = g_Viewport.MinZ;
+    PostViewport.MaxZ = g_Viewport.MaxZ;
 
-	RECT cDst;
-	cDst.left = PostViewport.X;
-	cDst.top = PostViewport.Y;
-	cDst.right = PostViewport.X + PostViewport.Width;
-	cDst.bottom = PostViewport.Y + PostViewport.Height;
+    RECT cDst;
+    cDst.left = PostViewport.X;
+    cDst.top = PostViewport.Y;
+    cDst.right = PostViewport.X + PostViewport.Width;
+    cDst.bottom = PostViewport.Y + PostViewport.Height;
 
-	// Copy back buffer to scene buffer
-	g_pd3dDevice->StretchRect(g_pBackBuffer, &cSrc, m_pSceneBufferSurface, &cDst, D3DTEXF_POINT);
+    // Copy back buffer to scene buffer
+    g_pd3dDevice->StretchRect(g_pBackBuffer, &cSrc, m_pSceneBufferSurface, &cDst, D3DTEXF_POINT);
 }

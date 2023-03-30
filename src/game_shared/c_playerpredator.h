@@ -19,15 +19,15 @@
 class CPlayerPredator : public IPlayerEntity
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Player, Predator);
+    DECLARE_ENT_ALLOCATOR2(Player, Predator);
 
 public:
-	~CPlayerPredator()	{}
-	CPlayerPredator() :
-	IPlayerEntity(GetEntityConfig())
-	{}
+    ~CPlayerPredator()  {}
+    CPlayerPredator() :
+    IPlayerEntity(GetEntityConfig())
+    {}
 
-	void	Move(const CClientSnapshot &snapshot)	{ MoveWalk(snapshot); }
+    void    Move(const CClientSnapshot &snapshot)   { MoveWalk(snapshot); }
 };
 //=============================================================================
 

@@ -17,12 +17,12 @@
 class CConsumableLynxFeet : public IConsumableItem
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Consumable, LynxFeet);
+    DECLARE_ENT_ALLOCATOR2(Consumable, LynxFeet);
 
 public:
-	~CConsumableLynxFeet() {}
-	CConsumableLynxFeet() :
-	IConsumableItem(GetEntityConfig()) {}
+    ~CConsumableLynxFeet() {}
+    CConsumableLynxFeet() :
+    IConsumableItem(GetEntityConfig()) {}
 };
 //=============================================================================
 

@@ -18,12 +18,12 @@
 class CConsumableManaCrystal : public IConsumableItem
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Consumable, ManaCrystal);
+    DECLARE_ENT_ALLOCATOR2(Consumable, ManaCrystal);
 
 public:
-	~CConsumableManaCrystal() {}
-	CConsumableManaCrystal() :
-	IConsumableItem(GetEntityConfig()) {}
+    ~CConsumableManaCrystal() {}
+    CConsumableManaCrystal() :
+    IConsumableItem(GetEntityConfig()) {}
 };
 //=============================================================================
 

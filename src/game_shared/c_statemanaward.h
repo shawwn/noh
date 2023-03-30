@@ -17,22 +17,22 @@
 class CStateManaWard : public IEntityState
 {
 private:
-	START_ENTITY_CONFIG(IEntityState)
-		DECLARE_ENTITY_CVAR(float, ManaRegenBoost)
-	END_ENTITY_CONFIG
+    START_ENTITY_CONFIG(IEntityState)
+        DECLARE_ENTITY_CVAR(float, ManaRegenBoost)
+    END_ENTITY_CONFIG
 
-	CEntityConfig*	m_pEntityConfig;
+    CEntityConfig*  m_pEntityConfig;
 
-	DECLARE_ENT_ALLOCATOR2(State, ManaWard);
+    DECLARE_ENT_ALLOCATOR2(State, ManaWard);
 
-	float	m_fTotalRecovered;
+    float   m_fTotalRecovered;
 
 public:
-	~CStateManaWard()	{}
-	CStateManaWard();
+    ~CStateManaWard()   {}
+    CStateManaWard();
 
-	void	StateFrame();
-	void	Expired();
+    void    StateFrame();
+    void    Expired();
 };
 //=============================================================================
 

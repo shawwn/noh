@@ -23,7 +23,7 @@
 //=============================================================================
 // Declarations
 //=============================================================================
-CVAR_BOOLF(	ui_translateLabels,	true,	CVAR_SAVECONFIG);
+CVAR_BOOLF( ui_translateLabels, true,   CVAR_SAVECONFIG);
 //=============================================================================
 
 /*====================
@@ -53,263 +53,263 @@ m_sFitXMax(style.GetProperty(_T("fitxmax"), _CWS("0"))),
 m_sRenderText(_T("")),
 m_bLineRet(false)
 {
-	if (m_bOutline)
-	{
-		m_v4ShadowColor = m_v4OutlineColor;
-		m_fShadowOffset = m_fOutlineOffset;
-	}
+    if (m_bOutline)
+    {
+        m_v4ShadowColor = m_v4OutlineColor;
+        m_fShadowOffset = m_fOutlineOffset;
+    }
 
-	if (m_fShadowOffsetX == 0.0f && m_fShadowOffset)
-	{
-		m_fShadowOffsetX = m_fShadowOffset;
-		m_fShadowOffsetY = m_fShadowOffset;
-	}
+    if (m_fShadowOffsetX == 0.0f && m_fShadowOffset)
+    {
+        m_fShadowOffsetX = m_fShadowOffset;
+        m_fShadowOffsetY = m_fShadowOffset;
+    }
 
-	if (ui_translateLabels)
-		m_sText = UIManager.Translate(m_sText);
+    if (ui_translateLabels)
+        m_sText = UIManager.Translate(m_sText);
 
-	if (m_hFontMap == INVALID_RESOURCE)
-		m_hFontMap = g_ResourceManager.LookUpName(_T("system_medium"), RES_FONTMAP);
+    if (m_hFontMap == INVALID_RESOURCE)
+        m_hFontMap = g_ResourceManager.LookUpName(_T("system_medium"), RES_FONTMAP);
 
-	// Text Alignment
-	// Horizontal
-	const tstring sLeft(_T("left"));
-	const tstring &sTextAlign(style.GetProperty(_T("textalign"), sLeft));
-	if (sTextAlign == _T("center"))
-		m_iDrawFlags |= DRAW_STRING_CENTER;
-	else if (sTextAlign == _T("right"))
-		m_iDrawFlags |= DRAW_STRING_RIGHT;
+    // Text Alignment
+    // Horizontal
+    const tstring sLeft(_T("left"));
+    const tstring &sTextAlign(style.GetProperty(_T("textalign"), sLeft));
+    if (sTextAlign == _T("center"))
+        m_iDrawFlags |= DRAW_STRING_CENTER;
+    else if (sTextAlign == _T("right"))
+        m_iDrawFlags |= DRAW_STRING_RIGHT;
 
-	// Vertical
-	const tstring sTop(_T("top"));
-	const tstring &sTextVAlign(style.GetProperty(_T("textvalign"), sTop));
-	if (sTextVAlign == _T("center"))
-		m_iDrawFlags |= DRAW_STRING_VCENTER;
-	else if (sTextVAlign == _T("bottom"))
-		m_iDrawFlags |= DRAW_STRING_BOTTOM;
+    // Vertical
+    const tstring sTop(_T("top"));
+    const tstring &sTextVAlign(style.GetProperty(_T("textvalign"), sTop));
+    if (sTextVAlign == _T("center"))
+        m_iDrawFlags |= DRAW_STRING_VCENTER;
+    else if (sTextVAlign == _T("bottom"))
+        m_iDrawFlags |= DRAW_STRING_BOTTOM;
 
-	if (IsAbsoluteVisible())
-		DO_EVENT(WEVENT_SHOW)
+    if (IsAbsoluteVisible())
+        DO_EVENT(WEVENT_SHOW)
 
-	// Text fitting
-	m_sRenderText = StripColorCodes(m_sText);
+    // Text fitting
+    m_sRenderText = StripColorCodes(m_sText);
 
-	if (m_iPrecision >= 0 && !m_sText.empty() && !(m_bFitX || m_bFitY))
-		m_sText = XtoA(AtoF(m_sText), 0, 0, m_iPrecision);
+    if (m_iPrecision >= 0 && !m_sText.empty() && !(m_bFitX || m_bFitY))
+        m_sText = XtoA(AtoF(m_sText), 0, 0, m_iPrecision);
 
-	m_bLineRet = false;
-	if(m_sText.find_first_of(_T("\n")) != -1)
-		m_bLineRet = true;
+    m_bLineRet = false;
+    if(m_sText.find_first_of(_T("\n")) != -1)
+        m_bLineRet = true;
 
-	RecalculateText();
-	RecalculateSize();
+    RecalculateText();
+    RecalculateSize();
 }
 
 /*====================
   CLabel::RecalculateText
   ====================*/
-void	CLabel::RecalculateText()
+void    CLabel::RecalculateText()
 {
-	CFontMap *pFontMap(g_ResourceManager.GetFontMap(m_hFontMap));
-	if(pFontMap == NULL)
-		return; 
+    CFontMap *pFontMap(g_ResourceManager.GetFontMap(m_hFontMap));
+    if(pFontMap == NULL)
+        return; 
 
-	bool bResize(false);
-	if(m_bFitX)
-	{
-		float fBiggestWidth(BiggestStringWidth(m_sRenderText, pFontMap, GetWidth()));
-		if(m_fBiggestWidth != fBiggestWidth)
-		{
-			m_fBiggestWidth = fBiggestWidth;
-			bResize = true;
-		}
-	}
+    bool bResize(false);
+    if(m_bFitX)
+    {
+        float fBiggestWidth(BiggestStringWidth(m_sRenderText, pFontMap, GetWidth()));
+        if(m_fBiggestWidth != fBiggestWidth)
+        {
+            m_fBiggestWidth = fBiggestWidth;
+            bResize = true;
+        }
+    }
 
-	float fWrapCount(WrapStringCount(m_sRenderText, pFontMap, GetWidth(), m_bWrap, &m_vLineWrap, m_iDrawFlags, &m_vLineCentering));
-	if(m_bFitY)
-	{
-		if(m_fWrapCount != fWrapCount)
-		{
-			m_fWrapCount = fWrapCount;
-			bResize = true;
-		}
-	}
-	
-	if(bResize)
-		RecalculateSize();
+    float fWrapCount(WrapStringCount(m_sRenderText, pFontMap, GetWidth(), m_bWrap, &m_vLineWrap, m_iDrawFlags, &m_vLineCentering));
+    if(m_bFitY)
+    {
+        if(m_fWrapCount != fWrapCount)
+        {
+            m_fWrapCount = fWrapCount;
+            bResize = true;
+        }
+    }
+    
+    if(bResize)
+        RecalculateSize();
 }
 
 /*====================
   CLabel::RecalculateSize
   ====================*/
-void	CLabel::RecalculateSize()
+void    CLabel::RecalculateSize()
 {
-	float fOldWidth(GetWidth());
-	float fOldHeight(GetHeight());
+    float fOldWidth(GetWidth());
+    float fOldHeight(GetHeight());
 
-	float fWidth(GetWidth());
-	float fHeight(GetHeight());
-	float fMaxWidth(GetSizeFromString(m_sFitXMax, fWidth, fHeight));
-	CFontMap *pFontMap(g_ResourceManager.GetFontMap(m_hFontMap));
-	float fMaxTextHeight(0.0f);
+    float fWidth(GetWidth());
+    float fHeight(GetHeight());
+    float fMaxWidth(GetSizeFromString(m_sFitXMax, fWidth, fHeight));
+    CFontMap *pFontMap(g_ResourceManager.GetFontMap(m_hFontMap));
+    float fMaxTextHeight(0.0f);
 
-	if(pFontMap)
-		fMaxTextHeight = pFontMap->GetMaxHeight();
+    if(pFontMap)
+        fMaxTextHeight = pFontMap->GetMaxHeight();
 
-	if (m_bFitX)
-	{
-		fWidth = m_fBiggestWidth;
-		if (fMaxWidth > 0.0f && fWidth > fMaxWidth)
-		{
-			fWidth = fMaxWidth;
-		}
-		SetWidth(fWidth + ROUND(GetSizeFromString(m_sFitXPadding, fWidth, fHeight)));
-	}
-	else
-	{
-		SetWidth(GetSizeFromString(m_sWidth, GetParentWidth(), GetParentHeight()));
-		fWidth = GetWidth();
-	}
+    if (m_bFitX)
+    {
+        fWidth = m_fBiggestWidth;
+        if (fMaxWidth > 0.0f && fWidth > fMaxWidth)
+        {
+            fWidth = fMaxWidth;
+        }
+        SetWidth(fWidth + ROUND(GetSizeFromString(m_sFitXPadding, fWidth, fHeight)));
+    }
+    else
+    {
+        SetWidth(GetSizeFromString(m_sWidth, GetParentWidth(), GetParentHeight()));
+        fWidth = GetWidth();
+    }
 
-	if (m_bFitY)
-	{
-		fHeight = m_fWrapCount * fMaxTextHeight;
-		SetHeight(fHeight + ROUND(GetSizeFromString(m_sFitYPadding, fMaxTextHeight, fWidth)));
-	}
-	else
-	{
-		SetHeight(GetSizeFromString(m_sHeight, GetParentHeight(), GetParentWidth()));
-	}
-	
-	if(!(m_pParent && m_pParent->HasFlags(WFLAG_REGROW)) || !HasFlags(WFLAG_REGROW))
-		RecalculatePosition();
+    if (m_bFitY)
+    {
+        fHeight = m_fWrapCount * fMaxTextHeight;
+        SetHeight(fHeight + ROUND(GetSizeFromString(m_sFitYPadding, fMaxTextHeight, fWidth)));
+    }
+    else
+    {
+        SetHeight(GetSizeFromString(m_sHeight, GetParentHeight(), GetParentWidth()));
+    }
+    
+    if(!(m_pParent && m_pParent->HasFlags(WFLAG_REGROW)) || !HasFlags(WFLAG_REGROW))
+        RecalculatePosition();
 
-	if (GetWidth() != fOldWidth || GetHeight() != fOldHeight)
-		RecalculateChildSize();
+    if (GetWidth() != fOldWidth || GetHeight() != fOldHeight)
+        RecalculateChildSize();
 
-	if (m_pParent != NULL && m_pParent->HasFlags(WFLAG_GROW_WITH_CHILDREN))
-		m_pParent->RecalculateSize();
+    if (m_pParent != NULL && m_pParent->HasFlags(WFLAG_GROW_WITH_CHILDREN))
+        m_pParent->RecalculateSize();
 }
 
 /*====================
   CLabel::NullSize
   ====================*/
-void	CLabel::NullSize()
+void    CLabel::NullSize()
 {
-	m_vLineWrap.clear();
-	m_vLineCentering.clear();
+    m_vLineWrap.clear();
+    m_vLineCentering.clear();
 
-	if(!(m_bFitX || m_bFitY))
-		return;
+    if(!(m_bFitX || m_bFitY))
+        return;
 
-	float fWidth(GetWidth());
-	float fHeight(GetHeight());
-	float fMaxWidth(GetSizeFromString(m_sFitXMax, fWidth, fHeight));
-	CFontMap *pFontMap(g_ResourceManager.GetFontMap(m_hFontMap));
-	float fMaxTextHeight(0.0f);
+    float fWidth(GetWidth());
+    float fHeight(GetHeight());
+    float fMaxWidth(GetSizeFromString(m_sFitXMax, fWidth, fHeight));
+    CFontMap *pFontMap(g_ResourceManager.GetFontMap(m_hFontMap));
+    float fMaxTextHeight(0.0f);
 
-	if(pFontMap)
-		fMaxTextHeight = pFontMap->GetMaxHeight();
+    if(pFontMap)
+        fMaxTextHeight = pFontMap->GetMaxHeight();
 
-	float fBiggestWidth(1.0f);
+    float fBiggestWidth(1.0f);
 
-	if (m_bFitX)
-	{
-		fWidth = fBiggestWidth;
-		if (fMaxWidth > 0.0f && fWidth > fMaxWidth)
-		{
-			fWidth = fMaxWidth;
-		}
-		SetWidth(fWidth + ROUND(GetSizeFromString(m_sFitXPadding, fWidth, fHeight)));
-	}
+    if (m_bFitX)
+    {
+        fWidth = fBiggestWidth;
+        if (fMaxWidth > 0.0f && fWidth > fMaxWidth)
+        {
+            fWidth = fMaxWidth;
+        }
+        SetWidth(fWidth + ROUND(GetSizeFromString(m_sFitXPadding, fWidth, fHeight)));
+    }
 
-	if (m_bFitY)
-	{
-		fHeight = fMaxTextHeight;
-		SetHeight(fHeight + ROUND(GetSizeFromString(m_sFitYPadding, fMaxTextHeight, fWidth)));
-	}
+    if (m_bFitY)
+    {
+        fHeight = fMaxTextHeight;
+        SetHeight(fHeight + ROUND(GetSizeFromString(m_sFitYPadding, fMaxTextHeight, fWidth)));
+    }
 }
 
 /*====================
   CLabel::RenderWidget
   ====================*/
-void	CLabel::RenderWidget(const CVec2f &v2Origin, float fFade)
+void    CLabel::RenderWidget(const CVec2f &v2Origin, float fFade)
 {
-	if (!HasFlags(WFLAG_VISIBLE) || m_sText.empty())
-		return;
+    if (!HasFlags(WFLAG_VISIBLE) || m_sText.empty())
+        return;
 
-	float fX(ROUND(v2Origin.x));
-	float fY(ROUND(v2Origin.y));
-	float fWidth(m_recArea.GetWidth());
-	if (fWidth == 0.0f)
-		fWidth = Draw2D.GetScreenW() - fX;
-	float fHeight(m_recArea.GetHeight());
-	if (fHeight == 0.0f)
-		fHeight = Draw2D.GetScreenH() - fY;
+    float fX(ROUND(v2Origin.x));
+    float fY(ROUND(v2Origin.y));
+    float fWidth(m_recArea.GetWidth());
+    if (fWidth == 0.0f)
+        fWidth = Draw2D.GetScreenW() - fX;
+    float fHeight(m_recArea.GetHeight());
+    if (fHeight == 0.0f)
+        fHeight = Draw2D.GetScreenH() - fY;
 
-	int iFlags(m_iDrawFlags);
+    int iFlags(m_iDrawFlags);
 
-	// Keep the alpha the same between shadow and text
-	const CVec4f &v4Color(fFade == 1.0f ? m_v4Color : GetFadedColor(m_v4Color, fFade));
-	const CVec4f &v4ShadowColor(fFade == 1.0f ? m_v4ShadowColor : GetFadedColor(m_v4ShadowColor, fFade));
+    // Keep the alpha the same between shadow and text
+    const CVec4f &v4Color(fFade == 1.0f ? m_v4Color : GetFadedColor(m_v4Color, fFade));
+    const CVec4f &v4ShadowColor(fFade == 1.0f ? m_v4ShadowColor : GetFadedColor(m_v4ShadowColor, fFade));
 
-	if (m_bWrap || m_bLineRet)
-	{
-		Draw2D.SetColor(v4Color);
-		Draw2D.String(fX, fY, fWidth, fHeight, m_sText, m_hFontMap, m_vLineWrap, m_vLineCentering, iFlags, m_bShadow, m_bOutline, m_fShadowOffsetX, m_fShadowOffsetY, v4ShadowColor);
-	}
-	else
-	{
-		Draw2D.SetColor(v4Color);
-		Draw2D.String(fX, fY, fWidth, fHeight, m_sText, m_hFontMap, m_vLineWrap, m_vLineCentering, iFlags, m_bShadow, m_bOutline, m_fShadowOffsetX, m_fShadowOffsetY, v4ShadowColor);
-	}
+    if (m_bWrap || m_bLineRet)
+    {
+        Draw2D.SetColor(v4Color);
+        Draw2D.String(fX, fY, fWidth, fHeight, m_sText, m_hFontMap, m_vLineWrap, m_vLineCentering, iFlags, m_bShadow, m_bOutline, m_fShadowOffsetX, m_fShadowOffsetY, v4ShadowColor);
+    }
+    else
+    {
+        Draw2D.SetColor(v4Color);
+        Draw2D.String(fX, fY, fWidth, fHeight, m_sText, m_hFontMap, m_vLineWrap, m_vLineCentering, iFlags, m_bShadow, m_bOutline, m_fShadowOffsetX, m_fShadowOffsetY, v4ShadowColor);
+    }
 }
 
 
 /*====================
   CLabel::SetText
   ====================*/
-void	CLabel::SetText(const tstring &sStr)
+void    CLabel::SetText(const tstring &sStr)
 {
-	if (sStr.size() == 0)
-	{
-		m_sText = sStr;
-		m_sRenderText = m_sText;
-		NullSize();
-		return;
-	}
+    if (sStr.size() == 0)
+    {
+        m_sText = sStr;
+        m_sRenderText = m_sText;
+        NullSize();
+        return;
+    }
 
-	m_sText = sStr;
+    m_sText = sStr;
 
-	m_sRenderText = StripColorCodes(m_sText);
+    m_sRenderText = StripColorCodes(m_sText);
 
-	if (m_iPrecision >= 0 && !m_sText.empty() && !(m_bFitX || m_bFitY))
-		m_sText = XtoA(AtoF(m_sText), 0, 0, m_iPrecision);
+    if (m_iPrecision >= 0 && !m_sText.empty() && !(m_bFitX || m_bFitY))
+        m_sText = XtoA(AtoF(m_sText), 0, 0, m_iPrecision);
 
-	m_bLineRet = false;
-	if (m_sText.find_first_of(_T("\n")) != -1)
-		m_bLineRet = true;
+    m_bLineRet = false;
+    if (m_sText.find_first_of(_T("\n")) != -1)
+        m_bLineRet = true;
 
-	if (m_bWrap || m_bFitX || m_bFitY || m_bLineRet)
-		RecalculateText();
-	else
-	{
-		m_vLineCentering.clear();
-		m_vLineWrap.clear();
+    if (m_bWrap || m_bFitX || m_bFitY || m_bLineRet)
+        RecalculateText();
+    else
+    {
+        m_vLineCentering.clear();
+        m_vLineWrap.clear();
 
-		CFontMap *pFontMap(g_ResourceManager.GetFontMap(m_hFontMap));
-		if(pFontMap == NULL)
-			return; 
+        CFontMap *pFontMap(g_ResourceManager.GetFontMap(m_hFontMap));
+        if(pFontMap == NULL)
+            return; 
 
-		float fBiggestWidth(pFontMap->GetStringWidth(m_sRenderText));
+        float fBiggestWidth(pFontMap->GetStringWidth(m_sRenderText));
 
-		m_vLineCentering.push_back(fBiggestWidth);
+        m_vLineCentering.push_back(fBiggestWidth);
 
-		if (m_fBiggestWidth != fBiggestWidth)
-			m_fBiggestWidth = fBiggestWidth;
+        if (m_fBiggestWidth != fBiggestWidth)
+            m_fBiggestWidth = fBiggestWidth;
 
-		m_fWrapCount = 1;
-	}
+        m_fWrapCount = 1;
+    }
 
 }
 
@@ -317,9 +317,9 @@ void	CLabel::SetText(const tstring &sStr)
 /*====================
   CLabel::SetFont
   ====================*/
-void	CLabel::SetFont(const tstring &sFont)
+void    CLabel::SetFont(const tstring &sFont)
 {
-	m_hFontMap = g_ResourceManager.LookUpName(sFont, RES_FONTMAP);
+    m_hFontMap = g_ResourceManager.LookUpName(sFont, RES_FONTMAP);
 }
 
 
@@ -328,11 +328,11 @@ void	CLabel::SetFont(const tstring &sFont)
   --------------------*/
 UI_VOID_CMD(SetText, 1)
 {
-	if (pThis == NULL ||
-		pThis->GetType() != WIDGET_LABEL)
-		return;
+    if (pThis == NULL ||
+        pThis->GetType() != WIDGET_LABEL)
+        return;
 
-	static_cast<CLabel*>(pThis)->SetText(vArgList[0]->Evaluate());
+    static_cast<CLabel*>(pThis)->SetText(vArgList[0]->Evaluate());
 }
 
 
@@ -341,10 +341,10 @@ UI_VOID_CMD(SetText, 1)
   --------------------*/
 UI_VOID_CMD(ClearText, 0)
 {
-	if (pThis == NULL || pThis->GetType() != WIDGET_LABEL)
-		return;
+    if (pThis == NULL || pThis->GetType() != WIDGET_LABEL)
+        return;
 
-	static_cast<CLabel*>(pThis)->SetText(_T(""));
+    static_cast<CLabel*>(pThis)->SetText(_T(""));
 }
 
 
@@ -353,18 +353,18 @@ UI_VOID_CMD(ClearText, 0)
   --------------------*/
 UI_CMD(GetTextWidth, 0)
 {
-	if (pThis == NULL ||
-		pThis->GetType() != WIDGET_LABEL)
-		return TSNULL;
+    if (pThis == NULL ||
+        pThis->GetType() != WIDGET_LABEL)
+        return TSNULL;
 
-	CLabel *pLabel(static_cast<CLabel *>(pThis));
+    CLabel *pLabel(static_cast<CLabel *>(pThis));
 
-	// Retrieve the font map
-	CFontMap *pFontMap(g_ResourceManager.GetFontMap(pLabel->GetFont()));
-	if (pFontMap == NULL)
-		return TSNULL;
+    // Retrieve the font map
+    CFontMap *pFontMap(g_ResourceManager.GetFontMap(pLabel->GetFont()));
+    if (pFontMap == NULL)
+        return TSNULL;
 
-	return XtoA(pFontMap->GetStringWidth(pLabel->GetText()));
+    return XtoA(pFontMap->GetStringWidth(pLabel->GetText()));
 }
 
 
@@ -373,11 +373,11 @@ UI_CMD(GetTextWidth, 0)
   --------------------*/
 UI_VOID_CMD(SetFont, 1)
 {
-	if (pThis == NULL ||
-		pThis->GetType() != WIDGET_LABEL)
-		return;
+    if (pThis == NULL ||
+        pThis->GetType() != WIDGET_LABEL)
+        return;
 
-	static_cast<CLabel*>(pThis)->SetFont(vArgList[0]->Evaluate());
+    static_cast<CLabel*>(pThis)->SetFont(vArgList[0]->Evaluate());
 }
 
 

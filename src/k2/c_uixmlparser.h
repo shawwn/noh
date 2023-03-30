@@ -16,12 +16,12 @@
 class CUIXMLParser
 {
 private:
-	CUIXMLParser();
-	CUIXMLParser(&CUIXMLParser);
-	CUIXMLParser&	operator(CUIXMLParser&);
+    CUIXMLParser();
+    CUIXMLParser(&CUIXMLParser);
+    CUIXMLParser&   operator(CUIXMLParser&);
 
 public:
-	~CUIXMLParser()	{}
+    ~CUIXMLParser() {}
 };
 //=============================================================================
 #endif

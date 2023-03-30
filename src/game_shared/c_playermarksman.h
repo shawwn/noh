@@ -19,13 +19,13 @@
 class CPlayerMarksman : public IPlayerEntity
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Player, Marksman);
+    DECLARE_ENT_ALLOCATOR2(Player, Marksman);
 
 public:
-	~CPlayerMarksman()	{}
-	CPlayerMarksman();
+    ~CPlayerMarksman()  {}
+    CPlayerMarksman();
 
-	void	Move(const CClientSnapshot &snapshot)	{ MoveWalk(snapshot); }
+    void    Move(const CClientSnapshot &snapshot)   { MoveWalk(snapshot); }
 };
 //=============================================================================
 

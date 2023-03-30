@@ -17,15 +17,15 @@
 class CPostFilter
 {
 private:
-	ResHandle	m_hMaterial;
+    ResHandle   m_hMaterial;
 
 public:
-	~CPostFilter() {}
-	CPostFilter() : m_hMaterial(INVALID_RESOURCE) {}
-	CPostFilter(ResHandle hMaterial) : m_hMaterial(hMaterial) {}
+    ~CPostFilter() {}
+    CPostFilter() : m_hMaterial(INVALID_RESOURCE) {}
+    CPostFilter(ResHandle hMaterial) : m_hMaterial(hMaterial) {}
 
-	void		SetMaterial(ResHandle hMaterial)	{ m_hMaterial = hMaterial; }
-	ResHandle	GetMaterial() const					{ return m_hMaterial; }
+    void        SetMaterial(ResHandle hMaterial)    { m_hMaterial = hMaterial; }
+    ResHandle   GetMaterial() const                 { return m_hMaterial; }
 };
 //=============================================================================
 
@@ -36,29 +36,29 @@ public:
 class CPostEffect : public IResource
 {
 protected:
-	vector<CPostFilter>		m_vFilters;
+    vector<CPostFilter>     m_vFilters;
 
-	CPostEffect();
+    CPostEffect();
 
 public:
-	~CPostEffect()	{}
-	CPostEffect(const tstring &sPath) :
-	IResource(sPath, TSNULL)
-	{}
+    ~CPostEffect()  {}
+    CPostEffect(const tstring &sPath) :
+    IResource(sPath, TSNULL)
+    {}
 
-	K2_API	virtual uint			GetResType() const			{ return RES_POST_EFFECT; }
-	K2_API	virtual const tstring&	GetResTypeName() const		{ return ResTypeName(); }
-	K2_API	static const tstring&	ResTypeName()				{ static tstring sTypeName(_T("{posteffect}")); return sTypeName; }
+    K2_API  virtual uint            GetResType() const          { return RES_POST_EFFECT; }
+    K2_API  virtual const tstring&  GetResTypeName() const      { return ResTypeName(); }
+    K2_API  static const tstring&   ResTypeName()               { static tstring sTypeName(_T("{posteffect}")); return sTypeName; }
 
-	const vector<CPostFilter>&	GetFilters() const
-	{
-		return m_vFilters;
-	}
-	
-	void	AddFilter(const CPostFilter &cFilter)	{ m_vFilters.push_back(cFilter); }
-	
-	int		Load(uint uiIgnoreFlags, const char *pData, uint uiSize);
-	void	Free()									{}
+    const vector<CPostFilter>&  GetFilters() const
+    {
+        return m_vFilters;
+    }
+    
+    void    AddFilter(const CPostFilter &cFilter)   { m_vFilters.push_back(cFilter); }
+    
+    int     Load(uint uiIgnoreFlags, const char *pData, uint uiSize);
+    void    Free()                                  {}
 };
 //=============================================================================
 

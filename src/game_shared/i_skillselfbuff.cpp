@@ -25,44 +25,44 @@ INIT_ENTITY_CVAR(SelfStateDuration, 0)
 /*====================
   ISkillSelfBuff::Impact
   ====================*/
-void	ISkillSelfBuff::Impact()
+void    ISkillSelfBuff::Impact()
 {
-	ICombatEntity *pOwner(GetOwnerEnt());
-	if (!pOwner)
-		return;
+    ICombatEntity *pOwner(GetOwnerEnt());
+    if (!pOwner)
+        return;
 
-	uint uiTime(Game.GetGameTime());
+    uint uiTime(Game.GetGameTime());
 
-	if (!GetSelfState().empty())
-		pOwner->ApplyState(EntityRegistry.LookupID(GetSelfState()), uiTime, GetSelfStateDuration());
+    if (!GetSelfState().empty())
+        pOwner->ApplyState(EntityRegistry.LookupID(GetSelfState()), uiTime, GetSelfStateDuration());
 }
 
 
 /*====================
   ISkillSelfBuff::ClientPrecache
   ====================*/
-void	ISkillSelfBuff::ClientPrecache(CEntityConfig *pConfig)
+void    ISkillSelfBuff::ClientPrecache(CEntityConfig *pConfig)
 {
-	IInventoryItem::ClientPrecache(pConfig);
+    IInventoryItem::ClientPrecache(pConfig);
 
-	if (!pConfig)
-		return;
-	
-	if (!pConfig->GetSelfState().empty())
-		EntityRegistry.ClientPrecache(EntityRegistry.LookupID(pConfig->GetSelfState()));
+    if (!pConfig)
+        return;
+    
+    if (!pConfig->GetSelfState().empty())
+        EntityRegistry.ClientPrecache(EntityRegistry.LookupID(pConfig->GetSelfState()));
 }
 
 
 /*====================
   ISkillSelfBuff::ServerPrecache
   ====================*/
-void	ISkillSelfBuff::ServerPrecache(CEntityConfig *pConfig)
+void    ISkillSelfBuff::ServerPrecache(CEntityConfig *pConfig)
 {
-	IInventoryItem::ServerPrecache(pConfig);
+    IInventoryItem::ServerPrecache(pConfig);
 
-	if (!pConfig)
-		return;
+    if (!pConfig)
+        return;
 
-	if (!pConfig->GetSelfState().empty())
-		EntityRegistry.ServerPrecache(EntityRegistry.LookupID(pConfig->GetSelfState()));
+    if (!pConfig->GetSelfState().empty())
+        EntityRegistry.ServerPrecache(EntityRegistry.LookupID(pConfig->GetSelfState()));
 }

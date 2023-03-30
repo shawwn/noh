@@ -17,18 +17,18 @@
 class CSpellMeteor : public ISpellItem
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Spell, Meteor)
+    DECLARE_ENT_ALLOCATOR2(Spell, Meteor)
 
 public:
-	~CSpellMeteor()	{}
-	CSpellMeteor() :
-	ISpellItem(GetEntityConfig())
-	{}
+    ~CSpellMeteor() {}
+    CSpellMeteor() :
+    ISpellItem(GetEntityConfig())
+    {}
 
-	bool	TryImpact();
+    bool    TryImpact();
 
-	static void				ClientPrecache(CEntityConfig *pConfig);
-	static void				ServerPrecache(CEntityConfig *pConfig);
+    static void             ClientPrecache(CEntityConfig *pConfig);
+    static void             ServerPrecache(CEntityConfig *pConfig);
 };
 //=============================================================================
 

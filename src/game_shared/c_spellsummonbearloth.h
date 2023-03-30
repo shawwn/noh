@@ -17,13 +17,13 @@
 class CSpellSummonBearloth : public ISpellSummon
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Spell, SummonBearloth);
+    DECLARE_ENT_ALLOCATOR2(Spell, SummonBearloth);
 
 public:
-	~CSpellSummonBearloth()	{}
-	CSpellSummonBearloth() :
-	ISpellSummon(GetEntityConfig())
-	{}
+    ~CSpellSummonBearloth() {}
+    CSpellSummonBearloth() :
+    ISpellSummon(GetEntityConfig())
+    {}
 };
 //=============================================================================
 

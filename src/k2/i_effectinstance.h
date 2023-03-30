@@ -24,28 +24,28 @@ class CSkeleton;
 class IEffectInstance
 {
 protected:
-	CEffectThread	*m_pEffectThread;
+    CEffectThread   *m_pEffectThread;
 
 public:
-	virtual ~IEffectInstance();
-	IEffectInstance();
+    virtual ~IEffectInstance();
+    IEffectInstance();
 
-	IEffectInstance(CEffectThread *pEffectThread);
+    IEffectInstance(CEffectThread *pEffectThread);
 
-	virtual bool	IsParticleSystem() const		{ return false; }
-	virtual bool	IsModifier() const				{ return false; }
+    virtual bool    IsParticleSystem() const        { return false; }
+    virtual bool    IsModifier() const              { return false; }
 
-	virtual bool	Update(uint uiMilliseconds, ParticleTraceFn_t pfnTrace = NULL) = 0;
-	virtual bool	IsDead() = 0;
+    virtual bool    Update(uint uiMilliseconds, ParticleTraceFn_t pfnTrace = NULL) = 0;
+    virtual bool    IsDead() = 0;
 
-	bool					GetActive() const;
+    bool                    GetActive() const;
 
-	virtual void			Expire(uint uiMilliseconds) = 0;
-	bool					GetExpire() const;
+    virtual void            Expire(uint uiMilliseconds) = 0;
+    bool                    GetExpire() const;
 
-	CEffect*				GetEffect();
-	
-	CEffectThread*			GetEffectThread() const	{ return m_pEffectThread; }
+    CEffect*                GetEffect();
+    
+    CEffectThread*          GetEffectThread() const { return m_pEffectThread; }
 };
 //=============================================================================
-#endif	//__I_EFFECTINSTANCE_H__
+#endif  //__I_EFFECTINSTANCE_H__

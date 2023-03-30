@@ -18,7 +18,7 @@
 //=============================================================================
 DEFINE_ENT_ALLOCATOR2(State, Sacrifice)
 
-CVAR_UINTF(	g_sacrificeDeathTime,	5000,	CVAR_GAMECONFIG);
+CVAR_UINTF( g_sacrificeDeathTime,   5000,   CVAR_GAMECONFIG);
 //=============================================================================
 
 
@@ -45,85 +45,85 @@ CStateSacrifice::CStateSacrifice() :
 IEntityState(GetEntityConfig()),
 m_pEntityConfig(GetEntityConfig())
 {
-	m_modSpeed.SetMult(m_pEntityConfig->GetSpeedMult());
-	m_modArmor.Set(m_pEntityConfig->GetArmorMult(), m_pEntityConfig->GetArmorAdd(), 0.0f);
-	m_modStaminaRegen.SetMult(m_pEntityConfig->GetStaminaRegenMult());
+    m_modSpeed.SetMult(m_pEntityConfig->GetSpeedMult());
+    m_modArmor.Set(m_pEntityConfig->GetArmorMult(), m_pEntityConfig->GetArmorAdd(), 0.0f);
+    m_modStaminaRegen.SetMult(m_pEntityConfig->GetStaminaRegenMult());
 }
 
 
 /*====================
   CStateSacrifice::Activated
   ====================*/
-void	CStateSacrifice::Activated()
+void    CStateSacrifice::Activated()
 {
-	IEntityState::Activated();
+    IEntityState::Activated();
 
-	ICombatEntity *pOwner(Game.GetCombatEntity(m_uiOwnerIndex));
-	if (pOwner == NULL)
-		return;
+    ICombatEntity *pOwner(Game.GetCombatEntity(m_uiOwnerIndex));
+    if (pOwner == NULL)
+        return;
 }
 
 
 /*====================
   CStateSacrifice::Expired
   ====================*/
-void	CStateSacrifice::Expired()
+void    CStateSacrifice::Expired()
 {
-	IVisualEntity *pOwner(Game.GetVisualEntity(m_uiOwnerIndex));
-	if (pOwner == NULL)
-		return;
-	if (pOwner->GetStatus() != ENTITY_STATUS_ACTIVE)
-		return;
+    IVisualEntity *pOwner(Game.GetVisualEntity(m_uiOwnerIndex));
+    if (pOwner == NULL)
+        return;
+    if (pOwner->GetStatus() != ENTITY_STATUS_ACTIVE)
+        return;
 
-	uivector vTargets;
-	Game.GetEntitiesInRadius(vTargets, CSphere(pOwner->GetPosition(), m_pEntityConfig->GetBlastRadius()), 0);
-	for (uivector_it it(vTargets.begin()); it != vTargets.end(); ++it)
-	{
-		IGameEntity *pTarget(Game.GetEntityFromWorldIndex(*it));
-		if (pTarget == NULL)
-			continue;
+    uivector vTargets;
+    Game.GetEntitiesInRadius(vTargets, CSphere(pOwner->GetPosition(), m_pEntityConfig->GetBlastRadius()), 0);
+    for (uivector_it it(vTargets.begin()); it != vTargets.end(); ++it)
+    {
+        IGameEntity *pTarget(Game.GetEntityFromWorldIndex(*it));
+        if (pTarget == NULL)
+            continue;
 
-		pTarget->Damage(m_pEntityConfig->GetBlastDamage(), DAMAGE_FLAG_SIEGE | DAMAGE_FLAG_SPLASH | DAMAGE_FLAG_EXPLOSIVE, pOwner, m_unDamageID);
-	}
+        pTarget->Damage(m_pEntityConfig->GetBlastDamage(), DAMAGE_FLAG_SIEGE | DAMAGE_FLAG_SPLASH | DAMAGE_FLAG_EXPLOSIVE, pOwner, m_unDamageID);
+    }
 
-	CGameEvent evExplode;
-	evExplode.SetSourcePosition(pOwner->GetPosition());
-	evExplode.SetEffect(Game.RegisterEffect(m_pEntityConfig->GetExpiredEffectPath()));
-	Game.AddEvent(evExplode);
+    CGameEvent evExplode;
+    evExplode.SetSourcePosition(pOwner->GetPosition());
+    evExplode.SetEffect(Game.RegisterEffect(m_pEntityConfig->GetExpiredEffectPath()));
+    Game.AddEvent(evExplode);
 
-	pOwner->Kill(pOwner, m_unDamageID);
-	pOwner->SetNetFlags(ENT_NET_FLAG_NO_CORPSE);
-	pOwner->Unlink();
-	if (pOwner->GetAsPlayerEnt() != NULL)
-		pOwner->GetAsPlayerEnt()->SetDeathTime(Game.GetGameTime() + g_sacrificeDeathTime);
+    pOwner->Kill(pOwner, m_unDamageID);
+    pOwner->SetNetFlags(ENT_NET_FLAG_NO_CORPSE);
+    pOwner->Unlink();
+    if (pOwner->GetAsPlayerEnt() != NULL)
+        pOwner->GetAsPlayerEnt()->SetDeathTime(Game.GetGameTime() + g_sacrificeDeathTime);
 }
 
 
 /*====================
   CStateSacrifice::ClientPrecache
   ====================*/
-void	CStateSacrifice::ClientPrecache(CEntityConfig *pConfig)
+void    CStateSacrifice::ClientPrecache(CEntityConfig *pConfig)
 {
-	IEntityState::ClientPrecache(pConfig);
+    IEntityState::ClientPrecache(pConfig);
 
-	if (!pConfig)
-		return;
+    if (!pConfig)
+        return;
 
-	if (!pConfig->GetExpiredEffectPath().empty())
-		g_ResourceManager.Register(pConfig->GetExpiredEffectPath(), RES_EFFECT);
+    if (!pConfig->GetExpiredEffectPath().empty())
+        g_ResourceManager.Register(pConfig->GetExpiredEffectPath(), RES_EFFECT);
 }
 
 
 /*====================
   CStateSacrifice::ServerPrecache
   ====================*/
-void	CStateSacrifice::ServerPrecache(CEntityConfig *pConfig)
+void    CStateSacrifice::ServerPrecache(CEntityConfig *pConfig)
 {
-	IEntityState::ServerPrecache(pConfig);
+    IEntityState::ServerPrecache(pConfig);
 
-	if (!pConfig)
-		return;
+    if (!pConfig)
+        return;
 
-	if (!pConfig->GetExpiredEffectPath().empty())
-		g_NetworkResourceManager.GetNetIndex(g_ResourceManager.Register(pConfig->GetExpiredEffectPath(), RES_EFFECT, RES_EFFECT_IGNORE_ALL));
+    if (!pConfig->GetExpiredEffectPath().empty())
+        g_NetworkResourceManager.GetNetIndex(g_ResourceManager.Register(pConfig->GetExpiredEffectPath(), RES_EFFECT, RES_EFFECT_IGNORE_ALL));
 }

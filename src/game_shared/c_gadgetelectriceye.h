@@ -17,18 +17,18 @@
 class CGadgetElectricEye : public IGadgetEntity
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Gadget, ElectricEye);
-	
-	static	CCvarf		s_cvarRadius;
-	static	CCvars		s_cvarSightedEffectPath;
+    DECLARE_ENT_ALLOCATOR2(Gadget, ElectricEye);
+    
+    static  CCvarf      s_cvarRadius;
+    static  CCvars      s_cvarSightedEffectPath;
 
 public:
-	~CGadgetElectricEye()	{}
-	CGadgetElectricEye() :
-	IGadgetEntity(GetEntityConfig())
-	{}
+    ~CGadgetElectricEye()   {}
+    CGadgetElectricEye() :
+    IGadgetEntity(GetEntityConfig())
+    {}
 
-	bool					ServerFrame();
+    bool                    ServerFrame();
 };
 //=============================================================================
 

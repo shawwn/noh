@@ -4,17 +4,17 @@ Microsoft Visual Studio Solution File, Format Version 9.00
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "K2_Updater", "K2_Updater.vcproj", "{74CB3E33-6D55-4FA0-9726-DC3F4E9A66AF}"
 EndProject
 Global
-	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-		Debug|Win32 = Debug|Win32
-		Release|Win32 = Release|Win32
-	EndGlobalSection
-	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{74CB3E33-6D55-4FA0-9726-DC3F4E9A66AF}.Debug|Win32.ActiveCfg = Debug|Win32
-		{74CB3E33-6D55-4FA0-9726-DC3F4E9A66AF}.Debug|Win32.Build.0 = Debug|Win32
-		{74CB3E33-6D55-4FA0-9726-DC3F4E9A66AF}.Release|Win32.ActiveCfg = Release|Win32
-		{74CB3E33-6D55-4FA0-9726-DC3F4E9A66AF}.Release|Win32.Build.0 = Release|Win32
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
-	EndGlobalSection
+    GlobalSection(SolutionConfigurationPlatforms) = preSolution
+        Debug|Win32 = Debug|Win32
+        Release|Win32 = Release|Win32
+    EndGlobalSection
+    GlobalSection(ProjectConfigurationPlatforms) = postSolution
+        {74CB3E33-6D55-4FA0-9726-DC3F4E9A66AF}.Debug|Win32.ActiveCfg = Debug|Win32
+        {74CB3E33-6D55-4FA0-9726-DC3F4E9A66AF}.Debug|Win32.Build.0 = Debug|Win32
+        {74CB3E33-6D55-4FA0-9726-DC3F4E9A66AF}.Release|Win32.ActiveCfg = Release|Win32
+        {74CB3E33-6D55-4FA0-9726-DC3F4E9A66AF}.Release|Win32.Build.0 = Release|Win32
+    EndGlobalSection
+    GlobalSection(SolutionProperties) = preSolution
+        HideSolutionNode = FALSE
+    EndGlobalSection
 EndGlobal

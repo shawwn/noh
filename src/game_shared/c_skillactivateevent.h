@@ -17,28 +17,28 @@ class ISkillItem;
 class CSkillActivateEvent
 {
 private:
-	ICombatEntity*	m_pOwner;
-	int				m_iSlot;
+    ICombatEntity*  m_pOwner;
+    int             m_iSlot;
 
-	bool			m_bActive;
-	uint			m_uiActivateTime;
-	bool			m_bActivated;
+    bool            m_bActive;
+    uint            m_uiActivateTime;
+    bool            m_bActivated;
 
 public:
-	~CSkillActivateEvent()	{}
-	CSkillActivateEvent();
+    ~CSkillActivateEvent()  {}
+    CSkillActivateEvent();
 
-	void	Clear();
+    void    Clear();
 
-	void	SetActive()								{ m_bActive = true; }
-	void	SetInactive()							{ m_bActive = false; }
-	bool	IsActive() const						{ return m_bActive; }
+    void    SetActive()                             { m_bActive = true; }
+    void    SetInactive()                           { m_bActive = false; }
+    bool    IsActive() const                        { return m_bActive; }
 
-	void	SetOwner(ICombatEntity *pOwner)			{ m_pOwner = pOwner; }
-	void	SetSlot(int iSlot)						{ m_iSlot = iSlot; }
-	void	SetActivateTime(uint uiActivateTime)	{ m_uiActivateTime = uiActivateTime; }
+    void    SetOwner(ICombatEntity *pOwner)         { m_pOwner = pOwner; }
+    void    SetSlot(int iSlot)                      { m_iSlot = iSlot; }
+    void    SetActivateTime(uint uiActivateTime)    { m_uiActivateTime = uiActivateTime; }
 
-	bool	TryImpact();
+    bool    TryImpact();
 };
 //=============================================================================
 

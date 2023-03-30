@@ -5,8 +5,8 @@
 
 typedef struct occluder_s
 {
-	int		numpoints;
-	CVec3f	points[_MAX_OCCLUDER_POINTS];
+    int     numpoints;
+    CVec3f  points[_MAX_OCCLUDER_POINTS];
 }
 occluder_t;
 

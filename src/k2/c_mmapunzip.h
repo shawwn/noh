@@ -32,50 +32,50 @@
 
 struct SArchiveLocalInfo
 {
-	unsigned int signature;
-	unsigned short minVersion;
-	unsigned short generalFlags;
-	unsigned short compression;
-	unsigned short lastModTime;
-	unsigned short lastModDate;
-	unsigned int crc32;
-	unsigned int compressed;
-	unsigned int uncompressed;
-	unsigned short filenameLength;
-	unsigned short extraLength;
+    unsigned int signature;
+    unsigned short minVersion;
+    unsigned short generalFlags;
+    unsigned short compression;
+    unsigned short lastModTime;
+    unsigned short lastModDate;
+    unsigned int crc32;
+    unsigned int compressed;
+    unsigned int uncompressed;
+    unsigned short filenameLength;
+    unsigned short extraLength;
 };
 
 struct SArchiveCentralInfo
 {
-	unsigned int signature;
-	unsigned short diskNum;
-	unsigned short diskNum2;
-	unsigned short numEntries;
-	unsigned short numEntries2;
-	unsigned int centralDirSize;
-	unsigned int centralDirOffset;
-	unsigned short commentLength;
+    unsigned int signature;
+    unsigned short diskNum;
+    unsigned short diskNum2;
+    unsigned short numEntries;
+    unsigned short numEntries2;
+    unsigned int centralDirSize;
+    unsigned int centralDirOffset;
+    unsigned short commentLength;
 };
 
 struct SArchiveFileInfo
 {
-	unsigned int signature;
-	unsigned short version;
-	unsigned short version2;
-	unsigned short bitflags;
-	unsigned short compression;
-	unsigned short lastmodTime;
-	unsigned short lastmodDate;
-	unsigned int crc32;
-	unsigned int compressed;
-	unsigned int uncompressed;
-	unsigned short filenameLength;
-	unsigned short extraLength;
-	unsigned short commentLength;
-	unsigned short diskNumberStart;
-	unsigned short internalAttrib;
-	unsigned int externalAttrib;
-	unsigned int relativeOffset;
+    unsigned int signature;
+    unsigned short version;
+    unsigned short version2;
+    unsigned short bitflags;
+    unsigned short compression;
+    unsigned short lastmodTime;
+    unsigned short lastmodDate;
+    unsigned int crc32;
+    unsigned int compressed;
+    unsigned int uncompressed;
+    unsigned short filenameLength;
+    unsigned short extraLength;
+    unsigned short commentLength;
+    unsigned short diskNumberStart;
+    unsigned short internalAttrib;
+    unsigned int externalAttrib;
+    unsigned int relativeOffset;
 };
 
 #ifdef _WIN32
@@ -87,24 +87,24 @@ struct SArchiveFileInfo
 // This structure is what's referenced in our hashmap
 struct SZippedFile
 {
-	uint		uiPos;
-	bool		bCompressed;
-	uint		uiSize;
-	uint		uiRawSize;
-	uint		uiCRC32;
+    uint        uiPos;
+    bool        bCompressed;
+    uint        uiSize;
+    uint        uiRawSize;
+    uint        uiCRC32;
 };
 
-typedef vector<SZippedFile>			ZFVector;
-typedef ZFVector::iterator			ZFVector_it;
-typedef ZFVector::const_iterator	ZFVector_cit;
-typedef ZFVector::reverse_iterator	ZFVector_rit;
+typedef vector<SZippedFile>         ZFVector;
+typedef ZFVector::iterator          ZFVector_it;
+typedef ZFVector::const_iterator    ZFVector_cit;
+typedef ZFVector::reverse_iterator  ZFVector_rit;
 
 typedef hash_map<tstring, SZippedFile*> ZFMap;
-typedef pair<tstring, SZippedFile*>		ZFMap_pair;
-typedef ZFMap::iterator					ZFMap_it;
-typedef ZFMap::const_iterator			ZFMap_cit;
+typedef pair<tstring, SZippedFile*>     ZFMap_pair;
+typedef ZFMap::iterator                 ZFMap_it;
+typedef ZFMap::const_iterator           ZFMap_cit;
 
-#define MAX_KEEPINMEM_SIZE	0
+#define MAX_KEEPINMEM_SIZE  0
 
 class CCompressedFile;
 //=============================================================================
@@ -115,41 +115,41 @@ class CCompressedFile;
 class CMMapUnzip
 {
 private:
-	// Here's our hashmap and the associated private function to add files to it
-	ZFMap		m_mapFiles;
-	tsvector	m_vFileNames;
+    // Here's our hashmap and the associated private function to add files to it
+    ZFMap       m_mapFiles;
+    tsvector    m_vFileNames;
 
-	// The Operating System-specific variables and functions because HANDLE is used under Windows...
-	#ifdef _WIN32
-	HANDLE			m_hFile;
-	HANDLE			m_hMappedFile;
-	#else
-	int				m_iFile;
-	#endif
+    // The Operating System-specific variables and functions because HANDLE is used under Windows...
+    #ifdef _WIN32
+    HANDLE          m_hFile;
+    HANDLE          m_hMappedFile;
+    #else
+    int             m_iFile;
+    #endif
 
-	const char*		m_pData; // NULL for "small mapped" resource archived
-	uint			m_uiSize;
+    const char*     m_pData; // NULL for "small mapped" resource archived
+    uint            m_uiSize;
 
-	bool			m_bMemory;
-	bool			m_bInitialized;
+    bool            m_bMemory;
+    bool            m_bInitialized;
 
-	void	Initialize();
-	uint	SearchCentralDir(SArchiveCentralInfo *pCentralInfo);
-	void	AddZippedFile(const tstring &sFilename, SArchiveFileInfo* info);
+    void    Initialize();
+    uint    SearchCentralDir(SArchiveCentralInfo *pCentralInfo);
+    void    AddZippedFile(const tstring &sFilename, SArchiveFileInfo* info);
 
 public:
-	CMMapUnzip(const tstring &sPath);
-	CMMapUnzip(const char *pBuffer, uint uiSize);
-	~CMMapUnzip();
+    CMMapUnzip(const tstring &sPath);
+    CMMapUnzip(const char *pBuffer, uint uiSize);
+    ~CMMapUnzip();
 
-	// Check if a specific file exists, or prevent it from being preloaded, etc.
-	inline const tsvector&	GetFileList()							{ return m_vFileNames; }
-	inline bool				FileExists(const tstring &sFilename)	{ return m_mapFiles.find(LowerString(sFilename)) != m_mapFiles.end(); }
+    // Check if a specific file exists, or prevent it from being preloaded, etc.
+    inline const tsvector&  GetFileList()                           { return m_vFileNames; }
+    inline bool             FileExists(const tstring &sFilename)    { return m_mapFiles.find(LowerString(sFilename)) != m_mapFiles.end(); }
 
-	// Possibly the most important function of them all: the one which actually opens files!
-	uint		OpenUnzipFile(const tstring &sFilename, char *&pBuffer);
+    // Possibly the most important function of them all: the one which actually opens files!
+    uint        OpenUnzipFile(const tstring &sFilename, char *&pBuffer);
 
-	uint		GetCompressedFile(const tstring &sFilename, CCompressedFile &cFile);
+    uint        GetCompressedFile(const tstring &sFilename, CCompressedFile &cFile);
 };
 //=============================================================================
 

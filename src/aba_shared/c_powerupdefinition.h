@@ -22,36 +22,36 @@ DECLARE_ENTITY_DEFINITION_XML_PROCESSOR(IPowerupEntity, Powerup, powerup)
 //=============================================================================
 class CPowerupDefinition : public IUnitDefinition
 {
-	DECLARE_DEFINITION_TYPE_INFO
+    DECLARE_DEFINITION_TYPE_INFO
 
-	ENT_DEF_RESOURCE_PROPERTY(TouchSound, Sample)
-	ENT_DEF_ARRAY_PROPERTY_EX(TouchTargetScheme, uint, Game.LookupTargetScheme)
+    ENT_DEF_RESOURCE_PROPERTY(TouchSound, Sample)
+    ENT_DEF_ARRAY_PROPERTY_EX(TouchTargetScheme, uint, Game.LookupTargetScheme)
 
 public:
-	~CPowerupDefinition()	{}
-	CPowerupDefinition() :
-	IUnitDefinition(&g_allocatorPowerup)
-	{}
+    ~CPowerupDefinition()   {}
+    CPowerupDefinition() :
+    IUnitDefinition(&g_allocatorPowerup)
+    {}
 
-	IEntityDefinition*	GetCopy() const	{ return K2_NEW(g_heapResources,    CPowerupDefinition)(*this); }
+    IEntityDefinition*  GetCopy() const { return K2_NEW(g_heapResources,    CPowerupDefinition)(*this); }
 
-	virtual void	Precache(EPrecacheScheme eScheme)
-	{
-		IUnitDefinition::Precache(eScheme);
+    virtual void    Precache(EPrecacheScheme eScheme)
+    {
+        IUnitDefinition::Precache(eScheme);
 
-		PRECACHE_GUARD
-			PrecacheTouchSound();
-		PRECACHE_GUARD_END
-	}
+        PRECACHE_GUARD
+            PrecacheTouchSound();
+        PRECACHE_GUARD_END
+    }
 
-	virtual void	GetPrecacheList(EPrecacheScheme eScheme, HeroPrecacheList &deqPrecache)
-	{
-		IUnitDefinition::GetPrecacheList(eScheme, deqPrecache);
+    virtual void    GetPrecacheList(EPrecacheScheme eScheme, HeroPrecacheList &deqPrecache)
+    {
+        IUnitDefinition::GetPrecacheList(eScheme, deqPrecache);
 
-		PRECACHE_GUARD
-			deqPrecache.push_back(SHeroPrecache(GetName(), eScheme));
-		PRECACHE_GUARD_END
-	}
+        PRECACHE_GUARD
+            deqPrecache.push_back(SHeroPrecache(GetName(), eScheme));
+        PRECACHE_GUARD_END
+    }
 };
 //=============================================================================
 

@@ -17,8 +17,8 @@
 //=============================================================================
 // Definitions
 //=============================================================================
-CVAR_STRINGF(host_screenshotFormat,		"jpg",	CVAR_SAVECONFIG);
-CVAR_INTF	(host_screenshotQuality,	90,		CVAR_SAVECONFIG);
+CVAR_STRINGF(host_screenshotFormat,     "jpg",  CVAR_SAVECONFIG);
+CVAR_INTF   (host_screenshotQuality,    90,     CVAR_SAVECONFIG);
 //=============================================================================
 
 /*--------------------
@@ -26,8 +26,8 @@ CVAR_INTF	(host_screenshotQuality,	90,		CVAR_SAVECONFIG);
   --------------------*/
 CMD(Echo)
 {
-	Console << ConcatinateArgs(vArgList) << newl;
-	return true;
+    Console << ConcatinateArgs(vArgList) << newl;
+    return true;
 }
 
 
@@ -36,8 +36,8 @@ CMD(Echo)
   --------------------*/
 CMD(ListMods)
 {
-	FileManager.ListMods();
-	return true;
+    FileManager.ListMods();
+    return true;
 }
 
 
@@ -46,11 +46,11 @@ CMD(ListMods)
   --------------------*/
 CMD(PushMod)
 {
-	if (vArgList.size() < 1)
-		return false;
+    if (vArgList.size() < 1)
+        return false;
 
-	FileManager.PushMod(vArgList[0]);
-	return true;
+    FileManager.PushMod(vArgList[0]);
+    return true;
 }
 
 
@@ -59,18 +59,18 @@ CMD(PushMod)
   --------------------*/
 ACTION_IMPULSE(Screenshot)
 {
-	tstring sFilename(FileManager.GetNextFileIncrement(4, _T("~/screenshots/shot"), host_screenshotFormat));
+    tstring sFilename(FileManager.GetNextFileIncrement(4, _T("~/screenshots/shot"), host_screenshotFormat));
 
-	CBitmap screenshot;
-	Vid.GetFrameBuffer(screenshot);
-	if (host_screenshotFormat == _T("png"))
-		screenshot.WritePNG(sFilename);
-	else if (host_screenshotFormat == _T("jpg"))
-		screenshot.WriteJPEG(sFilename, host_screenshotQuality);
-	else
-		return;
+    CBitmap screenshot;
+    Vid.GetFrameBuffer(screenshot);
+    if (host_screenshotFormat == _T("png"))
+        screenshot.WritePNG(sFilename);
+    else if (host_screenshotFormat == _T("jpg"))
+        screenshot.WriteJPEG(sFilename, host_screenshotQuality);
+    else
+        return;
 
-	Console << _T("Screenshot saved to: ") << sFilename << newl;
+    Console << _T("Screenshot saved to: ") << sFilename << newl;
 }
 
 
@@ -79,6 +79,6 @@ ACTION_IMPULSE(Screenshot)
   --------------------*/
 CMD(SystemError)
 {
-	K2System.Error(ConcatinateArgs(vArgList));
-	return true;
+    K2System.Error(ConcatinateArgs(vArgList));
+    return true;
 }

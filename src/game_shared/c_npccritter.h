@@ -17,11 +17,11 @@
 class CNpcCritter : public INpcEntity
 {
 private:
-	DECLARE_ENT_ALLOCATOR(Npc, Critter);
+    DECLARE_ENT_ALLOCATOR(Npc, Critter);
 
 public:
-	~CNpcCritter()	{}
-	CNpcCritter()	{}
+    ~CNpcCritter()  {}
+    CNpcCritter()   {}
 };
 //=============================================================================
 

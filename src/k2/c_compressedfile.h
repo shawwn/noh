@@ -17,23 +17,23 @@
 class CCompressedFile
 {
 private:
-	const char *m_pData;
-	
-	uint	m_uiCRC32;
-	uint	m_uiStoredSize;
-	uint	m_uiRawSize;
-	int		m_iLevel;
+    const char *m_pData;
+    
+    uint    m_uiCRC32;
+    uint    m_uiStoredSize;
+    uint    m_uiRawSize;
+    int     m_iLevel;
 
 public:
-	~CCompressedFile()	{}
-	CCompressedFile();
-	CCompressedFile(const char *pData, uint uiCRC32, uint uiStoredSize, uint uiRawSize, int iLevel);
+    ~CCompressedFile()  {}
+    CCompressedFile();
+    CCompressedFile(const char *pData, uint uiCRC32, uint uiStoredSize, uint uiRawSize, int iLevel);
 
-	const char*		GetData() const			{ return m_pData; }
-	uint			GetCRC32() const		{ return m_uiCRC32; }
-	uint			GetStoredSize() const	{ return m_uiStoredSize; }
-	uint			GetRawSize() const		{ return m_uiRawSize; }
-	int				GetLevel() const		{ return m_iLevel; }
+    const char*     GetData() const         { return m_pData; }
+    uint            GetCRC32() const        { return m_uiCRC32; }
+    uint            GetStoredSize() const   { return m_uiStoredSize; }
+    uint            GetRawSize() const      { return m_uiRawSize; }
+    int             GetLevel() const        { return m_iLevel; }
 };
 //=============================================================================
 

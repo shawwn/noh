@@ -35,5 +35,5 @@ CStatePlatemail::CStatePlatemail() :
 IEntityState(GetEntityConfig()),
 m_pEntityConfig(GetEntityConfig())
 {
-	m_modArmor.SetAdd(m_pEntityConfig->GetArmorAdd());
+    m_modArmor.SetAdd(m_pEntityConfig->GetArmorAdd());
 }

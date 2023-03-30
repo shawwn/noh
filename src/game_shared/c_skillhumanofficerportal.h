@@ -17,11 +17,11 @@
 class CSkillHumanOfficerPortal : public ISpellItem
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Skill, HumanOfficerPortal);
+    DECLARE_ENT_ALLOCATOR2(Skill, HumanOfficerPortal);
 
 public:
-	~CSkillHumanOfficerPortal() {}
-	CSkillHumanOfficerPortal() : ISpellItem(GetEntityConfig()) {}
+    ~CSkillHumanOfficerPortal() {}
+    CSkillHumanOfficerPortal() : ISpellItem(GetEntityConfig()) {}
 };
 //=============================================================================
 

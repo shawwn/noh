@@ -17,13 +17,13 @@
 class CBuildingPredatorDen : public IBuildingEntity
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Building, PredatorDen)
+    DECLARE_ENT_ALLOCATOR2(Building, PredatorDen)
 
 public:
-	~CBuildingPredatorDen()	{}
-	CBuildingPredatorDen() :
-	IBuildingEntity(GetEntityConfig())
-	{}
+    ~CBuildingPredatorDen() {}
+    CBuildingPredatorDen() :
+    IBuildingEntity(GetEntityConfig())
+    {}
 };
 //=============================================================================
 

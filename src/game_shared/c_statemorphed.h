@@ -17,27 +17,27 @@
 class CStateMorphed : public IEntityState
 {
 private:
-	static vector<SDataField>	*s_pvFields;
+    static vector<SDataField>   *s_pvFields;
 
-	START_ENTITY_CONFIG(IEntityState)
-	END_ENTITY_CONFIG
+    START_ENTITY_CONFIG(IEntityState)
+    END_ENTITY_CONFIG
 
-	CEntityConfig*	m_pEntityConfig;
+    CEntityConfig*  m_pEntityConfig;
 
-	DECLARE_ENT_ALLOCATOR2(State, Morphed)
+    DECLARE_ENT_ALLOCATOR2(State, Morphed)
 
 public:
-	~CStateMorphed()	{}
-	CStateMorphed();
+    ~CStateMorphed()    {}
+    CStateMorphed();
 
-	bool	IsDisguised() const		{ return true; }
+    bool    IsDisguised() const     { return true; }
 
-	// Network
-	GAME_SHARED_API virtual void	Baseline();
-	GAME_SHARED_API virtual void	GetSnapshot(CEntitySnapshot &snapshot) const;
-	GAME_SHARED_API virtual bool	ReadSnapshot(CEntitySnapshot &snapshot);
+    // Network
+    GAME_SHARED_API virtual void    Baseline();
+    GAME_SHARED_API virtual void    GetSnapshot(CEntitySnapshot &snapshot) const;
+    GAME_SHARED_API virtual bool    ReadSnapshot(CEntitySnapshot &snapshot);
 
-	static const vector<SDataField>&	GetTypeVector();
+    static const vector<SDataField>&    GetTypeVector();
 };
 //=============================================================================
 

@@ -19,10 +19,10 @@ class IEffectCmd
 protected:
 
 public:
-	virtual ~IEffectCmd() {};
-	IEffectCmd();
+    virtual ~IEffectCmd() {};
+    IEffectCmd();
 
-	virtual	bool	Execute(CEffectThread *pEffectThread, uint uiMilliseconds) = 0; // returns true for completion of command, false for pausing
+    virtual bool    Execute(CEffectThread *pEffectThread, uint uiMilliseconds) = 0; // returns true for completion of command, false for pausing
 };
 //=============================================================================
-#endif	//__I_EFFECTCMD_H__
+#endif  //__I_EFFECTCMD_H__

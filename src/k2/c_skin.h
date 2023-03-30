@@ -16,19 +16,19 @@ class IModel;
 //=============================================================================
 struct SSkinReference
 {
-	tstring			sMaterialName;	// Stores material filenames
-	ResHandle		hMaterial;		// Only allocated when the skin is used
+    tstring         sMaterialName;  // Stores material filenames
+    ResHandle       hMaterial;      // Only allocated when the skin is used
 
-	SSkinReference() :
-	hMaterial(INVALID_RESOURCE)
-	{
-	}
+    SSkinReference() :
+    hMaterial(INVALID_RESOURCE)
+    {
+    }
 
-	SSkinReference(const tstring &_sMaterialName) :
-	sMaterialName(_sMaterialName),
-	hMaterial(INVALID_RESOURCE)
-	{
-	}
+    SSkinReference(const tstring &_sMaterialName) :
+    sMaterialName(_sMaterialName),
+    hMaterial(INVALID_RESOURCE)
+    {
+    }
 };
 //=============================================================================
 
@@ -38,29 +38,29 @@ struct SSkinReference
 class CSkin
 {
 private:
-	bool					m_bLoaded;
+    bool                    m_bLoaded;
 
-	tstring					m_sName;
-	tstring					m_sBaseDir;
+    tstring                 m_sName;
+    tstring                 m_sBaseDir;
 
-	vector<SSkinReference>	m_vReferences;
+    vector<SSkinReference>  m_vReferences;
 
-	IModel*					m_pModel;
+    IModel*                 m_pModel;
 
 public:
-	K2_API ~CSkin();
+    K2_API ~CSkin();
 
-	K2_API CSkin();
-	K2_API CSkin(const tstring &sName, const tstring &sBaseDir, IModel *pModel);
+    K2_API CSkin();
+    K2_API CSkin(const tstring &sName, const tstring &sBaseDir, IModel *pModel);
 
-    const tstring&		GetName() const	{ return m_sName; }
+    const tstring&      GetName() const { return m_sName; }
 
-	K2_API void			LoadMaterials();
-	K2_API void			SetSkinRef(const tstring &sMaterialName);
-	K2_API void			SetSkinRef(const tstring &sMesh, const tstring &sMaterialName);
-	K2_API void			SetSkinRef(size_t zMesh, const tstring &sMaterialName);
+    K2_API void         LoadMaterials();
+    K2_API void         SetSkinRef(const tstring &sMaterialName);
+    K2_API void         SetSkinRef(const tstring &sMesh, const tstring &sMaterialName);
+    K2_API void         SetSkinRef(size_t zMesh, const tstring &sMaterialName);
 
-	ResHandle			GetMaterial(size_t zMesh);
+    ResHandle           GetMaterial(size_t zMesh);
 };
 //=============================================================================
 
@@ -72,9 +72,9 @@ public:
   CSkin::GetMaterial
   ====================*/
 inline
-ResHandle	CSkin::GetMaterial(size_t zMesh)
+ResHandle   CSkin::GetMaterial(size_t zMesh)
 {
-	return m_vReferences[zMesh].hMaterial;
+    return m_vReferences[zMesh].hMaterial;
 }
 //=============================================================================
 

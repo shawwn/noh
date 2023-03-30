@@ -34,101 +34,101 @@ m_buffer(40)
 /*====================
   CEventDirectory::GetSnapshot
   ====================*/
-void	CEventDirectory::GetSnapshot(CSnapshot &snapshot)
+void    CEventDirectory::GetSnapshot(CSnapshot &snapshot)
 {
-	for (deque<CGameEvent>::iterator it(m_deqEvents.begin()); it != m_deqEvents.end(); ++it)
-	{
-		it->GetBuffer(m_buffer);
-		snapshot.AddEventSnapshot(m_buffer);
-	}
+    for (deque<CGameEvent>::iterator it(m_deqEvents.begin()); it != m_deqEvents.end(); ++it)
+    {
+        it->GetBuffer(m_buffer);
+        snapshot.AddEventSnapshot(m_buffer);
+    }
 }
 
 
 /*====================
   CEventDirectory::Frame
   ====================*/
-void	CEventDirectory::Frame()
+void    CEventDirectory::Frame()
 {
-	deque<CGameEvent>::iterator it(m_deqEvents.begin());
+    deque<CGameEvent>::iterator it(m_deqEvents.begin());
 
-	while (it != m_deqEvents.end())
-	{
-		if (!it->Frame())
-		{
-			it->Clear();
-			it = m_deqEvents.erase(it);
-			continue;
-		}
-		it->AddToScene();
-		++it;
-	}
+    while (it != m_deqEvents.end())
+    {
+        if (!it->Frame())
+        {
+            it->Clear();
+            it = m_deqEvents.erase(it);
+            continue;
+        }
+        it->AddToScene();
+        ++it;
+    }
 }
 
 
 /*====================
   CEventDirectory::SynchNewEvents
   ====================*/
-void	CEventDirectory::SynchNewEvents()
+void    CEventDirectory::SynchNewEvents()
 {
-	deque<CGameEvent>::iterator it(m_deqEvents.begin());
+    deque<CGameEvent>::iterator it(m_deqEvents.begin());
 
-	while (it != m_deqEvents.end())
-	{
-		if (it->IsNew())
-		{
-			it->SynchWithEntity();
-			it->MarkAsOld();
-		}
-		++it;
-	}
+    while (it != m_deqEvents.end())
+    {
+        if (it->IsNew())
+        {
+            it->SynchWithEntity();
+            it->MarkAsOld();
+        }
+        ++it;
+    }
 }
 
 
 /*====================
   CEventDirectory::AddEvent
   ====================*/
-uint	CEventDirectory::AddEvent(const CGameEvent &ev)		
+uint    CEventDirectory::AddEvent(const CGameEvent &ev)     
 {
-	m_deqEvents.push_back(ev);
+    m_deqEvents.push_back(ev);
 
-	uint uiEvent(m_uiNextEvent);
-	m_deqEvents.back().SetIndex(uiEvent);
-	if (m_deqEvents.size() > MAX_ACTIVE_GAME_EVENTS)
-	{
-		m_deqEvents.front().Clear();
-		m_deqEvents.pop_front();
-	}
+    uint uiEvent(m_uiNextEvent);
+    m_deqEvents.back().SetIndex(uiEvent);
+    if (m_deqEvents.size() > MAX_ACTIVE_GAME_EVENTS)
+    {
+        m_deqEvents.front().Clear();
+        m_deqEvents.pop_front();
+    }
 
-	++m_uiNextEvent;
+    ++m_uiNextEvent;
 
-	return uiEvent;
+    return uiEvent;
 }
 
 
 /*====================
   CEventDirectory::DeleteEvent
   ====================*/
-void	CEventDirectory::DeleteEvent(uint uiEvent)		
+void    CEventDirectory::DeleteEvent(uint uiEvent)      
 {
-	for (deque<CGameEvent>::iterator it(m_deqEvents.begin()); it != m_deqEvents.end(); ++it)
-	{
-		if (it->GetIndex() == uiEvent)
-		{
-			it->Clear();
-			m_deqEvents.erase(it);
-			return;
-		}
-	}
+    for (deque<CGameEvent>::iterator it(m_deqEvents.begin()); it != m_deqEvents.end(); ++it)
+    {
+        if (it->GetIndex() == uiEvent)
+        {
+            it->Clear();
+            m_deqEvents.erase(it);
+            return;
+        }
+    }
 }
 
 
 /*====================
   CEventDirectory::Clear
   ====================*/
-void	CEventDirectory::Clear()
+void    CEventDirectory::Clear()
 {
-	for (deque<CGameEvent>::iterator it(m_deqEvents.begin()); it != m_deqEvents.end(); ++it)
-		it->Clear();
+    for (deque<CGameEvent>::iterator it(m_deqEvents.begin()); it != m_deqEvents.end(); ++it)
+        it->Clear();
 
-	m_deqEvents.clear();
+    m_deqEvents.clear();
 }

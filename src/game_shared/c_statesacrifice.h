@@ -17,29 +17,29 @@
 class CStateSacrifice : public IEntityState
 {
 private:
-	START_ENTITY_CONFIG(IEntityState)
-		DECLARE_ENTITY_CVAR(float, BlastRadius)
-		DECLARE_ENTITY_CVAR(float, BlastDamage)
-		DECLARE_ENTITY_CVAR(tstring, ExpiredEffectPath)
-		DECLARE_ENTITY_CVAR(float, SpeedMult)
-		DECLARE_ENTITY_CVAR(float, ArmorMult)
-		DECLARE_ENTITY_CVAR(float, ArmorAdd)
-		DECLARE_ENTITY_CVAR(float, StaminaRegenMult)
-	END_ENTITY_CONFIG
+    START_ENTITY_CONFIG(IEntityState)
+        DECLARE_ENTITY_CVAR(float, BlastRadius)
+        DECLARE_ENTITY_CVAR(float, BlastDamage)
+        DECLARE_ENTITY_CVAR(tstring, ExpiredEffectPath)
+        DECLARE_ENTITY_CVAR(float, SpeedMult)
+        DECLARE_ENTITY_CVAR(float, ArmorMult)
+        DECLARE_ENTITY_CVAR(float, ArmorAdd)
+        DECLARE_ENTITY_CVAR(float, StaminaRegenMult)
+    END_ENTITY_CONFIG
 
-	CEntityConfig*	m_pEntityConfig;
+    CEntityConfig*  m_pEntityConfig;
 
-	DECLARE_ENT_ALLOCATOR2(State, Sacrifice)
+    DECLARE_ENT_ALLOCATOR2(State, Sacrifice)
 
 public:
-	~CStateSacrifice()	{}
-	CStateSacrifice();
+    ~CStateSacrifice()  {}
+    CStateSacrifice();
 
-	void	Activated();
-	void	Expired();
+    void    Activated();
+    void    Expired();
 
-	static void		ClientPrecache(CEntityConfig *pConfig);
-	static void 	ServerPrecache(CEntityConfig *pConfig);
+    static void     ClientPrecache(CEntityConfig *pConfig);
+    static void     ServerPrecache(CEntityConfig *pConfig);
 };
 //=============================================================================
 

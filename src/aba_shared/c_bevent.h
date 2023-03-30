@@ -17,27 +17,27 @@
 class CBEvent : public IBehavior
 {
 private:
-	// Parameters calculated during setup frame
-	float	m_fDistSq;		
-	CVec2f	m_v2ApproachPosition;
-	float	m_fRange;
+    // Parameters calculated during setup frame
+    float   m_fDistSq;      
+    CVec2f  m_v2ApproachPosition;
+    float   m_fRange;
 
 public:
-	CBEvent() :
-	IBehavior(EBT_EVENT)
-	{}
+    CBEvent() :
+    IBehavior(EBT_EVENT)
+    {}
 
-	virtual void		CopyFrom(const IBehavior* pBehavior);
-	virtual IBehavior*	Clone(CBrain* pNewBrain, IUnitEntity* pNewSelf) const;
+    virtual void        CopyFrom(const IBehavior* pBehavior);
+    virtual IBehavior*  Clone(CBrain* pNewBrain, IUnitEntity* pNewSelf) const;
 
-	virtual bool	Validate();
-	virtual void	Update();
-	virtual void	BeginBehavior();
-	virtual void	ThinkFrame();
-	virtual void	MovementFrame();
-	virtual void	ActionFrame();
-	virtual void	CleanupFrame();
-	virtual void	EndBehavior();
+    virtual bool    Validate();
+    virtual void    Update();
+    virtual void    BeginBehavior();
+    virtual void    ThinkFrame();
+    virtual void    MovementFrame();
+    virtual void    ActionFrame();
+    virtual void    CleanupFrame();
+    virtual void    EndBehavior();
 };
 //=============================================================================
 

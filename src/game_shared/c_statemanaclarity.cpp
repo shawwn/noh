@@ -35,5 +35,5 @@ CStateManaClarity::CStateManaClarity() :
 IEntityState(GetEntityConfig()),
 m_pEntityConfig(GetEntityConfig())
 {
-	m_modManaRegen.SetAdd(m_pEntityConfig->GetManaRegenBoost());
+    m_modManaRegen.SetAdd(m_pEntityConfig->GetManaRegenBoost());
 }

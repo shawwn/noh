@@ -17,12 +17,12 @@
 class CSkillShieldGenerator : public ISpellItem
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Skill, ShieldGenerator);
+    DECLARE_ENT_ALLOCATOR2(Skill, ShieldGenerator);
 
 public:
-	~CSkillShieldGenerator() {}
-	CSkillShieldGenerator() :
-	ISpellItem(GetEntityConfig()) {}
+    ~CSkillShieldGenerator() {}
+    CSkillShieldGenerator() :
+    ISpellItem(GetEntityConfig()) {}
 };
 //=============================================================================
 

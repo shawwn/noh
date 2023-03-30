@@ -16,7 +16,7 @@
 //=============================================================================
 enum EGadgetShieldCounters
 {
-	SHIELD_COUNTER_SHOTS_DEFLECTED
+    SHIELD_COUNTER_SHOTS_DEFLECTED
 };
 //=============================================================================
 
@@ -26,36 +26,36 @@ enum EGadgetShieldCounters
 class CGadgetShieldGenerator : public IGadgetEntity
 {
 private:
-	START_ENTITY_CONFIG(IGadgetEntity)
-		DECLARE_ENTITY_CVAR(tstring, ShieldSurfaceModelPath)
-	END_ENTITY_CONFIG
+    START_ENTITY_CONFIG(IGadgetEntity)
+        DECLARE_ENTITY_CVAR(tstring, ShieldSurfaceModelPath)
+    END_ENTITY_CONFIG
 
-	CEntityConfig*	m_pEntityConfig;
+    CEntityConfig*  m_pEntityConfig;
 
-	DECLARE_ENT_ALLOCATOR2(Gadget, ShieldGenerator)
+    DECLARE_ENT_ALLOCATOR2(Gadget, ShieldGenerator)
 
-	uint		m_uiShieldSurfaceWorldIndex;
-	ResHandle	m_hShieldSurfaceModel;
-	uiset		m_setReflected;
+    uint        m_uiShieldSurfaceWorldIndex;
+    ResHandle   m_hShieldSurfaceModel;
+    uiset       m_setReflected;
 
 public:
-	~CGadgetShieldGenerator();
-	CGadgetShieldGenerator();
+    ~CGadgetShieldGenerator();
+    CGadgetShieldGenerator();
 
-	void	Baseline();
-	void	Spawn();
+    void    Baseline();
+    void    Spawn();
 
-	void	Link();
-	void	Unlink();
+    void    Link();
+    void    Unlink();
 
-	bool	Impact(STraceInfo &trace, IVisualEntity *pSource);
+    bool    Impact(STraceInfo &trace, IVisualEntity *pSource);
 
-	void	Copy(const IGameEntity &B);
+    void    Copy(const IGameEntity &B);
 
-	static void			ClientPrecache(CEntityConfig *pConfig);
-	static void			ServerPrecache(CEntityConfig *pConfig);
+    static void         ClientPrecache(CEntityConfig *pConfig);
+    static void         ServerPrecache(CEntityConfig *pConfig);
 
-	void				Hit(CVec3f v3Pos, CVec3f v3Angle, EEntityHitByType eHitBy = ENTITY_HIT_BY_RANGED)	{}
+    void                Hit(CVec3f v3Pos, CVec3f v3Angle, EEntityHitByType eHitBy = ENTITY_HIT_BY_RANGED)   {}
 };
 //=============================================================================
 

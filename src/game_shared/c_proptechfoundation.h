@@ -17,11 +17,11 @@
 class CPropTechFoundation : public IPropFoundation
 {
 private:
-	DECLARE_ENT_ALLOCATOR(Prop, TechFoundation);
+    DECLARE_ENT_ALLOCATOR(Prop, TechFoundation);
 
 public:
-	~CPropTechFoundation()	{}
-	CPropTechFoundation()	{}
+    ~CPropTechFoundation()  {}
+    CPropTechFoundation()   {}
 };
 //=============================================================================
 

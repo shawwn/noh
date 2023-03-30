@@ -17,13 +17,13 @@
 class CSkillVenomous : public ISkillMelee
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Skill, Venomous)
+    DECLARE_ENT_ALLOCATOR2(Skill, Venomous)
 
 public:
-	~CSkillVenomous()	{}
-	CSkillVenomous() :
-	ISkillMelee(GetEntityConfig())
-	{}
+    ~CSkillVenomous()   {}
+    CSkillVenomous() :
+    ISkillMelee(GetEntityConfig())
+    {}
 };
 //=============================================================================
 

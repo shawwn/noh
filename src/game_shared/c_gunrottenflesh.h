@@ -17,22 +17,22 @@
 class CGunRottenFlesh : public IGunItem
 {
 private:
-	START_ENTITY_CONFIG(IGunItem)
-		DECLARE_ENTITY_CVAR(uint, AmmoPerCorpse)
-	END_ENTITY_CONFIG
+    START_ENTITY_CONFIG(IGunItem)
+        DECLARE_ENTITY_CVAR(uint, AmmoPerCorpse)
+    END_ENTITY_CONFIG
 
-	CEntityConfig*	m_pEntityConfig;
+    CEntityConfig*  m_pEntityConfig;
 
-	DECLARE_ENT_ALLOCATOR2(Gun, RottenFlesh);
+    DECLARE_ENT_ALLOCATOR2(Gun, RottenFlesh);
 
 public:
-	~CGunRottenFlesh()	{}
-	CGunRottenFlesh() :
-	IGunItem(GetEntityConfig()),
-	m_pEntityConfig(GetEntityConfig())
-	{}
+    ~CGunRottenFlesh()  {}
+    CGunRottenFlesh() :
+    IGunItem(GetEntityConfig()),
+    m_pEntityConfig(GetEntityConfig())
+    {}
 
-	void		ConsumeCorpse();
+    void        ConsumeCorpse();
 };
 //=============================================================================
 

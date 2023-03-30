@@ -17,11 +17,11 @@
 class CPetEngineer : public IPetEntity
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Pet, Engineer);
+    DECLARE_ENT_ALLOCATOR2(Pet, Engineer);
 
 public:
-	~CPetEngineer()	{}
-	CPetEngineer() : IPetEntity(GetEntityConfig()) {}
+    ~CPetEngineer() {}
+    CPetEngineer() : IPetEntity(GetEntityConfig()) {}
 };
 //=============================================================================
 

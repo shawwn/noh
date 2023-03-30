@@ -17,13 +17,13 @@
 class CMeleeHammer2 : public IMeleeItem
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Melee, Hammer2);
+    DECLARE_ENT_ALLOCATOR2(Melee, Hammer2);
 
 public:
-	~CMeleeHammer2()	{}
-	CMeleeHammer2() :
-	IMeleeItem(GetEntityConfig())
-	{}
+    ~CMeleeHammer2()    {}
+    CMeleeHammer2() :
+    IMeleeItem(GetEntityConfig())
+    {}
 };
 //=============================================================================
 

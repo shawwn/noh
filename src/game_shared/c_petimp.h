@@ -17,11 +17,11 @@
 class CPetImp : public IPetEntity
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Pet, Imp);
+    DECLARE_ENT_ALLOCATOR2(Pet, Imp);
 
 public:
-	~CPetImp()	{}
-	CPetImp() : IPetEntity(GetEntityConfig()) {}
+    ~CPetImp()  {}
+    CPetImp() : IPetEntity(GetEntityConfig()) {}
 };
 //=============================================================================
 

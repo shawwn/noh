@@ -17,11 +17,11 @@
 class CPetBatteringRam : public IPetEntity
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Pet, BatteringRam);
+    DECLARE_ENT_ALLOCATOR2(Pet, BatteringRam);
 
 public:
-	~CPetBatteringRam()	{}
-	CPetBatteringRam() : IPetEntity(GetEntityConfig()) {}
+    ~CPetBatteringRam() {}
+    CPetBatteringRam() : IPetEntity(GetEntityConfig()) {}
 };
 //=============================================================================
 

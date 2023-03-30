@@ -23,25 +23,25 @@ class CWorld;
 class CVertexTangentMap : public IWorldComponent
 {
 private:
-	CVec3f*			m_pVertexTangents;
+    CVec3f*         m_pVertexTangents;
 
-	CVec3f	GetFaceTangent(const CVec3f &v0, const CVec3f &v1, const CVec3f &v2, const CVec2f &t0, const CVec2f t1, const CVec2f t2);
-	void	CalculateVertexTangent(int iX, int iY);
+    CVec3f  GetFaceTangent(const CVec3f &v0, const CVec3f &v1, const CVec3f &v2, const CVec2f &t0, const CVec2f t1, const CVec2f t2);
+    void    CalculateVertexTangent(int iX, int iY);
 
 public:
-	~CVertexTangentMap();
-	CVertexTangentMap(EWorldComponent eComponent);
+    ~CVertexTangentMap();
+    CVertexTangentMap(EWorldComponent eComponent);
 
-	bool	Save(CArchive &archive)		{ return true; }
-	bool	Load(CArchive &archive, const CWorld *pWorld);
-	bool	Generate(const CWorld *pWorld);
-	void	Release();
-	void	Update(const CRecti &recArea);
+    bool    Save(CArchive &archive)     { return true; }
+    bool    Load(CArchive &archive, const CWorld *pWorld);
+    bool    Generate(const CWorld *pWorld);
+    void    Release();
+    void    Update(const CRecti &recArea);
 
-	bool	GetRegion(int iStartX, int iStartY, int iWidth, int iHeight, void *pDest, int iDestSize, int iLayer) const;
-	bool	SetRegion(int iStartX, int iStartY, int iWidth, int iHeight, void *pSource, int iSourceSize, int iLayer);
+    bool    GetRegion(int iStartX, int iStartY, int iWidth, int iHeight, void *pDest, int iDestSize, int iLayer) const;
+    bool    SetRegion(int iStartX, int iStartY, int iWidth, int iHeight, void *pSource, int iSourceSize, int iLayer);
 
-	K2_API const CVec3f&	GetVertexTangent(int iX, int iY);
+    K2_API const CVec3f&    GetVertexTangent(int iX, int iY);
 };
 //=============================================================================
 

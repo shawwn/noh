@@ -14,7 +14,7 @@
 //=============================================================================
 // Definitions
 //=============================================================================
-typedef EntityStateScript	vector<class CEntityStateInstruction>;
+typedef EntityStateScript   vector<class CEntityStateInstruction>;
 //=============================================================================
 
 //=============================================================================
@@ -23,11 +23,11 @@ typedef EntityStateScript	vector<class CEntityStateInstruction>;
 class CEntityStateInstruction
 {
 private:
-	tstring		m_sName;
+    tstring     m_sName;
 
 public:
-	~CEntityStateInstruction()	{}
-	CEntityStateInstruction()	{}
+    ~CEntityStateInstruction()  {}
+    CEntityStateInstruction()   {}
 };
 //=============================================================================
 
@@ -37,15 +37,15 @@ public:
 class CEntityStateDefinition
 {
 private:
-	tstring				m_sName;
+    tstring             m_sName;
 
-	EntityStateScript	m_scriptStart;
-	EntityStateScript	m_scriptFrame;
-	EntityStateScript	m_scriptEnd;
+    EntityStateScript   m_scriptStart;
+    EntityStateScript   m_scriptFrame;
+    EntityStateScript   m_scriptEnd;
 
 public:
-	~CEntityStateDefinition()	{}
-	CEntityStateDefinition()	{}
+    ~CEntityStateDefinition()   {}
+    CEntityStateDefinition()    {}
 };
 //=============================================================================
 
@@ -55,19 +55,19 @@ public:
 class CEntityState : public IGameEntity
 {
 private:
-	uint	m_uiTarget;
-	uint	m_uiOwner;
-	uint	m_uiCreationTime;
-	uint	m_uiDuration;
+    uint    m_uiTarget;
+    uint    m_uiOwner;
+    uint    m_uiCreationTime;
+    uint    m_uiDuration;
 
-	CEntityStateDefinition*	m_pDefinition;
+    CEntityStateDefinition* m_pDefinition;
 
 public:
-	~CEntityState()	{}
-	CEntityState()	{}
+    ~CEntityState() {}
+    CEntityState()  {}
 
-	void	Spawn()	{}
-	bool	ServerFrame()	{ return true; }
+    void    Spawn() {}
+    bool    ServerFrame()   { return true; }
 };
 //=============================================================================
 

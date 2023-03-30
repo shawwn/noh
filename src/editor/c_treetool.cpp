@@ -16,7 +16,7 @@
 //=============================================================================
 // Globals
 //=============================================================================
-CTreeTool	g_TreeTool;
+CTreeTool   g_TreeTool;
 //=============================================================================
 
 
@@ -40,7 +40,7 @@ ITool("tree")
 /*====================
   CTreeTool::PrimaryUp
   ====================*/
-void	CTreeTool::PrimaryUp()
+void    CTreeTool::PrimaryUp()
 {
 }
 
@@ -48,7 +48,7 @@ void	CTreeTool::PrimaryUp()
 /*====================
   CTreeTool::PrimaryDown
   ====================*/
-void	CTreeTool::PrimaryDown()
+void    CTreeTool::PrimaryDown()
 {
 }
 
@@ -56,7 +56,7 @@ void	CTreeTool::PrimaryDown()
 /*====================
   CTreeTool::SecondaryUp
   ====================*/
-void	CTreeTool::SecondaryUp()
+void    CTreeTool::SecondaryUp()
 {
 }
 
@@ -64,7 +64,7 @@ void	CTreeTool::SecondaryUp()
 /*====================
   CTreeTool::SecondaryDown
   ====================*/
-void	CTreeTool::SecondaryDown()
+void    CTreeTool::SecondaryDown()
 {
 }
 
@@ -72,7 +72,7 @@ void	CTreeTool::SecondaryDown()
 /*====================
   CTreeTool::TertiaryUp
   ====================*/
-void	CTreeTool::TertiaryUp()
+void    CTreeTool::TertiaryUp()
 {
 }
 
@@ -80,7 +80,7 @@ void	CTreeTool::TertiaryUp()
 /*====================
   CTreeTool::TertiaryDown
   ====================*/
-void	CTreeTool::TertiaryDown()
+void    CTreeTool::TertiaryDown()
 {
 }
 
@@ -88,7 +88,7 @@ void	CTreeTool::TertiaryDown()
 /*====================
   CTreeTool::QuaternaryUp
   ====================*/
-void	CTreeTool::QuaternaryUp()
+void    CTreeTool::QuaternaryUp()
 {
 }
 
@@ -96,7 +96,7 @@ void	CTreeTool::QuaternaryUp()
 /*====================
   CTreeTool::QuaternaryDown
   ====================*/
-void	CTreeTool::QuaternaryDown()
+void    CTreeTool::QuaternaryDown()
 {
 }
 
@@ -104,7 +104,7 @@ void	CTreeTool::QuaternaryDown()
 /*====================
   CTreeTool::Frame
   ====================*/
-void	CTreeTool::Frame(float fFrameTime)
+void    CTreeTool::Frame(float fFrameTime)
 {
 }
 
@@ -112,7 +112,7 @@ void	CTreeTool::Frame(float fFrameTime)
 /*====================
   CTreeTool::Delete
   ====================*/
-void	CTreeTool::Delete()
+void    CTreeTool::Delete()
 {
 }
 
@@ -120,7 +120,7 @@ void	CTreeTool::Delete()
 /*====================
   CTreeTool::Cancel
   ====================*/
-void	CTreeTool::Cancel()
+void    CTreeTool::Cancel()
 {
 }
 

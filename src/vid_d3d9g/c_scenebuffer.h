@@ -29,32 +29,32 @@ const bool vid_sceneBufferMipmap(true);
 class CSceneBuffer
 {
 private:
-	bool					m_bActive;
+    bool                    m_bActive;
 
-	uint					m_uiWidth;
-	uint					m_uiHeight;
-	
-	int						m_iSceneBuffer;
-	IDirect3DTexture9		*m_pSceneBuffer;
-	IDirect3DSurface9		*m_pSceneBufferSurface;
-	ResHandle				m_hSceneBufferTexture;
+    uint                    m_uiWidth;
+    uint                    m_uiHeight;
+    
+    int                     m_iSceneBuffer;
+    IDirect3DTexture9       *m_pSceneBuffer;
+    IDirect3DSurface9       *m_pSceneBufferSurface;
+    ResHandle               m_hSceneBufferTexture;
 
 public:
-	~CSceneBuffer();
-	CSceneBuffer();
+    ~CSceneBuffer();
+    CSceneBuffer();
 
-	bool	GetActive()				{ return m_bActive; }
-	uint	GetWidth()				{ return m_uiWidth; }
-	uint	GetHeight()				{ return m_uiHeight; }
-	int		GetTextureIndex()		{ return m_iSceneBuffer; }
+    bool    GetActive()             { return m_bActive; }
+    uint    GetWidth()              { return m_uiWidth; }
+    uint    GetHeight()             { return m_uiHeight; }
+    int     GetTextureIndex()       { return m_iSceneBuffer; }
 
-	void	Initialize(int iWidth, int iHeight);
-	void	Release();
-	
-	void	Render();
+    void    Initialize(int iWidth, int iHeight);
+    void    Release();
+    
+    void    Render();
 };
 
-extern CSceneBuffer	g_SceneBuffer;
+extern CSceneBuffer g_SceneBuffer;
 //=============================================================================
 
 #endif //__C_SCENEBUFFER_H__

@@ -17,13 +17,13 @@
 class CPlayerSteambuchet : public IPlayerEntity
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Player, Steambuchet);
+    DECLARE_ENT_ALLOCATOR2(Player, Steambuchet);
 
 public:
-	~CPlayerSteambuchet()	{}
-	CPlayerSteambuchet();
+    ~CPlayerSteambuchet()   {}
+    CPlayerSteambuchet();
 
-	void	Move(const CClientSnapshot &snapshot)	{ MoveWalk(snapshot); }
+    void    Move(const CClientSnapshot &snapshot)   { MoveWalk(snapshot); }
 };
 //=============================================================================
 

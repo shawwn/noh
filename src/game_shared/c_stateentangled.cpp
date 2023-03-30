@@ -34,5 +34,5 @@ CStateEntangled::CStateEntangled() :
 IEntityState(GetEntityConfig()),
 m_pEntityConfig(GetEntityConfig())
 {
-	m_modSpeed.SetMult(0.0f);
+    m_modSpeed.SetMult(0.0f);
 }

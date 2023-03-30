@@ -22,20 +22,20 @@
 class CEntityLaneNode : public IVisualEntity
 {
 protected:
-	DECLARE_ENT_ALLOCATOR2(Entity, LaneNode);
+    DECLARE_ENT_ALLOCATOR2(Entity, LaneNode);
 
-	tstring		m_sTarget;
+    tstring     m_sTarget;
 
 public:
-	~CEntityLaneNode()	{}
-	CEntityLaneNode()	{}
+    ~CEntityLaneNode()  {}
+    CEntityLaneNode()   {}
 
-	virtual bool		IsServerEntity() const			{ return true; }
+    virtual bool        IsServerEntity() const          { return true; }
 
-	void	ApplyWorldEntity(const CWorldEntity &ent);
+    void    ApplyWorldEntity(const CWorldEntity &ent);
 
-	void			SetTarget(const tstring &sTarget)	{ m_sTarget = sTarget; }
-	const tstring&	GetTarget() const					{ return m_sTarget; }
+    void            SetTarget(const tstring &sTarget)   { m_sTarget = sTarget; }
+    const tstring&  GetTarget() const                   { return m_sTarget; }
 };
 //=============================================================================
 

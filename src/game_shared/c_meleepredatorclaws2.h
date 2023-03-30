@@ -1,4 +1,4 @@
-	// (C)2007 S2 Games
+    // (C)2007 S2 Games
 // c_meleepredatorclaws2.h
 //
 //=============================================================================
@@ -17,13 +17,13 @@
 class CMeleePredatorClaws2 : public IMeleeItem
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Melee, PredatorClaws2);
+    DECLARE_ENT_ALLOCATOR2(Melee, PredatorClaws2);
 
 public:
-	~CMeleePredatorClaws2()	{}
-	CMeleePredatorClaws2() :
-	IMeleeItem(GetEntityConfig())
-	{}
+    ~CMeleePredatorClaws2() {}
+    CMeleePredatorClaws2() :
+    IMeleeItem(GetEntityConfig())
+    {}
 };
 //=============================================================================
 

@@ -17,12 +17,12 @@
 class CSkillAmmoDepot : public ISpellItem
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Skill, AmmoDepot);
+    DECLARE_ENT_ALLOCATOR2(Skill, AmmoDepot);
 
 public:
-	~CSkillAmmoDepot() {}
-	CSkillAmmoDepot() :
-	ISpellItem(GetEntityConfig()) {}
+    ~CSkillAmmoDepot() {}
+    CSkillAmmoDepot() :
+    ISpellItem(GetEntityConfig()) {}
 };
 //=============================================================================
 

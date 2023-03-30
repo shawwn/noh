@@ -17,12 +17,12 @@
 class CConsumablePlatemail : public IConsumableItem
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Consumable, Platemail);
+    DECLARE_ENT_ALLOCATOR2(Consumable, Platemail);
 
 public:
-	~CConsumablePlatemail() {}
-	CConsumablePlatemail() :
-	IConsumableItem(GetEntityConfig()) {}
+    ~CConsumablePlatemail() {}
+    CConsumablePlatemail() :
+    IConsumableItem(GetEntityConfig()) {}
 };
 //=============================================================================
 

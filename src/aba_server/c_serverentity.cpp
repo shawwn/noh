@@ -33,20 +33,20 @@ IGameEntity(eType)
 CServerEntity::CServerEntity(EGameEntType eType, const CWorldEntity *worldEnt) :
 IGameEntity(eType)
 {
-	m_uiWorldIndex = worldEnt->GetIndex();
+    m_uiWorldIndex = worldEnt->GetIndex();
 
-	m_v3Position = worldEnt->GetOrigin();
-	m_v3Angles = worldEnt->GetAngles();
-	m_fScale = worldEnt->GetScale();
+    m_v3Position = worldEnt->GetOrigin();
+    m_v3Angles = worldEnt->GetAngles();
+    m_fScale = worldEnt->GetScale();
 
-	m_hModel = worldEnt->GetModelHandle();
+    m_hModel = worldEnt->GetModelHandle();
 }
 
 
 /*====================
   CServerEntity::GetUpdateData
   ====================*/
-void	CServerEntity::GetUpdateData(CBufferDynamic &buffer) const
+void    CServerEntity::GetUpdateData(CBufferDynamic &buffer) const
 {
-	buffer << m_v3Position << m_v3Angles << m_fScale << m_hModel;
+    buffer << m_v3Position << m_v3Angles << m_fScale << m_hModel;
 }

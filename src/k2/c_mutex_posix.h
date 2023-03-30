@@ -18,53 +18,53 @@
 //=============================================================================
 class CK2Mutex
 {
-	// Prevent copying
-	CK2Mutex(const CK2Mutex &cMtx)	{}
-	void	operator=(CK2Mutex &cMtx)	{}
+    // Prevent copying
+    CK2Mutex(const CK2Mutex &cMtx)  {}
+    void    operator=(CK2Mutex &cMtx)   {}
 
 private:
-	// Member variables
-	mutable pthread_mutex_t		m_hHandle;
+    // Member variables
+    mutable pthread_mutex_t     m_hHandle;
 
 public:
-	// Constructor
-	CK2Mutex()
-	{
-		pthread_mutexattr_t attr;
-		pthread_mutexattr_init(&attr);
-		pthread_mutexattr_settype(&attr, PTHREAD_MUTEX_RECURSIVE);
-		pthread_mutex_init(&m_hHandle, &attr);
-		pthread_mutexattr_destroy(&attr);
-	}
+    // Constructor
+    CK2Mutex()
+    {
+        pthread_mutexattr_t attr;
+        pthread_mutexattr_init(&attr);
+        pthread_mutexattr_settype(&attr, PTHREAD_MUTEX_RECURSIVE);
+        pthread_mutex_init(&m_hHandle, &attr);
+        pthread_mutexattr_destroy(&attr);
+    }
 
 
-	// Destructor
-	virtual	~CK2Mutex()
-	{
-		pthread_mutex_unlock(&m_hHandle);
-		pthread_mutex_destroy(&m_hHandle);
-	}
+    // Destructor
+    virtual ~CK2Mutex()
+    {
+        pthread_mutex_unlock(&m_hHandle);
+        pthread_mutex_destroy(&m_hHandle);
+    }
 
 
-	// Lock
-	int		Lock() const
-	{
-		return pthread_mutex_lock(&m_hHandle);
-	}
+    // Lock
+    int     Lock() const
+    {
+        return pthread_mutex_lock(&m_hHandle);
+    }
 
 
-	// Lock_Try
-	int		Lock_Try() const
-	{
-		return pthread_mutex_trylock(&m_hHandle);
-	}
+    // Lock_Try
+    int     Lock_Try() const
+    {
+        return pthread_mutex_trylock(&m_hHandle);
+    }
 
 
-	// Unlock
-	int		Unlock() const
-	{
-		return pthread_mutex_unlock(&m_hHandle);
-	}
+    // Unlock
+    int     Unlock() const
+    {
+        return pthread_mutex_unlock(&m_hHandle);
+    }
 };
 //=============================================================================
 

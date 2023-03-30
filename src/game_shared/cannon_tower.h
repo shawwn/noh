@@ -17,12 +17,12 @@
 class CBuildingCannonTower : public IBuildingEntity
 {
 private:
-	DECLARE_ENT_ALLOCATOR(Building, CannonTower);
-	DECLARE_ENTITY_CVARS
+    DECLARE_ENT_ALLOCATOR(Building, CannonTower);
+    DECLARE_ENTITY_CVARS
 
 public:
-	~CBuildingCannonTower()	{}
-	CBuildingCannonTower()	{}
+    ~CBuildingCannonTower() {}
+    CBuildingCannonTower()  {}
 };
 //=============================================================================
 

@@ -41,13 +41,13 @@ m_pEntityConfig(GetEntityConfig())
 /*====================
   CStateCommanderHeal::StateFrame
   ====================*/
-void	CStateCommanderHeal::StateFrame()
+void    CStateCommanderHeal::StateFrame()
 {
-	IEntityState::StateFrame();
+    IEntityState::StateFrame();
 
-	IVisualEntity *pOwner(Game.GetVisualEntity(m_uiOwnerIndex));
-	if (pOwner == NULL)
-		return;
+    IVisualEntity *pOwner(Game.GetVisualEntity(m_uiOwnerIndex));
+    if (pOwner == NULL)
+        return;
 
-	pOwner->Heal(m_pEntityConfig->GetHealthPerSecond() * MsToSec(Game.GetFrameLength()), Game.GetVisualEntity(m_uiInflictorIndex));
+    pOwner->Heal(m_pEntityConfig->GetHealthPerSecond() * MsToSec(Game.GetFrameLength()), Game.GetVisualEntity(m_uiInflictorIndex));
 }

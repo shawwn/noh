@@ -36,8 +36,8 @@
   --------------------*/
 SHADER_VAR(mWorldViewProj)
 {
-	glUniformMatrix4fvARB(iLocation, 1, GL_FALSE, (GLfloat *)&g_mWorldViewProj);
-	return true;
+    glUniformMatrix4fvARB(iLocation, 1, GL_FALSE, (GLfloat *)&g_mWorldViewProj);
+    return true;
 }
 
 /*--------------------
@@ -45,8 +45,8 @@ SHADER_VAR(mWorldViewProj)
   --------------------*/
 SHADER_VAR(mView)
 {
-	glUniformMatrix4fvARB(iLocation, 1, GL_FALSE, (GLfloat *)&g_mView);
-	return true;
+    glUniformMatrix4fvARB(iLocation, 1, GL_FALSE, (GLfloat *)&g_mView);
+    return true;
 }
 
 /*--------------------
@@ -54,8 +54,8 @@ SHADER_VAR(mView)
   --------------------*/
 SHADER_VAR(mProj)
 {
-	glUniformMatrix4fvARB(iLocation, 1, GL_FALSE, (GLfloat *)&g_mProj);
-	return true;
+    glUniformMatrix4fvARB(iLocation, 1, GL_FALSE, (GLfloat *)&g_mProj);
+    return true;
 }
 
 /*--------------------
@@ -63,8 +63,8 @@ SHADER_VAR(mProj)
   --------------------*/
 SHADER_VAR(mWorld)
 {
-	glUniformMatrix4fvARB(iLocation, 1, GL_FALSE, (GLfloat *)&g_mWorld);
-	return true;
+    glUniformMatrix4fvARB(iLocation, 1, GL_FALSE, (GLfloat *)&g_mWorld);
+    return true;
 }
 
 
@@ -73,15 +73,15 @@ SHADER_VAR(mWorld)
   --------------------*/
 SHADER_VAR(mWorldRotate)
 {
-	float mat3[9] = 
-	{
-		g_mWorldRotate[0], g_mWorldRotate[1], g_mWorldRotate[2],
-		g_mWorldRotate[4], g_mWorldRotate[5], g_mWorldRotate[6],
-		g_mWorldRotate[8], g_mWorldRotate[9], g_mWorldRotate[10]
-	};
+    float mat3[9] = 
+    {
+        g_mWorldRotate[0], g_mWorldRotate[1], g_mWorldRotate[2],
+        g_mWorldRotate[4], g_mWorldRotate[5], g_mWorldRotate[6],
+        g_mWorldRotate[8], g_mWorldRotate[9], g_mWorldRotate[10]
+    };
 
-	glUniformMatrix3fvARB(iLocation, 1, GL_FALSE, (GLfloat *)&mat3);
-	return true;
+    glUniformMatrix3fvARB(iLocation, 1, GL_FALSE, (GLfloat *)&mat3);
+    return true;
 }
 
 
@@ -90,17 +90,17 @@ SHADER_VAR(mWorldRotate)
   --------------------*/
 SHADER_VAR(mWorldViewRotate)
 {
-	D3DXMATRIXA16 mWorldViewRotate = g_mWorldRotate * g_mViewRotate;
+    D3DXMATRIXA16 mWorldViewRotate = g_mWorldRotate * g_mViewRotate;
 
-	float mat3[9] = 
-	{
-		mWorldViewRotate[0], mWorldViewRotate[1], mWorldViewRotate[2],
-		mWorldViewRotate[4], mWorldViewRotate[5], mWorldViewRotate[6],
-		mWorldViewRotate[8], mWorldViewRotate[9], mWorldViewRotate[10]
-	};
+    float mat3[9] = 
+    {
+        mWorldViewRotate[0], mWorldViewRotate[1], mWorldViewRotate[2],
+        mWorldViewRotate[4], mWorldViewRotate[5], mWorldViewRotate[6],
+        mWorldViewRotate[8], mWorldViewRotate[9], mWorldViewRotate[10]
+    };
 
-	glUniformMatrix3fvARB(iLocation, 1, GL_FALSE, (GLfloat *)&mat3);
-	return true;
+    glUniformMatrix3fvARB(iLocation, 1, GL_FALSE, (GLfloat *)&mat3);
+    return true;
 }
 
 
@@ -109,10 +109,10 @@ SHADER_VAR(mWorldViewRotate)
   --------------------*/
 SHADER_VAR(mWorldViewOffset)
 {
-	D3DXMATRIXA16 mWorldViewOffset = g_mWorld * g_mViewOffset;
+    D3DXMATRIXA16 mWorldViewOffset = g_mWorld * g_mViewOffset;
 
-	glUniformMatrix4fvARB(iLocation, 1, GL_FALSE, (GLfloat *)&mWorldViewOffset);
-	return true;
+    glUniformMatrix4fvARB(iLocation, 1, GL_FALSE, (GLfloat *)&mWorldViewOffset);
+    return true;
 }
 
 
@@ -121,8 +121,8 @@ SHADER_VAR(mWorldViewOffset)
   --------------------*/
 SHADER_VAR(fTime)
 {
-	glUniform1fARB(iLocation, (g_pCam != NULL) ? (g_pCam->GetTime()) : MsToSec(Host.GetSystemTime()));
-	return true;
+    glUniform1fARB(iLocation, (g_pCam != NULL) ? (g_pCam->GetTime()) : MsToSec(Host.GetSystemTime()));
+    return true;
 }
 
 
@@ -131,52 +131,52 @@ SHADER_VAR(fTime)
   --------------------*/
 SHADER_VAR(vColor)
 {
-	CVec4f vDiffuseColor
-	(
-		g_pCurrentMaterial->GetDiffuseColor().x,
-		g_pCurrentMaterial->GetDiffuseColor().y,
-		g_pCurrentMaterial->GetDiffuseColor().z,
-		g_pCurrentMaterial->GetOpacity()
-	);
+    CVec4f vDiffuseColor
+    (
+        g_pCurrentMaterial->GetDiffuseColor().x,
+        g_pCurrentMaterial->GetDiffuseColor().y,
+        g_pCurrentMaterial->GetDiffuseColor().z,
+        g_pCurrentMaterial->GetOpacity()
+    );
 
-	CVec4f	vObjectColor;
+    CVec4f  vObjectColor;
 
-	if (g_pCurrentEntity)
-	{
-		if (g_pCurrentEntity->flags & SCENEENT_SOLID_COLOR)
-		{
-			vObjectColor.x = g_pCurrentEntity->color[0];
-			vObjectColor.y = g_pCurrentEntity->color[1];
-			vObjectColor.z = g_pCurrentEntity->color[2];
-			vObjectColor.w = g_pCurrentEntity->color[3];
-		}
-		else
-		{
-			vObjectColor.x = 1.0f;
-			vObjectColor.y = 1.0f;
-			vObjectColor.z = 1.0f;
-			vObjectColor.w = 1.0f;
-		}
-	}
-	else if (g_bObjectColor)
-	{
-		vObjectColor.x = g_vObjectColor.x;
-		vObjectColor.y = g_vObjectColor.y;
-		vObjectColor.z = g_vObjectColor.z;
-		vObjectColor.w = g_vObjectColor.w;
-	}
-	else
-	{
-		vObjectColor.x = 1.0f;
-		vObjectColor.y = 1.0f;
-		vObjectColor.z = 1.0f;
-		vObjectColor.w = 1.0f;
-	}
+    if (g_pCurrentEntity)
+    {
+        if (g_pCurrentEntity->flags & SCENEENT_SOLID_COLOR)
+        {
+            vObjectColor.x = g_pCurrentEntity->color[0];
+            vObjectColor.y = g_pCurrentEntity->color[1];
+            vObjectColor.z = g_pCurrentEntity->color[2];
+            vObjectColor.w = g_pCurrentEntity->color[3];
+        }
+        else
+        {
+            vObjectColor.x = 1.0f;
+            vObjectColor.y = 1.0f;
+            vObjectColor.z = 1.0f;
+            vObjectColor.w = 1.0f;
+        }
+    }
+    else if (g_bObjectColor)
+    {
+        vObjectColor.x = g_vObjectColor.x;
+        vObjectColor.y = g_vObjectColor.y;
+        vObjectColor.z = g_vObjectColor.z;
+        vObjectColor.w = g_vObjectColor.w;
+    }
+    else
+    {
+        vObjectColor.x = 1.0f;
+        vObjectColor.y = 1.0f;
+        vObjectColor.z = 1.0f;
+        vObjectColor.w = 1.0f;
+    }
 
-	CVec4f vColor(vObjectColor * vDiffuseColor);
+    CVec4f vColor(vObjectColor * vDiffuseColor);
 
-	glUniform4fvARB(iLocation, 1, (GLfloat *)&vColor);
-	return true;
+    glUniform4fvARB(iLocation, 1, (GLfloat *)&vColor);
+    return true;
 }
 
 
@@ -185,25 +185,25 @@ SHADER_VAR(vColor)
   --------------------*/
 SHADER_VAR(vTeamColor)
 {
-	CVec4f	vTeamColor;
+    CVec4f  vTeamColor;
 
-	if (g_pCurrentEntity)
-	{
-		vTeamColor.x = g_pCurrentEntity->teamcolor[0];
-		vTeamColor.y = g_pCurrentEntity->teamcolor[1];
-		vTeamColor.z = g_pCurrentEntity->teamcolor[2];
-		vTeamColor.w = g_pCurrentEntity->teamcolor[3];
-	}
-	else
-	{
-		vTeamColor.x = 1.0f;
-		vTeamColor.y = 1.0f;
-		vTeamColor.z = 1.0f;
-		vTeamColor.w = 1.0f;
-	}
+    if (g_pCurrentEntity)
+    {
+        vTeamColor.x = g_pCurrentEntity->teamcolor[0];
+        vTeamColor.y = g_pCurrentEntity->teamcolor[1];
+        vTeamColor.z = g_pCurrentEntity->teamcolor[2];
+        vTeamColor.w = g_pCurrentEntity->teamcolor[3];
+    }
+    else
+    {
+        vTeamColor.x = 1.0f;
+        vTeamColor.y = 1.0f;
+        vTeamColor.z = 1.0f;
+        vTeamColor.w = 1.0f;
+    }
 
-	glUniform3fvARB(iLocation, 1, (GLfloat *)&vTeamColor);
-	return true;
+    glUniform3fvARB(iLocation, 1, (GLfloat *)&vTeamColor);
+    return true;
 }
 
 
@@ -212,13 +212,13 @@ SHADER_VAR(vTeamColor)
   --------------------*/
 SHADER_VAR(vSunPositionView)
 {
-	CVec3f v3SunPos(SceneManager.GetSunPos());
+    CVec3f v3SunPos(SceneManager.GetSunPos());
 
-	D3DXVec3TransformNormal((D3DXVECTOR3 *)&v3SunPos, (D3DXVECTOR3 *)&v3SunPos, &g_mViewRotate);
+    D3DXVec3TransformNormal((D3DXVECTOR3 *)&v3SunPos, (D3DXVECTOR3 *)&v3SunPos, &g_mViewRotate);
 
-	glUniform3fvARB(iLocation, 1, (GLfloat *)&v3SunPos);
+    glUniform3fvARB(iLocation, 1, (GLfloat *)&v3SunPos);
 
-	return true;
+    return true;
 }
 
 
@@ -227,10 +227,10 @@ SHADER_VAR(vSunPositionView)
   --------------------*/
 SHADER_VAR(vSunPositionWorld)
 {
-	CVec3f v3SunPos(SceneManager.GetSunPos());
+    CVec3f v3SunPos(SceneManager.GetSunPos());
 
-	glUniform3fvARB(iLocation, 1, (GLfloat *)&v3SunPos);
-	return true;
+    glUniform3fvARB(iLocation, 1, (GLfloat *)&v3SunPos);
+    return true;
 }
 
 
@@ -239,8 +239,8 @@ SHADER_VAR(vSunPositionWorld)
   --------------------*/
 SHADER_VAR(vSunColor)
 {
-	glUniform3fvARB(iLocation, 1, (GLfloat *)&g_v3SunColor);
-	return true;
+    glUniform3fvARB(iLocation, 1, (GLfloat *)&g_v3SunColor);
+    return true;
 }
 
 
@@ -249,10 +249,10 @@ SHADER_VAR(vSunColor)
   --------------------*/
 SHADER_VAR(vSunColorSpec)
 {
-	CVec3f v3SunColorSpec(g_v3SunColor * g_pCurrentMaterial->GetSpecularLevel());
+    CVec3f v3SunColorSpec(g_v3SunColor * g_pCurrentMaterial->GetSpecularLevel());
 
-	glUniform3fvARB(iLocation, 1, (GLfloat *)&v3SunColorSpec);
-	return true;
+    glUniform3fvARB(iLocation, 1, (GLfloat *)&v3SunColorSpec);
+    return true;
 }
 
 
@@ -261,8 +261,8 @@ SHADER_VAR(vSunColorSpec)
   --------------------*/
 SHADER_VAR(vAmbient)
 {
-	glUniform3fvARB(iLocation, 1, (GLfloat *)&g_v3Ambient);
-	return true;
+    glUniform3fvARB(iLocation, 1, (GLfloat *)&g_v3Ambient);
+    return true;
 }
 
 
@@ -271,10 +271,10 @@ SHADER_VAR(vAmbient)
   --------------------*/
 SHADER_VAR(vGroundAmbient)
 {
-	CVec3f v3GroundAmbient(g_v3Ambient * 0.25f);
+    CVec3f v3GroundAmbient(g_v3Ambient * 0.25f);
 
-	glUniform3fvARB(iLocation, 1, (GLfloat *)&v3GroundAmbient);
-	return true;
+    glUniform3fvARB(iLocation, 1, (GLfloat *)&v3GroundAmbient);
+    return true;
 }
 
 
@@ -283,8 +283,8 @@ SHADER_VAR(vGroundAmbient)
   --------------------*/
 SHADER_VAR(vBones)
 {
-	glUniformMatrix3x4fv(iLocation, g_iNumActiveBones, GL_FALSE, (GLfloat *)&g_vBoneData);
-	return true;
+    glUniformMatrix3x4fv(iLocation, g_iNumActiveBones, GL_FALSE, (GLfloat *)&g_vBoneData);
+    return true;
 }
 
 
@@ -293,8 +293,8 @@ SHADER_VAR(vBones)
   --------------------*/
 SHADER_VAR(vBones3)
 {
-	glUniform4fvARB(iLocation, g_iNumActiveBones * 3, (GLfloat *)&g_vBoneData);
-	return true;
+    glUniform4fvARB(iLocation, g_iNumActiveBones * 3, (GLfloat *)&g_vBoneData);
+    return true;
 }
 
 
@@ -303,8 +303,8 @@ SHADER_VAR(vBones3)
   --------------------*/
 SHADER_VAR(fWorldWidth)
 {
-	glUniform1fARB(iLocation, GfxTerrain->pWorld ? GfxTerrain->pWorld->GetWorldWidth() : 1.0f);
-	return true;
+    glUniform1fARB(iLocation, GfxTerrain->pWorld ? GfxTerrain->pWorld->GetWorldWidth() : 1.0f);
+    return true;
 }
 
 
@@ -313,8 +313,8 @@ SHADER_VAR(fWorldWidth)
   --------------------*/
 SHADER_VAR(fWorldHeight)
 {
-	glUniform1fARB(iLocation, GfxTerrain->pWorld ? GfxTerrain->pWorld->GetWorldHeight() : 1.0f);
-	return true;
+    glUniform1fARB(iLocation, GfxTerrain->pWorld ? GfxTerrain->pWorld->GetWorldHeight() : 1.0f);
+    return true;
 }
 
 
@@ -323,8 +323,8 @@ SHADER_VAR(fWorldHeight)
   --------------------*/
 SHADER_VAR(fWorldTileSize)
 {
-	glUniform1fARB(iLocation, GfxTerrain->pWorld ? GfxTerrain->pWorld->GetScale() : 1.0f);
-	return true;
+    glUniform1fARB(iLocation, GfxTerrain->pWorld ? GfxTerrain->pWorld->GetScale() : 1.0f);
+    return true;
 }
 
 
@@ -333,8 +333,8 @@ SHADER_VAR(fWorldTileSize)
   --------------------*/
 SHADER_VAR(fWorldTextureScale)
 {
-	glUniform1fARB(iLocation, GfxTerrain->pWorld ? GfxTerrain->pWorld->GetTextureScale() : 1.0f);
-	return true;
+    glUniform1fARB(iLocation, GfxTerrain->pWorld ? GfxTerrain->pWorld->GetTextureScale() : 1.0f);
+    return true;
 }
 
 
@@ -343,8 +343,8 @@ SHADER_VAR(fWorldTextureScale)
   --------------------*/
 SHADER_VAR(fWorldTexelDensity)
 {
-	glUniform1fARB(iLocation, GfxTerrain->pWorld ? GfxTerrain->pWorld->GetTexelDensity() : 1.0f);
-	return true;
+    glUniform1fARB(iLocation, GfxTerrain->pWorld ? GfxTerrain->pWorld->GetTexelDensity() : 1.0f);
+    return true;
 }
 
 
@@ -353,8 +353,8 @@ SHADER_VAR(fWorldTexelDensity)
   --------------------*/
 SHADER_VAR(fWorldTextureInc)
 {
-	glUniform1fARB(iLocation, GfxTerrain->pWorld ? 1.0f / GfxTerrain->pWorld->GetTextureScale() : 1.0f);
-	return true;
+    glUniform1fARB(iLocation, GfxTerrain->pWorld ? 1.0f / GfxTerrain->pWorld->GetTextureScale() : 1.0f);
+    return true;
 }
 
 
@@ -363,8 +363,8 @@ SHADER_VAR(fWorldTextureInc)
   --------------------*/
 SHADER_VAR(fWorldTexelInc)
 {
-	glUniform1fARB(iLocation, GfxTerrain->pWorld ? 1.0f / GfxTerrain->iChunkSize : 1.0f);
-	return true;
+    glUniform1fARB(iLocation, GfxTerrain->pWorld ? 1.0f / GfxTerrain->iChunkSize : 1.0f);
+    return true;
 }
 
 
@@ -377,11 +377,11 @@ SHADER_VAR(fWorldTexelInc)
   --------------------*/
 SHADER_VAR(vWorldSizes)
 {
-	glUniform3fARB(iLocation,
-		GfxTerrain->pWorld ? GfxTerrain->pWorld->GetScale() : 1.0f,
-		GfxTerrain->pWorld ? 1.0f / GfxTerrain->pWorld->GetTextureScale() : 1.0f,
-		GfxTerrain->pWorld ? 1.0f / GfxTerrain->iChunkSize : 1.0f);
-	return true;
+    glUniform3fARB(iLocation,
+        GfxTerrain->pWorld ? GfxTerrain->pWorld->GetScale() : 1.0f,
+        GfxTerrain->pWorld ? 1.0f / GfxTerrain->pWorld->GetTextureScale() : 1.0f,
+        GfxTerrain->pWorld ? 1.0f / GfxTerrain->iChunkSize : 1.0f);
+    return true;
 }
 
 
@@ -390,10 +390,10 @@ SHADER_VAR(vWorldSizes)
   --------------------*/
 SHADER_VAR(mLightWorldViewProjTex)
 {
-	D3DXMATRIXA16 mLightWorldViewProj = g_mWorld * g_mLightViewProjTex;
+    D3DXMATRIXA16 mLightWorldViewProj = g_mWorld * g_mLightViewProjTex;
 
-	glUniformMatrix4fvARB(iLocation, 1, GL_FALSE, (GLfloat *)&mLightWorldViewProj);
-	return true;
+    glUniformMatrix4fvARB(iLocation, 1, GL_FALSE, (GLfloat *)&mLightWorldViewProj);
+    return true;
 }
 
 
@@ -402,8 +402,8 @@ SHADER_VAR(mLightWorldViewProjTex)
   --------------------*/
 SHADER_VAR(fReflect)
 {
-	glUniform1fARB(iLocation, g_pCurrentMaterial->GetReflect());
-	return true;
+    glUniform1fARB(iLocation, g_pCurrentMaterial->GetReflect());
+    return true;
 }
 
 
@@ -412,8 +412,8 @@ SHADER_VAR(fReflect)
   --------------------*/
 SHADER_VAR(fGlossiness)
 {
-	glUniform1fARB(iLocation, g_pCurrentMaterial->GetGlossiness());
-	return true;
+    glUniform1fARB(iLocation, g_pCurrentMaterial->GetGlossiness());
+    return true;
 }
 
 
@@ -422,8 +422,8 @@ SHADER_VAR(fGlossiness)
   --------------------*/
 SHADER_VAR(fSpecularLevel)
 {
-	glUniform1fARB(iLocation, g_pCurrentMaterial->GetSpecularLevel());
-	return true;
+    glUniform1fARB(iLocation, g_pCurrentMaterial->GetSpecularLevel());
+    return true;
 }
 
 
@@ -432,10 +432,10 @@ SHADER_VAR(fSpecularLevel)
   --------------------*/
 SHADER_VAR(vSpec)
 {
-	CVec2f vSpec(g_pCurrentMaterial->GetSpecularLevel(), g_pCurrentMaterial->GetGlossiness());
+    CVec2f vSpec(g_pCurrentMaterial->GetSpecularLevel(), g_pCurrentMaterial->GetGlossiness());
 
-	glUniform2fvARB(iLocation, 1, (GLfloat *)&vSpec);
-	return true;
+    glUniform2fvARB(iLocation, 1, (GLfloat *)&vSpec);
+    return true;
 }
 
 
@@ -445,10 +445,10 @@ SHADER_VAR(vSpec)
   --------------------*/
 SHADER_VAR(mFowProj)
 {
-	D3DXMATRIXA16 mWorldFowProj = g_mWorld * g_mFowProj;
+    D3DXMATRIXA16 mWorldFowProj = g_mWorld * g_mFowProj;
 
-	glUniformMatrix4fvARB(iLocation, 1, GL_FALSE, (GLfloat *)&mWorldFowProj);
-	return true;
+    glUniformMatrix4fvARB(iLocation, 1, GL_FALSE, (GLfloat *)&mWorldFowProj);
+    return true;
 }
 
 
@@ -457,10 +457,10 @@ SHADER_VAR(mFowProj)
   --------------------*/
 SHADER_VAR(mCloudProj)
 {
-	D3DXMATRIXA16 mWorldCloudProj = g_mWorld * g_mCloudProj;
+    D3DXMATRIXA16 mWorldCloudProj = g_mWorld * g_mCloudProj;
 
-	glUniformMatrix4fvARB(iLocation, 1, GL_FALSE, (GLfloat *)&mWorldCloudProj);
-	return true;
+    glUniformMatrix4fvARB(iLocation, 1, GL_FALSE, (GLfloat *)&mWorldCloudProj);
+    return true;
 }
 
 
@@ -469,8 +469,8 @@ SHADER_VAR(mCloudProj)
   --------------------*/
 SHADER_VAR(fFogDensity)
 {
-	glUniform1fARB(iLocation, gfx_fogDensity);
-	return true;
+    glUniform1fARB(iLocation, gfx_fogDensity);
+    return true;
 }
 
 
@@ -479,8 +479,8 @@ SHADER_VAR(fFogDensity)
   --------------------*/
 SHADER_VAR(fFogStart)
 {
-	glUniform1fARB(iLocation, gfx_fogNear);
-	return true;
+    glUniform1fARB(iLocation, gfx_fogNear);
+    return true;
 }
 
 
@@ -489,8 +489,8 @@ SHADER_VAR(fFogStart)
   --------------------*/
 SHADER_VAR(fFogEnd)
 {
-	glUniform1fARB(iLocation, gfx_fogFar);
-	return true;
+    glUniform1fARB(iLocation, gfx_fogFar);
+    return true;
 }
 
 
@@ -499,8 +499,8 @@ SHADER_VAR(fFogEnd)
   --------------------*/
 SHADER_VAR(fFogDelta)
 {
-	glUniform1fARB(iLocation, MAX(gfx_fogFar - gfx_fogNear, 0.0f));
-	return true;
+    glUniform1fARB(iLocation, MAX(gfx_fogFar - gfx_fogNear, 0.0f));
+    return true;
 }
 
 
@@ -510,8 +510,8 @@ SHADER_VAR(fFogDelta)
   --------------------*/
 SHADER_VAR(fFogScale)
 {
-	glUniform1fARB(iLocation, CLAMP<float>(gfx_fogScale, 0.0f, 1.0f));
-	return true;
+    glUniform1fARB(iLocation, CLAMP<float>(gfx_fogScale, 0.0f, 1.0f));
+    return true;
 }
 
 
@@ -520,10 +520,10 @@ SHADER_VAR(fFogScale)
   --------------------*/
 SHADER_VAR(vFogColor)
 {
-	CVec3f v3FogColor(gfx_fogColor[R], gfx_fogColor[G], gfx_fogColor[B]);
+    CVec3f v3FogColor(gfx_fogColor[R], gfx_fogColor[G], gfx_fogColor[B]);
 
-	glUniform3fvARB(iLocation, 1, (GLfloat *)&v3FogColor);
-	return true;
+    glUniform3fvARB(iLocation, 1, (GLfloat *)&v3FogColor);
+    return true;
 }
 
 
@@ -532,12 +532,12 @@ SHADER_VAR(vFogColor)
   --------------------*/
 SHADER_VAR(vFog)
 {
-	CVec3f v3Fog(1.0f / (MAX<float>(gfx_fogFar, 0.0f) - MAX<float>(gfx_fogNear, 0.0f)),
-		-MAX<float>(gfx_fogNear, 0.0f) / (MAX<float>(gfx_fogFar, 0.0f) - MAX<float>(gfx_fogNear, 0.0f)),
-		CLAMP<float>(gfx_fogScale, 0.0f, 1.0f));
+    CVec3f v3Fog(1.0f / (MAX<float>(gfx_fogFar, 0.0f) - MAX<float>(gfx_fogNear, 0.0f)),
+        -MAX<float>(gfx_fogNear, 0.0f) / (MAX<float>(gfx_fogFar, 0.0f) - MAX<float>(gfx_fogNear, 0.0f)),
+        CLAMP<float>(gfx_fogScale, 0.0f, 1.0f));
 
-	glUniform3fvARB(iLocation, 1, (GLfloat *)&v3Fog);
-	return true;
+    glUniform3fvARB(iLocation, 1, (GLfloat *)&v3Fog);
+    return true;
 }
 
 
@@ -546,8 +546,8 @@ SHADER_VAR(vFog)
   --------------------*/
 SHADER_VAR(vPointLightPosition)
 {
-	glUniform3fvARB(iLocation, g_iNumActivePointLights, (GLfloat *)&g_vPointLightPosition);
-	return true;
+    glUniform3fvARB(iLocation, g_iNumActivePointLights, (GLfloat *)&g_vPointLightPosition);
+    return true;
 }
 
 
@@ -556,13 +556,13 @@ SHADER_VAR(vPointLightPosition)
   --------------------*/
 SHADER_VAR(vPointLightPositionView)
 {
-	CVec3f v3ViewPosition[MAX_POINT_LIGHTS];
+    CVec3f v3ViewPosition[MAX_POINT_LIGHTS];
 
-	for (int i = 0; i < g_iNumActivePointLights; ++i)
-		D3DXVec3Transform((D3DXVECTOR3 *)&v3ViewPosition[i], (D3DXVECTOR3 *)&g_vPointLightPosition[i], &g_mView);
+    for (int i = 0; i < g_iNumActivePointLights; ++i)
+        D3DXVec3Transform((D3DXVECTOR3 *)&v3ViewPosition[i], (D3DXVECTOR3 *)&g_vPointLightPosition[i], &g_mView);
 
-	glUniform3fvARB(iLocation, g_iNumActivePointLights, (GLfloat *)&v3ViewPosition);
-	return true;
+    glUniform3fvARB(iLocation, g_iNumActivePointLights, (GLfloat *)&v3ViewPosition);
+    return true;
 }
 
 
@@ -571,13 +571,13 @@ SHADER_VAR(vPointLightPositionView)
   --------------------*/
 SHADER_VAR(vPointLightPositionOffset)
 {
-	CVec3f v3Position[MAX_POINT_LIGHTS];
+    CVec3f v3Position[MAX_POINT_LIGHTS];
 
-	for (int i = 0; i < g_iNumActivePointLights; ++i)
-		D3DXVec3Transform((D3DXVECTOR3 *)&v3Position[i], (D3DXVECTOR3 *)&g_vPointLightPosition[i], &g_mViewOffset);
+    for (int i = 0; i < g_iNumActivePointLights; ++i)
+        D3DXVec3Transform((D3DXVECTOR3 *)&v3Position[i], (D3DXVECTOR3 *)&g_vPointLightPosition[i], &g_mViewOffset);
 
-	glUniform3fvARB(iLocation, g_iNumActivePointLights, (GLfloat *)&v3Position);
-	return true;
+    glUniform3fvARB(iLocation, g_iNumActivePointLights, (GLfloat *)&v3Position);
+    return true;
 }
 
 
@@ -586,8 +586,8 @@ SHADER_VAR(vPointLightPositionOffset)
   --------------------*/
 SHADER_VAR(vPointLightColor)
 {
-	glUniform3fvARB(iLocation, g_iNumActivePointLights, (GLfloat *)&g_vPointLightColor);
-	return true;
+    glUniform3fvARB(iLocation, g_iNumActivePointLights, (GLfloat *)&g_vPointLightColor);
+    return true;
 }
 
 
@@ -596,13 +596,13 @@ SHADER_VAR(vPointLightColor)
   --------------------*/
 SHADER_VAR(vPointLightColorSpec)
 {
-	CVec3f vColor[MAX_POINT_LIGHTS];
+    CVec3f vColor[MAX_POINT_LIGHTS];
 
-	for (int i = 0; i < g_iNumActivePointLights; ++i)
-		vColor[i] = g_vPointLightColor[i] * g_pCurrentMaterial->GetSpecularLevel();
+    for (int i = 0; i < g_iNumActivePointLights; ++i)
+        vColor[i] = g_vPointLightColor[i] * g_pCurrentMaterial->GetSpecularLevel();
 
-	glUniform3fvARB(iLocation, g_iNumActivePointLights, (GLfloat *)&vColor);
-	return true;
+    glUniform3fvARB(iLocation, g_iNumActivePointLights, (GLfloat *)&vColor);
+    return true;
 }
 
 
@@ -611,8 +611,8 @@ SHADER_VAR(vPointLightColorSpec)
   --------------------*/
 SHADER_VAR(fPointLightFalloffStart)
 {
-	glUniform1fvARB(iLocation, g_iNumActivePointLights, (GLfloat *)&g_fPointLightFalloffStart);
-	return true;
+    glUniform1fvARB(iLocation, g_iNumActivePointLights, (GLfloat *)&g_fPointLightFalloffStart);
+    return true;
 }
 
 
@@ -621,8 +621,8 @@ SHADER_VAR(fPointLightFalloffStart)
   --------------------*/
 SHADER_VAR(fPointLightFalloffEnd)
 {
-	glUniform1fvARB(iLocation, g_iNumActivePointLights, (GLfloat *)&g_fPointLightFalloffEnd);
-	return true;
+    glUniform1fvARB(iLocation, g_iNumActivePointLights, (GLfloat *)&g_fPointLightFalloffEnd);
+    return true;
 }
 
 
@@ -631,13 +631,13 @@ SHADER_VAR(fPointLightFalloffEnd)
   --------------------*/
 SHADER_VAR(fPointLightFalloff)
 {
-	CVec2f vFalloff[MAX_POINT_LIGHTS];
+    CVec2f vFalloff[MAX_POINT_LIGHTS];
 
-	for (int i = 0; i < g_iNumActivePointLights; ++i)
-		vFalloff[i] = CVec2f(g_fPointLightFalloffStart[i], g_fPointLightFalloffEnd[i] - g_fPointLightFalloffStart[i]);
+    for (int i = 0; i < g_iNumActivePointLights; ++i)
+        vFalloff[i] = CVec2f(g_fPointLightFalloffStart[i], g_fPointLightFalloffEnd[i] - g_fPointLightFalloffStart[i]);
 
-	glUniform2fvARB(iLocation, g_iNumActivePointLights, (GLfloat *)&vFalloff);
-	return true;
+    glUniform2fvARB(iLocation, g_iNumActivePointLights, (GLfloat *)&vFalloff);
+    return true;
 }
 
 
@@ -646,14 +646,14 @@ SHADER_VAR(fPointLightFalloff)
   --------------------*/
 SHADER_VAR(vPointLightFalloff)
 {
-	CVec2f vFalloff[MAX_POINT_LIGHTS];
+    CVec2f vFalloff[MAX_POINT_LIGHTS];
 
-	for (int i = 0; i < g_iNumActivePointLights; ++i)
-		vFalloff[i] = CVec2f(1.0f / (MAX<float>(g_fPointLightFalloffEnd[i], 0.0f) - MAX<float>(g_fPointLightFalloffStart[i], 0.0f)),
-			-MAX<float>(g_fPointLightFalloffStart[i], 0.0f) / (MAX<float>(g_fPointLightFalloffEnd[i], 0.0f) - MAX<float>(g_fPointLightFalloffStart[i], 0.0f)));
+    for (int i = 0; i < g_iNumActivePointLights; ++i)
+        vFalloff[i] = CVec2f(1.0f / (MAX<float>(g_fPointLightFalloffEnd[i], 0.0f) - MAX<float>(g_fPointLightFalloffStart[i], 0.0f)),
+            -MAX<float>(g_fPointLightFalloffStart[i], 0.0f) / (MAX<float>(g_fPointLightFalloffEnd[i], 0.0f) - MAX<float>(g_fPointLightFalloffStart[i], 0.0f)));
 
-	glUniform2fvARB(iLocation, g_iNumActivePointLights, (GLfloat *)&vFalloff);
-	return true;
+    glUniform2fvARB(iLocation, g_iNumActivePointLights, (GLfloat *)&vFalloff);
+    return true;
 
 }
 
@@ -663,8 +663,8 @@ SHADER_VAR(vPointLightFalloff)
   --------------------*/
 SHADER_VAR(fShadowLeak)
 {
-	glUniform1fARB(iLocation, vid_shadowLeak);
-	return true;
+    glUniform1fARB(iLocation, vid_shadowLeak);
+    return true;
 }
 
 
@@ -673,8 +673,8 @@ SHADER_VAR(fShadowLeak)
   --------------------*/
 SHADER_VAR(fOneMinusShadowLeak)
 {
-	glUniform1fARB(iLocation, 1.0f - vid_shadowLeak);
-	return true;
+    glUniform1fARB(iLocation, 1.0f - vid_shadowLeak);
+    return true;
 }
 
 
@@ -683,10 +683,10 @@ SHADER_VAR(fOneMinusShadowLeak)
   --------------------*/
 SHADER_VAR(vShadowLeak)
 {
-	CVec2f vShadowLeak(1.0f - vid_shadowLeak, vid_shadowLeak);
+    CVec2f vShadowLeak(1.0f - vid_shadowLeak, vid_shadowLeak);
 
-	glUniform2fvARB(iLocation, 1, (GLfloat *)&vShadowLeak);
-	return true;
+    glUniform2fvARB(iLocation, 1, (GLfloat *)&vShadowLeak);
+    return true;
 }
 
 
@@ -695,8 +695,8 @@ SHADER_VAR(vShadowLeak)
   --------------------*/
 SHADER_VAR(fShadowmapSize)
 {
-	glUniform1fARB(iLocation, float(vid_shadowmapSize));
-	return true;
+    glUniform1fARB(iLocation, float(vid_shadowmapSize));
+    return true;
 }
 
 
@@ -705,8 +705,8 @@ SHADER_VAR(fShadowmapSize)
   --------------------*/
 SHADER_VAR(fShadowmapSizeInv)
 {
-	glUniform1fARB(iLocation, 1.0f / vid_shadowmapSize);
-	return true;
+    glUniform1fARB(iLocation, 1.0f / vid_shadowmapSize);
+    return true;
 }
 
 
@@ -715,11 +715,11 @@ SHADER_VAR(fShadowmapSizeInv)
   --------------------*/
 SHADER_VAR(fShadowFalloffStart)
 {
-	if (g_pCam && g_pCam->HasFlags(CAM_SHADOW_NO_FALLOFF))
-		glUniform1fARB(iLocation, g_pCam->GetZFar());
-	else
-		glUniform1fARB(iLocation, MAX(vid_shadowDrawDistance - vid_shadowFalloffDistance, 0.0f));
-	return true;
+    if (g_pCam && g_pCam->HasFlags(CAM_SHADOW_NO_FALLOFF))
+        glUniform1fARB(iLocation, g_pCam->GetZFar());
+    else
+        glUniform1fARB(iLocation, MAX(vid_shadowDrawDistance - vid_shadowFalloffDistance, 0.0f));
+    return true;
 }
 
 
@@ -728,11 +728,11 @@ SHADER_VAR(fShadowFalloffStart)
   --------------------*/
 SHADER_VAR(fShadowFalloffEnd)
 {
-	if (g_pCam && g_pCam->HasFlags(CAM_SHADOW_NO_FALLOFF))
-		glUniform1fARB(iLocation, g_pCam->GetZFar() + 1.0f);
-	else
-		glUniform1fARB(iLocation, MAX(float(vid_shadowDrawDistance), 0.0f));
-	return true;
+    if (g_pCam && g_pCam->HasFlags(CAM_SHADOW_NO_FALLOFF))
+        glUniform1fARB(iLocation, g_pCam->GetZFar() + 1.0f);
+    else
+        glUniform1fARB(iLocation, MAX(float(vid_shadowDrawDistance), 0.0f));
+    return true;
 }
 
 
@@ -741,11 +741,11 @@ SHADER_VAR(fShadowFalloffEnd)
   --------------------*/
 SHADER_VAR(fShadowFalloffLength)
 {
-	if (g_pCam && g_pCam->HasFlags(CAM_SHADOW_NO_FALLOFF))
-		glUniform1fARB(iLocation, 1.0f);
-	else
-		glUniform1fARB(iLocation, MAX(float(vid_shadowDrawDistance), 0.0f) - MAX(vid_shadowDrawDistance - vid_shadowFalloffDistance, 0.0f));
-	return true;
+    if (g_pCam && g_pCam->HasFlags(CAM_SHADOW_NO_FALLOFF))
+        glUniform1fARB(iLocation, 1.0f);
+    else
+        glUniform1fARB(iLocation, MAX(float(vid_shadowDrawDistance), 0.0f) - MAX(vid_shadowDrawDistance - vid_shadowFalloffDistance, 0.0f));
+    return true;
 }
 
 
@@ -754,20 +754,20 @@ SHADER_VAR(fShadowFalloffLength)
   --------------------*/
 SHADER_VAR(vShadowFalloff)
 {
-	if (g_pCam && g_pCam->HasFlags(CAM_SHADOW_NO_FALLOFF))
-	{
-		CVec2f vShadowFalloff(1.0f, -g_pCam->GetZFar());
-		glUniform2fvARB(iLocation, 1, (GLfloat *)&vShadowFalloff);
-	}
-	else
-	{
-		CVec2f vShadowFalloff(1.0f / (MAX(float(vid_shadowDrawDistance), 0.0f) - MAX(vid_shadowDrawDistance - vid_shadowFalloffDistance, 0.0f)),
-			-MAX(vid_shadowDrawDistance - vid_shadowFalloffDistance, 0.0f) / (MAX(float(vid_shadowDrawDistance), 0.0f) - MAX(vid_shadowDrawDistance - vid_shadowFalloffDistance, 0.0f)));
+    if (g_pCam && g_pCam->HasFlags(CAM_SHADOW_NO_FALLOFF))
+    {
+        CVec2f vShadowFalloff(1.0f, -g_pCam->GetZFar());
+        glUniform2fvARB(iLocation, 1, (GLfloat *)&vShadowFalloff);
+    }
+    else
+    {
+        CVec2f vShadowFalloff(1.0f / (MAX(float(vid_shadowDrawDistance), 0.0f) - MAX(vid_shadowDrawDistance - vid_shadowFalloffDistance, 0.0f)),
+            -MAX(vid_shadowDrawDistance - vid_shadowFalloffDistance, 0.0f) / (MAX(float(vid_shadowDrawDistance), 0.0f) - MAX(vid_shadowDrawDistance - vid_shadowFalloffDistance, 0.0f)));
 
-		glUniform2fvARB(iLocation, 1, (GLfloat *)&vShadowFalloff);
-	}
+        glUniform2fvARB(iLocation, 1, (GLfloat *)&vShadowFalloff);
+    }
 
-	return true;
+    return true;
 }
 
 
@@ -776,8 +776,8 @@ SHADER_VAR(vShadowFalloff)
   --------------------*/
 SHADER_VAR(vLeafClusters)
 {
-	glUniform4fvARB(iLocation, MAX_LEAF_CLUSTER_INDEX, (GLfloat *)&g_afLeafClusterData);
-	return true;
+    glUniform4fvARB(iLocation, MAX_LEAF_CLUSTER_INDEX, (GLfloat *)&g_afLeafClusterData);
+    return true;
 }
 
 
@@ -786,8 +786,8 @@ SHADER_VAR(vLeafClusters)
   --------------------*/
 SHADER_VAR(fFoliageFalloffStart)
 {
-	glUniform1fARB(iLocation, MAX(SceneManager.GetFoliageDrawDistance() - vid_foliageFalloffDistance, 0.0f));
-	return true;
+    glUniform1fARB(iLocation, MAX(SceneManager.GetFoliageDrawDistance() - vid_foliageFalloffDistance, 0.0f));
+    return true;
 }
 
 
@@ -796,8 +796,8 @@ SHADER_VAR(fFoliageFalloffStart)
   --------------------*/
 SHADER_VAR(fFoliageFalloffEnd)
 {
-	glUniform1fARB(iLocation,  MAX(SceneManager.GetFoliageDrawDistance(), 0.0f));
-	return true;
+    glUniform1fARB(iLocation,  MAX(SceneManager.GetFoliageDrawDistance(), 0.0f));
+    return true;
 }
 
 
@@ -806,8 +806,8 @@ SHADER_VAR(fFoliageFalloffEnd)
   --------------------*/
 SHADER_VAR(fFoliageFalloffLength)
 {
-	glUniform1fARB(iLocation, MAX(SceneManager.GetFoliageDrawDistance(), 0.0f) - MAX(SceneManager.GetFoliageDrawDistance() - vid_foliageFalloffDistance, 0.0f));
-	return true;
+    glUniform1fARB(iLocation, MAX(SceneManager.GetFoliageDrawDistance(), 0.0f) - MAX(SceneManager.GetFoliageDrawDistance() - vid_foliageFalloffDistance, 0.0f));
+    return true;
 }
 
 
@@ -816,8 +816,8 @@ SHADER_VAR(fFoliageFalloffLength)
   --------------------*/
 SHADER_VAR(fFoliageAnimateSpeed)
 {
-	glUniform1fARB(iLocation, vid_foliageAnimateSpeed);
-	return true;
+    glUniform1fARB(iLocation, vid_foliageAnimateSpeed);
+    return true;
 }
 
 
@@ -826,8 +826,8 @@ SHADER_VAR(fFoliageAnimateSpeed)
   --------------------*/
 SHADER_VAR(fFoliageAnimateStrength)
 {
-	glUniform1fARB(iLocation, vid_foliageAnimateStrength);
-	return true;
+    glUniform1fARB(iLocation, vid_foliageAnimateStrength);
+    return true;
 }
 
 
@@ -836,13 +836,13 @@ SHADER_VAR(fFoliageAnimateStrength)
   --------------------*/
 SHADER_VAR(vFoliage)
 {
-	CVec4f vFoliage(1.0f / (MAX(SceneManager.GetFoliageDrawDistance(), 0.0f) - MAX(SceneManager.GetFoliageDrawDistance() - vid_foliageFalloffDistance, 0.0f)),
-		-MAX(SceneManager.GetFoliageDrawDistance() - vid_foliageFalloffDistance, 0.0f) / (MAX(SceneManager.GetFoliageDrawDistance(), 0.0f) - MAX(SceneManager.GetFoliageDrawDistance() - vid_foliageFalloffDistance, 0.0f)),
-		vid_foliageAnimateSpeed,
-		vid_foliageAnimateStrength);
+    CVec4f vFoliage(1.0f / (MAX(SceneManager.GetFoliageDrawDistance(), 0.0f) - MAX(SceneManager.GetFoliageDrawDistance() - vid_foliageFalloffDistance, 0.0f)),
+        -MAX(SceneManager.GetFoliageDrawDistance() - vid_foliageFalloffDistance, 0.0f) / (MAX(SceneManager.GetFoliageDrawDistance(), 0.0f) - MAX(SceneManager.GetFoliageDrawDistance() - vid_foliageFalloffDistance, 0.0f)),
+        vid_foliageAnimateSpeed,
+        vid_foliageAnimateStrength);
 
-	glUniform4fvARB(iLocation, 1, (GLfloat *)&vFoliage);
-	return true;
+    glUniform4fvARB(iLocation, 1, (GLfloat *)&vFoliage);
+    return true;
 }
 
 
@@ -851,8 +851,8 @@ SHADER_VAR(vFoliage)
   --------------------*/
 SHADER_VAR(fSkyEpsilon)
 {
-	glUniform1fARB(iLocation, vid_skyEpsilon);
-	return true;
+    glUniform1fARB(iLocation, vid_skyEpsilon);
+    return true;
 }
 
 
@@ -861,10 +861,10 @@ SHADER_VAR(fSkyEpsilon)
   --------------------*/
 SHADER_VAR(vCameraPositionWorld)
 {
-	CVec3f	v3CameraPosition(g_pCam ? g_pCam->GetOrigin() : V3_ZERO);
+    CVec3f  v3CameraPosition(g_pCam ? g_pCam->GetOrigin() : V3_ZERO);
 
-	glUniform3fvARB(iLocation, 1, (GLfloat *)&v3CameraPosition);
-	return true;
+    glUniform3fvARB(iLocation, 1, (GLfloat *)&v3CameraPosition);
+    return true;
 }
 
 
@@ -873,15 +873,15 @@ SHADER_VAR(vCameraPositionWorld)
   --------------------*/
 SHADER_VAR(vCameraPosition)
 {
-	D3DXMATRIXA16 mWorldInverse;
-	D3DXMatrixInverse(&mWorldInverse, NULL, &g_mWorld);
+    D3DXMATRIXA16 mWorldInverse;
+    D3DXMatrixInverse(&mWorldInverse, NULL, &g_mWorld);
 
-	CVec3f	v3CameraPosition(g_pCam ? g_pCam->GetOrigin() : V3_ZERO);
+    CVec3f  v3CameraPosition(g_pCam ? g_pCam->GetOrigin() : V3_ZERO);
 
-	D3DXVec3Transform((D3DXVECTOR3 *)&v3CameraPosition, (D3DXVECTOR3 *)&v3CameraPosition, &mWorldInverse);
+    D3DXVec3Transform((D3DXVECTOR3 *)&v3CameraPosition, (D3DXVECTOR3 *)&v3CameraPosition, &mWorldInverse);
 
-	glUniform3fvARB(iLocation, 1, (GLfloat *)&v3CameraPosition);
-	return true;
+    glUniform3fvARB(iLocation, 1, (GLfloat *)&v3CameraPosition);
+    return true;
 }
 
 
@@ -890,8 +890,8 @@ SHADER_VAR(vCameraPosition)
   --------------------*/
 SHADER_VAR(fShadowDepthBias)
 {
-	glUniform1fARB(iLocation, vid_shadowDepthBias / 16777215.f);
-	return true;
+    glUniform1fARB(iLocation, vid_shadowDepthBias / 16777215.f);
+    return true;
 }
 
 
@@ -900,17 +900,17 @@ SHADER_VAR(fShadowDepthBias)
   --------------------*/
 SHADER_VAR(vViewUp)
 {
-	D3DXVECTOR4	vUp;
+    D3DXVECTOR4 vUp;
 
-	vUp.x = 0.0f;
-	vUp.y = 0.0f;
-	vUp.z = 1.0f;
-	vUp.w = 1.0f;
+    vUp.x = 0.0f;
+    vUp.y = 0.0f;
+    vUp.z = 1.0f;
+    vUp.w = 1.0f;
 
-	D3DXVec3TransformNormal((D3DXVECTOR3 *)&vUp, (D3DXVECTOR3 *)&vUp, &g_mViewRotate);
+    D3DXVec3TransformNormal((D3DXVECTOR3 *)&vUp, (D3DXVECTOR3 *)&vUp, &g_mViewRotate);
 
-	glUniform3fvARB(iLocation, 1, (GLfloat *)&vUp);
-	return true;
+    glUniform3fvARB(iLocation, 1, (GLfloat *)&vUp);
+    return true;
 }
 
 
@@ -919,8 +919,8 @@ SHADER_VAR(vViewUp)
   --------------------*/
 SHADER_VAR(fWorldTextureProjection)
 {
-	glUniform1fARB(iLocation, GfxTerrain->pWorld ? 1.0f / (GfxTerrain->pWorld->GetScale() * GfxTerrain->pWorld->GetTextureScale()) : 1.0f / (64.0f * 4.0f));
-	return true;
+    glUniform1fARB(iLocation, GfxTerrain->pWorld ? 1.0f / (GfxTerrain->pWorld->GetScale() * GfxTerrain->pWorld->GetTextureScale()) : 1.0f / (64.0f * 4.0f));
+    return true;
 }
 
 
@@ -929,8 +929,8 @@ SHADER_VAR(fWorldTextureProjection)
   --------------------*/
 SHADER_VAR(fTexelSize)
 {
-	glUniform1fARB(iLocation, 1.0f / g_uiImageWidth);
-	return true;
+    glUniform1fARB(iLocation, 1.0f / g_uiImageWidth);
+    return true;
 }
 
 
@@ -939,40 +939,40 @@ SHADER_VAR(fTexelSize)
   --------------------*/
 SHADER_VAR(mSceneProj)
 {
-	float fOffsetX;
-	float fOffsetY;
+    float fOffsetX;
+    float fOffsetY;
 
-	float fScaleX;
-	float fScaleY;
+    float fScaleX;
+    float fScaleY;
 
-	fScaleX = 0.5f;
-	fScaleY = 0.5f;
+    fScaleX = 0.5f;
+    fScaleY = 0.5f;
 
-	D3DXMATRIXA16 mTexScale1(fScaleX, 0.0f,    0.0f, 0.0f,
-	                         0.0f,    fScaleY, 0.0f, 0.0f,
-	                         0.0f,    0.0f,    1.0f, 0.0f,
-	                         0.0f,    0.0f,    0.0f, 1.0f);
+    D3DXMATRIXA16 mTexScale1(fScaleX, 0.0f,    0.0f, 0.0f,
+                             0.0f,    fScaleY, 0.0f, 0.0f,
+                             0.0f,    0.0f,    1.0f, 0.0f,
+                             0.0f,    0.0f,    0.0f, 1.0f);
 
-	fOffsetX = 0.5f;
-	fOffsetY = 0.5f;
+    fOffsetX = 0.5f;
+    fOffsetY = 0.5f;
 
-	D3DXMATRIXA16 mTexOffset1(1.0f,     0.0f,     0.0f, 0.0f,
-	                          0.0f,     1.0f,     0.0f, 0.0f,
-	                          0.0f,     0.0f,     1.0f, 0.0f,
-	                          fOffsetX, fOffsetY, 0.0f, 1.0f);
+    D3DXMATRIXA16 mTexOffset1(1.0f,     0.0f,     0.0f, 0.0f,
+                              0.0f,     1.0f,     0.0f, 0.0f,
+                              0.0f,     0.0f,     1.0f, 0.0f,
+                              fOffsetX, fOffsetY, 0.0f, 1.0f);
 
-	fOffsetX = (0.0f / g_uiImageWidth);
-	fOffsetY = (0.0f / g_uiImageHeight);
+    fOffsetX = (0.0f / g_uiImageWidth);
+    fOffsetY = (0.0f / g_uiImageHeight);
 
-	D3DXMATRIXA16 mTexOffset2(1.0f,     0.0f,     0.0f, 0.0f,
-	                          0.0f,     1.0f,     0.0f, 0.0f,
-	                          0.0f,     0.0f,     1.0f, 0.0f,
-	                          fOffsetX, fOffsetY, 0.0f, 1.0f);
+    D3DXMATRIXA16 mTexOffset2(1.0f,     0.0f,     0.0f, 0.0f,
+                              0.0f,     1.0f,     0.0f, 0.0f,
+                              0.0f,     0.0f,     1.0f, 0.0f,
+                              fOffsetX, fOffsetY, 0.0f, 1.0f);
 
-	D3DXMATRIXA16 mScreenProj = mTexScale1 * mTexOffset1 * mTexOffset2;
+    D3DXMATRIXA16 mScreenProj = mTexScale1 * mTexOffset1 * mTexOffset2;
 
-	glUniformMatrix4fvARB(iLocation, 1, GL_FALSE, (GLfloat *)&mScreenProj);
-	return true;
+    glUniformMatrix4fvARB(iLocation, 1, GL_FALSE, (GLfloat *)&mScreenProj);
+    return true;
 }
 
 
@@ -981,25 +981,25 @@ SHADER_VAR(mSceneProj)
   --------------------*/
 SHADER_VAR(vScene)
 {
-	float fCamFovX(g_pCam->GetFovX());
-	float fCamFovY(g_pCam->GetFovY());
-	float fCamAspect(g_pCam->GetAspect());
+    float fCamFovX(g_pCam->GetFovX());
+    float fCamFovY(g_pCam->GetFovY());
+    float fCamAspect(g_pCam->GetAspect());
 
-	float A = tan(DEG2RAD(fCamFovX * 0.5f)) * tan(DEG2RAD(fCamFovY * 0.5f)) * 4.0f;
-	float S = sqrt(A);
-	float Y = sqrt(4.0f * fCamAspect * A) / (2.0f * fCamAspect);
-	float X = A / Y;
+    float A = tan(DEG2RAD(fCamFovX * 0.5f)) * tan(DEG2RAD(fCamFovY * 0.5f)) * 4.0f;
+    float S = sqrt(A);
+    float Y = sqrt(4.0f * fCamAspect * A) / (2.0f * fCamAspect);
+    float X = A / Y;
 
-	D3DXVECTOR4 vScene
-	(
-		S / X,
-		-S / Y,
-		0.0f,
-		0.0f
-	);
+    D3DXVECTOR4 vScene
+    (
+        S / X,
+        -S / Y,
+        0.0f,
+        0.0f
+    );
 
-	glUniform2fvARB(iLocation, 1, (GLfloat *)&vScene);
-	return true;
+    glUniform2fvARB(iLocation, 1, (GLfloat *)&vScene);
+    return true;
 }
 
 
@@ -1008,16 +1008,16 @@ SHADER_VAR(vScene)
   --------------------*/
 SHADER_VAR(vBright)
 {
-	D3DXVECTOR4 vBright
-	(
-		scene_brightMin,
-		scene_brightMax,
-		scene_brightScale,
-		0.0f
-	);
+    D3DXVECTOR4 vBright
+    (
+        scene_brightMin,
+        scene_brightMax,
+        scene_brightScale,
+        0.0f
+    );
 
-	glUniform3fvARB(iLocation, 1, (GLfloat *)&vBright);
-	return true;
+    glUniform3fvARB(iLocation, 1, (GLfloat *)&vBright);
+    return true;
 }
 
 
@@ -1026,16 +1026,16 @@ SHADER_VAR(vBright)
   --------------------*/
 SHADER_VAR(vLinearBright)
 {
-	D3DXVECTOR4 vBright
-	(
-		1.0f / (MAX<float>(scene_brightMax, 0.0f) - MAX<float>(scene_brightMin, 0.0f)),
-		-MAX<float>(scene_brightMin, 0.0f) / (MAX<float>(scene_brightMax, 0.0f) - MAX<float>(scene_brightMin, 0.0f)),
-		scene_brightScale,
-		0.0f
-	);
+    D3DXVECTOR4 vBright
+    (
+        1.0f / (MAX<float>(scene_brightMax, 0.0f) - MAX<float>(scene_brightMin, 0.0f)),
+        -MAX<float>(scene_brightMin, 0.0f) / (MAX<float>(scene_brightMax, 0.0f) - MAX<float>(scene_brightMin, 0.0f)),
+        scene_brightScale,
+        0.0f
+    );
 
-	glUniform3fvARB(iLocation, 1, (GLfloat *)&vBright);
-	return true;
+    glUniform3fvARB(iLocation, 1, (GLfloat *)&vBright);
+    return true;
 }
 
 
@@ -1044,16 +1044,16 @@ SHADER_VAR(vLinearBright)
   --------------------*/
 SHADER_VAR(vTexelSize)
 {
-	D3DXVECTOR4 vTexelSizes
-	(
-		1.0f / g_uiImageWidth,
-		1.0f / g_uiImageHeight,
-		1.0f,
-		1.0f
-	);
+    D3DXVECTOR4 vTexelSizes
+    (
+        1.0f / g_uiImageWidth,
+        1.0f / g_uiImageHeight,
+        1.0f,
+        1.0f
+    );
 
-	glUniform4fvARB(iLocation, 1, (GLfloat *)&vTexelSizes);
-	return true;
+    glUniform4fvARB(iLocation, 1, (GLfloat *)&vTexelSizes);
+    return true;
 }
 
 
@@ -1062,25 +1062,25 @@ SHADER_VAR(vTexelSize)
   --------------------*/
 SHADER_VAR(vParam)
 {
-	if (g_pCurrentEntity != NULL)
-	{
-		D3DXVECTOR4 vParam
-		(
-			g_pCurrentEntity->s1,
-			g_pCurrentEntity->t1,
-			g_pCurrentEntity->s2,
-			g_pCurrentEntity->t2
-		);
+    if (g_pCurrentEntity != NULL)
+    {
+        D3DXVECTOR4 vParam
+        (
+            g_pCurrentEntity->s1,
+            g_pCurrentEntity->t1,
+            g_pCurrentEntity->s2,
+            g_pCurrentEntity->t2
+        );
 
-		glUniform4fvARB(iLocation, 1, (GLfloat *)&vParam);
-	}
-	else
-	{
-		D3DXVECTOR4 vParam(0.0f, 0.0f, 0.0f, 0.0f);
-		glUniform4fvARB(iLocation, 1, (GLfloat *)&vParam);
-	}
+        glUniform4fvARB(iLocation, 1, (GLfloat *)&vParam);
+    }
+    else
+    {
+        D3DXVECTOR4 vParam(0.0f, 0.0f, 0.0f, 0.0f);
+        glUniform4fvARB(iLocation, 1, (GLfloat *)&vParam);
+    }
 
-	return true;
+    return true;
 }
 
 
@@ -1089,12 +1089,12 @@ SHADER_VAR(vParam)
   --------------------*/
 SHADER_VAR(fDistance)
 {
-	if (g_pCurrentEntity != NULL)
-		glUniform1fARB(iLocation, Distance(g_pCurrentEntity->GetPosition(), g_pCam->GetOrigin()));
-	else
-		glUniform1fARB(iLocation, 0.0f);
+    if (g_pCurrentEntity != NULL)
+        glUniform1fARB(iLocation, Distance(g_pCurrentEntity->GetPosition(), g_pCam->GetOrigin()));
+    else
+        glUniform1fARB(iLocation, 0.0f);
 
-	return true;
+    return true;
 }
 
 

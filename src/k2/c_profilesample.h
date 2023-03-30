@@ -25,28 +25,28 @@
 class CProfileSample
 {
 private:
-	uint			m_uiActive;
+    uint            m_uiActive;
 
 public:
-	CProfileSample(const TCHAR *szNode, eProfileType eType) : m_uiActive(ProfileManager.StartSample(szNode, eType))
-	{
-		if (m_uiActive && eType == PROFILE_LEAF)
-		{
-			g_bProfile = false;
-			m_uiActive = 2;
-		}
-	}
+    CProfileSample(const TCHAR *szNode, eProfileType eType) : m_uiActive(ProfileManager.StartSample(szNode, eType))
+    {
+        if (m_uiActive && eType == PROFILE_LEAF)
+        {
+            g_bProfile = false;
+            m_uiActive = 2;
+        }
+    }
 
-	~CProfileSample()
-	{
-		if (m_uiActive)
-		{
-			if (m_uiActive == 2)
-				g_bProfile = true;
+    ~CProfileSample()
+    {
+        if (m_uiActive)
+        {
+            if (m_uiActive == 2)
+                g_bProfile = true;
 
-			ProfileManager.EndSample();
-		}
-	}
+            ProfileManager.EndSample();
+        }
+    }
 };
 //=============================================================================
 #endif // __C_PROFILESAMPLE_H__

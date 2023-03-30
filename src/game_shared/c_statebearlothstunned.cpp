@@ -42,10 +42,10 @@ m_pEntityConfig(GetEntityConfig())
 /*====================
   CStateBearlothStunned::Activated
   ====================*/
-void	CStateBearlothStunned::Activated()
+void    CStateBearlothStunned::Activated()
 {
-	IEntityState::Activated();
-	IPlayerEntity *pOwner(Game.GetPlayerEntity(m_uiOwnerIndex));
-	if (pOwner != NULL)
-		pOwner->Stun(GetExpireTime());
+    IEntityState::Activated();
+    IPlayerEntity *pOwner(Game.GetPlayerEntity(m_uiOwnerIndex));
+    if (pOwner != NULL)
+        pOwner->Stun(GetExpireTime());
 }

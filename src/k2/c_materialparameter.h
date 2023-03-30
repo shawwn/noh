@@ -20,13 +20,13 @@
 
 enum EMatertialParamType
 {
-	MPT_OTHER = 0,
-	MPT_FLOAT,
-	MPT_INT,
-	MPT_BOOL,
-	MPT_VEC2,
-	MPT_VEC3,
-	MPT_VEC4
+    MPT_OTHER = 0,
+    MPT_FLOAT,
+    MPT_INT,
+    MPT_BOOL,
+    MPT_VEC2,
+    MPT_VEC3,
+    MPT_VEC4
 };
 
 //=============================================================================
@@ -35,29 +35,29 @@ enum EMatertialParamType
 class IMaterialParameter
 {
 protected:
-	tstring					m_sName;
-	EMatertialParamType		m_eType;
+    tstring                 m_sName;
+    EMatertialParamType     m_eType;
 
 public:
-	IMaterialParameter(const tstring &sName, EMatertialParamType eType) :
-	m_sName(sName),
-	m_eType(eType)
-	{
-	}
+    IMaterialParameter(const tstring &sName, EMatertialParamType eType) :
+    m_sName(sName),
+    m_eType(eType)
+    {
+    }
 
-	virtual ~IMaterialParameter() {};
+    virtual ~IMaterialParameter() {};
 
-	virtual tstring		GetString() const = 0;
+    virtual tstring     GetString() const = 0;
 
-	const tstring&		GetName() const			{ return m_sName; }
-	EMatertialParamType	GetType() const			{ return m_eType; }
+    const tstring&      GetName() const         { return m_sName; }
+    EMatertialParamType GetType() const         { return m_eType; }
 
-	K2_API float			GetFloat(float fTime) const;
-	K2_API int				GetInt(float fTime) const;
-	K2_API bool				GetBool(float fTime) const;
-	K2_API CVec2f			GetVec2(float fTime) const;
-	K2_API CVec3f			GetVec3(float fTime) const;
-	K2_API CVec4f			GetVec4(float fTime) const;
+    K2_API float            GetFloat(float fTime) const;
+    K2_API int              GetInt(float fTime) const;
+    K2_API bool             GetBool(float fTime) const;
+    K2_API CVec2f           GetVec2(float fTime) const;
+    K2_API CVec3f           GetVec3(float fTime) const;
+    K2_API CVec4f           GetVec4(float fTime) const;
 };
 //=============================================================================
 
@@ -68,19 +68,19 @@ template <class T>
 class CMaterialParameter : public IMaterialParameter
 {
 private:
-	// Prevent copies
-	CMaterialParameter();
-	CMaterialParameter(const CMaterialParameter<T> &);
+    // Prevent copies
+    CMaterialParameter();
+    CMaterialParameter(const CMaterialParameter<T> &);
 
 public:
-	T	m_Value;
-	T	m_ValueSpeed;
+    T   m_Value;
+    T   m_ValueSpeed;
 
-	inline CMaterialParameter(const tstring &sName, T _Value, T _ValueSpeed);
+    inline CMaterialParameter(const tstring &sName, T _Value, T _ValueSpeed);
 
-	~CMaterialParameter() {}
+    ~CMaterialParameter() {}
 
-	tstring			GetString() const				{ return XtoA(m_Value); }
+    tstring         GetString() const               { return XtoA(m_Value); }
 };
 
 

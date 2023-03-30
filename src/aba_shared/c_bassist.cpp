@@ -15,249 +15,249 @@
 /*====================
   CBAssist::CopyFrom
   ====================*/
-void	CBAssist::CopyFrom(const IBehavior* pBehavior)
+void    CBAssist::CopyFrom(const IBehavior* pBehavior)
 {
-	assert( GetType() == pBehavior->GetType() );
-	if (GetType() != pBehavior->GetType())
-		return;
+    assert( GetType() == pBehavior->GetType() );
+    if (GetType() != pBehavior->GetType())
+        return;
 
-	const CBAssist *pCBBehavior(static_cast<const CBAssist*>(pBehavior));
+    const CBAssist *pCBBehavior(static_cast<const CBAssist*>(pBehavior));
 
-	m_Attack.CopyFrom(&pCBBehavior->m_Attack);
-	m_Attack.SetBrain(m_pBrain);
-	m_Attack.SetSelf(m_pSelf);
-	m_bAttacking = pCBBehavior->m_bAttacking;
-	m_uiLastAggroUpdate = pCBBehavior->m_uiLastAggroUpdate;
-	m_fAssistRange = pCBBehavior->m_fAssistRange;
+    m_Attack.CopyFrom(&pCBBehavior->m_Attack);
+    m_Attack.SetBrain(m_pBrain);
+    m_Attack.SetSelf(m_pSelf);
+    m_bAttacking = pCBBehavior->m_bAttacking;
+    m_uiLastAggroUpdate = pCBBehavior->m_uiLastAggroUpdate;
+    m_fAssistRange = pCBBehavior->m_fAssistRange;
 
-	CBFollow::CopyFrom(pCBBehavior);
+    CBFollow::CopyFrom(pCBBehavior);
 }
 
 /*====================
   CBAssist::Clone
   ====================*/
-IBehavior*	CBAssist::Clone(CBrain* pNewBrain, IUnitEntity* pNewSelf) const
+IBehavior*  CBAssist::Clone(CBrain* pNewBrain, IUnitEntity* pNewSelf) const
 {
-	IBehavior* pBehavior( K2_NEW(g_heapAI,    CBAssist)() );
-	pBehavior->SetBrain(pNewBrain);
-	pBehavior->SetSelf(pNewSelf);
-	pBehavior->CopyFrom(this);
-	return pBehavior;
+    IBehavior* pBehavior( K2_NEW(g_heapAI,    CBAssist)() );
+    pBehavior->SetBrain(pNewBrain);
+    pBehavior->SetSelf(pNewSelf);
+    pBehavior->CopyFrom(this);
+    return pBehavior;
 }
 
 /*====================
   CBAssist::UpdateAggro
   ====================*/
-void	CBAssist::UpdateAggro()
+void    CBAssist::UpdateAggro()
 {
-	// No aggro updates while still in an attack
-	if (m_pBrain->GetActionState(ASID_ATTACKING)->GetFlags() & ASR_ACTIVE)
-		return;
+    // No aggro updates while still in an attack
+    if (m_pBrain->GetActionState(ASID_ATTACKING)->GetFlags() & ASR_ACTIVE)
+        return;
 
-	// Update the status of the attackmove behavior
-	m_uiLastAggroUpdate = Game.GetGameTime();
+    // Update the status of the attackmove behavior
+    m_uiLastAggroUpdate = Game.GetGameTime();
 
-	uint uiCurrentTargetIndex(m_bAttacking ? m_Attack.GetTarget() : INVALID_INDEX);
-	bool bOwnerHasTarget(false);
+    uint uiCurrentTargetIndex(m_bAttacking ? m_Attack.GetTarget() : INVALID_INDEX);
+    bool bOwnerHasTarget(false);
 
-	IUnitEntity *pOwner(m_pSelf->GetOwner());
-	if (pOwner != NULL)
-	{
-		IUnitEntity *pTarget(Game.GetUnitEntity(pOwner->GetTargetIndex()));
-		if (pTarget != NULL)
-		{
-			uiCurrentTargetIndex = pTarget->GetIndex();
-			bOwnerHasTarget = true;
-		}
-	}
+    IUnitEntity *pOwner(m_pSelf->GetOwner());
+    if (pOwner != NULL)
+    {
+        IUnitEntity *pTarget(Game.GetUnitEntity(pOwner->GetTargetIndex()));
+        if (pTarget != NULL)
+        {
+            uiCurrentTargetIndex = pTarget->GetIndex();
+            bOwnerHasTarget = true;
+        }
+    }
 
-	if (!bOwnerHasTarget && m_bAttacking)
-		uiCurrentTargetIndex = INVALID_INDEX;
+    if (!bOwnerHasTarget && m_bAttacking)
+        uiCurrentTargetIndex = INVALID_INDEX;
 
-	if (m_bAttacking && uiCurrentTargetIndex != INVALID_INDEX)
-	{
-		IUnitEntity *pAttackTarget(Game.GetUnitEntity(uiCurrentTargetIndex));
-		if (pAttackTarget != NULL)
-		{
-			float fRange(Distance(m_pSelf->GetPosition().xy(), pAttackTarget->GetPosition().xy()) - pAttackTarget->GetBounds().GetDim(X) * DIAG);
-			float fAssistRange(m_fAssistRange + m_pSelf->GetBounds().GetDim(X) * DIAG);
-			if (m_fAssistRange != 0.0f && fRange > fAssistRange)
-				uiCurrentTargetIndex = INVALID_INDEX;
-		}
-	}
+    if (m_bAttacking && uiCurrentTargetIndex != INVALID_INDEX)
+    {
+        IUnitEntity *pAttackTarget(Game.GetUnitEntity(uiCurrentTargetIndex));
+        if (pAttackTarget != NULL)
+        {
+            float fRange(Distance(m_pSelf->GetPosition().xy(), pAttackTarget->GetPosition().xy()) - pAttackTarget->GetBounds().GetDim(X) * DIAG);
+            float fAssistRange(m_fAssistRange + m_pSelf->GetBounds().GetDim(X) * DIAG);
+            if (m_fAssistRange != 0.0f && fRange > fAssistRange)
+                uiCurrentTargetIndex = INVALID_INDEX;
+        }
+    }
 
-	if (uiCurrentTargetIndex == INVALID_INDEX)
-	{
-		m_Attack.EndBehavior();
-		m_bAttacking = false;
-		m_uiLastAggroUpdate = INVALID_TIME;
-	}
-	// Start attack
-	else if (uiCurrentTargetIndex != INVALID_INDEX && !(m_bAttacking && m_Attack.GetTarget() == uiCurrentTargetIndex))
-	{
-		if (m_bAttacking)
-			m_Attack.EndBehavior();
+    if (uiCurrentTargetIndex == INVALID_INDEX)
+    {
+        m_Attack.EndBehavior();
+        m_bAttacking = false;
+        m_uiLastAggroUpdate = INVALID_TIME;
+    }
+    // Start attack
+    else if (uiCurrentTargetIndex != INVALID_INDEX && !(m_bAttacking && m_Attack.GetTarget() == uiCurrentTargetIndex))
+    {
+        if (m_bAttacking)
+            m_Attack.EndBehavior();
 
-		m_bAttacking = true;
+        m_bAttacking = true;
 
-		m_Attack = CBAttack(m_pSelf->GetArmingSequence());
-		m_Attack.SetBrain(m_pBrain);
-		m_Attack.SetSelf(m_pSelf);
-		m_Attack.SetTarget(uiCurrentTargetIndex);
-		m_Attack.DisableAggroTrigger();
-	}
+        m_Attack = CBAttack(m_pSelf->GetArmingSequence());
+        m_Attack.SetBrain(m_pBrain);
+        m_Attack.SetSelf(m_pSelf);
+        m_Attack.SetTarget(uiCurrentTargetIndex);
+        m_Attack.DisableAggroTrigger();
+    }
 }
 
 
 /*====================
   CBAssist::Validate
   ====================*/
-bool	CBAssist::Validate()
+bool    CBAssist::Validate()
 {
-	if (m_pBrain == NULL ||
-		m_pSelf == NULL ||
-		GetFlags() & BSR_END ||
-		(m_uiTargetIndex != INVALID_INDEX && Game.GetUnitEntity(m_uiTargetIndex) == NULL))
-	{
-		SetFlag(BSR_END);
-		return false;
-	}
+    if (m_pBrain == NULL ||
+        m_pSelf == NULL ||
+        GetFlags() & BSR_END ||
+        (m_uiTargetIndex != INVALID_INDEX && Game.GetUnitEntity(m_uiTargetIndex) == NULL))
+    {
+        SetFlag(BSR_END);
+        return false;
+    }
 
-	return true;
+    return true;
 }
 
 
 /*====================
   CBAssist::Update
   ====================*/
-void	CBAssist::Update()
+void    CBAssist::Update()
 {
-	CBFollow::Update();
+    CBFollow::Update();
 }
 
 
 /*====================
   CBAssist::BeginBehavior
   ====================*/
-void	CBAssist::BeginBehavior()
+void    CBAssist::BeginBehavior()
 {
-	if (m_pSelf == NULL)
-	{
-		Console << _T("CBAssist: Behavior started without valid information") << newl;
-		return;
-	}
+    if (m_pSelf == NULL)
+    {
+        Console << _T("CBAssist: Behavior started without valid information") << newl;
+        return;
+    }
 
-	CBFollow::BeginBehavior();
+    CBFollow::BeginBehavior();
 
-	m_uiLastAggroUpdate = INVALID_TIME;
-	UpdateAggro();
+    m_uiLastAggroUpdate = INVALID_TIME;
+    UpdateAggro();
 
-	ClearFlag(BSR_NEW);
+    ClearFlag(BSR_NEW);
 }
 
 
 /*====================
   CBAssist::ThinkFrame
   ====================*/
-void	CBAssist::ThinkFrame()
+void    CBAssist::ThinkFrame()
 {
-	UpdateAggro();
+    UpdateAggro();
 
-	if (m_bAttacking)
-	{
-		if (m_Attack.Validate())
-		{
-			if (m_Attack.GetFlags() & BSR_NEW)
-				m_Attack.BeginBehavior();
+    if (m_bAttacking)
+    {
+        if (m_Attack.Validate())
+        {
+            if (m_Attack.GetFlags() & BSR_NEW)
+                m_Attack.BeginBehavior();
 
-			if (~m_Attack.GetFlags() & BSR_NEW)
-				m_Attack.ThinkFrame();
-		}
+            if (~m_Attack.GetFlags() & BSR_NEW)
+                m_Attack.ThinkFrame();
+        }
 
-		if (m_Attack.GetFlags() & BSR_END)
-		{
-			m_Attack.EndBehavior();
-			m_bAttacking = false;
-			m_uiLastAggroUpdate = INVALID_TIME;
+        if (m_Attack.GetFlags() & BSR_END)
+        {
+            m_Attack.EndBehavior();
+            m_bAttacking = false;
+            m_uiLastAggroUpdate = INVALID_TIME;
 
-			UpdateAggro();
+            UpdateAggro();
 
-			// Repath towards destination if we didn't find a new target
-			if (!m_bAttacking)
-			{
-				CBFollow::BeginBehavior();
-			}
-			else
-			{
-				if (m_Attack.Validate())
-				{
-					if (m_Attack.GetFlags() & BSR_NEW)
-						m_Attack.BeginBehavior();
+            // Repath towards destination if we didn't find a new target
+            if (!m_bAttacking)
+            {
+                CBFollow::BeginBehavior();
+            }
+            else
+            {
+                if (m_Attack.Validate())
+                {
+                    if (m_Attack.GetFlags() & BSR_NEW)
+                        m_Attack.BeginBehavior();
 
-					m_Attack.ThinkFrame();
-				}
-			}
-		}
-	}
+                    m_Attack.ThinkFrame();
+                }
+            }
+        }
+    }
 
-	if (!m_bAttacking)
-		CBFollow::ThinkFrame();
+    if (!m_bAttacking)
+        CBFollow::ThinkFrame();
 }
 
 
 /*====================
   CBAssist::MovementFrame
   ====================*/
-void	CBAssist::MovementFrame()
+void    CBAssist::MovementFrame()
 {
-	if (m_bAttacking)
-	{
-		if (m_Attack.Validate())
-		{
-			if (~m_Attack.GetFlags() & BSR_NEW)
-				m_Attack.MovementFrame();
-		}
-	}
-	else
-		CBFollow::MovementFrame();
+    if (m_bAttacking)
+    {
+        if (m_Attack.Validate())
+        {
+            if (~m_Attack.GetFlags() & BSR_NEW)
+                m_Attack.MovementFrame();
+        }
+    }
+    else
+        CBFollow::MovementFrame();
 }
 
 
 /*====================
   CBAssist::ActionFrame
   ====================*/
-void	CBAssist::ActionFrame()
+void    CBAssist::ActionFrame()
 {
-	UpdateAggro();
+    UpdateAggro();
 
-	if (m_bAttacking)
-	{
-		if (m_Attack.Validate())
-		{
-			if (~m_Attack.GetFlags() & BSR_NEW)
-				m_Attack.ActionFrame();
-		}
+    if (m_bAttacking)
+    {
+        if (m_Attack.Validate())
+        {
+            if (~m_Attack.GetFlags() & BSR_NEW)
+                m_Attack.ActionFrame();
+        }
 
-		if (m_Attack.GetFlags() & BSR_END)
-		{
-			m_Attack.EndBehavior();
-			m_bAttacking = false;
-			m_uiLastAggroUpdate = INVALID_TIME;
+        if (m_Attack.GetFlags() & BSR_END)
+        {
+            m_Attack.EndBehavior();
+            m_bAttacking = false;
+            m_uiLastAggroUpdate = INVALID_TIME;
 
-			UpdateAggro();
+            UpdateAggro();
 
-			// Repath towards destination if we didn't find a new target
-			if (!m_bAttacking)
-				CBFollow::BeginBehavior();
-		}
-	}
+            // Repath towards destination if we didn't find a new target
+            if (!m_bAttacking)
+                CBFollow::BeginBehavior();
+        }
+    }
 }
 
 
 /*====================
   CBAssist::CleanupFrame
   ====================*/
-void	CBAssist::CleanupFrame()
+void    CBAssist::CleanupFrame()
 {
 }
 
@@ -265,43 +265,43 @@ void	CBAssist::CleanupFrame()
 /*====================
   CBAssist::EndBehavior
   ====================*/
-void	CBAssist::EndBehavior()
+void    CBAssist::EndBehavior()
 {
-	m_Attack.EndBehavior();
-	CBFollow::EndBehavior();
+    m_Attack.EndBehavior();
+    CBFollow::EndBehavior();
 }
 
 
 /*====================
   CBAssist::Aggro
   ====================*/
-void	CBAssist::Aggro(IUnitEntity *pAttacker, uint uiChaseTime)
+void    CBAssist::Aggro(IUnitEntity *pAttacker, uint uiChaseTime)
 {
-	if (m_bAttacking)
-		m_Attack.EndBehavior();
+    if (m_bAttacking)
+        m_Attack.EndBehavior();
 
-	m_bAttacking = true;
+    m_bAttacking = true;
 
-	m_Attack = CBAttack(m_pSelf->GetArmingSequence(), 1);
-	m_Attack.SetBrain(m_pBrain);
-	m_Attack.SetSelf(m_pSelf);
-	m_Attack.SetTarget(pAttacker->GetIndex());
-	m_Attack.DisableAggroTrigger();
+    m_Attack = CBAttack(m_pSelf->GetArmingSequence(), 1);
+    m_Attack.SetBrain(m_pBrain);
+    m_Attack.SetSelf(m_pSelf);
+    m_Attack.SetTarget(pAttacker->GetIndex());
+    m_Attack.DisableAggroTrigger();
 }
 
 
 /*====================
   CBAssist::Damaged
   ====================*/
-void	CBAssist::Damaged(IUnitEntity *pAttacker)
+void    CBAssist::Damaged(IUnitEntity *pAttacker)
 {
 #if 0
-	if (pAttacker == NULL)
-		return;
+    if (pAttacker == NULL)
+        return;
 
-	m_pSelf->CallForHelp(500.0f, pAttacker);
+    m_pSelf->CallForHelp(500.0f, pAttacker);
 
-	Aggro(pAttacker, m_pSelf->GetGuardChaseTime());
+    Aggro(pAttacker, m_pSelf->GetGuardChaseTime());
 #endif
 }
 
@@ -309,12 +309,12 @@ void	CBAssist::Damaged(IUnitEntity *pAttacker)
 /*====================
   CBAssist::Assist
   ====================*/
-void	CBAssist::Assist(IUnitEntity *pAlly, IUnitEntity *pAttacker)
+void    CBAssist::Assist(IUnitEntity *pAlly, IUnitEntity *pAttacker)
 {
 #if 0
-	if (pAttacker == NULL)
-		return;
+    if (pAttacker == NULL)
+        return;
 
-	Aggro(pAttacker, m_pSelf->GetGuardChaseTime());
+    Aggro(pAttacker, m_pSelf->GetGuardChaseTime());
 #endif
 }

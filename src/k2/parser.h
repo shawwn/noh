@@ -14,19 +14,19 @@
 //=============================================================================
 // Definitions
 //=============================================================================
-typedef bool	(*ParseFn_t)(tstring &sStr, size_t zStart, size_t zEnd, tsvector &vArgList, size_t &zPos);
+typedef bool    (*ParseFn_t)(tstring &sStr, size_t zStart, size_t zEnd, tsvector &vArgList, size_t &zPos);
 
 struct SSeperator
 {
-	bool		bIsUnary;
-	TCHAR		*szOpen, *szClose;
-	ParseFn_t	pfnAction;
+    bool        bIsUnary;
+    TCHAR       *szOpen, *szClose;
+    ParseFn_t   pfnAction;
 };
 //=============================================================================
 
 //=============================================================================
 // Prototypes
 //=============================================================================
-K2_API void	ParseString(tstring sStr, tsvector &vArgList, SSeperator seperatorList[]);
+K2_API void ParseString(tstring sStr, tsvector &vArgList, SSeperator seperatorList[]);
 //=============================================================================
 #endif //__PARSER_H__

@@ -17,13 +17,13 @@
 class CProjectileVenusSpore : public IProjectile
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Projectile, VenusSpore)
+    DECLARE_ENT_ALLOCATOR2(Projectile, VenusSpore)
 
 public:
-	~CProjectileVenusSpore()	{}
-	CProjectileVenusSpore() :
-	IProjectile(GetEntityConfig())
-	{}
+    ~CProjectileVenusSpore()    {}
+    CProjectileVenusSpore() :
+    IProjectile(GetEntityConfig())
+    {}
 };
 //=============================================================================
 

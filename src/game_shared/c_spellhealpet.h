@@ -17,13 +17,13 @@
 class CSpellHealPet : public ISpellItem
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Spell, HealPet);
+    DECLARE_ENT_ALLOCATOR2(Spell, HealPet);
 
 public:
-	~CSpellHealPet()	{}
-	CSpellHealPet() :
-	ISpellItem(GetEntityConfig())
-	{}
+    ~CSpellHealPet()    {}
+    CSpellHealPet() :
+    ISpellItem(GetEntityConfig())
+    {}
 };
 //=============================================================================
 

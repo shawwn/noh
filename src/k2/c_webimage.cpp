@@ -28,8 +28,8 @@
   ====================*/
 CWebImage::~CWebImage()
 {
-	if (!m_sURL.empty() && m_eState == WEBIMAGE_FINISHED)
-		UITextureRegistry.ReleaseDownloadedTexture(m_sURL);
+    if (!m_sURL.empty() && m_eState == WEBIMAGE_FINISHED)
+        UITextureRegistry.ReleaseDownloadedTexture(m_sURL);
 }
 
 
@@ -40,128 +40,128 @@ CWebImage::CWebImage(CInterface *pInterface, IWidget *pParent, const CWidgetStyl
 IWidget(pInterface, pParent, WIDGET_WEBIMAGE, style),
 m_eState(WEBIMAGE_BLANK)
 {
-	// Color
-	if (!style.HasProperty(_CTS("color")))
-		SetColor(WHITE);
+    // Color
+    if (!style.HasProperty(_CTS("color")))
+        SetColor(WHITE);
 
-	if (IsAbsoluteVisible())
-		DO_EVENT(WEVENT_SHOW)
+    if (IsAbsoluteVisible())
+        DO_EVENT(WEVENT_SHOW)
 
-	if (style.HasProperty(_CTS("textureurl")))
-		SetTextureURL(style.GetProperty(_CTS("textureurl")));
+    if (style.HasProperty(_CTS("textureurl")))
+        SetTextureURL(style.GetProperty(_CTS("textureurl")));
 }
 
 
 /*====================
   CWebImage::SetTextureURL
   ====================*/
-void	CWebImage::SetTextureURL(const tstring &sURL)
+void    CWebImage::SetTextureURL(const tstring &sURL)
 {
-	tstring sCleanURL(FileManager.SanitizePath(sURL));
+    tstring sCleanURL(FileManager.SanitizePath(sURL));
 
-	size_t zPos(sCleanURL.find(_T("://")));
-	if (zPos == tstring::npos)
-	{
-		if (!m_sURL.empty() && m_eState == WEBIMAGE_FINISHED)
-			UITextureRegistry.ReleaseDownloadedTexture(m_sURL);
+    size_t zPos(sCleanURL.find(_T("://")));
+    if (zPos == tstring::npos)
+    {
+        if (!m_sURL.empty() && m_eState == WEBIMAGE_FINISHED)
+            UITextureRegistry.ReleaseDownloadedTexture(m_sURL);
 
-		m_sURL.clear();
+        m_sURL.clear();
 
-		m_hTexture[0] = g_ResourceManager.GetWhiteTexture();
+        m_hTexture[0] = g_ResourceManager.GetWhiteTexture();
 
-		return;
-	}
+        return;
+    }
 
-	if (sCleanURL == m_sURL)
-		return;
+    if (sCleanURL == m_sURL)
+        return;
 
-	if (!m_sURL.empty() && m_eState == WEBIMAGE_FINISHED)
-		UITextureRegistry.ReleaseDownloadedTexture(m_sURL);
+    if (!m_sURL.empty() && m_eState == WEBIMAGE_FINISHED)
+        UITextureRegistry.ReleaseDownloadedTexture(m_sURL);
 
-	m_sURL = sCleanURL;
+    m_sURL = sCleanURL;
 
-	m_eState = WEBIMAGE_DOWNLOADING;
+    m_eState = WEBIMAGE_DOWNLOADING;
 
-	UITextureRegistry.StartDownload(sCleanURL);
+    UITextureRegistry.StartDownload(sCleanURL);
 
-	if (UITextureRegistry.IsDownloaded(sCleanURL))
-	{
-		m_eState = WEBIMAGE_FINISHED;
+    if (UITextureRegistry.IsDownloaded(sCleanURL))
+    {
+        m_eState = WEBIMAGE_FINISHED;
 
-		m_hTexture[0] = UITextureRegistry.GetDownloadedTexture(sCleanURL);
-	}
+        m_hTexture[0] = UITextureRegistry.GetDownloadedTexture(sCleanURL);
+    }
 }
 
 
 /*====================
   CWebImage::Frame
   ====================*/
-void	CWebImage::Frame(uint uiFrameLength, bool bProcessFrame)
+void    CWebImage::Frame(uint uiFrameLength, bool bProcessFrame)
 {
-	IWidget::Frame(uiFrameLength, bProcessFrame);
+    IWidget::Frame(uiFrameLength, bProcessFrame);
 
-	if (m_eState == WEBIMAGE_DOWNLOADING)
-	{
-		if (UITextureRegistry.IsDownloaded(m_sURL))
-		{
-			m_eState = WEBIMAGE_FINISHED;
+    if (m_eState == WEBIMAGE_DOWNLOADING)
+    {
+        if (UITextureRegistry.IsDownloaded(m_sURL))
+        {
+            m_eState = WEBIMAGE_FINISHED;
 
-			m_hTexture[0] = UITextureRegistry.GetDownloadedTexture(m_sURL);
-		}
-	}
+            m_hTexture[0] = UITextureRegistry.GetDownloadedTexture(m_sURL);
+        }
+    }
 }
 
 
 /*====================
   CWebImage::MouseDown
   ====================*/
-void	CWebImage::MouseDown(EButton button, const CVec2f &v2CursorPos)
+void    CWebImage::MouseDown(EButton button, const CVec2f &v2CursorPos)
 {
-	if (button == BUTTON_MOUSEL)
-	{
-		DO_EVENT(WEVENT_MOUSELDOWN)
-		DO_EVENT(WEVENT_CLICK)
-		
-	}
-	else if (button == BUTTON_MOUSER)
-	{
-		DO_EVENT(WEVENT_MOUSERDOWN)
-		DO_EVENT(WEVENT_RIGHTCLICK)
-	}
+    if (button == BUTTON_MOUSEL)
+    {
+        DO_EVENT(WEVENT_MOUSELDOWN)
+        DO_EVENT(WEVENT_CLICK)
+        
+    }
+    else if (button == BUTTON_MOUSER)
+    {
+        DO_EVENT(WEVENT_MOUSERDOWN)
+        DO_EVENT(WEVENT_RIGHTCLICK)
+    }
 }
 
 
 /*====================
   CWebImage::MouseUp
   ====================*/
-void	CWebImage::MouseUp(EButton button, const CVec2f &v2CursorPos)
+void    CWebImage::MouseUp(EButton button, const CVec2f &v2CursorPos)
 {
-	if (button == BUTTON_MOUSEL)
-	{
-		DO_EVENT(WEVENT_MOUSELUP)
-	}
-	else if (button == BUTTON_MOUSER)
-	{
-		DO_EVENT(WEVENT_MOUSERUP)
-	}
+    if (button == BUTTON_MOUSEL)
+    {
+        DO_EVENT(WEVENT_MOUSELUP)
+    }
+    else if (button == BUTTON_MOUSER)
+    {
+        DO_EVENT(WEVENT_MOUSERUP)
+    }
 }
 
 
 /*====================
   CWebImage::SetTexture
   ====================*/
-void	CWebImage::SetTexture(const tstring &sTexture)
+void    CWebImage::SetTexture(const tstring &sTexture)
 {
-	SetTextureURL(TSNULL);
+    SetTextureURL(TSNULL);
 
-	IWidget::SetTexture(sTexture);
+    IWidget::SetTexture(sTexture);
 }
 
-void	CWebImage::SetTexture(const tstring &sTexture, const tstring &sSuffix)
+void    CWebImage::SetTexture(const tstring &sTexture, const tstring &sSuffix)
 {
-	SetTextureURL(TSNULL);
+    SetTextureURL(TSNULL);
 
-	IWidget::SetTexture(sTexture, sSuffix);
+    IWidget::SetTexture(sTexture, sSuffix);
 }
 
 
@@ -170,9 +170,9 @@ void	CWebImage::SetTexture(const tstring &sTexture, const tstring &sSuffix)
   --------------------*/
 UI_VOID_CMD(SetTextureURL, 1)
 {
-	if (pThis == NULL || pThis->GetType() != WIDGET_WEBIMAGE)
-		return;
+    if (pThis == NULL || pThis->GetType() != WIDGET_WEBIMAGE)
+        return;
 
-	static_cast<CWebImage *>(pThis)->SetTextureURL(vArgList[0]->Evaluate());
+    static_cast<CWebImage *>(pThis)->SetTextureURL(vArgList[0]->Evaluate());
 }
 

@@ -23,25 +23,25 @@ class CWorld;
 class CTexelOcclusionMap : public IWorldComponent
 {
 private:
-	bool		m_bActive;
-	byte		*m_pTexelOcclusion;
+    bool        m_bActive;
+    byte        *m_pTexelOcclusion;
 
 public:
-	~CTexelOcclusionMap();
-	CTexelOcclusionMap(EWorldComponent eComponent);
+    ~CTexelOcclusionMap();
+    CTexelOcclusionMap(EWorldComponent eComponent);
 
-	bool	Load(CArchive &archive, const CWorld *pWorld);
-	bool	Generate(const CWorld *pWorld);
-	void	Release();
-	bool	Serialize(IBuffer *pBuffer);
+    bool    Load(CArchive &archive, const CWorld *pWorld);
+    bool    Generate(const CWorld *pWorld);
+    void    Release();
+    bool    Serialize(IBuffer *pBuffer);
 
-	bool	GetRegion(const CRecti &recArea, void *pDest, int iLayer) const;
-	bool	SetRegion(const CRecti &recArea, void *pSource, int iLayer);
+    bool    GetRegion(const CRecti &recArea, void *pDest, int iLayer) const;
+    bool    SetRegion(const CRecti &recArea, void *pSource, int iLayer);
 
-	K2_API byte	GetTexelOcclusion(int iX, int iY);
-	K2_API void	SetOcclusion(int iX, int iY, byte yAlpha);
+    K2_API byte GetTexelOcclusion(int iX, int iY);
+    K2_API void SetOcclusion(int iX, int iY, byte yAlpha);
 
-	K2_API void	Calculate(int iSamples);
+    K2_API void Calculate(int iSamples);
 };
 //=============================================================================
 #endif //__C_TEXELALPHAMAP_H__

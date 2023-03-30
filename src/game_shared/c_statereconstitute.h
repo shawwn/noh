@@ -17,17 +17,17 @@
 class CStateReconstitute : public IEntityState
 {
 private:
-	START_ENTITY_CONFIG(IEntityState)
-		DECLARE_ENTITY_CVAR(float, HealthRegenMult)
-	END_ENTITY_CONFIG
+    START_ENTITY_CONFIG(IEntityState)
+        DECLARE_ENTITY_CVAR(float, HealthRegenMult)
+    END_ENTITY_CONFIG
 
-	CEntityConfig*	m_pEntityConfig;
+    CEntityConfig*  m_pEntityConfig;
 
-	DECLARE_ENT_ALLOCATOR2(State, Reconstitute);
+    DECLARE_ENT_ALLOCATOR2(State, Reconstitute);
 
 public:
-	~CStateReconstitute() {};
-	CStateReconstitute();
+    ~CStateReconstitute() {};
+    CStateReconstitute();
 };
 //=============================================================================
 

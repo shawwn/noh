@@ -17,13 +17,13 @@
 class CGunHolyBolt : public IGunItem
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Gun, HolyBolt);
+    DECLARE_ENT_ALLOCATOR2(Gun, HolyBolt);
 
 public:
-	~CGunHolyBolt()	{}
-	CGunHolyBolt() :
-	IGunItem(GetEntityConfig())
-	{}
+    ~CGunHolyBolt() {}
+    CGunHolyBolt() :
+    IGunItem(GetEntityConfig())
+    {}
 };
 //=============================================================================
 

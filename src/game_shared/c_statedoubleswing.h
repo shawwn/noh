@@ -17,17 +17,17 @@
 class CStateDoubleSwing : public IEntityState
 {
 private:
-	DECLARE_STATE_ALLOCATOR(DoubleSwing);
-	DECLARE_ENTITY_STATE_CVARS;
-	static CCvarui	s_cvarAttackTime;
-	static CCvarf	s_cvarAttackMinDamage;
-	static CCvarf	s_cvarAttackMaxDamage;
+    DECLARE_STATE_ALLOCATOR(DoubleSwing);
+    DECLARE_ENTITY_STATE_CVARS;
+    static CCvarui  s_cvarAttackTime;
+    static CCvarf   s_cvarAttackMinDamage;
+    static CCvarf   s_cvarAttackMaxDamage;
 
 public:
-	~CStateDoubleSwing();
-	CStateDoubleSwing();
+    ~CStateDoubleSwing();
+    CStateDoubleSwing();
 
-	void	DoAttack(CMeleeAttackEvent &attack);
+    void    DoAttack(CMeleeAttackEvent &attack);
 };
 //=============================================================================
 

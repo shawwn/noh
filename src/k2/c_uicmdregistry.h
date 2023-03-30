@@ -14,7 +14,7 @@ class CUICmd;
 //=============================================================================
 // Definitions
 //=============================================================================
-typedef map<tstring, CUICmd*>			UICmdMap;
+typedef map<tstring, CUICmd*>           UICmdMap;
 //=============================================================================
 
 //=============================================================================
@@ -23,56 +23,56 @@ typedef map<tstring, CUICmd*>			UICmdMap;
 class CUICmdRegistry
 {
 private:
-	static CUICmdRegistry	*s_pInstance;
-	static bool				s_bRequested, s_bReleased;
+    static CUICmdRegistry   *s_pInstance;
+    static bool             s_bRequested, s_bReleased;
 
-	CUICmdRegistry() {}
-	CUICmdRegistry(CUICmdRegistry&);
-	CUICmdRegistry& operator=(CUICmdRegistry&);
+    CUICmdRegistry() {}
+    CUICmdRegistry(CUICmdRegistry&);
+    CUICmdRegistry& operator=(CUICmdRegistry&);
 
-	UICmdMap		m_mapUICmds;
+    UICmdMap        m_mapUICmds;
 
 public:
-	static CUICmdRegistry*	GetInstance();
-	static void				Release();
-	static bool				IsReleased()	{ return s_bReleased; }
+    static CUICmdRegistry*  GetInstance();
+    static void             Release();
+    static bool             IsReleased()    { return s_bReleased; }
 
-	void					Register(CUICmd *pUICmd);
-	void					Unregister(const tstring &sName);
+    void                    Register(CUICmd *pUICmd);
+    void                    Unregister(const tstring &sName);
 
-	K2_API inline CUICmd*	GetUICmd(const tstring &sUICmd);
+    K2_API inline CUICmd*   GetUICmd(const tstring &sUICmd);
 
-	const UICmdMap&			GetUICmdMap()	{ return m_mapUICmds; }
+    const UICmdMap&         GetUICmdMap()   { return m_mapUICmds; }
 
-	K2_API inline bool		Exists(const tstring &sUICmd);
+    K2_API inline bool      Exists(const tstring &sUICmd);
 };
 
 
 /*====================
   CUICmdRegistry::Exists
   ====================*/
-bool	CUICmdRegistry::Exists(const tstring &sUICmd)
+bool    CUICmdRegistry::Exists(const tstring &sUICmd)
 {
-	UICmdMap::iterator find = m_mapUICmds.find(LowerString(sUICmd));
+    UICmdMap::iterator find = m_mapUICmds.find(LowerString(sUICmd));
 
-	if (find == m_mapUICmds.end())
-		return false;
+    if (find == m_mapUICmds.end())
+        return false;
 
-	return true;
+    return true;
 }
 
 
 /*====================
   CUICmdRegistry::GetUICmd
   ====================*/
-CUICmd	*CUICmdRegistry::GetUICmd(const tstring &sUICmd)
+CUICmd  *CUICmdRegistry::GetUICmd(const tstring &sUICmd)
 {
-	UICmdMap::iterator find = m_mapUICmds.find(LowerString(sUICmd));
+    UICmdMap::iterator find = m_mapUICmds.find(LowerString(sUICmd));
 
-	if (find == m_mapUICmds.end())
-		return NULL;
-	else
-		return find->second;
+    if (find == m_mapUICmds.end())
+        return NULL;
+    else
+        return find->second;
 }
 
 extern K2_API CUICmdRegistry *pUICmdRegistry;

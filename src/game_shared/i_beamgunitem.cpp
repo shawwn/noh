@@ -45,11 +45,11 @@ INIT_ENTITY_CVAR(UseHitEffect, false)
   ====================*/
 IBeamGunItem::~IBeamGunItem()
 {
-	if (m_uiEffectIndex != INVALID_INDEX)
-	{
-		Game.DeleteEntity(m_uiEffectIndex);
-		m_uiEffectIndex = INVALID_INDEX;
-	}
+    if (m_uiEffectIndex != INVALID_INDEX)
+    {
+        Game.DeleteEntity(m_uiEffectIndex);
+        m_uiEffectIndex = INVALID_INDEX;
+    }
 }
 
 
@@ -68,263 +68,263 @@ m_uiEffectIndex(INVALID_INDEX)
 /*====================
   IBeamGunItem::StopFire
   ====================*/
-void	IBeamGunItem::StopFire()
+void    IBeamGunItem::StopFire()
 {
-	ICombatEntity *pOwner(GetOwnerEnt());
-	if (!pOwner)
-		return;
+    ICombatEntity *pOwner(GetOwnerEnt());
+    if (!pOwner)
+        return;
 
-	// Third Person Animations
-	if (!GetThirdPersonFireAnimName().empty())
-		pOwner->StopAnimation(GetThirdPersonFireAnimName(), 1);
+    // Third Person Animations
+    if (!GetThirdPersonFireAnimName().empty())
+        pOwner->StopAnimation(GetThirdPersonFireAnimName(), 1);
 
-	// First person animations
-	if (pOwner->IsPlayer())
-		pOwner->GetAsPlayerEnt()->StopFirstPersonAnimation(_T("fire"));
+    // First person animations
+    if (pOwner->IsPlayer())
+        pOwner->GetAsPlayerEnt()->StopFirstPersonAnimation(_T("fire"));
 
-	RemoveNetFlags(ITEM_NET_FLAG_ACTIVE);
+    RemoveNetFlags(ITEM_NET_FLAG_ACTIVE);
 
-	if (m_uiEffectIndex != INVALID_INDEX)
-	{
-		Game.DeleteEntity(m_uiEffectIndex);
-		m_uiEffectIndex = INVALID_INDEX;
-	}
+    if (m_uiEffectIndex != INVALID_INDEX)
+    {
+        Game.DeleteEntity(m_uiEffectIndex);
+        m_uiEffectIndex = INVALID_INDEX;
+    }
 }
 
 
 /*====================
   IBeamGunItem::Unselected
   ====================*/
-void	IBeamGunItem::Unselected()
+void    IBeamGunItem::Unselected()
 {
-	StopFire();
+    StopFire();
 
-	IGunItem::Unselected();
+    IGunItem::Unselected();
 }
 
 
 /*====================
   IBeamGunItem::Fire
   ====================*/
-bool	IBeamGunItem::Fire(int iButtonStatus)
+bool    IBeamGunItem::Fire(int iButtonStatus)
 {
-	ICombatEntity *pOwner(GetOwnerEnt());
-	if (!pOwner)
-		return true;
+    ICombatEntity *pOwner(GetOwnerEnt());
+    if (!pOwner)
+        return true;
 
-	// Don't interrupt other actions
-	if (pOwner->GetAction() != PLAYER_ACTION_IDLE &&
-		pOwner->GetAction() != PLAYER_ACTION_GUN_WARM &&
-		pOwner->GetAction() != PLAYER_ACTION_GUN_CHARGE &&
-		pOwner->GetAction() != PLAYER_ACTION_GUN_CHARGED &&
-		pOwner->GetAction() != PLAYER_ACTION_GUN_FIRE)
-	{
-		StopFire();
-		return false;
-	}
+    // Don't interrupt other actions
+    if (pOwner->GetAction() != PLAYER_ACTION_IDLE &&
+        pOwner->GetAction() != PLAYER_ACTION_GUN_WARM &&
+        pOwner->GetAction() != PLAYER_ACTION_GUN_CHARGE &&
+        pOwner->GetAction() != PLAYER_ACTION_GUN_CHARGED &&
+        pOwner->GetAction() != PLAYER_ACTION_GUN_FIRE)
+    {
+        StopFire();
+        return false;
+    }
 
-	CAxis axis(pOwner->GetAngles());
+    CAxis axis(pOwner->GetAngles());
 
-	const CVec3f &v3Forward(axis.Forward());
-	//const CVec3f &v3Offset(GetAttackOffset());
-	CVec3f v3Start(pOwner->GetPosition() + V_UP * pOwner->GetViewHeight());
+    const CVec3f &v3Forward(axis.Forward());
+    //const CVec3f &v3Offset(GetAttackOffset());
+    CVec3f v3Start(pOwner->GetPosition() + V_UP * pOwner->GetViewHeight());
 
-	// Third Person Animations
-	if (!GetThirdPersonFireAnimName().empty() && pOwner->GetAction() == PLAYER_ACTION_IDLE)
-		pOwner->StartAnimation(GetThirdPersonFireAnimName(), 1);
+    // Third Person Animations
+    if (!GetThirdPersonFireAnimName().empty() && pOwner->GetAction() == PLAYER_ACTION_IDLE)
+        pOwner->StartAnimation(GetThirdPersonFireAnimName(), 1);
 
-	// First person animations
-	if (pOwner->IsPlayer() && pOwner->GetAction() == PLAYER_ACTION_IDLE)
-		pOwner->GetAsPlayerEnt()->StartFirstPersonAnimation(_T("fire"));
+    // First person animations
+    if (pOwner->IsPlayer() && pOwner->GetAction() == PLAYER_ACTION_IDLE)
+        pOwner->GetAsPlayerEnt()->StartFirstPersonAnimation(_T("fire"));
 
-	CVec3f v3Dir(v3Forward);
-	CVec3f v3End(v3Start + v3Dir * GetRange());
+    CVec3f v3Dir(v3Forward);
+    CVec3f v3End(v3Start + v3Dir * GetRange());
 
-	// Do a trace
-	STraceInfo result;
-	Game.TraceLine(result, v3Start, v3End, TRACE_PROJECTILE, pOwner->GetWorldIndex());
+    // Do a trace
+    STraceInfo result;
+    Game.TraceLine(result, v3Start, v3End, TRACE_PROJECTILE, pOwner->GetWorldIndex());
 
-	IVisualEntity *pEntity(NULL);
-	if (result.uiEntityIndex != INVALID_INDEX)
-	{
-		pEntity = Game.GetEntityFromWorldIndex(result.uiEntityIndex);
-		if (pEntity)
-		{
-			if (!pEntity->Impact(result, pOwner) || !pEntity->CanTakeDamage(DAMAGE_FLAG_GUN, pOwner))
-				pEntity = NULL;
-		}
-	}
+    IVisualEntity *pEntity(NULL);
+    if (result.uiEntityIndex != INVALID_INDEX)
+    {
+        pEntity = Game.GetEntityFromWorldIndex(result.uiEntityIndex);
+        if (pEntity)
+        {
+            if (!pEntity->Impact(result, pOwner) || !pEntity->CanTakeDamage(DAMAGE_FLAG_GUN, pOwner))
+                pEntity = NULL;
+        }
+    }
 
-	if (!GetAttackTime() || pOwner->GetAction() == PLAYER_ACTION_IDLE || pOwner->GetAction() == PLAYER_ACTION_GUN_WARM)
-	{
-		// Check ammo
-		if (GetAdjustedAmmoCount() > 0 &&
-			!pOwner->UseAmmo(m_ySlot))
-		{
-			StopFire();
-			return CoolDown();
-		}
+    if (!GetAttackTime() || pOwner->GetAction() == PLAYER_ACTION_IDLE || pOwner->GetAction() == PLAYER_ACTION_GUN_WARM)
+    {
+        // Check ammo
+        if (GetAdjustedAmmoCount() > 0 &&
+            !pOwner->UseAmmo(m_ySlot))
+        {
+            StopFire();
+            return CoolDown();
+        }
 
-		float fFrameTime;
-		if (GetAttackTime())
-			fFrameTime = GetAttackTime() * SEC_PER_MS;
-		else
-			fFrameTime = Game.GetFrameLength() * SEC_PER_MS;
+        float fFrameTime;
+        if (GetAttackTime())
+            fFrameTime = GetAttackTime() * SEC_PER_MS;
+        else
+            fFrameTime = Game.GetFrameLength() * SEC_PER_MS;
 
-		if (pEntity)
-		{
-			float fManaCost(pOwner->GetGunManaCost(GetManaCostPerSecondHit()) * fFrameTime);
+        if (pEntity)
+        {
+            float fManaCost(pOwner->GetGunManaCost(GetManaCostPerSecondHit()) * fFrameTime);
 
-			// Check mana
-			if (GetManaCostPerSecondHit() > 0.0f &&
-				!pOwner->SpendMana(fManaCost))
-			{
-				StopFire();
-				pOwner->SetMana(0.0f);
-				return false;
-			}
+            // Check mana
+            if (GetManaCostPerSecondHit() > 0.0f &&
+                !pOwner->SpendMana(fManaCost))
+            {
+                StopFire();
+                pOwner->SetMana(0.0f);
+                return false;
+            }
 
-			if (Game.IsServer())
-			{
-				float fDamage(M_Randnum(pOwner->GetRangedMinDamage(m_ySlot), pOwner->GetRangedMaxDamage(m_ySlot)) * fFrameTime);
-				ICombatEntity *pCombat(pEntity->GetAsCombatEnt());
+            if (Game.IsServer())
+            {
+                float fDamage(M_Randnum(pOwner->GetRangedMinDamage(m_ySlot), pOwner->GetRangedMaxDamage(m_ySlot)) * fFrameTime);
+                ICombatEntity *pCombat(pEntity->GetAsCombatEnt());
 
-				//fDamage *= (1.0f + pOwner->GetAttributeBoost(ATTRIBUTE_RANGED_DAMAGE));
+                //fDamage *= (1.0f + pOwner->GetAttributeBoost(ATTRIBUTE_RANGED_DAMAGE));
 
-				if (pEntity->IsBuilding())
-					fDamage *= GetPierceBuilding();
-				else if (pCombat != NULL && pCombat->GetIsSiege())
-					fDamage *= GetPierceSiege();
-				else if (pCombat != NULL && pCombat->GetIsHellbourne())
-					fDamage *= GetPierceHellbourne();
-				else if (pEntity->IsPlayer() || pEntity->IsNpc() || pEntity->IsPet())
-					fDamage *= GetPierceUnit();
+                if (pEntity->IsBuilding())
+                    fDamage *= GetPierceBuilding();
+                else if (pCombat != NULL && pCombat->GetIsSiege())
+                    fDamage *= GetPierceSiege();
+                else if (pCombat != NULL && pCombat->GetIsHellbourne())
+                    fDamage *= GetPierceHellbourne();
+                else if (pEntity->IsPlayer() || pEntity->IsNpc() || pEntity->IsPet())
+                    fDamage *= GetPierceUnit();
 
-				if (pEntity->Damage(fDamage, DAMAGE_FLAG_GUN, pOwner, GetType()) > 0)
-					pEntity->Hit(result.v3EndPos, result.plPlane.v3Normal);	// FIXME: Put something meaningful here
+                if (pEntity->Damage(fDamage, DAMAGE_FLAG_GUN, pOwner, GetType()) > 0)
+                    pEntity->Hit(result.v3EndPos, result.plPlane.v3Normal); // FIXME: Put something meaningful here
 
-				if (pEntity->GetTeam() != pOwner->GetTeam())
-				{
-					ushort unStateID(0);
-					if (!m_pEntityConfig->GetTargetState().empty())
-						unStateID = EntityRegistry.LookupID(m_pEntityConfig->GetTargetState());
-					if (unStateID != 0)
-						pEntity->ApplyState(unStateID, Game.GetGameTime(), m_pEntityConfig->GetTargetStateDuration(), pOwner->GetIndex());
-				}
-			}
-		}
-		else
-		{
-			float fManaCost(pOwner->GetGunManaCost(GetManaCostPerSecondMiss()) * fFrameTime);
+                if (pEntity->GetTeam() != pOwner->GetTeam())
+                {
+                    ushort unStateID(0);
+                    if (!m_pEntityConfig->GetTargetState().empty())
+                        unStateID = EntityRegistry.LookupID(m_pEntityConfig->GetTargetState());
+                    if (unStateID != 0)
+                        pEntity->ApplyState(unStateID, Game.GetGameTime(), m_pEntityConfig->GetTargetStateDuration(), pOwner->GetIndex());
+                }
+            }
+        }
+        else
+        {
+            float fManaCost(pOwner->GetGunManaCost(GetManaCostPerSecondMiss()) * fFrameTime);
 
-			// Check mana
-			if (GetManaCostPerSecondMiss() > 0.0f &&
-				!pOwner->SpendMana(fManaCost))
-			{
-				StopFire();
-				pOwner->SetMana(0.0f);
-				return false;
-			}
-		}
+            // Check mana
+            if (GetManaCostPerSecondMiss() > 0.0f &&
+                !pOwner->SpendMana(fManaCost))
+            {
+                StopFire();
+                pOwner->SetMana(0.0f);
+                return false;
+            }
+        }
 
-		if (GetAttackTime())
-			pOwner->SetAction(PLAYER_ACTION_GUN_FIRE, (Game.GetGameTime() / GetAttackTime() + 1) * GetAttackTime()); // Round down to the nearest AttackTime (acts like an accumulator)
-	}
+        if (GetAttackTime())
+            pOwner->SetAction(PLAYER_ACTION_GUN_FIRE, (Game.GetGameTime() / GetAttackTime() + 1) * GetAttackTime()); // Round down to the nearest AttackTime (acts like an accumulator)
+    }
 
-	SetNetFlags(ITEM_NET_FLAG_ACTIVE);
+    SetNetFlags(ITEM_NET_FLAG_ACTIVE);
 
-	if (Game.IsClient())
-		return true;
+    if (Game.IsClient())
+        return true;
 
-	// Notify all states that an attack is occuring
-	pOwner->DoRangedAttack();
+    // Notify all states that an attack is occuring
+    pOwner->DoRangedAttack();
 
-	if (m_uiEffectIndex == INVALID_INDEX)
-	{
-		IGameEntity *pNew(Game.AllocateEntity(Entity_Effect));
-		m_uiEffectIndex = pNew ? pNew->GetIndex() : INVALID_INDEX;
-	}
+    if (m_uiEffectIndex == INVALID_INDEX)
+    {
+        IGameEntity *pNew(Game.AllocateEntity(Entity_Effect));
+        m_uiEffectIndex = pNew ? pNew->GetIndex() : INVALID_INDEX;
+    }
 
-	CEntityEffect *pEffect(static_cast<CEntityEffect *>(Game.GetEntity(m_uiEffectIndex)));
-	if (pEffect)
-	{
-		if (!pEntity || !m_pEntityConfig->GetUseHitEffect())
-		{
-			pEffect->SetSourceEntityIndex(pOwner->GetIndex());
-			pEffect->SetTargetEntityIndex(INVALID_INDEX);
-			
-			pEffect->SetTargetPosition(result.v3EndPos);
+    CEntityEffect *pEffect(static_cast<CEntityEffect *>(Game.GetEntity(m_uiEffectIndex)));
+    if (pEffect)
+    {
+        if (!pEntity || !m_pEntityConfig->GetUseHitEffect())
+        {
+            pEffect->SetSourceEntityIndex(pOwner->GetIndex());
+            pEffect->SetTargetEntityIndex(INVALID_INDEX);
+            
+            pEffect->SetTargetPosition(result.v3EndPos);
 
-			if (!m_pEntityConfig->GetThirdPersonMissEffectPath().empty())
-				pEffect->SetEffect(EFFECT_CHANNEL_BEAM_THIRD_PERSON, Game.RegisterEffect(m_pEntityConfig->GetThirdPersonMissEffectPath()));
-			else
-				pEffect->SetEffect(EFFECT_CHANNEL_BEAM_THIRD_PERSON, INVALID_RESOURCE);
+            if (!m_pEntityConfig->GetThirdPersonMissEffectPath().empty())
+                pEffect->SetEffect(EFFECT_CHANNEL_BEAM_THIRD_PERSON, Game.RegisterEffect(m_pEntityConfig->GetThirdPersonMissEffectPath()));
+            else
+                pEffect->SetEffect(EFFECT_CHANNEL_BEAM_THIRD_PERSON, INVALID_RESOURCE);
 
-			if (!m_pEntityConfig->GetFirstPersonMissEffectPath().empty())
-				pEffect->SetEffect(EFFECT_CHANNEL_BEAM_FIRST_PERSON, Game.RegisterEffect(m_pEntityConfig->GetFirstPersonMissEffectPath()));
-			else
-				pEffect->SetEffect(EFFECT_CHANNEL_BEAM_FIRST_PERSON, INVALID_RESOURCE);
-		}
-		else
-		{
-			pEffect->SetSourceEntityIndex(pOwner->GetIndex());
-			pEffect->SetTargetEntityIndex(pEntity->GetIndex());
+            if (!m_pEntityConfig->GetFirstPersonMissEffectPath().empty())
+                pEffect->SetEffect(EFFECT_CHANNEL_BEAM_FIRST_PERSON, Game.RegisterEffect(m_pEntityConfig->GetFirstPersonMissEffectPath()));
+            else
+                pEffect->SetEffect(EFFECT_CHANNEL_BEAM_FIRST_PERSON, INVALID_RESOURCE);
+        }
+        else
+        {
+            pEffect->SetSourceEntityIndex(pOwner->GetIndex());
+            pEffect->SetTargetEntityIndex(pEntity->GetIndex());
 
-			if (!m_pEntityConfig->GetThirdPersonHitEffectPath().empty())
-				pEffect->SetEffect(EFFECT_CHANNEL_BEAM_THIRD_PERSON, Game.RegisterEffect(m_pEntityConfig->GetThirdPersonHitEffectPath()));
-			else
-				pEffect->SetEffect(EFFECT_CHANNEL_BEAM_THIRD_PERSON, INVALID_RESOURCE);
+            if (!m_pEntityConfig->GetThirdPersonHitEffectPath().empty())
+                pEffect->SetEffect(EFFECT_CHANNEL_BEAM_THIRD_PERSON, Game.RegisterEffect(m_pEntityConfig->GetThirdPersonHitEffectPath()));
+            else
+                pEffect->SetEffect(EFFECT_CHANNEL_BEAM_THIRD_PERSON, INVALID_RESOURCE);
 
-			if (!m_pEntityConfig->GetFirstPersonHitEffectPath().empty())
-				pEffect->SetEffect(EFFECT_CHANNEL_BEAM_FIRST_PERSON, Game.RegisterEffect(m_pEntityConfig->GetFirstPersonHitEffectPath()));
-			else
-				pEffect->SetEffect(EFFECT_CHANNEL_BEAM_FIRST_PERSON, INVALID_RESOURCE);
-		}
-	}
+            if (!m_pEntityConfig->GetFirstPersonHitEffectPath().empty())
+                pEffect->SetEffect(EFFECT_CHANNEL_BEAM_FIRST_PERSON, Game.RegisterEffect(m_pEntityConfig->GetFirstPersonHitEffectPath()));
+            else
+                pEffect->SetEffect(EFFECT_CHANNEL_BEAM_FIRST_PERSON, INVALID_RESOURCE);
+        }
+    }
 
-	return true;
+    return true;
 }
 
 
 /*====================
   IBeamGunItem::ActivatePrimary
   ====================*/
-bool	IBeamGunItem::ActivatePrimary(int iButtonStatus)
+bool    IBeamGunItem::ActivatePrimary(int iButtonStatus)
 {
-	ICombatEntity *pOwner(GetOwnerEnt());
-	if (!pOwner)
-		return false;
+    ICombatEntity *pOwner(GetOwnerEnt());
+    if (!pOwner)
+        return false;
 
-	bool bRet(IGunItem::ActivatePrimary(iButtonStatus));
+    bool bRet(IGunItem::ActivatePrimary(iButtonStatus));
 
-	if (pOwner->GetAction() != PLAYER_ACTION_GUN_FIRE && pOwner->GetAction() != PLAYER_ACTION_GUN_WARM)
-		StopFire();
+    if (pOwner->GetAction() != PLAYER_ACTION_GUN_FIRE && pOwner->GetAction() != PLAYER_ACTION_GUN_WARM)
+        StopFire();
 
-	return bRet;
+    return bRet;
 }
 
 
 /*====================
   IBeamGunItem::ClientPrecache
   ====================*/
-void	IBeamGunItem::ClientPrecache(CEntityConfig *pConfig)
+void    IBeamGunItem::ClientPrecache(CEntityConfig *pConfig)
 {
-	IGunItem::ClientPrecache(pConfig);
+    IGunItem::ClientPrecache(pConfig);
 
-	if (!pConfig)
-		return;
+    if (!pConfig)
+        return;
 
-	if (!pConfig->GetThirdPersonHitEffectPath().empty())
-		g_ResourceManager.Register(pConfig->GetThirdPersonHitEffectPath(), RES_EFFECT);
+    if (!pConfig->GetThirdPersonHitEffectPath().empty())
+        g_ResourceManager.Register(pConfig->GetThirdPersonHitEffectPath(), RES_EFFECT);
 
-	if (!pConfig->GetThirdPersonMissEffectPath().empty())
-		g_ResourceManager.Register(pConfig->GetThirdPersonMissEffectPath(), RES_EFFECT);
+    if (!pConfig->GetThirdPersonMissEffectPath().empty())
+        g_ResourceManager.Register(pConfig->GetThirdPersonMissEffectPath(), RES_EFFECT);
 
-	if (!pConfig->GetFirstPersonHitEffectPath().empty())
-		g_ResourceManager.Register(pConfig->GetFirstPersonHitEffectPath(), RES_EFFECT);
+    if (!pConfig->GetFirstPersonHitEffectPath().empty())
+        g_ResourceManager.Register(pConfig->GetFirstPersonHitEffectPath(), RES_EFFECT);
 
-	if (!pConfig->GetFirstPersonMissEffectPath().empty())
-		g_ResourceManager.Register(pConfig->GetFirstPersonMissEffectPath(), RES_EFFECT);
+    if (!pConfig->GetFirstPersonMissEffectPath().empty())
+        g_ResourceManager.Register(pConfig->GetFirstPersonMissEffectPath(), RES_EFFECT);
 }
 
 
@@ -333,23 +333,23 @@ void	IBeamGunItem::ClientPrecache(CEntityConfig *pConfig)
 
   Setup network resource handles and anything else the server needs for this entity
   ====================*/
-void	IBeamGunItem::ServerPrecache(CEntityConfig *pConfig)
+void    IBeamGunItem::ServerPrecache(CEntityConfig *pConfig)
 {
-	IGunItem::ServerPrecache(pConfig);
+    IGunItem::ServerPrecache(pConfig);
 
-	if (!pConfig)
-		return;
+    if (!pConfig)
+        return;
 
-	if (!pConfig->GetThirdPersonHitEffectPath().empty())
-		g_NetworkResourceManager.GetNetIndex(g_ResourceManager.Register(pConfig->GetThirdPersonHitEffectPath(), RES_EFFECT, RES_EFFECT_IGNORE_ALL));
+    if (!pConfig->GetThirdPersonHitEffectPath().empty())
+        g_NetworkResourceManager.GetNetIndex(g_ResourceManager.Register(pConfig->GetThirdPersonHitEffectPath(), RES_EFFECT, RES_EFFECT_IGNORE_ALL));
 
-	if (!pConfig->GetThirdPersonMissEffectPath().empty())
-		g_NetworkResourceManager.GetNetIndex(g_ResourceManager.Register(pConfig->GetThirdPersonMissEffectPath(), RES_EFFECT, RES_EFFECT_IGNORE_ALL));
+    if (!pConfig->GetThirdPersonMissEffectPath().empty())
+        g_NetworkResourceManager.GetNetIndex(g_ResourceManager.Register(pConfig->GetThirdPersonMissEffectPath(), RES_EFFECT, RES_EFFECT_IGNORE_ALL));
 
-	if (!pConfig->GetFirstPersonHitEffectPath().empty())
-		g_NetworkResourceManager.GetNetIndex(g_ResourceManager.Register(pConfig->GetFirstPersonHitEffectPath(), RES_EFFECT, RES_EFFECT_IGNORE_ALL));
+    if (!pConfig->GetFirstPersonHitEffectPath().empty())
+        g_NetworkResourceManager.GetNetIndex(g_ResourceManager.Register(pConfig->GetFirstPersonHitEffectPath(), RES_EFFECT, RES_EFFECT_IGNORE_ALL));
 
-	if (!pConfig->GetFirstPersonMissEffectPath().empty())
-		g_NetworkResourceManager.GetNetIndex(g_ResourceManager.Register(pConfig->GetFirstPersonMissEffectPath(), RES_EFFECT, RES_EFFECT_IGNORE_ALL));
+    if (!pConfig->GetFirstPersonMissEffectPath().empty())
+        g_NetworkResourceManager.GetNetIndex(g_ResourceManager.Register(pConfig->GetFirstPersonMissEffectPath(), RES_EFFECT, RES_EFFECT_IGNORE_ALL));
 }
 

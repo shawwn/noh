@@ -50,40 +50,40 @@ m_fTotalHealed(0.0f)
 /*====================
   CStateHeal::StateFrame
   ====================*/
-void	CStateHeal::StateFrame()
+void    CStateHeal::StateFrame()
 {
-	IEntityState::StateFrame();
+    IEntityState::StateFrame();
 
-	IVisualEntity *pOwner(Game.GetVisualEntity(m_uiOwnerIndex));
-	if (pOwner == NULL)
-		return;
+    IVisualEntity *pOwner(Game.GetVisualEntity(m_uiOwnerIndex));
+    if (pOwner == NULL)
+        return;
 
-	m_fTotalHealed += pOwner->Heal(m_pEntityConfig->GetHealthPerSecond() * MsToSec(Game.GetFrameLength()), Game.GetVisualEntity(m_uiInflictorIndex));
+    m_fTotalHealed += pOwner->Heal(m_pEntityConfig->GetHealthPerSecond() * MsToSec(Game.GetFrameLength()), Game.GetVisualEntity(m_uiInflictorIndex));
 
-	return;
+    return;
 }
 
 
 /*====================
   CStateHeal::Expired
   ====================*/
-void	CStateHeal::Expired()
+void    CStateHeal::Expired()
 {
-	IEntityState::Expired();
+    IEntityState::Expired();
 
-	IVisualEntity *pOwner(Game.GetVisualEntity(m_uiOwnerIndex));
-	if (pOwner == NULL)
-		return;
-	IPlayerEntity *pInflictor(Game.GetPlayerEntity(m_uiInflictorIndex));
-	if (pInflictor == NULL)
-		return;
+    IVisualEntity *pOwner(Game.GetVisualEntity(m_uiOwnerIndex));
+    if (pOwner == NULL)
+        return;
+    IPlayerEntity *pInflictor(Game.GetPlayerEntity(m_uiInflictorIndex));
+    if (pInflictor == NULL)
+        return;
 
-	ushort unGoldReward(INT_ROUND(m_fTotalHealed * g_goldHealing));
-	pInflictor->GiveExperience(m_fTotalHealed * g_expHealing, pOwner->GetPosition() + pOwner->GetBounds().GetMid());
-	pInflictor->GiveGold(unGoldReward, pOwner->GetPosition() + pOwner->GetBounds().GetMid(), true);
+    ushort unGoldReward(INT_ROUND(m_fTotalHealed * g_goldHealing));
+    pInflictor->GiveExperience(m_fTotalHealed * g_expHealing, pOwner->GetPosition() + pOwner->GetBounds().GetMid());
+    pInflictor->GiveGold(unGoldReward, pOwner->GetPosition() + pOwner->GetBounds().GetMid(), true);
 
-	if (pOwner->IsPlayer())
-		Game.MatchStatEvent(pInflictor->GetClientID(), PLAYER_MATCH_GOLD_EARNED, unGoldReward, pOwner->GetAsPlayerEnt()->GetClientID(), GetType());
-	else
-		Game.MatchStatEvent(pInflictor->GetClientID(), PLAYER_MATCH_GOLD_EARNED, unGoldReward, -1, GetType(), pOwner->GetType());
+    if (pOwner->IsPlayer())
+        Game.MatchStatEvent(pInflictor->GetClientID(), PLAYER_MATCH_GOLD_EARNED, unGoldReward, pOwner->GetAsPlayerEnt()->GetClientID(), GetType());
+    else
+        Game.MatchStatEvent(pInflictor->GetClientID(), PLAYER_MATCH_GOLD_EARNED, unGoldReward, -1, GetType(), pOwner->GetType());
 }

@@ -17,11 +17,11 @@
 class CProjectileTowerCannonball : public IProjectile
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Projectile, TowerCannonball);
+    DECLARE_ENT_ALLOCATOR2(Projectile, TowerCannonball);
 
 public:
-	~CProjectileTowerCannonball()	{}
-	CProjectileTowerCannonball();
+    ~CProjectileTowerCannonball()   {}
+    CProjectileTowerCannonball();
 };
 //=============================================================================
 

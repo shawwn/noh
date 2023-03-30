@@ -25,12 +25,12 @@
 #include "c_resourcemanager.h"
 //=============================================================================
 
-extern CCvar<CVec3f, float>	scene_terrainSunColor;
-extern CCvar<CVec3f, float>	scene_terrainAmbientColor;
-extern CCvar<CVec3f, float>	scene_entitySunColor;
-extern CCvar<CVec3f, float>	scene_entityAmbientColor;
-extern CCvar<float>			scene_sunAltitude;
-extern CCvar<float>			scene_sunAzimuth;
+extern CCvar<CVec3f, float> scene_terrainSunColor;
+extern CCvar<CVec3f, float> scene_terrainAmbientColor;
+extern CCvar<CVec3f, float> scene_entitySunColor;
+extern CCvar<CVec3f, float> scene_entityAmbientColor;
+extern CCvar<float>         scene_sunAltitude;
+extern CCvar<float>         scene_sunAzimuth;
 
 
 /*====================
@@ -59,269 +59,269 @@ m_bFovY(false),
 m_fCameraNear(style.GetPropertyFloat(_T("cameranear"), -1000.0f)),
 m_fCameraFar(style.GetPropertyFloat(_T("camerafar"), 1000.0f))
 {
-	m_uiFlags |= WFLAG_NO_DRAW;
+    m_uiFlags |= WFLAG_NO_DRAW;
 
-	m_Camera.DefaultCamera(m_recArea.GetWidth(), m_recArea.GetHeight());
+    m_Camera.DefaultCamera(m_recArea.GetWidth(), m_recArea.GetHeight());
 
-	m_Camera.SetAngles(style.GetPropertyVec3(_T("cameraangles"), CVec3f(90.0f, 0.0f, 0.0f)));
+    m_Camera.SetAngles(style.GetPropertyVec3(_T("cameraangles"), CVec3f(90.0f, 0.0f, 0.0f)));
 
-	m_Camera.SetWidth(m_recArea.GetWidth());
-	m_Camera.SetHeight(m_recArea.GetHeight());
+    m_Camera.SetWidth(m_recArea.GetWidth());
+    m_Camera.SetHeight(m_recArea.GetHeight());
 
-	m_Camera.SetZNear(m_fCameraNear);
-	m_Camera.SetZFar(m_fCameraFar);
+    m_Camera.SetZNear(m_fCameraNear);
+    m_Camera.SetZFar(m_fCameraFar);
 
-	int iFlags(CAM_NO_WORLD);
+    int iFlags(CAM_NO_WORLD);
 
-	iFlags |= CAM_ORTHO;
-	iFlags |= CAM_NO_SHADOWS;
-	iFlags |= CAM_NO_FOG;
-	iFlags |= CAM_NO_DEPTH_CLEAR;
-	iFlags |= CAM_DEPTH_COMPRESS;
-	iFlags |= CAM_NO_POST;
-	iFlags |= CAM_NO_REFLECTIONS;
-	iFlags |= CAM_NO_SCENE_BUFFER;
-	iFlags |= CAM_NO_CULL;
+    iFlags |= CAM_ORTHO;
+    iFlags |= CAM_NO_SHADOWS;
+    iFlags |= CAM_NO_FOG;
+    iFlags |= CAM_NO_DEPTH_CLEAR;
+    iFlags |= CAM_DEPTH_COMPRESS;
+    iFlags |= CAM_NO_POST;
+    iFlags |= CAM_NO_REFLECTIONS;
+    iFlags |= CAM_NO_SCENE_BUFFER;
+    iFlags |= CAM_NO_CULL;
 
-	m_Camera.SetFlags(iFlags);
+    m_Camera.SetFlags(iFlags);
 
-	m_v2SceneSize.x = GetSizeFromString(style.GetProperty(_T("camerawidth"), _T("100%")), GetWidth(), GetHeight());
-	m_v2SceneSize.y = GetSizeFromString(style.GetProperty(_T("cameraheight"), _T("100%")), GetHeight(), GetWidth());
+    m_v2SceneSize.x = GetSizeFromString(style.GetProperty(_T("camerawidth"), _T("100%")), GetWidth(), GetHeight());
+    m_v2SceneSize.y = GetSizeFromString(style.GetProperty(_T("cameraheight"), _T("100%")), GetHeight(), GetWidth());
 
-	m_Camera.SetOrthoWidth(m_v2SceneSize.x);
-	m_Camera.SetOrthoHeight(m_v2SceneSize.y);
+    m_Camera.SetOrthoWidth(m_v2SceneSize.x);
+    m_Camera.SetOrthoHeight(m_v2SceneSize.y);
 
-	m_Camera.SetOrigin(CVec3f(m_Camera.GetOrthoWidth() / 2.0f, m_Camera.GetOrthoHeight() / 2.0f, 0.0f));
+    m_Camera.SetOrigin(CVec3f(m_Camera.GetOrthoWidth() / 2.0f, m_Camera.GetOrthoHeight() / 2.0f, 0.0f));
 
-	if (IsAbsoluteVisible())
-		DO_EVENT(WEVENT_SHOW)
+    if (IsAbsoluteVisible())
+        DO_EVENT(WEVENT_SHOW)
 }
 
 
 /*====================
   CEffectPanel::UpdateEffect
   ====================*/
-void	CEffectPanel::UpdateEffect(CEffectThread *&pEffectThread, const CVec3f &v3EffectPos, const CVec3f &v3EffectAngles, float fEffectScale)
+void    CEffectPanel::UpdateEffect(CEffectThread *&pEffectThread, const CVec3f &v3EffectPos, const CVec3f &v3EffectAngles, float fEffectScale)
 {
-	if (!pEffectThread)
-		return;
+    if (!pEffectThread)
+        return;
 
-	pEffectThread->SetActive(true);
+    pEffectThread->SetActive(true);
 
-	// Update entity attachment information
-	pEffectThread->SetSourcePos(v3EffectPos);
-	pEffectThread->SetSourceAxis(CAxis(v3EffectAngles));
-	pEffectThread->SetSourceScale(fEffectScale);
+    // Update entity attachment information
+    pEffectThread->SetSourcePos(v3EffectPos);
+    pEffectThread->SetSourceAxis(CAxis(v3EffectAngles));
+    pEffectThread->SetSourceScale(fEffectScale);
 
-	if (pEffectThread->Execute(Host.GetTime()))
-	{
-		// Effect finished, so delete it
-		SAFE_DELETE(pEffectThread);
-	}
-	else
-	{
-		// Update and render all particles systems associated with this effect thread
-		const InstanceMap &mapInstances(pEffectThread->GetInstances());
+    if (pEffectThread->Execute(Host.GetTime()))
+    {
+        // Effect finished, so delete it
+        SAFE_DELETE(pEffectThread);
+    }
+    else
+    {
+        // Update and render all particles systems associated with this effect thread
+        const InstanceMap &mapInstances(pEffectThread->GetInstances());
 
-		for (InstanceMap::const_iterator psit(mapInstances.begin()); psit != mapInstances.end(); ++psit)
-		{
-			IEffectInstance *pParticleSystem(psit->second);
+        for (InstanceMap::const_iterator psit(mapInstances.begin()); psit != mapInstances.end(); ++psit)
+        {
+            IEffectInstance *pParticleSystem(psit->second);
 
-			pParticleSystem->Update(Host.GetTime(), NULL);
+            pParticleSystem->Update(Host.GetTime(), NULL);
 
-			if (!pParticleSystem->IsDead() && pParticleSystem->IsParticleSystem())
-				SceneManager.AddParticleSystem(static_cast<CParticleSystem *>(pParticleSystem), false);
-		}
+            if (!pParticleSystem->IsDead() && pParticleSystem->IsParticleSystem())
+                SceneManager.AddParticleSystem(static_cast<CParticleSystem *>(pParticleSystem), false);
+        }
 
-		pEffectThread->Cleanup();
-	}
+        pEffectThread->Cleanup();
+    }
 }
 
 
 /*====================
   CEffectPanel::RenderWidget
   ====================*/
-void	CEffectPanel::RenderWidget(const CVec2f &vOrigin, float fFade)
+void    CEffectPanel::RenderWidget(const CVec2f &vOrigin, float fFade)
 {
-	if (!HasFlags(WFLAG_VISIBLE))
-		return;
+    if (!HasFlags(WFLAG_VISIBLE))
+        return;
 
-	IWidget::RenderWidget(vOrigin, fFade);
+    IWidget::RenderWidget(vOrigin, fFade);
 
-	m_Camera.SetX(vOrigin.x + m_recArea.left);
-	m_Camera.SetY(vOrigin.y + m_recArea.top);
+    m_Camera.SetX(vOrigin.x + m_recArea.left);
+    m_Camera.SetY(vOrigin.y + m_recArea.top);
 
-	bool bRender(false);
+    bool bRender(false);
 
-	SceneManager.Clear();
+    SceneManager.Clear();
 
-	for (map<int, SEffect>::iterator it(m_mapEffects.begin()); it != m_mapEffects.end();)
-	{
-		SEffect &cEffect(it->second);
+    for (map<int, SEffect>::iterator it(m_mapEffects.begin()); it != m_mapEffects.end();)
+    {
+        SEffect &cEffect(it->second);
 
-		// Update attached effect
-		UpdateEffect(cEffect.pEffectThread, cEffect.v3EffectPos, cEffect.v3EffectAngles, cEffect.fEffectScale);
+        // Update attached effect
+        UpdateEffect(cEffect.pEffectThread, cEffect.v3EffectPos, cEffect.v3EffectAngles, cEffect.fEffectScale);
 
-		if (cEffect.pEffectThread == NULL)
-			STL_ERASE(m_mapEffects, it);
-		else
-		{
-			bRender = true;
-			++it;
-		}
-	}
+        if (cEffect.pEffectThread == NULL)
+            STL_ERASE(m_mapEffects, it);
+        else
+        {
+            bRender = true;
+            ++it;
+        }
+    }
 
-	if (!bRender)
-		return;
+    if (!bRender)
+        return;
 
-	// Save old lighting information
-	CVec3f	v3OldSunColor(scene_entitySunColor);
-	CVec3f	v3OldAmbientColor(scene_entityAmbientColor);
-	float	fOldSunAltitude(scene_sunAltitude);
-	float	fOldSunAzimuth(scene_sunAzimuth);
+    // Save old lighting information
+    CVec3f  v3OldSunColor(scene_entitySunColor);
+    CVec3f  v3OldAmbientColor(scene_entityAmbientColor);
+    float   fOldSunAltitude(scene_sunAltitude);
+    float   fOldSunAzimuth(scene_sunAzimuth);
 
-	CVec3f	v3OldFogColor(ICvar::GetVec3(_T("gfx_fogColor")));
-	float	fOldFogNear(ICvar::GetFloat(_T("gfx_fogNear")));
-	float	fOldFogFar(ICvar::GetFloat(_T("gfx_fogFar")));
-	float	fOldFogScale(ICvar::GetFloat(_T("gfx_fogScale")));
-	float	fOldFogDensity(ICvar::GetFloat(_T("gfx_fogDensity")));
+    CVec3f  v3OldFogColor(ICvar::GetVec3(_T("gfx_fogColor")));
+    float   fOldFogNear(ICvar::GetFloat(_T("gfx_fogNear")));
+    float   fOldFogFar(ICvar::GetFloat(_T("gfx_fogFar")));
+    float   fOldFogScale(ICvar::GetFloat(_T("gfx_fogScale")));
+    float   fOldFogDensity(ICvar::GetFloat(_T("gfx_fogDensity")));
 
-	scene_entitySunColor = m_v3SunColor;
-	scene_entityAmbientColor = m_v3AmbientColor;
-	scene_sunAltitude = m_fSunAltitude;
-	scene_sunAzimuth = m_fSunAzimuth;
+    scene_entitySunColor = m_v3SunColor;
+    scene_entityAmbientColor = m_v3AmbientColor;
+    scene_sunAltitude = m_fSunAltitude;
+    scene_sunAzimuth = m_fSunAzimuth;
 
-	ICvar::SetVec3(_T("gfx_fogColor"), m_v3FogColor);
-	ICvar::SetFloat(_T("gfx_fogNear"), m_fFogNear);
-	ICvar::SetFloat(_T("gfx_fogFar"), m_fFogFar);
-	ICvar::SetFloat(_T("gfx_fogScale"), m_fFogScale);
-	ICvar::SetFloat(_T("gfx_fogDensity"), m_fFogDensity);
+    ICvar::SetVec3(_T("gfx_fogColor"), m_v3FogColor);
+    ICvar::SetFloat(_T("gfx_fogNear"), m_fFogNear);
+    ICvar::SetFloat(_T("gfx_fogFar"), m_fFogFar);
+    ICvar::SetFloat(_T("gfx_fogScale"), m_fFogScale);
+    ICvar::SetFloat(_T("gfx_fogDensity"), m_fFogDensity);
 
-	SceneManager.PrepCamera(m_Camera);
-	SceneManager.Render();
+    SceneManager.PrepCamera(m_Camera);
+    SceneManager.Render();
 
-	scene_entitySunColor = v3OldSunColor;
-	scene_entityAmbientColor = v3OldAmbientColor;
-	scene_sunAltitude = fOldSunAltitude;
-	scene_sunAzimuth = fOldSunAzimuth;
+    scene_entitySunColor = v3OldSunColor;
+    scene_entityAmbientColor = v3OldAmbientColor;
+    scene_sunAltitude = fOldSunAltitude;
+    scene_sunAzimuth = fOldSunAzimuth;
 
-	ICvar::SetVec3(_T("gfx_fogColor"), v3OldFogColor);
-	ICvar::SetFloat(_T("gfx_fogNear"), fOldFogNear);
-	ICvar::SetFloat(_T("gfx_fogFar"), fOldFogFar);
-	ICvar::SetFloat(_T("gfx_fogScale"), fOldFogScale);
-	ICvar::SetFloat(_T("gfx_fogDensity"), fOldFogDensity);
+    ICvar::SetVec3(_T("gfx_fogColor"), v3OldFogColor);
+    ICvar::SetFloat(_T("gfx_fogNear"), fOldFogNear);
+    ICvar::SetFloat(_T("gfx_fogFar"), fOldFogFar);
+    ICvar::SetFloat(_T("gfx_fogScale"), fOldFogScale);
+    ICvar::SetFloat(_T("gfx_fogDensity"), fOldFogDensity);
 }
 
 
 /*====================
   CEffectPanel::StartEffect
   ====================*/
-void	CEffectPanel::StartEffect(int iChannel, const tstring &sEffect, const CVec3f &v3EffectPos, const CVec3f &v3Color)
+void    CEffectPanel::StartEffect(int iChannel, const tstring &sEffect, const CVec3f &v3EffectPos, const CVec3f &v3Color)
 {
-	// Search from an unused effect slot
-	if (iChannel == -1)
-	{
-		for (int i(-2); i > -32; --i)
-		{
-			map<int, SEffect>::iterator itFind(m_mapEffects.find(i));
+    // Search from an unused effect slot
+    if (iChannel == -1)
+    {
+        for (int i(-2); i > -32; --i)
+        {
+            map<int, SEffect>::iterator itFind(m_mapEffects.find(i));
 
-			if (itFind == m_mapEffects.end())
-			{
-				iChannel = i;
-				break;
-			}
-		}
+            if (itFind == m_mapEffects.end())
+            {
+                iChannel = i;
+                break;
+            }
+        }
 
-		if (iChannel == -1)
-			return;
-	}
+        if (iChannel == -1)
+            return;
+    }
 
-	map<int, SEffect>::iterator itFind(m_mapEffects.find(iChannel));
-	if (itFind != m_mapEffects.end())
-	{
-		SAFE_DELETE(itFind->second.pEffectThread);
-		m_mapEffects.erase(itFind);
-	}
+    map<int, SEffect>::iterator itFind(m_mapEffects.find(iChannel));
+    if (itFind != m_mapEffects.end())
+    {
+        SAFE_DELETE(itFind->second.pEffectThread);
+        m_mapEffects.erase(itFind);
+    }
 
-	if (sEffect.empty())
-		return;
+    if (sEffect.empty())
+        return;
 
-	SEffect &cEffect(m_mapEffects[iChannel]);
+    SEffect &cEffect(m_mapEffects[iChannel]);
 
-	SAFE_DELETE(cEffect.pEffectThread);
+    SAFE_DELETE(cEffect.pEffectThread);
 
-	ResHandle hEffect(g_ResourceManager.Register(sEffect, RES_EFFECT));
+    ResHandle hEffect(g_ResourceManager.Register(sEffect, RES_EFFECT));
 
-	CEffect	*pEffect(g_ResourceManager.GetEffect(hEffect));
-	if (pEffect != NULL)
-	{
-		cEffect.pEffectThread = pEffect->SpawnThread(Host.GetTime());
-		cEffect.v3EffectPos = v3EffectPos;
+    CEffect *pEffect(g_ResourceManager.GetEffect(hEffect));
+    if (pEffect != NULL)
+    {
+        cEffect.pEffectThread = pEffect->SpawnThread(Host.GetTime());
+        cEffect.v3EffectPos = v3EffectPos;
 
-		cEffect.v3EffectPos.x *= m_v2SceneSize.x;
-		cEffect.v3EffectPos.y *= m_v2SceneSize.y;
+        cEffect.v3EffectPos.x *= m_v2SceneSize.x;
+        cEffect.v3EffectPos.y *= m_v2SceneSize.y;
 
-		if (cEffect.pEffectThread != NULL)
-		{
-			cEffect.pEffectThread->SetCamera(&m_Camera);
-			cEffect.pEffectThread->SetWorld(NULL);
-			cEffect.pEffectThread->SetTargetSkeleton(NULL);
-			cEffect.pEffectThread->SetTargetModel(NULL);
-			cEffect.pEffectThread->SetColor(v3Color);
-		}
-	}
+        if (cEffect.pEffectThread != NULL)
+        {
+            cEffect.pEffectThread->SetCamera(&m_Camera);
+            cEffect.pEffectThread->SetWorld(NULL);
+            cEffect.pEffectThread->SetTargetSkeleton(NULL);
+            cEffect.pEffectThread->SetTargetModel(NULL);
+            cEffect.pEffectThread->SetColor(v3Color);
+        }
+    }
 }
 
 
 /*====================
   CEffectPanel::RecalculateSize
   ====================*/
-void	CEffectPanel::RecalculateSize()
+void    CEffectPanel::RecalculateSize()
 {
-	IWidget::RecalculateSize();
+    IWidget::RecalculateSize();
 
-	m_Camera.SetWidth(m_recArea.GetWidth());
-	m_Camera.SetHeight(m_recArea.GetHeight());
+    m_Camera.SetWidth(m_recArea.GetWidth());
+    m_Camera.SetHeight(m_recArea.GetHeight());
 
-	if (m_bFovY)
-		m_Camera.CalcFovX();
-	else
-		m_Camera.CalcFovY();
+    if (m_bFovY)
+        m_Camera.CalcFovX();
+    else
+        m_Camera.CalcFovY();
 }
 
 
 /*====================
   CEffectPanel::MouseDown
   ====================*/
-void	CEffectPanel::MouseDown(EButton button, const CVec2f &v2CursorPos)
+void    CEffectPanel::MouseDown(EButton button, const CVec2f &v2CursorPos)
 {
-	if (button == BUTTON_MOUSEL)
-	{
-		DO_EVENT(WEVENT_MOUSELDOWN)
-		DO_EVENT(WEVENT_CLICK)
-		
-	}
-	else if (button == BUTTON_MOUSER)
-	{
-		DO_EVENT(WEVENT_MOUSERDOWN)
-		DO_EVENT(WEVENT_RIGHTCLICK)
-	}
+    if (button == BUTTON_MOUSEL)
+    {
+        DO_EVENT(WEVENT_MOUSELDOWN)
+        DO_EVENT(WEVENT_CLICK)
+        
+    }
+    else if (button == BUTTON_MOUSER)
+    {
+        DO_EVENT(WEVENT_MOUSERDOWN)
+        DO_EVENT(WEVENT_RIGHTCLICK)
+    }
 }
 
 
 /*====================
   CEffectPanel::MouseUp
   ====================*/
-void	CEffectPanel::MouseUp(EButton button, const CVec2f &v2CursorPos)
+void    CEffectPanel::MouseUp(EButton button, const CVec2f &v2CursorPos)
 {
-	if (button == BUTTON_MOUSEL)
-	{
-		DO_EVENT(WEVENT_MOUSELUP)
-	}
-	else if (button == BUTTON_MOUSER)
-	{
-		DO_EVENT(WEVENT_MOUSERUP)
-	}
+    if (button == BUTTON_MOUSEL)
+    {
+        DO_EVENT(WEVENT_MOUSELUP)
+    }
+    else if (button == BUTTON_MOUSER)
+    {
+        DO_EVENT(WEVENT_MOUSERUP)
+    }
 }
 
 
@@ -331,10 +331,10 @@ void	CEffectPanel::MouseUp(EButton button, const CVec2f &v2CursorPos)
   --------------------*/
 UI_VOID_CMD(SetModel, 1)
 {
-	if (!pThis || pThis->GetType() != WIDGET_MODELPANEL)
-		return;
+    if (!pThis || pThis->GetType() != WIDGET_MODELPANEL)
+        return;
 
-	static_cast<CEffectPanel *>(pThis)->SetModel(vArgList[0]->Evaluate());
+    static_cast<CEffectPanel *>(pThis)->SetModel(vArgList[0]->Evaluate());
 }
 
 
@@ -343,11 +343,11 @@ UI_VOID_CMD(SetModel, 1)
   ====================*/
 CMD_PRECACHE(SetModel)
 {
-	if (vArgList.size() < 1)
-		return false;
+    if (vArgList.size() < 1)
+        return false;
 
-	g_ResourceManager.Register(vArgList[0], RES_MODEL);
-	return true;
+    g_ResourceManager.Register(vArgList[0], RES_MODEL);
+    return true;
 }
 
 
@@ -356,13 +356,13 @@ CMD_PRECACHE(SetModel)
   --------------------*/
 UI_VOID_CMD(SetAnim, 1)
 {
-	if (!pThis || pThis->GetType() != WIDGET_MODELPANEL)
-		return;
+    if (!pThis || pThis->GetType() != WIDGET_MODELPANEL)
+        return;
 
-	if (vArgList.size() == 1)
-		static_cast<CEffectPanel *>(pThis)->SetAnim(vArgList[0]->Evaluate());
-	else
-		static_cast<CEffectPanel *>(pThis)->SetAnim(AtoI(vArgList[0]->Evaluate()), vArgList[1]->Evaluate());
+    if (vArgList.size() == 1)
+        static_cast<CEffectPanel *>(pThis)->SetAnim(vArgList[0]->Evaluate());
+    else
+        static_cast<CEffectPanel *>(pThis)->SetAnim(AtoI(vArgList[0]->Evaluate()), vArgList[1]->Evaluate());
 }
 
 
@@ -374,34 +374,34 @@ UI_VOID_CMD(SetAnim, 1)
   --------------------*/
 UI_VOID_CMD(MoveModel, 1)
 {
-	if (pThis == NULL || pThis->GetType() != WIDGET_MODELPANEL)
-		return;
+    if (pThis == NULL || pThis->GetType() != WIDGET_MODELPANEL)
+        return;
 
-	CEffectPanel *pModelPanel(static_cast<CEffectPanel*>(pThis));
+    CEffectPanel *pModelPanel(static_cast<CEffectPanel*>(pThis));
 
-	CVec3f v3StartPos(pModelPanel->GetModelPos());
-	CVec3f v3EndPos(v3StartPos);
-	uint uiTime(0);
+    CVec3f v3StartPos(pModelPanel->GetModelPos());
+    CVec3f v3EndPos(v3StartPos);
+    uint uiTime(0);
 
-	if (vArgList.size() == 1)
-	{
-		// Just change the position immediately
-		v3EndPos = AtoV3(vArgList[0]->Evaluate());
-	}
-	else if (vArgList.size() == 2)
-	{
-		// Move from current position to the new position over time
-		v3EndPos = AtoV3(vArgList[0]->Evaluate());
-		uiTime = vArgList[1]->EvaluateInteger();
-	}
-	else if (vArgList.size() == 3)
-	{
-		v3StartPos = AtoV3(vArgList[0]->Evaluate());
-		v3EndPos = AtoV3(vArgList[1]->Evaluate());
-		uiTime = vArgList[2]->EvaluateInteger();
-	}
+    if (vArgList.size() == 1)
+    {
+        // Just change the position immediately
+        v3EndPos = AtoV3(vArgList[0]->Evaluate());
+    }
+    else if (vArgList.size() == 2)
+    {
+        // Move from current position to the new position over time
+        v3EndPos = AtoV3(vArgList[0]->Evaluate());
+        uiTime = vArgList[1]->EvaluateInteger();
+    }
+    else if (vArgList.size() == 3)
+    {
+        v3StartPos = AtoV3(vArgList[0]->Evaluate());
+        v3EndPos = AtoV3(vArgList[1]->Evaluate());
+        uiTime = vArgList[2]->EvaluateInteger();
+    }
 
-	pModelPanel->MoveModel(v3StartPos, v3EndPos, uiTime);
+    pModelPanel->MoveModel(v3StartPos, v3EndPos, uiTime);
 }
 #endif
 
@@ -411,15 +411,15 @@ UI_VOID_CMD(MoveModel, 1)
   --------------------*/
 UI_VOID_CMD(StartEffect, 3)
 {
-	if (!pThis || pThis->GetType() != WIDGET_EFFECTPANEL)
-		return;
+    if (!pThis || pThis->GetType() != WIDGET_EFFECTPANEL)
+        return;
 
-	CVec3f v3Pos(V3_ZERO);
+    CVec3f v3Pos(V3_ZERO);
 
-	v3Pos.x = AtoF(vArgList[1]->Evaluate());
-	v3Pos.y = AtoF(vArgList[2]->Evaluate());
+    v3Pos.x = AtoF(vArgList[1]->Evaluate());
+    v3Pos.y = AtoF(vArgList[2]->Evaluate());
 
-	CVec3f v3Color(AtoV3(vArgList[3]->Evaluate()));
+    CVec3f v3Color(AtoV3(vArgList[3]->Evaluate()));
 
-	static_cast<CEffectPanel *>(pThis)->StartEffect(-1, vArgList[0]->Evaluate(), v3Pos, v3Color);
+    static_cast<CEffectPanel *>(pThis)->StartEffect(-1, vArgList[0]->Evaluate(), v3Pos, v3Color);
 }

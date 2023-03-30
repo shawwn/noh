@@ -17,18 +17,18 @@
 class CStateCommanderSpeedBoost : public IEntityState
 {
 private:
-	START_ENTITY_CONFIG(IEntityState)
-		DECLARE_ENTITY_CVAR(float, SpeedAdd)
-		DECLARE_ENTITY_CVAR(float, SpeedMult)
-	END_ENTITY_CONFIG
+    START_ENTITY_CONFIG(IEntityState)
+        DECLARE_ENTITY_CVAR(float, SpeedAdd)
+        DECLARE_ENTITY_CVAR(float, SpeedMult)
+    END_ENTITY_CONFIG
 
-	CEntityConfig*	m_pEntityConfig;
+    CEntityConfig*  m_pEntityConfig;
 
-	DECLARE_ENT_ALLOCATOR2(State, CommanderSpeedBoost);
+    DECLARE_ENT_ALLOCATOR2(State, CommanderSpeedBoost);
 
 public:
-	~CStateCommanderSpeedBoost()	{}
-	CStateCommanderSpeedBoost();
+    ~CStateCommanderSpeedBoost()    {}
+    CStateCommanderSpeedBoost();
 };
 //=============================================================================
 

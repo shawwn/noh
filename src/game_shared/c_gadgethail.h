@@ -17,20 +17,20 @@
 class CGadgetHail : public IGadgetEntity
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Gadget, Hail)
+    DECLARE_ENT_ALLOCATOR2(Gadget, Hail)
 
-	static CCvarf	s_cvarRadius;
-	static CCvarf	s_cvarDamagePerSecond;
+    static CCvarf   s_cvarRadius;
+    static CCvarf   s_cvarDamagePerSecond;
 
 public:
-	~CGadgetHail()	{}
-	CGadgetHail() :
-	IGadgetEntity(GetEntityConfig())
-	{}
+    ~CGadgetHail()  {}
+    CGadgetHail() :
+    IGadgetEntity(GetEntityConfig())
+    {}
 
-	bool	ServerFrame();
+    bool    ServerFrame();
 
-	GAME_SHARED_API virtual bool	AIShouldTarget()			{ return false; }
+    GAME_SHARED_API virtual bool    AIShouldTarget()            { return false; }
 };
 //=============================================================================
 

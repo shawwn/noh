@@ -17,11 +17,11 @@
 class CPetShapeShifter : public IPetEntity
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Pet, ShapeShifter);
+    DECLARE_ENT_ALLOCATOR2(Pet, ShapeShifter);
 
 public:
-	~CPetShapeShifter()	{}
-	CPetShapeShifter() : IPetEntity(GetEntityConfig()) {}
+    ~CPetShapeShifter() {}
+    CPetShapeShifter() : IPetEntity(GetEntityConfig()) {}
 };
 //=============================================================================
 

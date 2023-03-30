@@ -20,7 +20,7 @@ DEFINE_ENT_ALLOCATOR2(Trigger, Marker)
 /*====================
   CTriggerMarker::ApplyWorldEntity
   ====================*/
-void	CTriggerMarker::ApplyWorldEntity(const CWorldEntity &ent)
+void    CTriggerMarker::ApplyWorldEntity(const CWorldEntity &ent)
 {
-	IVisualEntity::ApplyWorldEntity(ent);
+    IVisualEntity::ApplyWorldEntity(ent);
 }

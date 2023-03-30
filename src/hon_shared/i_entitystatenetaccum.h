@@ -17,23 +17,23 @@
 //=============================================================================
 class IEntityStateNetAccum : public IEntityState
 {
-	DECLARE_ENTITY_DESC
+    DECLARE_ENTITY_DESC
 
 public:
-	typedef CStateNetAccumDefinition TDefinition;
+    typedef CStateNetAccumDefinition TDefinition;
 
 protected:
 
 public:
-	virtual ~IEntityStateNetAccum()	{}
-	IEntityStateNetAccum();
+    virtual ~IEntityStateNetAccum() {}
+    IEntityStateNetAccum();
 
-	SUB_ENTITY_ACCESSOR(IEntityStateNetAccum, StateNetAccum)
+    SUB_ENTITY_ACCESSOR(IEntityStateNetAccum, StateNetAccum)
 
-	// Network
-	GAME_SHARED_API virtual void	Baseline();
-	GAME_SHARED_API virtual void	GetSnapshot(CEntitySnapshot &snapshot, uint uiFlags) const;
-	GAME_SHARED_API virtual bool	ReadSnapshot(CEntitySnapshot &snapshot, uint uiVersion);
+    // Network
+    GAME_SHARED_API virtual void    Baseline();
+    GAME_SHARED_API virtual void    GetSnapshot(CEntitySnapshot &snapshot, uint uiFlags) const;
+    GAME_SHARED_API virtual bool    ReadSnapshot(CEntitySnapshot &snapshot, uint uiVersion);
 };
 //=============================================================================
 

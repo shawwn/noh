@@ -17,13 +17,13 @@
 class CSpellCommanderReveal : public ISpellItem
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Spell, CommanderReveal)
+    DECLARE_ENT_ALLOCATOR2(Spell, CommanderReveal)
 
 public:
-	~CSpellCommanderReveal()	{}
-	CSpellCommanderReveal() :
-	ISpellItem(GetEntityConfig())
-	{}
+    ~CSpellCommanderReveal()    {}
+    CSpellCommanderReveal() :
+    ISpellItem(GetEntityConfig())
+    {}
 };
 //=============================================================================
 

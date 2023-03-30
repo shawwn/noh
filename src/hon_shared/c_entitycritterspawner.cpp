@@ -30,16 +30,16 @@ CEntityCritterSpawner::CEntityCritterSpawner()
 /*====================
   CEntityCritterSpawner::ApplyWorldEntity
   ====================*/
-void	CEntityCritterSpawner::ApplyWorldEntity(const CWorldEntity &ent)
+void    CEntityCritterSpawner::ApplyWorldEntity(const CWorldEntity &ent)
 {
-	IVisualEntity::ApplyWorldEntity(ent);
+    IVisualEntity::ApplyWorldEntity(ent);
 }
 
 
 /*====================
   CEntityCritterSpawner::Spawn
   ====================*/
-void	CEntityCritterSpawner::Spawn()
+void    CEntityCritterSpawner::Spawn()
 {
-	IVisualEntity::Spawn();
+    IVisualEntity::Spawn();
 }

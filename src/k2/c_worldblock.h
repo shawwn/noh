@@ -41,7 +41,7 @@ struct pointInfo_s;
 //=============================================================================
 // Definitions
 //=============================================================================
-typedef map<tstring, IBlockComponent*>	ComponentMap;
+typedef map<tstring, IBlockComponent*>  ComponentMap;
 //=============================================================================
 
 //=============================================================================
@@ -52,67 +52,67 @@ typedef map<tstring, IBlockComponent*>	ComponentMap;
 //=============================================================================
 class CWorldBlock
 {
-	friend class CWorld;
+    friend class CWorld;
 
 private:
-	bool				m_bActive;
+    bool                m_bActive;
 
-	tstring				m_sName;
-	tstring				m_sFilename;
-	int					m_iSize, m_iGridSize;
-	float				m_fScale;
-	float				m_fWorldSize;
+    tstring             m_sName;
+    tstring             m_sFilename;
+    int                 m_iSize, m_iGridSize;
+    float               m_fScale;
+    float               m_fWorldSize;
 
 public:
-	CWorldBlock();
-	~CWorldBlock();
+    CWorldBlock();
+    ~CWorldBlock();
 
-	void				Load(const tstring &sName, int iLocalBlock, const CWorld &world);
-	void				Generate(const tstring &sName, int iLocalBlock, const CWorld &world);
-	void				PostProcess();
-	void				Free();
-	void				New();
-	SHARED_API bool		Save();
-	
-	IBlockComponent*	GetComponent(const tstring &sName);
+    void                Load(const tstring &sName, int iLocalBlock, const CWorld &world);
+    void                Generate(const tstring &sName, int iLocalBlock, const CWorld &world);
+    void                PostProcess();
+    void                Free();
+    void                New();
+    SHARED_API bool     Save();
+    
+    IBlockComponent*    GetComponent(const tstring &sName);
 
-	const tstring&		GetName()			{ return m_sName; }
-	const tstring&		GetFilename()		{ return m_sFilename; }
+    const tstring&      GetName()           { return m_sName; }
+    const tstring&      GetFilename()       { return m_sFilename; }
 
 
-	CTileNormalMap&		GetTileNormalMap()	{ return m_TileNormalMap; }
-	CWorldTree&			GetWorldTree()		{ return m_WorldTree; }
-	CHeightmap*			GetHeightmap()		{ return m_pHeightmap; }
-	CColorMap*			GetColormap()		{ return m_pColormap; }
-	CNormalMap*			GetNormalmap()		{ return m_pNormalmap; }
-	CEntList*			GetEntList()		{ return m_pEntList; }
+    CTileNormalMap&     GetTileNormalMap()  { return m_TileNormalMap; }
+    CWorldTree&         GetWorldTree()      { return m_WorldTree; }
+    CHeightmap*         GetHeightmap()      { return m_pHeightmap; }
+    CColorMap*          GetColormap()       { return m_pColormap; }
+    CNormalMap*         GetNormalmap()      { return m_pNormalmap; }
+    CEntList*           GetEntList()        { return m_pEntList; }
 
-	int					GetBlockSize()		{ return m_iSize; }
-	float				GetWorldSize()		{ return m_fWorldSize; }
+    int                 GetBlockSize()      { return m_iSize; }
+    float               GetWorldSize()      { return m_fWorldSize; }
 
-	float				GetGridHeight(int ix, int iy);
-	const CPlane&		GetTileNormal(int ix, int iy, EGridTriangles tri) const	{ return m_TileNormalMap.Get(ix, iy, tri); }
+    float               GetGridHeight(int ix, int iy);
+    const CPlane&       GetTileNormal(int ix, int iy, EGridTriangles tri) const { return m_TileNormalMap.Get(ix, iy, tri); }
 
-	bool				TraceLine(STraceInfo &result, const CVec3f &start, const CVec3f &end, int iIgnoreSurface, CEntity *pIgnoreEntity);
+    bool                TraceLine(STraceInfo &result, const CVec3f &start, const CVec3f &end, int iIgnoreSurface, CEntity *pIgnoreEntity);
 
-	void				FitPolyToTerrain(SSceneFaceVert *pVerts, int iNumVerts, unsigned int shader, int iFlags, 
-											void (*clipCallback)(int iNumVerts, SSceneFaceVert *pVerts, unsigned int shader, int iFlags))
-	{
-		return m_WorldTree.FitPolyToTerrain(pVerts, iNumVerts, shader, iFlags, clipCallback);
-	}
+    void                FitPolyToTerrain(SSceneFaceVert *pVerts, int iNumVerts, unsigned int shader, int iFlags, 
+                                            void (*clipCallback)(int iNumVerts, SSceneFaceVert *pVerts, unsigned int shader, int iFlags))
+    {
+        return m_WorldTree.FitPolyToTerrain(pVerts, iNumVerts, shader, iFlags, clipCallback);
+    }
 
-	SHARED_API void		LinkEntity(CEntity *pEntity)		{ m_WorldTree.LinkEntity(pEntity); }
-	SHARED_API void		UnlinkEntity(CEntity *pEntity)		{ m_WorldTree.UnlinkEntity(pEntity); }
-	SHARED_API bool		IsLinked(CEntity *pEntity)			{ return m_WorldTree.IsLinked(pEntity); }
+    SHARED_API void     LinkEntity(CEntity *pEntity)        { m_WorldTree.LinkEntity(pEntity); }
+    SHARED_API void     UnlinkEntity(CEntity *pEntity)      { m_WorldTree.UnlinkEntity(pEntity); }
+    SHARED_API bool     IsLinked(CEntity *pEntity)          { return m_WorldTree.IsLinked(pEntity); }
 
-	SHARED_API void		SampleGround(float fX, float fY, SPointInfo &pResult) const;
-	SHARED_API float	SampleGround(float fX, float fY, bool bIgnoreStages, CEntity *pIgnoreEntity) const;
+    SHARED_API void     SampleGround(float fX, float fY, SPointInfo &pResult) const;
+    SHARED_API float    SampleGround(float fX, float fY, bool bIgnoreStages, CEntity *pIgnoreEntity) const;
 
-	size_t				GetNumOccluders()					{ return static_cast<int>(m_vOccluders.size()); }
-	COccluder&			GetOccluder(int index)				{ return m_vOccluders[index]; }
-	void				ClearOccluders()					{ m_vOccluders.clear(); }
-	void				AddOccluder(const COccluder &occ)	{ m_vOccluders.push_back(occ); }
-	void				RemoveOccluder(int index)			{ m_vOccluders.erase(m_vOccluders.begin() + (index - 1)); }
+    size_t              GetNumOccluders()                   { return static_cast<int>(m_vOccluders.size()); }
+    COccluder&          GetOccluder(int index)              { return m_vOccluders[index]; }
+    void                ClearOccluders()                    { m_vOccluders.clear(); }
+    void                AddOccluder(const COccluder &occ)   { m_vOccluders.push_back(occ); }
+    void                RemoveOccluder(int index)           { m_vOccluders.erase(m_vOccluders.begin() + (index - 1)); }
 };
 
 

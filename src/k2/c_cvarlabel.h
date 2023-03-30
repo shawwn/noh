@@ -17,18 +17,18 @@
 class CCvarLabel : public CLabel
 {
 protected:
-	CCvarReference	m_refCvar;
-	bool			m_bNumeric;
-	int				m_iPrecision;
-	tstring			m_sPrefix;
-	tstring			m_sSuffix;
-	tstring			m_sCvar;
+    CCvarReference  m_refCvar;
+    bool            m_bNumeric;
+    int             m_iPrecision;
+    tstring         m_sPrefix;
+    tstring         m_sSuffix;
+    tstring         m_sCvar;
 
 public:
-	~CCvarLabel();
-	K2_API CCvarLabel(CInterface *pInterface, IWidget *pParent, const CWidgetStyle& style);
+    ~CCvarLabel();
+    K2_API CCvarLabel(CInterface *pInterface, IWidget *pParent, const CWidgetStyle& style);
 
-	void	Frame(uint uiFrameLength, bool bProcessFrame);
+    void    Frame(uint uiFrameLength, bool bProcessFrame);
 };
 //=============================================================================
 

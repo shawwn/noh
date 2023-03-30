@@ -17,11 +17,11 @@
 class CSkillFeignDeath : public ISkillItem
 {
 private:
-	DECLARE_ITEM_ALLOCATOR(Skill, FeignDeath)
+    DECLARE_ITEM_ALLOCATOR(Skill, FeignDeath)
 
 public:
-	~CSkillFeignDeath()	{}
-	CSkillFeignDeath()	{}
+    ~CSkillFeignDeath() {}
+    CSkillFeignDeath()  {}
 };
 //=============================================================================
 

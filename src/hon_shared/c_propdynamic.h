@@ -17,21 +17,21 @@
 class CPropDynamic : public IPropEntity
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Prop, Dynamic);
+    DECLARE_ENT_ALLOCATOR2(Prop, Dynamic);
 
-	uint				m_uiCorpseTime;
+    uint                m_uiCorpseTime;
 
 public:
-	~CPropDynamic()	{}
-	CPropDynamic();
+    ~CPropDynamic() {}
+    CPropDynamic();
 
-	virtual bool		IsStatic() const				{ return false; }
+    virtual bool        IsStatic() const                { return false; }
 
-	virtual void		Spawn();
-	virtual bool		ServerFrameMovement();
-	virtual	bool		ServerFrameCleanup();
+    virtual void        Spawn();
+    virtual bool        ServerFrameMovement();
+    virtual bool        ServerFrameCleanup();
 
-	void				SetCorpseTime(uint uiCorpseTime)	{ m_uiCorpseTime = uiCorpseTime; }
+    void                SetCorpseTime(uint uiCorpseTime)    { m_uiCorpseTime = uiCorpseTime; }
 };
 //=============================================================================
 

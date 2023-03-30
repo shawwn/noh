@@ -17,30 +17,30 @@
 class ISpellSnapCast : public ISpellItem
 {
 private:
-	ISpellSnapCast();
+    ISpellSnapCast();
 
 protected:
-	class CCvarSettings : public ISpellItem::CCvarSettings
-	{
-	private:
-		CCvarv3	m_cvarTargetColor;
+    class CCvarSettings : public ISpellItem::CCvarSettings
+    {
+    private:
+        CCvarv3 m_cvarTargetColor;
 
-		CCvarSettings();
+        CCvarSettings();
 
-	public:
-		virtual ~CCvarSettings()	{}
-		CCvarSettings(const tstring &sType, const tstring &sName) :
-		ISpellItem::CCvarSettings(sType, sName),
-		INIT_ITEM_SETTING_CVAR(TargetColor, GREEN.rgb())
-		{
-		}
-	};
+    public:
+        virtual ~CCvarSettings()    {}
+        CCvarSettings(const tstring &sType, const tstring &sName) :
+        ISpellItem::CCvarSettings(sType, sName),
+        INIT_ITEM_SETTING_CVAR(TargetColor, GREEN.rgb())
+        {
+        }
+    };
 
-	CCvarSettings*	m_pCvarSettings;
+    CCvarSettings*  m_pCvarSettings;
 
 public:
-	virtual ~ISpellSnapCast()	{}
-	ISpellSnapCast(CCvarSettings *pSettings);
+    virtual ~ISpellSnapCast()   {}
+    ISpellSnapCast(CCvarSettings *pSettings);
 };
 //=============================================================================
 

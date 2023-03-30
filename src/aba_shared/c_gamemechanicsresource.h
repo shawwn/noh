@@ -23,25 +23,25 @@ class CGameMechanics;
 class CGameMechanicsResource : public IResource
 {
 protected:
-	CGameMechanics*	m_pGameMechanics;
+    CGameMechanics* m_pGameMechanics;
 
-	CGameMechanicsResource();
+    CGameMechanicsResource();
 
 public:
-	~CGameMechanicsResource()	{}
-	CGameMechanicsResource(const tstring &sPath) :
-	IResource(sPath, TSNULL),
-	m_pGameMechanics(NULL)
-	{}
+    ~CGameMechanicsResource()   {}
+    CGameMechanicsResource(const tstring &sPath) :
+    IResource(sPath, TSNULL),
+    m_pGameMechanics(NULL)
+    {}
 
-	void			SetMechanics(CGameMechanics *pMechanics)	{ m_pGameMechanics = pMechanics; }
-	CGameMechanics*	GetMechanics() const						{ return m_pGameMechanics; }
+    void            SetMechanics(CGameMechanics *pMechanics)    { m_pGameMechanics = pMechanics; }
+    CGameMechanics* GetMechanics() const                        { return m_pGameMechanics; }
 
-	int		Load(uint uiIgnoreFlags, const char *pData, uint uiSize);
-	void	Free()		{}
-	void	PostLoad();
+    int     Load(uint uiIgnoreFlags, const char *pData, uint uiSize);
+    void    Free()      {}
+    void    PostLoad();
 
-	void	Precache()	{}
+    void    Precache()  {}
 };
 //=============================================================================
 

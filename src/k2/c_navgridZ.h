@@ -10,8 +10,8 @@
 //=============================================================================
 enum EDivideType
 {
-	DIVIDE_HORIZONTAL,
-	DIVIDE_VERTICAL,
+    DIVIDE_HORIZONTAL,
+    DIVIDE_VERTICAL,
 };
 
 const uint BSHIFT_BITS_PER_INT(5);
@@ -31,50 +31,50 @@ class CBlockPool;
 //=============================================================================
 class CNavGridZ
 {
-	friend class CNavGridUnits;
+    friend class CNavGridUnits;
 
-	static CBlockPool s_cMemPool;
+    static CBlockPool s_cMemPool;
 
-	// 1s for passible, 0s for blocked
-	// 00011100 (e.x. 3 leading 0s, 2 trailing 0s)
-	uint	*m_pHorizontal;
-	uint	*m_pVertical;
-	uint	m_uiDownSize;
-	uint	m_uiCnxnWidth, m_uiCnxnHeight;
-	uint	m_uiIntsPerRow, m_uiIntsPerColumn;
+    // 1s for passible, 0s for blocked
+    // 00011100 (e.x. 3 leading 0s, 2 trailing 0s)
+    uint    *m_pHorizontal;
+    uint    *m_pVertical;
+    uint    m_uiDownSize;
+    uint    m_uiCnxnWidth, m_uiCnxnHeight;
+    uint    m_uiIntsPerRow, m_uiIntsPerColumn;
 
-	inline uint		IntOffsetFromIndex(uint uiIndex) const;
-	inline uint		MinMaskFromIndex(uint uiIndex) const;
-	inline uint		MaxMaskFromIndex(uint uiIndex) const;
-	inline void		Reset();
+    inline uint     IntOffsetFromIndex(uint uiIndex) const;
+    inline uint     MinMaskFromIndex(uint uiIndex) const;
+    inline uint     MaxMaskFromIndex(uint uiIndex) const;
+    inline void     Reset();
 
 public:
-	CNavGridZ();
-	CNavGridZ(uint uiWidth, uint uiHeight, uint uiDownSize);
+    CNavGridZ();
+    CNavGridZ(uint uiWidth, uint uiHeight, uint uiDownSize);
 
-	void			ClearBlocker(uint uiBeginSegmentX, uint uiEndSegmentX, uint uiBeginSegmentY, uint uiEndSegmentY);
-	void			AddBlocker(uint uiBeginSegmentX, uint uiEndSegmentX, uint uiBeginSegmentY, uint uiEndSegmentY);
+    void            ClearBlocker(uint uiBeginSegmentX, uint uiEndSegmentX, uint uiBeginSegmentY, uint uiEndSegmentY);
+    void            AddBlocker(uint uiBeginSegmentX, uint uiEndSegmentX, uint uiBeginSegmentY, uint uiEndSegmentY);
 
-	uint			LinearGate(EDivideType eType, uint unGridPos, uint uiBeginSegment, uint uiEndSegment, uint uiEntityWidth, CSearchGateR &cGate) const;
+    uint            LinearGate(EDivideType eType, uint unGridPos, uint uiBeginSegment, uint uiEndSegment, uint uiEntityWidth, CSearchGateR &cGate) const;
 
-	void			Init(uint uiPermanentGrid);
-	void			Done();
+    void            Init(uint uiPermanentGrid);
+    void            Done();
 
-	void			HalfSize(CNavGridZ &cLowRes) const;
-	void			Merge(const CNavGridZ &cSample);
-	void			AntiMerge(const CNavGridZ &cSample);
-	void			CopyFrom(const CNavGridZ &cSample);
+    void            HalfSize(CNavGridZ &cLowRes) const;
+    void            Merge(const CNavGridZ &cSample);
+    void            AntiMerge(const CNavGridZ &cSample);
+    void            CopyFrom(const CNavGridZ &cSample);
 
-	static void		Alloc(uint uiWorldNavSize);
-	static void		ReleaseAlloc();
+    static void     Alloc(uint uiWorldNavSize);
+    static void     ReleaseAlloc();
 
-	uint*			GetHorizontal() const		{ return m_pHorizontal; }
-	uint*			GetVertical() const			{ return m_pVertical; }
-	uint			GetIntsPerRow() const		{ return m_uiIntsPerRow; }
-	uint			GetIntsPerColumn() const	{ return m_uiIntsPerColumn; }
-	uint			GetDownSize() const			{ return m_uiDownSize; }
-	uint			GetWidth() const			{ return m_uiCnxnWidth; }
-	uint			GetHeight() const			{ return m_uiCnxnHeight; }
+    uint*           GetHorizontal() const       { return m_pHorizontal; }
+    uint*           GetVertical() const         { return m_pVertical; }
+    uint            GetIntsPerRow() const       { return m_uiIntsPerRow; }
+    uint            GetIntsPerColumn() const    { return m_uiIntsPerColumn; }
+    uint            GetDownSize() const         { return m_uiDownSize; }
+    uint            GetWidth() const            { return m_uiCnxnWidth; }
+    uint            GetHeight() const           { return m_uiCnxnHeight; }
 };
 //=============================================================================
 
@@ -86,9 +86,9 @@ public:
   CNavGridZ::IntOffsetFromIndex
   ====================*/
 inline
-uint	CNavGridZ::IntOffsetFromIndex(uint uiIndex) const
+uint    CNavGridZ::IntOffsetFromIndex(uint uiIndex) const
 {
-	return (uiIndex >> BSHIFT_BITS_PER_INT);
+    return (uiIndex >> BSHIFT_BITS_PER_INT);
 }
 
 
@@ -96,11 +96,11 @@ uint	CNavGridZ::IntOffsetFromIndex(uint uiIndex) const
   CNavGridZ::MinMaskFromIndex
   ====================*/
 inline
-uint	CNavGridZ::MinMaskFromIndex(uint uiIndex) const
+uint    CNavGridZ::MinMaskFromIndex(uint uiIndex) const
 {
-	uint uiShift(uiIndex & GRIDZ_BITPOS_MASK);
+    uint uiShift(uiIndex & GRIDZ_BITPOS_MASK);
 
-	return (GRIDZ_PASSIBLE >> uiShift);
+    return (GRIDZ_PASSIBLE >> uiShift);
 }
 
 
@@ -108,11 +108,11 @@ uint	CNavGridZ::MinMaskFromIndex(uint uiIndex) const
   CNavGridZ::MaxMaskFromIndex
   ====================*/
 inline
-uint	CNavGridZ::MaxMaskFromIndex(uint uiIndex) const
+uint    CNavGridZ::MaxMaskFromIndex(uint uiIndex) const
 {
-	uint uiShift(uiIndex & GRIDZ_BITPOS_MASK);
+    uint uiShift(uiIndex & GRIDZ_BITPOS_MASK);
 
-	return ~(GRIDZ_PASSIBLE >> uiShift);
+    return ~(GRIDZ_PASSIBLE >> uiShift);
 }
 
 
@@ -120,10 +120,10 @@ uint	CNavGridZ::MaxMaskFromIndex(uint uiIndex) const
   CNavGridZ::Reset
   ====================*/
 inline
-void	CNavGridZ::Reset()
+void    CNavGridZ::Reset()
 {
-	memset(m_pHorizontal, GRIDZ_PASSIBLE, sizeof(uint) * m_uiIntsPerColumn * m_uiCnxnWidth);
-	memset(m_pVertical, GRIDZ_PASSIBLE, sizeof(uint) * m_uiIntsPerRow * m_uiCnxnHeight);
+    memset(m_pHorizontal, GRIDZ_PASSIBLE, sizeof(uint) * m_uiIntsPerColumn * m_uiCnxnWidth);
+    memset(m_pVertical, GRIDZ_PASSIBLE, sizeof(uint) * m_uiIntsPerRow * m_uiCnxnHeight);
 }
 //=============================================================================
 

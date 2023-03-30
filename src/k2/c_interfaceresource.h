@@ -29,24 +29,24 @@ class CWidgetStyle;
 class CInterfaceResource : public IResource
 {
 private:
-	CInterface*	m_pInterface;
+    CInterface* m_pInterface;
 
 public:
-	K2_API ~CInterfaceResource()	{}
-	K2_API CInterfaceResource(const tstring &sPath);
+    K2_API ~CInterfaceResource()    {}
+    K2_API CInterfaceResource(const tstring &sPath);
 
-	K2_API	virtual uint			GetResType() const			{ return RES_INTERFACE; }
-	K2_API	virtual const tstring&	GetResTypeName() const		{ return ResTypeName(); }
-	K2_API	static const tstring&	ResTypeName()				{ static tstring sTypeName(_T("{interface}")); return sTypeName; }
+    K2_API  virtual uint            GetResType() const          { return RES_INTERFACE; }
+    K2_API  virtual const tstring&  GetResTypeName() const      { return ResTypeName(); }
+    K2_API  static const tstring&   ResTypeName()               { static tstring sTypeName(_T("{interface}")); return sTypeName; }
 
-	CInterface*		GetInterface()	{ return m_pInterface; }
+    CInterface*     GetInterface()  { return m_pInterface; }
 
-	bool	Allocate(const CWidgetStyle& style);
+    bool    Allocate(const CWidgetStyle& style);
 
-	int		Load(uint uiIgnoreFlags, const char *pData, uint uiSize);
-	void	Free();
+    int     Load(uint uiIgnoreFlags, const char *pData, uint uiSize);
+    void    Free();
 
-	void	Reloaded();
+    void    Reloaded();
 };
 //=============================================================================
 

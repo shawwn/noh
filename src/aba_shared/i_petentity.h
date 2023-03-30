@@ -18,26 +18,26 @@
 class IPetEntity : public IUnitEntity
 {
 public:
-	typedef CPetDefinition TDefinition;
+    typedef CPetDefinition TDefinition;
 
 private:
 
 public:
-	virtual ~IPetEntity()	{}
-	IPetEntity()			{}
+    virtual ~IPetEntity()   {}
+    IPetEntity()            {}
 
-	SUB_ENTITY_ACCESSOR(IPetEntity, Pet)
+    SUB_ENTITY_ACCESSOR(IPetEntity, Pet)
 
-	virtual void	Spawn();
-	virtual void	UpdateModifiers();
-	virtual bool	ServerFrameThink();
-	virtual bool	ServerFrameCleanup();
-	virtual void	Die(IUnitEntity *pAttacker = NULL, ushort unKillingObject = INVALID_ENT_TYPE);
+    virtual void    Spawn();
+    virtual void    UpdateModifiers();
+    virtual bool    ServerFrameThink();
+    virtual bool    ServerFrameCleanup();
+    virtual void    Die(IUnitEntity *pAttacker = NULL, ushort unKillingObject = INVALID_ENT_TYPE);
 
-	virtual void	SetLevel(uint uiLevel);
+    virtual void    SetLevel(uint uiLevel);
 
-	MULTI_LEVEL_ENTITY_DEFINITION_ACCESSOR(bool, IsPersistent)
-	MULTI_LEVEL_ENTITY_DEFINITION_ACCESSOR(uint, Lifetime)
+    MULTI_LEVEL_ENTITY_DEFINITION_ACCESSOR(bool, IsPersistent)
+    MULTI_LEVEL_ENTITY_DEFINITION_ACCESSOR(uint, Lifetime)
 };
 //=============================================================================
 

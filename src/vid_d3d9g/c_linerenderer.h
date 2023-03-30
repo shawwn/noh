@@ -22,17 +22,17 @@
 class CLineRenderer : public IDebugRenderer
 {
 private:
-	int		m_iNumLines;
+    int     m_iNumLines;
 
 public:
-	static CPool<CLineRenderer>		s_Pool;
-	
-	void*	operator new(size_t z); // Uses CPool of preallocated instances
-	
-	~CLineRenderer();
-	CLineRenderer(int iNumLines);
+    static CPool<CLineRenderer>     s_Pool;
+    
+    void*   operator new(size_t z); // Uses CPool of preallocated instances
+    
+    ~CLineRenderer();
+    CLineRenderer(int iNumLines);
 
-	void	Render(EMaterialPhase ePhase);
+    void    Render(EMaterialPhase ePhase);
 };
 //=============================================================================
 #endif //__C_LINERENDERER_H__

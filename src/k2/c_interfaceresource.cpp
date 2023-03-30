@@ -20,21 +20,21 @@
 //=============================================================================
 // Declarations
 //=============================================================================
-IResource*	AllocInterfaceResource(const tstring &sPath);
+IResource*  AllocInterfaceResource(const tstring &sPath);
 //=============================================================================
 
 //=============================================================================
 // Globals
 //=============================================================================
-IResourceLibrary	g_ResLibInterfaceResource(RES_INTERFACE, _T("Interfaces"), CInterfaceResource::ResTypeName(), true, AllocInterfaceResource);
+IResourceLibrary    g_ResLibInterfaceResource(RES_INTERFACE, _T("Interfaces"), CInterfaceResource::ResTypeName(), true, AllocInterfaceResource);
 //=============================================================================
 
 /*====================
   AllocInterfaceResource
   ====================*/
-IResource*	AllocInterfaceResource(const tstring &sPath)
+IResource*  AllocInterfaceResource(const tstring &sPath)
 {
-	return K2_NEW(ctx_Resources,  CInterfaceResource)(sPath);
+    return K2_NEW(ctx_Resources,  CInterfaceResource)(sPath);
 }
 
 
@@ -51,64 +51,64 @@ m_pInterface(NULL)
 /*====================
   CInterfaceResource::Load
   ====================*/
-int		CInterfaceResource::Load(uint uiIgnoreFlags, const char *pData, uint uiSize)
+int     CInterfaceResource::Load(uint uiIgnoreFlags, const char *pData, uint uiSize)
 {
-	PROFILE("CInterfaceResource::Load");
+    PROFILE("CInterfaceResource::Load");
 
-	// Dedicated servers don't need interface files so skip this and save some memory
-	if (K2System.IsDedicatedServer() || K2System.IsServerManager())
-		return false;
+    // Dedicated servers don't need interface files so skip this and save some memory
+    if (K2System.IsDedicatedServer() || K2System.IsServerManager())
+        return false;
 
-	int iResult(0);
+    int iResult(0);
 
-	if (!m_sPath.empty())
-		Console.Res << "Loading ^mInterface^* " << SingleQuoteStr(m_sPath) << newl;
-	else if (!m_sName.empty())
-		Console.Res << "Loading ^mInterface^* " << SingleQuoteStr(m_sName) << newl;
-	else
-		Console.Res << "Loading ^mUnknown Interface^*" << newl;
+    if (!m_sPath.empty())
+        Console.Res << "Loading ^mInterface^* " << SingleQuoteStr(m_sPath) << newl;
+    else if (!m_sName.empty())
+        Console.Res << "Loading ^mInterface^* " << SingleQuoteStr(m_sName) << newl;
+    else
+        Console.Res << "Loading ^mUnknown Interface^*" << newl;
 
-	if (!XMLManager.ReadBuffer(pData, uiSize, _T("interface"), this))
-		iResult = RES_LOAD_FAILED;
+    if (!XMLManager.ReadBuffer(pData, uiSize, _T("interface"), this))
+        iResult = RES_LOAD_FAILED;
 
-	if (m_pInterface != NULL)
-	{
-		m_pInterface->SetFilename(m_sPath);
-		m_pInterface->DoEvent(WEVENT_LOAD);
-		m_pInterface->NeedsRefresh(true);
-	}
+    if (m_pInterface != NULL)
+    {
+        m_pInterface->SetFilename(m_sPath);
+        m_pInterface->DoEvent(WEVENT_LOAD);
+        m_pInterface->NeedsRefresh(true);
+    }
 
-	return iResult;
+    return iResult;
 }
 
 
 /*====================
   CInterfaceResource::Free
   ====================*/
-void	CInterfaceResource::Free()
+void    CInterfaceResource::Free()
 {
-	SAFE_DELETE(m_pInterface);
+    SAFE_DELETE(m_pInterface);
 }
 
 
 /*====================
   CInterfaceResource::Allocate
   ====================*/
-bool	CInterfaceResource::Allocate(const CWidgetStyle& style)
+bool    CInterfaceResource::Allocate(const CWidgetStyle& style)
 {
-	m_pInterface = K2_NEW(ctx_Resources,  CInterface)(style);
+    m_pInterface = K2_NEW(ctx_Resources,  CInterface)(style);
 
-	return m_pInterface != NULL;
+    return m_pInterface != NULL;
 }
 
 
 /*====================
   CInterfaceResource::Reloaded
   ====================*/
-void	CInterfaceResource::Reloaded()
+void    CInterfaceResource::Reloaded()
 {
-	if (m_pInterface != NULL)
-		m_pInterface->DoEvent(WEVENT_RELOAD);
+    if (m_pInterface != NULL)
+        m_pInterface->DoEvent(WEVENT_RELOAD);
 
-	IResource::Reloaded();
+    IResource::Reloaded();
 }

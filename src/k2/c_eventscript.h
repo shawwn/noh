@@ -29,21 +29,21 @@ class CInterface;
 class CEventScript
 {
 private:
-	static CEventScript	*s_pInstance;
-	static bool			s_bReleased;
+    static CEventScript *s_pInstance;
+    static bool         s_bReleased;
 
-	CEventScript();
-	CEventScript(CEventScript&);
-	CEventScript operator=(CEventScript&);
+    CEventScript();
+    CEventScript(CEventScript&);
+    CEventScript operator=(CEventScript&);
 
 public:
-	~CEventScript();
+    ~CEventScript();
 
-	static CEventScript*	GetInstance();
-	static void			Release();
+    static CEventScript*    GetInstance();
+    static void         Release();
 
-	K2_API bool			DoCommand(const tsvector &vArgList, int iTimeNudge);
-	K2_API bool			Execute(const tstring &sScript, int iTimeNudge);
+    K2_API bool         DoCommand(const tsvector &vArgList, int iTimeNudge);
+    K2_API bool         Execute(const tstring &sScript, int iTimeNudge);
 };
 
 extern K2_API CEventScript *pEventScript;

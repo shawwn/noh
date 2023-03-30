@@ -29,31 +29,31 @@ const bool vid_sceneBufferMipmap(true);
 class CSceneBuffer
 {
 private:
-	bool					m_bActive;
+    bool                    m_bActive;
 
-	uint					m_uiWidth;
-	uint					m_uiHeight;
-	
-	uint					m_uiSceneBuffer;
+    uint                    m_uiWidth;
+    uint                    m_uiHeight;
+    
+    uint                    m_uiSceneBuffer;
 
-	ResHandle				m_hSceneBufferTexture;
+    ResHandle               m_hSceneBufferTexture;
 
 public:
-	~CSceneBuffer();
-	CSceneBuffer();
+    ~CSceneBuffer();
+    CSceneBuffer();
 
-	bool	GetActive()				{ return m_bActive; }
-	uint	GetWidth()				{ return m_uiWidth; }
-	uint	GetHeight()				{ return m_uiHeight; }
-	uint	GetTextureIndex()		{ return m_uiSceneBuffer; }
+    bool    GetActive()             { return m_bActive; }
+    uint    GetWidth()              { return m_uiWidth; }
+    uint    GetHeight()             { return m_uiHeight; }
+    uint    GetTextureIndex()       { return m_uiSceneBuffer; }
 
-	void	Initialize(int iWidth, int iHeight);
-	void	Release();
-	
-	void	Render();
+    void    Initialize(int iWidth, int iHeight);
+    void    Release();
+    
+    void    Render();
 };
 
-extern CSceneBuffer	g_SceneBuffer;
+extern CSceneBuffer g_SceneBuffer;
 //=============================================================================
 
 #endif //__C_SCENEBUFFER_H__

@@ -18,11 +18,11 @@
 DEFINE_DEFINITION_TYPE_INFO(CCreepDefinition, ENTITY_BASE_TYPE_CREEP, Creep)
 
 START_ENTITY_DEFINITION_XML_PROCESSOR(ICreepEntity, Creep)
-	IUnitDefinition::ReadSettings(pDefinition, node, bMod);
-	
-	READ_ENTITY_DEFINITION_PROPERTY_EX(IsMobile, ismobile, true)
-	READ_ENTITY_DEFINITION_PROPERTY_EX(CanAttack, canattack, true)
-	READ_ENTITY_DEFINITION_PROPERTY_EX(CanRotate, canrotate, true)
-	READ_ENTITY_DEFINITION_PROPERTY(CombatType, combattype)
-	READ_ENTITY_DEFINITION_PROPERTY(CanCarryItems, cancarryitems)
+    IUnitDefinition::ReadSettings(pDefinition, node, bMod);
+    
+    READ_ENTITY_DEFINITION_PROPERTY_EX(IsMobile, ismobile, true)
+    READ_ENTITY_DEFINITION_PROPERTY_EX(CanAttack, canattack, true)
+    READ_ENTITY_DEFINITION_PROPERTY_EX(CanRotate, canrotate, true)
+    READ_ENTITY_DEFINITION_PROPERTY(CombatType, combattype)
+    READ_ENTITY_DEFINITION_PROPERTY(CanCarryItems, cancarryitems)
 END_ENTITY_DEFINITION_XML_PROCESSOR(Creep, creep)

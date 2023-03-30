@@ -17,12 +17,12 @@
 class CConsumableSpeedBoost : public IConsumableItem
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Consumable, SpeedBoost);
+    DECLARE_ENT_ALLOCATOR2(Consumable, SpeedBoost);
 
 public:
-	~CConsumableSpeedBoost() {}
-	CConsumableSpeedBoost() :
-	IConsumableItem(GetEntityConfig()) {}
+    ~CConsumableSpeedBoost() {}
+    CConsumableSpeedBoost() :
+    IConsumableItem(GetEntityConfig()) {}
 };
 //=============================================================================
 

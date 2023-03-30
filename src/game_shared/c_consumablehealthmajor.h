@@ -17,16 +17,16 @@
 class CConsumableHealthMajor : public IConsumableItem
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Consumable, HealthMajor);
+    DECLARE_ENT_ALLOCATOR2(Consumable, HealthMajor);
 
-	static	CCvarf		s_cvarHealthAmount;
+    static  CCvarf      s_cvarHealthAmount;
 
 public:
-	~CConsumableHealthMajor() {}
-	CConsumableHealthMajor() :
-	IConsumableItem(GetEntityConfig()) {}
+    ~CConsumableHealthMajor() {}
+    CConsumableHealthMajor() :
+    IConsumableItem(GetEntityConfig()) {}
 
-	bool	ActivatePrimary(int iButtonStatus);
+    bool    ActivatePrimary(int iButtonStatus);
 };
 //=============================================================================
 

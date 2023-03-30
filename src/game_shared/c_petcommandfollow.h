@@ -17,13 +17,13 @@
 class CPetCommandFollow : public ISpellItem
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(PetCommand, Follow);
+    DECLARE_ENT_ALLOCATOR2(PetCommand, Follow);
 
 public:
-	~CPetCommandFollow()	{}
-	CPetCommandFollow() : ISpellItem(GetEntityConfig())	{}
+    ~CPetCommandFollow()    {}
+    CPetCommandFollow() : ISpellItem(GetEntityConfig()) {}
 
-	virtual void	ImpactEntity(uint uiTargetIndex, CGameEvent &evImpact, bool bCheckTarget = true);
+    virtual void    ImpactEntity(uint uiTargetIndex, CGameEvent &evImpact, bool bCheckTarget = true);
 };
 //=============================================================================
 

@@ -17,17 +17,17 @@
 class CStateCriticalStrike : public IEntityState
 {
 private:
-	DECLARE_STATE_ALLOCATOR(CriticalStrike);
-	DECLARE_ENTITY_STATE_CVARS;
-	static CCvarui	s_cvarAttackTime;
-	static CCvarf	s_cvarAttackDamage;
-	static CCvarui	s_cvarBleedDuration;
+    DECLARE_STATE_ALLOCATOR(CriticalStrike);
+    DECLARE_ENTITY_STATE_CVARS;
+    static CCvarui  s_cvarAttackTime;
+    static CCvarf   s_cvarAttackDamage;
+    static CCvarui  s_cvarBleedDuration;
 
 public:
-	~CStateCriticalStrike();
-	CStateCriticalStrike();
+    ~CStateCriticalStrike();
+    CStateCriticalStrike();
 
-	void	DoAttack(CMeleeAttackEvent &attack);
+    void    DoAttack(CMeleeAttackEvent &attack);
 };
 //=============================================================================
 

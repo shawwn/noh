@@ -17,18 +17,18 @@
 class CSkillDisembark : public ISkillItem
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Skill, Disembark);
+    DECLARE_ENT_ALLOCATOR2(Skill, Disembark);
 
 public:
-	~CSkillDisembark()	{}
-	CSkillDisembark() :
-	ISkillItem(GetEntityConfig())
-	{}
+    ~CSkillDisembark()  {}
+    CSkillDisembark() :
+    ISkillItem(GetEntityConfig())
+    {}
 
-	virtual void	Activate()				{ ActivatePrimary(GAME_BUTTON_STATUS_DOWN | GAME_BUTTON_STATUS_PRESSED); }
-	virtual bool	ActivatePrimary(int iButtonStatus);
+    virtual void    Activate()              { ActivatePrimary(GAME_BUTTON_STATUS_DOWN | GAME_BUTTON_STATUS_PRESSED); }
+    virtual bool    ActivatePrimary(int iButtonStatus);
 
-	TYPE_NAME("Vehicle abandonment")
+    TYPE_NAME("Vehicle abandonment")
 };
 //=============================================================================
 

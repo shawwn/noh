@@ -2,47 +2,47 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>CFBundleDevelopmentRegion</key>
-	<string>English</string>
-	<key>CFBundleDisplayName</key>
-	<string>Heroes of Newerth</string>
-	<key>CFBundleExecutable</key>
-	<string>HoN</string>
-	<key>CFBundleIconFile</key>
-	<string>honicon.icns</string>
-	<key>CFBundleIdentifier</key>
-	<string>com.s2games.HoN</string>
-	<key>CFBundleInfoDictionaryVersion</key>
-	<string>6.0</string>
-	<key>CFBundleName</key>
-	<string>Heroes of Newerth</string>
-	<key>CFBundlePackageType</key>
-	<string>APPL</string>
-	<key>CFBundleShortVersionString</key>
-	<string>SHORTVERSION</string>
-	<key>CFBundleSignature</key>
-	<string>hon</string>
-	<key>CFBundleVersion</key>
-	<string>LONGVERSION</string>
-	<key>LSArchitecturePriority</key>
-	<array>
-		<string>i386</string>
-		<string>ppc</string>
-	</array>
-	<key>LSExecutableArchitectures</key>
-	<array>
-		<string>i386</string>
-		<string>ppc</string>
-	</array>
-	<key>LSHasLocalizedDisplayName</key>
-	<false/>
-	<key>LSMinimumSystemVersion</key>
-	<string>10.4.0</string>
-	<key>LSRequiresNativeExecution</key>
-	<true/>
-	<key>NSAppleScriptEnabled</key>
-	<false/>
-	<key>NSHumanReadableCopyright</key>
-	<string>©2010 S2 Games</string>
+    <key>CFBundleDevelopmentRegion</key>
+    <string>English</string>
+    <key>CFBundleDisplayName</key>
+    <string>Heroes of Newerth</string>
+    <key>CFBundleExecutable</key>
+    <string>HoN</string>
+    <key>CFBundleIconFile</key>
+    <string>honicon.icns</string>
+    <key>CFBundleIdentifier</key>
+    <string>com.s2games.HoN</string>
+    <key>CFBundleInfoDictionaryVersion</key>
+    <string>6.0</string>
+    <key>CFBundleName</key>
+    <string>Heroes of Newerth</string>
+    <key>CFBundlePackageType</key>
+    <string>APPL</string>
+    <key>CFBundleShortVersionString</key>
+    <string>SHORTVERSION</string>
+    <key>CFBundleSignature</key>
+    <string>hon</string>
+    <key>CFBundleVersion</key>
+    <string>LONGVERSION</string>
+    <key>LSArchitecturePriority</key>
+    <array>
+        <string>i386</string>
+        <string>ppc</string>
+    </array>
+    <key>LSExecutableArchitectures</key>
+    <array>
+        <string>i386</string>
+        <string>ppc</string>
+    </array>
+    <key>LSHasLocalizedDisplayName</key>
+    <false/>
+    <key>LSMinimumSystemVersion</key>
+    <string>10.4.0</string>
+    <key>LSRequiresNativeExecution</key>
+    <true/>
+    <key>NSAppleScriptEnabled</key>
+    <false/>
+    <key>NSHumanReadableCopyright</key>
+    <string>©2010 S2 Games</string>
 </dict>
 </plist>

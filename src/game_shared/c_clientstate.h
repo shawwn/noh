@@ -13,8 +13,8 @@ class GAME_SHARED_API CClientState
 private:
 
 public:
-	~CClientState();
-	CClientState();
+    ~CClientState();
+    CClientState();
 };
 //=============================================================================
 

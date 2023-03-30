@@ -17,13 +17,13 @@
 class CPlayerBatteringRam : public IPlayerEntity
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Player, BatteringRam);
+    DECLARE_ENT_ALLOCATOR2(Player, BatteringRam);
 
 public:
-	~CPlayerBatteringRam()	{}
-	CPlayerBatteringRam();
+    ~CPlayerBatteringRam()  {}
+    CPlayerBatteringRam();
 
-	void	Move(const CClientSnapshot &snapshot)	{ MoveWalk(snapshot); }
+    void    Move(const CClientSnapshot &snapshot)   { MoveWalk(snapshot); }
 };
 //=============================================================================
 

@@ -17,11 +17,11 @@
 class CProjectileBuilderGrenade : public IProjectile
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Projectile, BuilderGrenade);
+    DECLARE_ENT_ALLOCATOR2(Projectile, BuilderGrenade);
 
 public:
-	~CProjectileBuilderGrenade()	{}
-	CProjectileBuilderGrenade();
+    ~CProjectileBuilderGrenade()    {}
+    CProjectileBuilderGrenade();
 };
 //=============================================================================
 

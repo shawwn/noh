@@ -18,8 +18,8 @@
 //=============================================================================
 enum EListBoxScrollbar
 {
-	LISTBOX_SCROLLBAR_HORIZONTAL = 0,
-	LISTBOX_SCROLLBAR_VERTICAL
+    LISTBOX_SCROLLBAR_HORIZONTAL = 0,
+    LISTBOX_SCROLLBAR_VERTICAL
 };
 //=============================================================================
 
@@ -29,13 +29,13 @@ enum EListBoxScrollbar
 class CListBoxScrollbar : public CScrollbar
 {
 protected:
-	EListBoxScrollbar	m_eType;
+    EListBoxScrollbar   m_eType;
 
-	void	DoChange();
+    void    DoChange();
 
 public:
-	~CListBoxScrollbar();
-	CListBoxScrollbar(CInterface *pInterface, IWidget *pParent, EListBoxScrollbar eType, const CWidgetStyle& style);
+    ~CListBoxScrollbar();
+    CListBoxScrollbar(CInterface *pInterface, IWidget *pParent, EListBoxScrollbar eType, const CWidgetStyle& style);
 };
 //=============================================================================
 

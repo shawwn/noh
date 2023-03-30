@@ -24,27 +24,27 @@ DECLARE_ENTITY_DEFINITION_XML_PROCESSOR(IPetEntity, Pet, pet)
 //=============================================================================
 class CPetDefinition : public IUnitDefinition
 {
-	DECLARE_DEFINITION_TYPE_INFO
+    DECLARE_DEFINITION_TYPE_INFO
 
-	ENT_DEF_ARRAY_PROPERTY(IsPersistent, bool)
-	ENT_DEF_ARRAY_PROPERTY(Lifetime, uint)
+    ENT_DEF_ARRAY_PROPERTY(IsPersistent, bool)
+    ENT_DEF_ARRAY_PROPERTY(Lifetime, uint)
 
 public:
-	~CPetDefinition()	{}
-	CPetDefinition() :
-	IUnitDefinition(&g_allocatorPet)
-	{}
+    ~CPetDefinition()   {}
+    CPetDefinition() :
+    IUnitDefinition(&g_allocatorPet)
+    {}
 
-	IEntityDefinition*	GetCopy() const	{ return K2_NEW(g_heapResources,    CPetDefinition)(*this); }
+    IEntityDefinition*  GetCopy() const { return K2_NEW(g_heapResources,    CPetDefinition)(*this); }
 
-	virtual void	GetPrecacheList(EPrecacheScheme eScheme, HeroPrecacheList &deqPrecache)
-	{
-		IUnitDefinition::GetPrecacheList(eScheme, deqPrecache);
-		
-		PRECACHE_GUARD
-			deqPrecache.push_back(SHeroPrecache(GetName(), eScheme));
-		PRECACHE_GUARD_END
-	}
+    virtual void    GetPrecacheList(EPrecacheScheme eScheme, HeroPrecacheList &deqPrecache)
+    {
+        IUnitDefinition::GetPrecacheList(eScheme, deqPrecache);
+        
+        PRECACHE_GUARD
+            deqPrecache.push_back(SHeroPrecache(GetName(), eScheme));
+        PRECACHE_GUARD_END
+    }
 };
 //=============================================================================
 

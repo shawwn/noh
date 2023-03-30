@@ -17,13 +17,13 @@
 class CMeleeBroadswords2 : public IMeleeItem
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Melee, Broadswords2);
+    DECLARE_ENT_ALLOCATOR2(Melee, Broadswords2);
 
 public:
-	~CMeleeBroadswords2()	{}
-	CMeleeBroadswords2() :
-	IMeleeItem(GetEntityConfig())
-	{}
+    ~CMeleeBroadswords2()   {}
+    CMeleeBroadswords2() :
+    IMeleeItem(GetEntityConfig())
+    {}
 };
 //=============================================================================
 

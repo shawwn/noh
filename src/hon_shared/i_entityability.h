@@ -17,36 +17,36 @@
 //=============================================================================
 class IEntityAbility : public IEntityTool
 {
-	DECLARE_ENTITY_DESC
+    DECLARE_ENTITY_DESC
 
 public:
-	typedef CAbilityDefinition TDefinition;
-	
+    typedef CAbilityDefinition TDefinition;
+    
 public:
-	virtual ~IEntityAbility()	{}
-	IEntityAbility();
+    virtual ~IEntityAbility()   {}
+    IEntityAbility();
 
-	SUB_ENTITY_ACCESSOR(IEntityAbility, Ability)
+    SUB_ENTITY_ACCESSOR(IEntityAbility, Ability)
 
-	// Network
-	GAME_SHARED_API virtual void	Baseline();
-	GAME_SHARED_API virtual void	GetSnapshot(CEntitySnapshot &snapshot, uint uiFlags) const;
-	GAME_SHARED_API virtual bool	ReadSnapshot(CEntitySnapshot &snapshot, uint uiVersion);
+    // Network
+    GAME_SHARED_API virtual void    Baseline();
+    GAME_SHARED_API virtual void    GetSnapshot(CEntitySnapshot &snapshot, uint uiFlags) const;
+    GAME_SHARED_API virtual bool    ReadSnapshot(CEntitySnapshot &snapshot, uint uiVersion);
 
-	void	LevelUp();
-	bool	CanLevelUp() const;
+    void    LevelUp();
+    bool    CanLevelUp() const;
 
-	virtual bool	IsDisabled() const;
-	virtual bool	CanOrder();
-	virtual bool	CanActivate();
+    virtual bool    IsDisabled() const;
+    virtual bool    CanOrder();
+    virtual bool    CanActivate();
 
-	virtual ResHandle	GetEffect();
+    virtual ResHandle   GetEffect();
 
-	ENTITY_DEFINITION_ARRAY_ACCESSOR(uint, RequiredLevel)
-	MULTI_LEVEL_ENTITY_DEFINITION_ACCESSOR(const tstring&, Interface)
-	ENTITY_DEFINITION_ACCESSOR(int, SubSlot)
-	ENTITY_DEFINITION_ACCESSOR(int, KeySlot)
-	MULTI_LEVEL_ENTITY_DEFINITION_ACCESSOR(bool, NoSilence)
+    ENTITY_DEFINITION_ARRAY_ACCESSOR(uint, RequiredLevel)
+    MULTI_LEVEL_ENTITY_DEFINITION_ACCESSOR(const tstring&, Interface)
+    ENTITY_DEFINITION_ACCESSOR(int, SubSlot)
+    ENTITY_DEFINITION_ACCESSOR(int, KeySlot)
+    MULTI_LEVEL_ENTITY_DEFINITION_ACCESSOR(bool, NoSilence)
 };
 //=============================================================================
 

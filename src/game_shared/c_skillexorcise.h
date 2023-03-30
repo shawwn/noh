@@ -17,13 +17,13 @@
 class CSkillExorcise : public ISkillItem
 {
 private:
-	DECLARE_ITEM_ALLOCATOR(Skill, Exorcise)
+    DECLARE_ITEM_ALLOCATOR(Skill, Exorcise)
 
 public:
-	~CSkillExorcise();
-	CSkillExorcise();
+    ~CSkillExorcise();
+    CSkillExorcise();
 
-	bool	ActivatePrimary(int iButtonStatus);
+    bool    ActivatePrimary(int iButtonStatus);
 };
 //=============================================================================
 

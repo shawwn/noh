@@ -22,23 +22,23 @@
 //=============================================================================
 // Game info strings
 //=============================================================================
-#define GAME_NAME		_T("Abaddon")
-#define DEFAULT_GAME	_T("game")
+#define GAME_NAME       _T("Abaddon")
+#define DEFAULT_GAME    _T("game")
 
-#define MAJOR_VERSION	0
-#define MINOR_VERSION	1
-#define MICRO_VERSION	0
-#define HOTFIX_VERSION	0
+#define MAJOR_VERSION   0
+#define MINOR_VERSION   1
+#define MICRO_VERSION   0
+#define HOTFIX_VERSION  0
 #include "buildnumber.h"
 
-#define _MAKE_VERSION_STRING(a, b, c, d)	_T(#a)_T(".")_T(#b)_T(".")_T(#c)_T(".")_T(#d)
-#define MAKE_VERSION_STRING(a, b, c, d)		_MAKE_VERSION_STRING(a, b, c, d)
-#define VERSION_STRING						MAKE_VERSION_STRING(MAJOR_VERSION, MINOR_VERSION, MICRO_VERSION, HOTFIX_VERSION)
+#define _MAKE_VERSION_STRING(a, b, c, d)    _T(#a)_T(".")_T(#b)_T(".")_T(#c)_T(".")_T(#d)
+#define MAKE_VERSION_STRING(a, b, c, d)     _MAKE_VERSION_STRING(a, b, c, d)
+#define VERSION_STRING                      MAKE_VERSION_STRING(MAJOR_VERSION, MINOR_VERSION, MICRO_VERSION, HOTFIX_VERSION)
 
 #ifdef K2_GARENA
-#define MASTER_SERVER_ADDRESS				"masterserver.garena.s2games.com"
+#define MASTER_SERVER_ADDRESS               "masterserver.garena.s2games.com"
 #else
-#define MASTER_SERVER_ADDRESS				"masterserver.hon.s2games.com"
+#define MASTER_SERVER_ADDRESS               "masterserver.hon.s2games.com"
 #endif
 
 // BUILD_OS
@@ -53,62 +53,62 @@
 #if defined(_WIN32)
 
 #if defined(K2_GARENA)
-	#if defined(K2_SERVER)
-#define BUILD_OS		_T("wgs")
-	#elif defined(K2_CLIENT)
-#define BUILD_OS		_T("wgc")
-	#else
-#define BUILD_OS		_T("wg1")
-	#endif
+    #if defined(K2_SERVER)
+#define BUILD_OS        _T("wgs")
+    #elif defined(K2_CLIENT)
+#define BUILD_OS        _T("wgc")
+    #else
+#define BUILD_OS        _T("wg1")
+    #endif
 #elif defined(K2_TEST)
-	#if defined(K2_SERVER)
-#define BUILD_OS		_T("wts")
-	#elif defined(K2_CLIENT)
-#define BUILD_OS		_T("wtc")
-	#else
-#define BUILD_OS		_T("wt1")
-	#endif
+    #if defined(K2_SERVER)
+#define BUILD_OS        _T("wts")
+    #elif defined(K2_CLIENT)
+#define BUILD_OS        _T("wtc")
+    #else
+#define BUILD_OS        _T("wt1")
+    #endif
 #elif defined(K2_EXPERIMENTAL)
-	#if defined(K2_SERVER)
-#define BUILD_OS		_T("wxs")
-	#elif defined(K2_CLIENT)
-#define BUILD_OS		_T("wxc")
-	#else
-#define BUILD_OS		_T("wx1")
-	#endif
+    #if defined(K2_SERVER)
+#define BUILD_OS        _T("wxs")
+    #elif defined(K2_CLIENT)
+#define BUILD_OS        _T("wxc")
+    #else
+#define BUILD_OS        _T("wx1")
+    #endif
 #else
-	#if defined(K2_SERVER)
-#define BUILD_OS		_T("was")
-	#elif defined(K2_CLIENT)
-#define BUILD_OS		_T("wac")
-	#else
-#define BUILD_OS		_T("wa1")
-	#endif
+    #if defined(K2_SERVER)
+#define BUILD_OS        _T("was")
+    #elif defined(K2_CLIENT)
+#define BUILD_OS        _T("wac")
+    #else
+#define BUILD_OS        _T("wa1")
+    #endif
 #endif
 
-#define BUILD_ARCH		_T("i686")
+#define BUILD_ARCH      _T("i686")
 
 #elif defined(linux)
 
 #if defined(K2_SERVER)
-#define BUILD_OS		_T("las")
+#define BUILD_OS        _T("las")
 #elif defined(K2_CLIENT)
-#define BUILD_OS		_T("lac")
+#define BUILD_OS        _T("lac")
 #else
-#define BUILD_OS		_T("la1")
+#define BUILD_OS        _T("la1")
 #endif
-#define BUILD_ARCH		_T("x86-biarch")
+#define BUILD_ARCH      _T("x86-biarch")
 
 #elif defined(__APPLE__)
 
 #if defined(K2_SERVER)
-#define BUILD_OS		_T("mas")
+#define BUILD_OS        _T("mas")
 #elif defined(K2_CLIENT)
-#define BUILD_OS		_T("mac")
+#define BUILD_OS        _T("mac")
 #else
-#define BUILD_OS		_T("ma1")
+#define BUILD_OS        _T("ma1")
 #endif
-#define BUILD_ARCH		_T("universal")
+#define BUILD_ARCH      _T("universal")
 
 #endif
 //=============================================================================

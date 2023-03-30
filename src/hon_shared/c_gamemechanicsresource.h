@@ -23,29 +23,29 @@ class CGameMechanics;
 class CGameMechanicsResource : public IResource
 {
 protected:
-	CGameMechanics*	m_pGameMechanics;
+    CGameMechanics* m_pGameMechanics;
 
-	CGameMechanicsResource();
+    CGameMechanicsResource();
 
 public:
-	~CGameMechanicsResource()	{}
-	CGameMechanicsResource(const tstring &sPath) :
-	IResource(sPath, TSNULL),
-	m_pGameMechanics(NULL)
-	{}
+    ~CGameMechanicsResource()   {}
+    CGameMechanicsResource(const tstring &sPath) :
+    IResource(sPath, TSNULL),
+    m_pGameMechanics(NULL)
+    {}
 
-	GAME_SHARED_API	virtual uint			GetResType() const			{ return RES_GAME_MECHANICS; }
-	GAME_SHARED_API	virtual const tstring&	GetResTypeName() const		{ return ResTypeName(); }
-	GAME_SHARED_API	static const tstring&	ResTypeName()				{ static tstring sTypeName(_T("{gamemechanics}")); return sTypeName; }
+    GAME_SHARED_API virtual uint            GetResType() const          { return RES_GAME_MECHANICS; }
+    GAME_SHARED_API virtual const tstring&  GetResTypeName() const      { return ResTypeName(); }
+    GAME_SHARED_API static const tstring&   ResTypeName()               { static tstring sTypeName(_T("{gamemechanics}")); return sTypeName; }
 
-	void			SetMechanics(CGameMechanics *pMechanics)	{ m_pGameMechanics = pMechanics; }
-	CGameMechanics*	GetMechanics() const						{ return m_pGameMechanics; }
+    void            SetMechanics(CGameMechanics *pMechanics)    { m_pGameMechanics = pMechanics; }
+    CGameMechanics* GetMechanics() const                        { return m_pGameMechanics; }
 
-	int		Load(uint uiIgnoreFlags, const char *pData, uint uiSize);
-	void	Free()		{}
-	void	PostLoad();
+    int     Load(uint uiIgnoreFlags, const char *pData, uint uiSize);
+    void    Free()      {}
+    void    PostLoad();
 
-	void	Precache()	{}
+    void    Precache()  {}
 };
 //=============================================================================
 

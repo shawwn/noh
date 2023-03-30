@@ -17,13 +17,13 @@
 class CGunScorch : public IGunItem
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Gun, Scorch);
+    DECLARE_ENT_ALLOCATOR2(Gun, Scorch);
 
 public:
-	~CGunScorch()	{}
-	CGunScorch() :
-	IGunItem(GetEntityConfig())
-	{}
+    ~CGunScorch()   {}
+    CGunScorch() :
+    IGunItem(GetEntityConfig())
+    {}
 
 };
 //=============================================================================

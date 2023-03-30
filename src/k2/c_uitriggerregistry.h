@@ -17,18 +17,18 @@ extern K2_API class CUITriggerRegistry *g_pUITriggerRegistry;
 //=============================================================================
 // Definitions
 //=============================================================================
-typedef map<tstring, CUITrigger*>	UITriggerMap;
-typedef UITriggerMap::iterator		UITriggerMap_it;
+typedef map<tstring, CUITrigger*>   UITriggerMap;
+typedef UITriggerMap::iterator      UITriggerMap_it;
 
-typedef list<CUIWatcher*>			UIWatcherList;
-typedef UIWatcherList::iterator		UIWatcherList_it;
-typedef map<tstring, UIWatcherList>	UIWatcherMap;
-typedef UIWatcherMap::iterator		UIWatcherMap_it;
+typedef list<CUIWatcher*>           UIWatcherList;
+typedef UIWatcherList::iterator     UIWatcherList_it;
+typedef map<tstring, UIWatcherList> UIWatcherMap;
+typedef UIWatcherMap::iterator      UIWatcherMap_it;
 
 #ifdef K2_EXPORTS
-#define UITriggerRegistry	(*CUITriggerRegistry::GetInstance())
+#define UITriggerRegistry   (*CUITriggerRegistry::GetInstance())
 #else
-#define UITriggerRegistry	(*g_pUITriggerRegistry)
+#define UITriggerRegistry   (*g_pUITriggerRegistry)
 #endif
 //=============================================================================
 
@@ -37,54 +37,54 @@ typedef UIWatcherMap::iterator		UIWatcherMap_it;
 //=============================================================================
 class CUITriggerRegistry
 {
-	SINGLETON_DEF(CUITriggerRegistry);
+    SINGLETON_DEF(CUITriggerRegistry);
 
 private:
-	UITriggerMap		m_mapUITriggers;
-	UIWatcherMap		m_mapWatchers;
+    UITriggerMap        m_mapUITriggers;
+    UIWatcherMap        m_mapWatchers;
 
 public:
-	~CUITriggerRegistry()	{}
+    ~CUITriggerRegistry()   {}
 
-	void					Register(CUITrigger *pUITrigger);
-	void					Unregister(CUITrigger *pUITrigger);
+    void                    Register(CUITrigger *pUITrigger);
+    void                    Unregister(CUITrigger *pUITrigger);
 
-	void					Register(CUIWatcher *pUIWatcher);
-	void					Unregister(CUIWatcher *pUIWatcher);
+    void                    Register(CUIWatcher *pUIWatcher);
+    void                    Unregister(CUIWatcher *pUIWatcher);
 
-	inline CUITrigger*		GetUITrigger(const tstring &sUITrigger);
+    inline CUITrigger*      GetUITrigger(const tstring &sUITrigger);
 
-	const UITriggerMap&		GetUITriggerMap()	{ return m_mapUITriggers; }
+    const UITriggerMap&     GetUITriggerMap()   { return m_mapUITriggers; }
 
-	inline bool				Exists(const tstring &sUITrigger);
+    inline bool             Exists(const tstring &sUITrigger);
 };
 //=============================================================================
 
 /*====================
   CUITriggerRegistry::Exists
   ====================*/
-bool	CUITriggerRegistry::Exists(const tstring &sUITrigger)
+bool    CUITriggerRegistry::Exists(const tstring &sUITrigger)
 {
-	UITriggerMap::iterator find = m_mapUITriggers.find(sUITrigger);
+    UITriggerMap::iterator find = m_mapUITriggers.find(sUITrigger);
 
-	if (find == m_mapUITriggers.end())
-		return false;
+    if (find == m_mapUITriggers.end())
+        return false;
 
-	return true;
+    return true;
 }
 
 
 /*====================
   CUITriggerRegistry::GetUITrigger
   ====================*/
-CUITrigger	*CUITriggerRegistry::GetUITrigger(const tstring &sUITrigger)
+CUITrigger  *CUITriggerRegistry::GetUITrigger(const tstring &sUITrigger)
 {
-	UITriggerMap::iterator find = m_mapUITriggers.find(sUITrigger);
+    UITriggerMap::iterator find = m_mapUITriggers.find(sUITrigger);
 
-	if (find == m_mapUITriggers.end())
-		return NULL;
-	else
-		return find->second;
+    if (find == m_mapUITriggers.end())
+        return NULL;
+    else
+        return find->second;
 }
 //=============================================================================
 #endif //__C_UITRIGGERREGISTRY_H__

@@ -23,64 +23,64 @@ class ICvar;
 class IInputWidget : public IWidget
 {
 protected:
-	tstring	m_sInputLine;
-	tstring m_sHiddenLine;
-	tstring	m_sPasswordChar;
-	size_t	m_zInputPos;
-	size_t	m_zStart;
-	size_t	m_zEnd;
-	uint	m_iNumLines;
+    tstring m_sInputLine;
+    tstring m_sHiddenLine;
+    tstring m_sPasswordChar;
+    size_t  m_zInputPos;
+    size_t  m_zStart;
+    size_t  m_zEnd;
+    uint    m_iNumLines;
 
-	IInputWidget(CInterface *pInterface, IWidget *pParent, EWidgetType widgetType, const CWidgetStyle &style) :
-	IWidget(pInterface, pParent, widgetType, style),
-	m_sInputLine(_T("")),
-	m_sHiddenLine(_T("")),
-	m_sPasswordChar(style.GetProperty(_T("passwordchar"), _T(""))),
-	m_zInputPos(0),
-	m_zStart(0),
-	m_zEnd(0),
-	m_iNumLines(1)
-	{
-	}
+    IInputWidget(CInterface *pInterface, IWidget *pParent, EWidgetType widgetType, const CWidgetStyle &style) :
+    IWidget(pInterface, pParent, widgetType, style),
+    m_sInputLine(_T("")),
+    m_sHiddenLine(_T("")),
+    m_sPasswordChar(style.GetProperty(_T("passwordchar"), _T(""))),
+    m_zInputPos(0),
+    m_zStart(0),
+    m_zEnd(0),
+    m_iNumLines(1)
+    {
+    }
 
 public:
-	virtual ~IInputWidget() {}
+    virtual ~IInputWidget() {}
 
-	const tstring&	GetInputLine()	{ return m_sInputLine; }
-	size_t			GetInputPos()	{ return m_zInputPos; }
-	size_t			GetInputSize()	{ return m_sInputLine.size(); }
+    const tstring&  GetInputLine()  { return m_sInputLine; }
+    size_t          GetInputPos()   { return m_zInputPos; }
+    size_t          GetInputSize()  { return m_sInputLine.size(); }
 
-	virtual tstring	GetValue() const	{ return m_sInputLine; }
+    virtual tstring GetValue() const    { return m_sInputLine; }
 
-	void	AppendToInput(TCHAR chr)
-	{
-		m_sHiddenLine.append(1, chr);
+    void    AppendToInput(TCHAR chr)
+    {
+        m_sHiddenLine.append(1, chr);
 
-		if (m_sPasswordChar.empty())
-			m_sInputLine.append(1, chr);
-		else
-			m_sInputLine.append(1, m_sPasswordChar[0]);
+        if (m_sPasswordChar.empty())
+            m_sInputLine.append(1, chr);
+        else
+            m_sInputLine.append(1, m_sPasswordChar[0]);
 
-		++m_zInputPos;
-		++m_zEnd;
+        ++m_zInputPos;
+        ++m_zEnd;
 
-		DoEvent(WEVENT_CHANGE);
-	}
+        DoEvent(WEVENT_CHANGE);
+    }
 
-	void	InsertIntoInput(TCHAR c)
-	{
-		m_sHiddenLine.insert(m_zInputPos, 1, c);
+    void    InsertIntoInput(TCHAR c)
+    {
+        m_sHiddenLine.insert(m_zInputPos, 1, c);
 
-		if (m_sPasswordChar.empty())
-			m_sInputLine.insert(m_zInputPos, 1, c);
-		else
-			m_sInputLine.insert(m_zInputPos, 1, m_sPasswordChar[0]);
+        if (m_sPasswordChar.empty())
+            m_sInputLine.insert(m_zInputPos, 1, c);
+        else
+            m_sInputLine.insert(m_zInputPos, 1, m_sPasswordChar[0]);
 
-		++m_zInputPos;
-		++m_zEnd;
+        ++m_zInputPos;
+        ++m_zEnd;
 
-		DoEvent(WEVENT_CHANGE);
-	}
+        DoEvent(WEVENT_CHANGE);
+    }
 };
 //=============================================================================
 

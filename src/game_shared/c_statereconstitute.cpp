@@ -35,5 +35,5 @@ CStateReconstitute::CStateReconstitute() :
 IEntityState(GetEntityConfig()),
 m_pEntityConfig(GetEntityConfig())
 {
-	m_modHealthRegen.SetMult(m_pEntityConfig->GetHealthRegenMult());
+    m_modHealthRegen.SetMult(m_pEntityConfig->GetHealthRegenMult());
 }

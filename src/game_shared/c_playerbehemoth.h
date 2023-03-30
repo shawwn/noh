@@ -19,15 +19,15 @@
 class CPlayerBehemoth : public IPlayerEntity
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Player, Behemoth);
+    DECLARE_ENT_ALLOCATOR2(Player, Behemoth);
 
 public:
-	~CPlayerBehemoth()	{}
-	CPlayerBehemoth() :
-	IPlayerEntity(GetEntityConfig())
-	{}
+    ~CPlayerBehemoth()  {}
+    CPlayerBehemoth() :
+    IPlayerEntity(GetEntityConfig())
+    {}
 
-	void	Move(const CClientSnapshot &snapshot)	{ MoveWalk(snapshot); }
+    void    Move(const CClientSnapshot &snapshot)   { MoveWalk(snapshot); }
 };
 //=============================================================================
 

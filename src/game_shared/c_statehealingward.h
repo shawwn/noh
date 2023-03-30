@@ -17,22 +17,22 @@
 class CStateHealingWard : public IEntityState
 {
 private:
-	START_ENTITY_CONFIG(IEntityState)
-		DECLARE_ENTITY_CVAR(float, HealthRegenBoost)
-	END_ENTITY_CONFIG
+    START_ENTITY_CONFIG(IEntityState)
+        DECLARE_ENTITY_CVAR(float, HealthRegenBoost)
+    END_ENTITY_CONFIG
 
-	CEntityConfig*	m_pEntityConfig;
+    CEntityConfig*  m_pEntityConfig;
 
-	float	m_fTotalHealed;
+    float   m_fTotalHealed;
 
-	DECLARE_ENT_ALLOCATOR2(State, HealingWard);
+    DECLARE_ENT_ALLOCATOR2(State, HealingWard);
 
 public:
-	~CStateHealingWard()	{}
-	CStateHealingWard();
+    ~CStateHealingWard()    {}
+    CStateHealingWard();
 
-	void	StateFrame();
-	void	Expired();
+    void    StateFrame();
+    void    Expired();
 };
 //=============================================================================
 

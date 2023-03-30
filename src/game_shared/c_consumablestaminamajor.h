@@ -17,16 +17,16 @@
 class CConsumableStaminaMajor : public IConsumableItem
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Consumable, StaminaMajor);
+    DECLARE_ENT_ALLOCATOR2(Consumable, StaminaMajor);
 
-	static	CCvarf		s_cvarStaminaAmount;
+    static  CCvarf      s_cvarStaminaAmount;
 
 public:
-	~CConsumableStaminaMajor() {}
-	CConsumableStaminaMajor() :
-	IConsumableItem(GetEntityConfig()) {}
+    ~CConsumableStaminaMajor() {}
+    CConsumableStaminaMajor() :
+    IConsumableItem(GetEntityConfig()) {}
 
-	bool	ActivatePrimary(int iButtonStatus);
+    bool    ActivatePrimary(int iButtonStatus);
 };
 //=============================================================================
 

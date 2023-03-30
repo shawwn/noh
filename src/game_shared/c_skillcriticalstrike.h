@@ -17,15 +17,15 @@
 class CSkillCriticalStrike : public ISkillMelee
 {
 private:
-	START_ENTITY_CONFIG(ISkillMelee)
-	END_ENTITY_CONFIG
+    START_ENTITY_CONFIG(ISkillMelee)
+    END_ENTITY_CONFIG
 
-	DECLARE_ENT_ALLOCATOR2(Skill, CriticalStrike)
+    DECLARE_ENT_ALLOCATOR2(Skill, CriticalStrike)
 
 public:
-	~CSkillCriticalStrike()	{}
-	CSkillCriticalStrike() :
-	ISkillMelee(GetEntityConfig())	{}
+    ~CSkillCriticalStrike() {}
+    CSkillCriticalStrike() :
+    ISkillMelee(GetEntityConfig())  {}
 };
 //=============================================================================
 

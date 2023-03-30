@@ -17,11 +17,11 @@
 class CSpellBeastOfficerPortal : public ISpellItem
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Spell, BeastOfficerPortal);
+    DECLARE_ENT_ALLOCATOR2(Spell, BeastOfficerPortal);
 
 public:
-	~CSpellBeastOfficerPortal() {}
-	CSpellBeastOfficerPortal() : ISpellItem(GetEntityConfig()) {}
+    ~CSpellBeastOfficerPortal() {}
+    CSpellBeastOfficerPortal() : ISpellItem(GetEntityConfig()) {}
 };
 //=============================================================================
 

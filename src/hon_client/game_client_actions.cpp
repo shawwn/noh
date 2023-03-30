@@ -30,9 +30,9 @@
 //=============================================================================
 // Definitions
 //=============================================================================
-CVAR_FLOATF(	cam_pushSpeed,		4000.0f,	CVAR_SAVECONFIG);
-CVAR_BOOLF(		cam_pushInvertX,	false,	CVAR_SAVECONFIG);
-CVAR_BOOLF(		cam_pushInvertY,	false,	CVAR_SAVECONFIG);
+CVAR_FLOATF(    cam_pushSpeed,      4000.0f,    CVAR_SAVECONFIG);
+CVAR_BOOLF(     cam_pushInvertX,    false,  CVAR_SAVECONFIG);
+CVAR_BOOLF(     cam_pushInvertY,    false,  CVAR_SAVECONFIG);
 
 INPUT_STATE_BOOL(FreeLook);
 
@@ -68,8 +68,8 @@ GAMEBIND_IMPULSE(SwitchScore, BINDTABLE_GAME, EButton('['), BIND_MOD_NONE);
 GAMEBIND_IMPULSE(PrevAttackModifier, BINDTABLE_GAME, BUTTON_COMMA, BIND_MOD_NONE);
 GAMEBIND_IMPULSE(NextAttackModifier, BINDTABLE_GAME, BUTTON_PERIOD, BIND_MOD_NONE);
 
-GAMEBIND_BUTTON(Center, BINDTABLE_GAME,	EButton('C'), BIND_MOD_NONE);
-GAMEBIND_BUTTON(CenterInfo, BINDTABLE_GAME,	EButton('V'), BIND_MOD_NONE);
+GAMEBIND_BUTTON(Center, BINDTABLE_GAME, EButton('C'), BIND_MOD_NONE);
+GAMEBIND_BUTTON(CenterInfo, BINDTABLE_GAME, EButton('V'), BIND_MOD_NONE);
 
 GAMEBIND_BUTTON(MoveForward, BINDTABLE_GAME, BUTTON_UP, BIND_MOD_NONE);
 GAMEBIND_BUTTON(MoveLeft, BINDTABLE_GAME, BUTTON_LEFT, BIND_MOD_NONE);
@@ -78,10 +78,10 @@ GAMEBIND_BUTTON(MoveRight, BINDTABLE_GAME, BUTTON_RIGHT, BIND_MOD_NONE);
 
 GAMEBIND_IMPULSE(SelectHero, BINDTABLE_GAME, BUTTON_F1, BIND_MOD_NONE);
 GAMEBIND_IMPULSE(OrderAttack, BINDTABLE_GAME, EButton('A'), BIND_MOD_NONE);
-GAMEBIND_IMPULSE(OrderStop, BINDTABLE_GAME,	EButton('S'), BIND_MOD_NONE);
-GAMEBIND_IMPULSE(OrderHold, BINDTABLE_GAME,	EButton('H'), BIND_MOD_NONE);
+GAMEBIND_IMPULSE(OrderStop, BINDTABLE_GAME, EButton('S'), BIND_MOD_NONE);
+GAMEBIND_IMPULSE(OrderHold, BINDTABLE_GAME, EButton('H'), BIND_MOD_NONE);
 GAMEBIND_IMPULSE(OrderCancelAndHold, BINDTABLE_GAME, BUTTON_INVALID, BIND_MOD_NONE);
-GAMEBIND_IMPULSE(OrderMove, BINDTABLE_GAME,	EButton('M'), BIND_MOD_NONE);
+GAMEBIND_IMPULSE(OrderMove, BINDTABLE_GAME, EButton('M'), BIND_MOD_NONE);
 GAMEBIND_IMPULSE(OrderPatrol, BINDTABLE_GAME, EButton('P'), BIND_MOD_NONE);
 
 GAMEBIND_IMPULSE(NextUnit, BINDTABLE_GAME, BUTTON_TAB, BIND_MOD_NONE);
@@ -217,7 +217,7 @@ EXTERN_CVAR_BOOL(cg_alwaysShowHealthBars);
   --------------------*/
 ACTION_IMPULSE(ToggleAltInfo)
 {
-	cg_alwaysShowHealthBars.Toggle();
+    cg_alwaysShowHealthBars.Toggle();
 }
 
 /*--------------------
@@ -225,7 +225,7 @@ ACTION_IMPULSE(ToggleAltInfo)
   --------------------*/
 ACTION_BUTTON(MoveForward)
 {
-	GameClient.GetCurrentSnapshot()->SetButton(GAME_BUTTON_FORWARD, fValue > 0.0f);
+    GameClient.GetCurrentSnapshot()->SetButton(GAME_BUTTON_FORWARD, fValue > 0.0f);
 }
 
 
@@ -234,7 +234,7 @@ ACTION_BUTTON(MoveForward)
   --------------------*/
 ACTION_BUTTON(MoveBack)
 {
-	GameClient.GetCurrentSnapshot()->SetButton(GAME_BUTTON_BACK, fValue > 0.0f);
+    GameClient.GetCurrentSnapshot()->SetButton(GAME_BUTTON_BACK, fValue > 0.0f);
 }
 
 
@@ -243,7 +243,7 @@ ACTION_BUTTON(MoveBack)
   --------------------*/
 ACTION_BUTTON(MoveLeft)
 {
-	GameClient.GetCurrentSnapshot()->SetButton(GAME_BUTTON_LEFT, fValue > 0.0f);
+    GameClient.GetCurrentSnapshot()->SetButton(GAME_BUTTON_LEFT, fValue > 0.0f);
 }
 
 
@@ -252,7 +252,7 @@ ACTION_BUTTON(MoveLeft)
   --------------------*/
 ACTION_BUTTON(MoveRight)
 {
-	GameClient.GetCurrentSnapshot()->SetButton(GAME_BUTTON_RIGHT, fValue > 0.0f);
+    GameClient.GetCurrentSnapshot()->SetButton(GAME_BUTTON_RIGHT, fValue > 0.0f);
 }
 
 
@@ -261,7 +261,7 @@ ACTION_BUTTON(MoveRight)
   --------------------*/
 ACTION_BUTTON(Shift)
 {
-	GameClient.GetCurrentSnapshot()->SetButton(GAME_BUTTON_SHIFT, fValue > 0.0f);
+    GameClient.GetCurrentSnapshot()->SetButton(GAME_BUTTON_SHIFT, fValue > 0.0f);
 }
 
 
@@ -270,7 +270,7 @@ ACTION_BUTTON(Shift)
   --------------------*/
 ACTION_BUTTON(Ctrl)
 {
-	GameClient.GetCurrentSnapshot()->SetButton(GAME_BUTTON_CTRL, fValue > 0.0f);
+    GameClient.GetCurrentSnapshot()->SetButton(GAME_BUTTON_CTRL, fValue > 0.0f);
 }
 
 
@@ -279,7 +279,7 @@ ACTION_BUTTON(Ctrl)
   --------------------*/
 ACTION_BUTTON(Jump)
 {
-	GameClient.GetCurrentSnapshot()->SetButton(GAME_BUTTON_UP, fValue > 0.0f);
+    GameClient.GetCurrentSnapshot()->SetButton(GAME_BUTTON_UP, fValue > 0.0f);
 }
 
 
@@ -288,9 +288,9 @@ ACTION_BUTTON(Jump)
   --------------------*/
 ACTION_IMPULSE(ZoomOut)
 {
-	CPlayer *pPlayer(GameClient.GetLocalPlayer());
-	if (pPlayer != NULL)
-		pPlayer->ZoomOut(*GameClient.GetCurrentSnapshot());
+    CPlayer *pPlayer(GameClient.GetLocalPlayer());
+    if (pPlayer != NULL)
+        pPlayer->ZoomOut(*GameClient.GetCurrentSnapshot());
 }
 
 
@@ -299,9 +299,9 @@ ACTION_IMPULSE(ZoomOut)
   --------------------*/
 ACTION_IMPULSE(ZoomIn)
 {
-	CPlayer *pPlayer(GameClient.GetLocalPlayer());
-	if (pPlayer != NULL)
-		pPlayer->ZoomIn(*GameClient.GetCurrentSnapshot());
+    CPlayer *pPlayer(GameClient.GetLocalPlayer());
+    if (pPlayer != NULL)
+        pPlayer->ZoomIn(*GameClient.GetCurrentSnapshot());
 }
 
 
@@ -310,9 +310,9 @@ ACTION_IMPULSE(ZoomIn)
   --------------------*/
 ACTION_IMPULSE(CameraUp)
 {
-	CPlayer *pPlayer(GameClient.GetLocalPlayer());
-	if (pPlayer != NULL)
-		pPlayer->AdjustCameraHeight(1.0f);
+    CPlayer *pPlayer(GameClient.GetLocalPlayer());
+    if (pPlayer != NULL)
+        pPlayer->AdjustCameraHeight(1.0f);
 }
 
 
@@ -321,9 +321,9 @@ ACTION_IMPULSE(CameraUp)
   --------------------*/
 ACTION_IMPULSE(CameraDown)
 {
-	CPlayer *pPlayer(GameClient.GetLocalPlayer());
-	if (pPlayer != NULL)
-		pPlayer->AdjustCameraHeight(-1.0f);
+    CPlayer *pPlayer(GameClient.GetLocalPlayer());
+    if (pPlayer != NULL)
+        pPlayer->AdjustCameraHeight(-1.0f);
 }
 
 
@@ -332,34 +332,34 @@ ACTION_IMPULSE(CameraDown)
   --------------------*/
 ACTION_AXIS(CameraYaw)
 {
-	if (cam_mode == 0)
-	{
-		if (!FreeLook)
-		{
-			CClientSnapshot *pSnapshot(GameClient.GetCurrentSnapshot());
-			if (!pSnapshot->IsButtonDown(GAME_CMDR_BUTTON_DRAGSCROLL))
-				return;
+    if (cam_mode == 0)
+    {
+        if (!FreeLook)
+        {
+            CClientSnapshot *pSnapshot(GameClient.GetCurrentSnapshot());
+            if (!pSnapshot->IsButtonDown(GAME_CMDR_BUTTON_DRAGSCROLL))
+                return;
 
-			fDelta /= Vid.GetScreenW();
+            fDelta /= Vid.GetScreenW();
 
-			CVec3f v3Pos(pSnapshot->GetCameraPosition());
-			float fSign(cam_pushInvertX ? -1.0f : 1.0f);
-			v3Pos += CVec3f(fSign, 0.0f, 0.0f) * cam_pushSpeed * fDelta;
-			pSnapshot->SetCameraPosition(v3Pos);
+            CVec3f v3Pos(pSnapshot->GetCameraPosition());
+            float fSign(cam_pushInvertX ? -1.0f : 1.0f);
+            v3Pos += CVec3f(fSign, 0.0f, 0.0f) * cam_pushSpeed * fDelta;
+            pSnapshot->SetCameraPosition(v3Pos);
 
-			return;
-		}
+            return;
+        }
 
-		CPlayer *pPlayer(GameClient.GetLocalPlayer());
-		if ((pPlayer != NULL && pPlayer->HasFlags(PLAYER_FLAG_LOCAL)) || ReplayManager.IsPlaying())
-			pPlayer->AdjustYaw(fDelta * 0.25f);
-	}
-	else if (g_bMouseLook)
-	{
-		CPlayer *pPlayer(GameClient.GetLocalPlayer());
-		if (pPlayer != NULL)
-			pPlayer->AdjustYaw(fDelta * 0.5f);
-	}
+        CPlayer *pPlayer(GameClient.GetLocalPlayer());
+        if ((pPlayer != NULL && pPlayer->HasFlags(PLAYER_FLAG_LOCAL)) || ReplayManager.IsPlaying())
+            pPlayer->AdjustYaw(fDelta * 0.25f);
+    }
+    else if (g_bMouseLook)
+    {
+        CPlayer *pPlayer(GameClient.GetLocalPlayer());
+        if (pPlayer != NULL)
+            pPlayer->AdjustYaw(fDelta * 0.5f);
+    }
 }
 
 
@@ -368,34 +368,34 @@ ACTION_AXIS(CameraYaw)
   --------------------*/
 ACTION_AXIS(CameraPitch)
 {
-	if (cam_mode == 0)
-	{
-		if (!FreeLook)
-		{
-			CClientSnapshot *pSnapshot(GameClient.GetCurrentSnapshot());
-			if (!pSnapshot->IsButtonDown(GAME_CMDR_BUTTON_DRAGSCROLL))
-				return;
+    if (cam_mode == 0)
+    {
+        if (!FreeLook)
+        {
+            CClientSnapshot *pSnapshot(GameClient.GetCurrentSnapshot());
+            if (!pSnapshot->IsButtonDown(GAME_CMDR_BUTTON_DRAGSCROLL))
+                return;
 
-			fDelta /= Vid.GetScreenH();
+            fDelta /= Vid.GetScreenH();
 
-			CVec3f v3Pos(pSnapshot->GetCameraPosition());
-			float fSign(cam_pushInvertY ? 1.0f : -1.0f);
-			v3Pos += CVec3f(0.0f, fSign, 0.0f) * cam_pushSpeed * fDelta;
-			pSnapshot->SetCameraPosition(v3Pos);
+            CVec3f v3Pos(pSnapshot->GetCameraPosition());
+            float fSign(cam_pushInvertY ? 1.0f : -1.0f);
+            v3Pos += CVec3f(0.0f, fSign, 0.0f) * cam_pushSpeed * fDelta;
+            pSnapshot->SetCameraPosition(v3Pos);
 
-			return;
-		}
+            return;
+        }
 
-		CPlayer *pPlayer(GameClient.GetLocalPlayer());
-		if ((pPlayer != NULL && pPlayer->HasFlags(PLAYER_FLAG_LOCAL)) || ReplayManager.IsPlaying())
-			pPlayer->AdjustPitch(fDelta * 0.25f);
-	}
-	else if (g_bMouseLook)
-	{
-		CPlayer *pPlayer(GameClient.GetLocalPlayer());
-		if (pPlayer != NULL)
-			pPlayer->AdjustPitch(fDelta * 0.5f);
-	}
+        CPlayer *pPlayer(GameClient.GetLocalPlayer());
+        if ((pPlayer != NULL && pPlayer->HasFlags(PLAYER_FLAG_LOCAL)) || ReplayManager.IsPlaying())
+            pPlayer->AdjustPitch(fDelta * 0.25f);
+    }
+    else if (g_bMouseLook)
+    {
+        CPlayer *pPlayer(GameClient.GetLocalPlayer());
+        if (pPlayer != NULL)
+            pPlayer->AdjustPitch(fDelta * 0.5f);
+    }
 }
 
 
@@ -404,9 +404,9 @@ ACTION_AXIS(CameraPitch)
   --------------------*/
 ACTION_IMPULSE(ResetCamera)
 {
-	CPlayer *pPlayer(GameClient.GetLocalPlayer());
-	if (pPlayer != NULL)
-		pPlayer->ResetCamera();
+    CPlayer *pPlayer(GameClient.GetLocalPlayer());
+    if (pPlayer != NULL)
+        pPlayer->ResetCamera();
 }
 
 
@@ -415,16 +415,16 @@ ACTION_IMPULSE(ResetCamera)
   --------------------*/
 ACTION_IMPULSE(ChatTeam)
 {
-	CInterface *pInterface(UIManager.GetActiveInterface());
-	if (pInterface == NULL)
-		return;
+    CInterface *pInterface(UIManager.GetActiveInterface());
+    if (pInterface == NULL)
+        return;
 
-	tstring sTargetWidget(pInterface->GetName() + _T("_chat_team_input"));
-	if (pInterface->GetWidget(sTargetWidget) == NULL)
-		return;
+    tstring sTargetWidget(pInterface->GetName() + _T("_chat_team_input"));
+    if (pInterface->GetWidget(sTargetWidget) == NULL)
+        return;
 
-	pInterface->SetActiveWidget(NULL);
-	pInterface->SetActiveWidget(pInterface->GetWidget(sTargetWidget));
+    pInterface->SetActiveWidget(NULL);
+    pInterface->SetActiveWidget(pInterface->GetWidget(sTargetWidget));
 }
 
 
@@ -433,16 +433,16 @@ ACTION_IMPULSE(ChatTeam)
   --------------------*/
 ACTION_IMPULSE(ChatAll)
 {
-	CInterface *pInterface(UIManager.GetActiveInterface());
-	if (pInterface == NULL)
-		return;
+    CInterface *pInterface(UIManager.GetActiveInterface());
+    if (pInterface == NULL)
+        return;
 
-	tstring sTargetWidget(pInterface->GetName() + _T("_chat_all_input"));
-	if (pInterface->GetWidget(sTargetWidget) == NULL)
-		return;
+    tstring sTargetWidget(pInterface->GetName() + _T("_chat_all_input"));
+    if (pInterface->GetWidget(sTargetWidget) == NULL)
+        return;
 
-	pInterface->SetActiveWidget(NULL);
-	pInterface->SetActiveWidget(pInterface->GetWidget(sTargetWidget));
+    pInterface->SetActiveWidget(NULL);
+    pInterface->SetActiveWidget(pInterface->GetWidget(sTargetWidget));
 }
 
 
@@ -451,21 +451,21 @@ ACTION_IMPULSE(ChatAll)
   --------------------*/
 ACTION_BUTTON(ShowChat)
 {
-	CInterface *pInterface(UIManager.GetActiveInterface());
-	if (pInterface == NULL)
-		return;
+    CInterface *pInterface(UIManager.GetActiveInterface());
+    if (pInterface == NULL)
+        return;
 
-	tstring sTargetWidget(pInterface->GetName() + _T("_chat_box_popup"));
+    tstring sTargetWidget(pInterface->GetName() + _T("_chat_box_popup"));
 
-	IWidget *pWidget(pInterface->GetWidget(sTargetWidget));
+    IWidget *pWidget(pInterface->GetWidget(sTargetWidget));
 
-	if (pWidget == NULL)
-		return;
+    if (pWidget == NULL)
+        return;
 
-	if (fValue > 0.0f)
-		pWidget->Show();
-	else
-		pWidget->Hide();
+    if (fValue > 0.0f)
+        pWidget->Show();
+    else
+        pWidget->Hide();
 }
 
 
@@ -474,10 +474,10 @@ ACTION_BUTTON(ShowChat)
   --------------------*/
 ACTION_BUTTON(Cancel)
 {
-	GameClient.GetCurrentSnapshot()->SetButton(GAME_BUTTON_CANCEL, fValue > 0.0f);
-	
-	if (fValue > 0.0f)
-		GameClient.Cancel();
+    GameClient.GetCurrentSnapshot()->SetButton(GAME_BUTTON_CANCEL, fValue > 0.0f);
+    
+    if (fValue > 0.0f)
+        GameClient.Cancel();
 }
 
 
@@ -486,7 +486,7 @@ ACTION_BUTTON(Cancel)
   --------------------*/
 ACTION_IMPULSE(StartPing)
 {
-	GameClient.StartPinging();
+    GameClient.StartPinging();
 }
 
 
@@ -495,7 +495,7 @@ ACTION_IMPULSE(StartPing)
   --------------------*/
 ACTION_IMPULSE(ToggleMenu)
 {
-	GameClient.ToggleMenu();
+    GameClient.ToggleMenu();
 }
 
 
@@ -504,7 +504,7 @@ ACTION_IMPULSE(ToggleMenu)
   --------------------*/
 ACTION_IMPULSE(ToggleLobby)
 {
-	GameClient.ToggleMenu();
+    GameClient.ToggleMenu();
 }
 
 
@@ -513,14 +513,14 @@ ACTION_IMPULSE(ToggleLobby)
   --------------------*/
 ACTION_BUTTON(CommanderPrimary)
 {
-	CClientCommander *pCommander(GameClient.GetClientCommander());
-	if (pCommander == NULL)
-		return;
+    CClientCommander *pCommander(GameClient.GetClientCommander());
+    if (pCommander == NULL)
+        return;
 
-	if (fValue)
-		pCommander->PrimaryDown(v2Cursor);
-	else
-		pCommander->PrimaryUp(v2Cursor);
+    if (fValue)
+        pCommander->PrimaryDown(v2Cursor);
+    else
+        pCommander->PrimaryUp(v2Cursor);
 }
 
 
@@ -529,14 +529,14 @@ ACTION_BUTTON(CommanderPrimary)
   --------------------*/
 ACTION_BUTTON(CommanderSecondary)
 {
-	CClientCommander *pCommander(GameClient.GetClientCommander());
-	if (pCommander == NULL)
-		return;
-	
-	if (fValue)
-		pCommander->SecondaryDown(v2Cursor);
-	else
-		pCommander->SecondaryUp(v2Cursor);
+    CClientCommander *pCommander(GameClient.GetClientCommander());
+    if (pCommander == NULL)
+        return;
+    
+    if (fValue)
+        pCommander->SecondaryDown(v2Cursor);
+    else
+        pCommander->SecondaryUp(v2Cursor);
 }
 
 
@@ -545,21 +545,21 @@ ACTION_BUTTON(CommanderSecondary)
   --------------------*/
 ACTION_BUTTON(CameraDrag)
 {
-	if (cam_mode == 0)
-	{
-		CPlayer *pPlayer(GameClient.GetLocalPlayer());
-		if (pPlayer == NULL)
-			return;
-		
-		if (fValue)
-			pPlayer->StartDrag(GameClient.GetCamera());
-		else
-			pPlayer->EndDrag();
-	}
-	else
-	{
-		g_bMouseLook = fValue != 0.0f;
-	}
+    if (cam_mode == 0)
+    {
+        CPlayer *pPlayer(GameClient.GetLocalPlayer());
+        if (pPlayer == NULL)
+            return;
+        
+        if (fValue)
+            pPlayer->StartDrag(GameClient.GetCamera());
+        else
+            pPlayer->EndDrag();
+    }
+    else
+    {
+        g_bMouseLook = fValue != 0.0f;
+    }
 }
 
 
@@ -568,14 +568,14 @@ ACTION_BUTTON(CameraDrag)
   --------------------*/
 ACTION_BUTTON(CameraScroll)
 {
-	CPlayer *pPlayer(GameClient.GetLocalPlayer());
-	if (pPlayer == NULL)
-		return;
-	
-	if (fValue)
-		pPlayer->StartScroll();
-	else
-		pPlayer->EndScroll();
+    CPlayer *pPlayer(GameClient.GetLocalPlayer());
+    if (pPlayer == NULL)
+        return;
+    
+    if (fValue)
+        pPlayer->StartScroll();
+    else
+        pPlayer->EndScroll();
 }
 
 
@@ -584,7 +584,7 @@ ACTION_BUTTON(CameraScroll)
   --------------------*/
 ACTION_BUTTON(CameraPush)
 {
-	GameClient.GetCurrentSnapshot()->SetButton(GAME_CMDR_BUTTON_DRAGSCROLL, fValue > 0.0f);
+    GameClient.GetCurrentSnapshot()->SetButton(GAME_CMDR_BUTTON_DRAGSCROLL, fValue > 0.0f);
 }
 
 
@@ -593,15 +593,15 @@ ACTION_BUTTON(CameraPush)
   --------------------*/
 ACTION_IMPULSE(SelectHero)
 {
-	CPlayer *pPlayer(GameClient.GetLocalPlayer());
-	if (pPlayer == NULL)
-		return;
+    CPlayer *pPlayer(GameClient.GetLocalPlayer());
+    if (pPlayer == NULL)
+        return;
 
-	CClientCommander *pCommander(GameClient.GetClientCommander());
-	if (pCommander == NULL)
-		return;
+    CClientCommander *pCommander(GameClient.GetClientCommander());
+    if (pCommander == NULL)
+        return;
 
-	pCommander->SelectEntity(pPlayer->GetHeroIndex());
+    pCommander->SelectEntity(pPlayer->GetHeroIndex());
 }
 
 
@@ -610,12 +610,12 @@ ACTION_IMPULSE(SelectHero)
   --------------------*/
 ACTION_IMPULSE(SaveSelection)
 {
-	CClientCommander *pCommander(GameClient.GetClientCommander());
-	if (pCommander == NULL)
-		return;
+    CClientCommander *pCommander(GameClient.GetClientCommander());
+    if (pCommander == NULL)
+        return;
 
-	uint uiIndex(AtoI(sParam));
-	pCommander->SaveSelectionSet(uiIndex);
+    uint uiIndex(AtoI(sParam));
+    pCommander->SaveSelectionSet(uiIndex);
 }
 
 
@@ -624,12 +624,12 @@ ACTION_IMPULSE(SaveSelection)
   --------------------*/
 ACTION_IMPULSE(AddToSelection)
 {
-	CClientCommander *pCommander(GameClient.GetClientCommander());
-	if (pCommander == NULL)
-		return;
+    CClientCommander *pCommander(GameClient.GetClientCommander());
+    if (pCommander == NULL)
+        return;
 
-	uint uiIndex(AtoI(sParam));
-	pCommander->AddToSelectionSet(uiIndex);
+    uint uiIndex(AtoI(sParam));
+    pCommander->AddToSelectionSet(uiIndex);
 }
 
 
@@ -638,12 +638,12 @@ ACTION_IMPULSE(AddToSelection)
   --------------------*/
 ACTION_IMPULSE(RemoveFromSelection)
 {
-	CClientCommander *pCommander(GameClient.GetClientCommander());
-	if (pCommander == NULL)
-		return;
+    CClientCommander *pCommander(GameClient.GetClientCommander());
+    if (pCommander == NULL)
+        return;
 
-	uint uiIndex(AtoI(sParam));
-	pCommander->RemoveFromSelectionSet(uiIndex);
+    uint uiIndex(AtoI(sParam));
+    pCommander->RemoveFromSelectionSet(uiIndex);
 }
 
 
@@ -652,12 +652,12 @@ ACTION_IMPULSE(RemoveFromSelection)
   --------------------*/
 ACTION_IMPULSE(RecallSelection)
 {
-	CClientCommander *pCommander(GameClient.GetClientCommander());
-	if (pCommander == NULL)
-		return;
+    CClientCommander *pCommander(GameClient.GetClientCommander());
+    if (pCommander == NULL)
+        return;
 
-	uint uiIndex(AtoI(sParam));
-	pCommander->RecallSelectionSet(uiIndex);
+    uint uiIndex(AtoI(sParam));
+    pCommander->RecallSelectionSet(uiIndex);
 }
 
 
@@ -666,11 +666,11 @@ ACTION_IMPULSE(RecallSelection)
   --------------------*/
 ACTION_IMPULSE(NextUnit)
 {
-	CClientCommander *pCommander(GameClient.GetClientCommander());
-	if (pCommander == NULL)
-		return;
+    CClientCommander *pCommander(GameClient.GetClientCommander());
+    if (pCommander == NULL)
+        return;
 
-	pCommander->NextUnit(false);
+    pCommander->NextUnit(false);
 }
 
 
@@ -679,11 +679,11 @@ ACTION_IMPULSE(NextUnit)
   --------------------*/
 ACTION_IMPULSE(PrevUnit)
 {
-	CClientCommander *pCommander(GameClient.GetClientCommander());
-	if (pCommander == NULL)
-		return;
+    CClientCommander *pCommander(GameClient.GetClientCommander());
+    if (pCommander == NULL)
+        return;
 
-	pCommander->PrevUnit(false);
+    pCommander->PrevUnit(false);
 }
 
 
@@ -692,11 +692,11 @@ ACTION_IMPULSE(PrevUnit)
   --------------------*/
 ACTION_IMPULSE(NextUnitCentered)
 {
-	CClientCommander *pCommander(GameClient.GetClientCommander());
-	if (pCommander == NULL)
-		return;
+    CClientCommander *pCommander(GameClient.GetClientCommander());
+    if (pCommander == NULL)
+        return;
 
-	pCommander->NextUnit(true);
+    pCommander->NextUnit(true);
 }
 
 
@@ -705,11 +705,11 @@ ACTION_IMPULSE(NextUnitCentered)
   --------------------*/
 ACTION_IMPULSE(PrevUnitCentered)
 {
-	CClientCommander *pCommander(GameClient.GetClientCommander());
-	if (pCommander == NULL)
-		return;
+    CClientCommander *pCommander(GameClient.GetClientCommander());
+    if (pCommander == NULL)
+        return;
 
-	pCommander->PrevUnit(true);
+    pCommander->PrevUnit(true);
 }
 
 
@@ -718,11 +718,11 @@ ACTION_IMPULSE(PrevUnitCentered)
   --------------------*/
 ACTION_IMPULSE(NextInventoryUnit)
 {
-	CClientCommander *pCommander(GameClient.GetClientCommander());
-	if (pCommander == NULL)
-		return;
+    CClientCommander *pCommander(GameClient.GetClientCommander());
+    if (pCommander == NULL)
+        return;
 
-	pCommander->NextInventoryUnit(false);
+    pCommander->NextInventoryUnit(false);
 }
 
 
@@ -731,11 +731,11 @@ ACTION_IMPULSE(NextInventoryUnit)
   --------------------*/
 ACTION_IMPULSE(PrevInventoryUnit)
 {
-	CClientCommander *pCommander(GameClient.GetClientCommander());
-	if (pCommander == NULL)
-		return;
+    CClientCommander *pCommander(GameClient.GetClientCommander());
+    if (pCommander == NULL)
+        return;
 
-	pCommander->PrevInventoryUnit(false);
+    pCommander->PrevInventoryUnit(false);
 }
 
 
@@ -744,11 +744,11 @@ ACTION_IMPULSE(PrevInventoryUnit)
   --------------------*/
 ACTION_IMPULSE(NextInventoryUnitCentered)
 {
-	CClientCommander *pCommander(GameClient.GetClientCommander());
-	if (pCommander == NULL)
-		return;
+    CClientCommander *pCommander(GameClient.GetClientCommander());
+    if (pCommander == NULL)
+        return;
 
-	pCommander->NextInventoryUnit(true);
+    pCommander->NextInventoryUnit(true);
 }
 
 
@@ -757,11 +757,11 @@ ACTION_IMPULSE(NextInventoryUnitCentered)
   --------------------*/
 ACTION_IMPULSE(PrevInventoryUnitCentered)
 {
-	CClientCommander *pCommander(GameClient.GetClientCommander());
-	if (pCommander == NULL)
-		return;
+    CClientCommander *pCommander(GameClient.GetClientCommander());
+    if (pCommander == NULL)
+        return;
 
-	pCommander->PrevInventoryUnit(true);
+    pCommander->PrevInventoryUnit(true);
 }
 
 
@@ -770,11 +770,11 @@ ACTION_IMPULSE(PrevInventoryUnitCentered)
 //  --------------------*/
 ACTION_IMPULSE(CommanderPing)
 {
-	CClientCommander *pCommander(GameClient.GetClientCommander());
-	if (pCommander == NULL)
-		return;
+    CClientCommander *pCommander(GameClient.GetClientCommander());
+    if (pCommander == NULL)
+        return;
 
-	pCommander->Ping();
+    pCommander->Ping();
 }
 
 
@@ -783,14 +783,14 @@ ACTION_IMPULSE(CommanderPing)
   --------------------*/
 ACTION_AXIS(DragScrollX)
 {
-	CClientSnapshot *pSnapshot(GameClient.GetCurrentSnapshot());
-	if (!pSnapshot->IsButtonDown(GAME_CMDR_BUTTON_DRAGSCROLL))
-		return;
+    CClientSnapshot *pSnapshot(GameClient.GetCurrentSnapshot());
+    if (!pSnapshot->IsButtonDown(GAME_CMDR_BUTTON_DRAGSCROLL))
+        return;
 
-	CVec3f v3Pos(pSnapshot->GetCameraPosition());
-	float fSign(cam_pushInvertX ? -1.0f : 1.0f);
-	v3Pos += CVec3f(fSign, 0.0f, 0.0f) * cam_pushSpeed * fDelta;
-	pSnapshot->SetCameraPosition(v3Pos);
+    CVec3f v3Pos(pSnapshot->GetCameraPosition());
+    float fSign(cam_pushInvertX ? -1.0f : 1.0f);
+    v3Pos += CVec3f(fSign, 0.0f, 0.0f) * cam_pushSpeed * fDelta;
+    pSnapshot->SetCameraPosition(v3Pos);
 }
 
 
@@ -799,14 +799,14 @@ ACTION_AXIS(DragScrollX)
   --------------------*/
 ACTION_AXIS(DragScrollY)
 {
-	CClientSnapshot *pSnapshot(GameClient.GetCurrentSnapshot());
-	if (!pSnapshot->IsButtonDown(GAME_CMDR_BUTTON_DRAGSCROLL))
-		return;
+    CClientSnapshot *pSnapshot(GameClient.GetCurrentSnapshot());
+    if (!pSnapshot->IsButtonDown(GAME_CMDR_BUTTON_DRAGSCROLL))
+        return;
 
-	CVec3f v3Pos(pSnapshot->GetCameraPosition());
-	float fSign(cam_pushInvertY ? 1.0f : -1.0f);
-	v3Pos += CVec3f(0.0f, fSign, 0.0f) * cam_pushSpeed * fDelta;
-	pSnapshot->SetCameraPosition(v3Pos);
+    CVec3f v3Pos(pSnapshot->GetCameraPosition());
+    float fSign(cam_pushInvertY ? 1.0f : -1.0f);
+    v3Pos += CVec3f(0.0f, fSign, 0.0f) * cam_pushSpeed * fDelta;
+    pSnapshot->SetCameraPosition(v3Pos);
 }
 
 
@@ -815,14 +815,14 @@ ACTION_AXIS(DragScrollY)
   --------------------*/
 ACTION_BUTTON(CommanderModifier1)
 {
-	CClientCommander *pCommander(GameClient.GetClientCommander());
-	if (pCommander == NULL)
-		return;
+    CClientCommander *pCommander(GameClient.GetClientCommander());
+    if (pCommander == NULL)
+        return;
 
-	if (fValue)
-		pCommander->SetModifier1(true);
-	else
-		pCommander->SetModifier1(false);
+    if (fValue)
+        pCommander->SetModifier1(true);
+    else
+        pCommander->SetModifier1(false);
 }
 
 
@@ -831,14 +831,14 @@ ACTION_BUTTON(CommanderModifier1)
   --------------------*/
 ACTION_BUTTON(CommanderModifier2)
 {
-	CClientCommander *pCommander(GameClient.GetClientCommander());
-	if (pCommander == NULL)
-		return;
+    CClientCommander *pCommander(GameClient.GetClientCommander());
+    if (pCommander == NULL)
+        return;
 
-	if (fValue)
-		pCommander->SetModifier2(true);
-	else
-		pCommander->SetModifier2(false);
+    if (fValue)
+        pCommander->SetModifier2(true);
+    else
+        pCommander->SetModifier2(false);
 }
 
 
@@ -847,14 +847,14 @@ ACTION_BUTTON(CommanderModifier2)
   --------------------*/
 ACTION_BUTTON(CommanderModifier3)
 {
-	CClientCommander *pCommander(GameClient.GetClientCommander());
-	if (pCommander == NULL)
-		return;
+    CClientCommander *pCommander(GameClient.GetClientCommander());
+    if (pCommander == NULL)
+        return;
 
-	if (fValue)
-		pCommander->SetModifier3(true);
-	else
-		pCommander->SetModifier3(false);
+    if (fValue)
+        pCommander->SetModifier3(true);
+    else
+        pCommander->SetModifier3(false);
 }
 
 
@@ -863,14 +863,14 @@ ACTION_BUTTON(CommanderModifier3)
   --------------------*/
 ACTION_BUTTON(CommanderModifier4)
 {
-	CClientCommander *pCommander(GameClient.GetClientCommander());
-	if (pCommander == NULL)
-		return;
+    CClientCommander *pCommander(GameClient.GetClientCommander());
+    if (pCommander == NULL)
+        return;
 
-	if (fValue)
-		pCommander->SetModifier4(true);
-	else
-		pCommander->SetModifier4(false);
+    if (fValue)
+        pCommander->SetModifier4(true);
+    else
+        pCommander->SetModifier4(false);
 }
 
 /*--------------------
@@ -878,14 +878,14 @@ ACTION_BUTTON(CommanderModifier4)
   --------------------*/
 ACTION_BUTTON(FrontQueueModifier)
 {
-	CClientCommander *pCommander(GameClient.GetClientCommander());
-	if (pCommander == NULL)
-		return;
+    CClientCommander *pCommander(GameClient.GetClientCommander());
+    if (pCommander == NULL)
+        return;
 
-	if (fValue)
-		pCommander->SetFrontQueueModifier(true);
-	else
-		pCommander->SetFrontQueueModifier(false);
+    if (fValue)
+        pCommander->SetFrontQueueModifier(true);
+    else
+        pCommander->SetFrontQueueModifier(false);
 }
 
 
@@ -894,10 +894,10 @@ ACTION_BUTTON(FrontQueueModifier)
   --------------------*/
 ACTION_IMPULSE_EX(OrderMove, ACTION_NOREPEAT)
 {
-	CClientCommander *pCommander(GameClient.GetClientCommander());
-	if (pCommander == NULL)
-		return;
-	pCommander->SetCommanderState(COMSTATE_MOVE);
+    CClientCommander *pCommander(GameClient.GetClientCommander());
+    if (pCommander == NULL)
+        return;
+    pCommander->SetCommanderState(COMSTATE_MOVE);
 }
 
 
@@ -906,14 +906,14 @@ ACTION_IMPULSE_EX(OrderMove, ACTION_NOREPEAT)
   --------------------*/
 ACTION_IMPULSE_EX(OrderStop, ACTION_NOREPEAT)
 {
-	CClientCommander *pCommander(GameClient.GetClientCommander());
-	if (pCommander == NULL)
-		return;
+    CClientCommander *pCommander(GameClient.GetClientCommander());
+    if (pCommander == NULL)
+        return;
 
-	CBufferFixed<5> buffer;
-	buffer << GAME_CMD_ORDER_STOP
-		<< (pCommander->GetModifier2() ? pCommander->GetActiveControlEntity() : INVALID_INDEX);
-	GameClient.SendGameData(buffer, true);
+    CBufferFixed<5> buffer;
+    buffer << GAME_CMD_ORDER_STOP
+        << (pCommander->GetModifier2() ? pCommander->GetActiveControlEntity() : INVALID_INDEX);
+    GameClient.SendGameData(buffer, true);
 }
 
 
@@ -922,15 +922,15 @@ ACTION_IMPULSE_EX(OrderStop, ACTION_NOREPEAT)
   --------------------*/
 ACTION_IMPULSE_EX(OrderHold, ACTION_NOREPEAT)
 {
-	CClientCommander *pCommander(GameClient.GetClientCommander());
-	if (pCommander == NULL)
-		return;
+    CClientCommander *pCommander(GameClient.GetClientCommander());
+    if (pCommander == NULL)
+        return;
 
-	CBufferFixed<6> buffer;
-	buffer << GAME_CMD_ORDER_HOLD
-		<< (pCommander->GetModifier1() ? (pCommander->GetFrontQueueModifier() ? QUEUE_FRONT : QUEUE_BACK) : QUEUE_NONE)
-		<< (pCommander->GetModifier2() ? pCommander->GetActiveControlEntity() : INVALID_INDEX);
-	GameClient.SendGameData(buffer, true);
+    CBufferFixed<6> buffer;
+    buffer << GAME_CMD_ORDER_HOLD
+        << (pCommander->GetModifier1() ? (pCommander->GetFrontQueueModifier() ? QUEUE_FRONT : QUEUE_BACK) : QUEUE_NONE)
+        << (pCommander->GetModifier2() ? pCommander->GetActiveControlEntity() : INVALID_INDEX);
+    GameClient.SendGameData(buffer, true);
 }
 
 
@@ -939,15 +939,15 @@ ACTION_IMPULSE_EX(OrderHold, ACTION_NOREPEAT)
   --------------------*/
 ACTION_IMPULSE_EX(OrderCancelAndHold, ACTION_NOREPEAT)
 {
-	CClientCommander *pCommander(GameClient.GetClientCommander());
-	if (pCommander == NULL)
-		return;
+    CClientCommander *pCommander(GameClient.GetClientCommander());
+    if (pCommander == NULL)
+        return;
 
-	CBufferFixed<6> buffer;
-	buffer << GAME_CMD_ORDER_CANCEL_AND_HOLD
-		<< (pCommander->GetModifier1() ? (pCommander->GetFrontQueueModifier() ? QUEUE_FRONT : QUEUE_BACK) : QUEUE_NONE)
-		<< (pCommander->GetModifier2() ? pCommander->GetActiveControlEntity() : INVALID_INDEX);
-	GameClient.SendGameData(buffer, true);
+    CBufferFixed<6> buffer;
+    buffer << GAME_CMD_ORDER_CANCEL_AND_HOLD
+        << (pCommander->GetModifier1() ? (pCommander->GetFrontQueueModifier() ? QUEUE_FRONT : QUEUE_BACK) : QUEUE_NONE)
+        << (pCommander->GetModifier2() ? pCommander->GetActiveControlEntity() : INVALID_INDEX);
+    GameClient.SendGameData(buffer, true);
 }
 
 
@@ -956,10 +956,10 @@ ACTION_IMPULSE_EX(OrderCancelAndHold, ACTION_NOREPEAT)
   --------------------*/
 ACTION_IMPULSE_EX(OrderAttack, ACTION_NOREPEAT)
 {
-	CClientCommander *pCommander(GameClient.GetClientCommander());
-	if (pCommander == NULL)
-		return;
-	pCommander->SetCommanderState(COMSTATE_ATTACK);
+    CClientCommander *pCommander(GameClient.GetClientCommander());
+    if (pCommander == NULL)
+        return;
+    pCommander->SetCommanderState(COMSTATE_ATTACK);
 }
 
 
@@ -968,10 +968,10 @@ ACTION_IMPULSE_EX(OrderAttack, ACTION_NOREPEAT)
   --------------------*/
 ACTION_IMPULSE_EX(OrderPatrol, ACTION_NOREPEAT)
 {
-	CClientCommander *pCommander(GameClient.GetClientCommander());
-	if (pCommander == NULL)
-		return;
-	pCommander->SetCommanderState(COMSTATE_PATROL);
+    CClientCommander *pCommander(GameClient.GetClientCommander());
+    if (pCommander == NULL)
+        return;
+    pCommander->SetCommanderState(COMSTATE_PATROL);
 }
 
 
@@ -980,9 +980,9 @@ ACTION_IMPULSE_EX(OrderPatrol, ACTION_NOREPEAT)
   --------------------*/
 ACTION_IMPULSE_EX(ActivateTool, ACTION_NOREPEAT)
 {
-	if (GameClient.GetClientCommander() == NULL)
-		return;
-	GameClient.GetClientCommander()->ActivateTool(AtoI(sParam), false, GameClient.GetClientCommander()->GetSelectedControlEntity(), false);
+    if (GameClient.GetClientCommander() == NULL)
+        return;
+    GameClient.GetClientCommander()->ActivateTool(AtoI(sParam), false, GameClient.GetClientCommander()->GetSelectedControlEntity(), false);
 }
 
 
@@ -991,9 +991,9 @@ ACTION_IMPULSE_EX(ActivateTool, ACTION_NOREPEAT)
   --------------------*/
 ACTION_IMPULSE_EX(ActivateToolSecondary, ACTION_NOREPEAT)
 {
-	if (GameClient.GetClientCommander() == NULL)
-		return;
-	GameClient.GetClientCommander()->ActivateTool(AtoI(sParam), true, GameClient.GetClientCommander()->GetSelectedControlEntity(), false);
+    if (GameClient.GetClientCommander() == NULL)
+        return;
+    GameClient.GetClientCommander()->ActivateTool(AtoI(sParam), true, GameClient.GetClientCommander()->GetSelectedControlEntity(), false);
 }
 
 
@@ -1002,7 +1002,7 @@ ACTION_IMPULSE_EX(ActivateToolSecondary, ACTION_NOREPEAT)
   --------------------*/
 ACTION_IMPULSE_EX(ToggleShop, ACTION_NOREPEAT)
 {
-	GameClient.GetInterfaceManager()->ToggleShopInterface();
+    GameClient.GetInterfaceManager()->ToggleShopInterface();
 }
 
 
@@ -1011,7 +1011,7 @@ ACTION_IMPULSE_EX(ToggleShop, ACTION_NOREPEAT)
   --------------------*/
 ACTION_IMPULSE_EX(OpenShop, ACTION_NOREPEAT)
 {
-	GameClient.GetInterfaceManager()->SetShopVisible(true);
+    GameClient.GetInterfaceManager()->SetShopVisible(true);
 }
 
 
@@ -1020,7 +1020,7 @@ ACTION_IMPULSE_EX(OpenShop, ACTION_NOREPEAT)
   --------------------*/
 ACTION_IMPULSE_EX(CloseShop, ACTION_NOREPEAT)
 {
-	GameClient.GetInterfaceManager()->SetShopVisible(false);
+    GameClient.GetInterfaceManager()->SetShopVisible(false);
 }
 
 
@@ -1029,17 +1029,17 @@ ACTION_IMPULSE_EX(CloseShop, ACTION_NOREPEAT)
   --------------------*/
 ACTION_IMPULSE_EX(PrevAttackModifier, ACTION_NOREPEAT)
 {
-	CClientCommander *pCommander(GameClient.GetClientCommander());
-	if (pCommander == NULL)
-		return;
+    CClientCommander *pCommander(GameClient.GetClientCommander());
+    if (pCommander == NULL)
+        return;
 
-	IUnitEntity *pUnit(pCommander->GetSelectedControlEntity());
-	if (pUnit == NULL)
-		return;
+    IUnitEntity *pUnit(pCommander->GetSelectedControlEntity());
+    if (pUnit == NULL)
+        return;
 
-	CBufferFixed<5> buffer;
-	buffer << GAME_CMD_PREV_ATTACK_MOD_SLOT << pUnit->GetIndex();
-	GameClient.SendGameData(buffer, true);
+    CBufferFixed<5> buffer;
+    buffer << GAME_CMD_PREV_ATTACK_MOD_SLOT << pUnit->GetIndex();
+    GameClient.SendGameData(buffer, true);
 }
 
 
@@ -1048,17 +1048,17 @@ ACTION_IMPULSE_EX(PrevAttackModifier, ACTION_NOREPEAT)
   --------------------*/
 ACTION_IMPULSE_EX(NextAttackModifier, ACTION_NOREPEAT)
 {
-	CClientCommander *pCommander(GameClient.GetClientCommander());
-	if (pCommander == NULL)
-		return;
+    CClientCommander *pCommander(GameClient.GetClientCommander());
+    if (pCommander == NULL)
+        return;
 
-	IUnitEntity *pUnit(pCommander->GetSelectedControlEntity());
-	if (pUnit == NULL)
-		return;
+    IUnitEntity *pUnit(pCommander->GetSelectedControlEntity());
+    if (pUnit == NULL)
+        return;
 
-	CBufferFixed<5> buffer;
-	buffer << GAME_CMD_NEXT_ATTACK_MOD_SLOT << pUnit->GetIndex();
-	GameClient.SendGameData(buffer, true);
+    CBufferFixed<5> buffer;
+    buffer << GAME_CMD_NEXT_ATTACK_MOD_SLOT << pUnit->GetIndex();
+    GameClient.SendGameData(buffer, true);
 }
 
 /*--------------------
@@ -1066,10 +1066,10 @@ ACTION_IMPULSE_EX(NextAttackModifier, ACTION_NOREPEAT)
   --------------------*/
 ACTION_BUTTON(VoicePushToTalk)
 {
-	if (fValue)
-		VoiceManager.SetTalkPushed(true);
-	else
-		VoiceManager.SetTalkPushed(false);
+    if (fValue)
+        VoiceManager.SetTalkPushed(true);
+    else
+        VoiceManager.SetTalkPushed(false);
 }
 
 
@@ -1078,10 +1078,10 @@ ACTION_BUTTON(VoicePushToTalk)
   --------------------*/
 ACTION_BUTTON(VoicePushToLaneTalk)
 {
-	if (fValue)
-		VoiceManager.SetLaneTalkPushed(true);
-	else
-		VoiceManager.SetLaneTalkPushed(false);
+    if (fValue)
+        VoiceManager.SetLaneTalkPushed(true);
+    else
+        VoiceManager.SetLaneTalkPushed(false);
 }
 
 /*--------------------
@@ -1089,18 +1089,18 @@ ACTION_BUTTON(VoicePushToLaneTalk)
   --------------------*/
 ACTION_IMPULSE(SwitchScore)
 {
-	CGameInterfaceManager *pInterfaceManager(GameClient.GetInterfaceManager());
-	if (pInterfaceManager == NULL)
-		return;
-	
-	uint uiScoreState = pInterfaceManager->GetScoreState();
+    CGameInterfaceManager *pInterfaceManager(GameClient.GetInterfaceManager());
+    if (pInterfaceManager == NULL)
+        return;
+    
+    uint uiScoreState = pInterfaceManager->GetScoreState();
 
-	if (uiScoreState < 1)
-		uiScoreState++;
-	else
-		uiScoreState = 0;
+    if (uiScoreState < 1)
+        uiScoreState++;
+    else
+        uiScoreState = 0;
 
-	pInterfaceManager->SetScoreState(uiScoreState);
+    pInterfaceManager->SetScoreState(uiScoreState);
 }
 
 
@@ -1109,7 +1109,7 @@ ACTION_IMPULSE(SwitchScore)
   --------------------*/
 ACTION_IMPULSE(ToggleLevelup)
 {
-	GameClient.ToggleLevelup();
+    GameClient.ToggleLevelup();
 }
 
 
@@ -1119,7 +1119,7 @@ ACTION_IMPULSE(ToggleLevelup)
   --------------------*/
 ACTION_IMPULSE(Levelup)
 {
-	GameClient.SetLevelup(true);
+    GameClient.SetLevelup(true);
 }
 #endif
 
@@ -1129,8 +1129,8 @@ ACTION_IMPULSE(Levelup)
   --------------------*/
 ACTION_IMPULSE(Shop)
 {
-	int iIndex(AtoI(sParam));
-	GameClient.Shop(iIndex);
+    int iIndex(AtoI(sParam));
+    GameClient.Shop(iIndex);
 }
 
 /*-------------------- 
@@ -1138,12 +1138,12 @@ ACTION_IMPULSE(Shop)
   --------------------*/
 ACTION_IMPULSE(FocusLastEvent)
 {
-	CVec3f v3Pos(GameClient.GetLastEventPos());
+    CVec3f v3Pos(GameClient.GetLastEventPos());
 
-	CPlayer *pPlayer(Game.GetLocalPlayer());
+    CPlayer *pPlayer(Game.GetLocalPlayer());
 
-	if (pPlayer != NULL)
-		v3Pos[Z] = pPlayer->GetCameraHeight();
+    if (pPlayer != NULL)
+        v3Pos[Z] = pPlayer->GetCameraHeight();
 
-	GameClient.GetCurrentSnapshot()->SetCameraPosition(v3Pos);
+    GameClient.GetCurrentSnapshot()->SetCameraPosition(v3Pos);
 }

@@ -16,7 +16,7 @@
 //=============================================================================
 class CScript;
 
-typedef	deque<CScript *> ScriptStack;
+typedef deque<CScript *> ScriptStack;
 //=============================================================================
 
 //=============================================================================
@@ -30,20 +30,20 @@ typedef	deque<CScript *> ScriptStack;
 class CScriptThread
 {
 private:
-	ScriptStack		m_qActiveScripts;
-	bool			m_bFinished;
+    ScriptStack     m_qActiveScripts;
+    bool            m_bFinished;
 
 public:
-	~CScriptThread();
-	CScriptThread();
+    ~CScriptThread();
+    CScriptThread();
 
-	bool	IsFinished()	{ return m_bFinished; }
+    bool    IsFinished()    { return m_bFinished; }
 
-	void	Frame();
-	void	ExecuteScript(const tstring &sData, bool bFile = true, tsmapts *mapParams = NULL);
+    void    Frame();
+    void    ExecuteScript(const tstring &sData, bool bFile = true, tsmapts *mapParams = NULL);
 
-	void	GotoScriptLabel(const tstring &sLabel);
-	void	PauseScript(dword dwMilliseconds);
+    void    GotoScriptLabel(const tstring &sLabel);
+    void    PauseScript(dword dwMilliseconds);
 };
 //=============================================================================
 #endif // __C_SCRIPTTHREAD_H__

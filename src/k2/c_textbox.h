@@ -31,68 +31,68 @@ const float TEXTBOX_CURSOR_HEIGHT(2.0f);
 class CTextBox : public IInputWidget
 {
 protected:
-	tstring		m_sFont;
-	ResHandle	m_hFontMap;
-	CFontMap*	m_pFontMap;
-	CVec4f		m_v4TextColor;
+    tstring     m_sFont;
+    ResHandle   m_hFontMap;
+    CFontMap*   m_pFontMap;
+    CVec4f      m_v4TextColor;
 
-	tstring		m_sHPadding;
-	tstring		m_sVPadding;
-	float		m_fHPadding;
-	float		m_fVPadding;
-	uint		m_uMaxLength;
-	bool		m_bWrap;
+    tstring     m_sHPadding;
+    tstring     m_sVPadding;
+    float       m_fHPadding;
+    float       m_fVPadding;
+    uint        m_uMaxLength;
+    bool        m_bWrap;
 
-	tstring		m_sOnEnter;
-	tstring		m_sOnEsc;
+    tstring     m_sOnEnter;
+    tstring     m_sOnEsc;
 
-	size_t		m_zSelStart;
+    size_t      m_zSelStart;
 
-	ResHandle	m_hCursor;
-	uint		m_uiCursorPhase;
+    ResHandle   m_hCursor;
+    uint        m_uiCursorPhase;
 
-	bool		m_bMidClick;
-	bool		m_bSelectOnFocus;
-	bool		m_bNewFocus;
+    bool        m_bMidClick;
+    bool        m_bSelectOnFocus;
+    bool        m_bNewFocus;
 
-	uint		m_uiDoubleClickTime;
-	uint		m_uiLastClickTime;
-	size_t		m_zLastClickPos;
+    uint        m_uiDoubleClickTime;
+    uint        m_uiLastClickTime;
+    size_t      m_zLastClickPos;
 
 public:
-	~CTextBox()	{}
-	CTextBox(CInterface *pInterface, IWidget *pParent, const CWidgetStyle& style);
+    ~CTextBox() {}
+    CTextBox(CInterface *pInterface, IWidget *pParent, const CWidgetStyle& style);
 
-	void	Clear();
-	void	SetInputLine(const tstring &sInputLine);
+    void    Clear();
+    void    SetInputLine(const tstring &sInputLine);
 
-	void	SetTextColor(const CVec4f &v4Color)		{ m_v4TextColor = v4Color; }
+    void    SetTextColor(const CVec4f &v4Color)     { m_v4TextColor = v4Color; }
 
-	tstring	GetValue() const	{ if (m_sPasswordChar.empty()) return m_sInputLine; else return m_sHiddenLine; }
+    tstring GetValue() const    { if (m_sPasswordChar.empty()) return m_sInputLine; else return m_sHiddenLine; }
 
-	virtual bool	ProcessInputCursor(const CVec2f &v2CursorPos);
-	virtual void	MouseDown(EButton button, const CVec2f &v2CursorPos);
-	virtual void	MouseUp(EButton button, const CVec2f &v2CursorPos);
+    virtual bool    ProcessInputCursor(const CVec2f &v2CursorPos);
+    virtual void    MouseDown(EButton button, const CVec2f &v2CursorPos);
+    virtual void    MouseUp(EButton button, const CVec2f &v2CursorPos);
 
-	virtual bool	ButtonDown(EButton button);
-	virtual bool	ButtonUp(EButton button);
+    virtual bool    ButtonDown(EButton button);
+    virtual bool    ButtonUp(EButton button);
 
-	virtual void	Rollover();
-	virtual void	Rolloff();
+    virtual void    Rollover();
+    virtual void    Rolloff();
 
-	virtual	void	Focus();
-	virtual void	LoseFocus();
+    virtual void    Focus();
+    virtual void    LoseFocus();
 
-	virtual bool	Char(TCHAR c);
+    virtual bool    Char(TCHAR c);
 
-	virtual void	RenderWidget(const CVec2f &vOrigin, float fFade);
+    virtual void    RenderWidget(const CVec2f &vOrigin, float fFade);
 
-	virtual void	RecalculateChildSize();
+    virtual void    RecalculateChildSize();
 
-	void	SetInputPos(size_t zInputPos);
+    void    SetInputPos(size_t zInputPos);
 
-	tstring	GetCopyString();
-	void	PasteString(const tstring &sString);
+    tstring GetCopyString();
+    void    PasteString(const tstring &sString);
 };
 //=============================================================================
 

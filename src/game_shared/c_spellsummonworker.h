@@ -17,13 +17,13 @@
 class CSpellSummonWorker : public ISpellSummon
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Spell, SummonWorker)
+    DECLARE_ENT_ALLOCATOR2(Spell, SummonWorker)
 
 public:
-	~CSpellSummonWorker()	{}
-	CSpellSummonWorker() :
-	ISpellSummon(GetEntityConfig())
-	{}
+    ~CSpellSummonWorker()   {}
+    CSpellSummonWorker() :
+    ISpellSummon(GetEntityConfig())
+    {}
 };
 //=============================================================================
 

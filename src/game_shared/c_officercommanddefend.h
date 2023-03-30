@@ -16,6 +16,6 @@ class COfficerCommandDefend
 private:
 
 public:
-	~COfficerCommandDefend()	{}
+    ~COfficerCommandDefend()    {}
 };
 //=============================================================================

@@ -17,13 +17,13 @@
 class CBuildingSteamMine : public IBuildingMine
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Building, SteamMine);
+    DECLARE_ENT_ALLOCATOR2(Building, SteamMine);
 
 public:
-	~CBuildingSteamMine()	{}
-	CBuildingSteamMine() :
-	IBuildingMine(GetEntityConfig())
-	{}
+    ~CBuildingSteamMine()   {}
+    CBuildingSteamMine() :
+    IBuildingMine(GetEntityConfig())
+    {}
 };
 //=============================================================================
 

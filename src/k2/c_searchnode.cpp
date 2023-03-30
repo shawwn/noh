@@ -20,10 +20,10 @@ byte CSearchNode::m_syByteDirection[] = { SDB_NORTH, SDB_EAST, SDB_WEST, SDB_SOU
 /*====================
   CSearchNode::operator>
   ====================*/
-bool	CSearchNode::operator>(const CSearchNode &cComp) const
+bool    CSearchNode::operator>(const CSearchNode &cComp) const
 {
-	if ((m_uiNodeData & HEURISTIC_MASK) == (cComp.m_uiNodeData & HEURISTIC_MASK))
-		return m_uiBias > cComp.m_uiBias;
-	else
-		return (m_uiNodeData & HEURISTIC_MASK) > (cComp.m_uiNodeData & HEURISTIC_MASK);
+    if ((m_uiNodeData & HEURISTIC_MASK) == (cComp.m_uiNodeData & HEURISTIC_MASK))
+        return m_uiBias > cComp.m_uiBias;
+    else
+        return (m_uiNodeData & HEURISTIC_MASK) > (cComp.m_uiNodeData & HEURISTIC_MASK);
 }

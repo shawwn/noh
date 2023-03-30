@@ -17,21 +17,21 @@
 class CSpellConsumeCorpse : public ISpellItem
 {
 private:
-	START_ENTITY_CONFIG(ISpellItem)
-		DECLARE_ENTITY_CVAR(float, HealthRestored)
-	END_ENTITY_CONFIG
+    START_ENTITY_CONFIG(ISpellItem)
+        DECLARE_ENTITY_CVAR(float, HealthRestored)
+    END_ENTITY_CONFIG
 
-	CEntityConfig*	m_pEntityConfig;
+    CEntityConfig*  m_pEntityConfig;
 
-	DECLARE_ENT_ALLOCATOR2(Spell, ConsumeCorpse);
+    DECLARE_ENT_ALLOCATOR2(Spell, ConsumeCorpse);
 
-	uint	m_uiStateSlot;
+    uint    m_uiStateSlot;
 
 public:
-	~CSpellConsumeCorpse();
-	CSpellConsumeCorpse();
+    ~CSpellConsumeCorpse();
+    CSpellConsumeCorpse();
 
-	bool	ImpactEntity(uint uiTargetIndex, CGameEvent &evImpact, bool bCheckTarget = true);
+    bool    ImpactEntity(uint uiTargetIndex, CGameEvent &evImpact, bool bCheckTarget = true);
 };
 //=============================================================================
 

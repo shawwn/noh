@@ -27,5 +27,5 @@ IModelAllocator::~IModelAllocator()
 IModelAllocator::IModelAllocator(const tstring &sType) :
 m_sType(sType)
 {
-	CModelAllocatorRegistry::GetInstance()->Register(m_sType, this);
+    CModelAllocatorRegistry::GetInstance()->Register(m_sType, this);
 }

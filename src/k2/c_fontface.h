@@ -14,7 +14,7 @@
 //=============================================================================
 // Declarations
 //=============================================================================
-IResource*	AllocFontFace(const tstring &sPath);
+IResource*  AllocFontFace(const tstring &sPath);
 //=============================================================================
 
 //=============================================================================
@@ -23,22 +23,22 @@ IResource*	AllocFontFace(const tstring &sPath);
 class CFontFace : public IFreeTypeResource
 {
 private:
-	FT_Face		m_FTFace;
+    FT_Face     m_FTFace;
 
-	CFontFace();
+    CFontFace();
 
 public:
-	~CFontFace()	{}
-	CFontFace(const tstring &sPath);
+    ~CFontFace()    {}
+    CFontFace(const tstring &sPath);
 
-	K2_API	virtual uint			GetResType() const			{ return RES_FONTFACE; }
-	K2_API	virtual const tstring&	GetResTypeName() const		{ return ResTypeName(); }
-	K2_API	static const tstring&	ResTypeName()				{ static tstring sTypeName(_T("{fontface}")); return sTypeName; }
+    K2_API  virtual uint            GetResType() const          { return RES_FONTFACE; }
+    K2_API  virtual const tstring&  GetResTypeName() const      { return ResTypeName(); }
+    K2_API  static const tstring&   ResTypeName()               { static tstring sTypeName(_T("{fontface}")); return sTypeName; }
 
-	FT_Face	GetFace() const	{ return m_FTFace; }
+    FT_Face GetFace() const { return m_FTFace; }
 
-	int		Load(uint uiIgnoreFlags, const char *pData, uint uiSize);
-	void	Free();
+    int     Load(uint uiIgnoreFlags, const char *pData, uint uiSize);
+    void    Free();
 };
 //=============================================================================
 

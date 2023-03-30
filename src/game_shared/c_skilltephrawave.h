@@ -17,13 +17,13 @@
 class CSkillTephraWave : public ISkillMelee
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Skill, TephraWave);
+    DECLARE_ENT_ALLOCATOR2(Skill, TephraWave);
 
 public:
-	~CSkillTephraWave()	{}
-	CSkillTephraWave() :
-	ISkillMelee(GetEntityConfig())
-	{}
+    ~CSkillTephraWave() {}
+    CSkillTephraWave() :
+    ISkillMelee(GetEntityConfig())
+    {}
 
 };
 //=============================================================================

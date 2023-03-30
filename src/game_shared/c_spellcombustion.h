@@ -17,13 +17,13 @@
 class CSpellCombustion : public ISpellItem
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Spell, Combustion);
+    DECLARE_ENT_ALLOCATOR2(Spell, Combustion);
 
 public:
-	~CSpellCombustion()	{}
-	CSpellCombustion() :
-	ISpellItem(GetEntityConfig())
-	{}
+    ~CSpellCombustion() {}
+    CSpellCombustion() :
+    ISpellItem(GetEntityConfig())
+    {}
 };
 //=============================================================================
 

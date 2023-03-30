@@ -17,17 +17,17 @@
 class CStateManaCrystal : public IEntityState
 {
 private:
-	START_ENTITY_CONFIG(IEntityState)
-		DECLARE_ENTITY_CVAR(float, ManaCostMultiplier)
-	END_ENTITY_CONFIG
+    START_ENTITY_CONFIG(IEntityState)
+        DECLARE_ENTITY_CVAR(float, ManaCostMultiplier)
+    END_ENTITY_CONFIG
 
-	CEntityConfig*	m_pEntityConfig;
+    CEntityConfig*  m_pEntityConfig;
 
-	DECLARE_ENT_ALLOCATOR2(State, ManaCrystal);
+    DECLARE_ENT_ALLOCATOR2(State, ManaCrystal);
 
 public:
-	~CStateManaCrystal()	{}
-	CStateManaCrystal();
+    ~CStateManaCrystal()    {}
+    CStateManaCrystal();
 };
 //=============================================================================
 

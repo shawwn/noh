@@ -17,14 +17,14 @@
 class CMeleeShortBlades : public IMeleeItem
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Melee, ShortBlades);
+    DECLARE_ENT_ALLOCATOR2(Melee, ShortBlades);
 
 public:
-	~CMeleeShortBlades()	{}
-	CMeleeShortBlades() :
-	IMeleeItem(GetEntityConfig())
-	{
-	}
+    ~CMeleeShortBlades()    {}
+    CMeleeShortBlades() :
+    IMeleeItem(GetEntityConfig())
+    {
+    }
 };
 //=============================================================================
 

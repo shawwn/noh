@@ -29,18 +29,18 @@ IBuildingEntity(GetEntityConfig())
 /*====================
   CBuildingGarrison::Use
   ====================*/
-void	CBuildingGarrison::Use(IGameEntity *pActivator)
+void    CBuildingGarrison::Use(IGameEntity *pActivator)
 {
-	if (GetStatus() != ENTITY_STATUS_ACTIVE)
-	{
-		IBuildingEntity::Use(pActivator);
-		return;
-	}
+    if (GetStatus() != ENTITY_STATUS_ACTIVE)
+    {
+        IBuildingEntity::Use(pActivator);
+        return;
+    }
 
-	if (Game.IsServer())
-	{
-		IPlayerEntity *pPlayer(pActivator->GetAsPlayerEnt());
-		if (pPlayer != NULL && pPlayer->GetTeam() == m_iTeam && pPlayer->GetCanEnterLoadout())
-			pPlayer->EnterLoadout();
-	}
+    if (Game.IsServer())
+    {
+        IPlayerEntity *pPlayer(pActivator->GetAsPlayerEnt());
+        if (pPlayer != NULL && pPlayer->GetTeam() == m_iTeam && pPlayer->GetCanEnterLoadout())
+            pPlayer->EnterLoadout();
+    }
 }

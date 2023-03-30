@@ -17,11 +17,11 @@
 DEFINE_DEFINITION_TYPE_INFO(CNeutralDefinition, ENTITY_BASE_TYPE_NEUTRAL, Neutral)
 
 START_ENTITY_DEFINITION_XML_PROCESSOR(INeutralEntity, Neutral)
-	IUnitDefinition::ReadSettings(pDefinition, node, bMod);
-	
-	READ_ENTITY_DEFINITION_PROPERTY_EX(IsMobile, ismobile, true)
-	READ_ENTITY_DEFINITION_PROPERTY_EX(CanAttack, canattack, true)
-	READ_ENTITY_DEFINITION_PROPERTY_EX(CanRotate, canrotate, true)
-	READ_ENTITY_DEFINITION_PROPERTY(CombatType, combattype)
-	READ_ENTITY_DEFINITION_PROPERTY(CanCarryItems, cancarryitems)
+    IUnitDefinition::ReadSettings(pDefinition, node, bMod);
+    
+    READ_ENTITY_DEFINITION_PROPERTY_EX(IsMobile, ismobile, true)
+    READ_ENTITY_DEFINITION_PROPERTY_EX(CanAttack, canattack, true)
+    READ_ENTITY_DEFINITION_PROPERTY_EX(CanRotate, canrotate, true)
+    READ_ENTITY_DEFINITION_PROPERTY(CombatType, combattype)
+    READ_ENTITY_DEFINITION_PROPERTY(CanCarryItems, cancarryitems)
 END_ENTITY_DEFINITION_XML_PROCESSOR(Neutral, neutral)

@@ -37,9 +37,9 @@ CPool<CLineRenderer> CLineRenderer::s_Pool(1, uint(-1));
 /*====================
   CLineRenderer::operator new
   ====================*/
-void*	CLineRenderer::operator new(size_t z, const char *szContext, const char *szType, const char *szFile, short nLine)
+void*   CLineRenderer::operator new(size_t z, const char *szContext, const char *szType, const char *szFile, short nLine)
 {
-	return s_Pool.Allocate();
+    return s_Pool.Allocate();
 }
 
 
@@ -63,34 +63,34 @@ CLineRenderer::~CLineRenderer()
 /*====================
   CLineRenderer::Render
   ====================*/
-void	CLineRenderer::Render(EMaterialPhase ePhase)
+void    CLineRenderer::Render(EMaterialPhase ePhase)
 {
-	PROFILE("CLineRenderer::Render");
+    PROFILE("CLineRenderer::Render");
 
-	if (!m_bRender)
-		return;
+    if (!m_bRender)
+        return;
 
-	SetShaderVars();
+    SetShaderVars();
 
-	GfxMaterials->SelectMaterial(g_SimpleMaterial3DColored, ePhase, 0.0f, 0);
+    GfxMaterials->SelectMaterial(g_SimpleMaterial3DColored, ePhase, 0.0f, 0);
 
-	glEnableClientState(GL_VERTEX_ARRAY);
-	glEnableClientState(GL_COLOR_ARRAY);
+    glEnableClientState(GL_VERTEX_ARRAY);
+    glEnableClientState(GL_COLOR_ARRAY);
 
-	glBindBufferARB(GL_ARRAY_BUFFER_ARB, Gfx3D->VBLine);
-	glColorPointer(4, GL_UNSIGNED_BYTE, sizeof(SLineVertex), BUFFER_OFFSET(12));
-	glVertexPointer(3, GL_FLOAT, sizeof(SLineVertex), BUFFER_OFFSET(0));
+    glBindBufferARB(GL_ARRAY_BUFFER_ARB, Gfx3D->VBLine);
+    glColorPointer(4, GL_UNSIGNED_BYTE, sizeof(SLineVertex), BUFFER_OFFSET(12));
+    glVertexPointer(3, GL_FLOAT, sizeof(SLineVertex), BUFFER_OFFSET(0));
 
-	glLineWidth(1.0f);
-	glDisable(GL_CULL_FACE);
-	glDisable(GL_BLEND);
-	glDisable(GL_DEPTH_TEST);
-	glDepthMask(GL_FALSE);
+    glLineWidth(1.0f);
+    glDisable(GL_CULL_FACE);
+    glDisable(GL_BLEND);
+    glDisable(GL_DEPTH_TEST);
+    glDepthMask(GL_FALSE);
 
-	glDrawArrays(GL_LINES, 0, m_iNumLines * 2);
+    glDrawArrays(GL_LINES, 0, m_iNumLines * 2);
 
-	glDisableClientState(GL_VERTEX_ARRAY);
-	glDisableClientState(GL_COLOR_ARRAY);
+    glDisableClientState(GL_VERTEX_ARRAY);
+    glDisableClientState(GL_COLOR_ARRAY);
 
-	SceneStats.RecordBatch(m_iNumLines * 2, m_iNumLines, ePhase, SSBATCH_DEBUG);
+    SceneStats.RecordBatch(m_iNumLines * 2, m_iNumLines, ePhase, SSBATCH_DEBUG);
 }

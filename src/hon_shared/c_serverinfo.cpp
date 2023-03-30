@@ -25,12 +25,12 @@ DEFINE_ENT_ALLOCATOR3(ServerInfo, Info_Server)
 
 DEFINE_ENTITY_DESC(CServerInfo)
 {
-	s_cDesc.pFieldTypes = K2_NEW(global,    TypeVector)();
-	s_cDesc.pFieldTypes->clear();
-	const TypeVector &vBase(IGameEntity::GetTypeVector());
-	s_cDesc.pFieldTypes->insert(s_cDesc.pFieldTypes->begin(), vBase.begin(), vBase.end());
+    s_cDesc.pFieldTypes = K2_NEW(global,    TypeVector)();
+    s_cDesc.pFieldTypes->clear();
+    const TypeVector &vBase(IGameEntity::GetTypeVector());
+    s_cDesc.pFieldTypes->insert(s_cDesc.pFieldTypes->begin(), vBase.begin(), vBase.end());
 
-	s_cDesc.pFieldTypes->push_back(SDataField(_T("m_sName"), FIELD_PUBLIC, TYPE_STRING, 0, 0));
+    s_cDesc.pFieldTypes->push_back(SDataField(_T("m_sName"), FIELD_PUBLIC, TYPE_STRING, 0, 0));
 }
 //=============================================================================
 
@@ -54,41 +54,41 @@ IGameEntity(NULL)
 /*====================
   CServerInfo::GetSnapshot
   ====================*/
-void	CServerInfo::GetSnapshot(CEntitySnapshot &snapshot) const
+void    CServerInfo::GetSnapshot(CEntitySnapshot &snapshot) const
 {
-	IGameEntity::GetSnapshot(snapshot);
+    IGameEntity::GetSnapshot(snapshot);
 
-	snapshot.WriteString(m_sName);
+    snapshot.WriteString(m_sName);
 }
 
 
 /*====================
   CServerInfo::ReadSnapshot
   ====================*/
-bool	CServerInfo::ReadSnapshot(CEntitySnapshot &snapshot)
+bool    CServerInfo::ReadSnapshot(CEntitySnapshot &snapshot)
 {
-	try
-	{
-		if (!IGameEntity::ReadSnapshot(snapshot))
-			EX_ERROR(_T("IGameEntity::ReadSnapshot failed"));
+    try
+    {
+        if (!IGameEntity::ReadSnapshot(snapshot))
+            EX_ERROR(_T("IGameEntity::ReadSnapshot failed"));
 
-		snapshot.ReadString(m_sName);
-		return true;
-	}
-	catch (CException &ex)
-	{
-		ex.Process(_T("CServerInfo::ReadSnapshot() - "), NO_THROW);
-		return false;
-	}
+        snapshot.ReadString(m_sName);
+        return true;
+    }
+    catch (CException &ex)
+    {
+        ex.Process(_T("CServerInfo::ReadSnapshot() - "), NO_THROW);
+        return false;
+    }
 }
 
 
 /*====================
   CServerInfo::Baseline
   ====================*/
-void	CServerInfo::Baseline()
+void    CServerInfo::Baseline()
 {
-	IGameEntity::Baseline();
+    IGameEntity::Baseline();
 
-	m_sName.clear();
+    m_sName.clear();
 }

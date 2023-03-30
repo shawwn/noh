@@ -17,12 +17,12 @@
 class CSkillSteamBoost : public ISkillSelfBuff
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Skill, SteamBoost);
+    DECLARE_ENT_ALLOCATOR2(Skill, SteamBoost);
 
 public:
-	~CSkillSteamBoost()	{}
-	CSkillSteamBoost() :
-	ISkillSelfBuff(GetEntityConfig())	{}
+    ~CSkillSteamBoost() {}
+    CSkillSteamBoost() :
+    ISkillSelfBuff(GetEntityConfig())   {}
 };
 //=============================================================================
 

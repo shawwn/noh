@@ -20,7 +20,7 @@
 //=============================================================================
 CVAR_BOOL(vid_debugShaderPreprocessor, false);
 
-CShaderPreprocessor		g_ShaderPreprocessor;
+CShaderPreprocessor     g_ShaderPreprocessor;
 //=============================================================================
 
 /*====================
@@ -42,41 +42,41 @@ CShaderPreprocessor::~CShaderPreprocessor()
 /*====================
   CShaderPreprocessor::Define
   ====================*/
-void	CShaderPreprocessor::Define(const string &sName, const string &sDefinition)
+void    CShaderPreprocessor::Define(const string &sName, const string &sDefinition)
 {
-	m_mapDefinitions[sName] = sDefinition;
+    m_mapDefinitions[sName] = sDefinition;
 }
 
 
 /*====================
   CShaderPreprocessor::Undefine
   ====================*/
-void	CShaderPreprocessor::Undefine(const string &sName)
+void    CShaderPreprocessor::Undefine(const string &sName)
 {
-	m_mapDefinitions.erase(sName);
+    m_mapDefinitions.erase(sName);
 }
 
 
 /*====================
   CShaderPreprocessor::GetDefinition
   ====================*/
-string	CShaderPreprocessor::GetDefinition(const string &sName)
+string  CShaderPreprocessor::GetDefinition(const string &sName)
 {
-	DefinitionMap::iterator findit(m_mapDefinitions.find(sName));
+    DefinitionMap::iterator findit(m_mapDefinitions.find(sName));
 
-	if (findit != m_mapDefinitions.end())
-		return findit->second;
-	else
-		return "";
+    if (findit != m_mapDefinitions.end())
+        return findit->second;
+    else
+        return "";
 }
 
 
 /*====================
   CShaderPreprocessor::UndefineAll
   ====================*/
-void	CShaderPreprocessor::UndefineAll()
+void    CShaderPreprocessor::UndefineAll()
 {
-	m_mapDefinitions.clear();
+    m_mapDefinitions.clear();
 }
 
 
@@ -85,103 +85,103 @@ void	CShaderPreprocessor::UndefineAll()
 
   Free this value please when you're done using it!
   ====================*/
-const char*	CShaderPreprocessor::AllocMacroArray()
+const char* CShaderPreprocessor::AllocMacroArray()
 {
-	string sMacros;
+    string sMacros;
 
-	if (g_DeviceCaps.bNonSquareMatrix)
-		sMacros += "#version 120\n";
-	else
-		sMacros += "#version 110\n";
+    if (g_DeviceCaps.bNonSquareMatrix)
+        sMacros += "#version 120\n";
+    else
+        sMacros += "#version 110\n";
 
-	for (DefinitionMap::iterator it(m_mapDefinitions.begin()); it != m_mapDefinitions.end(); ++it)
-	{
-		if (it->first.empty())
-			continue;
+    for (DefinitionMap::iterator it(m_mapDefinitions.begin()); it != m_mapDefinitions.end(); ++it)
+    {
+        if (it->first.empty())
+            continue;
 
-		sMacros += "#define ";
-		sMacros += it->first;
+        sMacros += "#define ";
+        sMacros += it->first;
 
-		if (!it->second.empty())
-		{
-			sMacros += " ";
-			sMacros += it->second;
-		}
+        if (!it->second.empty())
+        {
+            sMacros += " ";
+            sMacros += it->second;
+        }
 
-		sMacros += "\n";
+        sMacros += "\n";
 
-		if (vid_debugShaderPreprocessor)
-		{
-			if (it->second.empty())
-				Console.Dev << QuoteStr(StringToTString(it->first)) << _T(";");
-			else
-				Console.Dev << QuoteStr(StringToTString(it->first)) << _T("=") << QuoteStr(StringToTString(it->second)) << _T(";");
-		}
-	}
+        if (vid_debugShaderPreprocessor)
+        {
+            if (it->second.empty())
+                Console.Dev << QuoteStr(StringToTString(it->first)) << _T(";");
+            else
+                Console.Dev << QuoteStr(StringToTString(it->first)) << _T("=") << QuoteStr(StringToTString(it->second)) << _T(";");
+        }
+    }
 
-	if (vid_debugShaderPreprocessor && m_mapDefinitions.size() > 0)
-		Console.Dev << newl;
+    if (vid_debugShaderPreprocessor && m_mapDefinitions.size() > 0)
+        Console.Dev << newl;
 
-	char *szMacros = K2_NEW_ARRAY(ctx_GL2, char, sMacros.size()+1);
-	STRCPY_S(szMacros, sMacros.size() + 1, sMacros.c_str());
+    char *szMacros = K2_NEW_ARRAY(ctx_GL2, char, sMacros.size()+1);
+    STRCPY_S(szMacros, sMacros.size() + 1, sMacros.c_str());
 
-	return szMacros;
+    return szMacros;
 }
 
 
 /*====================
   CShaderPreprocessor::GetDefinitionHeaderString
   ====================*/
-string	CShaderPreprocessor::GetDefinitionHeaderString()
+string  CShaderPreprocessor::GetDefinitionHeaderString()
 {
-	string s;
+    string s;
 
-	s += "// Defines: ";
-	s += "\n";
-	s += "//";
-	s += "\n";
+    s += "// Defines: ";
+    s += "\n";
+    s += "//";
+    s += "\n";
 
-	for (DefinitionMap::iterator it(m_mapDefinitions.begin()); it != m_mapDefinitions.end(); ++it)
-	{
-		if (it->first.empty())
-			continue;
+    for (DefinitionMap::iterator it(m_mapDefinitions.begin()); it != m_mapDefinitions.end(); ++it)
+    {
+        if (it->first.empty())
+            continue;
 
-		s += "//   ";
+        s += "//   ";
 
-		s += it->first;
+        s += it->first;
 
-		if (!it->second.empty())
-		{
-			s += "=";
-			s += it->second;
-		}
+        if (!it->second.empty())
+        {
+            s += "=";
+            s += it->second;
+        }
 
-		s += "\n";
-	}
+        s += "\n";
+    }
 
-	return s;
+    return s;
 }
 
 
 /*====================
   CShaderPreprocessor::GetDefinitionString
   ====================*/
-string	CShaderPreprocessor::GetDefinitionString()
+string  CShaderPreprocessor::GetDefinitionString()
 {
-	string s;
+    string s;
 
-	for (DefinitionMap::iterator it(m_mapDefinitions.begin()); it != m_mapDefinitions.end(); ++it)
-	{
-		if (it->first.empty())
-			continue;
+    for (DefinitionMap::iterator it(m_mapDefinitions.begin()); it != m_mapDefinitions.end(); ++it)
+    {
+        if (it->first.empty())
+            continue;
 
-		if (it->second.empty())
-			s += it->first + ";";
-		else
-			s += it->first + "='" + it->second + "';";
-	}
+        if (it->second.empty())
+            s += it->first + ";";
+        else
+            s += it->first + "='" + it->second + "';";
+    }
 
-	return s;
+    return s;
 }
 
 
@@ -190,11 +190,11 @@ string	CShaderPreprocessor::GetDefinitionString()
   --------------------*/
 CMD(ShaderDefine)
 {
-	if (vArgList.size() < 1)
-		return false;
+    if (vArgList.size() < 1)
+        return false;
 
-	g_ShaderPreprocessor.Define(TStringToString(vArgList[0]), vArgList.size() > 1 ? TStringToString(vArgList[1]) : "");
-	return true;
+    g_ShaderPreprocessor.Define(TStringToString(vArgList[0]), vArgList.size() > 1 ? TStringToString(vArgList[1]) : "");
+    return true;
 }
 
 
@@ -203,9 +203,9 @@ CMD(ShaderDefine)
   --------------------*/
 CMD(ShaderUndefine)
 {
-	if (vArgList.size() < 1)
-		return false;
+    if (vArgList.size() < 1)
+        return false;
 
-	g_ShaderPreprocessor.Undefine(TStringToString(vArgList[0]));
-	return true;
+    g_ShaderPreprocessor.Undefine(TStringToString(vArgList[0]));
+    return true;
 }

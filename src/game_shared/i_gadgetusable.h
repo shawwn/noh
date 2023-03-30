@@ -17,28 +17,28 @@
 class IGadgetUsable : public IGadgetEntity
 {
 protected:
-	START_ENTITY_CONFIG(IGadgetEntity)
-		DECLARE_ENTITY_CVAR(tstring, UseEffectPath)
-		DECLARE_ENTITY_CVAR(float, UseExperience)
-	END_ENTITY_CONFIG
+    START_ENTITY_CONFIG(IGadgetEntity)
+        DECLARE_ENTITY_CVAR(tstring, UseEffectPath)
+        DECLARE_ENTITY_CVAR(float, UseExperience)
+    END_ENTITY_CONFIG
 
-	CEntityConfig*	m_pEntityConfig;
+    CEntityConfig*  m_pEntityConfig;
 
 public:
-	virtual ~IGadgetUsable()	{}
-	IGadgetUsable(CEntityConfig *pConfig) :
-	IGadgetEntity(pConfig),
-	m_pEntityConfig(pConfig)
-	{
-		m_vCounterLabels.push_back(_T("Unique users"));
-		m_auiCounter[0] = 0;
-	}
+    virtual ~IGadgetUsable()    {}
+    IGadgetUsable(CEntityConfig *pConfig) :
+    IGadgetEntity(pConfig),
+    m_pEntityConfig(pConfig)
+    {
+        m_vCounterLabels.push_back(_T("Unique users"));
+        m_auiCounter[0] = 0;
+    }
 
-	virtual bool	Use(IGameEntity *pActivator);
-	virtual bool	UseEffect(IGameEntity *pActivator) = 0;
+    virtual bool    Use(IGameEntity *pActivator);
+    virtual bool    UseEffect(IGameEntity *pActivator) = 0;
 
-	static void	ClientPrecache(CEntityConfig *pConfig);
-	static void	ServerPrecache(CEntityConfig *pConfig);
+    static void ClientPrecache(CEntityConfig *pConfig);
+    static void ServerPrecache(CEntityConfig *pConfig);
 };
 //=============================================================================
 

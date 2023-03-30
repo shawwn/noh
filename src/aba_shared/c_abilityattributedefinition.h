@@ -25,12 +25,12 @@ DECLARE_ENTITY_DEFINITION_XML_PROCESSOR(IEntityAbilityAttribute, AbilityAttribut
 class CAbilityAttributeDefinition : public CAbilityDefinition
 {
 public:
-	~CAbilityAttributeDefinition()	{}
-	CAbilityAttributeDefinition() :
-	CAbilityDefinition(&g_allocatorAbilityAttribute)
-	{}
+    ~CAbilityAttributeDefinition()  {}
+    CAbilityAttributeDefinition() :
+    CAbilityDefinition(&g_allocatorAbilityAttribute)
+    {}
 
-	IEntityDefinition*	GetCopy() const	{ return K2_NEW(g_heapResources,    CAbilityAttributeDefinition)(*this); }
+    IEntityDefinition*  GetCopy() const { return K2_NEW(g_heapResources,    CAbilityAttributeDefinition)(*this); }
 };
 //=============================================================================
 

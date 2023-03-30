@@ -36,5 +36,5 @@ CStateShieldTower::CStateShieldTower() :
 IEntityState(GetEntityConfig()),
 m_pEntityConfig(GetEntityConfig())
 {
-	m_modArmor.SetAdd(m_pEntityConfig->GetArmorBuff());
+    m_modArmor.SetAdd(m_pEntityConfig->GetArmorBuff());
 }

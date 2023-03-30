@@ -17,15 +17,15 @@
 class CGadgetFireRain : public IGadgetEntity
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Gadget, FireRain);
+    DECLARE_ENT_ALLOCATOR2(Gadget, FireRain);
 
 public:
-	~CGadgetFireRain()	{}
-	CGadgetFireRain() :
-	IGadgetEntity(GetEntityConfig())
-	{}
+    ~CGadgetFireRain()  {}
+    CGadgetFireRain() :
+    IGadgetEntity(GetEntityConfig())
+    {}
 
-	GAME_SHARED_API virtual bool	AIShouldTarget()			{ return false; }
+    GAME_SHARED_API virtual bool    AIShouldTarget()            { return false; }
 };
 //=============================================================================
 

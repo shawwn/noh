@@ -20,7 +20,7 @@ DEFINE_ENT_ALLOCATOR2(Trigger, SpawnPoint)
 /*====================
   CTriggerSpawnPoint::ApplyWorldEntity
   ====================*/
-void	CTriggerSpawnPoint::ApplyWorldEntity(const CWorldEntity &ent)
+void    CTriggerSpawnPoint::ApplyWorldEntity(const CWorldEntity &ent)
 {
-	IVisualEntity::ApplyWorldEntity(ent);
+    IVisualEntity::ApplyWorldEntity(ent);
 }

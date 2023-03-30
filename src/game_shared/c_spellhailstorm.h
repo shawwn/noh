@@ -17,15 +17,15 @@
 class CSpellHailStorm : public ISpellItem
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Spell, HailStorm)
+    DECLARE_ENT_ALLOCATOR2(Spell, HailStorm)
 
 public:
-	~CSpellHailStorm()	{}
-	CSpellHailStorm() :
-	ISpellItem(GetEntityConfig())
-	{}
+    ~CSpellHailStorm()  {}
+    CSpellHailStorm() :
+    ISpellItem(GetEntityConfig())
+    {}
 
-	bool	TryImpact();
+    bool    TryImpact();
 };
 //=============================================================================
 

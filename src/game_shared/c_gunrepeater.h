@@ -17,11 +17,11 @@
 class CGunRepeater : public IGunItem
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Gun, Repeater);
+    DECLARE_ENT_ALLOCATOR2(Gun, Repeater);
 
 public:
-	~CGunRepeater()	{}
-	CGunRepeater() : IGunItem(GetEntityConfig()) {}
+    ~CGunRepeater() {}
+    CGunRepeater() : IGunItem(GetEntityConfig()) {}
 };
 //=============================================================================
 

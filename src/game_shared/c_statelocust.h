@@ -17,16 +17,16 @@
 class CStateLocust : public IEntityState
 {
 private:
-	START_ENTITY_CONFIG(IEntityState)
-	END_ENTITY_CONFIG
+    START_ENTITY_CONFIG(IEntityState)
+    END_ENTITY_CONFIG
 
-	CEntityConfig*	m_pEntityConfig;
+    CEntityConfig*  m_pEntityConfig;
 
-	DECLARE_ENT_ALLOCATOR2(State, Locust);
+    DECLARE_ENT_ALLOCATOR2(State, Locust);
 
 public:
-	~CStateLocust()	{}
-	CStateLocust();
+    ~CStateLocust() {}
+    CStateLocust();
 };
 //=============================================================================
 

@@ -16,28 +16,28 @@
 class CSphere
 {
 private:
-	CVec3f	m_vCenter;
-	float	m_fRadius;
+    CVec3f  m_vCenter;
+    float   m_fRadius;
 
 public:
-	~CSphere() {}
+    ~CSphere() {}
 
-	// Constructors
-	CSphere() {}
+    // Constructors
+    CSphere() {}
 
-	CSphere(const CVec3f &vCenter, float fRadius) :
-	m_vCenter(vCenter),
-	m_fRadius(fRadius)
-	{
-	}
+    CSphere(const CVec3f &vCenter, float fRadius) :
+    m_vCenter(vCenter),
+    m_fRadius(fRadius)
+    {
+    }
 
-	// Accessors
-	const CVec3f&	GetCenter() const	{ return m_vCenter; }
-	float			GetRadius() const	{ return m_fRadius; }
+    // Accessors
+    const CVec3f&   GetCenter() const   { return m_vCenter; }
+    float           GetRadius() const   { return m_fRadius; }
 
-	// Mutators
-	void			SetCenter(const CVec3f &vCenter) { m_vCenter = vCenter; }
-	void			SetRadius(float fRadius) { m_fRadius = fRadius; }
+    // Mutators
+    void            SetCenter(const CVec3f &vCenter) { m_vCenter = vCenter; }
+    void            SetRadius(float fRadius) { m_fRadius = fRadius; }
 };
 //=============================================================================
 #endif // __C_SPHERE_H__

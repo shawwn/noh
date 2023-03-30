@@ -17,12 +17,12 @@
 class CConsumableStoneHide : public IConsumableItem
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Consumable, StoneHide);
+    DECLARE_ENT_ALLOCATOR2(Consumable, StoneHide);
 
 public:
-	~CConsumableStoneHide() {}
-	CConsumableStoneHide() :
-	IConsumableItem(GetEntityConfig()) {}
+    ~CConsumableStoneHide() {}
+    CConsumableStoneHide() :
+    IConsumableItem(GetEntityConfig()) {}
 };
 //=============================================================================
 

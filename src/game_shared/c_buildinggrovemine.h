@@ -17,13 +17,13 @@
 class CBuildingGroveMine : public IBuildingMine
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Building, GroveMine)
+    DECLARE_ENT_ALLOCATOR2(Building, GroveMine)
 
 public:
-	~CBuildingGroveMine()	{}
-	CBuildingGroveMine() :
-	IBuildingMine(GetEntityConfig())
-	{}
+    ~CBuildingGroveMine()   {}
+    CBuildingGroveMine() :
+    IBuildingMine(GetEntityConfig())
+    {}
 };
 //=============================================================================
 

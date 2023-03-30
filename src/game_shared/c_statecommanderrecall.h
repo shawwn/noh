@@ -17,28 +17,28 @@
 class CStateCommanderRecall : public IEntityState
 {
 private:
-	START_ENTITY_CONFIG(IEntityState)
-		DECLARE_ENTITY_CVAR(uint, ActivationDelay)
-		DECLARE_ENTITY_CVAR(tstring, ActivationEffect)
-		DECLARE_ENTITY_CVAR(tstring, TerminationEffect)
-	END_ENTITY_CONFIG
+    START_ENTITY_CONFIG(IEntityState)
+        DECLARE_ENTITY_CVAR(uint, ActivationDelay)
+        DECLARE_ENTITY_CVAR(tstring, ActivationEffect)
+        DECLARE_ENTITY_CVAR(tstring, TerminationEffect)
+    END_ENTITY_CONFIG
 
-	CEntityConfig*	m_pEntityConfig;
+    CEntityConfig*  m_pEntityConfig;
 
-	DECLARE_ENT_ALLOCATOR2(State, CommanderRecall)
+    DECLARE_ENT_ALLOCATOR2(State, CommanderRecall)
 
-	uint			m_uiActivationTime;
+    uint            m_uiActivationTime;
 
 public:
-	~CStateCommanderRecall()	{}
-	CStateCommanderRecall() :
-	IEntityState(GetEntityConfig()),
-	m_pEntityConfig(GetEntityConfig()),
-	m_uiActivationTime(0)
-	{}
+    ~CStateCommanderRecall()    {}
+    CStateCommanderRecall() :
+    IEntityState(GetEntityConfig()),
+    m_pEntityConfig(GetEntityConfig()),
+    m_uiActivationTime(0)
+    {}
 
-	void	StateFrame();
-	bool	Use(IGameEntity *pActivator);
+    void    StateFrame();
+    bool    Use(IGameEntity *pActivator);
 };
 //=============================================================================
 

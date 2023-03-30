@@ -17,11 +17,11 @@
 class CPetSavage : public IPetEntity
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Pet, Savage);
+    DECLARE_ENT_ALLOCATOR2(Pet, Savage);
 
 public:
-	~CPetSavage()	{}
-	CPetSavage() : IPetEntity(GetEntityConfig()) {}
+    ~CPetSavage()   {}
+    CPetSavage() : IPetEntity(GetEntityConfig()) {}
 };
 //=============================================================================
 

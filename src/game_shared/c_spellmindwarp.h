@@ -17,13 +17,13 @@
 class CSpellMindWarp : public ISpellItem
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Spell, MindWarp)
+    DECLARE_ENT_ALLOCATOR2(Spell, MindWarp)
 
 public:
-	~CSpellMindWarp()	{}
-	CSpellMindWarp() :
-	ISpellItem(GetEntityConfig())
-	{}
+    ~CSpellMindWarp()   {}
+    CSpellMindWarp() :
+    ISpellItem(GetEntityConfig())
+    {}
 };
 //=============================================================================
 

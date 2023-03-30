@@ -10,15 +10,15 @@
 //=============================================================================
 class CGfxInit
 {
-	SINGLETON_DEF(CGfxInit)
+    SINGLETON_DEF(CGfxInit)
 
 protected:
 
 public:
-	~CGfxInit();
+    ~CGfxInit();
 
-	void	Init();
-	void	Start();
+    void    Init();
+    void    Start();
 };
 extern CGfxInit *GfxInit;
 //=============================================================================

@@ -17,13 +17,13 @@
 class CSkillBearlothSlam : public ISkillMelee
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Skill, BearlothSlam);
+    DECLARE_ENT_ALLOCATOR2(Skill, BearlothSlam);
 
 public:
-	~CSkillBearlothSlam()	{}
-	CSkillBearlothSlam() :
-	ISkillMelee(GetEntityConfig())
-	{}
+    ~CSkillBearlothSlam()   {}
+    CSkillBearlothSlam() :
+    ISkillMelee(GetEntityConfig())
+    {}
 };
 //=============================================================================
 

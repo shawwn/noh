@@ -17,13 +17,13 @@
 class CSpellSummonImp : public ISpellSummon
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Spell, SummonImp);
+    DECLARE_ENT_ALLOCATOR2(Spell, SummonImp);
 
 public:
-	~CSpellSummonImp()	{}
-	CSpellSummonImp() :
-	ISpellSummon(GetEntityConfig())
-	{}
+    ~CSpellSummonImp()  {}
+    CSpellSummonImp() :
+    ISpellSummon(GetEntityConfig())
+    {}
 };
 //=============================================================================
 

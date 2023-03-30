@@ -17,15 +17,15 @@
 class CSpellCommanderDispel : public ISpellItem
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Spell, CommanderDispel)
+    DECLARE_ENT_ALLOCATOR2(Spell, CommanderDispel)
 
 public:
-	~CSpellCommanderDispel()	{}
-	CSpellCommanderDispel() :
-	ISpellItem(GetEntityConfig())
-	{}
+    ~CSpellCommanderDispel()    {}
+    CSpellCommanderDispel() :
+    ISpellItem(GetEntityConfig())
+    {}
 
-	virtual bool	ImpactEntity(uint uiTargetIndex, CGameEvent &evImpact, bool bCheckTarget = true);
+    virtual bool    ImpactEntity(uint uiTargetIndex, CGameEvent &evImpact, bool bCheckTarget = true);
 };
 //=============================================================================
 

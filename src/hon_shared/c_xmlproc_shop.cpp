@@ -21,26 +21,26 @@
 DEFINE_DEFINITION_TYPE_INFO(CShopDefinition, ENTITY_BASE_TYPE_SHOP, Shop)
 
 START_ENTITY_DEFINITION_XML_PROCESSOR(IShopEntity, Shop)
-	pDefinition->SetDisplayNamePriority(pDefinition->GetPriority());
-	pDefinition->SetDescriptionPriority(pDefinition->GetPriority());
+    pDefinition->SetDisplayNamePriority(pDefinition->GetPriority());
+    pDefinition->SetDescriptionPriority(pDefinition->GetPriority());
 
-	READ_ENTITY_DEFINITION_PROPERTY(Style, style)
-	READ_ENTITY_DEFINITION_PROPERTY(Header, header)
-	READ_ENTITY_DEFINITION_PROPERTY(Icon, icon)
-	READ_ENTITY_DEFINITION_PROPERTY(AllowRemoteAccess, allowremoteaccess)
-	READ_ENTITY_DEFINITION_PROPERTY(Order, order)
-	READ_ENTITY_DEFINITION_PROPERTY(Slot, slot)
-	READ_ENTITY_DEFINITION_PROPERTY(RecommendedItems, recommendeditems)
+    READ_ENTITY_DEFINITION_PROPERTY(Style, style)
+    READ_ENTITY_DEFINITION_PROPERTY(Header, header)
+    READ_ENTITY_DEFINITION_PROPERTY(Icon, icon)
+    READ_ENTITY_DEFINITION_PROPERTY(AllowRemoteAccess, allowremoteaccess)
+    READ_ENTITY_DEFINITION_PROPERTY(Order, order)
+    READ_ENTITY_DEFINITION_PROPERTY(Slot, slot)
+    READ_ENTITY_DEFINITION_PROPERTY(RecommendedItems, recommendeditems)
 END_ENTITY_DEFINITION_XML_PROCESSOR(Shop, shop)
 
 // <item>
 DECLARE_XML_PROCESSOR(item)
 BEGIN_XML_REGISTRATION(item)
-	REGISTER_XML_PROCESSOR_EX(XMLShop, shop)
+    REGISTER_XML_PROCESSOR_EX(XMLShop, shop)
 END_XML_REGISTRATION
 BEGIN_XML_PROCESSOR(item, CShopDefinition)
-	const tstring &sName(node.GetProperty(_T("name")));
-	if (sName.empty())
-		return false;
-	pObject->AddItem(sName);
+    const tstring &sName(node.GetProperty(_T("name")));
+    if (sName.empty())
+        return false;
+    pObject->AddItem(sName);
 END_XML_PROCESSOR_NO_CHILDREN

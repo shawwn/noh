@@ -34,28 +34,28 @@ CSoundEmitterDef::~CSoundEmitterDef()
   ====================*/
 CSoundEmitterDef::CSoundEmitterDef
 (
-	const CRangei &riLife,
-	const CRangei &riExpireLife,
-	const CRangei &riTimeNudge,
-	const CRangei &riDelay,
-	bool bLoop,
-	int iFadeIn,
-	int iFadeOutStartTime,
-	int iFadeOut,
-	const tstring &sBone,
-	const CVec3f &v3Pos,
-	const CVec3f &v3Offset,
-	const CRangef &rfFalloff,
-	const CRangef &rfVolume,
-	const CTemporalPropertyRangef &trfPitch,
-	uint uiSoundFlags,
-	ResHandle hSample,
-	const CRangef &rfSpeed1,
-	const CRangef &rfSpeed2,
-	int iSpeedUpTime,
-	int iSlowDownTime,
-	const CRangef &rfFalloffStart,
-	const CRangef &rfFalloffEnd
+    const CRangei &riLife,
+    const CRangei &riExpireLife,
+    const CRangei &riTimeNudge,
+    const CRangei &riDelay,
+    bool bLoop,
+    int iFadeIn,
+    int iFadeOutStartTime,
+    int iFadeOut,
+    const tstring &sBone,
+    const CVec3f &v3Pos,
+    const CVec3f &v3Offset,
+    const CRangef &rfFalloff,
+    const CRangef &rfVolume,
+    const CTemporalPropertyRangef &trfPitch,
+    uint uiSoundFlags,
+    ResHandle hSample,
+    const CRangef &rfSpeed1,
+    const CRangef &rfSpeed2,
+    int iSpeedUpTime,
+    int iSlowDownTime,
+    const CRangef &rfFalloffStart,
+    const CRangef &rfFalloffEnd
 ) :
 m_riLife(riLife),
 m_riExpireLife(riExpireLife),
@@ -86,11 +86,11 @@ m_rfFalloffEnd(rfFalloffEnd)
 /*====================
   CSoundEmitterDef::Spawn
   ====================*/
-IEmitter*	CSoundEmitterDef::Spawn(uint uiStartTime, CParticleSystem *pParticleSystem, IEmitter *pOwner)
+IEmitter*   CSoundEmitterDef::Spawn(uint uiStartTime, CParticleSystem *pParticleSystem, IEmitter *pOwner)
 {
-	PROFILE("CSoundEmitterDef::Spawn");
+    PROFILE("CSoundEmitterDef::Spawn");
 
-	return K2_NEW(ctx_Effects, CSoundEmitter)(uiStartTime, pParticleSystem, pOwner, *this);
+    return K2_NEW(ctx_Effects, CSoundEmitter)(uiStartTime, pParticleSystem, pOwner, *this);
 }
 
 
@@ -99,8 +99,8 @@ IEmitter*	CSoundEmitterDef::Spawn(uint uiStartTime, CParticleSystem *pParticleSy
   ====================*/
 CSoundEmitter::~CSoundEmitter()
 {
-	if (m_hSoundHandle != INVALID_INDEX)
-		K2SoundManager.StopHandle(m_hSoundHandle);
+    if (m_hSoundHandle != INVALID_INDEX)
+        K2SoundManager.StopHandle(m_hSoundHandle);
 }
 
 
@@ -110,21 +110,21 @@ CSoundEmitter::~CSoundEmitter()
 CSoundEmitter::CSoundEmitter(uint uiStartTime, CParticleSystem *pParticleSystem, IEmitter *pOwner, const CSoundEmitterDef &eSettings) :
 IEmitter
 (
-	eSettings.GetLife(),
-	eSettings.GetExpireLife(),
-	eSettings.GetTimeNudge(),
-	eSettings.GetDelay(),
-	eSettings.GetLoop(),
-	TSNULL,
-	_T("source"),
-	eSettings.GetBone(),
-	eSettings.GetPos(),
-	eSettings.GetOffset(),
-	DIRSPACE_GLOBAL,
-	&eSettings.GetParticleDefinitions(),
-	pParticleSystem,
-	pOwner,
-	uiStartTime
+    eSettings.GetLife(),
+    eSettings.GetExpireLife(),
+    eSettings.GetTimeNudge(),
+    eSettings.GetDelay(),
+    eSettings.GetLoop(),
+    TSNULL,
+    _T("source"),
+    eSettings.GetBone(),
+    eSettings.GetPos(),
+    eSettings.GetOffset(),
+    DIRSPACE_GLOBAL,
+    &eSettings.GetParticleDefinitions(),
+    pParticleSystem,
+    pOwner,
+    uiStartTime
 ),
 m_rfFalloff(eSettings.GetFalloff()),
 m_rfVolume(eSettings.GetVolume()),
@@ -142,113 +142,113 @@ m_rfFalloffStart(eSettings.GetFalloffStart()),
 m_rfFalloffEnd(eSettings.GetFalloffEnd()),
 m_bStarted(false)
 {
-	m_v3LastPos = GetPosition();
-	m_fLastScale = GetScale();
+    m_v3LastPos = GetPosition();
+    m_fLastScale = GetScale();
 
-	/*if (!m_iDelay)
-	{
-		if (m_iSoundFlags & SND_2D)
-			m_hSoundHandle = K2SoundManager.Play2DSFXSound(m_hSample, m_rfVolume, -1, 128, (m_iSoundFlags & SND_LOOP) == SND_LOOP, m_iFadeIn, m_iFadeOutStartTime, m_iFadeOut, m_iSpeedUpTime, m_rfSpeed1, m_rfSpeed2, m_iSlowDownTime);
-		else if (m_iSoundFlags & (SND_LINEARFALLOFF | SND_SQUAREDFALLOFF))
-			m_hSoundHandle = K2SoundManager.PlaySFXSound(m_hSample, &m_v3LastPos, NULL, m_rfVolume, m_rfFalloffStart, -1, 128, m_iSoundFlags, m_iFadeIn, m_iFadeOutStartTime, m_iFadeOut, m_iSpeedUpTime, m_rfSpeed1, m_rfSpeed2, m_iSlowDownTime, m_rfFalloffEnd);
-		else
-			m_hSoundHandle = K2SoundManager.PlaySFXSound(m_hSample, &m_v3LastPos, NULL, m_rfVolume, m_rfFalloff, -1, 128, m_iSoundFlags, m_iFadeIn, m_iFadeOutStartTime, m_iFadeOut, m_iSpeedUpTime, m_rfSpeed1, m_rfSpeed2, m_iSlowDownTime, m_rfFalloffEnd);
-		m_bStarted = true;
-	}*/
+    /*if (!m_iDelay)
+    {
+        if (m_iSoundFlags & SND_2D)
+            m_hSoundHandle = K2SoundManager.Play2DSFXSound(m_hSample, m_rfVolume, -1, 128, (m_iSoundFlags & SND_LOOP) == SND_LOOP, m_iFadeIn, m_iFadeOutStartTime, m_iFadeOut, m_iSpeedUpTime, m_rfSpeed1, m_rfSpeed2, m_iSlowDownTime);
+        else if (m_iSoundFlags & (SND_LINEARFALLOFF | SND_SQUAREDFALLOFF))
+            m_hSoundHandle = K2SoundManager.PlaySFXSound(m_hSample, &m_v3LastPos, NULL, m_rfVolume, m_rfFalloffStart, -1, 128, m_iSoundFlags, m_iFadeIn, m_iFadeOutStartTime, m_iFadeOut, m_iSpeedUpTime, m_rfSpeed1, m_rfSpeed2, m_iSlowDownTime, m_rfFalloffEnd);
+        else
+            m_hSoundHandle = K2SoundManager.PlaySFXSound(m_hSample, &m_v3LastPos, NULL, m_rfVolume, m_rfFalloff, -1, 128, m_iSoundFlags, m_iFadeIn, m_iFadeOutStartTime, m_iFadeOut, m_iSpeedUpTime, m_rfSpeed1, m_rfSpeed2, m_iSlowDownTime, m_rfFalloffEnd);
+        m_bStarted = true;
+    }*/
 
-	m_uiLastUpdateTime -= m_iTimeNudge;
+    m_uiLastUpdateTime -= m_iTimeNudge;
 
-	m_uiStartTime += m_iDelay;
-	m_uiLastUpdateTime += m_iDelay;
+    m_uiStartTime += m_iDelay;
+    m_uiLastUpdateTime += m_iDelay;
 }
 
 
 /*====================
   CSoundEmitter::Update
   ====================*/
-bool	CSoundEmitter::Update(uint uiMilliseconds, ParticleTraceFn_t pfnTrace)
+bool    CSoundEmitter::Update(uint uiMilliseconds, ParticleTraceFn_t pfnTrace)
 {
-	PROFILE("CSoundEmitter::Update");
+    PROFILE("CSoundEmitter::Update");
 
-	if (m_uiPauseBegin)
-		ResumeFromPause(uiMilliseconds);
+    if (m_uiPauseBegin)
+        ResumeFromPause(uiMilliseconds);
 
-	int iDeltaTime(uiMilliseconds - m_uiLastUpdateTime);
+    int iDeltaTime(uiMilliseconds - m_uiLastUpdateTime);
 
-	if (iDeltaTime <= 0)
-	{
-		UpdateNextEmitter(uiMilliseconds, pfnTrace);
-		return true;
-	}
+    if (iDeltaTime <= 0)
+    {
+        UpdateNextEmitter(uiMilliseconds, pfnTrace);
+        return true;
+    }
 
-	if (!m_bStarted)
-	{
-		if (m_iSoundFlags & SND_2D)
-			m_hSoundHandle = K2SoundManager.Play2DSFXSound(m_hSample, m_rfVolume, -1, 128, (m_iSoundFlags & SND_LOOP) == SND_LOOP, m_iFadeIn, m_iFadeOutStartTime, m_iFadeOut, m_iSpeedUpTime, m_rfSpeed1, m_rfSpeed2, m_iSlowDownTime);
-		else if (m_iSoundFlags & (SND_LINEARFALLOFF | SND_SQUAREDFALLOFF))
-			m_hSoundHandle = K2SoundManager.PlaySFXSound(m_hSample, &m_v3LastPos, NULL, m_rfVolume, m_rfFalloffStart, -1, 128, m_iSoundFlags, m_iFadeIn, m_iFadeOutStartTime, m_iFadeOut, m_iSpeedUpTime, m_rfSpeed1, m_rfSpeed2, m_iSlowDownTime, m_rfFalloffEnd);
-		else
-			m_hSoundHandle = K2SoundManager.PlaySFXSound(m_hSample, &m_v3LastPos, NULL, m_rfVolume, m_rfFalloff, -1, 128, m_iSoundFlags, m_iFadeIn, m_iFadeOutStartTime, m_iFadeOut, m_iSpeedUpTime, m_rfSpeed1, m_rfSpeed2, m_iSlowDownTime, m_rfFalloffEnd);
-		m_bStarted = true;
-	}
+    if (!m_bStarted)
+    {
+        if (m_iSoundFlags & SND_2D)
+            m_hSoundHandle = K2SoundManager.Play2DSFXSound(m_hSample, m_rfVolume, -1, 128, (m_iSoundFlags & SND_LOOP) == SND_LOOP, m_iFadeIn, m_iFadeOutStartTime, m_iFadeOut, m_iSpeedUpTime, m_rfSpeed1, m_rfSpeed2, m_iSlowDownTime);
+        else if (m_iSoundFlags & (SND_LINEARFALLOFF | SND_SQUAREDFALLOFF))
+            m_hSoundHandle = K2SoundManager.PlaySFXSound(m_hSample, &m_v3LastPos, NULL, m_rfVolume, m_rfFalloffStart, -1, 128, m_iSoundFlags, m_iFadeIn, m_iFadeOutStartTime, m_iFadeOut, m_iSpeedUpTime, m_rfSpeed1, m_rfSpeed2, m_iSlowDownTime, m_rfFalloffEnd);
+        else
+            m_hSoundHandle = K2SoundManager.PlaySFXSound(m_hSample, &m_v3LastPos, NULL, m_rfVolume, m_rfFalloff, -1, 128, m_iSoundFlags, m_iFadeIn, m_iFadeOutStartTime, m_iFadeOut, m_iSpeedUpTime, m_rfSpeed1, m_rfSpeed2, m_iSlowDownTime, m_rfFalloffEnd);
+        m_bStarted = true;
+    }
 
-	// mute the sound if the particle system is not visible
-	K2SoundManager.SetMute(m_hSoundHandle, !m_pParticleSystem->GetCustomVisibility());
-	
-	// Kill us if we've lived out our entire life
-	if (m_iLife != -1 && (uiMilliseconds > m_iLife + m_uiStartTime))
-	{
-		if (m_bLoop)
-		{
-			m_uiStartTime += m_iLife * ((uiMilliseconds - m_uiStartTime) / m_iLife);
-		}
-		else
-		{
-			m_bActive = false;
-		}
-		return false;
-	}
+    // mute the sound if the particle system is not visible
+    K2SoundManager.SetMute(m_hSoundHandle, !m_pParticleSystem->GetCustomVisibility());
+    
+    // Kill us if we've lived out our entire life
+    if (m_iLife != -1 && (uiMilliseconds > m_iLife + m_uiStartTime))
+    {
+        if (m_bLoop)
+        {
+            m_uiStartTime += m_iLife * ((uiMilliseconds - m_uiStartTime) / m_iLife);
+        }
+        else
+        {
+            m_bActive = false;
+        }
+        return false;
+    }
 
-	//float fDeltaTime(iDeltaTime * SEC_PER_MS);
+    //float fDeltaTime(iDeltaTime * SEC_PER_MS);
 
-	m_uiLastUpdateTime = uiMilliseconds;
+    m_uiLastUpdateTime = uiMilliseconds;
 
-	m_bActive = m_pParticleSystem->GetActive() && m_uiExpireTime == INVALID_TIME;
+    m_bActive = m_pParticleSystem->GetActive() && m_uiExpireTime == INVALID_TIME;
 
-	if (!GetVisibility())
-		m_bActive = false;
+    if (!GetVisibility())
+        m_bActive = false;
 
-	CVec3f v3Pos(GetPosition());
-	CAxis aAxis(GetAxis());
-	float fScale(GetScale());
+    CVec3f v3Pos(GetPosition());
+    CAxis aAxis(GetAxis());
+    float fScale(GetScale());
 
-	v3Pos = TransformPoint(GetBonePosition(uiMilliseconds, m_pOwner, m_sBone), aAxis, v3Pos, fScale);
+    v3Pos = TransformPoint(GetBonePosition(uiMilliseconds, m_pOwner, m_sBone), aAxis, v3Pos, fScale);
 
-	m_aLastAxis = aAxis;
-	m_v3LastPos = v3Pos;
-	m_fLastScale = fScale;
+    m_aLastAxis = aAxis;
+    m_v3LastPos = v3Pos;
+    m_fLastScale = fScale;
 
-	UpdateNextEmitter(uiMilliseconds, pfnTrace);
+    UpdateNextEmitter(uiMilliseconds, pfnTrace);
 
-	if (m_uiExpireTime != INVALID_TIME && (m_iLife == -1 || m_bLoop))
-		return false;
+    if (m_uiExpireTime != INVALID_TIME && (m_iLife == -1 || m_bLoop))
+        return false;
 
-	CVec3f v3WorldPos(m_v3LastPos);
+    CVec3f v3WorldPos(m_v3LastPos);
 
-	switch (m_pParticleSystem->GetSpace())
-	{
-	case WORLD_SPACE:
-		{
-		} break;
-	case ENTITY_SPACE:
-		{
-			const CVec3f	&v3Pos(m_pParticleSystem->GetSourcePosition());
-			const CAxis		&aAxis(m_pParticleSystem->GetSourceAxis());
-			float			fScale(m_pParticleSystem->GetSourceScale());
+    switch (m_pParticleSystem->GetSpace())
+    {
+    case WORLD_SPACE:
+        {
+        } break;
+    case ENTITY_SPACE:
+        {
+            const CVec3f    &v3Pos(m_pParticleSystem->GetSourcePosition());
+            const CAxis     &aAxis(m_pParticleSystem->GetSourceAxis());
+            float           fScale(m_pParticleSystem->GetSourceScale());
 
-			v3WorldPos = TransformPoint(v3WorldPos, aAxis, v3Pos, fScale);
-		} break;
-	}
+            v3WorldPos = TransformPoint(v3WorldPos, aAxis, v3Pos, fScale);
+        } break;
+    }
 
-	return K2SoundManager.UpdateHandle(m_hSoundHandle, v3WorldPos, V3_ZERO, true);
+    return K2SoundManager.UpdateHandle(m_hSoundHandle, v3WorldPos, V3_ZERO, true);
 }

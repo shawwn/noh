@@ -22,17 +22,17 @@
 class CPointRenderer : public IDebugRenderer
 {
 private:
-	int		m_iNumPoints;
+    int     m_iNumPoints;
 
 public:
-	static CPool<CPointRenderer>		s_Pool;
-	
-	void*	operator new(size_t z); // Uses CPool of preallocated instances
-	
-	~CPointRenderer();
-	CPointRenderer(int iNumPoints);
+    static CPool<CPointRenderer>        s_Pool;
+    
+    void*   operator new(size_t z); // Uses CPool of preallocated instances
+    
+    ~CPointRenderer();
+    CPointRenderer(int iNumPoints);
 
-	void	Render(EMaterialPhase ePhase);
+    void    Render(EMaterialPhase ePhase);
 };
 //=============================================================================
 #endif //__C_POINTRENDERER_H__

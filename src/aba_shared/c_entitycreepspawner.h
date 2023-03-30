@@ -24,29 +24,29 @@ const uint NUM_CREEP_SPAWNER_TARGETS(4);
 class CEntityCreepSpawner : public IVisualEntity
 {
 protected:
-	DECLARE_ENT_ALLOCATOR2(Entity, CreepSpawner);
+    DECLARE_ENT_ALLOCATOR2(Entity, CreepSpawner);
 
-	CLane		m_cLane;
-	tstring		m_asTargets[NUM_CREEP_SPAWNER_TARGETS];
-	uint		m_auiTargetUIDs[NUM_CREEP_SPAWNER_TARGETS];
+    CLane       m_cLane;
+    tstring     m_asTargets[NUM_CREEP_SPAWNER_TARGETS];
+    uint        m_auiTargetUIDs[NUM_CREEP_SPAWNER_TARGETS];
 
 public:
-	~CEntityCreepSpawner()	{}
-	CEntityCreepSpawner();
+    ~CEntityCreepSpawner()  {}
+    CEntityCreepSpawner();
 
-	virtual bool			IsServerEntity() const			{ return true; }
+    virtual bool            IsServerEntity() const          { return true; }
 
-	virtual void			ApplyWorldEntity(const CWorldEntity &ent);
+    virtual void            ApplyWorldEntity(const CWorldEntity &ent);
 
-	virtual void			Spawn();
+    virtual void            Spawn();
 
-	virtual void			GameStart();
+    virtual void            GameStart();
 
-	void					SetTarget(uint uiIndex, const tstring &sTarget)	{ m_asTargets[CLAMP(uiIndex, 0u, NUM_CREEP_SPAWNER_TARGETS)] = sTarget; }
-	const tstring&			GetTarget(uint uiIndex) const					{ return m_asTargets[CLAMP(uiIndex, 0u, NUM_CREEP_SPAWNER_TARGETS)]; }
-	uint					GetTargetUID(uint uiIndex) const				{ return m_auiTargetUIDs[CLAMP(uiIndex, 0u, NUM_CREEP_SPAWNER_TARGETS)]; }
+    void                    SetTarget(uint uiIndex, const tstring &sTarget) { m_asTargets[CLAMP(uiIndex, 0u, NUM_CREEP_SPAWNER_TARGETS)] = sTarget; }
+    const tstring&          GetTarget(uint uiIndex) const                   { return m_asTargets[CLAMP(uiIndex, 0u, NUM_CREEP_SPAWNER_TARGETS)]; }
+    uint                    GetTargetUID(uint uiIndex) const                { return m_auiTargetUIDs[CLAMP(uiIndex, 0u, NUM_CREEP_SPAWNER_TARGETS)]; }
 
-	CLane&	GetLane()		{ return m_cLane; }
+    CLane&  GetLane()       { return m_cLane; }
 };
 //=============================================================================
 

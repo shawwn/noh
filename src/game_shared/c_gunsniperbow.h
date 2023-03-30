@@ -17,15 +17,15 @@
 class CGunSniperBow : public IGunItem
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Gun, SniperBow);
+    DECLARE_ENT_ALLOCATOR2(Gun, SniperBow);
 
 public:
-	~CGunSniperBow()	{}
-	CGunSniperBow() :
-	IGunItem(GetEntityConfig())
-	{}
+    ~CGunSniperBow()    {}
+    CGunSniperBow() :
+    IGunItem(GetEntityConfig())
+    {}
 
-	virtual bool	ActivateSecondary(int iButtonStatus);
+    virtual bool    ActivateSecondary(int iButtonStatus);
 };
 //=============================================================================
 

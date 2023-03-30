@@ -17,13 +17,13 @@
 class CMeleeTree : public IMeleeItem
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Melee, Tree);
+    DECLARE_ENT_ALLOCATOR2(Melee, Tree);
 
 public:
-	~CMeleeTree()	{}
-	CMeleeTree() :
-	IMeleeItem(GetEntityConfig())
-	{}
+    ~CMeleeTree()   {}
+    CMeleeTree() :
+    IMeleeItem(GetEntityConfig())
+    {}
 };
 //=============================================================================
 

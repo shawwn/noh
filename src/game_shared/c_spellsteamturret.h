@@ -17,13 +17,13 @@
 class CSpellSteamTurret : public ISpellItem
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Spell, SteamTurret);
+    DECLARE_ENT_ALLOCATOR2(Spell, SteamTurret);
 
 public:
-	~CSpellSteamTurret()	{}
-	CSpellSteamTurret() :
-	ISpellItem(GetEntityConfig())
-	{}
+    ~CSpellSteamTurret()    {}
+    CSpellSteamTurret() :
+    ISpellItem(GetEntityConfig())
+    {}
 };
 //=============================================================================
 

@@ -13,59 +13,59 @@
 //=============================================================================
 // Definitions
 //=============================================================================
-typedef map<tstring, class IXMLProcessor*>	XMLProcessorMap;
-typedef XMLProcessorMap::iterator			XMLProcessorMap_it;
+typedef map<tstring, class IXMLProcessor*>  XMLProcessorMap;
+typedef XMLProcessorMap::iterator           XMLProcessorMap_it;
 
 // _BEGIN_XML_PROCESSOR_DECLARATION
 #define _BEGIN_XML_PROCESSOR_DECLARATION(name) \
 { \
 private: \
-	CXMLProcessor_##name(); \
-	CXMLProcessor_##name(const CXMLProcessor_##name&); \
-	CXMLProcessor_##name&	operator=(const CXMLProcessor_##name&); \
+    CXMLProcessor_##name(); \
+    CXMLProcessor_##name(const CXMLProcessor_##name&); \
+    CXMLProcessor_##name&   operator=(const CXMLProcessor_##name&); \
 \
-	static XMLProcessorMap*	s_pChildren; \
+    static XMLProcessorMap* s_pChildren; \
 \
-	static IXMLProcessor*	GetProcessor(const tstring &sElementName); \
+    static IXMLProcessor*   GetProcessor(const tstring &sElementName); \
 \
 public: \
-	~CXMLProcessor_##name() \
-	{ \
-		if (s_pChildren == NULL) \
-			return; \
+    ~CXMLProcessor_##name() \
+    { \
+        if (s_pChildren == NULL) \
+            return; \
 \
-		for (XMLProcessorMap_it it(s_pChildren->begin()); it != s_pChildren->end(); ++it) \
-			it->second->RemoveParent(s_pChildren); \
-	} \
+        for (XMLProcessorMap_it it(s_pChildren->begin()); it != s_pChildren->end(); ++it) \
+            it->second->RemoveParent(s_pChildren); \
+    } \
 \
-	CXMLProcessor_##name(const tstring &sElementName); \
+    CXMLProcessor_##name(const tstring &sElementName); \
 \
-	static void	RegisterProcessor(IXMLProcessor *pProcessor); \
+    static void RegisterProcessor(IXMLProcessor *pProcessor); \
 \
-	void	RemoveChild(const tstring &sName) \
-	{ \
-		if (s_pChildren == NULL) \
-			return; \
+    void    RemoveChild(const tstring &sName) \
+    { \
+        if (s_pChildren == NULL) \
+            return; \
 \
-		XMLProcessorMap_it itFind(s_pChildren->find(sName)); \
-		if (itFind != s_pChildren->end()) \
-			s_pChildren->erase(itFind); \
-	} \
+        XMLProcessorMap_it itFind(s_pChildren->find(sName)); \
+        if (itFind != s_pChildren->end()) \
+            s_pChildren->erase(itFind); \
+    } \
 \
-	void	ProcessChildren(const CXMLNode &node, void *pObject) \
-	{ \
-		const CXMLNode::List &lChildren(node.GetChildren()); \
-		for (CXMLNode::List_cit cit(lChildren.begin()), citEnd(lChildren.end()); cit != citEnd; ++cit) \
-		{ \
-			IXMLProcessor *pProcessor(GetProcessor(cit->GetName())); \
-			if (pProcessor == NULL) \
-				Console.Warn << _T("Unknown element ") << QuoteStr(cit->GetName()) << _T(" in ") << QuoteStr(m_sElementName) << newl; \
-			else \
-				pProcessor->Process(*cit, pObject, this); \
-		} \
-	} \
+    void    ProcessChildren(const CXMLNode &node, void *pObject) \
+    { \
+        const CXMLNode::List &lChildren(node.GetChildren()); \
+        for (CXMLNode::List_cit cit(lChildren.begin()), citEnd(lChildren.end()); cit != citEnd; ++cit) \
+        { \
+            IXMLProcessor *pProcessor(GetProcessor(cit->GetName())); \
+            if (pProcessor == NULL) \
+                Console.Warn << _T("Unknown element ") << QuoteStr(cit->GetName()) << _T(" in ") << QuoteStr(m_sElementName) << newl; \
+            else \
+                pProcessor->Process(*cit, pObject, this); \
+        } \
+    } \
 \
-	bool	Process(const CXMLNode &node, void *pVoid, IXMLProcessor *pParent);
+    bool    Process(const CXMLNode &node, void *pVoid, IXMLProcessor *pParent);
 
 // BEGIN_XML_PROCESSOR_DECLARATION
 #define BEGIN_XML_PROCESSOR_DECLARATION(name) \
@@ -79,7 +79,7 @@ _BEGIN_XML_PROCESSOR_DECLARATION(name)
 
 // DECLARE_XML_SUBPROCESSOR
 #define DECLARE_XML_SUBPROCESSOR(type) \
-	bool	Process(const CXMLNode &node, type *pObject);
+    bool    Process(const CXMLNode &node, type *pObject);
 
 // END_XML_PROCESSOR_DECLARATION
 #define END_XML_PROCESSOR_DECLARATION \
@@ -97,37 +97,37 @@ END_XML_PROCESSOR_DECLARATION
 
 // BEGIN_XML_REGISTRATION
 #define BEGIN_XML_REGISTRATION(name) \
-IXMLProcessor*	CXMLProcessor_##name::GetProcessor(const tstring &sElementName) \
+IXMLProcessor*  CXMLProcessor_##name::GetProcessor(const tstring &sElementName) \
 { \
-	if (s_pChildren == NULL) \
-		return NULL; \
+    if (s_pChildren == NULL) \
+        return NULL; \
 \
-	XMLProcessorMap_it itFind(s_pChildren->find(sElementName)); \
-	if (itFind == s_pChildren->end()) \
-		return NULL; \
+    XMLProcessorMap_it itFind(s_pChildren->find(sElementName)); \
+    if (itFind == s_pChildren->end()) \
+        return NULL; \
 \
-	return itFind->second; \
+    return itFind->second; \
 } \
 \
-void	CXMLProcessor_##name::RegisterProcessor(IXMLProcessor *pProcessor) \
+void    CXMLProcessor_##name::RegisterProcessor(IXMLProcessor *pProcessor) \
 { \
-	if (s_pChildren == NULL) \
-		s_pChildren = K2_NEW(ctx_Resources,  XMLProcessorMap); \
-	if (s_pChildren == NULL) \
-	{ \
-		Console.Err << _T("Failed to allocate a processor registry for xml processor: ") _T(#name) << newl; \
-		return; \
-	} \
+    if (s_pChildren == NULL) \
+        s_pChildren = K2_NEW(ctx_Resources,  XMLProcessorMap); \
+    if (s_pChildren == NULL) \
+    { \
+        Console.Err << _T("Failed to allocate a processor registry for xml processor: ") _T(#name) << newl; \
+        return; \
+    } \
 \
-	XMLProcessorMap_it itFind(s_pChildren->find(pProcessor->GetName())); \
-	if (itFind != s_pChildren->end()) \
-	{ \
-		Console.Err << _T("Duplicate XML processor, skipping registration: ") << pProcessor->GetName() << newl; \
-		return; \
-	} \
+    XMLProcessorMap_it itFind(s_pChildren->find(pProcessor->GetName())); \
+    if (itFind != s_pChildren->end()) \
+    { \
+        Console.Err << _T("Duplicate XML processor, skipping registration: ") << pProcessor->GetName() << newl; \
+        return; \
+    } \
 \
-	s_pChildren->insert(pair<tstring, IXMLProcessor*>(pProcessor->GetName(), pProcessor)); \
-	pProcessor->AddParent(s_pChildren); \
+    s_pChildren->insert(pair<tstring, IXMLProcessor*>(pProcessor->GetName(), pProcessor)); \
+    pProcessor->AddParent(s_pChildren); \
 } \
 \
 CXMLProcessor_##name::CXMLProcessor_##name(const tstring &sElementName) : \
@@ -148,41 +148,41 @@ namespace::CXMLProcessor_##parent::RegisterProcessor(this);
 
 // _BEGIN_XML_PROCESSOR
 #define _BEGIN_XML_PROCESSOR(name, object_type) \
-bool	CXMLProcessor_##name::Process(const CXMLNode &node, void *pVoid, IXMLProcessor *pParent) \
+bool    CXMLProcessor_##name::Process(const CXMLNode &node, void *pVoid, IXMLProcessor *pParent) \
 { \
-	object_type* pObject(static_cast<object_type*>(pVoid)); \
-	if (IsNull(pObject)) \
-		return false;
+    object_type* pObject(static_cast<object_type*>(pVoid)); \
+    if (IsNull(pObject)) \
+        return false;
  
 // BEGIN_XML_PROCESSOR
 #define BEGIN_XML_PROCESSOR(name, object_type) \
-XMLProcessorMap*		CXMLProcessor_##name::s_pChildren; \
-CXMLProcessor_##name	g_xmlproc_##name(_T(#name)); \
+XMLProcessorMap*        CXMLProcessor_##name::s_pChildren; \
+CXMLProcessor_##name    g_xmlproc_##name(_T(#name)); \
 _BEGIN_XML_PROCESSOR(name, object_type)
 
 // BEGIN_XML_SUBPROCESSOR
 #define BEGIN_XML_SUBPROCESSOR(name, object_type) \
-bool	CXMLProcessor_##name::Process(const CXMLNode &node, object_type *pObject) \
+bool    CXMLProcessor_##name::Process(const CXMLNode &node, object_type *pObject) \
 { \
-	if (pObject == NULL) \
-		return false;
+    if (pObject == NULL) \
+        return false;
 
 // END_XML_PROCESSOR
 #define END_XML_PROCESSOR(object) \
-	ProcessChildren(node, object); \
-	return true; \
+    ProcessChildren(node, object); \
+    return true; \
 }
 
 // END_XML_PROCESSOR
 #define END_XML_PROCESSOR_NO_CHILDREN \
-	return true; \
+    return true; \
 }
 
 template <class T>
-bool	IsNull(T *pObject)		{ return pObject == NULL; }
+bool    IsNull(T *pObject)      { return pObject == NULL; }
 
 template <> inline
-bool	IsNull(void *pObject)	{ return false; }
+bool    IsNull(void *pObject)   { return false; }
 
 // EXTERN_XML_PROCESSOR
 #define EXTERN_XML_PROCESSOR(name) extern class CXMLProcessor_##name g_xmlproc_##name;
@@ -194,31 +194,31 @@ bool	IsNull(void *pObject)	{ return false; }
 class K2_API IXMLProcessor
 {
 private:
-	IXMLProcessor();
+    IXMLProcessor();
 
 protected:
-	tstring					m_sElementName;
-	list<XMLProcessorMap*>	m_lParents;
+    tstring                 m_sElementName;
+    list<XMLProcessorMap*>  m_lParents;
 
 public:
-	virtual ~IXMLProcessor()
-	{
-		for (list<XMLProcessorMap*>::iterator it(m_lParents.begin()); it != m_lParents.end(); ++it)
-			(*it)->erase(m_sElementName);
-	}
+    virtual ~IXMLProcessor()
+    {
+        for (list<XMLProcessorMap*>::iterator it(m_lParents.begin()); it != m_lParents.end(); ++it)
+            (*it)->erase(m_sElementName);
+    }
 
-	IXMLProcessor(const tstring &sElementName) :
-	m_sElementName(sElementName)
-	{}
+    IXMLProcessor(const tstring &sElementName) :
+    m_sElementName(sElementName)
+    {}
 
-	void			AddParent(XMLProcessorMap *pParent)		{ if (pParent != NULL) m_lParents.push_back(pParent); }
-	void			RemoveParent(XMLProcessorMap *pParent)	{ m_lParents.remove(pParent); }
-	bool			IsOrphaned() const						{ return m_lParents.empty(); }
-	virtual void	RemoveChild(const tstring &sName) = 0;
+    void            AddParent(XMLProcessorMap *pParent)     { if (pParent != NULL) m_lParents.push_back(pParent); }
+    void            RemoveParent(XMLProcessorMap *pParent)  { m_lParents.remove(pParent); }
+    bool            IsOrphaned() const                      { return m_lParents.empty(); }
+    virtual void    RemoveChild(const tstring &sName) = 0;
 
-	const tstring&	GetName() const							{ return m_sElementName; }
+    const tstring&  GetName() const                         { return m_sElementName; }
 
-	virtual bool	Process(const CXMLNode &node, void *pVoid, IXMLProcessor *pParent) = 0;
+    virtual bool    Process(const CXMLNode &node, void *pVoid, IXMLProcessor *pParent) = 0;
 };
 //=============================================================================
 

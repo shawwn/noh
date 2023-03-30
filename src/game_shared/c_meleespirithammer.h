@@ -17,13 +17,13 @@
 class CMeleeSpiritHammer : public IMeleeItem
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Melee, SpiritHammer);
+    DECLARE_ENT_ALLOCATOR2(Melee, SpiritHammer);
 
 public:
-	~CMeleeSpiritHammer()	{}
-	CMeleeSpiritHammer() :
-	IMeleeItem(GetEntityConfig())
-	{}
+    ~CMeleeSpiritHammer()   {}
+    CMeleeSpiritHammer() :
+    IMeleeItem(GetEntityConfig())
+    {}
 };
 //=============================================================================
 

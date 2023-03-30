@@ -15,18 +15,18 @@
 /*====================
   operator new
   ====================*/
-void*	operator new(size_t z)
+void*   operator new(size_t z)
 {
-	return MemManager.Allocate(z/*, &MemManager.GetHeap(HEAP_CLIENT_GAME)*/);
+    return MemManager.Allocate(z/*, &MemManager.GetHeap(HEAP_CLIENT_GAME)*/);
 }
 
 
 /*====================
   operator new[]
   ====================*/
-void*	operator new[](size_t z)
+void*   operator new[](size_t z)
 {
-	return MemManager.Allocate(z/*, &MemManager.GetHeap(HEAP_CLIENT_GAME)*/);
+    return MemManager.Allocate(z/*, &MemManager.GetHeap(HEAP_CLIENT_GAME)*/);
 }
 
 #endif

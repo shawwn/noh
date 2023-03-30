@@ -17,13 +17,13 @@
 class CMeleeSummonerStaff : public IMeleeItem
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Melee, SummonerStaff);
+    DECLARE_ENT_ALLOCATOR2(Melee, SummonerStaff);
 
 public:
-	~CMeleeSummonerStaff()	{}
-	CMeleeSummonerStaff() :
-	IMeleeItem(GetEntityConfig())
-	{}
+    ~CMeleeSummonerStaff()  {}
+    CMeleeSummonerStaff() :
+    IMeleeItem(GetEntityConfig())
+    {}
 };
 //=============================================================================
 

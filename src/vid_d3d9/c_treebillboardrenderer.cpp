@@ -42,9 +42,9 @@ CPool<CTreeBillboardRenderer> CTreeBillboardRenderer::s_Pool(1, -1);
 /*====================
   CTreeBillboardRenderer::operator new
   ====================*/
-void*	CTreeBillboardRenderer::operator new(size_t z, const char *szContext, const char *szType, const char *szFile, short nLine)
+void*   CTreeBillboardRenderer::operator new(size_t z, const char *szContext, const char *szType, const char *szFile, short nLine)
 {
-	return s_Pool.Allocate();
+    return s_Pool.Allocate();
 }
 
 
@@ -58,21 +58,21 @@ m_dwAlphaTest(dwAlphaTest),
 m_uiStartIndex(uiStartIndex),
 m_uiEndIndex(uiEndIndex)
 {
-	m_iNumActivePointLights = 0;
-	m_iNumActiveBones = 0;
+    m_iNumActivePointLights = 0;
+    m_iNumActiveBones = 0;
 
-	m_bObjectColor = false;
-	m_pCurrentEntity = NULL;
+    m_bObjectColor = false;
+    m_pCurrentEntity = NULL;
 
-	m_mWorld = g_mIdentity;
-	m_mWorldRotate = g_mIdentity;
+    m_mWorld = g_mIdentity;
+    m_mWorldRotate = g_mIdentity;
 
-	// Set static sorting variables
-	m_iEffectLayer = iEffectLayer;
-	m_fDepth = fDepth;
-	m_iVertexType = VERTEX_TREE_BILLBOARD;
-	m_uiVertexBuffer = reinterpret_cast<size_t>(g_pVBTreeBillboard);
-	m_uiIndexBuffer = reinterpret_cast<size_t>(g_pIBTreeBillboard);
+    // Set static sorting variables
+    m_iEffectLayer = iEffectLayer;
+    m_fDepth = fDepth;
+    m_iVertexType = VERTEX_TREE_BILLBOARD;
+    m_uiVertexBuffer = reinterpret_cast<size_t>(g_pVBTreeBillboard);
+    m_uiIndexBuffer = reinterpret_cast<size_t>(g_pIBTreeBillboard);
 }
 
 
@@ -87,68 +87,68 @@ CTreeBillboardRenderer::~CTreeBillboardRenderer()
 /*====================
   CTreeBillboardRenderer::Setup
   ====================*/
-void	CTreeBillboardRenderer::Setup(EMaterialPhase ePhase)
+void    CTreeBillboardRenderer::Setup(EMaterialPhase ePhase)
 {
-	PROFILE("CTreeBillboardRenderer::Setup");
+    PROFILE("CTreeBillboardRenderer::Setup");
 
-	m_bRender = false; // Set to true if we make it to the end of the function
+    m_bRender = false; // Set to true if we make it to the end of the function
 
-	CMaterial &material(D3D_GetMaterial(m_hMaterial));
+    CMaterial &material(D3D_GetMaterial(m_hMaterial));
 
-	if (!material.HasPhase(ePhase))
-		return; // Leave if we don't have this phase
+    if (!material.HasPhase(ePhase))
+        return; // Leave if we don't have this phase
 
-	CMaterialPhase &cPhase(material.GetPhase(ePhase));
+    CMaterialPhase &cPhase(material.GetPhase(ePhase));
 
-	m_pCam = g_pCam;
-	m_bLighting = gfx_lighting;
-	m_bShadows = g_bCamShadows;
-	m_bFog = g_bCamFog;
-	m_vAmbient = SceneManager.GetEntityAmbientColor();
-	m_vSunColor = SceneManager.GetEntitySunColor();
+    m_pCam = g_pCam;
+    m_bLighting = gfx_lighting;
+    m_bShadows = g_bCamShadows;
+    m_bFog = g_bCamFog;
+    m_vAmbient = SceneManager.GetEntityAmbientColor();
+    m_vSunColor = SceneManager.GetEntitySunColor();
 
-	m_mWorldViewProj = g_mViewProj;
+    m_mWorldViewProj = g_mViewProj;
 
-	g_ShaderRegistry.SetNumPointLights(m_iNumActivePointLights);
-	g_ShaderRegistry.SetNumBones(m_iNumActiveBones);
-	g_ShaderRegistry.SetLighting(m_bLighting);
-	g_ShaderRegistry.SetShadows(m_bShadows);
-	g_ShaderRegistry.SetFogofWar(g_bFogofWar);
-	g_ShaderRegistry.SetFog(m_bFog);
-	g_ShaderRegistry.SetTexcoords(m_iTexcoords);
-	g_ShaderRegistry.SetTexkill(m_bTexkill);
+    g_ShaderRegistry.SetNumPointLights(m_iNumActivePointLights);
+    g_ShaderRegistry.SetNumBones(m_iNumActiveBones);
+    g_ShaderRegistry.SetLighting(m_bLighting);
+    g_ShaderRegistry.SetShadows(m_bShadows);
+    g_ShaderRegistry.SetFogofWar(g_bFogofWar);
+    g_ShaderRegistry.SetFog(m_bFog);
+    g_ShaderRegistry.SetTexcoords(m_iTexcoords);
+    g_ShaderRegistry.SetTexkill(m_bTexkill);
 
-	// Set dynamic sorting variables
-	m_bTranslucent = cPhase.GetTranslucent();
-	m_iLayer = cPhase.GetLayer();
-	m_iVertexShaderInstance = g_ShaderRegistry.GetVertexShaderInstance(cPhase.GetVertexShader());
-	m_iPixelShaderInstance = g_ShaderRegistry.GetPixelShaderInstance(cPhase.GetPixelShader());
-	m_bRefractive = cPhase.GetRefractive();
-	
-	m_bRender = true;
+    // Set dynamic sorting variables
+    m_bTranslucent = cPhase.GetTranslucent();
+    m_iLayer = cPhase.GetLayer();
+    m_iVertexShaderInstance = g_ShaderRegistry.GetVertexShaderInstance(cPhase.GetVertexShader());
+    m_iPixelShaderInstance = g_ShaderRegistry.GetPixelShaderInstance(cPhase.GetPixelShader());
+    m_bRefractive = cPhase.GetRefractive();
+    
+    m_bRender = true;
 }
 
 
 /*====================
   CTreeBillboardRenderer::Render
   ====================*/
-void	CTreeBillboardRenderer::Render(EMaterialPhase ePhase)
+void    CTreeBillboardRenderer::Render(EMaterialPhase ePhase)
 {
-	PROFILE("CTreeBillboardRenderer::Render");
+    PROFILE("CTreeBillboardRenderer::Render");
 
-	if (!m_bRender)
-		return;
+    if (!m_bRender)
+        return;
 
-	D3D_SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
+    D3D_SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
 
-	SetShaderVars();
+    SetShaderVars();
 
-	D3D_SetRenderState(D3DRS_ALPHAREF, m_dwAlphaTest);
-	D3D_SetStreamSource(0, g_pVBTreeBillboard, 0, sizeof(STreeBillboardVertex));
-	D3D_SetIndices(g_pIBTreeBillboard);
+    D3D_SetRenderState(D3DRS_ALPHAREF, m_dwAlphaTest);
+    D3D_SetStreamSource(0, g_pVBTreeBillboard, 0, sizeof(STreeBillboardVertex));
+    D3D_SetIndices(g_pIBTreeBillboard);
 
-	D3D_SelectMaterial(D3D_GetMaterial(m_hMaterial), ePhase, VERTEX_TREE_BILLBOARD, g_pCam->GetTime(), gfx_depthFirst);
-	D3D_DrawIndexedPrimitive(D3DPT_TRIANGLELIST, 0, m_uiStartIndex * 4, (m_uiEndIndex - m_uiStartIndex) << 2, m_uiStartIndex * 6, (m_uiEndIndex - m_uiStartIndex) << 1);
+    D3D_SelectMaterial(D3D_GetMaterial(m_hMaterial), ePhase, VERTEX_TREE_BILLBOARD, g_pCam->GetTime(), gfx_depthFirst);
+    D3D_DrawIndexedPrimitive(D3DPT_TRIANGLELIST, 0, m_uiStartIndex * 4, (m_uiEndIndex - m_uiStartIndex) << 2, m_uiStartIndex * 6, (m_uiEndIndex - m_uiStartIndex) << 1);
 
-	SceneStats.RecordBatch((m_uiEndIndex - m_uiStartIndex) << 2, (m_uiEndIndex - m_uiStartIndex) << 1, ePhase, SSBATCH_TREEBILLBOARD);
+    SceneStats.RecordBatch((m_uiEndIndex - m_uiStartIndex) << 2, (m_uiEndIndex - m_uiStartIndex) << 1, ePhase, SSBATCH_TREEBILLBOARD);
 }

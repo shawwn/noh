@@ -30,20 +30,20 @@ class CWidgetStyle;
 class CBitmapResource : public IResource
 {
 private:
-	CBitmap	m_cBitmap;
+    CBitmap m_cBitmap;
 
 public:
-	K2_API ~CBitmapResource()	{}
-	K2_API CBitmapResource(const tstring &sPath);
+    K2_API ~CBitmapResource()   {}
+    K2_API CBitmapResource(const tstring &sPath);
 
-	K2_API	virtual uint			GetResType() const			{ return RES_BITMAP; }
-	K2_API	virtual const tstring&	GetResTypeName() const		{ return ResTypeName(); }
-	K2_API	static const tstring&	ResTypeName()				{ static tstring sTypeName(_T("{bitmap}")); return sTypeName; }
+    K2_API  virtual uint            GetResType() const          { return RES_BITMAP; }
+    K2_API  virtual const tstring&  GetResTypeName() const      { return ResTypeName(); }
+    K2_API  static const tstring&   ResTypeName()               { static tstring sTypeName(_T("{bitmap}")); return sTypeName; }
 
-	CBitmap&	GetBitmap()	{ return m_cBitmap; }
+    CBitmap&    GetBitmap() { return m_cBitmap; }
 
-	int			Load(uint uiIgnoreFlags, const char *pData, uint uiSize);
-	void		Free();
+    int         Load(uint uiIgnoreFlags, const char *pData, uint uiSize);
+    void        Free();
 };
 //=============================================================================
 

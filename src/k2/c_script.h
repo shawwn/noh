@@ -14,7 +14,7 @@
 //=============================================================================
 // Definitions
 //=============================================================================
-typedef	map<tstring, uint>	ScriptGotoMap;
+typedef map<tstring, uint>  ScriptGotoMap;
 //=============================================================================
 
 //=============================================================================
@@ -30,44 +30,44 @@ extern K2_API CScript *g_pCurrentScript;
 class CScript
 {
 private:
-	tstring			m_sFilename;
-	tsvector			m_vCmdBuffer;
-	bool			m_bLoaded;
-	bool			m_bPreprocessed;
+    tstring         m_sFilename;
+    tsvector            m_vCmdBuffer;
+    bool            m_bLoaded;
+    bool            m_bPreprocessed;
 
-	bool			m_bStoringCvars;
+    bool            m_bStoringCvars;
 
-	tsvector_cit		m_itCurrentCmd;
+    tsvector_cit        m_itCurrentCmd;
 
-	int				m_iLineNum;
-	dword			m_dwNextExecuteTime;
+    int             m_iLineNum;
+    dword           m_dwNextExecuteTime;
 
-	tsmapts			m_mapParams;
+    tsmapts         m_mapParams;
 
-	ScriptGotoMap	m_mapGoto;
+    ScriptGotoMap   m_mapGoto;
 
-	bool			m_bIncrement;
+    bool            m_bIncrement;
 
-	void	Preprocess(CFileHandle &hScriptFile);
-	void	Preprocess(const tstring &sScript);
+    void    Preprocess(CFileHandle &hScriptFile);
+    void    Preprocess(const tstring &sScript);
 
 public:
-	~CScript();
-	CScript(tsmapts *mapParams = NULL);
+    ~CScript();
+    CScript(tsmapts *mapParams = NULL);
 
-	void	LoadFile(const tstring &sFilename);
-	void	LoadScript(const tstring &sScript);
+    void    LoadFile(const tstring &sFilename);
+    void    LoadScript(const tstring &sScript);
 
-	bool	Execute();
-	void	Reset();
+    bool    Execute();
+    void    Reset();
 
-	bool	IsLoaded()		{ return m_bLoaded; }
+    bool    IsLoaded()      { return m_bLoaded; }
 
-	void	Goto(const tstring &sLabel);
-	void	Sleep(dword dwMilliseconds);
+    void    Goto(const tstring &sLabel);
+    void    Sleep(dword dwMilliseconds);
 
-	K2_API	tstring	GetParameter(const tstring &sName);
-	K2_API	void	AddParameter(const tstring &sName, const tstring &sValue);
+    K2_API  tstring GetParameter(const tstring &sName);
+    K2_API  void    AddParameter(const tstring &sName, const tstring &sValue);
 };
 //=============================================================================
 #endif // __C_SCRIPT_H__

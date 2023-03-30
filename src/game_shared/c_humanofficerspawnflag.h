@@ -17,11 +17,11 @@
 class CGadgetHumanOfficerSpawnFlag : public IOfficerSpawnFlag
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Gadget, HumanOfficerSpawnFlag);
+    DECLARE_ENT_ALLOCATOR2(Gadget, HumanOfficerSpawnFlag);
 
 public:
-	~CGadgetHumanOfficerSpawnFlag() {}
-	CGadgetHumanOfficerSpawnFlag() : IOfficerSpawnFlag(GetEntityConfig()) {}
+    ~CGadgetHumanOfficerSpawnFlag() {}
+    CGadgetHumanOfficerSpawnFlag() : IOfficerSpawnFlag(GetEntityConfig()) {}
 };
 //=============================================================================
 

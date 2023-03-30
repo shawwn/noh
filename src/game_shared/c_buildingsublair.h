@@ -17,15 +17,15 @@
 class CBuildingSubLair : public IBuildingEntity
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Building, SubLair)
+    DECLARE_ENT_ALLOCATOR2(Building, SubLair)
 
 public:
-	~CBuildingSubLair()	{}
-	CBuildingSubLair() :
-	IBuildingEntity(GetEntityConfig())
-	{}
+    ~CBuildingSubLair() {}
+    CBuildingSubLair() :
+    IBuildingEntity(GetEntityConfig())
+    {}
 
-	void	Use(IGameEntity *pActivator);
+    void    Use(IGameEntity *pActivator);
 };
 //=============================================================================
 

@@ -17,13 +17,13 @@
 class CSkillBehemothToughSkin : public ISkillToggle
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Skill, BehemothToughSkin)
+    DECLARE_ENT_ALLOCATOR2(Skill, BehemothToughSkin)
 
 public:
-	~CSkillBehemothToughSkin()	{}
-	CSkillBehemothToughSkin() :
-	ISkillToggle(GetEntityConfig())
-	{}
+    ~CSkillBehemothToughSkin()  {}
+    CSkillBehemothToughSkin() :
+    ISkillToggle(GetEntityConfig())
+    {}
 };
 //=============================================================================
 

@@ -17,13 +17,13 @@
 class CProjectileFrostBolt : public IProjectile
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Projectile, FrostBolt)
+    DECLARE_ENT_ALLOCATOR2(Projectile, FrostBolt)
 
 public:
-	~CProjectileFrostBolt()	{}
-	CProjectileFrostBolt() :
-	IProjectile(GetEntityConfig())
-	{}
+    ~CProjectileFrostBolt() {}
+    CProjectileFrostBolt() :
+    IProjectile(GetEntityConfig())
+    {}
 };
 //=============================================================================
 

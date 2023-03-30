@@ -23,14 +23,14 @@ class IModel;
 //=============================================================================
 class CModelAllocatorRegistry
 {
-	SINGLETON_DEF(CModelAllocatorRegistry)
+    SINGLETON_DEF(CModelAllocatorRegistry)
 
 private:
-	map<tstring, IModelAllocator*>	m_mapAllocators;
+    map<tstring, IModelAllocator*>  m_mapAllocators;
 
 public:
-	void	Register(const tstring &sType, IModelAllocator *pAllocator);
-	IModel*	Allocate(const tstring &sType);
+    void    Register(const tstring &sType, IModelAllocator *pAllocator);
+    IModel* Allocate(const tstring &sType);
 };
 //=============================================================================
 

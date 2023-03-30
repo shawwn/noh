@@ -17,27 +17,27 @@
 class CPieGraph : public IWidget
 {
 protected:
-	float			m_fStart;
-	float			m_fEnd;
-	float			m_fSign;
-	int				m_iDetail;
-	bool			m_bSquare;
-	bool			m_bWrapTexture;
+    float           m_fStart;
+    float           m_fEnd;
+    float           m_fSign;
+    int             m_iDetail;
+    bool            m_bSquare;
+    bool            m_bWrapTexture;
 
-	float			m_fValue;
-	CCvarReference	m_refCvar;
+    float           m_fValue;
+    CCvarReference  m_refCvar;
 
 public:
-	~CPieGraph();
-	CPieGraph(CInterface* pInterface, IWidget* pParent, const CWidgetStyle& style);
+    ~CPieGraph();
+    CPieGraph(CInterface* pInterface, IWidget* pParent, const CWidgetStyle& style);
 
-	void	SetValue(const tstring &s)							{ SetValue(AtoF(s)); }
-	void	SetValue(float f)									{ m_fValue = f; }
-	tstring	GetValue() const									{ return XtoA(m_fEnd - m_fStart); }
-	
-	void	RenderWidget(const CVec2f &v2Origin, float fFade);
-	void	DrawCircle(const CVec2f &v2Origin);
-	void	DrawSquare(const CVec2f &v2Origin);
+    void    SetValue(const tstring &s)                          { SetValue(AtoF(s)); }
+    void    SetValue(float f)                                   { m_fValue = f; }
+    tstring GetValue() const                                    { return XtoA(m_fEnd - m_fStart); }
+    
+    void    RenderWidget(const CVec2f &v2Origin, float fFade);
+    void    DrawCircle(const CVec2f &v2Origin);
+    void    DrawSquare(const CVec2f &v2Origin);
 };
 //=============================================================================
 

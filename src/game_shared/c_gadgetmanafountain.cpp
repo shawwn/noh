@@ -30,17 +30,17 @@ INIT_ENTITY_CVAR(ManaRefillPercent, 0.5f)
 /*====================
   CGadgetManaFountain::UseEffect
   ====================*/
-bool	CGadgetManaFountain::UseEffect(IGameEntity *pActivator)
+bool    CGadgetManaFountain::UseEffect(IGameEntity *pActivator)
 {
-	IPlayerEntity *pPlayer(pActivator->GetAsPlayerEnt());
-	if (pPlayer == NULL)
-		return false;
+    IPlayerEntity *pPlayer(pActivator->GetAsPlayerEnt());
+    if (pPlayer == NULL)
+        return false;
 
-	if (pPlayer->GetMana() < pPlayer->GetMaxMana())
-	{
-		pPlayer->GiveMana(pPlayer->GetMaxMana() * m_pEntityConfig->GetManaRefillPercent());
-		return true;
-	}
+    if (pPlayer->GetMana() < pPlayer->GetMaxMana())
+    {
+        pPlayer->GiveMana(pPlayer->GetMaxMana() * m_pEntityConfig->GetManaRefillPercent());
+        return true;
+    }
 
-	return false;
+    return false;
 }

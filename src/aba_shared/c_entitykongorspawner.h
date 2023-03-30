@@ -17,19 +17,19 @@
 class CEntityBossSpawner : public IVisualEntity
 {
 protected:
-	DECLARE_ENT_ALLOCATOR2(Entity, BossSpawner);
+    DECLARE_ENT_ALLOCATOR2(Entity, BossSpawner);
 
-	tstring		m_sSpawnName;
+    tstring     m_sSpawnName;
 
 public:
-	~CEntityBossSpawner()	{}
-	CEntityBossSpawner()
-	{}
+    ~CEntityBossSpawner()   {}
+    CEntityBossSpawner()
+    {}
 
-	virtual bool		IsServerEntity() const			{ return true; }
+    virtual bool        IsServerEntity() const          { return true; }
 
-	void	ApplyWorldEntity(const CWorldEntity &ent);
-	void	Trigger(IGameEntity *pActivator);
+    void    ApplyWorldEntity(const CWorldEntity &ent);
+    void    Trigger(IGameEntity *pActivator);
 };
 //=============================================================================
 

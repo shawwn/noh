@@ -17,13 +17,13 @@
 class CSkillHealingWard : public ISkillToggle
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Skill, HealingWard)
+    DECLARE_ENT_ALLOCATOR2(Skill, HealingWard)
 
 public:
-	~CSkillHealingWard()	{}
-	CSkillHealingWard() :
-	ISkillToggle(GetEntityConfig())
-	{}
+    ~CSkillHealingWard()    {}
+    CSkillHealingWard() :
+    ISkillToggle(GetEntityConfig())
+    {}
 };
 //=============================================================================
 

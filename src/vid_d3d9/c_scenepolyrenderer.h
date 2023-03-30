@@ -23,22 +23,22 @@ struct SSceneFaceVert;
 class CScenePolyRenderer : public IRenderer
 {
 private:
-	ResHandle			m_hMaterial;
-	SSceneFaceVert		*m_pVerts;
-	uint				m_uiNumVerts;
-	int					m_iFlags;
+    ResHandle           m_hMaterial;
+    SSceneFaceVert      *m_pVerts;
+    uint                m_uiNumVerts;
+    int                 m_iFlags;
 
 public:
-	static CPool<CScenePolyRenderer>		s_Pool;
-	
-	void*	operator new(size_t z, const char *szContext = NULL, const char *szType = NULL, const char *szFile = NULL, short nLine = 0); // Uses CPool of preallocated instances
-	void	operator delete(void *p, const char *szContext, const char *szType, const char *szFile, short nLine) { }
-	
-	~CScenePolyRenderer();
-	CScenePolyRenderer(ResHandle hMaterial, SSceneFaceVert *pVerts, uint uiNumVerts, int iFlags);
+    static CPool<CScenePolyRenderer>        s_Pool;
+    
+    void*   operator new(size_t z, const char *szContext = NULL, const char *szType = NULL, const char *szFile = NULL, short nLine = 0); // Uses CPool of preallocated instances
+    void    operator delete(void *p, const char *szContext, const char *szType, const char *szFile, short nLine) { }
+    
+    ~CScenePolyRenderer();
+    CScenePolyRenderer(ResHandle hMaterial, SSceneFaceVert *pVerts, uint uiNumVerts, int iFlags);
 
-	void	Setup(EMaterialPhase ePhase);
-	void	Render(EMaterialPhase ePhase);
+    void    Setup(EMaterialPhase ePhase);
+    void    Render(EMaterialPhase ePhase);
 };
 //=============================================================================
 #endif //__C_SCENEPOLYRENDERER_H__

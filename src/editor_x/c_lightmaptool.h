@@ -27,32 +27,32 @@ class CBrush;
 class CLightmapTool : public ITool
 {
 private:
-	CVec4f	m_vecColor;
-	bool	m_bWorking;
-	bool	m_bInverse;
+    CVec4f  m_vecColor;
+    bool    m_bWorking;
+    bool    m_bInverse;
 
-	static void LerpColor(CVec4b *pRegion, const CRecti &recArea, const CBrush &brush, const CVec4f &color, float fScale);
+    static void LerpColor(CVec4b *pRegion, const CRecti &recArea, const CBrush &brush, const CVec4f &color, float fScale);
 
 public:
-	CLightmapTool();
-	virtual ~CLightmapTool()				{}
+    CLightmapTool();
+    virtual ~CLightmapTool()                {}
 
-	void	CalcToolProperties();
-	void	PaintVertex(float fFrameTime);
+    void    CalcToolProperties();
+    void    PaintVertex(float fFrameTime);
 
-	void	PrimaryUp();
-	void	PrimaryDown();
-	void	SecondaryUp();
-	void	SecondaryDown();
-	void	TertiaryUp()		{}
-	void	TertiaryDown()		{}
-	void	QuaternaryUp()		{}
-	void	QuaternaryDown()	{}
+    void    PrimaryUp();
+    void    PrimaryDown();
+    void    SecondaryUp();
+    void    SecondaryDown();
+    void    TertiaryUp()        {}
+    void    TertiaryDown()      {}
+    void    QuaternaryUp()      {}
+    void    QuaternaryDown()    {}
 
-	void	Cancel()			{}
-	void	Delete()			{}
+    void    Cancel()            {}
+    void    Delete()            {}
 
-	void	Frame(float fFrameTime);
+    void    Frame(float fFrameTime);
 };
 //=============================================================================
 #endif //__C_LIGHTMAPTOOL_H__

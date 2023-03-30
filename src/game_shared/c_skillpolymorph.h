@@ -17,13 +17,13 @@
 class CSkillPolymorph : public ISkillSelfBuff
 {
 private:
-	DECLARE_ITEM_ALLOCATOR(Skill, Polymorph)
+    DECLARE_ITEM_ALLOCATOR(Skill, Polymorph)
 
 public:
-	~CSkillPolymorph()	{}
-	CSkillPolymorph() :
-	ISkillSelfBuff(GetItemConfig())
-	{}
+    ~CSkillPolymorph()  {}
+    CSkillPolymorph() :
+    ISkillSelfBuff(GetItemConfig())
+    {}
 };
 //=============================================================================
 

@@ -46,9 +46,9 @@
 //=============================================================================
 DEFINE_ENTITY_DESC(IGameEntity, 1)
 {
-	s_cDesc.pFieldTypes = K2_NEW(g_heapTypeVector,   TypeVector)();
+    s_cDesc.pFieldTypes = K2_NEW(g_heapTypeVector,   TypeVector)();
 
-	s_cDesc.pFieldTypes->push_back(SDataField(_T("m_unModifierBits"), TYPE_SHORT, 16, 0));
+    s_cDesc.pFieldTypes->push_back(SDataField(_T("m_unModifierBits"), TYPE_SHORT, 16, 0));
 }
 //=============================================================================
 
@@ -85,97 +85,97 @@ m_bValid(false)
 /*====================
   IGameEntity::Baseline
   ====================*/
-void	IGameEntity::Baseline()
+void    IGameEntity::Baseline()
 {
-	m_unModifierBits = 0;
+    m_unModifierBits = 0;
 }
 
 
 /*====================
   IGameEntity::GetSnapshot
   ====================*/
-void	IGameEntity::GetSnapshot(CEntitySnapshot &snapshot, uint uiFlags) const
+void    IGameEntity::GetSnapshot(CEntitySnapshot &snapshot, uint uiFlags) const
 {
-	snapshot.WriteField(m_unModifierBits);
+    snapshot.WriteField(m_unModifierBits);
 }
 
 
 /*====================
   IGameEntity::ReadSnapshot
   ====================*/
-bool	IGameEntity::ReadSnapshot(CEntitySnapshot &snapshot, uint uiVersion)
+bool    IGameEntity::ReadSnapshot(CEntitySnapshot &snapshot, uint uiVersion)
 {
-	try
-	{
-		Validate();
-		snapshot.ReadField(m_unModifierBits);
-		return true;
-	}
-	catch (CException &ex)
-	{
-		ex.Process(_T("IGameEntity::ReadSnapshot() - "), NO_THROW);
-		return false;
-	}
+    try
+    {
+        Validate();
+        snapshot.ReadField(m_unModifierBits);
+        return true;
+    }
+    catch (CException &ex)
+    {
+        ex.Process(_T("IGameEntity::ReadSnapshot() - "), NO_THROW);
+        return false;
+    }
 }
 
 
 /*====================
   IGameEntity::Copy
   ====================*/
-void	IGameEntity::Copy(const IGameEntity &B)
+void    IGameEntity::Copy(const IGameEntity &B)
 {
-	m_unType			= B.m_unType;
-	m_uiFrame			= B.m_uiFrame;
-	m_unModifierBits	= B.m_unModifierBits;
-	m_pDefinition		= B.m_pDefinition;
+    m_unType            = B.m_unType;
+    m_uiFrame           = B.m_uiFrame;
+    m_unModifierBits    = B.m_unModifierBits;
+    m_pDefinition       = B.m_pDefinition;
 }
 
 
 /*====================
   IGameEntity::GetMasterOwner
   ====================*/
-IUnitEntity*	IGameEntity::GetMasterOwner() const
+IUnitEntity*    IGameEntity::GetMasterOwner() const
 {
-	if (GetOwner() == NULL)
-		return NULL;
+    if (GetOwner() == NULL)
+        return NULL;
 
-	return GetOwner()->GetMasterOwner();
+    return GetOwner()->GetMasterOwner();
 }
 
 
 /*====================
   IGameEntity::GetModifierBit
   ====================*/
-uint	IGameEntity::GetModifierBit(uint uiModifierID)
+uint    IGameEntity::GetModifierBit(uint uiModifierID)
 {
-	CEntityDefinitionResource *pResource(g_ResourceManager.Get<CEntityDefinitionResource>(m_hDefinition));
-	if (pResource == NULL)
-		return 0;
+    CEntityDefinitionResource *pResource(g_ResourceManager.Get<CEntityDefinitionResource>(m_hDefinition));
+    if (pResource == NULL)
+        return 0;
 
-	// Access root definition
-	IEntityDefinition *pDefinition(pResource->GetDefinition<IEntityDefinition>());
-	if (pDefinition == NULL)
-		return 0;
+    // Access root definition
+    IEntityDefinition *pDefinition(pResource->GetDefinition<IEntityDefinition>());
+    if (pDefinition == NULL)
+        return 0;
 
-	return pDefinition->GetModifierBit(uiModifierID);
+    return pDefinition->GetModifierBit(uiModifierID);
 }
 
 
 /*====================
   IGameEntity::GetModifierBits
   ====================*/
-uint	IGameEntity::GetModifierBits(const uivector &vModifiers)
+uint    IGameEntity::GetModifierBits(const uivector &vModifiers)
 {
-	CEntityDefinitionResource *pResource(g_ResourceManager.Get<CEntityDefinitionResource>(m_hDefinition));
-	if (pResource == NULL)
-		return 0;
+    CEntityDefinitionResource *pResource(g_ResourceManager.Get<CEntityDefinitionResource>(m_hDefinition));
+    if (pResource == NULL)
+        return 0;
 
-	// Access root definition
-	IEntityDefinition *pDefinition(pResource->GetDefinition<IEntityDefinition>());
-	if (pDefinition == NULL)
-		return 0;
+    // Access root definition
+    IEntityDefinition *pDefinition(pResource->GetDefinition<IEntityDefinition>());
+    if (pDefinition == NULL)
+        return 0;
 
-	return pDefinition->GetModifierBits(vModifiers);
+    return pDefinition->GetModifierBits(vModifiers);
 }
 
 
@@ -185,127 +185,127 @@ uint	IGameEntity::GetModifierBits(const uivector &vModifiers)
   Change this entity to a different dynamic type
   with the same base type
   ====================*/
-bool	IGameEntity::MorphDynamicType(ushort unType)
+bool    IGameEntity::MorphDynamicType(ushort unType)
 {
-	const CDynamicEntityAllocator *pOldAllocator(EntityRegistry.GetDynamicAllocator(m_unType));
-	if (pOldAllocator == NULL)
-		return false;
+    const CDynamicEntityAllocator *pOldAllocator(EntityRegistry.GetDynamicAllocator(m_unType));
+    if (pOldAllocator == NULL)
+        return false;
 
-	const CDynamicEntityAllocator *pNewAllocator(EntityRegistry.GetDynamicAllocator(unType));
-	if (pNewAllocator == NULL)
-		return false;
+    const CDynamicEntityAllocator *pNewAllocator(EntityRegistry.GetDynamicAllocator(unType));
+    if (pNewAllocator == NULL)
+        return false;
 
-	m_sTypeName = pNewAllocator->GetName();
-	m_unType = pNewAllocator->GetTypeID();
-	m_hDefinition = pNewAllocator->GetDefinitionHandle();
-	
-	UpdateDefinition();
+    m_sTypeName = pNewAllocator->GetName();
+    m_unType = pNewAllocator->GetTypeID();
+    m_hDefinition = pNewAllocator->GetDefinitionHandle();
+    
+    UpdateDefinition();
 
-	return true;
+    return true;
 }
 
 
 /*====================
   IGameEntity::SendExtendedData
   ====================*/
-void	IGameEntity::SendExtendedData(int iClient) const
+void    IGameEntity::SendExtendedData(int iClient) const
 {
-	CBufferDynamic buffer;
-	GetExtendedData(buffer);
+    CBufferDynamic buffer;
+    GetExtendedData(buffer);
 
-	CBufferStatic bufferSend(buffer.GetLength() + 7);
-	bufferSend << GAME_CMD_EXT_ENTITY_DATA << GetIndex() << ushort(buffer.GetLength()) << buffer;
+    CBufferStatic bufferSend(buffer.GetLength() + 7);
+    bufferSend << GAME_CMD_EXT_ENTITY_DATA << GetIndex() << ushort(buffer.GetLength()) << buffer;
 
-	// HACK: Send these packets right away for now, so the reliable packet doesn't overflow
-	//Game.SendGameData(iClient, bufferSend, true);
-	Game.SendReliablePacket(iClient, bufferSend);
+    // HACK: Send these packets right away for now, so the reliable packet doesn't overflow
+    //Game.SendGameData(iClient, bufferSend, true);
+    Game.SendReliablePacket(iClient, bufferSend);
 }
 
 
 /*====================
   IGameEntity::HasModifier
   ====================*/
-bool	IGameEntity::HasModifier(const tstring &sModifier) const
+bool    IGameEntity::HasModifier(const tstring &sModifier) const
 {
-	uint uiModifier(EntityRegistry.RegisterModifier(sModifier));
-	if (GetActiveModifierKey() == uiModifier)
-		return true;
+    uint uiModifier(EntityRegistry.RegisterModifier(sModifier));
+    if (GetActiveModifierKey() == uiModifier)
+        return true;
 
-	return find(m_vModifierKeys.begin(), m_vModifierKeys.end(), uiModifier) != m_vModifierKeys.end();
+    return find(m_vModifierKeys.begin(), m_vModifierKeys.end(), uiModifier) != m_vModifierKeys.end();
 }
 
 
 /*====================
   IGameEntity::GetActiveExclusiveModifiers
   ====================*/
-void	IGameEntity::GetActiveExclusiveModifiers(IUnitEntity *pUnit, map<uint, SModifierEntry> &mapActiveModifiers, int iPriorityAdjust)
+void    IGameEntity::GetActiveExclusiveModifiers(IUnitEntity *pUnit, map<uint, SModifierEntry> &mapActiveModifiers, int iPriorityAdjust)
 {
-	IEntityDefinition *pDefinition(GetBaseDefinition<IEntityDefinition>());
-	if (pDefinition == NULL)
-		return;
+    IEntityDefinition *pDefinition(GetBaseDefinition<IEntityDefinition>());
+    if (pDefinition == NULL)
+        return;
 
-	const map<ushort, IEntityDefinition*> &mapModifiers(pDefinition->GetModifiers());
-	for (map<ushort, IEntityDefinition*>::const_iterator cit(mapModifiers.begin()), citEnd(mapModifiers.end()); cit != citEnd; ++cit)
-	{
-		IEntityDefinition *pModifier(cit->second);
+    const map<ushort, IEntityDefinition*> &mapModifiers(pDefinition->GetModifiers());
+    for (map<ushort, IEntityDefinition*>::const_iterator cit(mapModifiers.begin()), citEnd(mapModifiers.end()); cit != citEnd; ++cit)
+    {
+        IEntityDefinition *pModifier(cit->second);
 
-		if (!pModifier->GetExclusive())
-			continue;
+        if (!pModifier->GetExclusive())
+            continue;
 
-		// Check conditions
-		const tstring &sCondition(pModifier->GetCondition());
-		if (pUnit != NULL && !sCondition.empty())
-		{
-			tsvector vsTypes(TokenizeString(sCondition, _T(' ')));
+        // Check conditions
+        const tstring &sCondition(pModifier->GetCondition());
+        if (pUnit != NULL && !sCondition.empty())
+        {
+            tsvector vsTypes(TokenizeString(sCondition, _T(' ')));
 
-			tsvector_cit itType(vsTypes.begin()), itTypeEnd(vsTypes.end());
-			for (; itType != itTypeEnd; ++itType)
-			{
-				if (!itType->empty() && (*itType)[0] == _T('!'))
-				{
-					if (pUnit->IsTargetType(itType->substr(1), pUnit))
-						break;
-				}
-				else
-				{
-					if (!pUnit->IsTargetType(*itType, pUnit))
-						break;
-				}
-			}
+            tsvector_cit itType(vsTypes.begin()), itTypeEnd(vsTypes.end());
+            for (; itType != itTypeEnd; ++itType)
+            {
+                if (!itType->empty() && (*itType)[0] == _T('!'))
+                {
+                    if (pUnit->IsTargetType(itType->substr(1), pUnit))
+                        break;
+                }
+                else
+                {
+                    if (!pUnit->IsTargetType(*itType, pUnit))
+                        break;
+                }
+            }
 
-			// Not active if we searched the entire vector, so skip this modifier
-			if (itType != itTypeEnd)
-				continue;
-		}
+            // Not active if we searched the entire vector, so skip this modifier
+            if (itType != itTypeEnd)
+                continue;
+        }
 
-		map<uint, SModifierEntry>::iterator itFind(mapActiveModifiers.find(pModifier->GetModifierID()));
-		if (itFind != mapActiveModifiers.end())
-		{
-			if ((pModifier->GetPriority() + iPriorityAdjust) > itFind->second.iPriority)
-			{
-				SModifierEntry sEntry;
-				sEntry.iPriority = pModifier->GetPriority() + iPriorityAdjust;
-				sEntry.uiGameIndex = GetIndex();
+        map<uint, SModifierEntry>::iterator itFind(mapActiveModifiers.find(pModifier->GetModifierID()));
+        if (itFind != mapActiveModifiers.end())
+        {
+            if ((pModifier->GetPriority() + iPriorityAdjust) > itFind->second.iPriority)
+            {
+                SModifierEntry sEntry;
+                sEntry.iPriority = pModifier->GetPriority() + iPriorityAdjust;
+                sEntry.uiGameIndex = GetIndex();
 
-				mapActiveModifiers[pModifier->GetModifierID()] = sEntry;
-			}
-		}
-		else
-		{
-			SModifierEntry sEntry;
-			sEntry.iPriority = pModifier->GetPriority() + iPriorityAdjust;
-			sEntry.uiGameIndex = GetIndex();
+                mapActiveModifiers[pModifier->GetModifierID()] = sEntry;
+            }
+        }
+        else
+        {
+            SModifierEntry sEntry;
+            sEntry.iPriority = pModifier->GetPriority() + iPriorityAdjust;
+            sEntry.uiGameIndex = GetIndex();
 
-			mapActiveModifiers[pModifier->GetModifierID()] = sEntry;
-		}
-	}
+            mapActiveModifiers[pModifier->GetModifierID()] = sEntry;
+        }
+    }
 }
 
 
 /*====================
   IGameEntity::SetActiveModifierKey
   ====================*/
-void	IGameEntity::SetActiveModifierKey(const tstring &sModifierKey)
+void    IGameEntity::SetActiveModifierKey(const tstring &sModifierKey)
 {
-	m_uiActiveModifierKey = EntityRegistry.RegisterModifier(sModifierKey);
+    m_uiActiveModifierKey = EntityRegistry.RegisterModifier(sModifierKey);
 }

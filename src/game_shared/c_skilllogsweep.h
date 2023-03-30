@@ -17,13 +17,13 @@
 class CSkillLogSweep : public ISkillMelee
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Skill, LogSweep);
+    DECLARE_ENT_ALLOCATOR2(Skill, LogSweep);
 
 public:
-	~CSkillLogSweep()	{}
-	CSkillLogSweep() :
-	ISkillMelee(GetEntityConfig())
-	{}
+    ~CSkillLogSweep()   {}
+    CSkillLogSweep() :
+    ISkillMelee(GetEntityConfig())
+    {}
 };
 //=============================================================================
 

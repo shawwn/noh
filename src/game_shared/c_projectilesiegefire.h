@@ -17,13 +17,13 @@
 class CProjectileSiegeFire : public IProjectile
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Projectile, SiegeFire);
+    DECLARE_ENT_ALLOCATOR2(Projectile, SiegeFire);
 
 public:
-	~CProjectileSiegeFire()	{}
-	CProjectileSiegeFire();
+    ~CProjectileSiegeFire() {}
+    CProjectileSiegeFire();
 
-	int		GetDamageFlags() const	{ return m_iDamageFlags | DAMAGE_FLAG_SIEGE | DAMAGE_FLAG_EXPLOSIVE; }
+    int     GetDamageFlags() const  { return m_iDamageFlags | DAMAGE_FLAG_SIEGE | DAMAGE_FLAG_EXPLOSIVE; }
 };
 //=============================================================================
 

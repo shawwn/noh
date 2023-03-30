@@ -16,32 +16,32 @@
 //=============================================================================
 class CAnimatedImage : public IWidget
 {
-	vector<ResHandle>	m_vTextures;
+    vector<ResHandle>   m_vTextures;
 
-	int					m_iMSperFrame;
-	int					m_iNumFrames;
-	int					m_iStartFrame;
-	int					m_iNumLoopFrames;
-	int					m_iLoopbackFrame;
-	bool				m_bLoop;
+    int                 m_iMSperFrame;
+    int                 m_iNumFrames;
+    int                 m_iStartFrame;
+    int                 m_iNumLoopFrames;
+    int                 m_iLoopbackFrame;
+    bool                m_bLoop;
 
-	uint				m_uiStartTime;
-	int					m_iOffsetTime;
-	float				m_fSpeed;
-	uint				m_uiForceLength;
+    uint                m_uiStartTime;
+    int                 m_iOffsetTime;
+    float               m_fSpeed;
+    uint                m_uiForceLength;
 
-	bool				ComputeAnimFrame(int iTime, int &iLoFrame, int &iHiFrame, float &fLerpAmt, uint uiForceLength);
+    bool                ComputeAnimFrame(int iTime, int &iLoFrame, int &iHiFrame, float &fLerpAmt, uint uiForceLength);
 
 public:
-	~CAnimatedImage()	{}
-	K2_API CAnimatedImage(CInterface *pInterface, IWidget *pParent, const CWidgetStyle& style);
+    ~CAnimatedImage()   {}
+    K2_API CAnimatedImage(CInterface *pInterface, IWidget *pParent, const CWidgetStyle& style);
 
-	virtual void		MouseUp(EButton button, const CVec2f &v2CursorPos);
-	virtual void		MouseDown(EButton button, const CVec2f &v2CursorPos);
+    virtual void        MouseUp(EButton button, const CVec2f &v2CursorPos);
+    virtual void        MouseDown(EButton button, const CVec2f &v2CursorPos);
 
-	virtual void		Frame(uint uiFrameLength, bool bProcessFrame);
+    virtual void        Frame(uint uiFrameLength, bool bProcessFrame);
 
-	virtual void		StartAnim(float fSpeed, uint uiForceLength);
+    virtual void        StartAnim(float fSpeed, uint uiForceLength);
 };
 //=============================================================================
 

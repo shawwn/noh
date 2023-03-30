@@ -17,20 +17,20 @@
 class CStateStealth : public IEntityState
 {
 private:
-	START_ENTITY_CONFIG(IEntityState)
-	END_ENTITY_CONFIG
+    START_ENTITY_CONFIG(IEntityState)
+    END_ENTITY_CONFIG
 
-	CEntityConfig*	m_pEntityConfig;
+    CEntityConfig*  m_pEntityConfig;
 
-	DECLARE_ENT_ALLOCATOR2(State, Stealth);
+    DECLARE_ENT_ALLOCATOR2(State, Stealth);
 
 public:
-	~CStateStealth()	{}
-	CStateStealth();
+    ~CStateStealth()    {}
+    CStateStealth();
 
-	virtual void	DoAttack(CMeleeAttackEvent &attack)	{ Invalidate(); }
-	virtual void	DoRangedAttack()					{ Invalidate(); }
-	virtual float	OwnerDamaged(float fDamage, int iFlags, IVisualEntity *pAttacker) { Invalidate(); return fDamage; }
+    virtual void    DoAttack(CMeleeAttackEvent &attack) { Invalidate(); }
+    virtual void    DoRangedAttack()                    { Invalidate(); }
+    virtual float   OwnerDamaged(float fDamage, int iFlags, IVisualEntity *pAttacker) { Invalidate(); return fDamage; }
 };
 //=============================================================================
 

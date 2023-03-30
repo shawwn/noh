@@ -17,13 +17,13 @@
 class CSpellStormShield : public ISpellItem
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Spell, StormShield)
+    DECLARE_ENT_ALLOCATOR2(Spell, StormShield)
 
 public:
-	~CSpellStormShield()	{}
-	CSpellStormShield() :
-	ISpellItem(GetEntityConfig())
-	{}
+    ~CSpellStormShield()    {}
+    CSpellStormShield() :
+    ISpellItem(GetEntityConfig())
+    {}
 };
 //=============================================================================
 

@@ -17,20 +17,20 @@
 class CStateSpores : public IEntityState
 {
 private:
-	START_ENTITY_CONFIG(IEntityState)
-		DECLARE_ENTITY_CVAR(float, DamagePerSecond)
-		DECLARE_ENTITY_CVAR(float, SpeedMult)
-	END_ENTITY_CONFIG
+    START_ENTITY_CONFIG(IEntityState)
+        DECLARE_ENTITY_CVAR(float, DamagePerSecond)
+        DECLARE_ENTITY_CVAR(float, SpeedMult)
+    END_ENTITY_CONFIG
 
-	CEntityConfig*	m_pEntityConfig;
+    CEntityConfig*  m_pEntityConfig;
 
-	DECLARE_ENT_ALLOCATOR2(State, Spores)
+    DECLARE_ENT_ALLOCATOR2(State, Spores)
 
 public:
-	~CStateSpores()	{}
-	CStateSpores();
+    ~CStateSpores() {}
+    CStateSpores();
 
-	void	StateFrame();
+    void    StateFrame();
 };
 //=============================================================================
 

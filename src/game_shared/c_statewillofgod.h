@@ -17,18 +17,18 @@
 class CStateWillOfGod : public IEntityState
 {
 private:
-	START_ENTITY_CONFIG(IEntityState)
-		DECLARE_ENTITY_CVAR(float, ArmorMult)
-		DECLARE_ENTITY_CVAR(float, ArmorAdd)
-	END_ENTITY_CONFIG
+    START_ENTITY_CONFIG(IEntityState)
+        DECLARE_ENTITY_CVAR(float, ArmorMult)
+        DECLARE_ENTITY_CVAR(float, ArmorAdd)
+    END_ENTITY_CONFIG
 
-	CEntityConfig*	m_pEntityConfig;
+    CEntityConfig*  m_pEntityConfig;
 
-	DECLARE_ENT_ALLOCATOR2(State, WillOfGod);
+    DECLARE_ENT_ALLOCATOR2(State, WillOfGod);
 
 public:
-	~CStateWillOfGod()	{}
-	CStateWillOfGod();
+    ~CStateWillOfGod()  {}
+    CStateWillOfGod();
 };
 //=============================================================================
 

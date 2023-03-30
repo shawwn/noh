@@ -17,15 +17,15 @@
 class CPlayerRevenant : public IPlayerEntity
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Player, Revenant);
+    DECLARE_ENT_ALLOCATOR2(Player, Revenant);
 
 public:
-	~CPlayerRevenant()	{}
-	CPlayerRevenant() :
-	IPlayerEntity(GetEntityConfig())
-	{}
+    ~CPlayerRevenant()  {}
+    CPlayerRevenant() :
+    IPlayerEntity(GetEntityConfig())
+    {}
 
-	void	Move(const CClientSnapshot &snapshot)	{ MoveWalk(snapshot); }
+    void    Move(const CClientSnapshot &snapshot)   { MoveWalk(snapshot); }
 };
 //=============================================================================
 

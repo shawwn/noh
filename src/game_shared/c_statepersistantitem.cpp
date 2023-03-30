@@ -16,7 +16,7 @@
 //=============================================================================
 DEFINE_ENT_ALLOCATOR2(State, PersistantItem);
 
-vector<SDataField>*	CStatePersistantItem::s_pvFields;
+vector<SDataField>* CStatePersistantItem::s_pvFields;
 //=============================================================================
 
 
@@ -47,129 +47,129 @@ m_uiPersistantType(PERSISTANT_TYPE_NULL)
 /*====================
   CStatePersistantItem::GetTypeVector
   ====================*/
-const vector<SDataField>&	CStatePersistantItem::GetTypeVector()
+const vector<SDataField>&   CStatePersistantItem::GetTypeVector()
 {
-	if (!s_pvFields)
-	{
-		s_pvFields = K2_NEW(global,   vector<SDataField>)();
-		s_pvFields->clear();
-		const vector<SDataField> &vBase(IEntityState::GetTypeVector());
-		s_pvFields->insert(s_pvFields->begin(), vBase.begin(), vBase.end());
-		
-		s_pvFields->push_back(SDataField(_T("m_unItemData"), FIELD_PUBLIC, TYPE_SHORT));
-	}
+    if (!s_pvFields)
+    {
+        s_pvFields = K2_NEW(global,   vector<SDataField>)();
+        s_pvFields->clear();
+        const vector<SDataField> &vBase(IEntityState::GetTypeVector());
+        s_pvFields->insert(s_pvFields->begin(), vBase.begin(), vBase.end());
+        
+        s_pvFields->push_back(SDataField(_T("m_unItemData"), FIELD_PUBLIC, TYPE_SHORT));
+    }
 
-	return *s_pvFields;
+    return *s_pvFields;
 }
 
 
 /*====================
   CStatePersistantItem::GetSnapshot
   ====================*/
-void	CStatePersistantItem::GetSnapshot(CEntitySnapshot &snapshot) const
+void    CStatePersistantItem::GetSnapshot(CEntitySnapshot &snapshot) const
 {
-	IEntityState::GetSnapshot(snapshot);
+    IEntityState::GetSnapshot(snapshot);
 
-	snapshot.AddField(m_unItemData);
+    snapshot.AddField(m_unItemData);
 }
 
 
 /*====================
   CStatePersistantItem::ReadSnapshot
   ====================*/
-bool	CStatePersistantItem::ReadSnapshot(CEntitySnapshot &snapshot)
+bool    CStatePersistantItem::ReadSnapshot(CEntitySnapshot &snapshot)
 {
-	try
-	{
-		if (!IEntityState::ReadSnapshot(snapshot))
-			return false;
+    try
+    {
+        if (!IEntityState::ReadSnapshot(snapshot))
+            return false;
 
-		snapshot.ReadNextField(m_unItemData);
+        snapshot.ReadNextField(m_unItemData);
 
-		UpdateItemData();
+        UpdateItemData();
 
-		return true;
-	}
-	catch (CException &ex)
-	{
-		ex.Process(_T("CStatePersistantItem::ReadSnapshot() - "), NO_THROW);
-		return false;
-	}
+        return true;
+    }
+    catch (CException &ex)
+    {
+        ex.Process(_T("CStatePersistantItem::ReadSnapshot() - "), NO_THROW);
+        return false;
+    }
 }
 
 
 /*====================
   CStatePersistantItem::Baseline
   ====================*/
-void	CStatePersistantItem::Baseline()
+void    CStatePersistantItem::Baseline()
 {
-	IEntityState::Baseline();
+    IEntityState::Baseline();
 
-	m_unItemData = PERSISTANT_ITEM_NULL;
+    m_unItemData = PERSISTANT_ITEM_NULL;
 }
 
 
 /*====================
   CStatePersistantItem::UpdateItemData
   ====================*/
-void	CStatePersistantItem::UpdateItemData()
+void    CStatePersistantItem::UpdateItemData()
 {
-	if (m_unItemData == PERSISTANT_ITEM_NULL)
-	{
-		m_uiPersistantType = 0;
-		m_uiRegenMod = 0;
-		m_uiIncreaseMod = 0;
-		m_uiReplenishMod = 0;
-		return;
-	}
+    if (m_unItemData == PERSISTANT_ITEM_NULL)
+    {
+        m_uiPersistantType = 0;
+        m_uiRegenMod = 0;
+        m_uiIncreaseMod = 0;
+        m_uiReplenishMod = 0;
+        return;
+    }
 
-	m_uiPersistantType = (m_unItemData / 1000) % 10;
-	m_uiRegenMod = (m_unItemData / 100) % 10;
-	m_uiIncreaseMod = (m_unItemData / 10) % 10;
-	m_uiReplenishMod = (m_unItemData % 10);
+    m_uiPersistantType = (m_unItemData / 1000) % 10;
+    m_uiRegenMod = (m_unItemData / 100) % 10;
+    m_uiIncreaseMod = (m_unItemData / 10) % 10;
+    m_uiReplenishMod = (m_unItemData % 10);
 
-	FloatMod modValue;
-	modValue.SetMult(GetMultiplier());
+    FloatMod modValue;
+    modValue.SetMult(GetMultiplier());
 
-	if (m_uiIncreaseMod == PERSISTANT_INCREASE_HEALTH)
-	{
-		// Track change in player's health
-		IPlayerEntity *pPlayer(Game.GetPlayerEntity(m_uiOwnerIndex));
+    if (m_uiIncreaseMod == PERSISTANT_INCREASE_HEALTH)
+    {
+        // Track change in player's health
+        IPlayerEntity *pPlayer(Game.GetPlayerEntity(m_uiOwnerIndex));
 
-		if (pPlayer != NULL)
-		{
-			float fHealthPercent(1.0f);
+        if (pPlayer != NULL)
+        {
+            float fHealthPercent(1.0f);
 
-			if (!pPlayer->HasNetFlags(ENT_NET_FLAG_KILLED))
-				fHealthPercent = pPlayer->GetHealthPercent();
+            if (!pPlayer->HasNetFlags(ENT_NET_FLAG_KILLED))
+                fHealthPercent = pPlayer->GetHealthPercent();
 
-			SetMod(m_uiIncreaseMod, modValue);
+            SetMod(m_uiIncreaseMod, modValue);
 
-			pPlayer->SetHealth(pPlayer->GetMaxHealth() * fHealthPercent);
-		}
-		else
-			SetMod(m_uiIncreaseMod, modValue);
-	}
-	else
-		SetMod(m_uiIncreaseMod, modValue);
+            pPlayer->SetHealth(pPlayer->GetMaxHealth() * fHealthPercent);
+        }
+        else
+            SetMod(m_uiIncreaseMod, modValue);
+    }
+    else
+        SetMod(m_uiIncreaseMod, modValue);
 
-	// If we've got an income generation mod, we want
-	// to add the multiplier, not multiply gold by it
-	if (m_uiRegenMod == PERSISTANT_REGEN_INCOME)
-	{
-		modValue.SetMult(1.0f);
-		modValue.SetAdd((GetMultiplier() - 1.0f) * 100);
-	}
+    // If we've got an income generation mod, we want
+    // to add the multiplier, not multiply gold by it
+    if (m_uiRegenMod == PERSISTANT_REGEN_INCOME)
+    {
+        modValue.SetMult(1.0f);
+        modValue.SetAdd((GetMultiplier() - 1.0f) * 100);
+    }
 
-	SetMod(m_uiRegenMod + MOD_REGEN_NULL, modValue);
+    SetMod(m_uiRegenMod + MOD_REGEN_NULL, modValue);
 }
 
 
 /*====================
   CStatePersistantItem::SetItemData
   ====================*/
-void	CStatePersistantItem::SetItemData(ushort unData)
+void    CStatePersistantItem::SetItemData(ushort unData)
 {
-	m_unItemData = unData;
-	UpdateItemData();
+    m_unItemData = unData;
+    UpdateItemData();
 }

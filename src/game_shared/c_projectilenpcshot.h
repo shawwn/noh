@@ -17,41 +17,41 @@
 class CProjectileNpcShot : public IProjectile
 {
 private:
-	static vector<SDataField>	*s_pvFields;
+    static vector<SDataField>   *s_pvFields;
 
-	DECLARE_ENT_ALLOCATOR2(Projectile, NpcShot);
+    DECLARE_ENT_ALLOCATOR2(Projectile, NpcShot);
 
 protected:
-	EffectVector	m_vSourceEffects;
-	EffectVector	m_vTargetEffects;
-	float			m_fEffectRadius;
-	ResHandle		m_hDeathEffect;
+    EffectVector    m_vSourceEffects;
+    EffectVector    m_vTargetEffects;
+    float           m_fEffectRadius;
+    ResHandle       m_hDeathEffect;
 
 public:
-	~CProjectileNpcShot()	{}
-	CProjectileNpcShot();
+    ~CProjectileNpcShot()   {}
+    CProjectileNpcShot();
 
-	// Network
-	GAME_SHARED_API virtual void	Baseline();
-	GAME_SHARED_API virtual void	GetSnapshot(CEntitySnapshot &snapshot) const;
-	GAME_SHARED_API virtual bool	ReadSnapshot(CEntitySnapshot &snapshot);
+    // Network
+    GAME_SHARED_API virtual void    Baseline();
+    GAME_SHARED_API virtual void    GetSnapshot(CEntitySnapshot &snapshot) const;
+    GAME_SHARED_API virtual bool    ReadSnapshot(CEntitySnapshot &snapshot);
 
-	static const vector<SDataField>&	GetTypeVector();
+    static const vector<SDataField>&    GetTypeVector();
 
-	void	SetEffectRadius(float fEffectRadius)	{ m_fEffectRadius = fEffectRadius; }
-	void	SetDeathEffect(ResHandle hDeathEffect)	{ m_hDeathEffect = hDeathEffect; }
+    void    SetEffectRadius(float fEffectRadius)    { m_fEffectRadius = fEffectRadius; }
+    void    SetDeathEffect(ResHandle hDeathEffect)  { m_hDeathEffect = hDeathEffect; }
 
-	void	Killed();
+    void    Killed();
 
-	void	AddSourceEffect(const CNpcAbilityEffect &cEffect)
-	{
-		m_vSourceEffects.push_back(cEffect);
-	}
+    void    AddSourceEffect(const CNpcAbilityEffect &cEffect)
+    {
+        m_vSourceEffects.push_back(cEffect);
+    }
 
-	void	AddTargetEffect(const CNpcAbilityEffect &cEffect)
-	{
-		m_vTargetEffects.push_back(cEffect);
-	}
+    void    AddTargetEffect(const CNpcAbilityEffect &cEffect)
+    {
+        m_vTargetEffects.push_back(cEffect);
+    }
 };
 //=============================================================================
 

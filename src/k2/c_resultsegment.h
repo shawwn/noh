@@ -14,17 +14,17 @@ class CSearchNode;
 class CSegmentWaypoint
 {
 public:
-	CSearchNode *pNode;
-	ESearchDirection eLastDirection;
-	uint uiLength;
-	int iPos;
-	int iNeg;
+    CSearchNode *pNode;
+    ESearchDirection eLastDirection;
+    uint uiLength;
+    int iPos;
+    int iNeg;
 
-	CVec2f	v2Path;
-	float	fPos;
-	float	fNeg;
+    CVec2f  v2Path;
+    float   fPos;
+    float   fNeg;
 
-	CSegmentWaypoint() : pNode(NULL), uiLength(0), iPos(0), iNeg(0) { }
+    CSegmentWaypoint() : pNode(NULL), uiLength(0), iPos(0), iNeg(0) { }
 };
 
 typedef vector<CSegmentWaypoint> SegmentWaypoints;

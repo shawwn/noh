@@ -17,17 +17,17 @@
 class CGadgetImmolate : public IGadgetEntity
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Gadget, Immolate);
+    DECLARE_ENT_ALLOCATOR2(Gadget, Immolate);
 
 public:
-	~CGadgetImmolate()	{}
-	CGadgetImmolate() :
-	IGadgetEntity(GetEntityConfig())
-	{}
+    ~CGadgetImmolate()  {}
+    CGadgetImmolate() :
+    IGadgetEntity(GetEntityConfig())
+    {}
 
-	bool					ServerFrame();
+    bool                    ServerFrame();
 
-	GAME_SHARED_API virtual bool	AIShouldTarget()			{ return false; }
+    GAME_SHARED_API virtual bool    AIShouldTarget()            { return false; }
 };
 //=============================================================================
 

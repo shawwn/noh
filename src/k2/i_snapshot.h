@@ -13,8 +13,8 @@ class ISnapshot
 protected:
 
 public:
-	~ISnapshot();
-	ISnapshot();
+    ~ISnapshot();
+    ISnapshot();
 };
 //=============================================================================
 

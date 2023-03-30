@@ -12,7 +12,7 @@
 //=============================================================================
 // Declarations
 //=============================================================================
-CHeap	g_heapServerGame("_game_server");
+CHeap   g_heapServerGame("_game_server");
 //=============================================================================
 
 #ifdef K2_DEBUG_MEM
@@ -20,18 +20,18 @@ CHeap	g_heapServerGame("_game_server");
 /*====================
   operator new
   ====================*/
-void*	operator new(size_t z)
+void*   operator new(size_t z)
 {
-	return MemManager.Allocate(z, &g_heapServerGame);
+    return MemManager.Allocate(z, &g_heapServerGame);
 }
 
 
 /*====================
   operator new[]
   ====================*/
-void*	operator new[](size_t z)
+void*   operator new[](size_t z)
 {
-	return MemManager.Allocate(z, &g_heapServerGame);
+    return MemManager.Allocate(z, &g_heapServerGame);
 }
 
 #endif

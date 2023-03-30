@@ -17,11 +17,11 @@
 class CBuildingMonastery : public IBuildingEntity
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Building, Monastery);
+    DECLARE_ENT_ALLOCATOR2(Building, Monastery);
 
 public:
-	~CBuildingMonastery()	{}
-	CBuildingMonastery();
+    ~CBuildingMonastery()   {}
+    CBuildingMonastery();
 };
 //=============================================================================
 

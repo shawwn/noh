@@ -20,23 +20,23 @@ class CXMLDoc;
 class K2_API CAlias : public CConsoleElement
 {
 private:
-	tstring	m_sCmd;
+    tstring m_sCmd;
 
 public:
-	CAlias(const tstring &sName, const tstring &sCmd, int iFlags = 0);
-	~CAlias();
+    CAlias(const tstring &sName, const tstring &sCmd, int iFlags = 0);
+    ~CAlias();
 
-	tstring			GetString() const			{ return m_sCmd; }
-	const tstring&	GetCmd() const				{ return m_sCmd; }
-	void			Set(const tstring &sCmd)	{ m_sCmd = sCmd; }
+    tstring         GetString() const           { return m_sCmd; }
+    const tstring&  GetCmd() const              { return m_sCmd; }
+    void            Set(const tstring &sCmd)    { m_sCmd = sCmd; }
 
-	void			Write(CFileHandle &hFile, const tstring &sWildcard, int iFlags);
-	void			Write(CXMLDoc &xmlConfig, const tstring &sWildcard, int iFlags);
-	static bool		WriteConfigFile(CFileHandle &hFile, const tsvector &wildcards, int iFlags);
-	static bool		WriteConfigFile(CXMLDoc &xmlConfig, const tsvector &wildcards, int iFlags);
+    void            Write(CFileHandle &hFile, const tstring &sWildcard, int iFlags);
+    void            Write(CXMLDoc &xmlConfig, const tstring &sWildcard, int iFlags);
+    static bool     WriteConfigFile(CFileHandle &hFile, const tsvector &wildcards, int iFlags);
+    static bool     WriteConfigFile(CXMLDoc &xmlConfig, const tsvector &wildcards, int iFlags);
 
-	static CAlias	*Create(const tstring &sName, const tstring &sCmd);
-	static CAlias	*Find(const tstring &sName);
+    static CAlias   *Create(const tstring &sName, const tstring &sCmd);
+    static CAlias   *Find(const tstring &sName);
 };
 //=============================================================================
 #endif

@@ -17,16 +17,16 @@
 class CConsumableManaMinor : public IConsumableItem
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Consumable, ManaMinor);
+    DECLARE_ENT_ALLOCATOR2(Consumable, ManaMinor);
 
-	static	CCvarf		s_cvarManaAmount;
+    static  CCvarf      s_cvarManaAmount;
 
 public:
-	~CConsumableManaMinor() {}
-	CConsumableManaMinor() :
-	IConsumableItem(GetEntityConfig()) {}
+    ~CConsumableManaMinor() {}
+    CConsumableManaMinor() :
+    IConsumableItem(GetEntityConfig()) {}
 
-	bool	ActivatePrimary(int iButtonStatus);
+    bool    ActivatePrimary(int iButtonStatus);
 };
 //=============================================================================
 

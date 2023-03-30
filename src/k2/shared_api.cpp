@@ -18,7 +18,7 @@
 //=============================================================================
 // Globals
 //=============================================================================
-SCoreAPI	Core;
+SCoreAPI    Core;
 //=============================================================================
 
 
@@ -29,9 +29,9 @@ SCoreAPI	Core;
   to the new dll, hopefully we won't need this at all by the time everything
   is properly arranged
  ====================*/
-void	Shared_SetCoreAPI(SCoreAPI *pAPI)
+void    Shared_SetCoreAPI(SCoreAPI *pAPI)
 {
-	Core = *pAPI;
+    Core = *pAPI;
 }
 
 
@@ -41,13 +41,13 @@ void	Shared_SetCoreAPI(SCoreAPI *pAPI)
   Perform any cleanup here, note that after calling this function, all of
   shared's singletons will be invalid
   ====================*/
-void	Shared_Release()
+void    Shared_Release()
 {
-	pActionRegistry->Release();
-	pInput->Release();
-	pFileManager->Release();
-	pSystem->Release();
-	pConsole->Release();
+    pActionRegistry->Release();
+    pInput->Release();
+    pFileManager->Release();
+    pSystem->Release();
+    pConsole->Release();
 
-	MemManager.Release();
+    MemManager.Release();
 }

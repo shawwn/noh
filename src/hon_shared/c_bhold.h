@@ -14,8 +14,8 @@
 //=============================================================================
 // Declarations
 //=============================================================================
-#define HOLD_FLAGS_NONE						0
-#define HOLD_FLAGS_CANCEL_ANIMATIONS		BIT(1)
+#define HOLD_FLAGS_NONE                     0
+#define HOLD_FLAGS_CANCEL_ANIMATIONS        BIT(1)
 //=============================================================================
 
 //=============================================================================
@@ -24,24 +24,24 @@
 class CBHold : public IBehavior
 {
 private:
-	uint m_uiFlags;
+    uint m_uiFlags;
 
 public:
-	CBHold(uint uiFlags) :
-		IBehavior(EBT_HOLD),
-		m_uiFlags(uiFlags)
-	{}
+    CBHold(uint uiFlags) :
+        IBehavior(EBT_HOLD),
+        m_uiFlags(uiFlags)
+    {}
 
-	virtual void		CopyFrom(const IBehavior* pBehavior);
-	virtual IBehavior*	Clone(CBrain* pNewBrain, IUnitEntity* pNewSelf) const;
+    virtual void        CopyFrom(const IBehavior* pBehavior);
+    virtual IBehavior*  Clone(CBrain* pNewBrain, IUnitEntity* pNewSelf) const;
 
-	virtual bool	Validate();
-	virtual void	Update() {}
-	virtual void	BeginBehavior();
-	virtual void	ThinkFrame();
-	virtual void	MovementFrame();
-	virtual void	ActionFrame();
-	virtual void	CleanupFrame();
+    virtual bool    Validate();
+    virtual void    Update() {}
+    virtual void    BeginBehavior();
+    virtual void    ThinkFrame();
+    virtual void    MovementFrame();
+    virtual void    ActionFrame();
+    virtual void    CleanupFrame();
 };
 //=============================================================================
 

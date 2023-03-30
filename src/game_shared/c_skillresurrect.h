@@ -17,13 +17,13 @@
 class CSkillResurrect : public ISkillItem
 {
 private:
-	DECLARE_ITEM_ALLOCATOR(Skill, Resurrect)
+    DECLARE_ITEM_ALLOCATOR(Skill, Resurrect)
 
 public:
-	~CSkillResurrect();
-	CSkillResurrect();
+    ~CSkillResurrect();
+    CSkillResurrect();
 
-	bool	ActivatePrimary(int iButtonStatus);
+    bool    ActivatePrimary(int iButtonStatus);
 };
 //=============================================================================
 

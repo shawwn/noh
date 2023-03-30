@@ -17,13 +17,13 @@
 class CGadgetShieldGeneratorShield : public IGadgetEntity
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Gadget, ShieldGeneratorShield);
+    DECLARE_ENT_ALLOCATOR2(Gadget, ShieldGeneratorShield);
 
 public:
-	~CGadgetShieldGeneratorShield()	{}
-	CGadgetShieldGeneratorShield();
+    ~CGadgetShieldGeneratorShield() {}
+    CGadgetShieldGeneratorShield();
 
-	virtual void		Link();
+    virtual void        Link();
 };
 //=============================================================================
 

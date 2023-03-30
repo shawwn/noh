@@ -17,13 +17,13 @@
 class CGunStaticDischarge : public IBeamGunItem
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Gun, StaticDischarge);
+    DECLARE_ENT_ALLOCATOR2(Gun, StaticDischarge);
 
 public:
-	~CGunStaticDischarge()	{}
-	CGunStaticDischarge() :
-	IBeamGunItem(GetEntityConfig())
-	{}
+    ~CGunStaticDischarge()  {}
+    CGunStaticDischarge() :
+    IBeamGunItem(GetEntityConfig())
+    {}
 };
 //=============================================================================
 

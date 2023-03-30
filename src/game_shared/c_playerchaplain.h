@@ -17,13 +17,13 @@
 class CPlayerChaplain : public IPlayerEntity
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Player, Chaplain);
+    DECLARE_ENT_ALLOCATOR2(Player, Chaplain);
 
 public:
-	~CPlayerChaplain()	{}
-	CPlayerChaplain();
+    ~CPlayerChaplain()  {}
+    CPlayerChaplain();
 
-	void	Move(const CClientSnapshot &snapshot)	{ MoveWalk(snapshot); }
+    void    Move(const CClientSnapshot &snapshot)   { MoveWalk(snapshot); }
 };
 //=============================================================================
 

@@ -18,21 +18,21 @@
 //=============================================================================
 // Declarations
 //=============================================================================
-IResource*	AllocBitmapResource(const tstring &sPath);
+IResource*  AllocBitmapResource(const tstring &sPath);
 //=============================================================================
 
 //=============================================================================
 // Globals
 //=============================================================================
-IResourceLibrary	g_ResLibBitmapResource(RES_BITMAP, _T("Bitmaps"), CBitmapResource::ResTypeName(), true, AllocBitmapResource);
+IResourceLibrary    g_ResLibBitmapResource(RES_BITMAP, _T("Bitmaps"), CBitmapResource::ResTypeName(), true, AllocBitmapResource);
 //=============================================================================
 
 /*====================
   AllocBitmapResource
   ====================*/
-IResource*	AllocBitmapResource(const tstring &sPath)
+IResource*  AllocBitmapResource(const tstring &sPath)
 {
-	return K2_NEW(ctx_Resources,  CBitmapResource)(sPath);
+    return K2_NEW(ctx_Resources,  CBitmapResource)(sPath);
 }
 
 
@@ -48,35 +48,35 @@ IResource(sPath, TSNULL)
 /*====================
   CBitmapResource::Load
   ====================*/
-int		CBitmapResource::Load(uint uiIgnoreFlags, const char *pData, uint uiSize)
+int     CBitmapResource::Load(uint uiIgnoreFlags, const char *pData, uint uiSize)
 {
-	PROFILE("CBitmapResource::Load");
+    PROFILE("CBitmapResource::Load");
 
-	// Dedicated servers don't need .bmp files so skip this and save some memory
-	if (K2System.IsDedicatedServer() || K2System.IsServerManager())
-		return false;
-		
-	int iResult(0);
+    // Dedicated servers don't need .bmp files so skip this and save some memory
+    if (K2System.IsDedicatedServer() || K2System.IsServerManager())
+        return false;
+        
+    int iResult(0);
 
-	if (!m_sPath.empty())
-		Console.Res << "Loading ^mBitmap^* " << SingleQuoteStr(m_sPath) << newl;
-	else if (!m_sName.empty())
-		Console.Res << "Loading ^mBitmap^* " << SingleQuoteStr(m_sName) << newl;
-	else
-		Console.Res << "Loading ^mUnknown Bitmap^*" << newl;
+    if (!m_sPath.empty())
+        Console.Res << "Loading ^mBitmap^* " << SingleQuoteStr(m_sPath) << newl;
+    else if (!m_sName.empty())
+        Console.Res << "Loading ^mBitmap^* " << SingleQuoteStr(m_sName) << newl;
+    else
+        Console.Res << "Loading ^mUnknown Bitmap^*" << newl;
 
-	assert(pData == NULL);
+    assert(pData == NULL);
 
-	if (!m_cBitmap.Load(m_sPath))
-		iResult = RES_LOAD_FAILED;
+    if (!m_cBitmap.Load(m_sPath))
+        iResult = RES_LOAD_FAILED;
 
-	return iResult;
+    return iResult;
 }
 
 
 /*====================
   CBitmapResource::Free
   ====================*/
-void	CBitmapResource::Free()
+void    CBitmapResource::Free()
 {
 }

@@ -24,24 +24,24 @@ DECLARE_ENTITY_DEFINITION_XML_PROCESSOR(INeutralEntity, Neutral, neutral)
 //=============================================================================
 class CNeutralDefinition : public IUnitDefinition
 {
-	DECLARE_DEFINITION_TYPE_INFO
+    DECLARE_DEFINITION_TYPE_INFO
 
 public:
-	~CNeutralDefinition()	{}
-	CNeutralDefinition() :
-	IUnitDefinition(&g_allocatorNeutral)
-	{}
+    ~CNeutralDefinition()   {}
+    CNeutralDefinition() :
+    IUnitDefinition(&g_allocatorNeutral)
+    {}
 
-	IEntityDefinition*	GetCopy() const	{ return K2_NEW(g_heapResources,    CNeutralDefinition)(*this); }
+    IEntityDefinition*  GetCopy() const { return K2_NEW(g_heapResources,    CNeutralDefinition)(*this); }
 
-	virtual void	GetPrecacheList(EPrecacheScheme eScheme, HeroPrecacheList &deqPrecache)
-	{
-		IUnitDefinition::GetPrecacheList(eScheme, deqPrecache);
+    virtual void    GetPrecacheList(EPrecacheScheme eScheme, HeroPrecacheList &deqPrecache)
+    {
+        IUnitDefinition::GetPrecacheList(eScheme, deqPrecache);
 
-		PRECACHE_GUARD
-			deqPrecache.push_back(SHeroPrecache(GetName(), eScheme));
-		PRECACHE_GUARD_END
-	}
+        PRECACHE_GUARD
+            deqPrecache.push_back(SHeroPrecache(GetName(), eScheme));
+        PRECACHE_GUARD_END
+    }
 };
 //=============================================================================
 

@@ -22,15 +22,15 @@
 class IEffectRenderer : public IRenderer
 {
 protected:
-	ResHandle		m_hMaterial;
-	uint			m_uiStartIndex;
-	uint			m_uiEndIndex;
+    ResHandle       m_hMaterial;
+    uint            m_uiStartIndex;
+    uint            m_uiEndIndex;
 
 public:
-	~IEffectRenderer();
-	IEffectRenderer(ResHandle hMaterial, uint uiStartIndex, uint uiEndIndex, int iEffectLayer, float fDepth);
+    ~IEffectRenderer();
+    IEffectRenderer(ResHandle hMaterial, uint uiStartIndex, uint uiEndIndex, int iEffectLayer, float fDepth);
 
-	void	Setup(EMaterialPhase ePhase);
+    void    Setup(EMaterialPhase ePhase);
 };
 //=============================================================================
 #endif //__I_EFFECTRENDERER_H__

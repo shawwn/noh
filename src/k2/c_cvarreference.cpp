@@ -17,8 +17,8 @@
   ====================*/
 CCvarReference::~CCvarReference()
 {
-	if (m_pCvar != NULL)
-		m_pCvar->RemoveReference(this);
+    if (m_pCvar != NULL)
+        m_pCvar->RemoveReference(this);
 }
 
 
@@ -35,79 +35,79 @@ CCvarReference::CCvarReference(ICvar *pCvar) :
 m_pCvar(pCvar),
 m_bIgnore(false)
 {
-	if (m_pCvar != NULL)
-		m_pCvar->AddReference(this);
+    if (m_pCvar != NULL)
+        m_pCvar->AddReference(this);
 }
 
 CCvarReference::CCvarReference(const tstring &sName) :
 m_pCvar(NULL),
 m_bIgnore(sName.empty())
 {
-	if (m_bIgnore)
-		return;
+    if (m_bIgnore)
+        return;
 
-	m_pCvar = ICvar::Find(sName);
-	if (m_pCvar != NULL)
-		m_pCvar->AddReference(this);
+    m_pCvar = ICvar::Find(sName);
+    if (m_pCvar != NULL)
+        m_pCvar->AddReference(this);
 }
 
 CCvarReference::CCvarReference(const CCvarReference &A) :
 m_pCvar(A.m_pCvar),
 m_bIgnore(A.m_bIgnore)
 {
-	if (m_pCvar != NULL)
-		m_pCvar->AddReference(this);
+    if (m_pCvar != NULL)
+        m_pCvar->AddReference(this);
 }
 
 
 /*====================
   CCvarReference::operator=
   ====================*/
-CCvarReference&	CCvarReference::operator=(const CCvarReference &A)
+CCvarReference& CCvarReference::operator=(const CCvarReference &A)
 {
-	if (m_pCvar != NULL)
-		m_pCvar->RemoveReference(this);
-	m_pCvar = A.m_pCvar;
-	if (m_pCvar != NULL)
-		m_pCvar->AddReference(this);
+    if (m_pCvar != NULL)
+        m_pCvar->RemoveReference(this);
+    m_pCvar = A.m_pCvar;
+    if (m_pCvar != NULL)
+        m_pCvar->AddReference(this);
 
-	return *this;
+    return *this;
 }
 
 
 /*====================
   CCvarReference::Assign
   ====================*/
-void	CCvarReference::Assign(ICvar *pCvar)
+void    CCvarReference::Assign(ICvar *pCvar)
 {
-	if (m_pCvar != NULL)
-		m_pCvar->RemoveReference(this);
-	m_pCvar = pCvar;
-	if (m_pCvar != NULL)
-	{
-		m_pCvar->AddReference(this);
-		m_bIgnore = false;
-	}
+    if (m_pCvar != NULL)
+        m_pCvar->RemoveReference(this);
+    m_pCvar = pCvar;
+    if (m_pCvar != NULL)
+    {
+        m_pCvar->AddReference(this);
+        m_bIgnore = false;
+    }
 }
 
-void	CCvarReference::Assign(const tstring &sName)
+void    CCvarReference::Assign(const tstring &sName)
 {
-	if (m_pCvar != NULL)
-		m_pCvar->RemoveReference(this);
-	m_pCvar = ICvar::Find(sName);
-	if (m_pCvar != NULL)
-	{
-		m_pCvar->AddReference(this);
-		m_bIgnore = false;
-	}
+    if (m_pCvar != NULL)
+        m_pCvar->RemoveReference(this);
+    m_pCvar = ICvar::Find(sName);
+    if (m_pCvar != NULL)
+    {
+        m_pCvar->AddReference(this);
+        m_bIgnore = false;
+    }
 }
 
 
 /*====================
   CCvarReference::Invalidate
   ====================*/
-void	CCvarReference::Invalidate()
+void    CCvarReference::Invalidate()
 {
-	//Console.Warn << _T("Referenced cvar has become invalid: ") << m_pCvar->GetName() << newl;
-	m_pCvar = NULL;
+    //Console.Warn << _T("Referenced cvar has become invalid: ") << m_pCvar->GetName() << newl;
+    m_pCvar = NULL;
 }

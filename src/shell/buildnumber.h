@@ -1,1 +1,1 @@
-#define BUILDNUMBER	_T("0") 
+#define BUILDNUMBER _T("0") 

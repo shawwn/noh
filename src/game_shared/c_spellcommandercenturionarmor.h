@@ -17,13 +17,13 @@
 class CSpellCommanderCenturionArmor : public ISpellItem
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Spell, CommanderCenturionArmor)
+    DECLARE_ENT_ALLOCATOR2(Spell, CommanderCenturionArmor)
 
 public:
-	~CSpellCommanderCenturionArmor()	{}
-	CSpellCommanderCenturionArmor() :
-	ISpellItem(GetEntityConfig())
-	{}
+    ~CSpellCommanderCenturionArmor()    {}
+    CSpellCommanderCenturionArmor() :
+    ISpellItem(GetEntityConfig())
+    {}
 };
 //=============================================================================
 

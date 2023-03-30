@@ -23,25 +23,25 @@ template <uint BUFFER_SIZE>
 class CTransmitFlags
 {
 private:
-	uint	m_pBuffer[BUFFER_SIZE];
-	uint	m_uiLength;
-	uint	m_uiNumFields;
+    uint    m_pBuffer[BUFFER_SIZE];
+    uint    m_uiLength;
+    uint    m_uiNumFields;
 
 public:
-	~CTransmitFlags() {}
-	CTransmitFlags() : m_uiLength(0), m_uiNumFields(0) {}
-	CTransmitFlags(uint uiNumFields) : m_uiLength(0), m_uiNumFields(0) { SetNumFields(uiNumFields); }
+    ~CTransmitFlags() {}
+    CTransmitFlags() : m_uiLength(0), m_uiNumFields(0) {}
+    CTransmitFlags(uint uiNumFields) : m_uiLength(0), m_uiNumFields(0) { SetNumFields(uiNumFields); }
 
-	bool	IsFieldSet(uint uiIndex) const;
-	void	SetField(uint uiIndex);
-	void	SetAllFields();
-	void	Clear();
+    bool    IsFieldSet(uint uiIndex) const;
+    void    SetField(uint uiIndex);
+    void    SetAllFields();
+    void    Clear();
 
-	void	SetNumFields(uint uiNumFields);
-	uint	GetNumFields() const			{ return m_uiNumFields; }
+    void    SetNumFields(uint uiNumFields);
+    uint    GetNumFields() const            { return m_uiNumFields; }
 
-	void		ReadTransmitFlags(const CBufferBit &buffer);
-	void		WriteTransmitFlags(CBufferBit &cBuffer) const;
+    void        ReadTransmitFlags(const CBufferBit &buffer);
+    void        WriteTransmitFlags(CBufferBit &cBuffer) const;
 };
 //=============================================================================
 
@@ -54,22 +54,22 @@ public:
   ====================*/
 template <uint BUFFER_SIZE>
 inline
-void	CTransmitFlags<BUFFER_SIZE>::SetNumFields(uint uiNumFields)
+void    CTransmitFlags<BUFFER_SIZE>::SetNumFields(uint uiNumFields)
 {
-	m_uiNumFields = uiNumFields;
+    m_uiNumFields = uiNumFields;
 
-	uint uiNumGroups(CEIL_MULTIPLE<32>(uiNumFields) >> 5);
+    uint uiNumGroups(CEIL_MULTIPLE<32>(uiNumFields) >> 5);
 
-	// Grow the transmit flags vector, if necessary
-	if (uiNumGroups > m_uiLength)
-	{
-		while (m_uiLength < uiNumGroups && m_uiLength != BUFFER_SIZE)
-			m_pBuffer[m_uiLength++] = 0;
-	}
-	else
-	{
-		m_uiLength = uiNumGroups;
-	}
+    // Grow the transmit flags vector, if necessary
+    if (uiNumGroups > m_uiLength)
+    {
+        while (m_uiLength < uiNumGroups && m_uiLength != BUFFER_SIZE)
+            m_pBuffer[m_uiLength++] = 0;
+    }
+    else
+    {
+        m_uiLength = uiNumGroups;
+    }
 }
 
 
@@ -78,14 +78,14 @@ void	CTransmitFlags<BUFFER_SIZE>::SetNumFields(uint uiNumFields)
   ====================*/
 template <uint BUFFER_SIZE>
 inline
-bool	CTransmitFlags<BUFFER_SIZE>::IsFieldSet(uint uiIndex) const
+bool    CTransmitFlags<BUFFER_SIZE>::IsFieldSet(uint uiIndex) const
 {
-	uint uiGroup(uiIndex >> 5);
+    uint uiGroup(uiIndex >> 5);
 
-	if (uiGroup < m_uiLength)
-		return ((m_pBuffer[uiGroup] & (1 << (uiIndex & 31))) != 0);
-	else
-		return false;
+    if (uiGroup < m_uiLength)
+        return ((m_pBuffer[uiGroup] & (1 << (uiIndex & 31))) != 0);
+    else
+        return false;
 }
 
 
@@ -94,13 +94,13 @@ bool	CTransmitFlags<BUFFER_SIZE>::IsFieldSet(uint uiIndex) const
   ====================*/
 template <uint BUFFER_SIZE>
 inline
-void	CTransmitFlags<BUFFER_SIZE>::SetField(uint uiIndex)
+void    CTransmitFlags<BUFFER_SIZE>::SetField(uint uiIndex)
 {
-	uint uiGroup(uiIndex >> 5);
+    uint uiGroup(uiIndex >> 5);
 
-	// Set the transmit flag bit
-	if (uiGroup < m_uiLength)
-		m_pBuffer[uiGroup] |= (1 << (uiIndex & 31));
+    // Set the transmit flag bit
+    if (uiGroup < m_uiLength)
+        m_pBuffer[uiGroup] |= (1 << (uiIndex & 31));
 }
 
 
@@ -109,10 +109,10 @@ void	CTransmitFlags<BUFFER_SIZE>::SetField(uint uiIndex)
   ====================*/
 template <uint BUFFER_SIZE>
 inline
-void	CTransmitFlags<BUFFER_SIZE>::SetAllFields()
+void    CTransmitFlags<BUFFER_SIZE>::SetAllFields()
 {
-	for (uint ui(0); ui < m_uiLength; ++ui)
-		m_pBuffer[ui] = uint(-1);
+    for (uint ui(0); ui < m_uiLength; ++ui)
+        m_pBuffer[ui] = uint(-1);
 }
 
 
@@ -121,13 +121,13 @@ void	CTransmitFlags<BUFFER_SIZE>::SetAllFields()
   ====================*/
 template <uint BUFFER_SIZE>
 inline
-void	CTransmitFlags<BUFFER_SIZE>::Clear()
+void    CTransmitFlags<BUFFER_SIZE>::Clear()
 {
-	for (uint ui(0); ui < m_uiLength; ++ui)
-		m_pBuffer[ui] = 0;
+    for (uint ui(0); ui < m_uiLength; ++ui)
+        m_pBuffer[ui] = 0;
 }
 
 #include "c_transmitflags.cpp"
 //=============================================================================
 
-#endif	//__C_TRANSMITFLAGS_H__
+#endif  //__C_TRANSMITFLAGS_H__

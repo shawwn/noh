@@ -18,24 +18,24 @@ class CSnapTarget : public IWidget
 {
 protected:
 
-	uint		m_uiSnapDistance;
-	IWidget*	m_pSnapTarget;
-	IWidget*	m_pDragTarget;
+    uint        m_uiSnapDistance;
+    IWidget*    m_pSnapTarget;
+    IWidget*    m_pDragTarget;
 
 public:
-	~CSnapTarget()	{}
-	CSnapTarget(CInterface *pInterface, IWidget *pParent, const CWidgetStyle& style);
+    ~CSnapTarget()  {}
+    CSnapTarget(CInterface *pInterface, IWidget *pParent, const CWidgetStyle& style);
 
-	tstring	GetValue() const									{ if (m_pSnapTarget) return m_pSnapTarget->GetName(); return _T("(UNDEFINED)"); }
+    tstring GetValue() const                                    { if (m_pSnapTarget) return m_pSnapTarget->GetName(); return _T("(UNDEFINED)"); }
 
-	void	Render(const CVec2f &vOrigin, int iFlag, float fFade);
+    void    Render(const CVec2f &vOrigin, int iFlag, float fFade);
 
-	bool	CheckSnapTargets(CVec2f &v2Pos, IWidget *pWidget);
-	bool	CheckSnapTo(CVec2f &v2Pos, IWidget *pWidget);
+    bool    CheckSnapTargets(CVec2f &v2Pos, IWidget *pWidget);
+    bool    CheckSnapTo(CVec2f &v2Pos, IWidget *pWidget);
 
-	void	ClearSnapTarget();
+    void    ClearSnapTarget();
 
-	void	WidgetLost(IWidget *pWidget);
+    void    WidgetLost(IWidget *pWidget);
 };
 //=============================================================================
 

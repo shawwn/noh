@@ -41,10 +41,10 @@ m_pEntityConfig(GetEntityConfig())
 /*====================
   CStateCommanderLifeLeak::StateFrame
   ====================*/
-void	CStateCommanderLifeLeak::StateFrame()
+void    CStateCommanderLifeLeak::StateFrame()
 {
-	IVisualEntity *pInflictor(Game.GetVisualEntity(m_uiInflictorIndex));
-	IPlayerEntity *pPlayer(Game.GetPlayerEntity(m_uiOwnerIndex));
-	if (pPlayer != NULL)
-		pPlayer->Damage(m_pEntityConfig->GetDamagePerSecond() * MsToSec(Game.GetFrameLength()), DAMAGE_FLAG_DIRECT, pInflictor, m_unDamageID);
+    IVisualEntity *pInflictor(Game.GetVisualEntity(m_uiInflictorIndex));
+    IPlayerEntity *pPlayer(Game.GetPlayerEntity(m_uiOwnerIndex));
+    if (pPlayer != NULL)
+        pPlayer->Damage(m_pEntityConfig->GetDamagePerSecond() * MsToSec(Game.GetFrameLength()), DAMAGE_FLAG_DIRECT, pInflictor, m_unDamageID);
 }

@@ -27,20 +27,20 @@ CWidgetState::CWidgetState(CInterface *pInterface, IWidget *pParent, const CWidg
 IWidget(pInterface, pParent, WIDGET_STATE, style),
 m_sStateName(style.GetProperty(_T("statename")))
 {
-	if (IsAbsoluteVisible())
-		DO_EVENT(WEVENT_SHOW)
+    if (IsAbsoluteVisible())
+        DO_EVENT(WEVENT_SHOW)
 }
 
 
 /*====================
   CWidgetState::RenderWidget
   ====================*/
-void	CWidgetState::RenderWidget(const CVec2f &vOrigin, float fFade)
+void    CWidgetState::RenderWidget(const CVec2f &vOrigin, float fFade)
 {
-	if (!HasFlags(WFLAG_VISIBLE))
-		return;
+    if (!HasFlags(WFLAG_VISIBLE))
+        return;
 
-	// Render children
-	//for (WidgetPointerVector_cit it(m_vChildren.begin()); it != m_vChildren.end(); ++it)
-	//	(*it)->Render(vOrigin + m_recArea.lt(), WIDGET_RENDER_ALL, fFade * m_fFadeCurrent);
+    // Render children
+    //for (WidgetPointerVector_cit it(m_vChildren.begin()); it != m_vChildren.end(); ++it)
+    //  (*it)->Render(vOrigin + m_recArea.lt(), WIDGET_RENDER_ALL, fFade * m_fFadeCurrent);
 }

@@ -17,13 +17,13 @@
 class CMeleeCleaver : public IMeleeItem
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Melee, Cleaver)
+    DECLARE_ENT_ALLOCATOR2(Melee, Cleaver)
 
 public:
-	~CMeleeCleaver()	{}
-	CMeleeCleaver() :
-	IMeleeItem(GetEntityConfig())
-	{}
+    ~CMeleeCleaver()    {}
+    CMeleeCleaver() :
+    IMeleeItem(GetEntityConfig())
+    {}
 };
 //=============================================================================
 

@@ -18,67 +18,67 @@
 /*====================
   CBDoubleActivateAbility::CopyFrom
   ====================*/
-void	CBDoubleActivateAbility::CopyFrom(const IBehavior* pBehavior)
+void    CBDoubleActivateAbility::CopyFrom(const IBehavior* pBehavior)
 {
-	assert( GetType() == pBehavior->GetType() );
-	if (GetType() != pBehavior->GetType())
-		return;
+    assert( GetType() == pBehavior->GetType() );
+    if (GetType() != pBehavior->GetType())
+        return;
 
-	const CBDoubleActivateAbility *pCBBehavior(static_cast<const CBDoubleActivateAbility*>(pBehavior));
+    const CBDoubleActivateAbility *pCBBehavior(static_cast<const CBDoubleActivateAbility*>(pBehavior));
 
-	m_iInventorySlot = pCBBehavior->m_iInventorySlot;
-	m_pAbility = pCBBehavior->m_pAbility;
+    m_iInventorySlot = pCBBehavior->m_iInventorySlot;
+    m_pAbility = pCBBehavior->m_pAbility;
 
-	IBehavior::CopyFrom(pBehavior);
+    IBehavior::CopyFrom(pBehavior);
 }
 
 
 /*====================
   CBDoubleActivateAbility::Clone
   ====================*/
-IBehavior*	CBDoubleActivateAbility::Clone(CBrain* pNewBrain, IUnitEntity* pNewSelf) const
+IBehavior*  CBDoubleActivateAbility::Clone(CBrain* pNewBrain, IUnitEntity* pNewSelf) const
 {
-	IBehavior* pBehavior( K2_NEW(g_heapAI,    CBDoubleActivateAbility)( m_iInventorySlot ) );
-	pBehavior->SetBrain(pNewBrain);
-	pBehavior->SetSelf(pNewSelf);
-	pBehavior->CopyFrom(this);
-	return pBehavior;
+    IBehavior* pBehavior( K2_NEW(g_heapAI,    CBDoubleActivateAbility)( m_iInventorySlot ) );
+    pBehavior->SetBrain(pNewBrain);
+    pBehavior->SetSelf(pNewSelf);
+    pBehavior->CopyFrom(this);
+    return pBehavior;
 }
 
 /*====================
   CBDoubleActivateAbility::Validate
   ====================*/
-bool	CBDoubleActivateAbility::Validate()
+bool    CBDoubleActivateAbility::Validate()
 {
 #define FAIL { SetFlag(BSR_END); return false; }
-	if (m_pBrain == NULL ||
-		m_pSelf == NULL ||
-		GetFlags() & BSR_END ||
-		m_pSelf->IsIllusion())
-		FAIL
+    if (m_pBrain == NULL ||
+        m_pSelf == NULL ||
+        GetFlags() & BSR_END ||
+        m_pSelf->IsIllusion())
+        FAIL
 
-	if (m_pSelf->HasUnitFlags(UNIT_FLAG_LOCKED_BACKPACK) &&
-		m_iInventorySlot >= INVENTORY_START_BACKPACK &&
-		m_iInventorySlot <= INVENTORY_END_BACKPACK)
-		FAIL
+    if (m_pSelf->HasUnitFlags(UNIT_FLAG_LOCKED_BACKPACK) &&
+        m_iInventorySlot >= INVENTORY_START_BACKPACK &&
+        m_iInventorySlot <= INVENTORY_END_BACKPACK)
+        FAIL
 
-	m_pAbility = m_pSelf->GetTool(m_iInventorySlot);
-	if (m_pAbility == NULL)
-		FAIL
+    m_pAbility = m_pSelf->GetTool(m_iInventorySlot);
+    if (m_pAbility == NULL)
+        FAIL
 
-	switch (m_pAbility->GetActionType())
-	{
-	case TOOL_ACTION_TARGET_POSITION:
-	case TOOL_ACTION_TARGET_ENTITY:
-		break;
-	default:
-		FAIL
-	}
+    switch (m_pAbility->GetActionType())
+    {
+    case TOOL_ACTION_TARGET_POSITION:
+    case TOOL_ACTION_TARGET_ENTITY:
+        break;
+    default:
+        FAIL
+    }
 
-	if (!m_pAbility->GetDoubleActivate())
-		FAIL
+    if (!m_pAbility->GetDoubleActivate())
+        FAIL
 
-	return true;
+    return true;
 #undef FAIL
 }
 
@@ -86,7 +86,7 @@ bool	CBDoubleActivateAbility::Validate()
 /*====================
   CBDoubleActivateAbility::Update
   ====================*/
-void	CBDoubleActivateAbility::Update()
+void    CBDoubleActivateAbility::Update()
 {
 }
 
@@ -94,93 +94,93 @@ void	CBDoubleActivateAbility::Update()
 /*====================
   CBDoubleActivateAbility::BeginBehavior
   ====================*/
-void	CBDoubleActivateAbility::BeginBehavior()
+void    CBDoubleActivateAbility::BeginBehavior()
 {
-	if (m_pSelf == NULL || m_pAbility == NULL)
-	{
-		Console << _T("CBDoubleActivateAbility: Behavior started without valid information") << newl;
-		return;
-	}
+    if (m_pSelf == NULL || m_pAbility == NULL)
+    {
+        Console << _T("CBDoubleActivateAbility: Behavior started without valid information") << newl;
+        return;
+    }
 
-	m_uiLastUpdate = INVALID_TIME;
-	ClearFlag(BSR_NEW);
+    m_uiLastUpdate = INVALID_TIME;
+    ClearFlag(BSR_NEW);
 }
 
 
 /*====================
   CBDoubleActivateAbility::ThinkFrame
   ====================*/
-void	CBDoubleActivateAbility::ThinkFrame()
+void    CBDoubleActivateAbility::ThinkFrame()
 {
-	if (~GetFlags() & BSR_END)
-	{
-		if (m_pAbility->HasActionScript(ACTION_SCRIPT_DOUBLE_ACTIVATE))
-		{
-			// if there is an <ondoubleactivate> callback, then execute it.
-			m_pAbility->ExecuteActionScript(ACTION_SCRIPT_DOUBLE_ACTIVATE, m_pSelf, m_pSelf->GetPosition());
-		}
-		else
-		{
-			// otherwise, execute default doubleactivate behavior.
-			switch (m_pAbility->GetActionType())
-			{
-			case TOOL_ACTION_TARGET_POSITION:
-				{
-					uint uiAllySpawnScheme(Game.LookupTargetScheme(_T("ally_well")));
-					assert(uiAllySpawnScheme != INVALID_TARGET_SCHEME);
-					if (uiAllySpawnScheme != INVALID_TARGET_SCHEME)
-					{
-						uint uiSpawnIdx(INVALID_INDEX);
-						CVec2f v2SpawnPos(V2_ZERO);
+    if (~GetFlags() & BSR_END)
+    {
+        if (m_pAbility->HasActionScript(ACTION_SCRIPT_DOUBLE_ACTIVATE))
+        {
+            // if there is an <ondoubleactivate> callback, then execute it.
+            m_pAbility->ExecuteActionScript(ACTION_SCRIPT_DOUBLE_ACTIVATE, m_pSelf, m_pSelf->GetPosition());
+        }
+        else
+        {
+            // otherwise, execute default doubleactivate behavior.
+            switch (m_pAbility->GetActionType())
+            {
+            case TOOL_ACTION_TARGET_POSITION:
+                {
+                    uint uiAllySpawnScheme(Game.LookupTargetScheme(_T("ally_well")));
+                    assert(uiAllySpawnScheme != INVALID_TARGET_SCHEME);
+                    if (uiAllySpawnScheme != INVALID_TARGET_SCHEME)
+                    {
+                        uint uiSpawnIdx(INVALID_INDEX);
+                        CVec2f v2SpawnPos(V2_ZERO);
 
-						const UnitList &lUnits(Game.GetUnitList());
-						for (UnitList_cit itEntity(lUnits.begin()), itEntityEnd(lUnits.end()); itEntity != itEntityEnd; ++itEntity)
-						{
-							if (!Game.IsValidTarget(uiAllySpawnScheme, 0, m_pSelf, *itEntity, true))
-								continue;
+                        const UnitList &lUnits(Game.GetUnitList());
+                        for (UnitList_cit itEntity(lUnits.begin()), itEntityEnd(lUnits.end()); itEntity != itEntityEnd; ++itEntity)
+                        {
+                            if (!Game.IsValidTarget(uiAllySpawnScheme, 0, m_pSelf, *itEntity, true))
+                                continue;
 
-							IUnitEntity* pUnit(*itEntity);
-							uiSpawnIdx = pUnit->GetIndex();
-							v2SpawnPos = pUnit->GetPosition().xy();
-							break;
-						}
+                            IUnitEntity* pUnit(*itEntity);
+                            uiSpawnIdx = pUnit->GetIndex();
+                            v2SpawnPos = pUnit->GetPosition().xy();
+                            break;
+                        }
 
-						if (uiSpawnIdx != INVALID_INDEX)
-						{
-							SUnitCommand cmd;
-							cmd.eCommandID = UNITCMD_ABILITY;
-							cmd.uiIndex = INVALID_INDEX;
-							cmd.v2Dest = v2SpawnPos;
-							cmd.uiParam = m_iInventorySlot;
-							cmd.yQueue = QUEUE_FRONT;
-							m_pSelf->PlayerCommand(cmd);
-						}
-					}
-				}
-				break;
-			case TOOL_ACTION_TARGET_ENTITY:
-				{
-					// for target_entity abilities, target our hero.
-					SUnitCommand cmd;
-					cmd.eCommandID = UNITCMD_ABILITY;
-					cmd.uiIndex = m_pSelf->GetIndex();
-					cmd.v2Dest = m_pSelf->GetPosition().xy();
-					cmd.uiParam = m_iInventorySlot;
-					cmd.yQueue = QUEUE_FRONT;
-					m_pSelf->PlayerCommand(cmd);
-				}
-				break;
-			}
-		}
-		SetFlag(BSR_END);
-	}
+                        if (uiSpawnIdx != INVALID_INDEX)
+                        {
+                            SUnitCommand cmd;
+                            cmd.eCommandID = UNITCMD_ABILITY;
+                            cmd.uiIndex = INVALID_INDEX;
+                            cmd.v2Dest = v2SpawnPos;
+                            cmd.uiParam = m_iInventorySlot;
+                            cmd.yQueue = QUEUE_FRONT;
+                            m_pSelf->PlayerCommand(cmd);
+                        }
+                    }
+                }
+                break;
+            case TOOL_ACTION_TARGET_ENTITY:
+                {
+                    // for target_entity abilities, target our hero.
+                    SUnitCommand cmd;
+                    cmd.eCommandID = UNITCMD_ABILITY;
+                    cmd.uiIndex = m_pSelf->GetIndex();
+                    cmd.v2Dest = m_pSelf->GetPosition().xy();
+                    cmd.uiParam = m_iInventorySlot;
+                    cmd.yQueue = QUEUE_FRONT;
+                    m_pSelf->PlayerCommand(cmd);
+                }
+                break;
+            }
+        }
+        SetFlag(BSR_END);
+    }
 }
 
 
 /*====================
   CBDoubleActivateAbility::MovementFrame
   ====================*/
-void	CBDoubleActivateAbility::MovementFrame()
+void    CBDoubleActivateAbility::MovementFrame()
 {
 }
 
@@ -188,7 +188,7 @@ void	CBDoubleActivateAbility::MovementFrame()
 /*====================
   CBDoubleActivateAbility::ActionFrame
   ====================*/
-void	CBDoubleActivateAbility::ActionFrame()
+void    CBDoubleActivateAbility::ActionFrame()
 {
 }
 
@@ -196,7 +196,7 @@ void	CBDoubleActivateAbility::ActionFrame()
 /*====================
   CBDoubleActivateAbility::CleanupFrame
   ====================*/
-void	CBDoubleActivateAbility::CleanupFrame()
+void    CBDoubleActivateAbility::CleanupFrame()
 {
 }
 
@@ -204,7 +204,7 @@ void	CBDoubleActivateAbility::CleanupFrame()
 /*====================
   CBDoubleActivateAbility::EndBehavior
   ====================*/
-void	CBDoubleActivateAbility::EndBehavior()
+void    CBDoubleActivateAbility::EndBehavior()
 {
-	IBehavior::EndBehavior();
+    IBehavior::EndBehavior();
 }

@@ -32,8 +32,8 @@ CTimerManager::CTimerManager()
   --------------------*/
 CMD(PrintTimes)
 {
-	TimerManager.PrintTimes();
-	return true;
+    TimerManager.PrintTimes();
+    return true;
 }
 
 
@@ -42,13 +42,13 @@ CMD(PrintTimes)
   --------------------*/
 CMD(StartTimer)
 {
-	if (vArgList.empty())
-		return false;
+    if (vArgList.empty())
+        return false;
 
-	CTimer *pTimer(TimerManager.AddTimer(vArgList[0]));
-	if (pTimer != NULL)
-		pTimer->Start();
-	return true;
+    CTimer *pTimer(TimerManager.AddTimer(vArgList[0]));
+    if (pTimer != NULL)
+        pTimer->Start();
+    return true;
 }
 
 
@@ -57,11 +57,11 @@ CMD(StartTimer)
   --------------------*/
 CMD(StopTimer)
 {
-	if (vArgList.empty())
-		return false;
+    if (vArgList.empty())
+        return false;
 
-	TimerManager.StopTimer(vArgList[0]);
-	return true;
+    TimerManager.StopTimer(vArgList[0]);
+    return true;
 }
 
 
@@ -70,9 +70,9 @@ CMD(StopTimer)
   --------------------*/
 CMD(ResetTimer)
 {
-	if (vArgList.empty())
-		return false;
+    if (vArgList.empty())
+        return false;
 
-	TimerManager.ResetTimer(vArgList[0]);
-	return true;
+    TimerManager.ResetTimer(vArgList[0]);
+    return true;
 }

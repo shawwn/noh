@@ -17,12 +17,12 @@
 class CSkillWhirlingBlade : public ISkillMelee
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Skill, WhirlingBlade);
+    DECLARE_ENT_ALLOCATOR2(Skill, WhirlingBlade);
 
 public:
-	~CSkillWhirlingBlade() {}
-	CSkillWhirlingBlade() :
-	ISkillMelee(GetEntityConfig()) {}
+    ~CSkillWhirlingBlade() {}
+    CSkillWhirlingBlade() :
+    ISkillMelee(GetEntityConfig()) {}
 };
 //=============================================================================
 

@@ -17,22 +17,22 @@
 class CStateBeastHeal : public IEntityState
 {
 private:
-	START_ENTITY_CONFIG(IEntityState)
-		DECLARE_ENTITY_CVAR(float, HealthPerSecond)
-	END_ENTITY_CONFIG
+    START_ENTITY_CONFIG(IEntityState)
+        DECLARE_ENTITY_CVAR(float, HealthPerSecond)
+    END_ENTITY_CONFIG
 
-	CEntityConfig*	m_pEntityConfig;
+    CEntityConfig*  m_pEntityConfig;
 
-	DECLARE_ENT_ALLOCATOR2(State, BeastHeal);
+    DECLARE_ENT_ALLOCATOR2(State, BeastHeal);
 
-	float	m_fTotalHealed;
+    float   m_fTotalHealed;
 
 public:
-	~CStateBeastHeal()	{}
-	CStateBeastHeal();
+    ~CStateBeastHeal()  {}
+    CStateBeastHeal();
 
-	void	StateFrame();
-	void	Expired();
+    void    StateFrame();
+    void    Expired();
 };
 //=============================================================================
 

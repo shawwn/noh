@@ -22,10 +22,10 @@ CShaderVar::CShaderVar(const tstring &sName, ShaderVarFn_t pfnShaderVarCmd) :
 m_sName(sName),
 m_pfnShaderVar(pfnShaderVarCmd)
 {
-	if (m_pfnShaderVar == NULL)
-		K2System.Error(_T("Tried to register a ShaderVar with a NULL function."));
+    if (m_pfnShaderVar == NULL)
+        K2System.Error(_T("Tried to register a ShaderVar with a NULL function."));
 
-	CShaderVarRegistry::GetInstance()->Register(this);
+    CShaderVarRegistry::GetInstance()->Register(this);
 }
 
 
@@ -34,11 +34,11 @@ m_pfnShaderVar(pfnShaderVarCmd)
   ====================*/
 CShaderVar::~CShaderVar()
 {
-	// If the registry is still valid, unregister the uicmd
-	// This is important for any actions declared in a client dll that
-	// is being unloaded
-	if (!CShaderVarRegistry::IsReleased())
-		CShaderVarRegistry::GetInstance()->Unregister(m_sName);
+    // If the registry is still valid, unregister the uicmd
+    // This is important for any actions declared in a client dll that
+    // is being unloaded
+    if (!CShaderVarRegistry::IsReleased())
+        CShaderVarRegistry::GetInstance()->Unregister(m_sName);
 }
 
 
@@ -49,21 +49,21 @@ CShaderVar::~CShaderVar()
   --------------------*/
 CMD(ShaderVarList)
 {
-	int iNumFound(0);
+    int iNumFound(0);
 
-	const ShaderVarMap &lVars = CShaderVarRegistry::GetInstance()->GetShaderVarMap();
+    const ShaderVarMap &lVars = CShaderVarRegistry::GetInstance()->GetShaderVarMap();
 
-	// Print shader variables
-	for (ShaderVarMap::const_iterator it(lVars.begin()); it != lVars.end(); ++it)
-	{
-		if (vArgList.size() == 0 || it->second->GetName().find(vArgList[0]) != tstring::npos)
-		{
-			Console << it->second->GetName() << newl;
-			++iNumFound;
-		}
-	}
+    // Print shader variables
+    for (ShaderVarMap::const_iterator it(lVars.begin()); it != lVars.end(); ++it)
+    {
+        if (vArgList.size() == 0 || it->second->GetName().find(vArgList[0]) != tstring::npos)
+        {
+            Console << it->second->GetName() << newl;
+            ++iNumFound;
+        }
+    }
 
-	Console << newl << iNumFound << _T(" matching ShaderVars found") << newl;
+    Console << newl << iNumFound << _T(" matching ShaderVars found") << newl;
 
-	return true;
+    return true;
 }

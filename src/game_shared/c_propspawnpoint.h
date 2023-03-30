@@ -17,19 +17,19 @@
 class CPropSpawnPoint : public IPropEntity
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Prop, SpawnPoint)
+    DECLARE_ENT_ALLOCATOR2(Prop, SpawnPoint)
 
 public:
-	~CPropSpawnPoint()	{}
-	CPropSpawnPoint() :
-	IPropEntity(GetEntityConfig())
-	{}
+    ~CPropSpawnPoint()  {}
+    CPropSpawnPoint() :
+    IPropEntity(GetEntityConfig())
+    {}
 
-	GAME_SHARED_API void	Spawn();
+    GAME_SHARED_API void    Spawn();
 
-	bool					AddToScene(const CVec4f &v4Color, int iFlags)	{ return false; }
-	void					Link()		{}
-	void					Unlink()	{}
+    bool                    AddToScene(const CVec4f &v4Color, int iFlags)   { return false; }
+    void                    Link()      {}
+    void                    Unlink()    {}
 };
 //=============================================================================
 

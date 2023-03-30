@@ -19,22 +19,22 @@ class CTreeTool : public ITool
 {
 private:
 public:
-	~CTreeTool();
-	CTreeTool();
+    ~CTreeTool();
+    CTreeTool();
 
-	void	PrimaryUp();
-	void	PrimaryDown();
-	void	SecondaryUp();
-	void	SecondaryDown();
-	void	TertiaryUp();
-	void	TertiaryDown();
-	void	QuaternaryUp();
-	void	QuaternaryDown();
+    void    PrimaryUp();
+    void    PrimaryDown();
+    void    SecondaryUp();
+    void    SecondaryDown();
+    void    TertiaryUp();
+    void    TertiaryDown();
+    void    QuaternaryUp();
+    void    QuaternaryDown();
 
-	void	Cancel();
-	void	Delete();
+    void    Cancel();
+    void    Delete();
 
-	void	Frame(float fFrameTime);
+    void    Frame(float fFrameTime);
 };
 //=============================================================================
 

@@ -17,21 +17,21 @@
 //=============================================================================
 // Declarations
 //=============================================================================
-IResource*	AllocResourceReference(const tstring &sPath);
+IResource*  AllocResourceReference(const tstring &sPath);
 //=============================================================================
 
 //=============================================================================
 // Globals
 //=============================================================================
-IResourceLibrary	g_ResLibResourceReference(RES_REFERENCE, _T("Resource References"), _T("{reference}"), false, AllocResourceReference);
+IResourceLibrary    g_ResLibResourceReference(RES_REFERENCE, _T("Resource References"), _T("{reference}"), false, AllocResourceReference);
 //=============================================================================
 
 /*====================
   AllocResourceReference
   ====================*/
-IResource*	AllocResourceReference(const tstring &sPath)
+IResource*  AllocResourceReference(const tstring &sPath)
 {
-	return K2_NEW(ctx_Resources,  CResourceReference)(sPath);
+    return K2_NEW(ctx_Resources,  CResourceReference)(sPath);
 }
 
 
@@ -40,7 +40,7 @@ IResource*	AllocResourceReference(const tstring &sPath)
   ====================*/
 CResourceReference::~CResourceReference()
 {
-	//Free();
+    //Free();
 }
 
 
@@ -63,49 +63,49 @@ m_hReference(hReference)
 /*====================
   CResourceReference::SetReference
   ====================*/
-void	CResourceReference::SetReference(ResHandle hReference)
+void    CResourceReference::SetReference(ResHandle hReference)
 {
-	m_hReference = hReference;
+    m_hReference = hReference;
 }
 
 
 /*====================
   CResourceReference::Load
   ====================*/
-int		CResourceReference::Load(uint uiIgnoreFlags, const char *pData, uint uiSize)
+int     CResourceReference::Load(uint uiIgnoreFlags, const char *pData, uint uiSize)
 {
-	PROFILE("CResourceReference::Load");
+    PROFILE("CResourceReference::Load");
 
-	try
-	{
-		if (!m_sPath.empty())
-			Console.Res << "Loading ResourceReference " << SingleQuoteStr(m_sPath) << newl;
-		else if (!m_sName.empty())
-			Console.Res << "Loading ResourceReference " << SingleQuoteStr(m_sName) << newl;
-		else
-			Console.Res << "Loading Unknown ResourceReference" << newl;
+    try
+    {
+        if (!m_sPath.empty())
+            Console.Res << "Loading ResourceReference " << SingleQuoteStr(m_sPath) << newl;
+        else if (!m_sName.empty())
+            Console.Res << "Loading ResourceReference " << SingleQuoteStr(m_sName) << newl;
+        else
+            Console.Res << "Loading Unknown ResourceReference" << newl;
 
-		if (m_hReference == INVALID_RESOURCE)
-		{
-			// TODO: Load a NULL Resource instead...
-		}
-	}
-	catch (CException &ex)
-	{
-		SAFE_DELETE_ARRAY(m_pData);
-		ex.Process(_TS("CResourceReference::Load(") + m_sName + _TS(") - "), NO_THROW);
-		return RES_LOAD_FAILED;
-	}
+        if (m_hReference == INVALID_RESOURCE)
+        {
+            // TODO: Load a NULL Resource instead...
+        }
+    }
+    catch (CException &ex)
+    {
+        SAFE_DELETE_ARRAY(m_pData);
+        ex.Process(_TS("CResourceReference::Load(") + m_sName + _TS(") - "), NO_THROW);
+        return RES_LOAD_FAILED;
+    }
 
-	SAFE_DELETE_ARRAY(m_pData);
+    SAFE_DELETE_ARRAY(m_pData);
 
-	return 0;
+    return 0;
 }
 
 
 /*====================
   CResourceReference::Free
   ====================*/
-void	CResourceReference::Free()
+void    CResourceReference::Free()
 {
 }

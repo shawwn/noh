@@ -17,22 +17,22 @@
 class CGadgetManaFountain : public IGadgetUsable
 {
 private:
-	START_ENTITY_CONFIG(IGadgetUsable)
-		DECLARE_ENTITY_CVAR(float, ManaRefillPercent)
-	END_ENTITY_CONFIG
+    START_ENTITY_CONFIG(IGadgetUsable)
+        DECLARE_ENTITY_CVAR(float, ManaRefillPercent)
+    END_ENTITY_CONFIG
 
-	CEntityConfig*	m_pEntityConfig;
+    CEntityConfig*  m_pEntityConfig;
 
-	DECLARE_ENT_ALLOCATOR2(Gadget, ManaFountain);
+    DECLARE_ENT_ALLOCATOR2(Gadget, ManaFountain);
 
 public:
-	~CGadgetManaFountain()	{}
-	CGadgetManaFountain() :
-	IGadgetUsable(GetEntityConfig()),
-	m_pEntityConfig(GetEntityConfig())
-	{}
+    ~CGadgetManaFountain()  {}
+    CGadgetManaFountain() :
+    IGadgetUsable(GetEntityConfig()),
+    m_pEntityConfig(GetEntityConfig())
+    {}
 
-	bool	UseEffect(IGameEntity *pActivator);
+    bool    UseEffect(IGameEntity *pActivator);
 };
 //=============================================================================
 

@@ -17,13 +17,13 @@
 class CProjectilePredFireball : public IProjectile
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Projectile, PredFireball)
+    DECLARE_ENT_ALLOCATOR2(Projectile, PredFireball)
 
 public:
-	~CProjectilePredFireball()	{}
-	CProjectilePredFireball() :
-	IProjectile(GetEntityConfig())
-	{}
+    ~CProjectilePredFireball()  {}
+    CProjectilePredFireball() :
+    IProjectile(GetEntityConfig())
+    {}
 };
 //=============================================================================
 

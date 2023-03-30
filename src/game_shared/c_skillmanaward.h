@@ -17,13 +17,13 @@
 class CSkillManaWard : public ISkillToggle
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Skill, ManaWard)
+    DECLARE_ENT_ALLOCATOR2(Skill, ManaWard)
 
 public:
-	~CSkillManaWard()	{}
-	CSkillManaWard() :
-	ISkillToggle(GetEntityConfig())
-	{}
+    ~CSkillManaWard()   {}
+    CSkillManaWard() :
+    ISkillToggle(GetEntityConfig())
+    {}
 };
 //=============================================================================
 

@@ -37,19 +37,19 @@ CStateBleed::CStateBleed() :
 IEntityState(GetEntityConfig()),
 m_pEntityConfig(GetEntityConfig())
 {
-	m_modSpeed.Set(m_pEntityConfig->GetSpeedAdd(), m_pEntityConfig->GetSpeedMult(), 0.0f);
+    m_modSpeed.Set(m_pEntityConfig->GetSpeedAdd(), m_pEntityConfig->GetSpeedMult(), 0.0f);
 }
 
 
 /*====================
   CStateBleed::StateFrame
   ====================*/
-void	CStateBleed::StateFrame()
+void    CStateBleed::StateFrame()
 {
-	IVisualEntity *pInflictor(Game.GetVisualEntity(m_uiInflictorIndex));
-	IVisualEntity *pOwner(Game.GetVisualEntity(m_uiOwnerIndex));
-	if (pOwner != NULL)
-		pOwner->Damage(m_pEntityConfig->GetDamagePerSecond() * MsToSec(Game.GetFrameLength()), DAMAGE_FLAG_DIRECT, pInflictor, m_unDamageID);
+    IVisualEntity *pInflictor(Game.GetVisualEntity(m_uiInflictorIndex));
+    IVisualEntity *pOwner(Game.GetVisualEntity(m_uiOwnerIndex));
+    if (pOwner != NULL)
+        pOwner->Damage(m_pEntityConfig->GetDamagePerSecond() * MsToSec(Game.GetFrameLength()), DAMAGE_FLAG_DIRECT, pInflictor, m_unDamageID);
 
-	return;
+    return;
 }

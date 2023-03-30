@@ -17,26 +17,26 @@
 class CSkillPounce : public ISkillMelee
 {
 private:
-	START_ENTITY_CONFIG(ISkillMelee)
-		DECLARE_ENTITY_CVAR(float, LeapRange)
-		DECLARE_ENTITY_CVAR(uint, LeapTime)
-		DECLARE_ENTITY_CVAR(tstring, ImpactAnim)
-	END_ENTITY_CONFIG
-	CEntityConfig*	m_pEntityConfig;
+    START_ENTITY_CONFIG(ISkillMelee)
+        DECLARE_ENTITY_CVAR(float, LeapRange)
+        DECLARE_ENTITY_CVAR(uint, LeapTime)
+        DECLARE_ENTITY_CVAR(tstring, ImpactAnim)
+    END_ENTITY_CONFIG
+    CEntityConfig*  m_pEntityConfig;
 
-	DECLARE_ENT_ALLOCATOR2(Skill, Pounce)
+    DECLARE_ENT_ALLOCATOR2(Skill, Pounce)
 
 public:
-	~CSkillPounce()	{}
-	CSkillPounce();
+    ~CSkillPounce() {}
+    CSkillPounce();
 
-	void	FinishedAction(int iAction);
+    void    FinishedAction(int iAction);
 
-	bool	ActivatePrimary(int iButtonStatus);
+    bool    ActivatePrimary(int iButtonStatus);
 
-	ENTITY_CVAR_ACCESSOR(float, LeapRange, 0.0f)
-	ENTITY_CVAR_ACCESSOR(uint, LeapTime, 0)
-	ENTITY_CVAR_ACCESSOR(tstring, ImpactAnim, SNULL)
+    ENTITY_CVAR_ACCESSOR(float, LeapRange, 0.0f)
+    ENTITY_CVAR_ACCESSOR(uint, LeapTime, 0)
+    ENTITY_CVAR_ACCESSOR(tstring, ImpactAnim, SNULL)
 };
 //=============================================================================
 

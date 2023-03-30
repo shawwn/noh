@@ -19,17 +19,17 @@ class CFrameBorder;
 
 enum EFramePiece
 {
-	FRAME_PIECE_START = 0,
-	FRAME_PIECE_BOTTOM_LEFT = FRAME_PIECE_START,
-	FRAME_PIECE_BOTTOM,
-	FRAME_PIECE_BOTTOM_RIGHT,
-	FRAME_PIECE_LEFT,
-	FRAME_PIECE_CENTER,
-	FRAME_PIECE_RIGHT,
-	FRAME_PIECE_TOP_LEFT,
-	FRAME_PIECE_TOP,
-	FRAME_PIECE_TOP_RIGHT,
-	FRAME_PIECE_END
+    FRAME_PIECE_START = 0,
+    FRAME_PIECE_BOTTOM_LEFT = FRAME_PIECE_START,
+    FRAME_PIECE_BOTTOM,
+    FRAME_PIECE_BOTTOM_RIGHT,
+    FRAME_PIECE_LEFT,
+    FRAME_PIECE_CENTER,
+    FRAME_PIECE_RIGHT,
+    FRAME_PIECE_TOP_LEFT,
+    FRAME_PIECE_TOP,
+    FRAME_PIECE_TOP_RIGHT,
+    FRAME_PIECE_END
 };
 //=============================================================================
 
@@ -39,23 +39,23 @@ enum EFramePiece
 class CFrame : public IWidget
 {
 protected:
-	ResHandle		m_hBorderTextures[9];
+    ResHandle       m_hBorderTextures[9];
 
-	float			m_fBorderSize;
-	tstring			m_sBorderSize;
-	CVec4f			m_v4BorderColor;
+    float           m_fBorderSize;
+    tstring         m_sBorderSize;
+    CVec4f          m_v4BorderColor;
 
 public:
-	~CFrame()	{}
-	CFrame(CInterface* pInterface, IWidget* pParent, const CWidgetStyle& style);
+    ~CFrame()   {}
+    CFrame(CInterface* pInterface, IWidget* pParent, const CWidgetStyle& style);
 
-	void	SetBorderSize(float fSize)				{ m_fBorderSize = fSize; }
-	void	SetColor(const CVec4f &v4Color);
-	void	SetBorderColor(const CVec4f &v4Color);
+    void    SetBorderSize(float fSize)              { m_fBorderSize = fSize; }
+    void    SetColor(const CVec4f &v4Color);
+    void    SetBorderColor(const CVec4f &v4Color);
 
-	void	RecalculateSize();
+    void    RecalculateSize();
 
-	void	RenderWidget(const CVec2f &vOrigin, float fFade);
+    void    RenderWidget(const CVec2f &vOrigin, float fFade);
 };
 //=============================================================================
 

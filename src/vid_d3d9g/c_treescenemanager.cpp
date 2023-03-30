@@ -30,11 +30,11 @@
 //=============================================================================
 // Globals
 //=============================================================================
-CVAR_BOOL	(vid_treeBranches,		true);
-CVAR_BOOL	(vid_treeFronds,		true);
-CVAR_BOOL	(vid_treeLeaves,		true);
+CVAR_BOOL   (vid_treeBranches,      true);
+CVAR_BOOL   (vid_treeFronds,        true);
+CVAR_BOOL   (vid_treeLeaves,        true);
 
-extern CCvar<bool>	vid_drawModelBounds;
+extern CCvar<bool>  vid_drawModelBounds;
 
 CTreeSceneManager *g_pTreeSceneManager(CTreeSceneManager::GetInstance());
 
@@ -60,78 +60,78 @@ CTreeSceneManager::CTreeSceneManager()
 /*====================
   CTreeSceneManager::AddDefinition
   ====================*/
-uint	CTreeSceneManager::AddDefinition(CTreeModelDef *pTreeDef)
+uint    CTreeSceneManager::AddDefinition(CTreeModelDef *pTreeDef)
 {
-	m_vpTreeDefs.push_back(pTreeDef);
-	return uint(m_vpTreeDefs.size() - 1);
+    m_vpTreeDefs.push_back(pTreeDef);
+    return uint(m_vpTreeDefs.size() - 1);
 }
 
 
 /*====================
   CTreeSceneManager::RemoveDefinition
   ====================*/
-uint	CTreeSceneManager::RemoveDefinition(uint uiIndex)
+uint    CTreeSceneManager::RemoveDefinition(uint uiIndex)
 {
-	m_vpTreeDefs[uiIndex] = NULL;
-	return uint(m_vpTreeDefs.size());
+    m_vpTreeDefs[uiIndex] = NULL;
+    return uint(m_vpTreeDefs.size());
 }
 
 
 /*====================
   CTreeSceneManager::GetDefinition
   ====================*/
-const CTreeModelDef*	CTreeSceneManager::GetDefinition(uint uiIndex)
+const CTreeModelDef*    CTreeSceneManager::GetDefinition(uint uiIndex)
 {
-	if (uiIndex == INVALID_INDEX || uiIndex >= m_vpTreeDefs.size())
-		return NULL;
+    if (uiIndex == INVALID_INDEX || uiIndex >= m_vpTreeDefs.size())
+        return NULL;
 
-	return m_vpTreeDefs[uiIndex];
+    return m_vpTreeDefs[uiIndex];
 }
 
 
 /*====================
   CTreeSceneManager::Destroy
   ====================*/
-void	CTreeSceneManager::Destroy()
+void    CTreeSceneManager::Destroy()
 {
-	for (vector<CTreeModelDef *>::iterator it(m_vpTreeDefs.begin()); it != m_vpTreeDefs.end(); ++it)
-	{
-		if (!(*it))
-			continue;
+    for (vector<CTreeModelDef *>::iterator it(m_vpTreeDefs.begin()); it != m_vpTreeDefs.end(); ++it)
+    {
+        if (!(*it))
+            continue;
 
-		(*it)->Destroy();
-	}
+        (*it)->Destroy();
+    }
 }
 
 
 /*====================
   CTreeSceneManager::Shutdown
   ====================*/
-void	CTreeSceneManager::Shutdown()
+void    CTreeSceneManager::Shutdown()
 {
-	for (vector<CTreeModelDef *>::iterator it(m_vpTreeDefs.begin()); it != m_vpTreeDefs.end(); ++it)
-	{
-		if (!(*it))
-			continue;
+    for (vector<CTreeModelDef *>::iterator it(m_vpTreeDefs.begin()); it != m_vpTreeDefs.end(); ++it)
+    {
+        if (!(*it))
+            continue;
 
-		delete (*it);
-	}
+        delete (*it);
+    }
 
-	m_vpTreeDefs.clear();
+    m_vpTreeDefs.clear();
 }
 
 
 /*====================
   CTreeSceneManager::ResetLeaves
   ====================*/
-void	CTreeSceneManager::ResetLeaves()
+void    CTreeSceneManager::ResetLeaves()
 {
-	for (vector<CTreeModelDef *>::iterator it(m_vpTreeDefs.begin()); it != m_vpTreeDefs.end(); ++it)
-	{
-		if (!(*it))
-			continue;
+    for (vector<CTreeModelDef *>::iterator it(m_vpTreeDefs.begin()); it != m_vpTreeDefs.end(); ++it)
+    {
+        if (!(*it))
+            continue;
 
-		(*it)->ResetLeaves();
-	}
+        (*it)->ResetLeaves();
+    }
 }
 

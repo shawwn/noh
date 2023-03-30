@@ -17,33 +17,33 @@
 class CPropTree : public IBitEntity
 {
 private:
-	START_ENTITY_CONFIG(IBitEntity)
-		DECLARE_ENTITY_CVAR(tstring, DisplayName)
-	END_ENTITY_CONFIG
+    START_ENTITY_CONFIG(IBitEntity)
+        DECLARE_ENTITY_CVAR(tstring, DisplayName)
+    END_ENTITY_CONFIG
 
-	CEntityConfig*	m_pEntityConfig;
+    CEntityConfig*  m_pEntityConfig;
 
-	DECLARE_ENT_ALLOCATOR2(Prop, Tree);
+    DECLARE_ENT_ALLOCATOR2(Prop, Tree);
 
-	uint	m_uiBlockerIndex;
+    uint    m_uiBlockerIndex;
 
 public:
-	~CPropTree()	{}
-	CPropTree();
+    ~CPropTree()    {}
+    CPropTree();
 
-	virtual void	Spawn();
+    virtual void    Spawn();
 
-	virtual void	Activate();
-	virtual void	Deactivate();
+    virtual void    Activate();
+    virtual void    Deactivate();
 
-	virtual bool	IsVisibleOnMap(CPlayer *pLocalPlayer) const					{ return false; }
-	virtual void	DrawOnMap(class CUITrigger &minimap, CPlayer *pLocalPlayer) {}
+    virtual bool    IsVisibleOnMap(CPlayer *pLocalPlayer) const                 { return false; }
+    virtual void    DrawOnMap(class CUITrigger &minimap, CPlayer *pLocalPlayer) {}
 
-	virtual bool	IsTargetType(const CTargetScheme::STestRecord &test, const IUnitEntity *pInitiator) const;
+    virtual bool    IsTargetType(const CTargetScheme::STestRecord &test, const IUnitEntity *pInitiator) const;
 
-	virtual CVec3f	GetApproachPosition(const CVec3f &v3Start, const CBBoxf &bbBounds);
+    virtual CVec3f  GetApproachPosition(const CVec3f &v3Start, const CBBoxf &bbBounds);
 
-	ENTITY_CVAR_ACCESSOR(const tstring&, DisplayName)
+    ENTITY_CVAR_ACCESSOR(const tstring&, DisplayName)
 };
 //=============================================================================
 

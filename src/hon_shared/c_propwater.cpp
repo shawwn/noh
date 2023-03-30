@@ -24,87 +24,87 @@ DEFINE_ENT_ALLOCATOR2(Prop, Water);
 /*====================
   CPropWater::Spawn
   ====================*/
-void	CPropWater::Spawn()
+void    CPropWater::Spawn()
 {
-	IPropEntity::Spawn();
+    IPropEntity::Spawn();
 
-	m_yStatus = ENTITY_STATUS_ACTIVE;
+    m_yStatus = ENTITY_STATUS_ACTIVE;
 
-	if (Game.IsClient())
-	{
-		m_aAxis.Set(m_v3Angles);
+    if (Game.IsClient())
+    {
+        m_aAxis.Set(m_v3Angles);
 
-		m_cSceneEntity.Clear();
-		m_cSceneEntity.scale = m_fScale;
-		m_cSceneEntity.SetPosition(m_v3Position);
-		m_cSceneEntity.axis = m_aAxis;
-		m_cSceneEntity.objtype = OBJTYPE_MODEL;
-		m_cSceneEntity.hRes = GetModel();
-		m_cSceneEntity.skeleton = m_pSkeleton;
-		m_cSceneEntity.color = WHITE;
-		m_cSceneEntity.effectdepth = FAR_AWAY * 0.5f;
+        m_cSceneEntity.Clear();
+        m_cSceneEntity.scale = m_fScale;
+        m_cSceneEntity.SetPosition(m_v3Position);
+        m_cSceneEntity.axis = m_aAxis;
+        m_cSceneEntity.objtype = OBJTYPE_MODEL;
+        m_cSceneEntity.hRes = GetModel();
+        m_cSceneEntity.skeleton = m_pSkeleton;
+        m_cSceneEntity.color = WHITE;
+        m_cSceneEntity.effectdepth = FAR_AWAY * 0.5f;
 
-		m_cSceneEntity.flags = SCENEENT_SOLID_COLOR | SCENEENT_USE_AXIS | SCENEENT_FOG_OF_WAR;
+        m_cSceneEntity.flags = SCENEENT_SOLID_COLOR | SCENEENT_USE_AXIS | SCENEENT_FOG_OF_WAR;
 
-		CModel *pModel(g_ResourceManager.GetModel(GetModel()));
-		if (pModel)
-		{
-			CBBoxf bbBounds(pModel->GetBounds());
-			bbBounds.Transform(m_v3Position, m_aAxis, m_fScale);
+        CModel *pModel(g_ResourceManager.GetModel(GetModel()));
+        if (pModel)
+        {
+            CBBoxf bbBounds(pModel->GetBounds());
+            bbBounds.Transform(m_v3Position, m_aAxis, m_fScale);
 
-			m_cSceneEntity.bounds = bbBounds;
-			m_cSceneEntity.flags |= SCENEENT_USE_BOUNDS;
-		}
-	}
+            m_cSceneEntity.bounds = bbBounds;
+            m_cSceneEntity.flags |= SCENEENT_USE_BOUNDS;
+        }
+    }
 
-	Game.AddWaterMarker(m_v3Position);
+    Game.AddWaterMarker(m_v3Position);
 }
 
 
 /*====================
   CPropWater::AddToScene
   ====================*/
-bool	CPropWater::AddToScene(const CVec4f &v4Color, int iFlags)
+bool    CPropWater::AddToScene(const CVec4f &v4Color, int iFlags)
 {
-	//PROFILE("CPropWater::AddToScene");
+    //PROFILE("CPropWater::AddToScene");
 
-	if (GetModel() == INVALID_INDEX)
-		return false;
+    if (GetModel() == INVALID_INDEX)
+        return false;
 
-	m_cSceneEntity.color = v4Color;
+    m_cSceneEntity.color = v4Color;
 
-	if (m_uiClientRenderFlags & ECRF_HALFTRANSPARENT)
-		m_cSceneEntity.color[A] *= 0.5f;
+    if (m_uiClientRenderFlags & ECRF_HALFTRANSPARENT)
+        m_cSceneEntity.color[A] *= 0.5f;
 
-	SSceneEntityEntry &cEntry(SceneManager.AddEntity(m_cSceneEntity));
+    SSceneEntityEntry &cEntry(SceneManager.AddEntity(m_cSceneEntity));
 
-	if (!cEntry.bCull)
-		Game.SetActiveReflection(true);
+    if (!cEntry.bCull)
+        Game.SetActiveReflection(true);
 
-	if (!cEntry.bCull || !cEntry.bCullShadow)
-		UpdateSkeleton(true);
-	else
-		UpdateSkeleton(false);
+    if (!cEntry.bCull || !cEntry.bCullShadow)
+        UpdateSkeleton(true);
+    else
+        UpdateSkeleton(false);
 
-	return true;
+    return true;
 }
 
 
 /*====================
   CPropWater::Copy
   ====================*/
-void	CPropWater::Copy(const IGameEntity &B)
+void    CPropWater::Copy(const IGameEntity &B)
 {
-	IPropEntity::Copy(B);
+    IPropEntity::Copy(B);
 
-	const CPropWater *pB(static_cast<const CPropWater *>(&B));
+    const CPropWater *pB(static_cast<const CPropWater *>(&B));
 
-	if (!pB)	
-		return;
+    if (!pB)    
+        return;
 
-	const CPropWater &C(*pB);
+    const CPropWater &C(*pB);
 
-	m_aAxis			 = C.m_aAxis;
-	m_cSceneEntity	 = C.m_cSceneEntity;
+    m_aAxis          = C.m_aAxis;
+    m_cSceneEntity   = C.m_cSceneEntity;
 }
 

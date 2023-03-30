@@ -19,13 +19,13 @@
 class CPlayerSavage : public IPlayerEntity
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Player, Savage);
+    DECLARE_ENT_ALLOCATOR2(Player, Savage);
 
 public:
-	~CPlayerSavage()	{}
-	CPlayerSavage();
+    ~CPlayerSavage()    {}
+    CPlayerSavage();
 
-	void	Move(const CClientSnapshot &snapshot)	{ MoveWalk(snapshot); }
+    void    Move(const CClientSnapshot &snapshot)   { MoveWalk(snapshot); }
 };
 //=============================================================================
 

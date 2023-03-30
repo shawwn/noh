@@ -17,12 +17,12 @@
 class CSkillStealth : public ISkillSelfBuff
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Skill, Stealth)
+    DECLARE_ENT_ALLOCATOR2(Skill, Stealth)
 
 public:
-	~CSkillStealth() {}
-	CSkillStealth() :
-	ISkillSelfBuff(GetEntityConfig()) {}
+    ~CSkillStealth() {}
+    CSkillStealth() :
+    ISkillSelfBuff(GetEntityConfig()) {}
 };
 //=============================================================================
 

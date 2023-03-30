@@ -29,25 +29,25 @@
 
 // <widgetstate>
 BEGIN_XML_REGISTRATION(widgetstate)
-	REGISTER_XML_PROCESSOR(button)
-	REGISTER_XML_PROCESSOR(combobox)
-	REGISTER_XML_PROCESSOR(menu)
-	REGISTER_XML_PROCESSOR(listbox)
-	REGISTER_XML_PROCESSOR(template)
-	REGISTER_XML_PROCESSOR(panel)
-	REGISTER_XML_PROCESSOR(webpanel)
-	REGISTER_XML_PROCESSOR(floater)
+    REGISTER_XML_PROCESSOR(button)
+    REGISTER_XML_PROCESSOR(combobox)
+    REGISTER_XML_PROCESSOR(menu)
+    REGISTER_XML_PROCESSOR(listbox)
+    REGISTER_XML_PROCESSOR(template)
+    REGISTER_XML_PROCESSOR(panel)
+    REGISTER_XML_PROCESSOR(webpanel)
+    REGISTER_XML_PROCESSOR(floater)
 END_XML_REGISTRATION
 SETUP_XML_PROCESSOR_WIDGET(widgetstate, CWidgetState)
-	CWidgetStyle style(pInterface, node);
-	CWidgetState *pNewWidget(pObject->AllocateWidgetState(style));
-	if (pNewWidget == NULL)
-	{
-		Console.Err << _T("Failed creating widget: ") << m_sElementName << newl;
-		return false;
-	}
+    CWidgetStyle style(pInterface, node);
+    CWidgetState *pNewWidget(pObject->AllocateWidgetState(style));
+    if (pNewWidget == NULL)
+    {
+        Console.Err << _T("Failed creating widget: ") << m_sElementName << newl;
+        return false;
+    }
 
-	ProcessChildren(node, pNewWidget);
-	pObject->AddWidgetState(pNewWidget);
-	pInterface->ClearAnchor();
+    ProcessChildren(node, pNewWidget);
+    pObject->AddWidgetState(pNewWidget);
+    pInterface->ClearAnchor();
 END_XML_PROCESSOR_NO_CHILDREN

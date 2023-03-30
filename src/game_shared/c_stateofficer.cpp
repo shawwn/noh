@@ -37,7 +37,7 @@ CStateOfficer::CStateOfficer() :
 IEntityState(GetEntityConfig()),
 m_pEntityConfig(GetEntityConfig())
 {
-	m_modHealthRegen.SetMult(m_pEntityConfig->GetHealthRegenMult());
-	m_modManaRegen.SetMult(m_pEntityConfig->GetManaRegenMult());
-	m_modStaminaRegen.SetMult(m_pEntityConfig->GetStaminaRegenMult());
+    m_modHealthRegen.SetMult(m_pEntityConfig->GetHealthRegenMult());
+    m_modManaRegen.SetMult(m_pEntityConfig->GetManaRegenMult());
+    m_modStaminaRegen.SetMult(m_pEntityConfig->GetStaminaRegenMult());
 }

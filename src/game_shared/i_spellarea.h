@@ -19,10 +19,10 @@ class ISpellArea : ISpellItem
 protected:
 
 public:
-	virtual ~ISpellArea()	{}
-	ISpellArea();
+    virtual ~ISpellArea()   {}
+    ISpellArea();
 
-	virtual bool	ActivatePrimary(const CClientSnapshot &snapshot);
+    virtual bool    ActivatePrimary(const CClientSnapshot &snapshot);
 };
 //=============================================================================
 

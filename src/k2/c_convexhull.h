@@ -20,22 +20,22 @@
 //=============================================================================
 class CConvexHull
 {
-	vector<CPlane>	m_vPlanes;
+    vector<CPlane>  m_vPlanes;
 
-	bool	Contains(const CVec3f &vPoint, vector<CPlane>::const_iterator it1, vector<CPlane>::const_iterator it2, vector<CPlane>::const_iterator it3);
+    bool    Contains(const CVec3f &vPoint, vector<CPlane>::const_iterator it1, vector<CPlane>::const_iterator it2, vector<CPlane>::const_iterator it3);
 
 public:
-	K2_API	CConvexHull();
-	K2_API	CConvexHull(const vector<CPlane> &vPlanes);
-	K2_API	CConvexHull(const CBBoxf &bbox);
+    K2_API  CConvexHull();
+    K2_API  CConvexHull(const vector<CPlane> &vPlanes);
+    K2_API  CConvexHull(const CBBoxf &bbox);
 
-	K2_API	void	AddPlanes(const vector<CPlane> &vPlanes);
-	K2_API	void	AddPlane(const CPlane &plPlane);
+    K2_API  void    AddPlanes(const vector<CPlane> &vPlanes);
+    K2_API  void    AddPlane(const CPlane &plPlane);
 
-	K2_API	bool	Contains(const CVec3f &vPoint);
+    K2_API  bool    Contains(const CVec3f &vPoint);
 
-	const vector<CPlane>&	GetPlanes()	{ return m_vPlanes; }
-	K2_API	void		GetPoints(vector<CVec3f> &vPoints);
+    const vector<CPlane>&   GetPlanes() { return m_vPlanes; }
+    K2_API  void        GetPoints(vector<CVec3f> &vPoints);
 };
 //=============================================================================
 #endif // __C_CONVEXHULL_H__

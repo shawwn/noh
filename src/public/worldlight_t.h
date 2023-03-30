@@ -7,13 +7,13 @@ const int _MAX_WORLD_LIGHTS = 4;
 
 typedef struct
 {
-	CCvar<tstring>	*type;
-	CCvar<float>	*x;
-	CCvar<float>	*y;
-	CCvar<float>	*z;
-	CCvar<float>	*r;
-	CCvar<float>	*g;
-	CCvar<float>	*b;
+    CCvar<tstring>  *type;
+    CCvar<float>    *x;
+    CCvar<float>    *y;
+    CCvar<float>    *z;
+    CCvar<float>    *r;
+    CCvar<float>    *g;
+    CCvar<float>    *b;
 } worldLight_t;
 
 #endif // __WORLDLIGHT_T__

@@ -31,82 +31,82 @@ m_iStartFrame(style.GetPropertyInt(_T("startframe"), 0)),
 m_iLoopbackFrame(style.GetPropertyInt(_T("loopbackframe"), 0)),
 m_bLoop(style.GetPropertyBool(_T("loop"), true))
 {
-	float fFps(style.GetPropertyFloat(_T("fps"), 20.0f));
+    float fFps(style.GetPropertyFloat(_T("fps"), 20.0f));
 
-	m_iMSperFrame = MAX(INT_FLOOR(1000.0f / fFps), 1);
+    m_iMSperFrame = MAX(INT_FLOOR(1000.0f / fFps), 1);
 
-	const tstring &sTextureName(style.GetProperty(_T("texture")));
+    const tstring &sTextureName(style.GetProperty(_T("texture")));
 
-	for (int iZ(0); iZ < 10000; ++iZ)
-	{
-		tstring sFrame(Filename_AppendSuffix(sTextureName, XtoA(iZ, FMT_PADZERO, 4)));
+    for (int iZ(0); iZ < 10000; ++iZ)
+    {
+        tstring sFrame(Filename_AppendSuffix(sTextureName, XtoA(iZ, FMT_PADZERO, 4)));
 
-		if (!UITextureRegistry.TextureExists(sFrame, 0))
-			break;
+        if (!UITextureRegistry.TextureExists(sFrame, 0))
+            break;
 
-		m_vTextures.push_back(INVALID_RESOURCE);
+        m_vTextures.push_back(INVALID_RESOURCE);
 
-		UITextureRegistry.Register(sFrame, 0, m_vTextures.back());
-	}
+        UITextureRegistry.Register(sFrame, 0, m_vTextures.back());
+    }
 
-	int iNumTextureFrames(int(m_vTextures.size()));
+    int iNumTextureFrames(int(m_vTextures.size()));
 
-	// Fix up the frames
-	if (m_iStartFrame == 0 && m_iNumFrames == 0)
-		m_iNumFrames = iNumTextureFrames;
-	else if (m_iNumFrames == -1)
-		m_iNumFrames = iNumTextureFrames - m_iStartFrame;
-	else if (m_iStartFrame + m_iNumFrames > int(m_vTextures.size()))
-		m_iNumFrames = iNumTextureFrames - m_iStartFrame;
-	
-	if (m_iNumFrames <= 0)
-		m_iNumFrames = 1;
+    // Fix up the frames
+    if (m_iStartFrame == 0 && m_iNumFrames == 0)
+        m_iNumFrames = iNumTextureFrames;
+    else if (m_iNumFrames == -1)
+        m_iNumFrames = iNumTextureFrames - m_iStartFrame;
+    else if (m_iStartFrame + m_iNumFrames > int(m_vTextures.size()))
+        m_iNumFrames = iNumTextureFrames - m_iStartFrame;
+    
+    if (m_iNumFrames <= 0)
+        m_iNumFrames = 1;
 
-	if (m_bLoop)
-	{
-		if (m_iLoopbackFrame == -1)
-			m_iLoopbackFrame = m_iStartFrame + m_iNumFrames - 1;
+    if (m_bLoop)
+    {
+        if (m_iLoopbackFrame == -1)
+            m_iLoopbackFrame = m_iStartFrame + m_iNumFrames - 1;
 
-		m_iLoopbackFrame = CLAMP(m_iLoopbackFrame, m_iStartFrame, m_iStartFrame + m_iNumFrames - 1);
-		m_iNumLoopFrames = m_iStartFrame + m_iNumFrames - m_iLoopbackFrame;
-	}
+        m_iLoopbackFrame = CLAMP(m_iLoopbackFrame, m_iStartFrame, m_iStartFrame + m_iNumFrames - 1);
+        m_iNumLoopFrames = m_iStartFrame + m_iNumFrames - m_iLoopbackFrame;
+    }
 
-	StartAnim(1.0f, 0);
+    StartAnim(1.0f, 0);
 }
 
 
 /*====================
   CAnimatedImage::MouseDown
   ====================*/
-void	CAnimatedImage::MouseDown(EButton button, const CVec2f &v2CursorPos)
+void    CAnimatedImage::MouseDown(EButton button, const CVec2f &v2CursorPos)
 {
-	if (button == BUTTON_MOUSEL)
-	{
-		DO_EVENT(WEVENT_MOUSELDOWN)
-		DO_EVENT(WEVENT_CLICK)
-		
-	}
-	else if (button == BUTTON_MOUSER)
-	{
-		DO_EVENT(WEVENT_MOUSERDOWN)
-		DO_EVENT(WEVENT_RIGHTCLICK)
-	}
+    if (button == BUTTON_MOUSEL)
+    {
+        DO_EVENT(WEVENT_MOUSELDOWN)
+        DO_EVENT(WEVENT_CLICK)
+        
+    }
+    else if (button == BUTTON_MOUSER)
+    {
+        DO_EVENT(WEVENT_MOUSERDOWN)
+        DO_EVENT(WEVENT_RIGHTCLICK)
+    }
 }
 
 
 /*====================
   CAnimatedImage::MouseUp
   ====================*/
-void	CAnimatedImage::MouseUp(EButton button, const CVec2f &v2CursorPos)
+void    CAnimatedImage::MouseUp(EButton button, const CVec2f &v2CursorPos)
 {
-	if (button == BUTTON_MOUSEL)
-	{
-		DO_EVENT(WEVENT_MOUSELUP)
-	}
-	else if (button == BUTTON_MOUSER)
-	{
-		DO_EVENT(WEVENT_MOUSERUP)
-	}
+    if (button == BUTTON_MOUSEL)
+    {
+        DO_EVENT(WEVENT_MOUSELUP)
+    }
+    else if (button == BUTTON_MOUSER)
+    {
+        DO_EVENT(WEVENT_MOUSERUP)
+    }
 }
 
 
@@ -118,99 +118,99 @@ void	CAnimatedImage::MouseUp(EButton button, const CVec2f &v2CursorPos)
   looping animations will loop back to the loopbackframe specified
   time is specified in milliseconds
   ====================*/
-bool	CAnimatedImage::ComputeAnimFrame(int iTime, int &iLoFrame, int &iHiFrame, float &fLerpAmt, uint uiForceLength)
+bool    CAnimatedImage::ComputeAnimFrame(int iTime, int &iLoFrame, int &iHiFrame, float &fLerpAmt, uint uiForceLength)
 {
-	int iMsPerFrame(m_iMSperFrame);
-	if (uiForceLength != 0)
-		iMsPerFrame = uiForceLength / m_iNumFrames;
-	if (iMsPerFrame == 0)
-		iMsPerFrame = 1;
+    int iMsPerFrame(m_iMSperFrame);
+    if (uiForceLength != 0)
+        iMsPerFrame = uiForceLength / m_iNumFrames;
+    if (iMsPerFrame == 0)
+        iMsPerFrame = 1;
 
-	if (iTime < 0)
-	{
-		iLoFrame = 0;
-		iHiFrame = 1;
-		fLerpAmt = 0.0f;
+    if (iTime < 0)
+    {
+        iLoFrame = 0;
+        iHiFrame = 1;
+        fLerpAmt = 0.0f;
 
-		return true;
-	}
+        return true;
+    }
 
-	int iFrame(iTime / iMsPerFrame);
+    int iFrame(iTime / iMsPerFrame);
 
-	if (iFrame >= m_iNumFrames - 1)
-	{
-		if (!m_bLoop)
-		{
-			iLoFrame = m_iStartFrame + m_iNumFrames - 1;
-			iHiFrame = m_iStartFrame + m_iNumFrames - 1;
-			fLerpAmt = 0.0f;
-			return false;
-		}
-		else
-		{
-			iLoFrame = ((iFrame - (m_iLoopbackFrame - m_iStartFrame)) % m_iNumLoopFrames) + m_iLoopbackFrame;
-			iHiFrame = ((iFrame - (m_iLoopbackFrame - m_iStartFrame) + 1) % m_iNumLoopFrames) + m_iLoopbackFrame;
+    if (iFrame >= m_iNumFrames - 1)
+    {
+        if (!m_bLoop)
+        {
+            iLoFrame = m_iStartFrame + m_iNumFrames - 1;
+            iHiFrame = m_iStartFrame + m_iNumFrames - 1;
+            fLerpAmt = 0.0f;
+            return false;
+        }
+        else
+        {
+            iLoFrame = ((iFrame - (m_iLoopbackFrame - m_iStartFrame)) % m_iNumLoopFrames) + m_iLoopbackFrame;
+            iHiFrame = ((iFrame - (m_iLoopbackFrame - m_iStartFrame) + 1) % m_iNumLoopFrames) + m_iLoopbackFrame;
 
-			int iTimeLo(iFrame * iMsPerFrame);
-			fLerpAmt = (iTime - iTimeLo) / float(iMsPerFrame);
+            int iTimeLo(iFrame * iMsPerFrame);
+            fLerpAmt = (iTime - iTimeLo) / float(iMsPerFrame);
 
-			return true;
-		}
-	}
+            return true;
+        }
+    }
 
-	iLoFrame = (iFrame % m_iNumFrames) + m_iStartFrame;
-	iHiFrame = ((iFrame + 1) % m_iNumFrames) + m_iStartFrame;
+    iLoFrame = (iFrame % m_iNumFrames) + m_iStartFrame;
+    iHiFrame = ((iFrame + 1) % m_iNumFrames) + m_iStartFrame;
 
-	int iTimeLo(iFrame * iMsPerFrame);
-	fLerpAmt = (iTime - iTimeLo) / float(iMsPerFrame);
+    int iTimeLo(iFrame * iMsPerFrame);
+    fLerpAmt = (iTime - iTimeLo) / float(iMsPerFrame);
 
-	return true;
+    return true;
 }
 
 
 /*====================
   CAnimatedImage::Frame
   ====================*/
-void	CAnimatedImage::Frame(uint uiFrameLength, bool bProcessFrame)
+void    CAnimatedImage::Frame(uint uiFrameLength, bool bProcessFrame)
 {
-	IWidget::Frame(uiFrameLength, bProcessFrame);
+    IWidget::Frame(uiFrameLength, bProcessFrame);
 
-	if (m_vTextures.size() == 0)
-		return;
+    if (m_vTextures.size() == 0)
+        return;
 
-	uint uiTime(Host.GetTime());
-	int iAnimTime(m_fSpeed == 0.0f ? m_iOffsetTime : INT_FLOOR((uiTime - m_uiStartTime + m_iOffsetTime) * m_fSpeed));
+    uint uiTime(Host.GetTime());
+    int iAnimTime(m_fSpeed == 0.0f ? m_iOffsetTime : INT_FLOOR((uiTime - m_uiStartTime + m_iOffsetTime) * m_fSpeed));
 
-	int iLoFrame;
-	int iHiFrame;
-	float fLerp;
+    int iLoFrame;
+    int iHiFrame;
+    float fLerp;
 
-	bool bEnd(false);
-	if (!ComputeAnimFrame(iAnimTime, iLoFrame, iHiFrame, fLerp, m_uiForceLength))
-		bEnd = true;
+    bool bEnd(false);
+    if (!ComputeAnimFrame(iAnimTime, iLoFrame, iHiFrame, fLerp, m_uiForceLength))
+        bEnd = true;
 
-	if (bEnd)
-	{
-		SetFlags(WFLAG_NO_DRAW);
-		m_hTexture[0] = INVALID_RESOURCE;
-	}
-	else
-	{
-		UnsetFlags(WFLAG_NO_DRAW);
-		m_hTexture[0] = m_vTextures[iLoFrame];
-	}
+    if (bEnd)
+    {
+        SetFlags(WFLAG_NO_DRAW);
+        m_hTexture[0] = INVALID_RESOURCE;
+    }
+    else
+    {
+        UnsetFlags(WFLAG_NO_DRAW);
+        m_hTexture[0] = m_vTextures[iLoFrame];
+    }
 }
 
 
 /*====================
   CAnimatedImage::StartAnim
   ====================*/
-void	CAnimatedImage::StartAnim(float fSpeed, uint uiForceLength)
+void    CAnimatedImage::StartAnim(float fSpeed, uint uiForceLength)
 {
-	m_uiStartTime = Host.GetTime();
-	m_iOffsetTime = 0;
-	m_fSpeed = fSpeed;
-	m_uiForceLength = uiForceLength;
+    m_uiStartTime = Host.GetTime();
+    m_iOffsetTime = 0;
+    m_fSpeed = fSpeed;
+    m_uiForceLength = uiForceLength;
 }
 
 
@@ -219,9 +219,9 @@ void	CAnimatedImage::StartAnim(float fSpeed, uint uiForceLength)
   --------------------*/
 UI_VOID_CMD(StartAnim, 0)
 {
-	if (pThis == NULL ||
-		pThis->GetType() != WIDGET_ANIMATEDIMAGE)
-		return;
+    if (pThis == NULL ||
+        pThis->GetType() != WIDGET_ANIMATEDIMAGE)
+        return;
 
-	static_cast<CAnimatedImage*>(pThis)->StartAnim(vArgList.size() > 0 ? AtoF(vArgList[0]->Evaluate()) : 1.0f, vArgList.size() > 1 ? AtoI(vArgList[1]->Evaluate()) : 0);
+    static_cast<CAnimatedImage*>(pThis)->StartAnim(vArgList.size() > 0 ? AtoF(vArgList[0]->Evaluate()) : 1.0f, vArgList.size() > 1 ? AtoI(vArgList[1]->Evaluate()) : 0);
 }

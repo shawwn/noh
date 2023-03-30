@@ -16,25 +16,25 @@ class ITool;
 //=============================================================================
 enum EToolID
 {
-	TOOL_INVALID = 0,
-	TOOL_DEFORM,
-	TOOL_PAINT,
-	TOOL_ENTITY,
-	TOOL_OCCLUDER,
-	TOOL_LIGHT,
-	TOOL_FOLIAGE,
-	TOOL_LIGHTMAP,
-	TOOL_SOUND,
-	TOOL_BLOCKER,
-	TOOL_CLIFF,
-	TOOL_VISBLOCKER,
-	TOOL_WATER,
+    TOOL_INVALID = 0,
+    TOOL_DEFORM,
+    TOOL_PAINT,
+    TOOL_ENTITY,
+    TOOL_OCCLUDER,
+    TOOL_LIGHT,
+    TOOL_FOLIAGE,
+    TOOL_LIGHTMAP,
+    TOOL_SOUND,
+    TOOL_BLOCKER,
+    TOOL_CLIFF,
+    TOOL_VISBLOCKER,
+    TOOL_WATER,
 
-	NUM_TOOLS
+    NUM_TOOLS
 };
 
-typedef map<tstring, ITool*>	ToolNameMap;
-typedef map<EToolID, ITool*>	ToolIDMap;
+typedef map<tstring, ITool*>    ToolNameMap;
+typedef map<EToolID, ITool*>    ToolIDMap;
 
 #define ToolBox (*CToolBox::GetInstance())
 //=============================================================================
@@ -45,28 +45,28 @@ typedef map<EToolID, ITool*>	ToolIDMap;
 //=============================================================================
 class CToolBox
 {
-	SINGLETON_DEF(CToolBox)
+    SINGLETON_DEF(CToolBox)
 
 private:
-	ToolNameMap		m_mapTools;
-	ToolIDMap		m_mapToolIDs;
-	ITool*			m_pCurrentTool;
+    ToolNameMap     m_mapTools;
+    ToolIDMap       m_mapToolIDs;
+    ITool*          m_pCurrentTool;
 
 public:
-	~CToolBox();
+    ~CToolBox();
 
-	bool				Register(ITool *pTool);
+    bool                Register(ITool *pTool);
 
-	const ToolNameMap&	GetToolMap() const					{ return m_mapTools; }
+    const ToolNameMap&  GetToolMap() const                  { return m_mapTools; }
 
-	ITool*				SelectTool(const tstring &sName);
-	ITool*				SelectTool(EToolID eTool);
-	ITool*				GetCurrentTool()					{ return m_pCurrentTool; }
-	ITool*				GetTool(const tstring &sName, bool bThrow = false);
-	ITool*				GetTool(EToolID eTool, bool bThrow = false);
-	bool				IsToolSelected(EToolID eTool);
+    ITool*              SelectTool(const tstring &sName);
+    ITool*              SelectTool(EToolID eTool);
+    ITool*              GetCurrentTool()                    { return m_pCurrentTool; }
+    ITool*              GetTool(const tstring &sName, bool bThrow = false);
+    ITool*              GetTool(EToolID eTool, bool bThrow = false);
+    bool                IsToolSelected(EToolID eTool);
 
-	void				Clear()								{ m_mapTools.clear(); m_pCurrentTool = NULL; }
+    void                Clear()                             { m_mapTools.clear(); m_pCurrentTool = NULL; }
 };
 //=============================================================================
 

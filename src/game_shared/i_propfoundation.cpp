@@ -21,7 +21,7 @@
 //=============================================================================
 // Definitions
 //=============================================================================
-vector<SDataField>*	IPropFoundation::s_pvFields;
+vector<SDataField>* IPropFoundation::s_pvFields;
 //=============================================================================
 
 /*====================
@@ -50,133 +50,133 @@ m_unBuildingType(0)
 /*====================
   IPropFoundation::GetTypeVector
   ====================*/
-const vector<SDataField>&	IPropFoundation::GetTypeVector()
+const vector<SDataField>&   IPropFoundation::GetTypeVector()
 {
-	if (!s_pvFields)
-	{
-		s_pvFields = K2_NEW(global,   vector<SDataField>)();
-		s_pvFields->clear();
-		const vector<SDataField> &vBase(IPropEntity::GetTypeVector());
-		s_pvFields->insert(s_pvFields->begin(), vBase.begin(), vBase.end());
-		
-		s_pvFields->push_back(SDataField(_T("m_uiBuildingIndex"), FIELD_PUBLIC, TYPE_GAMEINDEX));
-	}
+    if (!s_pvFields)
+    {
+        s_pvFields = K2_NEW(global,   vector<SDataField>)();
+        s_pvFields->clear();
+        const vector<SDataField> &vBase(IPropEntity::GetTypeVector());
+        s_pvFields->insert(s_pvFields->begin(), vBase.begin(), vBase.end());
+        
+        s_pvFields->push_back(SDataField(_T("m_uiBuildingIndex"), FIELD_PUBLIC, TYPE_GAMEINDEX));
+    }
 
-	return *s_pvFields;
+    return *s_pvFields;
 }
 
 
 /*====================
   IPropFoundation::Baseline
   ====================*/
-void	IPropFoundation::Baseline()
+void    IPropFoundation::Baseline()
 {
-	IGameEntity::Baseline();
+    IGameEntity::Baseline();
 
-	m_uiBuildingIndex = INVALID_INDEX;
+    m_uiBuildingIndex = INVALID_INDEX;
 }
 
 
 /*====================
   IPropFoundation::GetSnapshot
   ====================*/
-void	IPropFoundation::GetSnapshot(CEntitySnapshot &snapshot) const
+void    IPropFoundation::GetSnapshot(CEntitySnapshot &snapshot) const
 {
-	IPropEntity::GetSnapshot(snapshot);
+    IPropEntity::GetSnapshot(snapshot);
 
-	snapshot.AddGameIndex(m_uiBuildingIndex);
+    snapshot.AddGameIndex(m_uiBuildingIndex);
 }
 
 
 /*====================
   IPropFoundation::ReadSnapshot
   ====================*/
-bool	IPropFoundation::ReadSnapshot(CEntitySnapshot &snapshot)
+bool    IPropFoundation::ReadSnapshot(CEntitySnapshot &snapshot)
 {
-	try
-	{
-		if (!IPropEntity::ReadSnapshot(snapshot))
-			return false;
+    try
+    {
+        if (!IPropEntity::ReadSnapshot(snapshot))
+            return false;
 
-		snapshot.ReadNextGameIndex(m_uiBuildingIndex);
-		return true;
-	}
-	catch (CException &ex)
-	{
-		ex.Process(_T("IPropFoundation::ReadSnapshot() - "), NO_THROW);
-		return false;
-	}
+        snapshot.ReadNextGameIndex(m_uiBuildingIndex);
+        return true;
+    }
+    catch (CException &ex)
+    {
+        ex.Process(_T("IPropFoundation::ReadSnapshot() - "), NO_THROW);
+        return false;
+    }
 }
 
 
 /*====================
   IPropFoundation::AssignToTeam
   ====================*/
-void	IPropFoundation::AssignToTeam(int iTeam)
+void    IPropFoundation::AssignToTeam(int iTeam)
 {
-	CEntityTeamInfo *pTeam(Game.GetTeam(iTeam));
-	if (pTeam == NULL)
-	{
-		Console.Warn << _T("IPropFoundation::Spawn() - Team does not exist: ") << iTeam << newl;
-		return;
-	}
+    CEntityTeamInfo *pTeam(Game.GetTeam(iTeam));
+    if (pTeam == NULL)
+    {
+        Console.Warn << _T("IPropFoundation::Spawn() - Team does not exist: ") << iTeam << newl;
+        return;
+    }
 
-	Console << _T("Adding Building #") << m_uiWorldIndex << _T(" as entity #") << m_uiIndex << _T(" to team ") << iTeam << newl;
-	//pTeam->AddTechFoundationIndex(m_uiIndex);
+    Console << _T("Adding Building #") << m_uiWorldIndex << _T(" as entity #") << m_uiIndex << _T(" to team ") << iTeam << newl;
+    //pTeam->AddTechFoundationIndex(m_uiIndex);
 }
 
 
 /*====================
   IPropFoundation::Spawn
   ====================*/
-void	IPropFoundation::Spawn()
+void    IPropFoundation::Spawn()
 {
-	SetStatus(ENTITY_STATUS_DORMANT);
-	m_hModel = INVALID_RESOURCE;
+    SetStatus(ENTITY_STATUS_DORMANT);
+    m_hModel = INVALID_RESOURCE;
 
-	if (m_iTeam == -1)
-	{
-		for (int i(0); i < Game.GetNumTeams(); ++i)
-			AssignToTeam(i);
-	}
-	else
-	{
-		AssignToTeam(m_iTeam);
-	}
+    if (m_iTeam == -1)
+    {
+        for (int i(0); i < Game.GetNumTeams(); ++i)
+            AssignToTeam(i);
+    }
+    else
+    {
+        AssignToTeam(m_iTeam);
+    }
 
-	if (Game.IsClient())
-	{
-		if (GetMinimapIconPath().empty())
-			m_hMinimapIcon = INVALID_RESOURCE;
-		else
-			m_hMinimapIcon = g_ResourceManager.Register(K2_NEW(global,   CTexture)(GetMinimapIconPath(), TEXTURE_2D, TEX_FULL_QUALITY, TEXFMT_A8R8G8B8), RES_TEXTURE);
-	}
+    if (Game.IsClient())
+    {
+        if (GetMinimapIconPath().empty())
+            m_hMinimapIcon = INVALID_RESOURCE;
+        else
+            m_hMinimapIcon = g_ResourceManager.Register(K2_NEW(global,   CTexture)(GetMinimapIconPath(), TEXTURE_2D, TEX_FULL_QUALITY, TEXFMT_A8R8G8B8), RES_TEXTURE);
+    }
 }
 
 
 /*====================
   IPropFoundation::AddToScene
   ====================*/
-bool	IPropFoundation::AddToScene(const CVec4f &v4Color, int iRenderFlags)
+bool    IPropFoundation::AddToScene(const CVec4f &v4Color, int iRenderFlags)
 {
-	// FIXME: Depricated
-	return true;
+    // FIXME: Depricated
+    return true;
 }
 
 
 /*====================
   IPropFoundation::Copy
   ====================*/
-void	IPropFoundation::Copy(const IGameEntity &B)
+void    IPropFoundation::Copy(const IGameEntity &B)
 {
-	IPropEntity::Copy(B);
+    IPropEntity::Copy(B);
 
-	const IPropEntity *pProp(B.GetAsProp());
-	if (pProp == NULL)
-		return;
-	const IPropFoundation *pFoundation(pProp->GetAsFoundation());
-	if (pFoundation == NULL)
-		return;
+    const IPropEntity *pProp(B.GetAsProp());
+    if (pProp == NULL)
+        return;
+    const IPropFoundation *pFoundation(pProp->GetAsFoundation());
+    if (pFoundation == NULL)
+        return;
 
-	m_uiBuildingIndex = pFoundation->m_uiBuildingIndex;
+    m_uiBuildingIndex = pFoundation->m_uiBuildingIndex;
 }

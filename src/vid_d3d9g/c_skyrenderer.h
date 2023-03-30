@@ -24,15 +24,15 @@ class CSkyRenderer : public IRenderer
 private:
 
 public:
-	static CPool<CSkyRenderer>		s_Pool;
-	
-	void*	operator new(size_t z); // Uses CPool of preallocated instances
-	
-	~CSkyRenderer();
-	CSkyRenderer();
+    static CPool<CSkyRenderer>      s_Pool;
+    
+    void*   operator new(size_t z); // Uses CPool of preallocated instances
+    
+    ~CSkyRenderer();
+    CSkyRenderer();
 
-	void	Setup(EMaterialPhase ePhase);
-	void	Render(EMaterialPhase ePhase);
+    void    Setup(EMaterialPhase ePhase);
+    void    Render(EMaterialPhase ePhase);
 };
 //=============================================================================
 #endif //__C_BILLBOARDRENDERITEM_H__

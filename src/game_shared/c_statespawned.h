@@ -17,15 +17,15 @@
 class CStateSpawned : public IEntityState
 {
 private:
-	START_ENTITY_CONFIG(IEntityState)
-	END_ENTITY_CONFIG
-	CEntityConfig*	m_pEntityConfig;
+    START_ENTITY_CONFIG(IEntityState)
+    END_ENTITY_CONFIG
+    CEntityConfig*  m_pEntityConfig;
 
-	DECLARE_ENT_ALLOCATOR2(State, Spawned);
+    DECLARE_ENT_ALLOCATOR2(State, Spawned);
 
 public:
-	~CStateSpawned()	{}
-	CStateSpawned();
+    ~CStateSpawned()    {}
+    CStateSpawned();
 };
 //=============================================================================
 

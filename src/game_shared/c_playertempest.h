@@ -19,13 +19,13 @@
 class CPlayerTempest : public IPlayerEntity
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Player, Tempest);
+    DECLARE_ENT_ALLOCATOR2(Player, Tempest);
 
 public:
-	~CPlayerTempest()	{}
-	CPlayerTempest();
+    ~CPlayerTempest()   {}
+    CPlayerTempest();
 
-	void	Move(const CClientSnapshot &snapshot)	{ MoveWalk(snapshot); }
+    void    Move(const CClientSnapshot &snapshot)   { MoveWalk(snapshot); }
 };
 //=============================================================================
 

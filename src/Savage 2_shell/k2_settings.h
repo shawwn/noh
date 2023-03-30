@@ -29,9 +29,9 @@
 #endif
 
 #ifdef USE_SECURE_CRT
-#define	SECURE_CRT_STRING _T(" [SECURE CRT]")
+#define SECURE_CRT_STRING _T(" [SECURE CRT]")
 #else
-#define	SECURE_CRT_STRING _T("")
+#define SECURE_CRT_STRING _T("")
 #endif
 
 #ifdef _DEBUG

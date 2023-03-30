@@ -17,11 +17,11 @@
 class CProjectileScorch : public IProjectile
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Projectile, Scorch);
+    DECLARE_ENT_ALLOCATOR2(Projectile, Scorch);
 
 public:
-	~CProjectileScorch()	{}
-	CProjectileScorch();
+    ~CProjectileScorch()    {}
+    CProjectileScorch();
 };
 //=============================================================================
 

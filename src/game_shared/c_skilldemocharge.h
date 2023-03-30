@@ -17,12 +17,12 @@
 class CSkillDemoCharge : public ISpellItem
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Skill, DemoCharge);
+    DECLARE_ENT_ALLOCATOR2(Skill, DemoCharge);
 
 public:
-	~CSkillDemoCharge() {}
-	CSkillDemoCharge() :
-	ISpellItem(GetEntityConfig()) {}
+    ~CSkillDemoCharge() {}
+    CSkillDemoCharge() :
+    ISpellItem(GetEntityConfig()) {}
 };
 //=============================================================================
 

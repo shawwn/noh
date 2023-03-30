@@ -14,14 +14,14 @@
 //=============================================================================
 // Definitions
 //=============================================================================
-uint				IShopEntity::s_uiBaseType(ENTITY_BASE_TYPE_SHOP);
+uint                IShopEntity::s_uiBaseType(ENTITY_BASE_TYPE_SHOP);
 
 DEFINE_ENTITY_DESC(IShopEntity, 1)
 {
-	s_cDesc.pFieldTypes = K2_NEW(g_heapTypeVector,   TypeVector)();
-	s_cDesc.pFieldTypes->clear();
-	const TypeVector &vBase(IGameEntity::GetTypeVector());
-	s_cDesc.pFieldTypes->insert(s_cDesc.pFieldTypes->begin(), vBase.begin(), vBase.end());
+    s_cDesc.pFieldTypes = K2_NEW(g_heapTypeVector,   TypeVector)();
+    s_cDesc.pFieldTypes->clear();
+    const TypeVector &vBase(IGameEntity::GetTypeVector());
+    s_cDesc.pFieldTypes->insert(s_cDesc.pFieldTypes->begin(), vBase.begin(), vBase.end());
 }
 //=============================================================================
 

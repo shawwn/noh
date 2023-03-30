@@ -16,26 +16,26 @@
 //=============================================================================
 DEFINE_ENT_ALLOCATOR2(Consumable, ManaMajor);
 
-CCvarf	CConsumableManaMajor::s_cvarManaAmount(_T("Consumable_ManaMajor_ManaAmount"),	150.0f,	CVAR_GAMECONFIG | CVAR_TRANSMIT);
+CCvarf  CConsumableManaMajor::s_cvarManaAmount(_T("Consumable_ManaMajor_ManaAmount"),   150.0f, CVAR_GAMECONFIG | CVAR_TRANSMIT);
 //=============================================================================
 
 /*====================
   CConsumableManaMajor::ActivatePrimary
   ====================*/
-bool	CConsumableManaMajor::ActivatePrimary(int iButtonStatus)
+bool    CConsumableManaMajor::ActivatePrimary(int iButtonStatus)
 {
-	ICombatEntity *pOwner(GetOwnerEnt());
-	if (!pOwner)
-		return false;
+    ICombatEntity *pOwner(GetOwnerEnt());
+    if (!pOwner)
+        return false;
 
-	if (IsReady() && pOwner->GetAmmoCount(m_ySlot) > 0)
-	{
-		pOwner->SetMana(MIN(pOwner->GetMaxMana(), pOwner->GetMana() + s_cvarManaAmount.GetValue()));
+    if (IsReady() && pOwner->GetAmmoCount(m_ySlot) > 0)
+    {
+        pOwner->SetMana(MIN(pOwner->GetMaxMana(), pOwner->GetMana() + s_cvarManaAmount.GetValue()));
 
-		SetCooldownTimer(Game.GetGameTime(), GetCooldownTime());
-		pOwner->UseItem(m_ySlot, 1);
-		return true;
-	}
+        SetCooldownTimer(Game.GetGameTime(), GetCooldownTime());
+        pOwner->UseItem(m_ySlot, 1);
+        return true;
+    }
 
-	return false;
+    return false;
 }

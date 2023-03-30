@@ -34,249 +34,249 @@ m_vLastPos(-1.0f, -1.0f),
 m_vecCursorStartPos(-1.0f, -1.0f),
 m_iNumSteps(style.GetPropertyInt(_T("steps")))
 {
-	SetFlags(WFLAG_INTERACTIVE);
-	SetFlagsRecursive(WFLAG_PROCESS_CURSOR);
+    SetFlags(WFLAG_INTERACTIVE);
+    SetFlagsRecursive(WFLAG_PROCESS_CURSOR);
 
-	SetEventCommand(WEVENT_REFRESH, style.GetProperty(_T("onrefresh")));
+    SetEventCommand(WEVENT_REFRESH, style.GetProperty(_T("onrefresh")));
 }
 
 
 /*====================
   CSliderHandle::ProcessInputCursor
   ====================*/
-bool	CSliderHandle::ProcessInputCursor(const CVec2f &v2CursorPos)
+bool    CSliderHandle::ProcessInputCursor(const CVec2f &v2CursorPos)
 {
-	if (!HasFlags(WFLAG_VISIBLE) || !HasFlags(WFLAG_ENABLED))
-		return false;
+    if (!HasFlags(WFLAG_VISIBLE) || !HasFlags(WFLAG_ENABLED))
+        return false;
 
-	if (m_bIsSliding)
-	{
-		DoSlide(v2CursorPos);
-		return true;
-	}
+    if (m_bIsSliding)
+    {
+        DoSlide(v2CursorPos);
+        return true;
+    }
 
-	return false;
+    return false;
 }
 
 
 /*====================
   CSliderHandle::MouseDown
   ====================*/
-void	CSliderHandle::MouseDown(EButton button, const CVec2f &v2CursorPos)
+void    CSliderHandle::MouseDown(EButton button, const CVec2f &v2CursorPos)
 {
-	switch (button)
-	{
-	case BUTTON_MOUSEL:
-		m_pInterface->SetExclusiveWidget(this);
-		BeginSlide(v2CursorPos);
-		break;
-	case BUTTON_WHEELDOWN:
-	case BUTTON_WHEELUP:
-		m_pParent->MouseDown(button, v2CursorPos);
-		break;
-	}
+    switch (button)
+    {
+    case BUTTON_MOUSEL:
+        m_pInterface->SetExclusiveWidget(this);
+        BeginSlide(v2CursorPos);
+        break;
+    case BUTTON_WHEELDOWN:
+    case BUTTON_WHEELUP:
+        m_pParent->MouseDown(button, v2CursorPos);
+        break;
+    }
 }
 
 
 /*====================
   CSliderHandle::MouseUp
   ====================*/
-void	CSliderHandle::MouseUp(EButton button, const CVec2f &v2CursorPos)
+void    CSliderHandle::MouseUp(EButton button, const CVec2f &v2CursorPos)
 {
-	switch (button)
-	{
-	case BUTTON_MOUSEL:
-		EndSlide();
-		break;
-	}
+    switch (button)
+    {
+    case BUTTON_MOUSEL:
+        EndSlide();
+        break;
+    }
 }
 
 
 /*====================
   CSliderHandle::BeginSlide
   ====================*/
-void	CSliderHandle::BeginSlide(const CVec2f &v2CursorPos)
+void    CSliderHandle::BeginSlide(const CVec2f &v2CursorPos)
 {
-	m_bIsSliding = true;
+    m_bIsSliding = true;
 
-	m_vLastPos = m_recArea.lt();
-	m_vecCursorStartPos = v2CursorPos;
+    m_vLastPos = m_recArea.lt();
+    m_vecCursorStartPos = v2CursorPos;
 
-	m_pParent->DoEvent(WEVENT_STARTDRAG);
+    m_pParent->DoEvent(WEVENT_STARTDRAG);
 }
 
 
 /*====================
   CSliderHandle::EndSlide
   ====================*/
-void	 CSliderHandle::EndSlide()
+void     CSliderHandle::EndSlide()
 {
-	if (m_bIsSliding)
-	{
-		m_bIsSliding = false;
-		m_vLastPos.Set(-1.0f, -1.0f);
-		m_pInterface->SetExclusiveWidget(NULL);
-		m_pInterface->SetActiveWidget(NULL);
+    if (m_bIsSliding)
+    {
+        m_bIsSliding = false;
+        m_vLastPos.Set(-1.0f, -1.0f);
+        m_pInterface->SetExclusiveWidget(NULL);
+        m_pInterface->SetActiveWidget(NULL);
 
-		if (m_pParent->HasFlags(WFLAG_ORIENT_VERTICAL))
-		{
-			float fNewYPos(m_recArea.top);
+        if (m_pParent->HasFlags(WFLAG_ORIENT_VERTICAL))
+        {
+            float fNewYPos(m_recArea.top);
 
-			// Keep slider handle within slot constraints
-			if (fNewYPos < m_vHandleConstraints[0])
-				fNewYPos = m_vHandleConstraints[0];
+            // Keep slider handle within slot constraints
+            if (fNewYPos < m_vHandleConstraints[0])
+                fNewYPos = m_vHandleConstraints[0];
 
-			if (fNewYPos + m_recArea.GetHeight() >= m_vHandleConstraints[1])
-				fNewYPos = m_vHandleConstraints[1] - m_recArea.GetHeight();
+            if (fNewYPos + m_recArea.GetHeight() >= m_vHandleConstraints[1])
+                fNewYPos = m_vHandleConstraints[1] - m_recArea.GetHeight();
 
-			// Check for steps
-			if (m_iNumSteps != 0 && fNewYPos != m_vHandleConstraints[1] - m_recArea.GetHeight())
-			{
-				float fLength((m_vHandleConstraints[1] - m_recArea.GetHeight()) - m_vHandleConstraints[0]);
-				float fIncrement(fLength / m_iNumSteps);
-				float fProgress(fmod(fNewYPos - m_vHandleConstraints[0], fIncrement));
-				if (fProgress / fIncrement < 0.5f)
-					fNewYPos -= fProgress;
-				else
-					fNewYPos += (fIncrement - fProgress);
-			}
+            // Check for steps
+            if (m_iNumSteps != 0 && fNewYPos != m_vHandleConstraints[1] - m_recArea.GetHeight())
+            {
+                float fLength((m_vHandleConstraints[1] - m_recArea.GetHeight()) - m_vHandleConstraints[0]);
+                float fIncrement(fLength / m_iNumSteps);
+                float fProgress(fmod(fNewYPos - m_vHandleConstraints[0], fIncrement));
+                if (fProgress / fIncrement < 0.5f)
+                    fNewYPos -= fProgress;
+                else
+                    fNewYPos += (fIncrement - fProgress);
+            }
 
-			Move(m_recArea.left, fNewYPos);
+            Move(m_recArea.left, fNewYPos);
 
-			// set cvar depending on the slider value
-			static_cast<CSlider *>(m_pParent)->SetSliderVar((fNewYPos - m_vHandleConstraints[0]) /
-				(m_vHandleConstraints[1] - m_vHandleConstraints[0] - m_recArea.GetHeight()));
+            // set cvar depending on the slider value
+            static_cast<CSlider *>(m_pParent)->SetSliderVar((fNewYPos - m_vHandleConstraints[0]) /
+                (m_vHandleConstraints[1] - m_vHandleConstraints[0] - m_recArea.GetHeight()));
 
-			m_pParent->DoEvent(WEVENT_SLIDE);
-		}
-		else
-		{
-			float fNewXPos(m_recArea.left);
+            m_pParent->DoEvent(WEVENT_SLIDE);
+        }
+        else
+        {
+            float fNewXPos(m_recArea.left);
 
-			// keep slider handle within slot constraints
-			if (fNewXPos < m_vHandleConstraints[0])
-				fNewXPos = m_vHandleConstraints[0];
+            // keep slider handle within slot constraints
+            if (fNewXPos < m_vHandleConstraints[0])
+                fNewXPos = m_vHandleConstraints[0];
 
-			if (fNewXPos + m_recArea.GetWidth() >= m_vHandleConstraints[1])
-				fNewXPos = m_vHandleConstraints[1] - m_recArea.GetWidth();
+            if (fNewXPos + m_recArea.GetWidth() >= m_vHandleConstraints[1])
+                fNewXPos = m_vHandleConstraints[1] - m_recArea.GetWidth();
 
-			if (m_iNumSteps != 0 && fNewXPos != m_vHandleConstraints[1] - m_recArea.GetWidth())
-			{
-				float fLength((m_vHandleConstraints[1] - m_recArea.GetWidth()) - m_vHandleConstraints[0]);
-				float fIncrement(fLength / m_iNumSteps);
-				float fProgress(fmod(fNewXPos - m_vHandleConstraints[0], fIncrement));
-				if (fProgress / fIncrement < 0.5f)
-					fNewXPos -= fProgress;
-				else
-					fNewXPos += (fIncrement - fProgress);
-			}
+            if (m_iNumSteps != 0 && fNewXPos != m_vHandleConstraints[1] - m_recArea.GetWidth())
+            {
+                float fLength((m_vHandleConstraints[1] - m_recArea.GetWidth()) - m_vHandleConstraints[0]);
+                float fIncrement(fLength / m_iNumSteps);
+                float fProgress(fmod(fNewXPos - m_vHandleConstraints[0], fIncrement));
+                if (fProgress / fIncrement < 0.5f)
+                    fNewXPos -= fProgress;
+                else
+                    fNewXPos += (fIncrement - fProgress);
+            }
 
-			Move(fNewXPos, m_recArea.top);
+            Move(fNewXPos, m_recArea.top);
 
-			// set cvar depending on the slider value
-			static_cast<CSlider *>(m_pParent)->SetSliderVar((fNewXPos - m_vHandleConstraints[0]) /
-				(m_vHandleConstraints[1] - m_vHandleConstraints[0] - m_recArea.GetWidth()));
+            // set cvar depending on the slider value
+            static_cast<CSlider *>(m_pParent)->SetSliderVar((fNewXPos - m_vHandleConstraints[0]) /
+                (m_vHandleConstraints[1] - m_vHandleConstraints[0] - m_recArea.GetWidth()));
 
-			m_pParent->DoEvent(WEVENT_SLIDE);
-		}
+            m_pParent->DoEvent(WEVENT_SLIDE);
+        }
 
-		m_pParent->DoEvent(WEVENT_ENDDRAG);
-	}
+        m_pParent->DoEvent(WEVENT_ENDDRAG);
+    }
 }
 
 
 /*====================
   CSliderHandle::DoSlide
   ====================*/
-void	CSliderHandle::DoSlide(const CVec2f &v2CursorPos)
+void    CSliderHandle::DoSlide(const CVec2f &v2CursorPos)
 {
-	CVec2f v2OldPos(m_recArea.lt());
+    CVec2f v2OldPos(m_recArea.lt());
 
-	// move the slider back to last known position and end dragging if user strays too far from slider
-	if ((m_pParent->HasFlags(WFLAG_ORIENT_VERTICAL) &&
-			(v2CursorPos.x < m_recArea.left - ui_sliderSnap ||
-			v2CursorPos.x > m_recArea.right + ui_sliderSnap)) ||
-		(!m_pParent->HasFlags(WFLAG_ORIENT_VERTICAL) &&
-			(v2CursorPos.y < m_recArea.top - ui_sliderSnap ||
-			v2CursorPos.y > m_recArea.bottom + ui_sliderSnap)))
-	{
-		Move(m_vLastPos.x, m_vLastPos.y);
+    // move the slider back to last known position and end dragging if user strays too far from slider
+    if ((m_pParent->HasFlags(WFLAG_ORIENT_VERTICAL) &&
+            (v2CursorPos.x < m_recArea.left - ui_sliderSnap ||
+            v2CursorPos.x > m_recArea.right + ui_sliderSnap)) ||
+        (!m_pParent->HasFlags(WFLAG_ORIENT_VERTICAL) &&
+            (v2CursorPos.y < m_recArea.top - ui_sliderSnap ||
+            v2CursorPos.y > m_recArea.bottom + ui_sliderSnap)))
+    {
+        Move(m_vLastPos.x, m_vLastPos.y);
 
-		if (m_pParent->HasFlags(WFLAG_ORIENT_VERTICAL))
-		{
-			static_cast<CSlider*>(m_pParent)->SetSliderVar(m_vLastPos.y - m_vHandleConstraints[0],
-				m_vHandleConstraints[1] - m_vHandleConstraints[0] - m_recArea.GetHeight());
-		}
-		else
-		{
-			static_cast<CSlider*>(m_pParent)->SetSliderVar(m_vLastPos.x - m_vHandleConstraints[0],
-				m_vHandleConstraints[1] - m_vHandleConstraints[0] - m_recArea.GetWidth());
-		}
+        if (m_pParent->HasFlags(WFLAG_ORIENT_VERTICAL))
+        {
+            static_cast<CSlider*>(m_pParent)->SetSliderVar(m_vLastPos.y - m_vHandleConstraints[0],
+                m_vHandleConstraints[1] - m_vHandleConstraints[0] - m_recArea.GetHeight());
+        }
+        else
+        {
+            static_cast<CSlider*>(m_pParent)->SetSliderVar(m_vLastPos.x - m_vHandleConstraints[0],
+                m_vHandleConstraints[1] - m_vHandleConstraints[0] - m_recArea.GetWidth());
+        }
 
-		m_pParent->DoEvent(WEVENT_SLIDE);
-	}
-	else if (m_pParent->HasFlags(WFLAG_ORIENT_VERTICAL))
-	{
-		float fNewYPos(m_vLastPos.y + (v2CursorPos.y - m_vecCursorStartPos.y));
+        m_pParent->DoEvent(WEVENT_SLIDE);
+    }
+    else if (m_pParent->HasFlags(WFLAG_ORIENT_VERTICAL))
+    {
+        float fNewYPos(m_vLastPos.y + (v2CursorPos.y - m_vecCursorStartPos.y));
 
-		// Keep slider handle within slot constraints
-		if (fNewYPos < m_vHandleConstraints[0])
-			fNewYPos = m_vHandleConstraints[0];
+        // Keep slider handle within slot constraints
+        if (fNewYPos < m_vHandleConstraints[0])
+            fNewYPos = m_vHandleConstraints[0];
 
-		if (fNewYPos + m_recArea.GetHeight() >= m_vHandleConstraints[1])
-			fNewYPos = m_vHandleConstraints[1] - m_recArea.GetHeight();
+        if (fNewYPos + m_recArea.GetHeight() >= m_vHandleConstraints[1])
+            fNewYPos = m_vHandleConstraints[1] - m_recArea.GetHeight();
 
-		// Check for steps
-		if (m_iNumSteps != 0 && fNewYPos != m_vHandleConstraints[1] - m_recArea.GetHeight())
-		{
-			float fLength((m_vHandleConstraints[1] - m_recArea.GetHeight()) - m_vHandleConstraints[0]);
-			float fIncrement(fLength / m_iNumSteps);
-			float fProgress(fmod(fNewYPos - m_vHandleConstraints[0], fIncrement));
-			if (fProgress / fIncrement < 0.5f)
-				fNewYPos -= fProgress;
-			else
-				fNewYPos += (fIncrement - fProgress);
-		}
+        // Check for steps
+        if (m_iNumSteps != 0 && fNewYPos != m_vHandleConstraints[1] - m_recArea.GetHeight())
+        {
+            float fLength((m_vHandleConstraints[1] - m_recArea.GetHeight()) - m_vHandleConstraints[0]);
+            float fIncrement(fLength / m_iNumSteps);
+            float fProgress(fmod(fNewYPos - m_vHandleConstraints[0], fIncrement));
+            if (fProgress / fIncrement < 0.5f)
+                fNewYPos -= fProgress;
+            else
+                fNewYPos += (fIncrement - fProgress);
+        }
 
-		Move(m_recArea.left, fNewYPos);
+        Move(m_recArea.left, fNewYPos);
 
-		// set cvar depending on the slider value
-		static_cast<CSlider *>(m_pParent)->SetSliderVar((fNewYPos - m_vHandleConstraints[0]) /
-			(m_vHandleConstraints[1] - m_vHandleConstraints[0] - m_recArea.GetHeight()));
+        // set cvar depending on the slider value
+        static_cast<CSlider *>(m_pParent)->SetSliderVar((fNewYPos - m_vHandleConstraints[0]) /
+            (m_vHandleConstraints[1] - m_vHandleConstraints[0] - m_recArea.GetHeight()));
 
-		m_pParent->DoEvent(WEVENT_SLIDE);
-	}
-	else
-	{
-		float fNewXPos(m_vLastPos.x + (v2CursorPos.x - m_vecCursorStartPos.x));
+        m_pParent->DoEvent(WEVENT_SLIDE);
+    }
+    else
+    {
+        float fNewXPos(m_vLastPos.x + (v2CursorPos.x - m_vecCursorStartPos.x));
 
-		// keep slider handle within slot constraints
-		if (fNewXPos < m_vHandleConstraints[0])
-			fNewXPos = m_vHandleConstraints[0];
+        // keep slider handle within slot constraints
+        if (fNewXPos < m_vHandleConstraints[0])
+            fNewXPos = m_vHandleConstraints[0];
 
-		if (fNewXPos + m_recArea.GetWidth() >= m_vHandleConstraints[1])
-			fNewXPos = m_vHandleConstraints[1] - m_recArea.GetWidth();
+        if (fNewXPos + m_recArea.GetWidth() >= m_vHandleConstraints[1])
+            fNewXPos = m_vHandleConstraints[1] - m_recArea.GetWidth();
 
-		if (m_iNumSteps != 0 && fNewXPos != m_vHandleConstraints[1] - m_recArea.GetWidth())
-		{
-			float fLength((m_vHandleConstraints[1] - m_recArea.GetWidth()) - m_vHandleConstraints[0]);
-			float fIncrement(fLength / m_iNumSteps);
-			float fProgress(fmod(fNewXPos - m_vHandleConstraints[0], fIncrement));
-			if (fProgress / fIncrement < 0.5f)
-				fNewXPos -= fProgress;
-			else
-				fNewXPos += (fIncrement - fProgress);
-		}
+        if (m_iNumSteps != 0 && fNewXPos != m_vHandleConstraints[1] - m_recArea.GetWidth())
+        {
+            float fLength((m_vHandleConstraints[1] - m_recArea.GetWidth()) - m_vHandleConstraints[0]);
+            float fIncrement(fLength / m_iNumSteps);
+            float fProgress(fmod(fNewXPos - m_vHandleConstraints[0], fIncrement));
+            if (fProgress / fIncrement < 0.5f)
+                fNewXPos -= fProgress;
+            else
+                fNewXPos += (fIncrement - fProgress);
+        }
 
-		Move(fNewXPos, m_recArea.top);
+        Move(fNewXPos, m_recArea.top);
 
-		// set cvar depending on the slider value
-		static_cast<CSlider *>(m_pParent)->SetSliderVar((fNewXPos - m_vHandleConstraints[0]) /
-			(m_vHandleConstraints[1] - m_vHandleConstraints[0] - m_recArea.GetWidth()));
+        // set cvar depending on the slider value
+        static_cast<CSlider *>(m_pParent)->SetSliderVar((fNewXPos - m_vHandleConstraints[0]) /
+            (m_vHandleConstraints[1] - m_vHandleConstraints[0] - m_recArea.GetWidth()));
 
-		m_pParent->DoEvent(WEVENT_SLIDE);
-	}
+        m_pParent->DoEvent(WEVENT_SLIDE);
+    }
 
-	if (m_recArea.lt() != v2OldPos)
-		static_cast<CSlider *>(m_pParent)->DoChange();
+    if (m_recArea.lt() != v2OldPos)
+        static_cast<CSlider *>(m_pParent)->DoChange();
 }

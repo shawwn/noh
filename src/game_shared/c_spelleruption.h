@@ -17,18 +17,18 @@
 class CSpellEruption : public ISpellItem
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Spell, Eruption);
+    DECLARE_ENT_ALLOCATOR2(Spell, Eruption);
 
-	static	CCvarf	s_cvarDamage;
-	static	CCvarui	s_cvarStunLength;
+    static  CCvarf  s_cvarDamage;
+    static  CCvarui s_cvarStunLength;
 
 public:
-	~CSpellEruption()	{}
-	CSpellEruption() :
-	ISpellItem(GetEntityConfig())
-	{}
+    ~CSpellEruption()   {}
+    CSpellEruption() :
+    ISpellItem(GetEntityConfig())
+    {}
 
-	bool			TryImpact();
+    bool            TryImpact();
 };
 //=============================================================================
 

@@ -20,134 +20,134 @@ DEFINE_ENT_ALLOCATOR2(Trigger, Spawn)
 /*====================
   CTriggerSpawn::RegisterEntityScripts
   ====================*/
-void	CTriggerSpawn::RegisterEntityScripts(const CWorldEntity &ent)
+void    CTriggerSpawn::RegisterEntityScripts(const CWorldEntity &ent)
 {
-	Game.RegisterEntityScript(GetIndex(), _T("spawn"), ent.GetProperty(_T("triggerspawn"), _T("")));
+    Game.RegisterEntityScript(GetIndex(), _T("spawn"), ent.GetProperty(_T("triggerspawn"), _T("")));
 }
 
 /*====================
   CTriggerSpawn::ApplyWorldEntity
   ====================*/
-void	CTriggerSpawn::ApplyWorldEntity(const CWorldEntity &ent)
+void    CTriggerSpawn::ApplyWorldEntity(const CWorldEntity &ent)
 {
-	ITriggerEntity::ApplyWorldEntity(ent);
+    ITriggerEntity::ApplyWorldEntity(ent);
 
-	m_sSpawnType = ent.GetProperty(_T("spawntype"), _T(""));
-	m_uiSpawnDelay = ent.GetPropertyInt(_T("spawndelay"), -1);
-	m_unSpawnType = EntityRegistry.LookupID(m_sSpawnType);
+    m_sSpawnType = ent.GetProperty(_T("spawntype"), _T(""));
+    m_uiSpawnDelay = ent.GetPropertyInt(_T("spawndelay"), -1);
+    m_unSpawnType = EntityRegistry.LookupID(m_sSpawnType);
 }
 
 /*====================
   CTriggerSpawn::ServerFrame
   ====================*/
-bool	CTriggerSpawn::ServerFrame()
+bool    CTriggerSpawn::ServerFrame()
 {
-	ITriggerEntity::ServerFrame();
+    ITriggerEntity::ServerFrame();
 
-	if (GetStatus() != ENTITY_STATUS_ACTIVE || !Game.IsServer() || m_unSpawnType == INVALID_ENT_TYPE)
-		return true;
+    if (GetStatus() != ENTITY_STATUS_ACTIVE || !Game.IsServer() || m_unSpawnType == INVALID_ENT_TYPE)
+        return true;
 
-	if (m_uiSpawnDelay == -1 || m_uiSpawnDelay < 1)
-		return true;
+    if (m_uiSpawnDelay == -1 || m_uiSpawnDelay < 1)
+        return true;
 
-	if (m_uiLastSpawn == -1)
-		m_uiLastSpawn = Game.GetGameTime();
+    if (m_uiLastSpawn == -1)
+        m_uiLastSpawn = Game.GetGameTime();
 
-	if (m_uiLastSpawn + m_uiSpawnDelay < Game.GetGameTime())
-	{
-		m_uiLastSpawn = Game.GetGameTime();
-		Trigger(GetWorldIndex(), _T("spawn"), true);
-	}
+    if (m_uiLastSpawn + m_uiSpawnDelay < Game.GetGameTime())
+    {
+        m_uiLastSpawn = Game.GetGameTime();
+        Trigger(GetWorldIndex(), _T("spawn"), true);
+    }
 
-	return true;
+    return true;
 }
 
 /*====================
   CTriggerSpawn::Trigger
   ====================*/
-void	CTriggerSpawn::Trigger(uint uiTriggeringEntIndex, const tstring &sTriggerName, bool bPlayEffect)
+void    CTriggerSpawn::Trigger(uint uiTriggeringEntIndex, const tstring &sTriggerName, bool bPlayEffect)
 {
-	if (GetStatus() != ENTITY_STATUS_ACTIVE || !Game.IsServer())
-		return;
+    if (GetStatus() != ENTITY_STATUS_ACTIVE || !Game.IsServer())
+        return;
 
-	IGameEntity* pNewEnt(Game.AllocateEntity(m_unSpawnType));
+    IGameEntity* pNewEnt(Game.AllocateEntity(m_unSpawnType));
 
-	if (pNewEnt == NULL)
-	{
-		Console << _T("CTriggerSpawn::Frame: Object could not be allocated.") << newl;
-		return;
-	}
+    if (pNewEnt == NULL)
+    {
+        Console << _T("CTriggerSpawn::Frame: Object could not be allocated.") << newl;
+        return;
+    }
 
-	IVisualEntity *pEnt(pNewEnt->GetAsVisualEnt());
+    IVisualEntity *pEnt(pNewEnt->GetAsVisualEnt());
 
-	if (pEnt == NULL)
-	{
-		Console << _T("CTriggerSpawn::Frame: Improper entity type.") << newl;
-		Game.DeleteEntity(pNewEnt);
-		return;
-	}
+    if (pEnt == NULL)
+    {
+        Console << _T("CTriggerSpawn::Frame: Improper entity type.") << newl;
+        Game.DeleteEntity(pNewEnt);
+        return;
+    }
 
-	uint uiWorldIndex(Game.AllocateNewWorldEntity());
-	CWorldEntity *pWorldEnt(Game.GetWorldEntity(uiWorldIndex));
+    uint uiWorldIndex(Game.AllocateNewWorldEntity());
+    CWorldEntity *pWorldEnt(Game.GetWorldEntity(uiWorldIndex));
 
-	if (pWorldEnt == NULL)
-	{
-		Console << _T("CTriggerSpawn::Frame: World entity could not be created.") << newl;
-		Game.DeleteEntity(pNewEnt);
-		return;
-	}
+    if (pWorldEnt == NULL)
+    {
+        Console << _T("CTriggerSpawn::Frame: World entity could not be created.") << newl;
+        Game.DeleteEntity(pNewEnt);
+        return;
+    }
 
-	CWorldEntity *pThisEnt(Game.GetWorldEntity(GetWorldIndex()));
+    CWorldEntity *pThisEnt(Game.GetWorldEntity(GetWorldIndex()));
 
-	if (pWorldEnt == NULL)
-	{
-		Console << _T("CTriggerSpawn::Frame: World entity could not be accessed.") << newl;
-		Game.DeleteEntity(pNewEnt);
-		Game.DeleteWorldEntity(uiWorldIndex);
-		return;
-	}
+    if (pWorldEnt == NULL)
+    {
+        Console << _T("CTriggerSpawn::Frame: World entity could not be accessed.") << newl;
+        Game.DeleteEntity(pNewEnt);
+        Game.DeleteWorldEntity(uiWorldIndex);
+        return;
+    }
 
-	// Inherit spawn point's settings
-	(*pWorldEnt) = (*pThisEnt);
-	pWorldEnt->SetType(m_sSpawnType);
-	pWorldEnt->SetIndex(uiWorldIndex);
-	pWorldEnt->SetGameIndex(pEnt->GetIndex());
+    // Inherit spawn point's settings
+    (*pWorldEnt) = (*pThisEnt);
+    pWorldEnt->SetType(m_sSpawnType);
+    pWorldEnt->SetIndex(uiWorldIndex);
+    pWorldEnt->SetGameIndex(pEnt->GetIndex());
 
-	if (pEnt->GetWorldIndex() != INVALID_INDEX)
-		Game.DeleteWorldEntity(pEnt->GetWorldIndex());
+    if (pEnt->GetWorldIndex() != INVALID_INDEX)
+        Game.DeleteWorldEntity(pEnt->GetWorldIndex());
 
-	pEnt->ApplyWorldEntity(*pWorldEnt);
-	pEnt->Spawn();
+    pEnt->ApplyWorldEntity(*pWorldEnt);
+    pEnt->Spawn();
 
-	pEnt->Validate();
+    pEnt->Validate();
 
-	m_uiTotalSpawned++;
+    m_uiTotalSpawned++;
 
-	Game.RegisterTriggerParam(_T("spawnedindex"), XtoA(pEnt->GetIndex()));
-	Game.RegisterTriggerParam(_T("totalspawned"), XtoA(m_uiTotalSpawned));
+    Game.RegisterTriggerParam(_T("spawnedindex"), XtoA(pEnt->GetIndex()));
+    Game.RegisterTriggerParam(_T("totalspawned"), XtoA(m_uiTotalSpawned));
 
-	ITriggerEntity::Trigger(uiTriggeringEntIndex, _T("spawn"), bPlayEffect);
+    ITriggerEntity::Trigger(uiTriggeringEntIndex, _T("spawn"), bPlayEffect);
 }
 
 /*====================
   CTriggerSpawn::Copy
   ====================*/
-void	CTriggerSpawn::Copy(const IGameEntity &B)
+void    CTriggerSpawn::Copy(const IGameEntity &B)
 {
-	ITriggerEntity::Copy(B);
+    ITriggerEntity::Copy(B);
 
-	const ITriggerEntity *pB(B.GetAsTrigger());
+    const ITriggerEntity *pB(B.GetAsTrigger());
 
-	if (!pB || !pB->IsSpawnTrigger())
-		return;
+    if (!pB || !pB->IsSpawnTrigger())
+        return;
 
-	const CTriggerSpawn &C(*static_cast<const CTriggerSpawn*>(pB));
+    const CTriggerSpawn &C(*static_cast<const CTriggerSpawn*>(pB));
 
-	m_sSpawnType =		C.m_sSpawnType;
+    m_sSpawnType =      C.m_sSpawnType;
 
-	m_uiSpawnDelay =	C.m_uiSpawnDelay;
-	m_uiLastSpawn =		C.m_uiLastSpawn;
-	m_uiTotalSpawned =	C.m_uiTotalSpawned;
+    m_uiSpawnDelay =    C.m_uiSpawnDelay;
+    m_uiLastSpawn =     C.m_uiLastSpawn;
+    m_uiTotalSpawned =  C.m_uiTotalSpawned;
 
-	m_unSpawnType =		C.m_unSpawnType;
+    m_unSpawnType =     C.m_unSpawnType;
 }

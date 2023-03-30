@@ -17,18 +17,18 @@
 class CSkillBeastBuild : public ISkillItem
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Skill, BeastBuild);
+    DECLARE_ENT_ALLOCATOR2(Skill, BeastBuild);
 
 public:
-	~CSkillBeastBuild()	{}
-	CSkillBeastBuild() :
-	ISkillItem(GetEntityConfig())
-	{}
+    ~CSkillBeastBuild() {}
+    CSkillBeastBuild() :
+    ISkillItem(GetEntityConfig())
+    {}
 
-	void	Activate()	{ ActivatePrimary(GAME_BUTTON_STATUS_DOWN | GAME_BUTTON_STATUS_PRESSED); }
-	bool	ActivatePrimary(int iButtonStatus);
+    void    Activate()  { ActivatePrimary(GAME_BUTTON_STATUS_DOWN | GAME_BUTTON_STATUS_PRESSED); }
+    bool    ActivatePrimary(int iButtonStatus);
 
-	TYPE_NAME("Building")
+    TYPE_NAME("Building")
 };
 //=============================================================================
 

@@ -17,13 +17,13 @@
 class CSkillEthereal : public ISkillToggle
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Skill, Ethereal)
+    DECLARE_ENT_ALLOCATOR2(Skill, Ethereal)
 
 public:
-	~CSkillEthereal()	{}
-	CSkillEthereal() :
-	ISkillToggle(GetEntityConfig())
-	{}
+    ~CSkillEthereal()   {}
+    CSkillEthereal() :
+    ISkillToggle(GetEntityConfig())
+    {}
 };
 //=============================================================================
 

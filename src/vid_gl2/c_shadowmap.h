@@ -17,15 +17,15 @@ class CCamera;
 
 enum EShadowmapType
 {
-	SHADOWMAP_R32F = 0,
-	SHADOWMAP_DEPTH,
-	NUM_SHADOWMAP_TYPES
+    SHADOWMAP_R32F = 0,
+    SHADOWMAP_DEPTH,
+    NUM_SHADOWMAP_TYPES
 };
 
 const char * const ShadowmapTypeName[] =
 {
-	"SHADOWMAP_R32F",
-	"SHADOWMAP_DEPTH"
+    "SHADOWMAP_R32F",
+    "SHADOWMAP_DEPTH"
 };
 //=============================================================================
 
@@ -35,28 +35,28 @@ const char * const ShadowmapTypeName[] =
 class CShadowmap
 {
 private:
-	bool						m_bActive;
-	EShadowmapType				m_eShadowmapType;
+    bool                        m_bActive;
+    EShadowmapType              m_eShadowmapType;
 
-	GLuint						m_uiFrameBufferObject;
-	GLuint						m_uiShadowTexture;
-	GLuint						m_uiDepthRenderBuffer;
+    GLuint                      m_uiFrameBufferObject;
+    GLuint                      m_uiShadowTexture;
+    GLuint                      m_uiDepthRenderBuffer;
 
 public:
-	~CShadowmap();
-	CShadowmap();
+    ~CShadowmap();
+    CShadowmap();
 
-	int		GetShadowmapIndex()		{ return m_uiShadowTexture; }
-	bool	GetActive()				{ return m_bActive; }
-	EShadowmapType	GetType()		{ return m_eShadowmapType; }
+    int     GetShadowmapIndex()     { return m_uiShadowTexture; }
+    bool    GetActive()             { return m_bActive; }
+    EShadowmapType  GetType()       { return m_eShadowmapType; }
 
-	void	Initialize(EShadowmapType eType);
-	void	Release();
+    void    Initialize(EShadowmapType eType);
+    void    Release();
 
-	void	Render(const CCamera &camera);
+    void    Render(const CCamera &camera);
 };
 
-extern CShadowmap	g_Shadowmap;
+extern CShadowmap   g_Shadowmap;
 
 EXTERN_CVAR_BOOL(vid_shadows);
 EXTERN_CVAR_FLOAT(vid_shadowSlopeBias);

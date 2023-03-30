@@ -48,36 +48,36 @@ m_pEffectThread(pEffectThread)
 /*====================
   IEffectInstance::GetActive
   ====================*/
-bool	IEffectInstance::GetActive() const
+bool    IEffectInstance::GetActive() const
 {
-	if (m_pEffectThread != NULL)
-		return m_pEffectThread->GetActive();
-	else
-		return false;
+    if (m_pEffectThread != NULL)
+        return m_pEffectThread->GetActive();
+    else
+        return false;
 }
 
 
 /*====================
   IEffectInstance::GetExpire
   ====================*/
-bool	IEffectInstance::GetExpire() const
+bool    IEffectInstance::GetExpire() const
 {
-	if (m_pEffectThread != NULL)
-		return m_pEffectThread->GetExpire();
-	else
-		return false;
+    if (m_pEffectThread != NULL)
+        return m_pEffectThread->GetExpire();
+    else
+        return false;
 }
 
 
 /*====================
   IEffectInstance::GetEffect
   ====================*/
-CEffect*	IEffectInstance::GetEffect()
+CEffect*    IEffectInstance::GetEffect()
 {
-	if (m_pEffectThread != NULL)
-		return m_pEffectThread->GetEffect();
-	else
-		return NULL;
+    if (m_pEffectThread != NULL)
+        return m_pEffectThread->GetEffect();
+    else
+        return NULL;
 }
 
 

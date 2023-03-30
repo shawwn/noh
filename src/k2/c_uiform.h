@@ -17,8 +17,8 @@ class CUITrigger;
 //=============================================================================
 enum EFormMethod
 {
-	FORM_METHOD_GET,
-	FORM_METHOD_POST
+    FORM_METHOD_GET,
+    FORM_METHOD_POST
 };
 //=============================================================================
 
@@ -28,42 +28,42 @@ enum EFormMethod
 class CUIForm
 {
 private:
-	CHTTPManager*			m_pHTTPManager;
-	CHTTPRequest*			m_pRequest;
+    CHTTPManager*           m_pHTTPManager;
+    CHTTPRequest*           m_pRequest;
 
-	tstring					m_sName;
-	tstring					m_sTargetHost;
-	tstring					m_sTargetURI;
-	CUITrigger*				m_pStatusTrigger;
-	CUITrigger*				m_pResultTrigger;
-	tsmapts					m_mapVariables;
-	map<tstring, IWidget*>	m_mapWidgetVariables;
-	map<tstring, uint>		m_mapResults;
+    tstring                 m_sName;
+    tstring                 m_sTargetHost;
+    tstring                 m_sTargetURI;
+    CUITrigger*             m_pStatusTrigger;
+    CUITrigger*             m_pResultTrigger;
+    tsmapts                 m_mapVariables;
+    map<tstring, IWidget*>  m_mapWidgetVariables;
+    map<tstring, uint>      m_mapResults;
 
-	EFormMethod				m_eMethod;
-	bool					m_bUseSSL;
+    EFormMethod             m_eMethod;
+    bool                    m_bUseSSL;
 
-	CUIForm();
+    CUIForm();
 
 public:
-	K2_API ~CUIForm();
-	K2_API CUIForm(CHTTPManager *pHTTPManager, const tstring &sName);
+    K2_API ~CUIForm();
+    K2_API CUIForm(CHTTPManager *pHTTPManager, const tstring &sName);
 
-	const tstring&	GetName()	{ return m_sName; }
+    const tstring&  GetName()   { return m_sName; }
 
-	void			SetTargetHost(const tstring &sTargetHost)		{ m_sTargetHost = sTargetHost; }
-	void			SetTargetURI(const tstring &sTargetURI)			{ m_sTargetURI = sTargetURI; }
-	void			SetMethod(EFormMethod eMethod)					{ m_eMethod = eMethod; }
-	void			SetUseSSL(bool bUseSSL)							{ m_bUseSSL = bUseSSL; }
+    void            SetTargetHost(const tstring &sTargetHost)       { m_sTargetHost = sTargetHost; }
+    void            SetTargetURI(const tstring &sTargetURI)         { m_sTargetURI = sTargetURI; }
+    void            SetMethod(EFormMethod eMethod)                  { m_eMethod = eMethod; }
+    void            SetUseSSL(bool bUseSSL)                         { m_bUseSSL = bUseSSL; }
 
-	void			SetStatusTrigger(const tstring &sName);
-	void			SetResultTrigger(const tstring &sName);
-	void			SetResultParam(uint uiParam, const tstring &sVariable)		{ m_mapResults[sVariable] = uiParam; }
-	void			AddWidgetVariable(const tstring &sName, IWidget *pWidget)	{ if (pWidget != NULL) m_mapWidgetVariables[sName] = pWidget; }
+    void            SetStatusTrigger(const tstring &sName);
+    void            SetResultTrigger(const tstring &sName);
+    void            SetResultParam(uint uiParam, const tstring &sVariable)      { m_mapResults[sVariable] = uiParam; }
+    void            AddWidgetVariable(const tstring &sName, IWidget *pWidget)   { if (pWidget != NULL) m_mapWidgetVariables[sName] = pWidget; }
 
-	void	Submit(const tsvector &vParams);
-	void	Frame();
-	void	ProcessResponse();
+    void    Submit(const tsvector &vParams);
+    void    Frame();
+    void    ProcessResponse();
 };
 //=============================================================================
 

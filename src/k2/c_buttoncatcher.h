@@ -16,26 +16,26 @@
 //=============================================================================
 class CButtonCatcher : public IWidget
 {
-	EButton		m_eLastButton;
-	int			m_iLastModifier;
-	tstring		m_sLastButtonName;
+    EButton     m_eLastButton;
+    int         m_iLastModifier;
+    tstring     m_sLastButtonName;
 
-	bool		m_bImpulse;
+    bool        m_bImpulse;
 
-	void	UpdateButtonName(EButton button);
+    void    UpdateButtonName(EButton button);
 
 public:
-	~CButtonCatcher()	{}
-	K2_API CButtonCatcher(CInterface *pInterface, IWidget *pParent, const CWidgetStyle& style);
+    ~CButtonCatcher()   {}
+    K2_API CButtonCatcher(CInterface *pInterface, IWidget *pParent, const CWidgetStyle& style);
 
-	tstring	GetValue() const			{ return m_sLastButtonName; }
+    tstring GetValue() const            { return m_sLastButtonName; }
 
-	virtual void	MouseDown(EButton button, const CVec2f &v2CursorPos);
-	virtual bool	ButtonDown(EButton button);
-	virtual bool	ButtonUp(EButton button);
+    virtual void    MouseDown(EButton button, const CVec2f &v2CursorPos);
+    virtual bool    ButtonDown(EButton button);
+    virtual bool    ButtonUp(EButton button);
 
-	virtual void	DoEvent(EWidgetEvent eEvent, const tstring &sParam = TSNULL);
-	virtual void	DoEvent(EWidgetEvent eEvent, const tsvector &vParam);
+    virtual void    DoEvent(EWidgetEvent eEvent, const tstring &sParam = TSNULL);
+    virtual void    DoEvent(EWidgetEvent eEvent, const tsvector &vParam);
 };
 //=============================================================================
 #endif // __C_BUTTONCATCHER_H__

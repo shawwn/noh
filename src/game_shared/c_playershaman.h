@@ -19,15 +19,15 @@
 class CPlayerShaman : public IPlayerEntity
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Player, Shaman);
+    DECLARE_ENT_ALLOCATOR2(Player, Shaman);
 
 public:
-	~CPlayerShaman()	{}
-	CPlayerShaman() :
-	IPlayerEntity(GetEntityConfig())
-	{}
+    ~CPlayerShaman()    {}
+    CPlayerShaman() :
+    IPlayerEntity(GetEntityConfig())
+    {}
 
-	void	Move(const CClientSnapshot &snapshot)	{ MoveWalk(snapshot); }
+    void    Move(const CClientSnapshot &snapshot)   { MoveWalk(snapshot); }
 };
 //=============================================================================
 

@@ -17,21 +17,21 @@
 class CStateBleed : public IEntityState
 {
 private:
-	START_ENTITY_CONFIG(IEntityState)
-		DECLARE_ENTITY_CVAR(float, DamagePerSecond)
-		DECLARE_ENTITY_CVAR(float, SpeedAdd)
-		DECLARE_ENTITY_CVAR(float, SpeedMult)
-	END_ENTITY_CONFIG
+    START_ENTITY_CONFIG(IEntityState)
+        DECLARE_ENTITY_CVAR(float, DamagePerSecond)
+        DECLARE_ENTITY_CVAR(float, SpeedAdd)
+        DECLARE_ENTITY_CVAR(float, SpeedMult)
+    END_ENTITY_CONFIG
 
-	CEntityConfig*	m_pEntityConfig;
+    CEntityConfig*  m_pEntityConfig;
 
-	DECLARE_ENT_ALLOCATOR2(State, Bleed);
+    DECLARE_ENT_ALLOCATOR2(State, Bleed);
 
 public:
-	~CStateBleed()	{}
-	CStateBleed();
+    ~CStateBleed()  {}
+    CStateBleed();
 
-	void	StateFrame();
+    void    StateFrame();
 };
 //=============================================================================
 

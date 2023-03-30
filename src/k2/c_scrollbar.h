@@ -16,8 +16,8 @@ class CButton;
 
 enum EScrollbarOrient
 {
-	SCROLLBAR_ORIENT_VERTICAL,
-	SCROLLBAR_ORIENT_HORIZONTAL
+    SCROLLBAR_ORIENT_VERTICAL,
+    SCROLLBAR_ORIENT_HORIZONTAL
 };
 
 //=============================================================================
@@ -26,42 +26,42 @@ enum EScrollbarOrient
 class CScrollbar : public IWidget
 {
 protected:
-	CSlider*	m_pSlider;
-	CButton*	m_pButtonMin;
-	CButton*	m_pButtonMax;
+    CSlider*    m_pSlider;
+    CButton*    m_pButtonMin;
+    CButton*    m_pButtonMax;
 
-	float		m_fIncrement;
+    float       m_fIncrement;
 
-	tstring		m_sTextureSet;
+    tstring     m_sTextureSet;
 
-	// event handlers
-	tstring		m_sOnChange;
+    // event handlers
+    tstring     m_sOnChange;
 
-	virtual void	DoChange();
+    virtual void    DoChange();
 
 public:
-	virtual ~CScrollbar();
-	CScrollbar(CInterface *pInterface, IWidget *pParent, const CWidgetStyle& style);
+    virtual ~CScrollbar();
+    CScrollbar(CInterface *pInterface, IWidget *pParent, const CWidgetStyle& style);
 
-	tstring	GetValue() const;
+    tstring GetValue() const;
 
-	float	GetValueFloat();
+    float   GetValueFloat();
 
-	void	SetValue(float fValue);
-	void	SetValue(const tstring &sValue)						{ SetValue(AtoF(sValue)); }
-	void	SetHandleSize(float fPercent);
-	void	SetMinValue(float fMinValue);
-	void	SetMaxValue(float fMaxValue);
+    void    SetValue(float fValue);
+    void    SetValue(const tstring &sValue)                     { SetValue(AtoF(sValue)); }
+    void    SetHandleSize(float fPercent);
+    void    SetMinValue(float fMinValue);
+    void    SetMaxValue(float fMaxValue);
 
-	float	GetMaxValue();
+    float   GetMaxValue();
 
-	virtual void	MouseDown(EButton button, const CVec2f &v2CursorPos);
+    virtual void    MouseDown(EButton button, const CVec2f &v2CursorPos);
 
-	void	MinButtonCommand();
-	void	MaxButtonCommand();
-	void	SliderChange();
+    void    MinButtonCommand();
+    void    MaxButtonCommand();
+    void    SliderChange();
 
-	void	RecalculateChildSize();
+    void    RecalculateChildSize();
 };
 //=============================================================================
 

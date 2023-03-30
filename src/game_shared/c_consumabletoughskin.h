@@ -17,12 +17,12 @@
 class CConsumableToughSkin : public IConsumableItem
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Consumable, ToughSkin);
+    DECLARE_ENT_ALLOCATOR2(Consumable, ToughSkin);
 
 public:
-	~CConsumableToughSkin() {}
-	CConsumableToughSkin() :
-	IConsumableItem(GetEntityConfig()) {}
+    ~CConsumableToughSkin() {}
+    CConsumableToughSkin() :
+    IConsumableItem(GetEntityConfig()) {}
 };
 //=============================================================================
 

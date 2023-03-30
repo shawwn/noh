@@ -17,26 +17,26 @@
 class IBuildingMine : public IBuildingEntity
 {
 private:
-	IBuildingMine();
+    IBuildingMine();
 
 protected:
-	CEntityConfig*	m_pEntityConfig;
+    CEntityConfig*  m_pEntityConfig;
 
 public:
-	virtual ~IBuildingMine()	{}
-	IBuildingMine(CEntityConfig *pConfig) :
-	IBuildingEntity(pConfig)
-	{}
+    virtual ~IBuildingMine()    {}
+    IBuildingMine(CEntityConfig *pConfig) :
+    IBuildingEntity(pConfig)
+    {}
 
-	uint			HarvestGold();
-	uint			GetIncomeAmount() const;
-	virtual void	UpkeepFailed(float fFraction)	{}
+    uint            HarvestGold();
+    uint            GetIncomeAmount() const;
+    virtual void    UpkeepFailed(float fFraction)   {}
 
-	virtual void	Kill(IVisualEntity *pAttacker = NULL, ushort unKillingObjectID = INVALID_ENT_TYPE);
+    virtual void    Kill(IVisualEntity *pAttacker = NULL, ushort unKillingObjectID = INVALID_ENT_TYPE);
 
-	virtual bool	AddToScene(const CVec4f &v4Color, int iFlags);
+    virtual bool    AddToScene(const CVec4f &v4Color, int iFlags);
 
-	bool	IsMine() const	{ return true; }
+    bool    IsMine() const  { return true; }
 };
 //=============================================================================
 

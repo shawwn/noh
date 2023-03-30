@@ -24,33 +24,33 @@ EXTERN_CVAR_BOOL(vid_motionBlur);
 class CVelocityMap
 {
 private:
-	bool						m_bActive;
+    bool                        m_bActive;
 
-	int							m_iVelocityMap;
-	IDirect3DTexture9			*m_pVelocityMap;
-	IDirect3DSurface9			*m_pVelocityMapSurface;
-	IDirect3DSurface9			*m_pDepthStencil;		// Depth-stencil buffer for rendering to the reflection map
+    int                         m_iVelocityMap;
+    IDirect3DTexture9           *m_pVelocityMap;
+    IDirect3DSurface9           *m_pVelocityMapSurface;
+    IDirect3DSurface9           *m_pDepthStencil;       // Depth-stencil buffer for rendering to the reflection map
 
-	ResHandle					m_hVelocityTexture;
-	ResHandle					m_hVelocityReference;
+    ResHandle                   m_hVelocityTexture;
+    ResHandle                   m_hVelocityReference;
 
-	uint						m_uiWidth;
-	uint						m_uiHeight;
+    uint                        m_uiWidth;
+    uint                        m_uiHeight;
 
 public:
-	~CVelocityMap();
-	CVelocityMap();
+    ~CVelocityMap();
+    CVelocityMap();
 
-	int		GetTextureIndex()			{ return m_iVelocityMap; }
-	bool	GetActive()					{ return m_bActive; }
+    int     GetTextureIndex()           { return m_iVelocityMap; }
+    bool    GetActive()                 { return m_bActive; }
 
-	void	Initialize();
-	void	Release();
+    void    Initialize();
+    void    Release();
 
-	void	Render(const CCamera &cCamera);
+    void    Render(const CCamera &cCamera);
 };
 
-extern CVelocityMap	g_VelocityMap;
+extern CVelocityMap g_VelocityMap;
 //=============================================================================
 
 #endif //__C_VELOCITYMAP_H__

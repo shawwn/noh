@@ -17,13 +17,13 @@
 class CSpellMortification : public ISpellItem
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Spell, Mortification);
+    DECLARE_ENT_ALLOCATOR2(Spell, Mortification);
 
 public:
-	~CSpellMortification()	{}
-	CSpellMortification() :
-	ISpellItem(GetEntityConfig())
-	{}
+    ~CSpellMortification()  {}
+    CSpellMortification() :
+    ISpellItem(GetEntityConfig())
+    {}
 };
 //=============================================================================
 

@@ -17,11 +17,11 @@
 class CPersistantItem : public IPersistantItem
 {
 private:
-	DECLARE_ENT_ALLOCATOR(Persistant, Item);
+    DECLARE_ENT_ALLOCATOR(Persistant, Item);
 
 public:
-	~CPersistantItem() {}
-	CPersistantItem() {}
+    ~CPersistantItem() {}
+    CPersistantItem() {}
 };
 //=============================================================================
 

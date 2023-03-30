@@ -22,15 +22,15 @@
 class CTriggerMarker : public IVisualEntity
 {
 protected:
-	DECLARE_ENT_ALLOCATOR2(Trigger, Marker);
+    DECLARE_ENT_ALLOCATOR2(Trigger, Marker);
 
 public:
-	~CTriggerMarker()	{}
-	CTriggerMarker()	{}
+    ~CTriggerMarker()   {}
+    CTriggerMarker()    {}
 
-	virtual bool		IsServerEntity() const			{ return true; }
+    virtual bool        IsServerEntity() const          { return true; }
 
-	void	ApplyWorldEntity(const CWorldEntity &ent);
+    void    ApplyWorldEntity(const CWorldEntity &ent);
 };
 //=============================================================================
 

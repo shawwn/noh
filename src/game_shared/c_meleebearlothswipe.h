@@ -17,13 +17,13 @@
 class CMeleeBearlothSwipe : public IMeleeItem
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Melee, BearlothSwipe);
+    DECLARE_ENT_ALLOCATOR2(Melee, BearlothSwipe);
 
 public:
-	~CMeleeBearlothSwipe()	{}
-	CMeleeBearlothSwipe() :
-	IMeleeItem(GetEntityConfig())
-	{}
+    ~CMeleeBearlothSwipe()  {}
+    CMeleeBearlothSwipe() :
+    IMeleeItem(GetEntityConfig())
+    {}
 };
 //=============================================================================
 

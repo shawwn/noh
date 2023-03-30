@@ -16,7 +16,7 @@
 //=============================================================================
 namespace XMLResourceList
 {
-	DECLARE_XML_PROCESSOR(resourcelist);
+    DECLARE_XML_PROCESSOR(resourcelist);
 }
 //=============================================================================
 

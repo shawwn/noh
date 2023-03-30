@@ -30,52 +30,52 @@ m_eType(eType)
 /*====================
   CFrameBorder::RecalculateWidth
   ====================*/
-void	CFrameBorder::RecalculateWidth(float fParentWidth, float fParentHeight)
+void    CFrameBorder::RecalculateWidth(float fParentWidth, float fParentHeight)
 {
-	if (m_eType == FRAME_BORDER_BOTTOM || m_eType == FRAME_BORDER_TOP)
-		SetWidth(fParentWidth - (GetHeight() * 2));
+    if (m_eType == FRAME_BORDER_BOTTOM || m_eType == FRAME_BORDER_TOP)
+        SetWidth(fParentWidth - (GetHeight() * 2));
 
-	RecalculateX(fParentWidth, fParentHeight);
-	RecalculateChildWidth();
+    RecalculateX(fParentWidth, fParentHeight);
+    RecalculateChildWidth();
 }
 
 
 /*====================
   CFrameBorder::RecalculateHeight
   ====================*/
-void	CFrameBorder::RecalculateHeight(float fParentHeight, float fParentWidth)
+void    CFrameBorder::RecalculateHeight(float fParentHeight, float fParentWidth)
 {
-	if (m_eType == FRAME_BORDER_RIGHT || m_eType == FRAME_BORDER_LEFT)
-		SetHeight(fParentHeight - (GetWidth() * 2));
+    if (m_eType == FRAME_BORDER_RIGHT || m_eType == FRAME_BORDER_LEFT)
+        SetHeight(fParentHeight - (GetWidth() * 2));
 
-	RecalculateY(fParentHeight, fParentWidth);
-	RecalculateChildHeight();
+    RecalculateY(fParentHeight, fParentWidth);
+    RecalculateChildHeight();
 }
 
 
 /*====================
   CFrameBorder::RecalculateX
   ====================*/
-void	CFrameBorder::RecalculateX(float fParentWidth, float fParentHeight)
+void    CFrameBorder::RecalculateX(float fParentWidth, float fParentHeight)
 {
-	if (m_eType == FRAME_BORDER_BOTTOM_RIGHT || m_eType == FRAME_BORDER_RIGHT || m_eType == FRAME_BORDER_TOP_RIGHT)
-		SetX(fParentWidth - GetWidth());
-	else if (m_eType == FRAME_BORDER_TOP || m_eType == FRAME_BORDER_BOTTOM)
-		SetX(GetHeight());
-	else
-		SetX(0.0f);
+    if (m_eType == FRAME_BORDER_BOTTOM_RIGHT || m_eType == FRAME_BORDER_RIGHT || m_eType == FRAME_BORDER_TOP_RIGHT)
+        SetX(fParentWidth - GetWidth());
+    else if (m_eType == FRAME_BORDER_TOP || m_eType == FRAME_BORDER_BOTTOM)
+        SetX(GetHeight());
+    else
+        SetX(0.0f);
 }
 
 
 /*====================
   CFrameBorder::RecalculateY
   ====================*/
-void	CFrameBorder::RecalculateY(float fParentHeight, float fParentWidth)
+void    CFrameBorder::RecalculateY(float fParentHeight, float fParentWidth)
 {
-	if (m_eType == FRAME_BORDER_BOTTOM_RIGHT || m_eType == FRAME_BORDER_BOTTOM || m_eType == FRAME_BORDER_BOTTOM_LEFT)
-		SetY(fParentHeight - GetHeight());
-	else if (m_eType == FRAME_BORDER_RIGHT || m_eType == FRAME_BORDER_LEFT)
-		SetY(GetWidth());
-	else
-		SetY(0.0f);
+    if (m_eType == FRAME_BORDER_BOTTOM_RIGHT || m_eType == FRAME_BORDER_BOTTOM || m_eType == FRAME_BORDER_BOTTOM_LEFT)
+        SetY(fParentHeight - GetHeight());
+    else if (m_eType == FRAME_BORDER_RIGHT || m_eType == FRAME_BORDER_LEFT)
+        SetY(GetWidth());
+    else
+        SetY(0.0f);
 }

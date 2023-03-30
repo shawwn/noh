@@ -23,12 +23,12 @@
 
 // <listitem>
 BEGIN_XML_REGISTRATION(listitem)
-	REGISTER_XML_PROCESSOR(template)
-	REGISTER_XML_PROCESSOR(listbox)
-	REGISTER_XML_PROCESSOR(combobox)
-	REGISTER_XML_PROCESSOR(menu)
+    REGISTER_XML_PROCESSOR(template)
+    REGISTER_XML_PROCESSOR(listbox)
+    REGISTER_XML_PROCESSOR(combobox)
+    REGISTER_XML_PROCESSOR(menu)
 END_XML_REGISTRATION
 BEGIN_XML_PROCESSOR_WIDGET(listitem, CListItem)
-	if (pObject->HasFlags(WFLAG_LIST))
-		static_cast<IListWidget*>(pObject)->AddListItem(pNewWidget);
+    if (pObject->HasFlags(WFLAG_LIST))
+        static_cast<IListWidget*>(pObject)->AddListItem(pNewWidget);
 END_XML_PROCESSOR_WIDGET

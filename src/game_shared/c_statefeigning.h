@@ -17,12 +17,12 @@
 class CStateFeigning : public IEntityState
 {
 private:
-	DECLARE_STATE_ALLOCATOR(Feigning);
-	DECLARE_ENTITY_STATE_CVARS;
+    DECLARE_STATE_ALLOCATOR(Feigning);
+    DECLARE_ENTITY_STATE_CVARS;
 
 public:
-	~CStateFeigning();
-	CStateFeigning();
+    ~CStateFeigning();
+    CStateFeigning();
 };
 //=============================================================================
 

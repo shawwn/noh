@@ -18,52 +18,52 @@
 //=============================================================================
 class CK2Mutex
 {
-	// Prevent copying
-	CK2Mutex(const CK2Mutex &cMtx)	{}
-	void	operator=(CK2Mutex &cMtx)	{}
+    // Prevent copying
+    CK2Mutex(const CK2Mutex &cMtx)  {}
+    void    operator=(CK2Mutex &cMtx)   {}
 
 private:
-	// Member variables
-	mutable CRITICAL_SECTION	m_hHandle;
+    // Member variables
+    mutable CRITICAL_SECTION    m_hHandle;
 
 public:
-	// Constructor
-	CK2Mutex()
-	{
-		InitializeCriticalSection(&m_hHandle);
-	}
+    // Constructor
+    CK2Mutex()
+    {
+        InitializeCriticalSection(&m_hHandle);
+    }
 
 
-	// Destructor
-	virtual ~CK2Mutex()
-	{
-		DeleteCriticalSection(&m_hHandle);
-	}
+    // Destructor
+    virtual ~CK2Mutex()
+    {
+        DeleteCriticalSection(&m_hHandle);
+    }
 
 
-	// Lock
-	int		Lock() const
-	{
-		EnterCriticalSection(&m_hHandle);
-		return 0;
-	}
+    // Lock
+    int     Lock() const
+    {
+        EnterCriticalSection(&m_hHandle);
+        return 0;
+    }
 
 
 #if(_WIN32_WINNT >= 0x0400)
-	// Lock_Try
-	int		Lock_Try() const
-	{
-		return (TryEnterCriticalSection(&m_hHandle) ? 0 : EBUSY);
-	}
+    // Lock_Try
+    int     Lock_Try() const
+    {
+        return (TryEnterCriticalSection(&m_hHandle) ? 0 : EBUSY);
+    }
 #endif
 
 
-	// Unlock
-	int		Unlock() const
-	{
-		LeaveCriticalSection(&m_hHandle);
-		return 0;
-	}
+    // Unlock
+    int     Unlock() const
+    {
+        LeaveCriticalSection(&m_hHandle);
+        return 0;
+    }
 };
 //=============================================================================
 

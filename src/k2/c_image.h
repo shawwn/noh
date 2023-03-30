@@ -17,11 +17,11 @@
 class CImage : public IWidget
 {
 public:
-	~CImage()	{}
-	K2_API CImage(CInterface *pInterface, IWidget *pParent, const CWidgetStyle& style);
+    ~CImage()   {}
+    K2_API CImage(CInterface *pInterface, IWidget *pParent, const CWidgetStyle& style);
 
-	virtual void		MouseUp(EButton button, const CVec2f &v2CursorPos);
-	virtual void		MouseDown(EButton button, const CVec2f &v2CursorPos);
+    virtual void        MouseUp(EButton button, const CVec2f &v2CursorPos);
+    virtual void        MouseDown(EButton button, const CVec2f &v2CursorPos);
 };
 //=============================================================================
 

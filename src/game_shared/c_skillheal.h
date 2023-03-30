@@ -17,13 +17,13 @@
 class CSkillHeal : public ISkillItem
 {
 private:
-	DECLARE_ITEM_ALLOCATOR(Skill, Heal)
+    DECLARE_ITEM_ALLOCATOR(Skill, Heal)
 
 public:
-	~CSkillHeal();
-	CSkillHeal();
+    ~CSkillHeal();
+    CSkillHeal();
 
-	bool	ActivatePrimary(int iButtonStatus);
+    bool    ActivatePrimary(int iButtonStatus);
 };
 //=============================================================================
 

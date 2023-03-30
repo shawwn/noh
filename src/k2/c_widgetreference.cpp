@@ -17,8 +17,8 @@
   ====================*/
 CWidgetReference::~CWidgetReference()
 {
-	if (m_pTarget != NULL)
-		m_pTarget->RemoveReference(this);
+    if (m_pTarget != NULL)
+        m_pTarget->RemoveReference(this);
 }
 
 
@@ -35,49 +35,49 @@ CWidgetReference::CWidgetReference(const CWidgetReference &B) :
 m_pTarget(B.m_pTarget),
 m_pOwner(B.m_pOwner)
 {
-	if (m_pTarget != NULL)
-		m_pTarget->AddReference(this);
+    if (m_pTarget != NULL)
+        m_pTarget->AddReference(this);
 }
 
 
 /*====================
   CWidgetReference::Invalidate
   ====================*/
-void	CWidgetReference::Invalidate()
+void    CWidgetReference::Invalidate()
 {
-	IWidget *pOldTarget(m_pTarget);
+    IWidget *pOldTarget(m_pTarget);
 
-	if (m_pOwner != NULL)
-		m_pOwner->LostReference(m_pTarget);
+    if (m_pOwner != NULL)
+        m_pOwner->LostReference(m_pTarget);
 
-	if (pOldTarget == m_pTarget)
-		m_pTarget = NULL;
+    if (pOldTarget == m_pTarget)
+        m_pTarget = NULL;
 }
 
 
 /*====================
   CWidgetReferece::operator=
   ====================*/
-CWidgetReference&	CWidgetReference::operator=(const CWidgetReference &B)
+CWidgetReference&   CWidgetReference::operator=(const CWidgetReference &B)
 {
-	if (m_pTarget != NULL)
-		m_pTarget->RemoveReference(this);
-	
-	m_pTarget = B.m_pTarget;
-	if (m_pTarget != NULL)
-		m_pTarget->AddReference(this);
+    if (m_pTarget != NULL)
+        m_pTarget->RemoveReference(this);
+    
+    m_pTarget = B.m_pTarget;
+    if (m_pTarget != NULL)
+        m_pTarget->AddReference(this);
 
-	return *this;
+    return *this;
 }
 
-CWidgetReference&	CWidgetReference::operator=(IWidget *pWidget)
+CWidgetReference&   CWidgetReference::operator=(IWidget *pWidget)
 {
-	if (m_pTarget != NULL)
-		m_pTarget->RemoveReference(this);
-	
-	m_pTarget = pWidget;
-	if (m_pTarget != NULL)
-		m_pTarget->AddReference(this);
+    if (m_pTarget != NULL)
+        m_pTarget->RemoveReference(this);
+    
+    m_pTarget = pWidget;
+    if (m_pTarget != NULL)
+        m_pTarget->AddReference(this);
 
-	return *this;
+    return *this;
 }

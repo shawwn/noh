@@ -17,17 +17,17 @@
 class CSpellImmolate : public ISpellItem
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Spell, Immolate);
+    DECLARE_ENT_ALLOCATOR2(Spell, Immolate);
 
-	bool	m_bActive;
-	IGameEntity *m_pGadgetEnt;
+    bool    m_bActive;
+    IGameEntity *m_pGadgetEnt;
 
 public:
-	~CSpellImmolate()	{}
-	CSpellImmolate();
+    ~CSpellImmolate()   {}
+    CSpellImmolate();
 
-	bool	ActivatePrimary(int iButtonStatus);
-	void	FinishedAction(int iAction);
+    bool    ActivatePrimary(int iButtonStatus);
+    void    FinishedAction(int iAction);
 };
 //=============================================================================
 

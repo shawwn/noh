@@ -17,15 +17,15 @@
 class CGadgetAmmoDepot : public IGadgetUsable
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Gadget, AmmoDepot);
+    DECLARE_ENT_ALLOCATOR2(Gadget, AmmoDepot);
 
 public:
-	~CGadgetAmmoDepot()	{}
-	CGadgetAmmoDepot() :
-	IGadgetUsable(GetEntityConfig())
-	{}
+    ~CGadgetAmmoDepot() {}
+    CGadgetAmmoDepot() :
+    IGadgetUsable(GetEntityConfig())
+    {}
 
-	bool	UseEffect(IGameEntity *pActivator);
+    bool    UseEffect(IGameEntity *pActivator);
 };
 //=============================================================================
 

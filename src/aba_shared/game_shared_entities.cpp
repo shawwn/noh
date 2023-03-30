@@ -17,5 +17,5 @@
 DEFINE_ENTITY(IGameEntity, Prop_Static);
 DEFINE_ENTITY(IGameEntity, Prop_Cliff);
 DEFINE_ENTITY(IGameEntity, Prop_Cliff2);
-DEFINE_ENTITY(IGameEntity, Prop_Water);	
+DEFINE_ENTITY(IGameEntity, Prop_Water); 
 //=============================================================================

@@ -41,9 +41,9 @@ CPool<CLineRenderer> CLineRenderer::s_Pool(1, -1);
 /*====================
   CLineRenderer::operator new
   ====================*/
-void*	CLineRenderer::operator new(size_t z, const char *szContext, const char *szType, const char *szFile, short nLine)
+void*   CLineRenderer::operator new(size_t z, const char *szContext, const char *szType, const char *szFile, short nLine)
 {
-	return s_Pool.Allocate();
+    return s_Pool.Allocate();
 }
 
 
@@ -67,26 +67,26 @@ CLineRenderer::~CLineRenderer()
 /*====================
   CLineRenderer::Render
   ====================*/
-void	CLineRenderer::Render(EMaterialPhase ePhase)
+void    CLineRenderer::Render(EMaterialPhase ePhase)
 {
-	PROFILE("CLineRenderer::Render");
+    PROFILE("CLineRenderer::Render");
 
-	if (!m_bRender)
-		return;
+    if (!m_bRender)
+        return;
 
-	SetShaderVars();
+    SetShaderVars();
 
-	D3D_SetStreamSource(0, g_pVBLine, 0, sizeof(SLineVertex));
+    D3D_SetStreamSource(0, g_pVBLine, 0, sizeof(SLineVertex));
 
-	D3D_SelectMaterial(g_SimpleMaterial3DColored, ePhase, VERTEX_LINE, g_pCam->GetTime(), gfx_depthFirst);
+    D3D_SelectMaterial(g_SimpleMaterial3DColored, ePhase, VERTEX_LINE, g_pCam->GetTime(), gfx_depthFirst);
 
-	D3D_SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
-	D3D_SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
-	D3D_SetRenderState(D3DRS_ZENABLE, FALSE);
-	D3D_SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
-	D3D_SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
+    D3D_SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
+    D3D_SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
+    D3D_SetRenderState(D3DRS_ZENABLE, FALSE);
+    D3D_SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
+    D3D_SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
 
-	D3D_DrawPrimitive(D3DPT_LINELIST, 0, m_iNumLines);
+    D3D_DrawPrimitive(D3DPT_LINELIST, 0, m_iNumLines);
 
-	SceneStats.RecordBatch(m_iNumLines * 2, m_iNumLines, ePhase, SSBATCH_DEBUG);
+    SceneStats.RecordBatch(m_iNumLines * 2, m_iNumLines, ePhase, SSBATCH_DEBUG);
 }

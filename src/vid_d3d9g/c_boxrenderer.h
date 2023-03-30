@@ -22,17 +22,17 @@
 class CBoxRenderer : public IDebugRenderer
 {
 private:
-	int		m_iNumBoxes;
+    int     m_iNumBoxes;
 
 public:
-	static CPool<CBoxRenderer>		s_Pool;
-	
-	void*	operator new(size_t z); // Uses CPool of preallocated instances
-	
-	~CBoxRenderer();
-	CBoxRenderer(int iNumBoxes);
+    static CPool<CBoxRenderer>      s_Pool;
+    
+    void*   operator new(size_t z); // Uses CPool of preallocated instances
+    
+    ~CBoxRenderer();
+    CBoxRenderer(int iNumBoxes);
 
-	void	Render(EMaterialPhase ePhase);
+    void    Render(EMaterialPhase ePhase);
 };
 //=============================================================================
 #endif //__C_BOXRENDERER_H__

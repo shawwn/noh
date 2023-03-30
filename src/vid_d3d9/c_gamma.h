@@ -16,9 +16,9 @@
 //=============================================================================
 struct SGammaRamp
 {
-	ushort	unRed[256];
-	ushort	unGreen[256];
-	ushort	unBlue[256];
+    ushort  unRed[256];
+    ushort  unGreen[256];
+    ushort  unBlue[256];
 };
 //=============================================================================
 
@@ -28,26 +28,26 @@ struct SGammaRamp
 class CGamma
 {
 private:
-	float		m_fD3DGamma;
-	float		m_fGDIGamma;
+    float       m_fD3DGamma;
+    float       m_fGDIGamma;
 
-	bool		m_bSaved;
-	SGammaRamp	m_cSavedGDIGammaRamp;
+    bool        m_bSaved;
+    SGammaRamp  m_cSavedGDIGammaRamp;
 
-	void	UpdateD3DGamma(float fGamma);
-	void	UpdateGDIGamma(float fGamma);
+    void    UpdateD3DGamma(float fGamma);
+    void    UpdateGDIGamma(float fGamma);
 
 public:
-	~CGamma();
-	CGamma();
+    ~CGamma();
+    CGamma();
 
-	void	SaveGDIGammaRamp();
-	void	RestoreGDIGammaRamp();
+    void    SaveGDIGammaRamp();
+    void    RestoreGDIGammaRamp();
 
-	void	Update(float fGamma);
+    void    Update(float fGamma);
 };
 
-extern CGamma	g_Gamma;
+extern CGamma   g_Gamma;
 //=============================================================================
 
 #endif //__C_GAMMA_H__

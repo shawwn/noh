@@ -22,38 +22,38 @@
 class IBeamGunItem : public IGunItem
 {
 protected:
-	START_ENTITY_CONFIG(IGunItem)
-		DECLARE_ENTITY_CVAR(float, ManaCostPerSecondHit)
-		DECLARE_ENTITY_CVAR(float, ManaCostPerSecondMiss)
-		DECLARE_ENTITY_CVAR(tstring, ThirdPersonHitEffectPath)
-		DECLARE_ENTITY_CVAR(tstring, ThirdPersonMissEffectPath)
-		DECLARE_ENTITY_CVAR(tstring, FirstPersonHitEffectPath)
-		DECLARE_ENTITY_CVAR(tstring, FirstPersonMissEffectPath)
-		DECLARE_ENTITY_CVAR(bool, UseHitEffect)
-	END_ENTITY_CONFIG
+    START_ENTITY_CONFIG(IGunItem)
+        DECLARE_ENTITY_CVAR(float, ManaCostPerSecondHit)
+        DECLARE_ENTITY_CVAR(float, ManaCostPerSecondMiss)
+        DECLARE_ENTITY_CVAR(tstring, ThirdPersonHitEffectPath)
+        DECLARE_ENTITY_CVAR(tstring, ThirdPersonMissEffectPath)
+        DECLARE_ENTITY_CVAR(tstring, FirstPersonHitEffectPath)
+        DECLARE_ENTITY_CVAR(tstring, FirstPersonMissEffectPath)
+        DECLARE_ENTITY_CVAR(bool, UseHitEffect)
+    END_ENTITY_CONFIG
 
-	CEntityConfig*	m_pEntityConfig;
+    CEntityConfig*  m_pEntityConfig;
 
-	uint		m_uiEffectIndex;
+    uint        m_uiEffectIndex;
 
-	void		StopFire();
+    void        StopFire();
 
 public:
-	~IBeamGunItem();
-	IBeamGunItem(CEntityConfig *pConfig);
+    ~IBeamGunItem();
+    IBeamGunItem(CEntityConfig *pConfig);
 
-	virtual void	Unselected();
+    virtual void    Unselected();
 
-	virtual bool	Fire(int iButtonStatus);
+    virtual bool    Fire(int iButtonStatus);
 
-	virtual bool	ActivatePrimary(int iButtonStatus);
+    virtual bool    ActivatePrimary(int iButtonStatus);
 
-	static void		ClientPrecache(CEntityConfig *pConfig);
-	static void		ServerPrecache(CEntityConfig *pConfig);
+    static void     ClientPrecache(CEntityConfig *pConfig);
+    static void     ServerPrecache(CEntityConfig *pConfig);
 
-	// Settings
-	ENTITY_CVAR_ACCESSOR(float, ManaCostPerSecondHit, 0.0f)
-	ENTITY_CVAR_ACCESSOR(float, ManaCostPerSecondMiss, 0.0f)
+    // Settings
+    ENTITY_CVAR_ACCESSOR(float, ManaCostPerSecondHit, 0.0f)
+    ENTITY_CVAR_ACCESSOR(float, ManaCostPerSecondMiss, 0.0f)
 };
 //=============================================================================
 

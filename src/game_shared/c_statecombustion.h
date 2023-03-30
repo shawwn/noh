@@ -17,19 +17,19 @@
 class CStateCombustion : public IEntityState
 {
 private:
-	START_ENTITY_CONFIG(IEntityState)
-		DECLARE_ENTITY_CVAR(float, DamagePerSecond)
-	END_ENTITY_CONFIG
+    START_ENTITY_CONFIG(IEntityState)
+        DECLARE_ENTITY_CVAR(float, DamagePerSecond)
+    END_ENTITY_CONFIG
 
-	CEntityConfig*	m_pEntityConfig;
+    CEntityConfig*  m_pEntityConfig;
 
-	DECLARE_ENT_ALLOCATOR2(State, Combustion);
+    DECLARE_ENT_ALLOCATOR2(State, Combustion);
 
 public:
-	~CStateCombustion()	{}
-	CStateCombustion();
+    ~CStateCombustion() {}
+    CStateCombustion();
 
-	void	StateFrame();
+    void    StateFrame();
 };
 //=============================================================================
 

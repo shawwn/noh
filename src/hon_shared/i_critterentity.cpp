@@ -16,14 +16,14 @@
 //=============================================================================
 // Definitions
 //=============================================================================
-uint				ICritterEntity::s_uiBaseType(ENTITY_BASE_TYPE_CRITTER);
+uint                ICritterEntity::s_uiBaseType(ENTITY_BASE_TYPE_CRITTER);
 
 DEFINE_ENTITY_DESC(ICritterEntity, 1)
 {
-	s_cDesc.pFieldTypes = K2_NEW(ctx_Game,   TypeVector)();
-	s_cDesc.pFieldTypes->clear();
-	const TypeVector &vBase(IUnitEntity::GetTypeVector());
-	s_cDesc.pFieldTypes->insert(s_cDesc.pFieldTypes->begin(), vBase.begin(), vBase.end());
+    s_cDesc.pFieldTypes = K2_NEW(ctx_Game,   TypeVector)();
+    s_cDesc.pFieldTypes->clear();
+    const TypeVector &vBase(IUnitEntity::GetTypeVector());
+    s_cDesc.pFieldTypes->insert(s_cDesc.pFieldTypes->begin(), vBase.begin(), vBase.end());
 }
 //=============================================================================
 
@@ -39,96 +39,96 @@ m_v3SpawnPosition(0.0f, 0.0f, 0.0f)
 /*====================
   ICritterEntity::Baseline
   ====================*/
-void	ICritterEntity::Baseline()
+void    ICritterEntity::Baseline()
 {
-	IUnitEntity::Baseline();
+    IUnitEntity::Baseline();
 }
 
 
 /*====================
   ICritterEntity::GetSnapshot
   ====================*/
-void	ICritterEntity::GetSnapshot(CEntitySnapshot &snapshot, uint uiFlags) const
+void    ICritterEntity::GetSnapshot(CEntitySnapshot &snapshot, uint uiFlags) const
 {
-	// Base entity info
-	IUnitEntity::GetSnapshot(snapshot, uiFlags);
+    // Base entity info
+    IUnitEntity::GetSnapshot(snapshot, uiFlags);
 }
 
 
 /*====================
   ICritterEntity::ReadSnapshot
   ====================*/
-bool	ICritterEntity::ReadSnapshot(CEntitySnapshot &snapshot, uint uiVersion)
+bool    ICritterEntity::ReadSnapshot(CEntitySnapshot &snapshot, uint uiVersion)
 {
-	try
-	{
-		// Base entity info
-		if (!IUnitEntity::ReadSnapshot(snapshot, 1))
-			return false;
+    try
+    {
+        // Base entity info
+        if (!IUnitEntity::ReadSnapshot(snapshot, 1))
+            return false;
 
-		return true;
-	}
-	catch (CException &ex)
-	{
-		ex.Process(_T("ICritterEntity::ReadSnapshot() - "), NO_THROW);
-		return false;
-	}
+        return true;
+    }
+    catch (CException &ex)
+    {
+        ex.Process(_T("ICritterEntity::ReadSnapshot() - "), NO_THROW);
+        return false;
+    }
 }
 
 
 /*====================
   ICritterEntity::Copy
   ====================*/
-void	ICritterEntity::Copy(const IGameEntity &B)
+void    ICritterEntity::Copy(const IGameEntity &B)
 {
-	IUnitEntity::Copy(B);
+    IUnitEntity::Copy(B);
 
-	const ICritterEntity *pB(B.GetAsCritter());
+    const ICritterEntity *pB(B.GetAsCritter());
 
-	if (!pB)	
-		return;
+    if (!pB)    
+        return;
 
-	//const ICritterEntity &C(*pB);
+    //const ICritterEntity &C(*pB);
 }
 
 
 /*====================
   ICritterEntity::ServerFrameThink
   ====================*/
-bool	ICritterEntity::ServerFrameThink()
+bool    ICritterEntity::ServerFrameThink()
 {
-	// Issue default behavior
+    // Issue default behavior
 
-	if (m_uiOwnerEntityIndex == INVALID_INDEX)
-	{
-		if (m_cBrain.IsEmpty() && m_cBrain.GetCommandsPending() == 0)
-			m_cBrain.AddCommand(UNITCMD_GUARD, false, m_v3SpawnPosition.xy(), INVALID_INDEX, uint(-1), true);
-	}
-	else
-	{
-		if (m_cBrain.IsEmpty() && m_cBrain.GetCommandsPending() == 0)
-			m_cBrain.AddCommand(UNITCMD_GUARD, false, m_v3Position.xy(), INVALID_INDEX, uint(-1), true);
-	}
+    if (m_uiOwnerEntityIndex == INVALID_INDEX)
+    {
+        if (m_cBrain.IsEmpty() && m_cBrain.GetCommandsPending() == 0)
+            m_cBrain.AddCommand(UNITCMD_GUARD, false, m_v3SpawnPosition.xy(), INVALID_INDEX, uint(-1), true);
+    }
+    else
+    {
+        if (m_cBrain.IsEmpty() && m_cBrain.GetCommandsPending() == 0)
+            m_cBrain.AddCommand(UNITCMD_GUARD, false, m_v3Position.xy(), INVALID_INDEX, uint(-1), true);
+    }
 
-	return IUnitEntity::ServerFrameThink();
+    return IUnitEntity::ServerFrameThink();
 }
 
 
 /*====================
   ICritterEntity::Spawn
   ====================*/
-void	ICritterEntity::Spawn()
+void    ICritterEntity::Spawn()
 {
-	IUnitEntity::Spawn();
+    IUnitEntity::Spawn();
 
-	m_v3SpawnPosition = m_v3Position;
+    m_v3SpawnPosition = m_v3Position;
 }
 
 
 /*====================
   ICritterEntity::Die
   ====================*/
-void	ICritterEntity::Die(IUnitEntity *pAttacker, ushort unKillingObjectID)
+void    ICritterEntity::Die(IUnitEntity *pAttacker, ushort unKillingObjectID)
 {
-	IUnitEntity::Die(pAttacker, unKillingObjectID);
+    IUnitEntity::Die(pAttacker, unKillingObjectID);
 }

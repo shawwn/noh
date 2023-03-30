@@ -17,11 +17,11 @@
 class CSkillGrenade : public ISkillItem
 {
 private:
-	DECLARE_ITEM_ALLOCATOR(Skill, Grenade);
+    DECLARE_ITEM_ALLOCATOR(Skill, Grenade);
 
 public:
-	~CSkillGrenade()	{}
-	CSkillGrenade()		{}
+    ~CSkillGrenade()    {}
+    CSkillGrenade()     {}
 };
 //=============================================================================
 

@@ -35,5 +35,5 @@ CStateTargeted::CStateTargeted() :
 IEntityState(GetEntityConfig()),
 m_pEntityConfig(GetEntityConfig())
 {
-	m_modArmor.SetAdd(m_pEntityConfig->GetArmorAdjustment());
+    m_modArmor.SetAdd(m_pEntityConfig->GetArmorAdjustment());
 }

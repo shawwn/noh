@@ -24,30 +24,30 @@ CModelAllocatorRegistry::CModelAllocatorRegistry()
 /*====================
   CModelAllocatorRegistry::Register
   ====================*/
-void	CModelAllocatorRegistry::Register(const tstring &sType, IModelAllocator *pAllocator)
+void    CModelAllocatorRegistry::Register(const tstring &sType, IModelAllocator *pAllocator)
 {
-	map<tstring, IModelAllocator*>::iterator findit(m_mapAllocators.find(sType));
-	if (findit != m_mapAllocators.end())
-	{
-		Console.Warn << _T("ModelAllocator of type ") << sType << _T(" is already registered.") << newl;
-		return;
-	}
+    map<tstring, IModelAllocator*>::iterator findit(m_mapAllocators.find(sType));
+    if (findit != m_mapAllocators.end())
+    {
+        Console.Warn << _T("ModelAllocator of type ") << sType << _T(" is already registered.") << newl;
+        return;
+    }
 
-	m_mapAllocators[sType] = pAllocator;
+    m_mapAllocators[sType] = pAllocator;
 }
 
 
 /*====================
   CModelAllocatorRegistry::Allocate
   ====================*/
-IModel*	CModelAllocatorRegistry::Allocate(const tstring &sType)
+IModel* CModelAllocatorRegistry::Allocate(const tstring &sType)
 {
-	map<tstring, IModelAllocator*>::iterator findit(m_mapAllocators.find(sType));
-	if (findit == m_mapAllocators.end())
-	{
-		Console.Warn << _T("ModelAllocator of type ") << sType << _T(" is not registered.") << newl;
-		return NULL;
-	}
+    map<tstring, IModelAllocator*>::iterator findit(m_mapAllocators.find(sType));
+    if (findit == m_mapAllocators.end())
+    {
+        Console.Warn << _T("ModelAllocator of type ") << sType << _T(" is not registered.") << newl;
+        return NULL;
+    }
 
-	return findit->second->Allocate();
+    return findit->second->Allocate();
 }

@@ -19,15 +19,15 @@
 class CPlayerMaliken : public IPlayerEntity
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Player, Maliken);
+    DECLARE_ENT_ALLOCATOR2(Player, Maliken);
 
 public:
-	~CPlayerMaliken()	{}
-	CPlayerMaliken() :
-	IPlayerEntity(GetEntityConfig())
-	{}
+    ~CPlayerMaliken()   {}
+    CPlayerMaliken() :
+    IPlayerEntity(GetEntityConfig())
+    {}
 
-	void	Move(const CClientSnapshot &snapshot)	{ MoveWalk(snapshot); }
+    void    Move(const CClientSnapshot &snapshot)   { MoveWalk(snapshot); }
 };
 //=============================================================================
 

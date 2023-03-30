@@ -21,12 +21,12 @@ class CWorldEntity;
 //=============================================================================
 // Definitions
 //=============================================================================
-typedef vector<PoolHandle>				WorldEntList;
-typedef WorldEntList::iterator			WorldEntList_it;
-typedef WorldEntList::const_iterator	WorldEntList_cit;
-typedef vector<PoolHandle>				WorldEntVector;
-typedef WorldEntVector::iterator		WorldEntVector_it;
-typedef WorldEntVector::const_iterator	WorldEntVector_cit;
+typedef vector<PoolHandle>              WorldEntList;
+typedef WorldEntList::iterator          WorldEntList_it;
+typedef WorldEntList::const_iterator    WorldEntList_cit;
+typedef vector<PoolHandle>              WorldEntVector;
+typedef WorldEntVector::iterator        WorldEntVector_it;
+typedef WorldEntVector::const_iterator  WorldEntVector_cit;
 
 const uint DEFAULT_WORLDENTS(8192);
 //=============================================================================
@@ -37,28 +37,28 @@ const uint DEFAULT_WORLDENTS(8192);
 class CWorldEntityList : public IWorldComponent
 {
 private:
-	CRecyclePool<CWorldEntity> m_poolWorldEntities;
-	WorldEntList			m_vEntities;
-	uint					m_uiMinFreeIndex;
+    CRecyclePool<CWorldEntity> m_poolWorldEntities;
+    WorldEntList            m_vEntities;
+    uint                    m_uiMinFreeIndex;
 
 public:
-	K2_API ~CWorldEntityList();
-	K2_API CWorldEntityList(EWorldComponent eComponent);
+    K2_API ~CWorldEntityList();
+    K2_API CWorldEntityList(EWorldComponent eComponent);
 
-	bool	Load(CArchive &archive, const CWorld *pWorld);
-	bool	Generate(const CWorld *pWorld);
-	void	Release();
-	bool	Serialize(IBuffer *pBuffer);
-	void	Restore(CArchive &archive);
+    bool    Load(CArchive &archive, const CWorld *pWorld);
+    bool    Generate(const CWorld *pWorld);
+    void    Release();
+    bool    Serialize(IBuffer *pBuffer);
+    void    Restore(CArchive &archive);
 
-	K2_API uint				AllocateNewEntity(uint uiIndex = INVALID_INDEX);
-	K2_API CWorldEntity*	GetEntity(uint uiIndex, bool bThrow = false);
-	K2_API CWorldEntity*	GetEntityByHandle(PoolHandle hHandle);
-	K2_API PoolHandle		GetHandleByEntity(CWorldEntity *pEntity);
-	K2_API void				FreeEntity(PoolHandle hHandle);
-	K2_API WorldEntList&	GetEntityList()								{ return m_vEntities; }
-	K2_API void				DeleteEntity(uint uiIndex);
-	K2_API bool				Exists(uint uiIndex);
+    K2_API uint             AllocateNewEntity(uint uiIndex = INVALID_INDEX);
+    K2_API CWorldEntity*    GetEntity(uint uiIndex, bool bThrow = false);
+    K2_API CWorldEntity*    GetEntityByHandle(PoolHandle hHandle);
+    K2_API PoolHandle       GetHandleByEntity(CWorldEntity *pEntity);
+    K2_API void             FreeEntity(PoolHandle hHandle);
+    K2_API WorldEntList&    GetEntityList()                             { return m_vEntities; }
+    K2_API void             DeleteEntity(uint uiIndex);
+    K2_API bool             Exists(uint uiIndex);
 };
 //=============================================================================
 
@@ -72,7 +72,7 @@ public:
 inline
 CWorldEntity* CWorldEntityList::GetEntityByHandle(PoolHandle hHandle)
 {
-	return m_poolWorldEntities.GetReferenceByHandle(hHandle);
+    return m_poolWorldEntities.GetReferenceByHandle(hHandle);
 }
 
 
@@ -80,9 +80,9 @@ CWorldEntity* CWorldEntityList::GetEntityByHandle(PoolHandle hHandle)
   CWorldEntityList::GetHandleByEntity
   ====================*/
 inline
-PoolHandle	CWorldEntityList::GetHandleByEntity(CWorldEntity *pEntity)
+PoolHandle  CWorldEntityList::GetHandleByEntity(CWorldEntity *pEntity)
 {
-	return m_poolWorldEntities.GetHandleByReference(pEntity);
+    return m_poolWorldEntities.GetHandleByReference(pEntity);
 }
 
 
@@ -90,23 +90,23 @@ PoolHandle	CWorldEntityList::GetHandleByEntity(CWorldEntity *pEntity)
   CWorldEntityList::GetEntity
   ====================*/
 inline
-CWorldEntity*	CWorldEntityList::GetEntity(uint uiIndex, bool bThrow)
+CWorldEntity*   CWorldEntityList::GetEntity(uint uiIndex, bool bThrow)
 {
-	try
-	{
-		if (uiIndex == INVALID_INDEX)
-			return NULL;
+    try
+    {
+        if (uiIndex == INVALID_INDEX)
+            return NULL;
 
-		if (uiIndex >= m_vEntities.size() || m_vEntities[uiIndex] == INVALID_POOL_HANDLE)
-			EX_ERROR(_T("Entity with index ") + XtoA(uiIndex) + _T(" not found"));
+        if (uiIndex >= m_vEntities.size() || m_vEntities[uiIndex] == INVALID_POOL_HANDLE)
+            EX_ERROR(_T("Entity with index ") + XtoA(uiIndex) + _T(" not found"));
 
-		return m_poolWorldEntities.GetReferenceByHandle(m_vEntities[uiIndex]);
-	}
-	catch (CException &ex)
-	{
-		ex.Process(_T("CWorldEntityList::GetEntity() - "), bThrow);
-		return NULL;
-	}
+        return m_poolWorldEntities.GetReferenceByHandle(m_vEntities[uiIndex]);
+    }
+    catch (CException &ex)
+    {
+        ex.Process(_T("CWorldEntityList::GetEntity() - "), bThrow);
+        return NULL;
+    }
 }
 //=============================================================================
 

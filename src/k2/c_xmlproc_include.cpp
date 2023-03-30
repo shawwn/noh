@@ -23,32 +23,32 @@ EXTERN_XML_PROCESSOR(interface)
 // <include>
 DECLARE_XML_PROCESSOR(include)
 BEGIN_XML_REGISTRATION(include)
-	REGISTER_XML_PROCESSOR(interface)
-	REGISTER_XML_PROCESSOR(panel)
-	REGISTER_XML_PROCESSOR(webpanel)
-	REGISTER_XML_PROCESSOR(frame)
+    REGISTER_XML_PROCESSOR(interface)
+    REGISTER_XML_PROCESSOR(panel)
+    REGISTER_XML_PROCESSOR(webpanel)
+    REGISTER_XML_PROCESSOR(frame)
 END_XML_REGISTRATION
 BEGIN_XML_PROCESSOR(include, IWidget)
-	if (!node.HasProperty(_T("file")))
-	{
-		Console.Warn << _T("No file specified for <include>") << newl;
-		return false;
-	}
+    if (!node.HasProperty(_T("file")))
+    {
+        Console.Warn << _T("No file specified for <include>") << newl;
+        return false;
+    }
 
-	const tstring &sFile(node.GetProperty(_T("file")));
+    const tstring &sFile(node.GetProperty(_T("file")));
 
-	CInterface *pInterface(pObject->GetInterface());
-	if (pInterface != NULL)
-		pInterface->AddCallback(sFile);
+    CInterface *pInterface(pObject->GetInterface());
+    if (pInterface != NULL)
+        pInterface->AddCallback(sFile);
 
-	XMLManager.Process(sFile, _T("package"), pObject);
+    XMLManager.Process(sFile, _T("package"), pObject);
 END_XML_PROCESSOR_NO_CHILDREN
 
 // <package>
 DECLARE_XML_PROCESSOR(package)
 BEGIN_XML_REGISTRATION(package)
-	REGISTER_XML_PROCESSOR(root)
+    REGISTER_XML_PROCESSOR(root)
 END_XML_REGISTRATION
 BEGIN_XML_PROCESSOR(package, IWidget)
-	g_xmlproc_interface.ProcessChildren(node, pObject);
+    g_xmlproc_interface.ProcessChildren(node, pObject);
 END_XML_PROCESSOR_NO_CHILDREN

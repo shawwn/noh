@@ -19,15 +19,15 @@
 class CPlayerShapeShifter : public IPlayerEntity
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Player, ShapeShifter);
+    DECLARE_ENT_ALLOCATOR2(Player, ShapeShifter);
 
 public:
-	~CPlayerShapeShifter()	{}
-	CPlayerShapeShifter() :
-	IPlayerEntity(GetEntityConfig())
-	{}
+    ~CPlayerShapeShifter()  {}
+    CPlayerShapeShifter() :
+    IPlayerEntity(GetEntityConfig())
+    {}
 
-	void	Move(const CClientSnapshot &snapshot)	{ MoveWalk(snapshot); }
+    void    Move(const CClientSnapshot &snapshot)   { MoveWalk(snapshot); }
 };
 //=============================================================================
 

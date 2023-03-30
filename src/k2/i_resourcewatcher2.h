@@ -13,30 +13,30 @@ class IResource;
 
 //=============================================================================
 // IResourceWatcher
-//		***NOTE***:  BE SURE you call g_ResourceManager.RemoveResourceWatcher(this, m_hResource)
-//		in the destructor of your derived class!
+//      ***NOTE***:  BE SURE you call g_ResourceManager.RemoveResourceWatcher(this, m_hResource)
+//      in the destructor of your derived class!
 //=============================================================================
 class IResourceWatcher
 {
-	friend class IResourceLibrary;
+    friend class IResourceLibrary;
 
-	// internal for IResourceLibrary
+    // internal for IResourceLibrary
 private:
-	bool			m_bHasAddedWatcher;
+    bool            m_bHasAddedWatcher;
 
-	void			MarkHasAddedWatcher()		{ m_bHasAddedWatcher = true; }
-	void			ClearHasAddedWatcher()		{ m_bHasAddedWatcher = false; }
-	bool			HasAddedWatcher()			{ return m_bHasAddedWatcher; }
+    void            MarkHasAddedWatcher()       { m_bHasAddedWatcher = true; }
+    void            ClearHasAddedWatcher()      { m_bHasAddedWatcher = false; }
+    bool            HasAddedWatcher()           { return m_bHasAddedWatcher; }
 
 public:
-	IResourceWatcher()
-		: m_bHasAddedWatcher(false)
-	{ }
+    IResourceWatcher()
+        : m_bHasAddedWatcher(false)
+    { }
 
-	virtual ~IResourceWatcher()
-	{ }
+    virtual ~IResourceWatcher()
+    { }
 
-	virtual void	Rebuild(ResHandle hResource) = 0;
+    virtual void    Rebuild(ResHandle hResource) = 0;
 };
 //=============================================================================
 

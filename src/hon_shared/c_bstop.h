@@ -19,20 +19,20 @@ class CBStop : public IBehavior
 private:
 
 public:
-	CBStop() :
-	IBehavior(EBT_STOP)
-	{}
+    CBStop() :
+    IBehavior(EBT_STOP)
+    {}
 
-	virtual void		CopyFrom(const IBehavior* pBehavior);
-	virtual IBehavior*	Clone(CBrain* pNewBrain, IUnitEntity* pNewSelf) const;
+    virtual void        CopyFrom(const IBehavior* pBehavior);
+    virtual IBehavior*  Clone(CBrain* pNewBrain, IUnitEntity* pNewSelf) const;
 
-	virtual bool	Validate();
-	virtual void	Update() {}
-	virtual void	BeginBehavior();
-	virtual void	ThinkFrame();
-	virtual void	MovementFrame();
-	virtual void	ActionFrame();
-	virtual void	CleanupFrame();
+    virtual bool    Validate();
+    virtual void    Update() {}
+    virtual void    BeginBehavior();
+    virtual void    ThinkFrame();
+    virtual void    MovementFrame();
+    virtual void    ActionFrame();
+    virtual void    CleanupFrame();
 };
 //=============================================================================
 

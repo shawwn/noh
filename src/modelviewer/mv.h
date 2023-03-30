@@ -19,36 +19,36 @@ const int NUM_MV_EFFECTS(256);
 
 typedef struct mvres_s
 {
-	ResHandle	mainCursor;
+    ResHandle   mainCursor;
 }
 mvres_t;
 
 enum eMVButton
 {
-	MV_BUTTON_LEFT = BIT(0),
-	MV_BUTTON_RIGHT = BIT(1),
-	MV_BUTTON_MIDDLE = BIT(2),
-	MV_BUTTON_SHIFT = BIT(3),
-	MV_BUTTON_CTRL = BIT(4),
-	MV_BUTTON_ALT = BIT(5),
-	MV_BUTTON_FORWARD = BIT(6),
-	MV_BUTTON_BACKWARD = BIT(7),
-	MV_BUTTON_STRAFE_LEFT = BIT(8),
-	MV_BUTTON_STRAFE_RIGHT = BIT(9)
+    MV_BUTTON_LEFT = BIT(0),
+    MV_BUTTON_RIGHT = BIT(1),
+    MV_BUTTON_MIDDLE = BIT(2),
+    MV_BUTTON_SHIFT = BIT(3),
+    MV_BUTTON_CTRL = BIT(4),
+    MV_BUTTON_ALT = BIT(5),
+    MV_BUTTON_FORWARD = BIT(6),
+    MV_BUTTON_BACKWARD = BIT(7),
+    MV_BUTTON_STRAFE_LEFT = BIT(8),
+    MV_BUTTON_STRAFE_RIGHT = BIT(9)
 };
 
 struct SMv
 {
-	int			button;
+    int         button;
 
-	CCamera		camera;
+    CCamera     camera;
 
-	ResHandle		hActiveModel;
-	uint	lastFrame;
-	float			frametime;
+    ResHandle       hActiveModel;
+    uint    lastFrame;
+    float           frametime;
 
-	SoundHandle		ahSounds[NUM_MV_SOUNDS];
-	CEffectThread*	apEffectThread[NUM_MV_EFFECTS];
+    SoundHandle     ahSounds[NUM_MV_SOUNDS];
+    CEffectThread*  apEffectThread[NUM_MV_EFFECTS];
 };
 
 extern SMv mv;

@@ -14,7 +14,7 @@
 //=============================================================================
 // Definitions
 //=============================================================================
-const int	MAX_FOWQUADS = 2;
+const int   MAX_FOWQUADS = 2;
 //=============================================================================
 
 //=============================================================================
@@ -23,44 +23,44 @@ const int	MAX_FOWQUADS = 2;
 class CFogofWar
 {
 private:
-	GLuint			m_uiFrameBufferObject;
-	GLuint			m_uiColorTexture;
+    GLuint          m_uiFrameBufferObject;
+    GLuint          m_uiColorTexture;
 
-	GLuint			m_uiPixelBufferObject;
-	GLuint			m_uiDynamicTexture0;
-	GLuint			m_uiDynamicTexture1;
+    GLuint          m_uiPixelBufferObject;
+    GLuint          m_uiDynamicTexture0;
+    GLuint          m_uiDynamicTexture1;
 
-	ResHandle		m_hFogofWarTexture;
-	ResHandle		m_hFogofWarTexture0;
-	ResHandle		m_hFogofWarTexture1;
+    ResHandle       m_hFogofWarTexture;
+    ResHandle       m_hFogofWarTexture0;
+    ResHandle       m_hFogofWarTexture1;
 
-	bool			m_bValid;
+    bool            m_bValid;
 
-	float			m_fWorldWidth;
-	float			m_fWorldHeight;
-	int				m_iNextTexturemap;
+    float           m_fWorldWidth;
+    float           m_fWorldHeight;
+    int             m_iNextTexturemap;
 
-	GLuint			VBFowQuad;
+    GLuint          VBFowQuad;
 
-	void	DrawTexture(float fLerp);
+    void    DrawTexture(float fLerp);
 
 public:
-	~CFogofWar();
-	CFogofWar();
+    ~CFogofWar();
+    CFogofWar();
 
-	int		GetTextureIndex()		{ return m_uiColorTexture; }
+    int     GetTextureIndex()       { return m_uiColorTexture; }
 
-	void	Initialize();
-	void	Release();
+    void    Initialize();
+    void    Release();
 
-	void	Render(float fClear, bool bTexture, float fLerp);
-	void	Update(const CBitmap &cBmp);
+    void    Render(float fClear, bool bTexture, float fLerp);
+    void    Update(const CBitmap &cBmp);
 
-	void	AddRect(float x, float y, float w, float h, float s1, float t1, float s2, float t2, ResHandle hTexture);
+    void    AddRect(float x, float y, float w, float h, float s1, float t1, float s2, float t2, ResHandle hTexture);
 
-	bool	IsValid() const			{ return m_bValid; }
+    bool    IsValid() const         { return m_bValid; }
 };
 
-extern CFogofWar		g_FogofWar;
+extern CFogofWar        g_FogofWar;
 //=============================================================================
 #endif //__C_FOGOFWAR_H__

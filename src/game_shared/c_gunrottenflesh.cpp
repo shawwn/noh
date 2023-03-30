@@ -29,7 +29,7 @@ INIT_ENTITY_CVAR(AmmoPerCorpse, 5)
 /*====================
   CGunRottenFlesh::ConsumeCorpse
   ====================*/
-void	CGunRottenFlesh::ConsumeCorpse()
+void    CGunRottenFlesh::ConsumeCorpse()
 {
-	SetAmmo(MIN(ushort(GetAmmoCount()), ushort(GetAmmo() + m_pEntityConfig->GetAmmoPerCorpse())));
+    SetAmmo(MIN(ushort(GetAmmoCount()), ushort(GetAmmo() + m_pEntityConfig->GetAmmoPerCorpse())));
 }

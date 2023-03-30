@@ -17,13 +17,13 @@
 class CBuildingSanctuary : public IBuildingEntity
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Building, Sanctuary)
+    DECLARE_ENT_ALLOCATOR2(Building, Sanctuary)
 
 public:
-	~CBuildingSanctuary()	{}
-	CBuildingSanctuary() :
-	IBuildingEntity(GetEntityConfig())
-	{}
+    ~CBuildingSanctuary()   {}
+    CBuildingSanctuary() :
+    IBuildingEntity(GetEntityConfig())
+    {}
 };
 //=============================================================================
 

@@ -35,5 +35,5 @@ CStateCheetah::CStateCheetah() :
 IEntityState(GetEntityConfig()),
 m_pEntityConfig(GetEntityConfig())
 {
-	m_modSpeed.SetMult(m_pEntityConfig->GetSpeedMult());
+    m_modSpeed.SetMult(m_pEntityConfig->GetSpeedMult());
 }

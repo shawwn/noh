@@ -17,12 +17,12 @@
 class CConsumableAmmoPack : public IConsumableItem
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Consumable, AmmoPack);
+    DECLARE_ENT_ALLOCATOR2(Consumable, AmmoPack);
 
 public:
-	~CConsumableAmmoPack() {}
-	CConsumableAmmoPack() :
-	IConsumableItem(GetEntityConfig()) {}
+    ~CConsumableAmmoPack() {}
+    CConsumableAmmoPack() :
+    IConsumableItem(GetEntityConfig()) {}
 };
 //=============================================================================
 

@@ -24,18 +24,18 @@
 
 enum EActionType
 {
-	AT_INVALID = -1,
-	AT_BUTTON = 0,
-	AT_AXIS,
-	AT_IMPULSE
+    AT_INVALID = -1,
+    AT_BUTTON = 0,
+    AT_AXIS,
+    AT_IMPULSE
 };
 
 enum EActionFlags
 {
-	ACTION_CORE			= BIT(0),
-	ACTION_CGAME		= BIT(1),
-	ACTION_SGAME		= BIT(2),
-	ACTION_NOREPEAT		= BIT(3)
+    ACTION_CORE         = BIT(0),
+    ACTION_CGAME        = BIT(1),
+    ACTION_SGAME        = BIT(2),
+    ACTION_NOREPEAT     = BIT(3)
 };
 
 //=============================================================================
@@ -44,24 +44,24 @@ enum EActionFlags
 class K2_API IBaseInput
 {
 protected:
-	tstring			m_sName;
-	int				m_iFlags;
-	EActionType		m_eType;
+    tstring         m_sName;
+    int             m_iFlags;
+    EActionType     m_eType;
 
-	// Actions should not be copied
-	IBaseInput(IBaseInput&);
-	IBaseInput& operator=(IBaseInput&);
+    // Actions should not be copied
+    IBaseInput(IBaseInput&);
+    IBaseInput& operator=(IBaseInput&);
 
 public:
-	IBaseInput(const tstring &sName, EActionType eType, int iFlags);
-	virtual ~IBaseInput();
+    IBaseInput(const tstring &sName, EActionType eType, int iFlags);
+    virtual ~IBaseInput();
 
-	const tstring&	GetName()			{ return m_sName; }
-	int				GetFlags()			{ return m_iFlags; }
-	EActionType		GetType()			{ return m_eType; }
+    const tstring&  GetName()           { return m_sName; }
+    int             GetFlags()          { return m_iFlags; }
+    EActionType     GetType()           { return m_eType; }
 
-	virtual void	Do(float fValue, float fDelta, const CVec2f &v2Cursor, const tstring &sParam) = 0;
-	virtual void	operator()(float fValue, float fDelta, const CVec2f &v2Cursor, const tstring &sParam) = 0;
+    virtual void    Do(float fValue, float fDelta, const CVec2f &v2Cursor, const tstring &sParam) = 0;
+    virtual void    operator()(float fValue, float fDelta, const CVec2f &v2Cursor, const tstring &sParam) = 0;
 };
 //=============================================================================
 

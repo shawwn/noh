@@ -21,14 +21,14 @@
 //=============================================================================
 DEFINE_ENTITY_DESC(ISlaveEntity, 1)
 {
-	s_cDesc.pFieldTypes = K2_NEW(g_heapTypeVector,   TypeVector)();
-	const TypeVector &vBase(IGameEntity::GetTypeVector());
-	s_cDesc.pFieldTypes->insert(s_cDesc.pFieldTypes->begin(), vBase.begin(), vBase.end());
+    s_cDesc.pFieldTypes = K2_NEW(g_heapTypeVector,   TypeVector)();
+    const TypeVector &vBase(IGameEntity::GetTypeVector());
+    s_cDesc.pFieldTypes->insert(s_cDesc.pFieldTypes->begin(), vBase.begin(), vBase.end());
 
-	s_cDesc.pFieldTypes->push_back(SDataField(_T("m_uiOwnerIndex"), TYPE_GAMEINDEX, 0, 0));
-	s_cDesc.pFieldTypes->push_back(SDataField(_T("m_uiLevel"), TYPE_INT, 5, 0));
-	s_cDesc.pFieldTypes->push_back(SDataField(_T("m_unCharges"), TYPE_SHORT, 14, 0));
-	s_cDesc.pFieldTypes->push_back(SDataField(_T("m_yAttackModPriority"), TYPE_CHAR, 1, 0));
+    s_cDesc.pFieldTypes->push_back(SDataField(_T("m_uiOwnerIndex"), TYPE_GAMEINDEX, 0, 0));
+    s_cDesc.pFieldTypes->push_back(SDataField(_T("m_uiLevel"), TYPE_INT, 5, 0));
+    s_cDesc.pFieldTypes->push_back(SDataField(_T("m_unCharges"), TYPE_SHORT, 14, 0));
+    s_cDesc.pFieldTypes->push_back(SDataField(_T("m_yAttackModPriority"), TYPE_CHAR, 1, 0));
 }
 //=============================================================================
 
@@ -54,89 +54,89 @@ m_uiSpawnerUID(INVALID_INDEX)
 /*====================
   ISlaveEntity::Baseline
   ====================*/
-void	ISlaveEntity::Baseline()
+void    ISlaveEntity::Baseline()
 {
-	IGameEntity::Baseline();
+    IGameEntity::Baseline();
 
-	m_uiOwnerIndex = INVALID_INDEX;
-	m_uiLevel = 0;
-	m_unCharges = 0;
-	m_yAttackModPriority = 0;
+    m_uiOwnerIndex = INVALID_INDEX;
+    m_uiLevel = 0;
+    m_unCharges = 0;
+    m_yAttackModPriority = 0;
 }
 
 
 /*====================
   ISlaveEntity::GetSnapshot
   ====================*/
-void	ISlaveEntity::GetSnapshot(CEntitySnapshot &snapshot, uint uiFlags) const
+void    ISlaveEntity::GetSnapshot(CEntitySnapshot &snapshot, uint uiFlags) const
 {
-	IGameEntity::GetSnapshot(snapshot, uiFlags);
+    IGameEntity::GetSnapshot(snapshot, uiFlags);
 
-	snapshot.WriteGameIndex(m_uiOwnerIndex);
-	snapshot.WriteField(m_uiLevel);
-	snapshot.WriteField(m_unCharges);
-	snapshot.WriteField(m_yAttackModPriority);
+    snapshot.WriteGameIndex(m_uiOwnerIndex);
+    snapshot.WriteField(m_uiLevel);
+    snapshot.WriteField(m_unCharges);
+    snapshot.WriteField(m_yAttackModPriority);
 }
 
 
 /*====================
   ISlaveEntity::ReadSnapshot
   ====================*/
-bool	ISlaveEntity::ReadSnapshot(CEntitySnapshot &snapshot, uint uiVersion)
+bool    ISlaveEntity::ReadSnapshot(CEntitySnapshot &snapshot, uint uiVersion)
 {
-	try
-	{
-		IGameEntity::ReadSnapshot(snapshot, 1);
+    try
+    {
+        IGameEntity::ReadSnapshot(snapshot, 1);
 
-		snapshot.ReadGameIndex(m_uiOwnerIndex);
-		snapshot.ReadField(m_uiLevel);
-		snapshot.ReadField(m_unCharges);
-		snapshot.ReadField(m_yAttackModPriority);
+        snapshot.ReadGameIndex(m_uiOwnerIndex);
+        snapshot.ReadField(m_uiLevel);
+        snapshot.ReadField(m_unCharges);
+        snapshot.ReadField(m_yAttackModPriority);
 
-		return true;
-	}
-	catch (CException &ex)
-	{
-		ex.Process(_T("ISlaveEntity::ReadSnapshot() - "), NO_THROW);
-		return false;
-	}
+        return true;
+    }
+    catch (CException &ex)
+    {
+        ex.Process(_T("ISlaveEntity::ReadSnapshot() - "), NO_THROW);
+        return false;
+    }
 }
 
 
 /*====================
   ISlaveEntity::GetPrivateClient
   ====================*/
-int		ISlaveEntity::GetPrivateClient()
+int     ISlaveEntity::GetPrivateClient()
 {
-	IUnitEntity *pUnit(GetOwner());
-	if (pUnit == NULL)
-		return -1;
+    IUnitEntity *pUnit(GetOwner());
+    if (pUnit == NULL)
+        return -1;
 
-	return pUnit->GetOwnerClientNumber();
+    return pUnit->GetOwnerClientNumber();
 }
 
 
 /*====================
   ISlaveEntity::Spawn
   ====================*/
-void	ISlaveEntity::Spawn()
+void    ISlaveEntity::Spawn()
 {
-	if (Game.IsServer())
-	{
-		// Spawn action
-		ISlaveDefinition *pDefinition(GetDefinition<ISlaveDefinition>());
-		if (pDefinition != NULL)
-			pDefinition->ExecuteActionScript(ACTION_SCRIPT_SPAWN, this, GetOwner(), this, GetOwner(), GetOwner()->GetPosition(), GetProxy(0), GetLevel());
-	}
+    if (Game.IsServer())
+    {
+        // Spawn action
+        ISlaveDefinition *pDefinition(GetDefinition<ISlaveDefinition>());
+        if (pDefinition != NULL)
+            pDefinition->ExecuteActionScript(ACTION_SCRIPT_SPAWN, this, GetOwner(), this, GetOwner(), GetOwner()->GetPosition(), GetProxy(0), GetLevel());
+    }
 }
 
 
 /*====================
   ISlaveEntity::ClientPrecache
   ====================*/
-void	ISlaveEntity::ClientPrecache(CEntityConfig *pConfig, EPrecacheScheme eScheme)
+void    ISlaveEntity::ClientPrecache(CEntityConfig *pConfig, EPrecacheScheme eScheme)
 {
-	IGameEntity::ClientPrecache(pConfig, eScheme);
+    IGameEntity::ClientPrecache(pConfig, eScheme);
 }
 
 
@@ -145,176 +145,176 @@ void	ISlaveEntity::ClientPrecache(CEntityConfig *pConfig, EPrecacheScheme eSchem
 
   Setup network resource handles and anything else the server needs for this entity
   ====================*/
-void	ISlaveEntity::ServerPrecache(CEntityConfig *pConfig, EPrecacheScheme eScheme)
+void    ISlaveEntity::ServerPrecache(CEntityConfig *pConfig, EPrecacheScheme eScheme)
 {
-	IGameEntity::ServerPrecache(pConfig, eScheme);
+    IGameEntity::ServerPrecache(pConfig, eScheme);
 }
 
 
 /*====================
   ISlaveEntity::UpdateModifiers
   ====================*/
-void	ISlaveEntity::UpdateModifiers(const uivector &vModifiers)
+void    ISlaveEntity::UpdateModifiers(const uivector &vModifiers)
 {
-	m_vModifierKeys = vModifiers;
+    m_vModifierKeys = vModifiers;
 
-	uint uiModifierBits(GetModifierBits(vModifiers));
-	if (m_uiActiveModifierKey != INVALID_INDEX)
-		uiModifierBits |= GetModifierBit(m_uiActiveModifierKey);
+    uint uiModifierBits(GetModifierBits(vModifiers));
+    if (m_uiActiveModifierKey != INVALID_INDEX)
+        uiModifierBits |= GetModifierBit(m_uiActiveModifierKey);
 
-	// Activate conditional modifiers
-	IUnitEntity *pOwner(GetOwner());
-	if (pOwner == NULL)
-		return;
+    // Activate conditional modifiers
+    IUnitEntity *pOwner(GetOwner());
+    if (pOwner == NULL)
+        return;
 
-	// Grab base definition
-	IEntityDefinition *pDefinition(GetBaseDefinition<IEntityDefinition>());
-	if (pDefinition == NULL)
-		return;
+    // Grab base definition
+    IEntityDefinition *pDefinition(GetBaseDefinition<IEntityDefinition>());
+    if (pDefinition == NULL)
+        return;
 
-	const map<ushort, IEntityDefinition*> &mapModifiers(pDefinition->GetModifiers());
-	for (map<ushort, IEntityDefinition*>::const_iterator cit(mapModifiers.begin()), citEnd(mapModifiers.end()); cit != citEnd; ++cit)
-	{
-		if (cit->second->GetExclusive())
-			continue;
+    const map<ushort, IEntityDefinition*> &mapModifiers(pDefinition->GetModifiers());
+    for (map<ushort, IEntityDefinition*>::const_iterator cit(mapModifiers.begin()), citEnd(mapModifiers.end()); cit != citEnd; ++cit)
+    {
+        if (cit->second->GetExclusive())
+            continue;
 
-		const tstring &sCondition(cit->second->GetCondition());
-		if (sCondition.empty())
-			continue;
+        const tstring &sCondition(cit->second->GetCondition());
+        if (sCondition.empty())
+            continue;
 
-		tsvector vsTypes(TokenizeString(sCondition, _T(' ')));
+        tsvector vsTypes(TokenizeString(sCondition, _T(' ')));
 
-		tsvector_cit itType(vsTypes.begin()), itTypeEnd(vsTypes.end());
-		for (; itType != itTypeEnd; ++itType)
-		{
-			if (!itType->empty() && (*itType)[0] == _T('!'))
-			{
-				if (pOwner->IsTargetType(itType->substr(1), pOwner))
-					break;
-			}
-			else
-			{
-				if (!pOwner->IsTargetType(*itType, pOwner))
-					break;
-			}
-		}
-		if (itType == itTypeEnd)
-			uiModifierBits |= cit->first;
-	}
+        tsvector_cit itType(vsTypes.begin()), itTypeEnd(vsTypes.end());
+        for (; itType != itTypeEnd; ++itType)
+        {
+            if (!itType->empty() && (*itType)[0] == _T('!'))
+            {
+                if (pOwner->IsTargetType(itType->substr(1), pOwner))
+                    break;
+            }
+            else
+            {
+                if (!pOwner->IsTargetType(*itType, pOwner))
+                    break;
+            }
+        }
+        if (itType == itTypeEnd)
+            uiModifierBits |= cit->first;
+    }
 
-	SetModifierBits(uiModifierBits);
+    SetModifierBits(uiModifierBits);
 }
 
 
 /*====================
   ISlaveEntity::GetEffectDescription
   ====================*/
-const tstring&	ISlaveEntity::GetEffectDescription(EEntityActionScript eAction)
+const tstring&  ISlaveEntity::GetEffectDescription(EEntityActionScript eAction)
 {
-	if (m_pDefinition == NULL)
-		return TSNULL;
+    if (m_pDefinition == NULL)
+        return TSNULL;
 
-	return static_cast<ISlaveDefinition *>(m_pDefinition)->GetEffectDescription(eAction);
+    return static_cast<ISlaveDefinition *>(m_pDefinition)->GetEffectDescription(eAction);
 }
 
 
 /*====================
   ISlaveEntity::GetEffectDescriptionIndex
   ====================*/
-uint	ISlaveEntity::GetEffectDescriptionIndex(EEntityActionScript eAction)
+uint    ISlaveEntity::GetEffectDescriptionIndex(EEntityActionScript eAction)
 {
-	if (m_pDefinition == NULL)
-		return INVALID_INDEX;
+    if (m_pDefinition == NULL)
+        return INVALID_INDEX;
 
-	return static_cast<ISlaveDefinition *>(m_pDefinition)->GetEffectDescriptionIndex(eAction);
+    return static_cast<ISlaveDefinition *>(m_pDefinition)->GetEffectDescriptionIndex(eAction);
 }
 
 
 /*====================
   ISlaveEntity::AddTimedCharges
   ====================*/
-void	ISlaveEntity::AddTimedCharges(int iCharges, uint uiExpireTime)
+void    ISlaveEntity::AddTimedCharges(int iCharges, uint uiExpireTime)
 {
-	for (; iCharges > 0; --iCharges)
-	{
-		++m_unCharges;
-		m_vTimedCharges.push_back(uiExpireTime);
-	}
+    for (; iCharges > 0; --iCharges)
+    {
+        ++m_unCharges;
+        m_vTimedCharges.push_back(uiExpireTime);
+    }
 
-	int iMaxCharges(GetMaxCharges());
+    int iMaxCharges(GetMaxCharges());
 
-	// Expire the old timers if we're over the limit
-	if (iMaxCharges != -1)
-	{
-		while (m_unCharges > iMaxCharges)
-		{
-			uivector_it it(m_vTimedCharges.begin());
-			uivector_it itOldest(m_vTimedCharges.begin());
+    // Expire the old timers if we're over the limit
+    if (iMaxCharges != -1)
+    {
+        while (m_unCharges > iMaxCharges)
+        {
+            uivector_it it(m_vTimedCharges.begin());
+            uivector_it itOldest(m_vTimedCharges.begin());
 
-			for (uivector_it it(m_vTimedCharges.begin()), itEnd(m_vTimedCharges.end()); it != itEnd; ++it)
-			{
-				if (*it < *itOldest)
-					itOldest = it;
-			}
+            for (uivector_it it(m_vTimedCharges.begin()), itEnd(m_vTimedCharges.end()); it != itEnd; ++it)
+            {
+                if (*it < *itOldest)
+                    itOldest = it;
+            }
 
-			if (itOldest != m_vTimedCharges.end())
-				m_vTimedCharges.erase(itOldest);
+            if (itOldest != m_vTimedCharges.end())
+                m_vTimedCharges.erase(itOldest);
 
-			--m_unCharges;
-		}
-	}
+            --m_unCharges;
+        }
+    }
 }
 
 
 /*====================
   ISlaveEntity::ServerFrameAction
   ====================*/
-bool	ISlaveEntity::ServerFrameAction()
+bool    ISlaveEntity::ServerFrameAction()
 {
-	if (m_pDefinition != NULL)
-		static_cast<ISlaveDefinition *>(m_pDefinition)->ExecuteActionScript(ACTION_SCRIPT_FRAME, this, GetOwner(), this, GetOwner(), GetOwner()->GetPosition(), GetProxy(0), GetLevel());
+    if (m_pDefinition != NULL)
+        static_cast<ISlaveDefinition *>(m_pDefinition)->ExecuteActionScript(ACTION_SCRIPT_FRAME, this, GetOwner(), this, GetOwner(), GetOwner()->GetPosition(), GetProxy(0), GetLevel());
 
-	return IGameEntity::ServerFrameAction();
+    return IGameEntity::ServerFrameAction();
 }
 
 
 /*====================
   ISlaveEntity::ServerFrameCleanup
   ====================*/
-bool	ISlaveEntity::ServerFrameCleanup()
+bool    ISlaveEntity::ServerFrameCleanup()
 {
-	uivector_it it(m_vTimedCharges.begin());
-	while (it != m_vTimedCharges.end())
-	{
-		if (*it <= Game.GetGameTime())
-		{
-			it = m_vTimedCharges.erase(it);
-			RemoveCharge();
-		}
-		else
-		{
-			++it;
-		}
-	}
+    uivector_it it(m_vTimedCharges.begin());
+    while (it != m_vTimedCharges.end())
+    {
+        if (*it <= Game.GetGameTime())
+        {
+            it = m_vTimedCharges.erase(it);
+            RemoveCharge();
+        }
+        else
+        {
+            ++it;
+        }
+    }
 
-	return IGameEntity::ServerFrameCleanup();
+    return IGameEntity::ServerFrameCleanup();
 }
 
 
 /*====================
   ISlaveEntity::GetStealthFade
   ====================*/
-float	ISlaveEntity::GetStealthFade()
+float   ISlaveEntity::GetStealthFade()
 {
-	if (!IsActive() || GetStealthType() == 0)
-		return 0.0f;
-	else if (m_uiFadeStartTime == INVALID_TIME)
-		return 1.0f;
-	else if (Game.GetGameTime() < m_uiFadeStartTime)
-		return 0.0f;
-	else if (GetFadeTime() == 0)
-		return 1.0f;
-	else
-		return CLAMP((Game.GetGameTime() - m_uiFadeStartTime) / float(GetFadeTime()), 0.0f, 1.0f);
+    if (!IsActive() || GetStealthType() == 0)
+        return 0.0f;
+    else if (m_uiFadeStartTime == INVALID_TIME)
+        return 1.0f;
+    else if (Game.GetGameTime() < m_uiFadeStartTime)
+        return 0.0f;
+    else if (GetFadeTime() == 0)
+        return 1.0f;
+    else
+        return CLAMP((Game.GetGameTime() - m_uiFadeStartTime) / float(GetFadeTime()), 0.0f, 1.0f);
 }
 

@@ -17,17 +17,17 @@
 class CSvEnt_Player : public CServerEntity
 {
 private:
-	int		m_iClientNum;
+    int     m_iClientNum;
 
-	CSvEnt_Player();
+    CSvEnt_Player();
 
 public:
-	~CSvEnt_Player();
-	CSvEnt_Player(int iClientNum);
+    ~CSvEnt_Player();
+    CSvEnt_Player(int iClientNum);
 
-	int		GetClientNum() const	{ return m_iClientNum; }
+    int     GetClientNum() const    { return m_iClientNum; }
 
-	void	GetUpdateData(CBufferDynamic &buffer) const	{}
+    void    GetUpdateData(CBufferDynamic &buffer) const {}
 };
 //=============================================================================
 

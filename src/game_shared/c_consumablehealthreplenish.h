@@ -17,12 +17,12 @@
 class CConsumableHealthReplenish : public IConsumableItem
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Consumable, HealthReplenish);
+    DECLARE_ENT_ALLOCATOR2(Consumable, HealthReplenish);
 
 public:
-	~CConsumableHealthReplenish() {}
-	CConsumableHealthReplenish() :
-	IConsumableItem(GetEntityConfig()) {}
+    ~CConsumableHealthReplenish() {}
+    CConsumableHealthReplenish() :
+    IConsumableItem(GetEntityConfig()) {}
 };
 //=============================================================================
 

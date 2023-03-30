@@ -22,58 +22,58 @@ class CWorldEntity;
 //=============================================================================
 class IBitEntity : public IUnitEntity
 {
-	DECLARE_ENTITY_DESC
+    DECLARE_ENTITY_DESC
 
 protected:
-	START_ENTITY_CONFIG(IUnitEntity)
-		DECLARE_ENTITY_CVAR(float, BoundsRadius)
-		DECLARE_ENTITY_CVAR(float, BoundsHeight)
-		DECLARE_ENTITY_CVAR(float, OcclusionRadius)
-	END_ENTITY_CONFIG
+    START_ENTITY_CONFIG(IUnitEntity)
+        DECLARE_ENTITY_CVAR(float, BoundsRadius)
+        DECLARE_ENTITY_CVAR(float, BoundsHeight)
+        DECLARE_ENTITY_CVAR(float, OcclusionRadius)
+    END_ENTITY_CONFIG
 
-	CEntityConfig*	m_pEntityConfig;
+    CEntityConfig*  m_pEntityConfig;
 
-	uint				m_uiBitIndex;
+    uint                m_uiBitIndex;
 
 public:
-	virtual ~IBitEntity();
-	IBitEntity(CEntityConfig *pConfig);
+    virtual ~IBitEntity();
+    IBitEntity(CEntityConfig *pConfig);
 
-	SUB_ENTITY_ACCESSOR(IBitEntity, Bit)
+    SUB_ENTITY_ACCESSOR(IBitEntity, Bit)
 
-	// Settings
-	ENTITY_CVAR_ACCESSOR(float, BoundsRadius)
-	ENTITY_CVAR_ACCESSOR(float, BoundsHeight)
-	ENTITY_CVAR_ACCESSOR(float, OcclusionRadius)
+    // Settings
+    ENTITY_CVAR_ACCESSOR(float, BoundsRadius)
+    ENTITY_CVAR_ACCESSOR(float, BoundsHeight)
+    ENTITY_CVAR_ACCESSOR(float, OcclusionRadius)
 
-	virtual void	Baseline()										{}
-	virtual void	GetSnapshot(CEntitySnapshot &snapshot, uint uiFlags) const	{}
-	virtual bool	ReadSnapshot(CEntitySnapshot &snapshot, uint uiVersion)			{ return true; }
+    virtual void    Baseline()                                      {}
+    virtual void    GetSnapshot(CEntitySnapshot &snapshot, uint uiFlags) const  {}
+    virtual bool    ReadSnapshot(CEntitySnapshot &snapshot, uint uiVersion)         { return true; }
 
-	uint			GetBitIndex() const				{ return m_uiBitIndex; }
-	void			SetBitIndex(uint uiIndex)		{ m_uiBitIndex = uiIndex; }
+    uint            GetBitIndex() const             { return m_uiBitIndex; }
+    void            SetBitIndex(uint uiIndex)       { m_uiBitIndex = uiIndex; }
 
-	virtual void	ApplyWorldEntity(const CWorldEntity &ent);
+    virtual void    ApplyWorldEntity(const CWorldEntity &ent);
 
-	virtual void	Spawn();
-	virtual void	Die(IUnitEntity *pAttacker = NULL, ushort unKillingObjectID = INVALID_ENT_TYPE);
+    virtual void    Spawn();
+    virtual void    Die(IUnitEntity *pAttacker = NULL, ushort unKillingObjectID = INVALID_ENT_TYPE);
 
-	virtual bool	ServerFrameSetup()				{ return true; }
-	virtual bool	ServerFrameThink()				{ return true; }
-	virtual bool	ServerFrameMovement()			{ return true; }
-	virtual bool	ServerFrameAction()				{ return true; }
-	virtual bool	ServerFrameCleanup()			{ return true; }
+    virtual bool    ServerFrameSetup()              { return true; }
+    virtual bool    ServerFrameThink()              { return true; }
+    virtual bool    ServerFrameMovement()           { return true; }
+    virtual bool    ServerFrameAction()             { return true; }
+    virtual bool    ServerFrameCleanup()            { return true; }
 
-	virtual void	Activate()						{}
-	virtual void	Deactivate()					{}
+    virtual void    Activate()                      {}
+    virtual void    Deactivate()                    {}
 
-	virtual bool	IsVisibleOnMap(CPlayer *pLocalPlayer) const	{ return false; }
+    virtual bool    IsVisibleOnMap(CPlayer *pLocalPlayer) const { return false; }
 
-	virtual ResHandle	GetModel() const;
-	virtual float		GetBaseScale() const		{ return 1.0f; }
+    virtual ResHandle   GetModel() const;
+    virtual float       GetBaseScale() const        { return 1.0f; }
 
-	virtual void			Link();
-	virtual void			Unlink();
+    virtual void            Link();
+    virtual void            Unlink();
 };
 //=============================================================================
 

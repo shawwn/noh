@@ -17,13 +17,13 @@
 class CSkillCarnivorous : public ISkillSelfBuff
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Skill, Carnivorous)
+    DECLARE_ENT_ALLOCATOR2(Skill, Carnivorous)
 
 public:
-	~CSkillCarnivorous()	{}
-	CSkillCarnivorous() :
-	ISkillSelfBuff(GetEntityConfig())
-	{}
+    ~CSkillCarnivorous()    {}
+    CSkillCarnivorous() :
+    ISkillSelfBuff(GetEntityConfig())
+    {}
 };
 //=============================================================================
 

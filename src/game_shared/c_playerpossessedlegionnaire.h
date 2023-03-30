@@ -19,15 +19,15 @@
 class CPlayerPossessedLegionnaire : public IPlayerEntity
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Player, PossessedLegionnaire);
+    DECLARE_ENT_ALLOCATOR2(Player, PossessedLegionnaire);
 
 public:
-	~CPlayerPossessedLegionnaire()	{}
-	CPlayerPossessedLegionnaire() :
-	IPlayerEntity(GetEntityConfig())
-	{}
+    ~CPlayerPossessedLegionnaire()  {}
+    CPlayerPossessedLegionnaire() :
+    IPlayerEntity(GetEntityConfig())
+    {}
 
-	void	Move(const CClientSnapshot &snapshot)	{ MoveWalk(snapshot); }
+    void    Move(const CClientSnapshot &snapshot)   { MoveWalk(snapshot); }
 };
 //=============================================================================
 

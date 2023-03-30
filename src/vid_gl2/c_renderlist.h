@@ -27,11 +27,11 @@
 //=============================================================================
 // Definitions
 //=============================================================================
-class	IRenderer;
-enum	EMaterialPhase;
+class   IRenderer;
+enum    EMaterialPhase;
 template <class T> class CPool;
 
-typedef	vector<IRenderer *>	RenderList;
+typedef vector<IRenderer *> RenderList;
 //=============================================================================
 
 //=============================================================================
@@ -40,20 +40,20 @@ typedef	vector<IRenderer *>	RenderList;
 class CRenderList
 {
 private:
-	RenderList		m_vpRenderList;
+    RenderList      m_vpRenderList;
 
 public:
-	~CRenderList();
-	CRenderList();
+    ~CRenderList();
+    CRenderList();
 
-	void	Clear();
-	void	Add(IRenderer *pItem);
+    void    Clear();
+    void    Add(IRenderer *pItem);
 
-	void	Setup(EMaterialPhase ePhase);
-	void	Sort();
-	void	Render(EMaterialPhase ePhase);
+    void    Setup(EMaterialPhase ePhase);
+    void    Sort();
+    void    Render(EMaterialPhase ePhase);
 };
 
-extern CRenderList	g_RenderList;
+extern CRenderList  g_RenderList;
 //=============================================================================
 #endif //__C_RENDERLIST_H__

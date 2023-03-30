@@ -22,31 +22,31 @@ class CWorldLight;
 //=============================================================================
 class ILight : public IVisualEntity
 {
-	DECLARE_ENTITY_DESC
+    DECLARE_ENTITY_DESC
 
 private:
-	CVec3f	m_v3Color;
-	float	m_fFalloffStart;
-	float	m_fFalloffEnd;
+    CVec3f  m_v3Color;
+    float   m_fFalloffStart;
+    float   m_fFalloffEnd;
 
 public:
-	~ILight()	{}
-	ILight();
+    ~ILight()   {}
+    ILight();
 
-	SUB_ENTITY_ACCESSOR(ILight, Light)
+    SUB_ENTITY_ACCESSOR(ILight, Light)
 
-	// Network
-	virtual void	Baseline();
-	virtual void	GetSnapshot(CEntitySnapshot &snapshot, uint uiFlags) const;
-	virtual bool	ReadSnapshot(CEntitySnapshot &snapshot, uint uiVersion);
+    // Network
+    virtual void    Baseline();
+    virtual void    GetSnapshot(CEntitySnapshot &snapshot, uint uiFlags) const;
+    virtual bool    ReadSnapshot(CEntitySnapshot &snapshot, uint uiVersion);
 
-	GAME_SHARED_API void		Spawn();
+    GAME_SHARED_API void        Spawn();
 
-	virtual bool	AddToScene(const CVec4f &v4Color, int iFlags);
+    virtual bool    AddToScene(const CVec4f &v4Color, int iFlags);
 
-	void			Copy(const IGameEntity &B);
+    void            Copy(const IGameEntity &B);
 
-	virtual bool	IsVisibleOnMap(CPlayer *pLocalPlayer) const		{ return false; }
+    virtual bool    IsVisibleOnMap(CPlayer *pLocalPlayer) const     { return false; }
 };
 //=============================================================================
 

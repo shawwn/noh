@@ -17,12 +17,12 @@
 class CBuildingShieldTower : public IBuildingEntity
 {
 private:
-	
-	DECLARE_ENT_ALLOCATOR2(Building, ShieldTower);
+    
+    DECLARE_ENT_ALLOCATOR2(Building, ShieldTower);
 
 public:
-	~CBuildingShieldTower()	{}
-	CBuildingShieldTower();
+    ~CBuildingShieldTower() {}
+    CBuildingShieldTower();
 
 
 };

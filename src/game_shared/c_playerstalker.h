@@ -19,15 +19,15 @@
 class CPlayerStalker : public IPlayerEntity
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Player, Stalker);
+    DECLARE_ENT_ALLOCATOR2(Player, Stalker);
 
 public:
-	~CPlayerStalker()	{}
-	CPlayerStalker() :
-	IPlayerEntity(GetEntityConfig())
-	{}
+    ~CPlayerStalker()   {}
+    CPlayerStalker() :
+    IPlayerEntity(GetEntityConfig())
+    {}
 
-	void	Move(const CClientSnapshot &snapshot)	{ MoveWalk(snapshot); }
+    void    Move(const CClientSnapshot &snapshot)   { MoveWalk(snapshot); }
 };
 //=============================================================================
 

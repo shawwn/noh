@@ -17,12 +17,12 @@
 class CSkillDoubleSwing : public ISkillMelee
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Skill, DoubleSwing);
+    DECLARE_ENT_ALLOCATOR2(Skill, DoubleSwing);
 
 public:
-	~CSkillDoubleSwing()	{}
-	CSkillDoubleSwing() :
-	ISkillMelee(GetEntityConfig())	{}
+    ~CSkillDoubleSwing()    {}
+    CSkillDoubleSwing() :
+    ISkillMelee(GetEntityConfig())  {}
 };
 //=============================================================================
 

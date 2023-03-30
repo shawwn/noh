@@ -19,7 +19,7 @@
 //=============================================================================
 // Definitions
 //=============================================================================
-ResHandle			CEntityChest::s_hModel(INVALID_RESOURCE);
+ResHandle           CEntityChest::s_hModel(INVALID_RESOURCE);
 
 CVAR_STRINGF(Entity_Chest_ImmunityType, "", CVAR_GAMECONFIG | CVAR_TRANSMIT);
 
@@ -27,10 +27,10 @@ DEFINE_ENT_ALLOCATOR2(Entity, Chest)
 
 DEFINE_ENTITY_DESC(CEntityChest, 1)
 {
-	s_cDesc.pFieldTypes = K2_NEW(g_heapTypeVector,    TypeVector)();
-	s_cDesc.pFieldTypes->clear();
-	const TypeVector &vBase(IUnitEntity::GetTypeVector());
-	s_cDesc.pFieldTypes->insert(s_cDesc.pFieldTypes->begin(), vBase.begin(), vBase.end());
+    s_cDesc.pFieldTypes = K2_NEW(g_heapTypeVector,    TypeVector)();
+    s_cDesc.pFieldTypes->clear();
+    const TypeVector &vBase(IUnitEntity::GetTypeVector());
+    s_cDesc.pFieldTypes->insert(s_cDesc.pFieldTypes->begin(), vBase.begin(), vBase.end());
 }
 //=============================================================================
 
@@ -65,14 +65,14 @@ INIT_ENTITY_CVAR(NoBlockNeutralSpawn, true)
   ====================*/
 CEntityChest::~CEntityChest()
 {
-	if (IGame::GetCurrentGamePointer() == NULL)
-		return;
+    if (IGame::GetCurrentGamePointer() == NULL)
+        return;
 
-	if (m_uiWorldIndex != INVALID_INDEX && Game.WorldEntityExists(m_uiWorldIndex))
-	{
-		Game.UnlinkEntity(m_uiWorldIndex);
-		Game.DeleteWorldEntity(m_uiWorldIndex);
-	}
+    if (m_uiWorldIndex != INVALID_INDEX && Game.WorldEntityExists(m_uiWorldIndex))
+    {
+        Game.UnlinkEntity(m_uiWorldIndex);
+        Game.DeleteWorldEntity(m_uiWorldIndex);
+    }
 }
 
 
@@ -82,180 +82,180 @@ CEntityChest::~CEntityChest()
 CEntityChest::CEntityChest() :
 m_pEntityConfig(GetEntityConfig())
 {
-	m_uiLinkFlags = SURF_ITEM;
+    m_uiLinkFlags = SURF_ITEM;
 }
 
 
 /*====================
   CEntityChest::Baseline
   ====================*/
-void	CEntityChest::Baseline()
+void    CEntityChest::Baseline()
 {
-	IUnitEntity::Baseline();
+    IUnitEntity::Baseline();
 }
 
 
 /*====================
   CEntityChest::GetSnapshot
   ====================*/
-void	CEntityChest::GetSnapshot(CEntitySnapshot &snapshot, uint uiFlags) const
+void    CEntityChest::GetSnapshot(CEntitySnapshot &snapshot, uint uiFlags) const
 {
-	IUnitEntity::GetSnapshot(snapshot, uiFlags);
+    IUnitEntity::GetSnapshot(snapshot, uiFlags);
 }
 
 
 /*====================
   CEntityChest::ReadSnapshot
   ====================*/
-bool	CEntityChest::ReadSnapshot(CEntitySnapshot &snapshot, uint uiVersion)
+bool    CEntityChest::ReadSnapshot(CEntitySnapshot &snapshot, uint uiVersion)
 {
-	try
-	{
-		// Base entity info
-		if (!IUnitEntity::ReadSnapshot(snapshot, 1))
-			return false;
+    try
+    {
+        // Base entity info
+        if (!IUnitEntity::ReadSnapshot(snapshot, 1))
+            return false;
 
-		return true;
-	}
-	catch (CException &ex)
-	{
-		ex.Process(_T("ICreepEntity::ReadSnapshot() - "), NO_THROW);
-		return false;
-	}
+        return true;
+    }
+    catch (CException &ex)
+    {
+        ex.Process(_T("ICreepEntity::ReadSnapshot() - "), NO_THROW);
+        return false;
+    }
 }
 
 
 /*====================
   CEntityChest::Spawn
   ====================*/
-void	CEntityChest::Spawn()
+void    CEntityChest::Spawn()
 {
-	IUnitEntity::Spawn();
+    IUnitEntity::Spawn();
 }
 
 
 /*====================
   CEntityChest::Touch
   ====================*/
-void	CEntityChest::Touch(IGameEntity *pActivator)
+void    CEntityChest::Touch(IGameEntity *pActivator)
 {
-	if (!Game.IsServer())
-		return;
+    if (!Game.IsServer())
+        return;
 
-	if (m_yStatus != ENTITY_STATUS_ACTIVE)
-		return;
+    if (m_yStatus != ENTITY_STATUS_ACTIVE)
+        return;
 
-	IUnitEntity *pUnit(pActivator->GetAsUnit());
-	if (pUnit == NULL)
-		return;
+    IUnitEntity *pUnit(pActivator->GetAsUnit());
+    if (pUnit == NULL)
+        return;
 
-	for (int i(INVENTORY_START_BACKPACK); i <= INVENTORY_END_BACKPACK; ++i)
-	{
-		if (!m_apInventory[i])
-			continue;
+    for (int i(INVENTORY_START_BACKPACK); i <= INVENTORY_END_BACKPACK; ++i)
+    {
+        if (!m_apInventory[i])
+            continue;
 
-		if (m_apInventory[i]->IsItem())
-		{
-			if (!CanGiveItem(m_apInventory[i]->GetAsItem(), pUnit))
-				continue;
-		}
+        if (m_apInventory[i]->IsItem())
+        {
+            if (!CanGiveItem(m_apInventory[i]->GetAsItem(), pUnit))
+                continue;
+        }
 
-		ushort unType(m_apInventory[i]->GetType());
-		int iSlot(pUnit->TransferItem(pUnit->GetOwnerClientNumber(), m_apInventory[i]->GetAsItem()));
+        ushort unType(m_apInventory[i]->GetType());
+        int iSlot(pUnit->TransferItem(pUnit->GetOwnerClientNumber(), m_apInventory[i]->GetAsItem()));
 
-		if (iSlot != -1)
-		{
-			CBufferFixed<6> cBuffer;
-			cBuffer << GAME_CMD_PICKUP_ITEM << ushort(pUnit->GetIndex()) << byte(iSlot) << unType;
-			Game.SendGameData(pUnit->GetOwnerClientNumber(), cBuffer, false);
+        if (iSlot != -1)
+        {
+            CBufferFixed<6> cBuffer;
+            cBuffer << GAME_CMD_PICKUP_ITEM << ushort(pUnit->GetIndex()) << byte(iSlot) << unType;
+            Game.SendGameData(pUnit->GetOwnerClientNumber(), cBuffer, false);
 
-			Game.LogItem(GAME_LOG_ITEM_PICKUP, pUnit->GetItem(iSlot));
+            Game.LogItem(GAME_LOG_ITEM_PICKUP, pUnit->GetItem(iSlot));
 
-			SetDelete(true);
-		}
-	}
+            SetDelete(true);
+        }
+    }
 
-	bool bRemaining(false);
-	for (int i(INVENTORY_START_BACKPACK); i <= INVENTORY_END_BACKPACK; ++i)
-	{
-		if (m_apInventory[i])
-		{
-			bRemaining = true;
-			break;
-		}
-	}
-	
-	if (!bRemaining)
-		SetDelete(true);
+    bool bRemaining(false);
+    for (int i(INVENTORY_START_BACKPACK); i <= INVENTORY_END_BACKPACK; ++i)
+    {
+        if (m_apInventory[i])
+        {
+            bRemaining = true;
+            break;
+        }
+    }
+    
+    if (!bRemaining)
+        SetDelete(true);
 }
 
 
 /*====================
   CEntityChest::Die
   ====================*/
-void	CEntityChest::Die(IUnitEntity *pAttacker, ushort unKillingObjectID)
+void    CEntityChest::Die(IUnitEntity *pAttacker, ushort unKillingObjectID)
 {
-	if (GetStatus() != ENTITY_STATUS_ACTIVE)
-		return;
+    if (GetStatus() != ENTITY_STATUS_ACTIVE)
+        return;
 
-	// in item drop mode, items are unkillable.
-	bool bDropItems(Game.HasGameOptions(GAME_OPTION_DROP_ITEMS));
+    // in item drop mode, items are unkillable.
+    bool bDropItems(Game.HasGameOptions(GAME_OPTION_DROP_ITEMS));
 
-	// if we contain an item which is unkillable, then don't allow the chest to die.
-	for (int i(INVENTORY_START_BACKPACK); i <= INVENTORY_END_BACKPACK; ++i)
-	{
-		IEntityItem *pItem(GetItem(i));
-		if (pItem == NULL)
-			continue;
+    // if we contain an item which is unkillable, then don't allow the chest to die.
+    for (int i(INVENTORY_START_BACKPACK); i <= INVENTORY_END_BACKPACK; ++i)
+    {
+        IEntityItem *pItem(GetItem(i));
+        if (pItem == NULL)
+            continue;
 
-		if (pItem->GetUnkillable())
-			return;
+        if (pItem->GetUnkillable())
+            return;
 
-		if (bDropItems)
-			return;
-	}
+        if (bDropItems)
+            return;
+    }
 
-	m_fHealth = 0.0f;
+    m_fHealth = 0.0f;
 
-	Unlink();
-	SetStatus(ENTITY_STATUS_CORPSE);
-	Link();
+    Unlink();
+    SetStatus(ENTITY_STATUS_CORPSE);
+    Link();
 
-	m_uiCorpseTime = Game.GetGameTime() + GetCorpseTime();
+    m_uiCorpseTime = Game.GetGameTime() + GetCorpseTime();
 
-	for (int i(0); i < NUM_ANIM_CHANNELS; ++i)
-		m_auiAnimLockTime[i] = INVALID_TIME;
+    for (int i(0); i < NUM_ANIM_CHANNELS; ++i)
+        m_auiAnimLockTime[i] = INVALID_TIME;
 
-	m_cBrain.Killed();
-	UnblockPath();
-	if (GetUseAltDeathAnims())
-		StartRandomAnimation(GetAltDeathAnim(), GetAltDeathNumAnims(), 0);
-	else
-		StartRandomAnimation(GetDeathAnim(), GetDeathNumAnims(), 0);
+    m_cBrain.Killed();
+    UnblockPath();
+    if (GetUseAltDeathAnims())
+        StartRandomAnimation(GetAltDeathAnim(), GetAltDeathNumAnims(), 0);
+    else
+        StartRandomAnimation(GetDeathAnim(), GetDeathNumAnims(), 0);
 }
 
 
 /*====================
   CEntityChest::GetImmunityType
   ====================*/
-uint	CEntityChest::GetImmunityType() const
+uint    CEntityChest::GetImmunityType() const
 {
-	return Game.LookupImmunityType(Entity_Chest_ImmunityType);
+    return Game.LookupImmunityType(Entity_Chest_ImmunityType);
 }
 
 
 /*====================
   CEntityChest::ClientPrecache
   ====================*/
-void	CEntityChest::ClientPrecache(CEntityConfig *pConfig, EPrecacheScheme eScheme)
+void    CEntityChest::ClientPrecache(CEntityConfig *pConfig, EPrecacheScheme eScheme)
 {
-	IUnitEntity::ClientPrecache(pConfig, eScheme);
+    IUnitEntity::ClientPrecache(pConfig, eScheme);
 
-	if (pConfig == NULL)
-		return;
+    if (pConfig == NULL)
+        return;
 
-	if (!pConfig->GetModelPath().empty())
-		s_hModel = Game.RegisterModel(pConfig->GetModelPath());
+    if (!pConfig->GetModelPath().empty())
+        s_hModel = Game.RegisterModel(pConfig->GetModelPath());
 }
 
 
@@ -264,71 +264,71 @@ void	CEntityChest::ClientPrecache(CEntityConfig *pConfig, EPrecacheScheme eSchem
 
   Setup network resource handles and anything else the server needs for this entity
   ====================*/
-void	CEntityChest::ServerPrecache(CEntityConfig *pConfig, EPrecacheScheme eScheme)
+void    CEntityChest::ServerPrecache(CEntityConfig *pConfig, EPrecacheScheme eScheme)
 {
-	IUnitEntity::ServerPrecache(pConfig, eScheme);
+    IUnitEntity::ServerPrecache(pConfig, eScheme);
 
-	if (pConfig == NULL)
-		return;
+    if (pConfig == NULL)
+        return;
 
-	if (!pConfig->GetModelPath().empty())
-	{
-		s_hModel = Game.RegisterModel(pConfig->GetModelPath());
-		NetworkResourceManager.GetNetIndex(s_hModel);
-	}
+    if (!pConfig->GetModelPath().empty())
+    {
+        s_hModel = Game.RegisterModel(pConfig->GetModelPath());
+        NetworkResourceManager.GetNetIndex(s_hModel);
+    }
 }
 
 
 /*====================
   CEntityChest::GetDisplayName
   ====================*/
-const tstring&	CEntityChest::GetDisplayName() const
+const tstring&  CEntityChest::GetDisplayName() const
 {
-	m_sDisplayName.clear();
+    m_sDisplayName.clear();
 
-	for (int i(INVENTORY_START_BACKPACK); i <= INVENTORY_END_BACKPACK; ++i)
-	{
-		if (m_apInventory[i] == NULL)
-			continue;
+    for (int i(INVENTORY_START_BACKPACK); i <= INVENTORY_END_BACKPACK; ++i)
+    {
+        if (m_apInventory[i] == NULL)
+            continue;
 
-		IEntityItem *pItem(m_apInventory[i]->GetAsItem());
-		if (pItem == NULL)
-			continue;
+        IEntityItem *pItem(m_apInventory[i]->GetAsItem());
+        if (pItem == NULL)
+            continue;
 
-		CPlayer *pPlayer(Game.GetPlayer(pItem->GetPurchaserClientNumber()));
-		if (pPlayer != NULL)
-			m_sDisplayName = GetInlineColorString<tstring>(pPlayer->GetColor()) + pPlayer->GetName() + _T("'s^* ");
+        CPlayer *pPlayer(Game.GetPlayer(pItem->GetPurchaserClientNumber()));
+        if (pPlayer != NULL)
+            m_sDisplayName = GetInlineColorString<tstring>(pPlayer->GetColor()) + pPlayer->GetName() + _T("'s^* ");
 
-		m_sDisplayName += pItem->GetDisplayName();
+        m_sDisplayName += pItem->GetDisplayName();
 
-		if (!pItem->HasFlag(ENTITY_TOOL_FLAG_ASSEMBLED))
-			m_sDisplayName += _T(" Recipe");
+        if (!pItem->HasFlag(ENTITY_TOOL_FLAG_ASSEMBLED))
+            m_sDisplayName += _T(" Recipe");
 
-		break;
-	}
+        break;
+    }
 
-	return m_sDisplayName;
+    return m_sDisplayName;
 }
 
 /*====================
   CEntityChest::ServerFrameCleanup
   ====================*/
-bool	CEntityChest::ServerFrameCleanup()
+bool    CEntityChest::ServerFrameCleanup()
 {
-	// Delete empty chests
-	bool bDelete(true);
+    // Delete empty chests
+    bool bDelete(true);
 
-	for (int i(INVENTORY_START_BACKPACK); i <= INVENTORY_END_BACKPACK; ++i)
-	{
-		if (!m_apInventory[i])
-			continue;
+    for (int i(INVENTORY_START_BACKPACK); i <= INVENTORY_END_BACKPACK; ++i)
+    {
+        if (!m_apInventory[i])
+            continue;
 
-		bDelete = false;
-		break;
-	}
+        bDelete = false;
+        break;
+    }
 
-	if (bDelete)
-		return false;
+    if (bDelete)
+        return false;
 
-	return IUnitEntity::ServerFrameCleanup();
+    return IUnitEntity::ServerFrameCleanup();
 }

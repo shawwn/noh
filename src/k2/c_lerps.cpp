@@ -16,9 +16,9 @@
 //=============================================================================
 //=============================================================================
 
-CVAR_UINTF		(cg_healthLerpMode,					2,			CVAR_SAVECONFIG);
-CVAR_UINTF		(cg_healthLerpMode2MaxMultipler,	4,			CVAR_SAVECONFIG);
-CVAR_FLOATF		(cg_healthLerpMode2Multipler,		0.333f,		CVAR_SAVECONFIG);
+CVAR_UINTF      (cg_healthLerpMode,                 2,          CVAR_SAVECONFIG);
+CVAR_UINTF      (cg_healthLerpMode2MaxMultipler,    4,          CVAR_SAVECONFIG);
+CVAR_FLOATF     (cg_healthLerpMode2Multipler,       0.333f,     CVAR_SAVECONFIG);
 
 /*====================
   CLerpFloat::CLerpFloat
@@ -32,22 +32,22 @@ m_uiTargetTime(Host.GetTime() + uiTargetTime),
 m_uiStartTime(Host.GetTime()),
 m_sValStart(m_sValOutName + _T("StartAmount"))
 {
-	tstring sTriggerName = m_sValOutName;
-	sTriggerName += _T("Trigger");
-	pUITrigger = UITriggerRegistry.GetUITrigger(sTriggerName);
-	if (pUITrigger == NULL)
-	{
-		pUITrigger = K2_NEW(MemManager.GetHeap(HEAP_CLIENT_GAME),  CUITrigger)(sTriggerName);
-	}
-				
-	if(ICvar::GetFloat(m_sValOutName)==0)
-	{
-		ICvar::CreateFloat(m_sValOutName, 0);
-		ICvar::CreateFloat(m_sValStart, 0);
-	}
-	m_fValOut = ICvar::GetFloat(m_sValOutName);
-	m_fStartAmount = ICvar::GetFloat(m_sValOutName);
-	m_bDone = false;
+    tstring sTriggerName = m_sValOutName;
+    sTriggerName += _T("Trigger");
+    pUITrigger = UITriggerRegistry.GetUITrigger(sTriggerName);
+    if (pUITrigger == NULL)
+    {
+        pUITrigger = K2_NEW(MemManager.GetHeap(HEAP_CLIENT_GAME),  CUITrigger)(sTriggerName);
+    }
+                
+    if(ICvar::GetFloat(m_sValOutName)==0)
+    {
+        ICvar::CreateFloat(m_sValOutName, 0);
+        ICvar::CreateFloat(m_sValStart, 0);
+    }
+    m_fValOut = ICvar::GetFloat(m_sValOutName);
+    m_fStartAmount = ICvar::GetFloat(m_sValOutName);
+    m_bDone = false;
 
 }
 
@@ -57,15 +57,15 @@ m_sValStart(m_sValOutName + _T("StartAmount"))
   ====================*/
 void CLerpFloat::Reset(float fNewTargetAmount, uint uiNewTargetTime, uint uiNewType, int iNewStyle)
 {
-	m_fTargetAmount = fNewTargetAmount;
-	m_uiTargetTime = uiNewTargetTime + Host.GetTime();
-	m_uiStartTime = Host.GetTime();
-	m_uiLerpType = uiNewType;
-	m_uiLerpStyle = iNewStyle + 1;
-	m_fValOut = ICvar::GetFloat(m_sValOutName);
-	m_fStartAmount = m_fValOut;
-	ICvar::SetFloat(m_sValStart, m_fStartAmount);
-	m_bDone = false;
+    m_fTargetAmount = fNewTargetAmount;
+    m_uiTargetTime = uiNewTargetTime + Host.GetTime();
+    m_uiStartTime = Host.GetTime();
+    m_uiLerpType = uiNewType;
+    m_uiLerpStyle = iNewStyle + 1;
+    m_fValOut = ICvar::GetFloat(m_sValOutName);
+    m_fStartAmount = m_fValOut;
+    ICvar::SetFloat(m_sValStart, m_fStartAmount);
+    m_bDone = false;
 }
 
 
@@ -74,35 +74,35 @@ void CLerpFloat::Reset(float fNewTargetAmount, uint uiNewTargetTime, uint uiNewT
   ====================*/
 void CLerpFloat::Update()
 {
-	if(m_bDone==true)
-		return;
+    if(m_bDone==true)
+        return;
 
-	if(Host.GetTime()>m_uiTargetTime)
-	{
-		m_fValOut = m_fTargetAmount;
-		ICvar::SetFloat(m_sValOutName, m_fValOut);
-		ICvar::SetFloat(m_sValStart, m_fValOut);
-		if (pUITrigger)
-				pUITrigger->Trigger(XtoA(m_fTargetAmount));
-		m_bDone = true;
-		return;
-	}
-	else
-	{
-		float fTimeLength = (m_uiTargetTime - m_uiStartTime);
-		float fCurrentTime = (Host.GetTime() - m_uiStartTime);
-		float fDistance = m_fTargetAmount - m_fStartAmount;
-		m_fValOut  = (fDistance * (fCurrentTime / fTimeLength)) + m_fStartAmount;
-		
-		if((m_fTargetAmount < m_fStartAmount && m_uiLerpStyle == LERPSTYLE_PLUS_ONLY) || (m_fTargetAmount > m_fStartAmount && m_uiLerpStyle == LERPSTYLE_MINUS_ONLY))
-		{
-			m_fValOut = m_fTargetAmount;
-		}
+    if(Host.GetTime()>m_uiTargetTime)
+    {
+        m_fValOut = m_fTargetAmount;
+        ICvar::SetFloat(m_sValOutName, m_fValOut);
+        ICvar::SetFloat(m_sValStart, m_fValOut);
+        if (pUITrigger)
+                pUITrigger->Trigger(XtoA(m_fTargetAmount));
+        m_bDone = true;
+        return;
+    }
+    else
+    {
+        float fTimeLength = (m_uiTargetTime - m_uiStartTime);
+        float fCurrentTime = (Host.GetTime() - m_uiStartTime);
+        float fDistance = m_fTargetAmount - m_fStartAmount;
+        m_fValOut  = (fDistance * (fCurrentTime / fTimeLength)) + m_fStartAmount;
+        
+        if((m_fTargetAmount < m_fStartAmount && m_uiLerpStyle == LERPSTYLE_PLUS_ONLY) || (m_fTargetAmount > m_fStartAmount && m_uiLerpStyle == LERPSTYLE_MINUS_ONLY))
+        {
+            m_fValOut = m_fTargetAmount;
+        }
 
-		ICvar::SetFloat(m_sValOutName, m_fValOut);
-		if (pUITrigger)
-			pUITrigger->Trigger(XtoA(m_fValOut));
-	}
+        ICvar::SetFloat(m_sValOutName, m_fValOut);
+        if (pUITrigger)
+            pUITrigger->Trigger(XtoA(m_fValOut));
+    }
 }
 
 
@@ -139,85 +139,85 @@ m_bDone(false)
   ====================*/
 void CSimpleLerp::Reset(float fNewTargetAmount, uint uiNewTargetTime, ELerpStyle eNewStyle, uint uiDelayedStart)
 {
-	float fLastChange(fNewTargetAmount - m_fTargetAmount);
+    float fLastChange(fNewTargetAmount - m_fTargetAmount);
 
-	if (cg_healthLerpMode == 1)
-	{
-		if(m_bDone)
-			m_uiDelayedStart = uiDelayedStart + Host.GetTime();
-		else if(m_uiDelayedStart < Host.GetTime())
-			m_uiDelayedStart = Host.GetTime();
-	}
-	else if (cg_healthLerpMode == 2)
-	{
-		if(m_bDone)
-		{
-			m_uiDelayedStart = uiDelayedStart + Host.GetTime();
-		}
-		else
-		{
-			bool bModeChange(false);
-			if (m_eLerpStyle != eNewStyle || (fLastChange > 0.0f == (eNewStyle != LERPSTYLE_MINUS_ONLY)))
-				bModeChange = true;
+    if (cg_healthLerpMode == 1)
+    {
+        if(m_bDone)
+            m_uiDelayedStart = uiDelayedStart + Host.GetTime();
+        else if(m_uiDelayedStart < Host.GetTime())
+            m_uiDelayedStart = Host.GetTime();
+    }
+    else if (cg_healthLerpMode == 2)
+    {
+        if(m_bDone)
+        {
+            m_uiDelayedStart = uiDelayedStart + Host.GetTime();
+        }
+        else
+        {
+            bool bModeChange(false);
+            if (m_eLerpStyle != eNewStyle || (fLastChange > 0.0f == (eNewStyle != LERPSTYLE_MINUS_ONLY)))
+                bModeChange = true;
 
-			if (bModeChange)
-				m_uiDelayedStart += (uiDelayedStart * cg_healthLerpMode2Multipler);
-			else if (m_uiDelayedStart < Host.GetTime())
-				m_uiDelayedStart = Host.GetTime();
+            if (bModeChange)
+                m_uiDelayedStart += (uiDelayedStart * cg_healthLerpMode2Multipler);
+            else if (m_uiDelayedStart < Host.GetTime())
+                m_uiDelayedStart = Host.GetTime();
 
-			if (m_uiDelayedStart - Host.GetTime() > (uiDelayedStart * cg_healthLerpMode2MaxMultipler))
-				m_uiDelayedStart = (uiDelayedStart * cg_healthLerpMode2MaxMultipler) + Host.GetTime();
+            if (m_uiDelayedStart - Host.GetTime() > (uiDelayedStart * cg_healthLerpMode2MaxMultipler))
+                m_uiDelayedStart = (uiDelayedStart * cg_healthLerpMode2MaxMultipler) + Host.GetTime();
 
-		}
-	}
-	else
-	{
-		m_uiDelayedStart = uiDelayedStart + Host.GetTime();
-	}
+        }
+    }
+    else
+    {
+        m_uiDelayedStart = uiDelayedStart + Host.GetTime();
+    }
 
-	m_fTargetAmount = fNewTargetAmount;
-	m_uiTargetTime = m_uiDelayedStart + uiNewTargetTime;
-	m_uiStartTime = m_uiDelayedStart;
-	m_eLerpStyle = eNewStyle;
-	m_fStartAmount = m_fValOut;
-	m_bDone = false;
+    m_fTargetAmount = fNewTargetAmount;
+    m_uiTargetTime = m_uiDelayedStart + uiNewTargetTime;
+    m_uiStartTime = m_uiDelayedStart;
+    m_eLerpStyle = eNewStyle;
+    m_fStartAmount = m_fValOut;
+    m_bDone = false;
 }
 
 
 /*====================
   CSimpleLerp::Update
   ====================*/
-void	CSimpleLerp::Update()
+void    CSimpleLerp::Update()
 {
-	if (m_bDone)
-	{
-		m_fValOut = m_fTargetAmount;
-		return;
-	}
+    if (m_bDone)
+    {
+        m_fValOut = m_fTargetAmount;
+        return;
+    }
 
-	if ((m_fTargetAmount < m_fStartAmount && m_eLerpStyle == LERPSTYLE_PLUS_ONLY) ||
-		(m_fTargetAmount > m_fStartAmount && m_eLerpStyle == LERPSTYLE_MINUS_ONLY))
-	{
-		m_bDone = true;
-		m_fValOut = m_fTargetAmount;
-		return;
-	}
+    if ((m_fTargetAmount < m_fStartAmount && m_eLerpStyle == LERPSTYLE_PLUS_ONLY) ||
+        (m_fTargetAmount > m_fStartAmount && m_eLerpStyle == LERPSTYLE_MINUS_ONLY))
+    {
+        m_bDone = true;
+        m_fValOut = m_fTargetAmount;
+        return;
+    }
 
-	if (Host.GetTime() < m_uiDelayedStart)
-		return;
+    if (Host.GetTime() < m_uiDelayedStart)
+        return;
 
-	if (Host.GetTime() > m_uiTargetTime)
-	{
-		m_fValOut = m_fTargetAmount;
-		m_fStartAmount = m_fTargetAmount;
-		m_bDone = true;
-		return;
-	}
-	else
-	{
-		float fTimeLength((m_uiTargetTime - m_uiStartTime));
-		float fCurrentTime((Host.GetTime() - m_uiStartTime));
-		float fDistance(m_fTargetAmount - m_fStartAmount);
-		m_fValOut  = (fDistance * (fCurrentTime / fTimeLength)) + m_fStartAmount;
-	}
+    if (Host.GetTime() > m_uiTargetTime)
+    {
+        m_fValOut = m_fTargetAmount;
+        m_fStartAmount = m_fTargetAmount;
+        m_bDone = true;
+        return;
+    }
+    else
+    {
+        float fTimeLength((m_uiTargetTime - m_uiStartTime));
+        float fCurrentTime((Host.GetTime() - m_uiStartTime));
+        float fDistance(m_fTargetAmount - m_fStartAmount);
+        m_fValOut  = (fDistance * (fCurrentTime / fTimeLength)) + m_fStartAmount;
+    }
 }

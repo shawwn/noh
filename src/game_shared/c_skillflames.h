@@ -17,13 +17,13 @@
 class CSkillFlames : public ISkillSelfBuff
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Skill, Flames);
+    DECLARE_ENT_ALLOCATOR2(Skill, Flames);
 
 public:
-	~CSkillFlames()	{}
-	CSkillFlames() :
-	ISkillSelfBuff(GetEntityConfig())
-	{}
+    ~CSkillFlames() {}
+    CSkillFlames() :
+    ISkillSelfBuff(GetEntityConfig())
+    {}
 };
 //=============================================================================
 

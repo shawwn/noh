@@ -17,11 +17,11 @@
 class CProjectileBodyParts : public IProjectile
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Projectile, BodyParts);
+    DECLARE_ENT_ALLOCATOR2(Projectile, BodyParts);
 
 public:
-	~CProjectileBodyParts()	{}
-	CProjectileBodyParts();
+    ~CProjectileBodyParts() {}
+    CProjectileBodyParts();
 };
 //=============================================================================
 

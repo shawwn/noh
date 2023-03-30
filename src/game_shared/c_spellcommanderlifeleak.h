@@ -17,13 +17,13 @@
 class CSpellCommanderLifeLeak : public ISpellItem
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Spell, CommanderLifeLeak)
+    DECLARE_ENT_ALLOCATOR2(Spell, CommanderLifeLeak)
 
 public:
-	~CSpellCommanderLifeLeak()	{}
-	CSpellCommanderLifeLeak() :
-	ISpellItem(GetEntityConfig())
-	{}
+    ~CSpellCommanderLifeLeak()  {}
+    CSpellCommanderLifeLeak() :
+    ISpellItem(GetEntityConfig())
+    {}
 };
 //=============================================================================
 

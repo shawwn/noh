@@ -40,10 +40,10 @@ m_pEntityConfig(GetEntityConfig())
 /*====================
   CStateStunned::Activated
   ====================*/
-void	CStateStunned::Activated()
+void    CStateStunned::Activated()
 {
-	IEntityState::Activated();
-	IVisualEntity *pOwner(Game.GetVisualEntity(m_uiOwnerIndex));
-	if (pOwner != NULL && pOwner->IsCombat())
-		pOwner->GetAsCombatEnt()->Stun(GetExpireTime());
+    IEntityState::Activated();
+    IVisualEntity *pOwner(Game.GetVisualEntity(m_uiOwnerIndex));
+    if (pOwner != NULL && pOwner->IsCombat())
+        pOwner->GetAsCombatEnt()->Stun(GetExpireTime());
 }

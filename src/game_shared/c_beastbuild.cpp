@@ -21,13 +21,13 @@ DEFINE_ENT_ALLOCATOR2(Skill, BeastBuild)
 /*====================
   CSkillBeastBuild::ActivatePrimary
   ====================*/
-bool	CSkillBeastBuild::ActivatePrimary(int iButtonStatus)
+bool    CSkillBeastBuild::ActivatePrimary(int iButtonStatus)
 {
-	ICombatEntity *pOwner(GetOwnerEnt());
-	if (!pOwner)
-		return false;
+    ICombatEntity *pOwner(GetOwnerEnt());
+    if (!pOwner)
+        return false;
 
-	if (iButtonStatus & GAME_BUTTON_STATUS_PRESSED)
-		pOwner->SetNetFlags(ENT_NET_FLAG_BUILD_MODE);
-	return true;
+    if (iButtonStatus & GAME_BUTTON_STATUS_PRESSED)
+        pOwner->SetNetFlags(ENT_NET_FLAG_BUILD_MODE);
+    return true;
 }

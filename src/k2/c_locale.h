@@ -28,23 +28,23 @@ class CWorldBlock;
 class SHARED_API CLocale
 {
 private:
-	CBlockHandle	m_pBlockHandles[NUM_LOCAL_BLOCKS];
+    CBlockHandle    m_pBlockHandles[NUM_LOCAL_BLOCKS];
 
 public:
-	CLocale();
-	~CLocale();
+    CLocale();
+    ~CLocale();
 
-	const CBlockHandle&	operator[](int i) const	{ return m_pBlockHandles[i]; }
-	CBlockHandle&		Get(int i)				{ return m_pBlockHandles[i]; }
+    const CBlockHandle& operator[](int i) const { return m_pBlockHandles[i]; }
+    CBlockHandle&       Get(int i)              { return m_pBlockHandles[i]; }
 
-	void			Shift(int iDir);
-	void			UpdateNeighborLinks();
-	static int		GetNeighboringBlockNum(int fromBlock, int iDir);
-	int				GetBlockNum(const CWorldBlock *pBlock);
+    void            Shift(int iDir);
+    void            UpdateNeighborLinks();
+    static int      GetNeighboringBlockNum(int fromBlock, int iDir);
+    int             GetBlockNum(const CWorldBlock *pBlock);
 
-	void			TranslateCoords(int fromBlock, int toBlock, const CVec3f &in, CVec3f &out);
+    void            TranslateCoords(int fromBlock, int toBlock, const CVec3f &in, CVec3f &out);
 
-	CEntIterator	GetEntIterator() const		{ return CEntIterator(*this); }
+    CEntIterator    GetEntIterator() const      { return CEntIterator(*this); }
 };
 
 /*====================
@@ -55,11 +55,11 @@ public:
 inline
 int CLocale::GetNeighboringBlockNum(int fromBlock, int iDir)
 {
-	if (ABS((fromBlock % 3) + (iDir % 3) - 2) > 1 ||
-		ABS((fromBlock / 3) + (iDir / 3) - 2) > 1)
-		return -1;
+    if (ABS((fromBlock % 3) + (iDir % 3) - 2) > 1 ||
+        ABS((fromBlock / 3) + (iDir / 3) - 2) > 1)
+        return -1;
 
-	return fromBlock + (iDir - CENTER);
+    return fromBlock + (iDir - CENTER);
 }
 //=============================================================================
 #endif //__C_LOCALE_H__

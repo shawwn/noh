@@ -24,38 +24,38 @@ DECLARE_ENTITY_DEFINITION_XML_PROCESSOR(IOrderEntity, Order, order)
 //=============================================================================
 class COrderDefinition : public IEntityDefinition
 {
-	DECLARE_DEFINITION_TYPE_INFO
+    DECLARE_DEFINITION_TYPE_INFO
 
-	ENT_DEF_ARRAY_PROPERTY(TriggerRange, float)
+    ENT_DEF_ARRAY_PROPERTY(TriggerRange, float)
 
 protected:
-	virtual void	PrecacheV(EPrecacheScheme eScheme, const tstring &sModifier)
-	{
-		IEntityDefinition::PrecacheV(eScheme, sModifier);
+    virtual void    PrecacheV(EPrecacheScheme eScheme, const tstring &sModifier)
+    {
+        IEntityDefinition::PrecacheV(eScheme, sModifier);
 
-		PRECACHE_GUARD
-			// ...
-		PRECACHE_GUARD_END
-	}
+        PRECACHE_GUARD
+            // ...
+        PRECACHE_GUARD_END
+    }
 
-	virtual void	GetPrecacheListV(EPrecacheScheme eScheme, const tstring &sModifier, HeroPrecacheList &deqPrecache)
-	{
-		IEntityDefinition::GetPrecacheListV(eScheme, sModifier, deqPrecache);
+    virtual void    GetPrecacheListV(EPrecacheScheme eScheme, const tstring &sModifier, HeroPrecacheList &deqPrecache)
+    {
+        IEntityDefinition::GetPrecacheListV(eScheme, sModifier, deqPrecache);
 
-		PRECACHE_GUARD
-			// ...
-		PRECACHE_GUARD_END
-	}
+        PRECACHE_GUARD
+            // ...
+        PRECACHE_GUARD_END
+    }
 
 public:
-	~COrderDefinition()	{}
-	COrderDefinition() :
-	IEntityDefinition(&g_allocatorOrder)
-	{}
+    ~COrderDefinition() {}
+    COrderDefinition() :
+    IEntityDefinition(&g_allocatorOrder)
+    {}
 
-	IEntityDefinition*	GetCopy() const	{ return K2_NEW(ctx_Game,    COrderDefinition)(*this); }
+    IEntityDefinition*  GetCopy() const { return K2_NEW(ctx_Game,    COrderDefinition)(*this); }
 
-	virtual void	ImportDefinition(IEntityDefinition *pOtherDefinition);
+    virtual void    ImportDefinition(IEntityDefinition *pOtherDefinition);
 };
 //=============================================================================
 

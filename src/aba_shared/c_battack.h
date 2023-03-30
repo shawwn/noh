@@ -17,33 +17,33 @@
 class CBAttack : public IBehavior
 {
 private:
-	// Parameters calculated during setup frame
-	float	m_fDistSq;		
-	CVec2f	m_v2ApproachPosition;
-	float	m_fRange;
-	bool	m_bAtGoal;
-	bool	m_bSight;
-	uint	m_uiArmingSequence;
-	uint	m_uiAttacks;
-	uint	m_uiMaxAttacks;
-	bool	m_bAggroTrigger;
+    // Parameters calculated during setup frame
+    float   m_fDistSq;      
+    CVec2f  m_v2ApproachPosition;
+    float   m_fRange;
+    bool    m_bAtGoal;
+    bool    m_bSight;
+    uint    m_uiArmingSequence;
+    uint    m_uiAttacks;
+    uint    m_uiMaxAttacks;
+    bool    m_bAggroTrigger;
 
 public:
-	CBAttack(uint uiArmingSequence, uint uiMaxAttacks = uint(-1));
+    CBAttack(uint uiArmingSequence, uint uiMaxAttacks = uint(-1));
 
-	virtual void		CopyFrom(const IBehavior* pBehavior);
-	virtual IBehavior*	Clone(CBrain* pNewBrain, IUnitEntity* pNewSelf) const;
+    virtual void        CopyFrom(const IBehavior* pBehavior);
+    virtual IBehavior*  Clone(CBrain* pNewBrain, IUnitEntity* pNewSelf) const;
 
-	virtual bool	Validate();
-	virtual void	Update();
-	virtual void	BeginBehavior();
-	virtual void	ThinkFrame();
-	virtual void	MovementFrame();
-	virtual void	ActionFrame();
-	virtual void	CleanupFrame();
+    virtual bool    Validate();
+    virtual void    Update();
+    virtual void    BeginBehavior();
+    virtual void    ThinkFrame();
+    virtual void    MovementFrame();
+    virtual void    ActionFrame();
+    virtual void    CleanupFrame();
 
-	virtual uint	GetAttackTarget() const		{ return m_uiTargetIndex; }
-	virtual void	DisableAggroTrigger()		{ m_bAggroTrigger = true; }
+    virtual uint    GetAttackTarget() const     { return m_uiTargetIndex; }
+    virtual void    DisableAggroTrigger()       { m_bAggroTrigger = true; }
 };
 //=============================================================================
 

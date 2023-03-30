@@ -17,13 +17,13 @@
 class CSpellVenus : public ISpellItem
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Spell, Venus);
+    DECLARE_ENT_ALLOCATOR2(Spell, Venus);
 
 public:
-	~CSpellVenus()	{}
-	CSpellVenus() :
-	ISpellItem(GetEntityConfig())
-	{}
+    ~CSpellVenus()  {}
+    CSpellVenus() :
+    ISpellItem(GetEntityConfig())
+    {}
 };
 //=============================================================================
 

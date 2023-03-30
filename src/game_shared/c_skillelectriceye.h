@@ -17,12 +17,12 @@
 class CSkillElectricEye : public ISpellItem
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Skill, ElectricEye)
+    DECLARE_ENT_ALLOCATOR2(Skill, ElectricEye)
 
 public:
-	~CSkillElectricEye() {}
-	CSkillElectricEye() :
-	ISpellItem(GetEntityConfig()) {}
+    ~CSkillElectricEye() {}
+    CSkillElectricEye() :
+    ISpellItem(GetEntityConfig()) {}
 };
 //=============================================================================
 

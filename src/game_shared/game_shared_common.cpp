@@ -12,7 +12,7 @@
 //=============================================================================
 // Declarations
 //=============================================================================
-CHeap	g_heapSharedGame("_game_shared");
+CHeap   g_heapSharedGame("_game_shared");
 //=============================================================================
 
 #ifdef K2_DEBUG_MEM
@@ -20,23 +20,23 @@ CHeap	g_heapSharedGame("_game_shared");
 /*====================
   operator new
   ====================*/
-void*	operator new(size_t z)
+void*   operator new(size_t z)
 {
-	return MemManager.Allocate(z, &g_heapSharedGame);
+    return MemManager.Allocate(z, &g_heapSharedGame);
 }
 
 
 /*====================
   operator new[]
   ====================*/
-void*	operator new[](size_t z)
+void*   operator new[](size_t z)
 {
-	return MemManager.Allocate(z, &g_heapSharedGame);
+    return MemManager.Allocate(z, &g_heapSharedGame);
 }
 
-void*	operator new[](size_t z, CHeap *pHeap)
+void*   operator new[](size_t z, CHeap *pHeap)
 {
-	return MemManager.Allocate(z, pHeap);
+    return MemManager.Allocate(z, pHeap);
 }
 
 #endif

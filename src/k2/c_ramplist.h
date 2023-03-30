@@ -23,24 +23,24 @@
 //class CRampList : public IWorldComponent
 //{
 //private:
-//	typedef vector<CRampInstance>	RampList;
+//  typedef vector<CRampInstance>   RampList;
 //
-//	RampList		m_vRamps;
+//  RampList        m_vRamps;
 //
 //public:
-//	~CRampList();
-//	CRampList(EWorldComponent eComponent);
+//  ~CRampList();
+//  CRampList(EWorldComponent eComponent);
 //
-//	bool		Load(CArchive &archive, const CWorld *pWorld);
-//	bool		Generate(const CWorld *pWorld);
-//	bool		Serialize(IBuffer *pBuffer);
-//	void		Release();
-//	
-//	K2_API CRampInstance	AddRamp(CRecti rRecti, ResHandle hDefinitionHandle, float fAngle);
-//	K2_API bool				CheckTile(int iXC, int iYC);
-//	K2_API CRecti			GetRampRect(int iXC, int iYC);
-//	K2_API bool				DeleteRamp(int iXC, int iYC);
-//	K2_API RampList*		GetRampList() { return &m_vRamps; }
+//  bool        Load(CArchive &archive, const CWorld *pWorld);
+//  bool        Generate(const CWorld *pWorld);
+//  bool        Serialize(IBuffer *pBuffer);
+//  void        Release();
+//  
+//  K2_API CRampInstance    AddRamp(CRecti rRecti, ResHandle hDefinitionHandle, float fAngle);
+//  K2_API bool             CheckTile(int iXC, int iYC);
+//  K2_API CRecti           GetRampRect(int iXC, int iYC);
+//  K2_API bool             DeleteRamp(int iXC, int iYC);
+//  K2_API RampList*        GetRampList() { return &m_vRamps; }
 //};
 ////=============================================================================
 //#endif //__C_RampLIST_H__

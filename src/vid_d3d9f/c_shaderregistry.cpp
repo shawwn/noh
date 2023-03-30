@@ -26,9 +26,9 @@
 //=============================================================================
 // Globals
 //=============================================================================
-CShaderRegistry		g_ShaderRegistry;
+CShaderRegistry     g_ShaderRegistry;
 
-extern CCvar<int>		gfx_fogType;
+extern CCvar<int>       gfx_fogType;
 //=============================================================================
 
 /*====================
@@ -46,15 +46,15 @@ m_bTexkill(false),
 m_vVertexShaderInstances(GetMaxVertexShaderKeys()),
 m_vPixelShaderInstances(GetMaxPixelShaderKeys())
 {
-	size_t zVertexSize(m_vVertexShaderInstances.size());
+    size_t zVertexSize(m_vVertexShaderInstances.size());
 
-	for (size_t i(0); i < zVertexSize; ++i)
-		m_vVertexShaderInstances[i] = -1;
+    for (size_t i(0); i < zVertexSize; ++i)
+        m_vVertexShaderInstances[i] = -1;
 
-	size_t zPixelSize(m_vPixelShaderInstances.size());
+    size_t zPixelSize(m_vPixelShaderInstances.size());
 
-	for (size_t i(0); i < zPixelSize; ++i)
-		m_vPixelShaderInstances[i] = -1;
+    for (size_t i(0); i < zPixelSize; ++i)
+        m_vPixelShaderInstances[i] = -1;
 }
 
 
@@ -69,232 +69,232 @@ CShaderRegistry::~CShaderRegistry()
 /*====================
   CShaderRegistry::RegisterVertexShader
   ====================*/
-ShaderHandle	CShaderRegistry::RegisterVertexShader(const tstring &sName, int iFlags)
+ShaderHandle    CShaderRegistry::RegisterVertexShader(const tstring &sName, int iFlags)
 {
-	ShaderMap::iterator findit = m_mapVertexShaders.find(sName);
+    ShaderMap::iterator findit = m_mapVertexShaders.find(sName);
 
-	if (findit != m_mapVertexShaders.end())
-	{
-		return findit->second;
-	}
-	else
-	{
-		int i;
+    if (findit != m_mapVertexShaders.end())
+    {
+        return findit->second;
+    }
+    else
+    {
+        int i;
 
-		// Find empty shader slot
-		for (i = 0; i < int(m_vVertexShaderSlots.size()); ++i)
-		{
-			if (!m_vVertexShaderSlots[i].bActive)
-				break;
-		}
+        // Find empty shader slot
+        for (i = 0; i < int(m_vVertexShaderSlots.size()); ++i)
+        {
+            if (!m_vVertexShaderSlots[i].bActive)
+                break;
+        }
 
-		if (i == m_vVertexShaderSlots.size() && m_vVertexShaderSlots.size() != MAX_SHADER_SLOTS)
-			m_vVertexShaderSlots.push_back(SShaderEntry());
-		else
-			return ShaderHandle(-1);
+        if (i == m_vVertexShaderSlots.size() && m_vVertexShaderSlots.size() != MAX_SHADER_SLOTS)
+            m_vVertexShaderSlots.push_back(SShaderEntry());
+        else
+            return ShaderHandle(-1);
 
-		m_vVertexShaderSlots[i].bActive = true;
-		m_vVertexShaderSlots[i].sName = sName;
-		m_vVertexShaderSlots[i].iFlags = iFlags;
+        m_vVertexShaderSlots[i].bActive = true;
+        m_vVertexShaderSlots[i].sName = sName;
+        m_vVertexShaderSlots[i].iFlags = iFlags;
 
-		m_mapVertexShaders[sName] = i;
+        m_mapVertexShaders[sName] = i;
 
-		if (vid_shaderPrecache)
-			PrecacheVertexShader(ShaderHandle(i));
+        if (vid_shaderPrecache)
+            PrecacheVertexShader(ShaderHandle(i));
 
-		return i;
-	}
+        return i;
+    }
 }
 
 
 /*====================
   CShaderRegistry::RegisterPixelShader
   ====================*/
-ShaderHandle	CShaderRegistry::RegisterPixelShader(const tstring &sName, int iFlags)
+ShaderHandle    CShaderRegistry::RegisterPixelShader(const tstring &sName, int iFlags)
 {
-	ShaderMap::iterator findit = m_mapPixelShaders.find(sName);
+    ShaderMap::iterator findit = m_mapPixelShaders.find(sName);
 
-	if (findit != m_mapPixelShaders.end())
-	{
-		return findit->second;
-	}
-	else
-	{
-		int i;
+    if (findit != m_mapPixelShaders.end())
+    {
+        return findit->second;
+    }
+    else
+    {
+        int i;
 
-		// Find empty shader slot
-		for (i = 0; i < int(m_vPixelShaderSlots.size()); ++i)
-		{
-			if (!m_vPixelShaderSlots[i].bActive)
-				break;
-		}
+        // Find empty shader slot
+        for (i = 0; i < int(m_vPixelShaderSlots.size()); ++i)
+        {
+            if (!m_vPixelShaderSlots[i].bActive)
+                break;
+        }
 
-		if (i == m_vPixelShaderSlots.size() && m_vPixelShaderSlots.size() != MAX_SHADER_SLOTS)
-			m_vPixelShaderSlots.push_back(SShaderEntry());
-		else
-			return ShaderHandle(-1);
+        if (i == m_vPixelShaderSlots.size() && m_vPixelShaderSlots.size() != MAX_SHADER_SLOTS)
+            m_vPixelShaderSlots.push_back(SShaderEntry());
+        else
+            return ShaderHandle(-1);
 
-		m_vPixelShaderSlots[i].bActive = true;
-		m_vPixelShaderSlots[i].sName = sName;
-		m_vPixelShaderSlots[i].iFlags = iFlags;
+        m_vPixelShaderSlots[i].bActive = true;
+        m_vPixelShaderSlots[i].sName = sName;
+        m_vPixelShaderSlots[i].iFlags = iFlags;
 
-		m_mapPixelShaders[sName] = i;
+        m_mapPixelShaders[sName] = i;
 
-		if (vid_shaderPrecache)
-			PrecachePixelShader(ShaderHandle(i));
-					
-		return i;
-	}
+        if (vid_shaderPrecache)
+            PrecachePixelShader(ShaderHandle(i));
+                    
+        return i;
+    }
 }
 
 
 /*====================
   CShaderRegistry::PrecacheVertexShader
   ====================*/
-void	CShaderRegistry::PrecacheVertexShader(ShaderHandle hShader)
+void    CShaderRegistry::PrecacheVertexShader(ShaderHandle hShader)
 {
-	if (m_vVertexShaderSlots[hShader].iFlags & VS_GUI_PRECACHE)
-	{
-		SetFog(false);
-		SetShadows(false);
-		SetLighting(false);
-		SetFogofWar(false);
-		SetNumBones(0);
-		SetNumPointLights(0);
-		SetTexcoords(1);
-		SetTexkill(false);
+    if (m_vVertexShaderSlots[hShader].iFlags & VS_GUI_PRECACHE)
+    {
+        SetFog(false);
+        SetShadows(false);
+        SetLighting(false);
+        SetFogofWar(false);
+        SetNumBones(0);
+        SetNumPointLights(0);
+        SetTexcoords(1);
+        SetTexkill(false);
 
-		// Precache
-		GetVertexShaderInstance(hShader);
-	}
-	else
-	{
-		SetFog(true);
-		SetLighting(true);
-		SetNumPointLights(0);
-		SetTexkill(false);
+        // Precache
+        GetVertexShaderInstance(hShader);
+    }
+    else
+    {
+        SetFog(true);
+        SetLighting(true);
+        SetNumPointLights(0);
+        SetTexkill(false);
 
-		for (int iReflections(0); iReflections < 2; ++iReflections)
-		{
-			if (iReflections == 0)
-			{
-				SetShadows(vid_shadows);
-				SetFogofWar(true);
-			}
-			else if (iReflections == 1 && vid_reflections)
-			{
-				SetShadows(false);
-				SetFogofWar(false);
-			}
-			else
-				continue;
+        for (int iReflections(0); iReflections < 2; ++iReflections)
+        {
+            if (iReflections == 0)
+            {
+                SetShadows(vid_shadows);
+                SetFogofWar(true);
+            }
+            else if (iReflections == 1 && vid_reflections)
+            {
+                SetShadows(false);
+                SetFogofWar(false);
+            }
+            else
+                continue;
 
-			for (int iTexcoords(1); iTexcoords <= 1; ++iTexcoords)
-			{
-				SetTexcoords(iTexcoords);
+            for (int iTexcoords(1); iTexcoords <= 1; ++iTexcoords)
+            {
+                SetTexcoords(iTexcoords);
 
-				for (int iBones(0); iBones <= MAX_GPU_BONES; iBones += BONE_UNIT)
-				{
-					SetNumBones(iBones);
+                for (int iBones(0); iBones <= MAX_GPU_BONES; iBones += BONE_UNIT)
+                {
+                    SetNumBones(iBones);
 
-					// Precache
-					GetVertexShaderInstance(hShader);
-				}
-			}
-		}
-	}
+                    // Precache
+                    GetVertexShaderInstance(hShader);
+                }
+            }
+        }
+    }
 }
 
 
 /*====================
   CShaderRegistry::PrecachePixelShader
   ====================*/
-void	CShaderRegistry::PrecachePixelShader(ShaderHandle hShader)
+void    CShaderRegistry::PrecachePixelShader(ShaderHandle hShader)
 {
-	if (m_vPixelShaderSlots[hShader].iFlags & PS_GUI_PRECACHE)
-	{
-		SetFog(false);
-		SetShadows(false);
-		SetLighting(false);
-		SetFogofWar(false);
-		SetNumBones(0);
-		SetNumPointLights(0);
-		SetTexcoords(1);
-		SetTexkill(false);
+    if (m_vPixelShaderSlots[hShader].iFlags & PS_GUI_PRECACHE)
+    {
+        SetFog(false);
+        SetShadows(false);
+        SetLighting(false);
+        SetFogofWar(false);
+        SetNumBones(0);
+        SetNumPointLights(0);
+        SetTexcoords(1);
+        SetTexkill(false);
 
-		// Precache
-		GetPixelShaderInstance(hShader);
-	}
-	else
-	{
-		SetFog(true);
-		SetLighting(true);
-		SetTexcoords(1);
-		SetNumBones(0);
-		SetTexkill(false);
+        // Precache
+        GetPixelShaderInstance(hShader);
+    }
+    else
+    {
+        SetFog(true);
+        SetLighting(true);
+        SetTexcoords(1);
+        SetNumBones(0);
+        SetTexkill(false);
 
-		for (int iReflections(0); iReflections < 2; ++iReflections)
-		{
-			if (iReflections == 0)
-			{
-				SetShadows(vid_shadows);
-				SetFogofWar(true);
-			}
-			else if (iReflections == 1 && vid_reflections)
-			{
-				SetShadows(false);
-				SetFogofWar(false);
-			}
-			else
-				continue;
+        for (int iReflections(0); iReflections < 2; ++iReflections)
+        {
+            if (iReflections == 0)
+            {
+                SetShadows(vid_shadows);
+                SetFogofWar(true);
+            }
+            else if (iReflections == 1 && vid_reflections)
+            {
+                SetShadows(false);
+                SetFogofWar(false);
+            }
+            else
+                continue;
 
-			for (int iLights(0); iLights <= g_iMaxDynamicLights; ++iLights)
-			{
-				SetNumPointLights(iLights);
+            for (int iLights(0); iLights <= g_iMaxDynamicLights; ++iLights)
+            {
+                SetNumPointLights(iLights);
 
-				// Precache
-				GetPixelShaderInstance(hShader);
-			}
-		}
-	}
+                // Precache
+                GetPixelShaderInstance(hShader);
+            }
+        }
+    }
 }
 
 
 /*====================
   CShaderRegistry::UnregisterVertexShader
   ====================*/
-void	CShaderRegistry::UnregisterVertexShader(const tstring &sName)
+void    CShaderRegistry::UnregisterVertexShader(const tstring &sName)
 {
-	ShaderMap::iterator findit = m_mapVertexShaders.find(sName);
+    ShaderMap::iterator findit = m_mapVertexShaders.find(sName);
 
-	if (findit != m_mapVertexShaders.end())
-	{
-		int i = findit->second;
+    if (findit != m_mapVertexShaders.end())
+    {
+        int i = findit->second;
 
-		m_vVertexShaderSlots[i].bActive = false;
-		ReloadVertexShader(i);
+        m_vVertexShaderSlots[i].bActive = false;
+        ReloadVertexShader(i);
 
-		m_mapVertexShaders.erase(findit);
-	}
+        m_mapVertexShaders.erase(findit);
+    }
 }
 
 
 /*====================
   CShaderRegistry::UnregisterPixelShader
   ====================*/
-void	CShaderRegistry::UnregisterPixelShader(const tstring &sName)
+void    CShaderRegistry::UnregisterPixelShader(const tstring &sName)
 {
-	ShaderMap::iterator findit = m_mapPixelShaders.find(sName);
+    ShaderMap::iterator findit = m_mapPixelShaders.find(sName);
 
-	if (findit != m_mapPixelShaders.end())
-	{
-		int i = findit->second;
+    if (findit != m_mapPixelShaders.end())
+    {
+        int i = findit->second;
 
-		m_vPixelShaderSlots[i].bActive = false;
-		ReloadPixelShader(i);
+        m_vPixelShaderSlots[i].bActive = false;
+        ReloadPixelShader(i);
 
-		m_mapPixelShaders.erase(findit);
-	}
+        m_mapPixelShaders.erase(findit);
+    }
 }
 
 
@@ -303,19 +303,19 @@ void	CShaderRegistry::UnregisterPixelShader(const tstring &sName)
 
   Please don't overflow iOffset.
   ====================*/
-ShaderKey	CShaderRegistry::GetMaxVertexShaderKeys()
+ShaderKey   CShaderRegistry::GetMaxVertexShaderKeys()
 {
-	int			iOffset = 1;
+    int         iOffset = 1;
 
-	iOffset *= MAX_SHADER_SLOTS;					// 256 Shader slots
-	iOffset *= (MAX_GPU_BONES / BONE_UNIT + 1);		// 0-72 Bones in BONE_UNIT increments
-	iOffset *= 2;									// 0, 1 Lighting
-	iOffset *= 2;									// 0, 1 Shadows
-	iOffset *= 2;									// 0, 1 Fog of War
-	iOffset *= 2;									// 0, 1 Fog
-	iOffset *= 3;                                   // 0, 1, 2 Texcoords
+    iOffset *= MAX_SHADER_SLOTS;                    // 256 Shader slots
+    iOffset *= (MAX_GPU_BONES / BONE_UNIT + 1);     // 0-72 Bones in BONE_UNIT increments
+    iOffset *= 2;                                   // 0, 1 Lighting
+    iOffset *= 2;                                   // 0, 1 Shadows
+    iOffset *= 2;                                   // 0, 1 Fog of War
+    iOffset *= 2;                                   // 0, 1 Fog
+    iOffset *= 3;                                   // 0, 1, 2 Texcoords
 
-	return iOffset;
+    return iOffset;
 }
 
 
@@ -324,19 +324,19 @@ ShaderKey	CShaderRegistry::GetMaxVertexShaderKeys()
 
   Please don't overflow iOffset.
   ====================*/
-ShaderKey	CShaderRegistry::GetMaxPixelShaderKeys()
+ShaderKey   CShaderRegistry::GetMaxPixelShaderKeys()
 {
-	int			iOffset = 1;
+    int         iOffset = 1;
 
-	iOffset *= MAX_SHADER_SLOTS;					// 256 Shader slots
-	iOffset *= MAX_POINT_LIGHTS + 1;				// 0-4 lights
-	iOffset *= 2;									// 0, 1 Lighting
-	iOffset *= 2;									// 0, 1 Shadows
-	iOffset *= 2;									// 0, 1 Fog of War
-	iOffset *= 2;									// 0, 1 Fog
-	iOffset *= 2;									// 0, 1 Texkill
+    iOffset *= MAX_SHADER_SLOTS;                    // 256 Shader slots
+    iOffset *= MAX_POINT_LIGHTS + 1;                // 0-4 lights
+    iOffset *= 2;                                   // 0, 1 Lighting
+    iOffset *= 2;                                   // 0, 1 Shadows
+    iOffset *= 2;                                   // 0, 1 Fog of War
+    iOffset *= 2;                                   // 0, 1 Fog
+    iOffset *= 2;                                   // 0, 1 Texkill
 
-	return iOffset;
+    return iOffset;
 }
 
 
@@ -346,33 +346,33 @@ ShaderKey	CShaderRegistry::GetMaxPixelShaderKeys()
   Generates a unique 32-bit integer for all possible combinations
   of shader definitions.  Please don't overflow iOffset.
   ====================*/
-ShaderKey	CShaderRegistry::GenerateVertexShaderKey(ShaderHandle hShader)
+ShaderKey   CShaderRegistry::GenerateVertexShaderKey(ShaderHandle hShader)
 {
-	ShaderKey	kKey = 0;
-	int			iOffset = 1;
+    ShaderKey   kKey = 0;
+    int         iOffset = 1;
 
-	kKey += hShader * iOffset;
-	iOffset *= MAX_SHADER_SLOTS;
+    kKey += hShader * iOffset;
+    iOffset *= MAX_SHADER_SLOTS;
 
-	kKey += (m_iNumBones + (BONE_UNIT - 1)) / BONE_UNIT * iOffset;
-	iOffset *= (MAX_GPU_BONES / BONE_UNIT + 1);
+    kKey += (m_iNumBones + (BONE_UNIT - 1)) / BONE_UNIT * iOffset;
+    iOffset *= (MAX_GPU_BONES / BONE_UNIT + 1);
 
-	kKey += (m_bLighting ? 1 : 0) * iOffset;
-	iOffset *= 2;
+    kKey += (m_bLighting ? 1 : 0) * iOffset;
+    iOffset *= 2;
 
-	kKey += (m_bShadows ? 1 : 0) * iOffset;
-	iOffset *= 2;
+    kKey += (m_bShadows ? 1 : 0) * iOffset;
+    iOffset *= 2;
 
-	kKey += (m_bFogofWar ? 1 : 0) * iOffset;
-	iOffset *= 2;
+    kKey += (m_bFogofWar ? 1 : 0) * iOffset;
+    iOffset *= 2;
 
-	kKey += (m_bFog ? 1 : 0) * iOffset;
-	iOffset *= 2;
+    kKey += (m_bFog ? 1 : 0) * iOffset;
+    iOffset *= 2;
 
-	kKey += m_iTexcoords * iOffset;
-	iOffset *= 3;
+    kKey += m_iTexcoords * iOffset;
+    iOffset *= 3;
 
-	return kKey;
+    return kKey;
 }
 
 
@@ -382,112 +382,112 @@ ShaderKey	CShaderRegistry::GenerateVertexShaderKey(ShaderHandle hShader)
   Generates a unique 32-bit integer for all possible combinations
   of shader definitions.  Please don't overflow iOffset.
   ====================*/
-ShaderKey	CShaderRegistry::GeneratePixelShaderKey(ShaderHandle hShader)
+ShaderKey   CShaderRegistry::GeneratePixelShaderKey(ShaderHandle hShader)
 {
-	ShaderKey	kKey = 0;
-	int			iOffset = 1;
+    ShaderKey   kKey = 0;
+    int         iOffset = 1;
 
-	kKey += hShader * iOffset;
-	iOffset *= MAX_SHADER_SLOTS;
+    kKey += hShader * iOffset;
+    iOffset *= MAX_SHADER_SLOTS;
 
-	kKey += m_iNumPointLights * iOffset;
-	iOffset *= MAX_POINT_LIGHTS + 1;
+    kKey += m_iNumPointLights * iOffset;
+    iOffset *= MAX_POINT_LIGHTS + 1;
 
-	kKey += (m_bLighting ? 1 : 0) * iOffset;
-	iOffset *= 2;
+    kKey += (m_bLighting ? 1 : 0) * iOffset;
+    iOffset *= 2;
 
-	kKey += (m_bShadows ? 1 : 0) * iOffset;
-	iOffset *= 2;
+    kKey += (m_bShadows ? 1 : 0) * iOffset;
+    iOffset *= 2;
 
-	kKey += (m_bFogofWar ? 1 : 0) * iOffset;
-	iOffset *= 2;
+    kKey += (m_bFogofWar ? 1 : 0) * iOffset;
+    iOffset *= 2;
 
-	kKey += (m_bFog ? 1 : 0) * iOffset;
-	iOffset *= 2;
+    kKey += (m_bFog ? 1 : 0) * iOffset;
+    iOffset *= 2;
 
-	kKey += (m_bTexkill ? 1 : 0) * iOffset;
-	iOffset *= 2;
+    kKey += (m_bTexkill ? 1 : 0) * iOffset;
+    iOffset *= 2;
 
-	return kKey;
+    return kKey;
 }
 
 
 /*====================
   CShaderRegistry::GetShaderIndexFromKey
   ====================*/
-int		CShaderRegistry::GetShaderIndexFromKey(ShaderKey kKey)
+int     CShaderRegistry::GetShaderIndexFromKey(ShaderKey kKey)
 {
-	return kKey % MAX_SHADER_SLOTS;
+    return kKey % MAX_SHADER_SLOTS;
 }
 
 
 /*====================
   CShaderRegistry::GetVertexShaderInstance
   ====================*/
-int		CShaderRegistry::GetVertexShaderInstance(ShaderHandle hShader)
+int     CShaderRegistry::GetVertexShaderInstance(ShaderHandle hShader)
 {
-	return -1;
+    return -1;
 }
 
 
 /*====================
   CShaderRegistry::GetPixelShaderInstance
   ====================*/
-int		CShaderRegistry::GetPixelShaderInstance(ShaderHandle hShader)
+int     CShaderRegistry::GetPixelShaderInstance(ShaderHandle hShader)
 {
-	return -1;
+    return -1;
 }
 
 
 /*====================
   CShaderRegistry::GetVertexShaderInstance
   ====================*/
-int		CShaderRegistry::GetVertexShaderInstance(ResHandle hShader)
+int     CShaderRegistry::GetVertexShaderInstance(ResHandle hShader)
 {
-	CVertexShader *pVertexShader = g_ResourceManager.GetVertexShader(hShader);
+    CVertexShader *pVertexShader = g_ResourceManager.GetVertexShader(hShader);
 
-	return GetVertexShaderInstance(ShaderHandle(pVertexShader->GetIndex()));
+    return GetVertexShaderInstance(ShaderHandle(pVertexShader->GetIndex()));
 }
 
 
 /*====================
   CShaderRegistry::GetPixelShaderInstance
   ====================*/
-int		CShaderRegistry::GetPixelShaderInstance(ResHandle hShader)
+int     CShaderRegistry::GetPixelShaderInstance(ResHandle hShader)
 {
-	CPixelShader *pPixelShader = g_ResourceManager.GetPixelShader(hShader);
+    CPixelShader *pPixelShader = g_ResourceManager.GetPixelShader(hShader);
 
-	return GetPixelShaderInstance(ShaderHandle(pPixelShader->GetIndex()));
+    return GetPixelShaderInstance(ShaderHandle(pPixelShader->GetIndex()));
 }
 
 
 /*====================
   CShaderRegistry::FreeVertexShaderInstance
   ====================*/
-void	CShaderRegistry::FreeVertexShaderInstance(int iShaderIndex)
+void    CShaderRegistry::FreeVertexShaderInstance(int iShaderIndex)
 {
-	size_t zSize(m_vVertexShaderInstances.size());
+    size_t zSize(m_vVertexShaderInstances.size());
 
-	for (size_t i(0); i < zSize; ++i)
-	{
-		if (m_vVertexShaderInstances[i] == iShaderIndex)
-			m_vVertexShaderInstances[i] = -1;
-	}
+    for (size_t i(0); i < zSize; ++i)
+    {
+        if (m_vVertexShaderInstances[i] == iShaderIndex)
+            m_vVertexShaderInstances[i] = -1;
+    }
 }
 
 
 /*====================
   CShaderRegistry::FreePixelShaderInstance
   ====================*/
-void	CShaderRegistry::FreePixelShaderInstance(int iShaderIndex)
+void    CShaderRegistry::FreePixelShaderInstance(int iShaderIndex)
 {
-	size_t zSize(m_vPixelShaderInstances.size());
+    size_t zSize(m_vPixelShaderInstances.size());
 
-	for (size_t i(0); i < zSize; ++i)
-	{
-		if (m_vPixelShaderInstances[i] == iShaderIndex)
-			m_vPixelShaderInstances[i] = -1;
-	}
+    for (size_t i(0); i < zSize; ++i)
+    {
+        if (m_vPixelShaderInstances[i] == iShaderIndex)
+            m_vPixelShaderInstances[i] = -1;
+    }
 }
 
 
@@ -497,20 +497,20 @@ void	CShaderRegistry::FreePixelShaderInstance(int iShaderIndex)
 
   Reset any vertex shader instances of this shader
   ====================*/
-void	CShaderRegistry::ReloadVertexShader(ShaderHandle hShader)
+void    CShaderRegistry::ReloadVertexShader(ShaderHandle hShader)
 {
-	size_t zSize(m_vVertexShaderInstances.size());
+    size_t zSize(m_vVertexShaderInstances.size());
 
-	for (size_t i(0); i < zSize; ++i)
-	{
-		if (m_vVertexShaderInstances[i] != -1 && GetShaderIndexFromKey(ShaderKey(i)) == hShader)
-		{
-			if (m_vVertexShaderInstances[i] != -2)
-				D3D_FreeVertexShader(m_vVertexShaderInstances[i]);
-			
-			m_vVertexShaderInstances[i] = -1;
-		}
-	}
+    for (size_t i(0); i < zSize; ++i)
+    {
+        if (m_vVertexShaderInstances[i] != -1 && GetShaderIndexFromKey(ShaderKey(i)) == hShader)
+        {
+            if (m_vVertexShaderInstances[i] != -2)
+                D3D_FreeVertexShader(m_vVertexShaderInstances[i]);
+            
+            m_vVertexShaderInstances[i] = -1;
+        }
+    }
 }
 
 
@@ -519,58 +519,58 @@ void	CShaderRegistry::ReloadVertexShader(ShaderHandle hShader)
 
   Reset any pixel shader instances of this shader
   ====================*/
-void	CShaderRegistry::ReloadPixelShader(ShaderHandle hShader)
+void    CShaderRegistry::ReloadPixelShader(ShaderHandle hShader)
 {
-	size_t zSize(m_vPixelShaderInstances.size());
+    size_t zSize(m_vPixelShaderInstances.size());
 
-	for (size_t i(0); i < zSize; ++i)
-	{
-		if (m_vPixelShaderInstances[i] != -1 && GetShaderIndexFromKey(ShaderKey(i)) == hShader)
-		{
-			if (m_vPixelShaderInstances[i] != -2)
-				D3D_FreePixelShader(m_vPixelShaderInstances[i]);
-			
-			m_vPixelShaderInstances[i] = -1;
-		}
-	}
+    for (size_t i(0); i < zSize; ++i)
+    {
+        if (m_vPixelShaderInstances[i] != -1 && GetShaderIndexFromKey(ShaderKey(i)) == hShader)
+        {
+            if (m_vPixelShaderInstances[i] != -2)
+                D3D_FreePixelShader(m_vPixelShaderInstances[i]);
+            
+            m_vPixelShaderInstances[i] = -1;
+        }
+    }
 }
 
 
 /*====================
   CShaderRegistry::ReloadShaders
   ====================*/
-void	CShaderRegistry::ReloadShaders()
+void    CShaderRegistry::ReloadShaders()
 {
-	Console.Video << "Reloading shaders..." << newl;
+    Console.Video << "Reloading shaders..." << newl;
 
-	// Free all dynamically allocated shader instances
-	for (int i(NUM_VERTEX_TYPES); i < MAX_SHADERS; ++i)
-	{
-		D3D_FreeVertexShader(i);
-		D3D_FreePixelShader(i);
-	}
+    // Free all dynamically allocated shader instances
+    for (int i(NUM_VERTEX_TYPES); i < MAX_SHADERS; ++i)
+    {
+        D3D_FreeVertexShader(i);
+        D3D_FreePixelShader(i);
+    }
 
-	size_t zVertexSize(m_vVertexShaderInstances.size());
+    size_t zVertexSize(m_vVertexShaderInstances.size());
 
-	for (size_t i(0); i < zVertexSize; ++i)
-		m_vVertexShaderInstances[i] = -1;
+    for (size_t i(0); i < zVertexSize; ++i)
+        m_vVertexShaderInstances[i] = -1;
 
-	size_t zPixelSize(m_vPixelShaderInstances.size());
+    size_t zPixelSize(m_vPixelShaderInstances.size());
 
-	for (size_t i(0); i < zPixelSize; ++i)
-		m_vPixelShaderInstances[i] = -1;
+    for (size_t i(0); i < zPixelSize; ++i)
+        m_vPixelShaderInstances[i] = -1;
 
-	if (!vid_shaderPrecache)
-		return;
+    if (!vid_shaderPrecache)
+        return;
 
-	// Precache some common variations
-	for (uint i(0); i < m_vVertexShaderSlots.size(); ++i)
-		if (m_vVertexShaderSlots[i].bActive)
-			PrecacheVertexShader(ShaderHandle(i));
+    // Precache some common variations
+    for (uint i(0); i < m_vVertexShaderSlots.size(); ++i)
+        if (m_vVertexShaderSlots[i].bActive)
+            PrecacheVertexShader(ShaderHandle(i));
 
-	for (uint i(0); i < m_vPixelShaderSlots.size(); ++i)
-		if (m_vPixelShaderSlots[i].bActive)
-			PrecachePixelShader(ShaderHandle(i));
+    for (uint i(0); i < m_vPixelShaderSlots.size(); ++i)
+        if (m_vPixelShaderSlots[i].bActive)
+            PrecachePixelShader(ShaderHandle(i));
 }
 
 
@@ -579,7 +579,7 @@ void	CShaderRegistry::ReloadShaders()
   --------------------*/
 CMD(ReloadShaders)
 {
-	g_ShaderRegistry.ReloadShaders();
-	return true;
+    g_ShaderRegistry.ReloadShaders();
+    return true;
 }
 

@@ -680,7 +680,7 @@ _D3DXMATRIXA16::operator new( size_t s )
     unsigned char* p = ::new unsigned char[s + 16];
     if (p)
     {
-		// UTTAR: Hack: Using size_t for 64-bit compliance
+        // UTTAR: Hack: Using size_t for 64-bit compliance
         unsigned char offset = (unsigned char)(16 - ((size_t)p & 15));
         p += offset;
         p[-1] = offset;
@@ -694,7 +694,7 @@ _D3DXMATRIXA16::operator new[]( size_t s )
     unsigned char* p = ::new unsigned char[s + 16];
     if (p)
     {
-		// UTTAR: Hack: Using size_t for 64-bit compliance
+        // UTTAR: Hack: Using size_t for 64-bit compliance
         unsigned char offset = (unsigned char)(16 - ((size_t)p & 15));
         p += offset;
         p[-1] = offset;

@@ -17,11 +17,11 @@
 class CBuildingAcademy : public IBuildingEntity
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Building, Academy);
+    DECLARE_ENT_ALLOCATOR2(Building, Academy);
 
 public:
-	~CBuildingAcademy()	{}
-	CBuildingAcademy();
+    ~CBuildingAcademy() {}
+    CBuildingAcademy();
 };
 //=============================================================================
 

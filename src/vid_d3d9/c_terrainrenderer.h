@@ -22,31 +22,31 @@
 class CTerrainRenderer : public IRenderer
 {
 private:
-	void	RenderChunk(EMaterialPhase ePhase, int iChunkX, int iChunkY);
-	void	RenderChunkNormals(EMaterialPhase ePhase, int iChunkX, int iChunkY);
-	void	RenderChunkGrid(EMaterialPhase ePhase, int iChunkX, int iChunkY);
-	void	RenderChunkCliffs(EMaterialPhase ePhase, int iChunkX, int iChunkY);
+    void    RenderChunk(EMaterialPhase ePhase, int iChunkX, int iChunkY);
+    void    RenderChunkNormals(EMaterialPhase ePhase, int iChunkX, int iChunkY);
+    void    RenderChunkGrid(EMaterialPhase ePhase, int iChunkX, int iChunkY);
+    void    RenderChunkCliffs(EMaterialPhase ePhase, int iChunkX, int iChunkY);
 
-	bool	m_bFirstChunk;
-	int		m_iAlphaStageIndex;
-	int		m_iDiffuse0StageIndex;
-	int		m_iNormalmap0StageIndex;
-	int		m_iNormalmap01StageIndex;
-	int		m_iDiffuse1StageIndex;
-	int		m_iNormalmap1StageIndex;
-	int		m_iNormalmap11StageIndex;
+    bool    m_bFirstChunk;
+    int     m_iAlphaStageIndex;
+    int     m_iDiffuse0StageIndex;
+    int     m_iNormalmap0StageIndex;
+    int     m_iNormalmap01StageIndex;
+    int     m_iDiffuse1StageIndex;
+    int     m_iNormalmap1StageIndex;
+    int     m_iNormalmap11StageIndex;
 
 public:
-	static CPool<CTerrainRenderer>		s_Pool;
-	
-	void*	operator new(size_t z, const char *szContext = NULL, const char *szType = NULL, const char *szFile = NULL, short nLine = 0); // Uses CPool of preallocated instances
-	void	operator delete(void *p, const char *szContext, const char *szType, const char *szFile, short nLine) { }
+    static CPool<CTerrainRenderer>      s_Pool;
+    
+    void*   operator new(size_t z, const char *szContext = NULL, const char *szType = NULL, const char *szFile = NULL, short nLine = 0); // Uses CPool of preallocated instances
+    void    operator delete(void *p, const char *szContext, const char *szType, const char *szFile, short nLine) { }
 
-	~CTerrainRenderer();
-	CTerrainRenderer();
+    ~CTerrainRenderer();
+    CTerrainRenderer();
 
-	void	Setup(EMaterialPhase ePhase);
-	void	Render(EMaterialPhase ePhase);
+    void    Setup(EMaterialPhase ePhase);
+    void    Render(EMaterialPhase ePhase);
 
 };
 //=============================================================================

@@ -22,7 +22,7 @@
 //=============================================================================
 // Definitions
 //=============================================================================
-CTriggerManager&	TriggerManager(*CTriggerManager::GetInstance());
+CTriggerManager&    TriggerManager(*CTriggerManager::GetInstance());
 SINGLETON_INIT(CTriggerManager)
 //=============================================================================
 
@@ -36,57 +36,57 @@ CTriggerManager::CTriggerManager()
 /*====================
   CTriggerManager::RegisterTriggerParam
   ====================*/
-void	CTriggerManager::RegisterTriggerParam(const tstring &sName, const tstring &sValue)
+void    CTriggerManager::RegisterTriggerParam(const tstring &sName, const tstring &sValue)
 {
-	m_mapTriggerParams[sName] = sValue;
+    m_mapTriggerParams[sName] = sValue;
 }
 
 /*====================
   CTriggerManager::RegisterEntityScript
   ====================*/
-void	CTriggerManager::RegisterEntityScript(uint uiIndex, const tstring &sName, const tstring &sScript)
+void    CTriggerManager::RegisterEntityScript(uint uiIndex, const tstring &sName, const tstring &sScript)
 {
-	map<uint, tsmapts>::iterator findit(m_mapEntityScripts.find(uiIndex));
+    map<uint, tsmapts>::iterator findit(m_mapEntityScripts.find(uiIndex));
 
-	if (findit != m_mapEntityScripts.end())
-		findit->second[sName] = sScript;
-	else
-	{
-		tsmapts mapScript;
-		mapScript[sName] = sScript;
+    if (findit != m_mapEntityScripts.end())
+        findit->second[sName] = sScript;
+    else
+    {
+        tsmapts mapScript;
+        mapScript[sName] = sScript;
 
-		m_mapEntityScripts[uiIndex] = mapScript;
-	}
+        m_mapEntityScripts[uiIndex] = mapScript;
+    }
 }
 
 
 /*====================
   CTriggerManager::CopyEntityScripts
   ====================*/
-void	CTriggerManager::CopyEntityScripts(uint uiFromIndex, uint uiToIndex)
+void    CTriggerManager::CopyEntityScripts(uint uiFromIndex, uint uiToIndex)
 {
-	ClearEntityScripts(uiToIndex);
+    ClearEntityScripts(uiToIndex);
 
-	map<uint, tsmapts>::iterator findit(m_mapEntityScripts.find(uiFromIndex));
+    map<uint, tsmapts>::iterator findit(m_mapEntityScripts.find(uiFromIndex));
 
-	if (findit != m_mapEntityScripts.end())
-		m_mapEntityScripts[uiToIndex] = findit->second;
+    if (findit != m_mapEntityScripts.end())
+        m_mapEntityScripts[uiToIndex] = findit->second;
 }
 
 
 /*====================
   CTriggerManager::TriggerEntityScript
   ====================*/
-bool	CTriggerManager::TriggerEntityScript(uint uiIndex, const tstring &sName)
+bool    CTriggerManager::TriggerEntityScript(uint uiIndex, const tstring &sName)
 {
-	return true;
+    return true;
 }
 
 
 /*====================
   CTriggerManager::TriggerGlobalScript
   ====================*/
-bool	CTriggerManager::TriggerGlobalScript(const tstring &sName)
+bool    CTriggerManager::TriggerGlobalScript(const tstring &sName)
 {
-	return true;
+    return true;
 }

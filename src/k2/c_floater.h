@@ -17,19 +17,19 @@
 class CFloater : public IWidget
 {
 protected:
-	bool	m_bKeepOnScren;
-		//MikeG New Option
-	bool	m_bLockToParent;
+    bool    m_bKeepOnScren;
+        //MikeG New Option
+    bool    m_bLockToParent;
 
 public:
-	~CFloater()	{}
-	K2_API CFloater(CInterface *pInterface, IWidget *pParent, const CWidgetStyle& style);
-		
-		//MikeG
-	void	Render(const CVec2f &vOrigin, int iFlag, float fFade);
-	bool	ProcessInputCursor(const CVec2f &v2CursorPos);
-	void	RecalculatePosition();
-	void	Frame(uint uiFrameLength, bool bProcessFrame);
+    ~CFloater() {}
+    K2_API CFloater(CInterface *pInterface, IWidget *pParent, const CWidgetStyle& style);
+        
+        //MikeG
+    void    Render(const CVec2f &vOrigin, int iFlag, float fFade);
+    bool    ProcessInputCursor(const CVec2f &v2CursorPos);
+    void    RecalculatePosition();
+    void    Frame(uint uiFrameLength, bool bProcessFrame);
 };
 //=============================================================================
 

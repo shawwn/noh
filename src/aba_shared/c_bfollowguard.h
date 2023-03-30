@@ -26,45 +26,45 @@
 class CBFollowGuard : public CBFollow
 {
 private:
-	CBAttack	m_Attack;
-	bool		m_bAttacking;
-	uint		m_uiLastAggroUpdate;
+    CBAttack    m_Attack;
+    bool        m_bAttacking;
+    uint        m_uiLastAggroUpdate;
 
-	EGuardState	m_eGuardState;
-	uint		m_uiGuardStateEndTime;
+    EGuardState m_eGuardState;
+    uint        m_uiGuardStateEndTime;
 
-	mutable bool	m_bIsTravelingRecurseGuard;
+    mutable bool    m_bIsTravelingRecurseGuard;
 
-	void	UpdateAggro();
-	void	Aggro(IUnitEntity *pAttacker, uint uiChaseTime);
+    void    UpdateAggro();
+    void    Aggro(IUnitEntity *pAttacker, uint uiChaseTime);
 
 public:
-	~CBFollowGuard()	{}
-	CBFollowGuard() :
-	m_Attack(INVALID_INDEX),
-	m_bAttacking(false),
-	m_uiLastAggroUpdate(INVALID_TIME),
-	m_bIsTravelingRecurseGuard(false)
-	{
-		SetType(EBT_FOLLOWGUARD);
-	}
+    ~CBFollowGuard()    {}
+    CBFollowGuard() :
+    m_Attack(INVALID_INDEX),
+    m_bAttacking(false),
+    m_uiLastAggroUpdate(INVALID_TIME),
+    m_bIsTravelingRecurseGuard(false)
+    {
+        SetType(EBT_FOLLOWGUARD);
+    }
 
-	virtual void		CopyFrom(const IBehavior* pBehavior);
-	virtual IBehavior*	Clone(CBrain* pNewBrain, IUnitEntity* pNewSelf) const;
+    virtual void        CopyFrom(const IBehavior* pBehavior);
+    virtual IBehavior*  Clone(CBrain* pNewBrain, IUnitEntity* pNewSelf) const;
 
-	virtual void	BeginBehavior();
-	virtual void	ThinkFrame();
-	virtual void	MovementFrame();
-	virtual void	ActionFrame();
-	virtual void	CleanupFrame();
-	virtual void	EndBehavior();
+    virtual void    BeginBehavior();
+    virtual void    ThinkFrame();
+    virtual void    MovementFrame();
+    virtual void    ActionFrame();
+    virtual void    CleanupFrame();
+    virtual void    EndBehavior();
 
-	virtual void	Damaged(IUnitEntity *pAttacker);
-	virtual void	Assist(IUnitEntity *pAlly, IUnitEntity *pAttacker);
+    virtual void    Damaged(IUnitEntity *pAttacker);
+    virtual void    Assist(IUnitEntity *pAlly, IUnitEntity *pAttacker);
 
-	virtual bool	IsIdle() const			{ return m_eGuardState == GUARD_HOLDING; }
-	virtual bool	IsTraveling() const;
-	virtual uint	GetAttackTarget() const	{ return m_bAttacking ? m_Attack.GetAttackTarget() : INVALID_INDEX; }
+    virtual bool    IsIdle() const          { return m_eGuardState == GUARD_HOLDING; }
+    virtual bool    IsTraveling() const;
+    virtual uint    GetAttackTarget() const { return m_bAttacking ? m_Attack.GetAttackTarget() : INVALID_INDEX; }
 };
 //=============================================================================
 

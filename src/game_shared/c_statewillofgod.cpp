@@ -37,6 +37,6 @@ CStateWillOfGod::CStateWillOfGod() :
 IEntityState(GetEntityConfig()),
 m_pEntityConfig(GetEntityConfig())
 {
-	m_modArmor.SetAdd(m_pEntityConfig->GetArmorAdd());
-	m_modArmor.SetMult(m_pEntityConfig->GetArmorMult());
+    m_modArmor.SetAdd(m_pEntityConfig->GetArmorAdd());
+    m_modArmor.SetMult(m_pEntityConfig->GetArmorMult());
 }

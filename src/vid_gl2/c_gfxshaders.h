@@ -14,7 +14,7 @@
 //=============================================================================
 // Definitions
 //=============================================================================
-const int	MAX_SHADERS(2048);
+const int   MAX_SHADERS(2048);
 
 class CShaderVar;
 class CShaderSampler;
@@ -24,48 +24,48 @@ class CPixelShaderFileCallback;
 
 struct SVertexShaderSlot
 {
-	bool						bActive;
-	uint						uiShader;
-	CVertexShaderFileCallback	*pFileCallback;
+    bool                        bActive;
+    uint                        uiShader;
+    CVertexShaderFileCallback   *pFileCallback;
 
-	uint						uiCRC32;
+    uint                        uiCRC32;
 };
 
 struct SPixelShaderSlot
 {
-	bool						bActive;
-	uint						uiShader;
-	CPixelShaderFileCallback	*pFileCallback;
+    bool                        bActive;
+    uint                        uiShader;
+    CPixelShaderFileCallback    *pFileCallback;
 
-	uint						uiCRC32;
+    uint                        uiCRC32;
 };
 
 struct SShaderUniform
 {
-	tstring				sName;
-	GLenum				eType;
-	GLint				iLocation;
-	GLenum				eTextureType;
-	int					iTextureStage;
-	CShaderVar*			pShaderVar;
-	CShaderSampler*		pShaderSampler;
-	uint				uiSubTexture;
+    tstring             sName;
+    GLenum              eType;
+    GLint               iLocation;
+    GLenum              eTextureType;
+    int                 iTextureStage;
+    CShaderVar*         pShaderVar;
+    CShaderSampler*     pShaderSampler;
+    uint                uiSubTexture;
 };
 
 struct SShaderAttribute
 {
-	tstring				sName;
-	GLenum				eType;
-	GLint				iLocation;
+    tstring             sName;
+    GLenum              eType;
+    GLint               iLocation;
 };
 
 struct SShaderProgramSlot
 {
-	bool						bActive;
-	uint						uiProgram;
-	vector<SShaderAttribute>	vAttributes;
-	vector<SShaderUniform>		vUniforms;
-	int							iNumTextureStages;
+    bool                        bActive;
+    uint                        uiProgram;
+    vector<SShaderAttribute>    vAttributes;
+    vector<SShaderUniform>      vUniforms;
+    int                         iNumTextureStages;
 };
 //=============================================================================
 
@@ -76,18 +76,18 @@ class CMaterial;
 class CVertexShader;
 class CPixelShader;
 
-void	D3D_InitShader();
-void	GL_FrameShader();
+void    D3D_InitShader();
+void    GL_FrameShader();
 
-void	GL_DestroyShader();
-void	D3D_ShutdownShader();
+void    GL_DestroyShader();
+void    D3D_ShutdownShader();
 
-extern SVertexShaderSlot			g_aVertexShaderSlots[MAX_SHADERS];
-extern SPixelShaderSlot				g_aPixelShaderSlots[MAX_SHADERS];
-extern SShaderProgramSlot			g_aShaderProgramSlots[MAX_SHADERS];
+extern SVertexShaderSlot            g_aVertexShaderSlots[MAX_SHADERS];
+extern SPixelShaderSlot             g_aPixelShaderSlots[MAX_SHADERS];
+extern SShaderProgramSlot           g_aShaderProgramSlots[MAX_SHADERS];
 
-extern ResHandle					g_hNullMeshVS, g_hNullMeshPS;
-extern ResHandle					g_hCloudTexture;
+extern ResHandle                    g_hNullMeshVS, g_hNullMeshPS;
+extern ResHandle                    g_hCloudTexture;
 
 EXTERN_CVAR_BOOL(vid_shadowFalloff);
 EXTERN_CVAR_BOOL(vid_shaderPrecache);
@@ -102,35 +102,35 @@ EXTERN_CVAR_INT(vid_shaderLightingQuality);
 //=============================================================================
 class CGfxShaders
 {
-	SINGLETON_DEF(CGfxShaders)
+    SINGLETON_DEF(CGfxShaders)
 private:
-	void	UpdateDefineCvarInt(ICvar *pCvar, const string &sDefine);
-	void	UpdateDefineCvarBool(CCvar<bool> *pCvar, const string &sDefine);
+    void    UpdateDefineCvarInt(ICvar *pCvar, const string &sDefine);
+    void    UpdateDefineCvarBool(CCvar<bool> *pCvar, const string &sDefine);
 
-	bool	m_bReloadShaders;
+    bool    m_bReloadShaders;
 
 public:
-	~CGfxShaders();
+    ~CGfxShaders();
 
-	void	Init();
-	void	Frame();
-	void	Shutdown();
+    void    Init();
+    void    Frame();
+    void    Shutdown();
 
-	bool	LoadVertexShader(const tstring &sFilename, int &iIndex);
-	void	FreeVertexShader(int iShaderIndex);
-	bool	LoadPixelShader(const tstring &sFilename, int &iIndex);
-	void	FreePixelShader(int iShaderIndex);
+    bool    LoadVertexShader(const tstring &sFilename, int &iIndex);
+    void    FreeVertexShader(int iShaderIndex);
+    bool    LoadPixelShader(const tstring &sFilename, int &iIndex);
+    void    FreePixelShader(int iShaderIndex);
 
-	int		RegisterVertexShader(CVertexShader *pVertexShader);
-	void	UnregisterVertexShader(CVertexShader *pVertexShader);
+    int     RegisterVertexShader(CVertexShader *pVertexShader);
+    void    UnregisterVertexShader(CVertexShader *pVertexShader);
 
-	int		RegisterPixelShader(CPixelShader *pPixelShader);
-	void	UnregisterPixelShader(CPixelShader *pPixelShader);
-	
-	bool	LinkShaderProgram(int iVertexShader, int iPixelShader, int &iIndex);
-	void	FreeShaderProgram(int iShaderIndex);
+    int     RegisterPixelShader(CPixelShader *pPixelShader);
+    void    UnregisterPixelShader(CPixelShader *pPixelShader);
+    
+    bool    LinkShaderProgram(int iVertexShader, int iPixelShader, int &iIndex);
+    void    FreeShaderProgram(int iShaderIndex);
 
-	void	RegisterShaderPair(CVertexShader *pVertexShader, CPixelShader *pPixelShader);
+    void    RegisterShaderPair(CVertexShader *pVertexShader, CPixelShader *pPixelShader);
 };
 extern CGfxShaders *GfxShaders;
 //=============================================================================

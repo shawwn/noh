@@ -36,19 +36,19 @@ CStateVenus::CStateVenus() :
 IEntityState(GetEntityConfig()),
 m_pEntityConfig(GetEntityConfig())
 {
-	m_modSpeed.SetMult(m_pEntityConfig->GetSpeedMult());
+    m_modSpeed.SetMult(m_pEntityConfig->GetSpeedMult());
 }
 
 
 /*====================
   CStateVenus::StateFrame
   ====================*/
-void	CStateVenus::StateFrame()
+void    CStateVenus::StateFrame()
 {
-	IVisualEntity *pInflictor(Game.GetVisualEntity(m_uiInflictorIndex));
-	IVisualEntity *pOwner(Game.GetVisualEntity(m_uiOwnerIndex));
-	if (pOwner != NULL)
-		pOwner->Damage(m_pEntityConfig->GetDamagePerSecond() * MsToSec(Game.GetFrameLength()), DAMAGE_FLAG_DIRECT, pInflictor, m_unDamageID);
+    IVisualEntity *pInflictor(Game.GetVisualEntity(m_uiInflictorIndex));
+    IVisualEntity *pOwner(Game.GetVisualEntity(m_uiOwnerIndex));
+    if (pOwner != NULL)
+        pOwner->Damage(m_pEntityConfig->GetDamagePerSecond() * MsToSec(Game.GetFrameLength()), DAMAGE_FLAG_DIRECT, pInflictor, m_unDamageID);
 
-	return;
+    return;
 }

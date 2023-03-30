@@ -15,12 +15,12 @@
 class CProjectileLocust : public IProjectile
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Projectile, Locust)
+    DECLARE_ENT_ALLOCATOR2(Projectile, Locust)
 
 public:
-	~CProjectileLocust()	{}
-	CProjectileLocust() :
-	IProjectile(GetEntityConfig())
-	{}
+    ~CProjectileLocust()    {}
+    CProjectileLocust() :
+    IProjectile(GetEntityConfig())
+    {}
 };
 //=============================================================================

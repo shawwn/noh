@@ -25,8 +25,8 @@ m_sFilename(_T("")),
 m_iScale(1),
 m_iCurrentTile(0)
 {
-	for (int i = 0; i < 16; ++i)
-		m_hTiles[i] = INVALID_RESOURCE;
+    for (int i = 0; i < 16; ++i)
+        m_hTiles[i] = INVALID_RESOURCE;
 }
 
 
@@ -40,10 +40,10 @@ m_sFilename(_T("")),
 m_iScale(1),
 m_iCurrentTile(0)
 {
-	for (int i = 0; i < 16; ++i)
-		m_hTiles[i] = INVALID_RESOURCE;
+    for (int i = 0; i < 16; ++i)
+        m_hTiles[i] = INVALID_RESOURCE;
 
-	Load(sFilename);
+    Load(sFilename);
 }
 
 
@@ -52,22 +52,22 @@ m_iCurrentTile(0)
 
   Loads a brush from material xml file
   ====================*/
-bool	CMaterialBrush::Load(const tstring &sFilename)
+bool    CMaterialBrush::Load(const tstring &sFilename)
 {
-	return XMLManager.Process(sFilename, _T("brushmat"), this);
+    return XMLManager.Process(sFilename, _T("brushmat"), this);
 }
 
 
 /*====================
   CMaterialBrush::GetTileIndex
   ====================*/
-int		CMaterialBrush::GetTileIndex(ResHandle hTexture)
+int     CMaterialBrush::GetTileIndex(ResHandle hTexture)
 {
-	for (int i = 0; i < 16; ++i)
-	{
-		if (hTexture == m_hTiles[i])
-			return i;
-	}
+    for (int i = 0; i < 16; ++i)
+    {
+        if (hTexture == m_hTiles[i])
+            return i;
+    }
 
-	return 0;
+    return 0;
 }

@@ -5,9 +5,9 @@ env['GchSh'] = env.GchSh(target = '../vid_common.h.gch/'+build_type+'-'+arch, so
 
 # libs to link against
 if build_type == 'debug':
-	env.Append(LIBS=['k2_debug-'+arch])
+    env.Append(LIBS=['k2_debug-'+arch])
 else:
-	env.Append(LIBS=['k2-'+arch])
+    env.Append(LIBS=['k2-'+arch])
 env.Append(LIBS=['GL', 'GLU', 'X11'])
 
 # cpp defines
@@ -34,16 +34,16 @@ src = getCPPFiles('../vid_gl2.vcproj')
 
 # create the library, dependencies, install to game dir, target
 if build_type == 'debug':
-	libname = 'vid_gl2_debug-'+arch+'.so'
-	env.SharedLibrary(target = libname, source = [src, 'libXNVCtrl/NVCtrl.c'] )
-	env.Depends(libname + '.so', Alias('k2-' + build_type + '-' + arch))
-	env.Install('#../Heroes of Newerth', libname)
-	Alias(project + '-' + build_type + '-' + arch, libname)
-	Alias('install-' + project + '-' + build_type + '-' + arch, '#../Heroes of Newerth/'+libname)
+    libname = 'vid_gl2_debug-'+arch+'.so'
+    env.SharedLibrary(target = libname, source = [src, 'libXNVCtrl/NVCtrl.c'] )
+    env.Depends(libname + '.so', Alias('k2-' + build_type + '-' + arch))
+    env.Install('#../Heroes of Newerth', libname)
+    Alias(project + '-' + build_type + '-' + arch, libname)
+    Alias('install-' + project + '-' + build_type + '-' + arch, '#../Heroes of Newerth/'+libname)
 else:
-	libname = 'vid_gl2-'+arch+'.so'
-	env.SplitSharedLibrary(target = [libname, libname+'.dbg'], source = [src, 'libXNVCtrl/NVCtrl.c'] )
-	env.Depends([libname, libname+'.dbg'], Alias('k2-' + build_type + '-' + arch))
-	env.Install('#../Heroes of Newerth', [libname, libname+'.dbg'])
-	Alias(project + '-' + build_type + '-' + arch, [libname, libname+'.dbg'])
-	Alias('install-' + project + '-' + build_type + '-' + arch, ['#../Heroes of Newerth/'+libname, '#../Heroes of Newerth/'+libname+'.dbg'])
+    libname = 'vid_gl2-'+arch+'.so'
+    env.SplitSharedLibrary(target = [libname, libname+'.dbg'], source = [src, 'libXNVCtrl/NVCtrl.c'] )
+    env.Depends([libname, libname+'.dbg'], Alias('k2-' + build_type + '-' + arch))
+    env.Install('#../Heroes of Newerth', [libname, libname+'.dbg'])
+    Alias(project + '-' + build_type + '-' + arch, [libname, libname+'.dbg'])
+    Alias('install-' + project + '-' + build_type + '-' + arch, ['#../Heroes of Newerth/'+libname, '#../Heroes of Newerth/'+libname+'.dbg'])

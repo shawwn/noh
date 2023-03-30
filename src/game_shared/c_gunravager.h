@@ -17,13 +17,13 @@
 class CGunRavager : public IGunItem
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Gun, Ravager);
+    DECLARE_ENT_ALLOCATOR2(Gun, Ravager);
 
 public:
-	~CGunRavager()	{}
-	CGunRavager() :
-	IGunItem(GetEntityConfig())
-	{}
+    ~CGunRavager()  {}
+    CGunRavager() :
+    IGunItem(GetEntityConfig())
+    {}
 };
 //=============================================================================
 

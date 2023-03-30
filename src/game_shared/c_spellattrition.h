@@ -17,13 +17,13 @@
 class CSpellAttrition : public ISpellItem
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Spell, Attrition);
+    DECLARE_ENT_ALLOCATOR2(Spell, Attrition);
 
 public:
-	~CSpellAttrition()	{}
-	CSpellAttrition() :
-	ISpellItem(GetEntityConfig())
-	{}
+    ~CSpellAttrition()  {}
+    CSpellAttrition() :
+    ISpellItem(GetEntityConfig())
+    {}
 };
 //=============================================================================
 

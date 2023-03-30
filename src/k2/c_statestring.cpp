@@ -24,233 +24,233 @@ m_iModifiedCount(0)
 CStateString::CStateString(const IBuffer &buffer) :
 m_iModifiedCount(0)
 {
-	Set(buffer);
+    Set(buffer);
 }
 
 
 /*====================
   CStateString::GetValue
   ====================*/
-tstring	CStateString::GetValue(const tstring &sState) const
+tstring CStateString::GetValue(const tstring &sState) const
 {
-	smaps_cit it(m_mapProperties.find(TStringToUTF8(sState)));
-	if (it == m_mapProperties.end())
-		return TSNULL;
+    smaps_cit it(m_mapProperties.find(TStringToUTF8(sState)));
+    if (it == m_mapProperties.end())
+        return TSNULL;
 
-	return UTF8ToTString(it->second);
+    return UTF8ToTString(it->second);
 }
 
 
 /*====================
   CStateString::HasState
   ====================*/
-bool	CStateString::HasState(const tstring &sState) const
+bool    CStateString::HasState(const tstring &sState) const
 {
-	smaps_cit it(m_mapProperties.find(TStringToUTF8(sState)));
-	if (it == m_mapProperties.end())
-		return false;
+    smaps_cit it(m_mapProperties.find(TStringToUTF8(sState)));
+    if (it == m_mapProperties.end())
+        return false;
 
-	return true;
+    return true;
 }
 
 
 /*====================
   CStateString::ForEachState
   ====================*/
-void	CStateString::ForEachState(StateStringCallBack pCallBack, bool bLoadJob) const
+void    CStateString::ForEachState(StateStringCallBack pCallBack, bool bLoadJob) const
 {
-	if (pCallBack == NULL)
-		return;
+    if (pCallBack == NULL)
+        return;
 
-	if (Host.IsInGame() || !bLoadJob)
-	{
-		for (smaps_cit it(m_mapProperties.begin()); it != m_mapProperties.end(); ++it)
-			pCallBack(it->first, it->second);
-	}
-	else
-	{
-		class CReadStateStringFunctions : public CLoadJob<smaps>::IFunctions
-		{
-		private:
-			StateStringCallBack m_pCallBack;
+    if (Host.IsInGame() || !bLoadJob)
+    {
+        for (smaps_cit it(m_mapProperties.begin()); it != m_mapProperties.end(); ++it)
+            pCallBack(it->first, it->second);
+    }
+    else
+    {
+        class CReadStateStringFunctions : public CLoadJob<smaps>::IFunctions
+        {
+        private:
+            StateStringCallBack m_pCallBack;
 
-		public:
-			CReadStateStringFunctions(StateStringCallBack pCallBack) :
-			m_pCallBack(pCallBack)
-			{}
+        public:
+            CReadStateStringFunctions(StateStringCallBack pCallBack) :
+            m_pCallBack(pCallBack)
+            {}
 
-			float	Frame(smaps_it &it, float f) const
-			{
-				//SetTitle(_T("Reading state string update"));
-				SetProgress(f);
-				return 0.0f;
-			}
-			float	PostFrame(smaps_it &it, float f) const	{ m_pCallBack(it->first, it->second); ++it; return 1.0f; }
-		};
-		CReadStateStringFunctions fnReadStateString(pCallBack);
-		smaps mapProperties(m_mapProperties);
-		CLoadJob<smaps>	job(mapProperties, &fnReadStateString, LOADING_DISPLAY_INTERFACE);
-		IModalDialog::Show(_T("loading"));
-		job.Execute(m_mapProperties.size());
-	}
+            float   Frame(smaps_it &it, float f) const
+            {
+                //SetTitle(_T("Reading state string update"));
+                SetProgress(f);
+                return 0.0f;
+            }
+            float   PostFrame(smaps_it &it, float f) const  { m_pCallBack(it->first, it->second); ++it; return 1.0f; }
+        };
+        CReadStateStringFunctions fnReadStateString(pCallBack);
+        smaps mapProperties(m_mapProperties);
+        CLoadJob<smaps> job(mapProperties, &fnReadStateString, LOADING_DISPLAY_INTERFACE);
+        IModalDialog::Show(_T("loading"));
+        job.Execute(m_mapProperties.size());
+    }
 }
 
 
 /*====================
   CStateString::Validate
   ====================*/
-void	CStateString::Validate()
+void    CStateString::Validate()
 {
-	PROFILE("CStateString::Validate");
+    PROFILE("CStateString::Validate");
 
-	smaps_it it(m_mapProperties.begin());
-	smaps_it itEnd(m_mapProperties.end());
+    smaps_it it(m_mapProperties.begin());
+    smaps_it itEnd(m_mapProperties.end());
 
-	uint ui(0);
-	uint uiNumProperties(uint(m_mapProperties.size()));
+    uint ui(0);
+    uint uiNumProperties(uint(m_mapProperties.size()));
 
-	while (it != itEnd)
-	{
-		if (ui >= uiNumProperties)
-		{
-			K2System.Error(_T("CStateString::GetDifference: m_mapProperties corrupted"));
-			break;
-		}
+    while (it != itEnd)
+    {
+        if (ui >= uiNumProperties)
+        {
+            K2System.Error(_T("CStateString::GetDifference: m_mapProperties corrupted"));
+            break;
+        }
 
-		++ui;
-		++it;
-	}
+        ++ui;
+        ++it;
+    }
 }
 
 
 /*====================
   CStateString::GetDifference
   ====================*/
-void	CStateString::GetDifference(CStateString &ss)
+void    CStateString::GetDifference(CStateString &ss)
 {
-	PROFILE("CStateString::GetDifference");
+    PROFILE("CStateString::GetDifference");
 
-	smaps &mapDiff(ss.GetPropertyMap());
+    smaps &mapDiff(ss.GetPropertyMap());
 
-	smaps_it it(m_mapProperties.begin());
-	smaps_it itEnd(m_mapProperties.end());
+    smaps_it it(m_mapProperties.begin());
+    smaps_it itEnd(m_mapProperties.end());
 
-	uint ui(0);
-	uint uiNumProperties(uint(m_mapProperties.size()));
+    uint ui(0);
+    uint uiNumProperties(uint(m_mapProperties.size()));
 
-	while (it != itEnd)
-	{
-		if (ui >= uiNumProperties)
-		{
-			K2System.Error(_T("CStateString::GetDifference: m_mapProperties corrupted"));
-			break;
-		}
+    while (it != itEnd)
+    {
+        if (ui >= uiNumProperties)
+        {
+            K2System.Error(_T("CStateString::GetDifference: m_mapProperties corrupted"));
+            break;
+        }
 
-		smaps_it itFind(mapDiff.find(it->first));
+        smaps_it itFind(mapDiff.find(it->first));
 
-		if (itFind != mapDiff.end() && itFind->second == it->second)
-			mapDiff.erase(itFind);
+        if (itFind != mapDiff.end() && itFind->second == it->second)
+            mapDiff.erase(itFind);
 
-		++ui;
-		++it;
-	}
+        ++ui;
+        ++it;
+    }
 }
 
 
 /*====================
   CStateString::Modify
   ====================*/
-void	CStateString::Modify(const IBuffer &buffer)
+void    CStateString::Modify(const IBuffer &buffer)
 {
-	string sKey;
-	string sValue;
-	bool bReadingKey(true);
+    string sKey;
+    string sValue;
+    bool bReadingKey(true);
 
-	uint uiReadPos(0);
-	const char *pBuffer(buffer.Get());
-	
-	while (uiReadPos < buffer.GetLength())
-	{
-		char c(pBuffer[uiReadPos]);
-		++uiReadPos;
+    uint uiReadPos(0);
+    const char *pBuffer(buffer.Get());
+    
+    while (uiReadPos < buffer.GetLength())
+    {
+        char c(pBuffer[uiReadPos]);
+        ++uiReadPos;
 
-		if (c == STATE_STRING_SEPERATOR)
-		{
-			if (bReadingKey)
-			{
-				bReadingKey = false;
-				continue;
-			}
+        if (c == STATE_STRING_SEPERATOR)
+        {
+            if (bReadingKey)
+            {
+                bReadingKey = false;
+                continue;
+            }
 
-			m_mapProperties[sKey] = sValue;
-			bReadingKey = true;
-			sKey.clear();
-			sValue.clear();
-			continue;
-		}
+            m_mapProperties[sKey] = sValue;
+            bReadingKey = true;
+            sKey.clear();
+            sValue.clear();
+            continue;
+        }
 
-		if (bReadingKey)
-			sKey += c;
-		else
-			sValue += c;
-	}
+        if (bReadingKey)
+            sKey += c;
+        else
+            sValue += c;
+    }
 }
 
 
 /*====================
   CStateString::Set
   ====================*/
-void	CStateString::Set(const string &sBuffer)
+void    CStateString::Set(const string &sBuffer)
 {
-	m_mapProperties.clear();
+    m_mapProperties.clear();
 
-	string sKey;
-	string sValue;
-	bool bReadingKey(true);
-	
-	for (string::const_iterator cit(sBuffer.begin()); cit != sBuffer.end(); ++cit)
-	{
-		char c(*cit);
+    string sKey;
+    string sValue;
+    bool bReadingKey(true);
+    
+    for (string::const_iterator cit(sBuffer.begin()); cit != sBuffer.end(); ++cit)
+    {
+        char c(*cit);
 
-		if (c == STATE_STRING_SEPERATOR)
-		{
-			if (bReadingKey)
-			{
-				bReadingKey = false;
-				continue;
-			}
+        if (c == STATE_STRING_SEPERATOR)
+        {
+            if (bReadingKey)
+            {
+                bReadingKey = false;
+                continue;
+            }
 
-			m_mapProperties[sKey] = sValue;
-			bReadingKey = true;
-			sKey.clear();
-			sValue.clear();
-			continue;
-		}
+            m_mapProperties[sKey] = sValue;
+            bReadingKey = true;
+            sKey.clear();
+            sValue.clear();
+            continue;
+        }
 
-		if (bReadingKey)
-			sKey += c;
-		else
-			sValue += c;
-	}
+        if (bReadingKey)
+            sKey += c;
+        else
+            sValue += c;
+    }
 }
 
 
 /*====================
   CStateString::AppendToBuffer
   ====================*/
-void	CStateString::AppendToBuffer(IBuffer &buffer) const
+void    CStateString::AppendToBuffer(IBuffer &buffer) const
 {
-	for (smaps_cit it(m_mapProperties.begin()); it != m_mapProperties.end(); ++it)
-		buffer << it->first << STATE_STRING_SEPERATOR << it->second << STATE_STRING_SEPERATOR;
+    for (smaps_cit it(m_mapProperties.begin()); it != m_mapProperties.end(); ++it)
+        buffer << it->first << STATE_STRING_SEPERATOR << it->second << STATE_STRING_SEPERATOR;
 }
 
-void	CStateString::AppendToBuffer(string &sBuffer) const
+void    CStateString::AppendToBuffer(string &sBuffer) const
 {
-	for (smaps_cit it(m_mapProperties.begin()); it != m_mapProperties.end(); ++it)
-	{
-		sBuffer += it->first;
-		sBuffer += STATE_STRING_SEPERATOR;
-		sBuffer += it->second;
-		sBuffer += STATE_STRING_SEPERATOR;
-	}
+    for (smaps_cit it(m_mapProperties.begin()); it != m_mapProperties.end(); ++it)
+    {
+        sBuffer += it->first;
+        sBuffer += STATE_STRING_SEPERATOR;
+        sBuffer += it->second;
+        sBuffer += STATE_STRING_SEPERATOR;
+    }
 }

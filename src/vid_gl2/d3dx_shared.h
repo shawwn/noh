@@ -98,8 +98,8 @@ typedef struct _D3DVIEWPORT9 {
     unsigned long       Y;            /* Viewport Top left */
     unsigned long       Width;
     unsigned long       Height;       /* Viewport Dimensions */
-    float				MinZ;         /* Min/max of clip Volume */
-    float				MaxZ;
+    float               MinZ;         /* Min/max of clip Volume */
+    float               MaxZ;
 } D3DVIEWPORT9;
 
 //===========================================================================

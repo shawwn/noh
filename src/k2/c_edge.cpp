@@ -26,9 +26,9 @@ v3Point(a)
 /*====================
   CEdge::Transform
   ====================*/
-void	CEdge::Transform(const CAxis &aAxis, const CVec3f &v3Pos, float fScale)
+void    CEdge::Transform(const CAxis &aAxis, const CVec3f &v3Pos, float fScale)
 {
-	v3Point = TransformPoint(v3Point, aAxis, v3Pos, fScale);	// Transform point
-	v3Normal = TransformPoint(v3Normal, aAxis);					// Rotate normal
-	v3Normal.Normalize();										// Renormalized
+    v3Point = TransformPoint(v3Point, aAxis, v3Pos, fScale);    // Transform point
+    v3Normal = TransformPoint(v3Normal, aAxis);                 // Rotate normal
+    v3Normal.Normalize();                                       // Renormalized
 }

@@ -10,12 +10,12 @@
 //=============================================================================
 class CHeapFactory
 {
-	DECLARE_SINGLETON(CHeapFactory)
+    DECLARE_SINGLETON(CHeapFactory)
 
 private:
 
 public:
-	CHeap*	GetHeap(const char *szName);
+    CHeap*  GetHeap(const char *szName);
 };
 //=============================================================================
 
@@ -23,9 +23,9 @@ public:
 extern SHARED_API CHeapFactory *g_pHeapFactory;
 
 #ifdef SHARED_EXPORTS
-#define HeapFactory	(*CHeapFactory::GetInstance())
+#define HeapFactory (*CHeapFactory::GetInstance())
 #else
-#define HeapFactory	(*g_pHeapFactory)
+#define HeapFactory (*g_pHeapFactory)
 #endif
 
 #endif //__C_HEAPFACTORY_H__

@@ -17,15 +17,15 @@
 class CGadgetOfficerSpawnFlag : public IGadgetEntity
 {
 private:
-	DECLARE_ENT_ALLOCATOR(Gadget, OfficerSpawnFlag);
-	static CEntityConfig	s_EntityConfig;
+    DECLARE_ENT_ALLOCATOR(Gadget, OfficerSpawnFlag);
+    static CEntityConfig    s_EntityConfig;
 
 public:
-	~CGadgetOfficerSpawnFlag()	{}
-	CGadgetOfficerSpawnFlag();
+    ~CGadgetOfficerSpawnFlag()  {}
+    CGadgetOfficerSpawnFlag();
 
-	void	Spawn();
-	void	Kill(IGameEntity *pAttacker = NULL);
+    void    Spawn();
+    void    Kill(IGameEntity *pAttacker = NULL);
 };
 //=============================================================================
 

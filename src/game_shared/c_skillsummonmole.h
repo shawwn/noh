@@ -17,13 +17,13 @@
 class CSkillSummonMole : public ISkillDeploy
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Skill, SummonMole);
+    DECLARE_ENT_ALLOCATOR2(Skill, SummonMole);
 
 public:
-	~CSkillSummonMole()	{}
-	CSkillSummonMole() :
-	ISkillDeploy(GetEntityConfig())
-	{}
+    ~CSkillSummonMole() {}
+    CSkillSummonMole() :
+    ISkillDeploy(GetEntityConfig())
+    {}
 };
 //=============================================================================
 

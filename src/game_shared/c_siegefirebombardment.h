@@ -17,13 +17,13 @@
 class CSiegeFireBombardment : public ISiegeItem
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Siege, FireBombardment);
+    DECLARE_ENT_ALLOCATOR2(Siege, FireBombardment);
 
 public:
-	~CSiegeFireBombardment()	{}
-	CSiegeFireBombardment() :
-	ISiegeItem(GetEntityConfig())
-	{}
+    ~CSiegeFireBombardment()    {}
+    CSiegeFireBombardment() :
+    ISiegeItem(GetEntityConfig())
+    {}
 };
 //=============================================================================
 

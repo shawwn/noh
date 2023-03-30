@@ -17,13 +17,13 @@
 class CSpellReincarnate : public ISpellRevive
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Spell, Reincarnate)
+    DECLARE_ENT_ALLOCATOR2(Spell, Reincarnate)
 
 public:
-	~CSpellReincarnate()	{}
-	CSpellReincarnate() :
-	ISpellRevive(GetEntityConfig())
-	{}
+    ~CSpellReincarnate()    {}
+    CSpellReincarnate() :
+    ISpellRevive(GetEntityConfig())
+    {}
 };
 //=============================================================================
 

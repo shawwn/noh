@@ -27,15 +27,15 @@ class CScriptThread;
 class CScriptDirectory
 {
 private:
-	list<CScriptThread *>			m_lScripts;
+    list<CScriptThread *>           m_lScripts;
 
 public:
-	GAME_SHARED_API ~CScriptDirectory();
-	GAME_SHARED_API CScriptDirectory();
+    GAME_SHARED_API ~CScriptDirectory();
+    GAME_SHARED_API CScriptDirectory();
 
-	GAME_SHARED_API CScriptThread*	SpawnThread(const tstring &sName, uint uiTime);
+    GAME_SHARED_API CScriptThread*  SpawnThread(const tstring &sName, uint uiTime);
 
-	GAME_SHARED_API void	Frame();
+    GAME_SHARED_API void    Frame();
 };
 //=============================================================================
 

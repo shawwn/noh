@@ -17,14 +17,14 @@
 class CStateBash : public IEntityState
 {
 private:
-	DECLARE_STATE_ALLOCATOR(Bash);
-	DECLARE_ENTITY_STATE_CVARS;
+    DECLARE_STATE_ALLOCATOR(Bash);
+    DECLARE_ENTITY_STATE_CVARS;
 
 public:
-	~CStateBash();
-	CStateBash();
+    ~CStateBash();
+    CStateBash();
 
-	void	DoAttack(CMeleeAttackEvent &attack);
+    void    DoAttack(CMeleeAttackEvent &attack);
 };
 //=============================================================================
 

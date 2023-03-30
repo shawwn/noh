@@ -29,84 +29,84 @@ const uint NUM_BUILDING_TARGETS(5);
 //=============================================================================
 class IBuildingEntity : public IUnitEntity
 {
-	DECLARE_ENTITY_DESC
+    DECLARE_ENTITY_DESC
 
 public:
-	typedef CBuildingDefinition TDefinition;
+    typedef CBuildingDefinition TDefinition;
 
 protected:
-	uint			m_uiLastGameTime;
-	uint			m_uiLastDamageTime;
-	uint			m_uiLastAttackAnnounce;
-	bool			m_bLowHealthEffectActive;
+    uint            m_uiLastGameTime;
+    uint            m_uiLastDamageTime;
+    uint            m_uiLastAttackAnnounce;
+    bool            m_bLowHealthEffectActive;
 
-	tstring			m_asTargets[NUM_BUILDING_TARGETS];
-	uint			m_auiTargetUIDs[NUM_BUILDING_TARGETS];
+    tstring         m_asTargets[NUM_BUILDING_TARGETS];
+    uint            m_auiTargetUIDs[NUM_BUILDING_TARGETS];
 
 public:
-	virtual ~IBuildingEntity();
-	IBuildingEntity();
+    virtual ~IBuildingEntity();
+    IBuildingEntity();
 
-	SUB_ENTITY_ACCESSOR(IBuildingEntity, Building)
+    SUB_ENTITY_ACCESSOR(IBuildingEntity, Building)
 
-	virtual void			SetTeam(uint uiTeam);
+    virtual void            SetTeam(uint uiTeam);
 
-	virtual void			Baseline();
-	virtual void			GetSnapshot(CEntitySnapshot &snapshot, uint uiFlags) const;
-	virtual bool			ReadSnapshot(CEntitySnapshot &snapshot, uint uiVersion);
+    virtual void            Baseline();
+    virtual void            GetSnapshot(CEntitySnapshot &snapshot, uint uiFlags) const;
+    virtual bool            ReadSnapshot(CEntitySnapshot &snapshot, uint uiVersion);
 
-	virtual CSkeleton*		AllocateSkeleton();
-	virtual void			UpdateSkeleton(bool bPose);
+    virtual CSkeleton*      AllocateSkeleton();
+    virtual void            UpdateSkeleton(bool bPose);
 
-	virtual void			ApplyWorldEntity(const CWorldEntity &ent);
+    virtual void            ApplyWorldEntity(const CWorldEntity &ent);
 
-	virtual void			Spawn();
-	virtual void			Die(IUnitEntity *pAttacker = NULL, ushort unKillingObjectID = INVALID_ENT_TYPE);
+    virtual void            Spawn();
+    virtual void            Die(IUnitEntity *pAttacker = NULL, ushort unKillingObjectID = INVALID_ENT_TYPE);
 
-	virtual void			GameStart();
+    virtual void            GameStart();
 
-	virtual void			DamageNotification(uint uiIndex, uint uiAttacker, float fDamage)	{}
+    virtual void            DamageNotification(uint uiIndex, uint uiAttacker, float fDamage)    {}
 
-	virtual bool			ServerFrameSetup();
-	virtual bool			ServerFrameThink();
-	virtual bool			ServerFrameMovement();
+    virtual bool            ServerFrameSetup();
+    virtual bool            ServerFrameThink();
+    virtual bool            ServerFrameMovement();
 
-	virtual void			Damage(CDamageEvent &damage);
+    virtual void            Damage(CDamageEvent &damage);
 
-	virtual bool			AddToScene(const CVec4f &v4Color, int iFlags);
+    virtual bool            AddToScene(const CVec4f &v4Color, int iFlags);
 
-	virtual float			GetMapIconSize(CPlayer *pLocalPlayer) const		{ return g_buildingMapIconSize; }
-	virtual bool			IsVisibleOnMap(CPlayer *pLocalPlayer) const		{ return GetStatus() == ENTITY_STATUS_ACTIVE && GetDrawOnMap(); }
+    virtual float           GetMapIconSize(CPlayer *pLocalPlayer) const     { return g_buildingMapIconSize; }
+    virtual bool            IsVisibleOnMap(CPlayer *pLocalPlayer) const     { return GetStatus() == ENTITY_STATUS_ACTIVE && GetDrawOnMap(); }
 
-	virtual uint			GetLinkFlags();
-	virtual void			Link();
-	virtual void			Unlink();
+    virtual uint            GetLinkFlags();
+    virtual void            Link();
+    virtual void            Unlink();
 
-	ENTITY_DEFINITION_RESOURCE_ACCESSOR(DestroyedSound)
-	ENTITY_DEFINITION_RESOURCE_ACCESSOR(LowHealthSound)
-	ENTITY_DEFINITION_RESOURCE_ACCESSOR(LowHealthEffect)
-	ENTITY_DEFINITION_ACCESSOR(bool, IsShop)
-	ENTITY_DEFINITION_ACCESSOR(bool, IsBase)
-	ENTITY_DEFINITION_ACCESSOR(bool, IsTower)
-	ENTITY_DEFINITION_ACCESSOR(bool, IsRax)
-	ENTITY_DEFINITION_ACCESSOR(const tstring&, DefaultShop)
+    ENTITY_DEFINITION_RESOURCE_ACCESSOR(DestroyedSound)
+    ENTITY_DEFINITION_RESOURCE_ACCESSOR(LowHealthSound)
+    ENTITY_DEFINITION_RESOURCE_ACCESSOR(LowHealthEffect)
+    ENTITY_DEFINITION_ACCESSOR(bool, IsShop)
+    ENTITY_DEFINITION_ACCESSOR(bool, IsBase)
+    ENTITY_DEFINITION_ACCESSOR(bool, IsTower)
+    ENTITY_DEFINITION_ACCESSOR(bool, IsRax)
+    ENTITY_DEFINITION_ACCESSOR(const tstring&, DefaultShop)
 
-	void			SetTarget(uint uiIndex, const tstring &sTarget)	{ m_asTargets[CLAMP(uiIndex, 0u, NUM_BUILDING_TARGETS)] = sTarget; }
-	const tstring&	GetTarget(uint uiIndex) const					{ return m_asTargets[CLAMP(uiIndex, 0u, NUM_BUILDING_TARGETS)]; }
+    void            SetTarget(uint uiIndex, const tstring &sTarget) { m_asTargets[CLAMP(uiIndex, 0u, NUM_BUILDING_TARGETS)] = sTarget; }
+    const tstring&  GetTarget(uint uiIndex) const                   { return m_asTargets[CLAMP(uiIndex, 0u, NUM_BUILDING_TARGETS)]; }
 
-	// Operators
-	virtual void			Copy(const IGameEntity &B);
+    // Operators
+    virtual void            Copy(const IGameEntity &B);
 
-	static void				ClientPrecache(CEntityConfig *pConfig, EPrecacheScheme eScheme);
-	static void				ServerPrecache(CEntityConfig *pConfig, EPrecacheScheme eScheme);
+    static void             ClientPrecache(CEntityConfig *pConfig, EPrecacheScheme eScheme);
+    static void             ServerPrecache(CEntityConfig *pConfig, EPrecacheScheme eScheme);
 
-	virtual float			GetThreatLevel(IUnitEntity *pOther, bool bCurrentTarget);
+    virtual float           GetThreatLevel(IUnitEntity *pOther, bool bCurrentTarget);
 
-	uint					GetLastDamageTime() const		{ return m_uiLastDamageTime; }
+    uint                    GetLastDamageTime() const       { return m_uiLastDamageTime; }
 
-	void					SetLastAttackAnnouncement(uint uiTime)	{ m_uiLastAttackAnnounce = uiTime; }
+    void                    SetLastAttackAnnouncement(uint uiTime)  { m_uiLastAttackAnnounce = uiTime; }
 
-	virtual float			GetBaseArmor() const;
+    virtual float           GetBaseArmor() const;
 };
 //=============================================================================
 

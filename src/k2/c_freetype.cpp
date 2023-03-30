@@ -14,8 +14,8 @@
 //=============================================================================
 // Globals
 //=============================================================================
-FT_Library	IFreeTypeResource::s_FTLibrary(NULL);
-bool		IFreeTypeResource::s_bInitialized(false);
+FT_Library  IFreeTypeResource::s_FTLibrary(NULL);
+bool        IFreeTypeResource::s_bInitialized(false);
 //=============================================================================
 
 /*====================
@@ -38,20 +38,20 @@ IResource(sPath, sName)
 /*====================
   IFreeTypeResource::GetFreetypeLib
   ====================*/
-FT_Library	IFreeTypeResource::GetFreetypeLib()
+FT_Library  IFreeTypeResource::GetFreetypeLib()
 {
-	try
-	{
-		if (s_bInitialized)
-			return s_FTLibrary;
+    try
+    {
+        if (s_bInitialized)
+            return s_FTLibrary;
 
-		if (FT_Init_FreeType(&s_FTLibrary) != 0)
-			throw CException(_T("Failed initializing FreeType"), E_FATAL);
-	}
-	catch (CException &ex)
-	{
-		ex.Process(_T("CFontMap::GetFreeTypeLib() - "));
-	};
+        if (FT_Init_FreeType(&s_FTLibrary) != 0)
+            throw CException(_T("Failed initializing FreeType"), E_FATAL);
+    }
+    catch (CException &ex)
+    {
+        ex.Process(_T("CFontMap::GetFreeTypeLib() - "));
+    };
 
-	return s_FTLibrary;
+    return s_FTLibrary;
 }

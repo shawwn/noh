@@ -19,24 +19,24 @@
 class CPlayerObserver : public IPlayerEntity
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Player, Observer);
+    DECLARE_ENT_ALLOCATOR2(Player, Observer);
 
 public:
-	~CPlayerObserver()	{}
-	CPlayerObserver() :
-	IPlayerEntity(GetEntityConfig())
-	{}
+    ~CPlayerObserver()  {}
+    CPlayerObserver() :
+    IPlayerEntity(GetEntityConfig())
+    {}
 
-	bool		HasAltInfo() const						{ return false; }
+    bool        HasAltInfo() const                      { return false; }
 
-	virtual bool		IsObserver() const				{ return true; }
-	virtual bool		IsStealthed()					{ return true; }
+    virtual bool        IsObserver() const              { return true; }
+    virtual bool        IsStealthed()                   { return true; }
 
-	CSkeleton*	AllocateSkeleton()						{ return NULL; }
+    CSkeleton*  AllocateSkeleton()                      { return NULL; }
 
-	void		Move(const CClientSnapshot &snapshot)	{ MoveFly(snapshot); }
+    void        Move(const CClientSnapshot &snapshot)   { MoveFly(snapshot); }
 
-	GAME_SHARED_API virtual bool	AIShouldTarget()	{ return false; }
+    GAME_SHARED_API virtual bool    AIShouldTarget()    { return false; }
 };
 //=============================================================================
 

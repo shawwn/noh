@@ -29,21 +29,21 @@ const int MAX_ACTIVE_GAME_EVENTS(256);
 class CEventDirectory
 {
 private:
-	uint				m_uiNextEvent;
-	deque<CGameEvent>	m_deqEvents;
-	CBufferDynamic		m_buffer;
+    uint                m_uiNextEvent;
+    deque<CGameEvent>   m_deqEvents;
+    CBufferDynamic      m_buffer;
 
 public:
-	GAME_SHARED_API ~CEventDirectory();
-	GAME_SHARED_API CEventDirectory();
+    GAME_SHARED_API ~CEventDirectory();
+    GAME_SHARED_API CEventDirectory();
 
-	GAME_SHARED_API void	Clear();
-	GAME_SHARED_API uint	AddEvent(const CGameEvent &ev);		
-	GAME_SHARED_API void	DeleteEvent(uint uiEvent);
-	GAME_SHARED_API void	GetSnapshot(CSnapshot &snapshot);
-	GAME_SHARED_API void	Frame();
-	GAME_SHARED_API void	SynchNewEvents();
-	GAME_SHARED_API void	DeleteRelatedEvents(uint uiIndex);
+    GAME_SHARED_API void    Clear();
+    GAME_SHARED_API uint    AddEvent(const CGameEvent &ev);     
+    GAME_SHARED_API void    DeleteEvent(uint uiEvent);
+    GAME_SHARED_API void    GetSnapshot(CSnapshot &snapshot);
+    GAME_SHARED_API void    Frame();
+    GAME_SHARED_API void    SynchNewEvents();
+    GAME_SHARED_API void    DeleteRelatedEvents(uint uiIndex);
 };
 //=============================================================================
 

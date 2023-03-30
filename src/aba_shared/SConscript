@@ -5,9 +5,9 @@ env['GchSh'] = env.GchSh(target = '../game_shared_common.h.gch/'+build_type+'-'+
 
 # libs to link against
 if build_type == 'debug':
-	env.Append(LIBS=['k2_debug-'+arch])
+    env.Append(LIBS=['k2_debug-'+arch])
 else:
-	env.Append(LIBS=['k2-'+arch])
+    env.Append(LIBS=['k2-'+arch])
 
 # cpp defines
 env.Append(CPPDEFINES = ['K2_DLL', 'GAME_SHARED_DLL', 'GAME_SHARED_EXPORTS'])
@@ -24,16 +24,16 @@ src = getCPPFiles('../game_shared.vcproj')
 
 # create the library, dependencies, install to game dir, target
 if build_type == 'debug':
-	libname = 'game_shared_debug-'+arch+'.so'
-	env.SharedLibrary(target = libname, source = src)
-	env.Depends('lib'+libname, Alias('k2-' + build_type + '-' + arch))
-	env.Install('#../Heroes of Newerth/game', 'lib'+libname)
-	Alias(project + '-' + build_type + '-' + arch, 'lib'+libname)
-	Alias('install-' + project + '-' + build_type + '-' + arch, '#../Heroes of Newerth/game/lib'+libname)
+    libname = 'game_shared_debug-'+arch+'.so'
+    env.SharedLibrary(target = libname, source = src)
+    env.Depends('lib'+libname, Alias('k2-' + build_type + '-' + arch))
+    env.Install('#../Heroes of Newerth/game', 'lib'+libname)
+    Alias(project + '-' + build_type + '-' + arch, 'lib'+libname)
+    Alias('install-' + project + '-' + build_type + '-' + arch, '#../Heroes of Newerth/game/lib'+libname)
 else:
-	libname = 'game_shared-'+arch+'.so'
-	env.SplitSharedLibrary(target = [libname, libname+'.dbg'], source = src)
-	env.Depends(['lib'+libname, 'lib'+libname+'.dbg'], Alias('k2-' + build_type + '-' + arch))
-	env.Install('#../Heroes of Newerth/game', ['lib'+libname, 'lib'+libname+'.dbg'])
-	Alias(project + '-' + build_type + '-' + arch, ['lib'+libname, 'lib'+libname+'.dbg'])
-	Alias('install-' + project + '-' + build_type + '-' + arch, ['#../Heroes of Newerth/game/lib'+libname, '#../Heroes of Newerth/game/lib'+libname+'.dbg'])
+    libname = 'game_shared-'+arch+'.so'
+    env.SplitSharedLibrary(target = [libname, libname+'.dbg'], source = src)
+    env.Depends(['lib'+libname, 'lib'+libname+'.dbg'], Alias('k2-' + build_type + '-' + arch))
+    env.Install('#../Heroes of Newerth/game', ['lib'+libname, 'lib'+libname+'.dbg'])
+    Alias(project + '-' + build_type + '-' + arch, ['lib'+libname, 'lib'+libname+'.dbg'])
+    Alias('install-' + project + '-' + build_type + '-' + arch, ['#../Heroes of Newerth/game/lib'+libname, '#../Heroes of Newerth/game/lib'+libname+'.dbg'])

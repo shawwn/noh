@@ -17,13 +17,13 @@
 class CSpellCommanderSpeedBoost : public ISpellItem
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Spell, CommanderSpeedBoost)
+    DECLARE_ENT_ALLOCATOR2(Spell, CommanderSpeedBoost)
 
 public:
-	~CSpellCommanderSpeedBoost()	{}
-	CSpellCommanderSpeedBoost() :
-	ISpellItem(GetEntityConfig())
-	{}
+    ~CSpellCommanderSpeedBoost()    {}
+    CSpellCommanderSpeedBoost() :
+    ISpellItem(GetEntityConfig())
+    {}
 };
 //=============================================================================
 

@@ -17,13 +17,13 @@
 class CSpellCommanderResurrect : public ISpellRevive
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Spell, CommanderResurrect);
+    DECLARE_ENT_ALLOCATOR2(Spell, CommanderResurrect);
 
 public:
-	~CSpellCommanderResurrect()	{}
-	CSpellCommanderResurrect() :
-	ISpellRevive(GetEntityConfig())
-	{}
+    ~CSpellCommanderResurrect() {}
+    CSpellCommanderResurrect() :
+    ISpellRevive(GetEntityConfig())
+    {}
 };
 //=============================================================================
 

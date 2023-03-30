@@ -61,40 +61,40 @@ param(0.0f)
 /*====================
   CSceneEntity::Clear
   ====================*/
-void	CSceneEntity::Clear()
+void    CSceneEntity::Clear()
 {
-	m_v3Position.Clear();
+    m_v3Position.Clear();
 
-	angle.Clear();
-	axis.Clear();
-	scale = 1.0f;
+    angle.Clear();
+    axis.Clear();
+    scale = 1.0f;
 
-	hRes = INVALID_RESOURCE;
-	hSkin = 0;
+    hRes = INVALID_RESOURCE;
+    hSkin = 0;
 
-	s1 = 0.0f;
-	t1 = 0.0f;
-	s2 = 1.0f;
-	t2 = 1.0f;
+    s1 = 0.0f;
+    t1 = 0.0f;
+    s2 = 1.0f;
+    t2 = 1.0f;
 
-	color = CVec4f(1.0f, 1.0f, 1.0f, 1.0f);
+    color = CVec4f(1.0f, 1.0f, 1.0f, 1.0f);
 
-	skeleton = NULL;
+    skeleton = NULL;
 
-	width = 0.0f;
-	height = 0.0f;
+    width = 0.0f;
+    height = 0.0f;
 
-	objtype = OBJTYPE_MODEL;
+    objtype = OBJTYPE_MODEL;
 
-	flags = 0;
+    flags = 0;
 
-	custom_mapping = NULL;
+    custom_mapping = NULL;
 
-	effectlayer = 0;
-	effectdepth = 0.0f;
+    effectlayer = 0;
+    effectdepth = 0.0f;
 
-	frame = 0.0f;
-	param = 0.0f;
+    frame = 0.0f;
+    param = 0.0f;
 
-	teamcolor = CVec4f(1.0f, 1.0f, 1.0f, 1.0f);
+    teamcolor = CVec4f(1.0f, 1.0f, 1.0f, 1.0f);
 }

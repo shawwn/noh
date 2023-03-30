@@ -17,13 +17,13 @@
 class CSpellCommanderCripple : public ISpellItem
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Spell, CommanderCripple)
+    DECLARE_ENT_ALLOCATOR2(Spell, CommanderCripple)
 
 public:
-	~CSpellCommanderCripple()	{}
-	CSpellCommanderCripple() :
-	ISpellItem(GetEntityConfig())
-	{}
+    ~CSpellCommanderCripple()   {}
+    CSpellCommanderCripple() :
+    ISpellItem(GetEntityConfig())
+    {}
 };
 //=============================================================================
 

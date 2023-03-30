@@ -14,9 +14,9 @@
 //=============================================================================
 // Definitions
 //=============================================================================
-CTeamDefinition	g_teamdefNeutral(_T("Neutral"));
-CTeamDefinition	g_teamdefHuman(_T("Human"));
-CTeamDefinition	g_teamdefBeast(_T("Beast"));
+CTeamDefinition g_teamdefNeutral(_T("Neutral"));
+CTeamDefinition g_teamdefHuman(_T("Human"));
+CTeamDefinition g_teamdefBeast(_T("Beast"));
 //=============================================================================
 
 /*====================
@@ -31,25 +31,25 @@ INIT_TEAM_DEFINITION_SETTING(String, ResableEffect),
 INIT_TEAM_DEFINITION_SETTING(String, SquadNames),
 INIT_TEAM_DEFINITION_SETTING(String, SquadColors)
 {
-	Update(true);
+    Update(true);
 }
 
 
 /*====================
   CTeamDefinition::Update
   ====================*/
-void	CTeamDefinition::Update(bool bForceUpdate)
+void    CTeamDefinition::Update(bool bForceUpdate)
 {
-	UPDATE_TEAM_DEFINITION_SETTING(BaseBuildingName)
-	UPDATE_TEAM_DEFINITION_SETTING(OfficerSkill)
-	UPDATE_TEAM_DEFINITION_SETTING(WorkerName)
-	UPDATE_TEAM_DEFINITION_SETTING(ResableEffect)
+    UPDATE_TEAM_DEFINITION_SETTING(BaseBuildingName)
+    UPDATE_TEAM_DEFINITION_SETTING(OfficerSkill)
+    UPDATE_TEAM_DEFINITION_SETTING(WorkerName)
+    UPDATE_TEAM_DEFINITION_SETTING(ResableEffect)
 
-	START_UPDATE_TEAM_DEFINITION_SETTING(SquadNames)
-		m_vSquadNames = TokenizeString(m_SquadNames, _T(','));
-	END_UPDATE_TEAM_DEFINITION_SETTING(SquadNames)
+    START_UPDATE_TEAM_DEFINITION_SETTING(SquadNames)
+        m_vSquadNames = TokenizeString(m_SquadNames, _T(','));
+    END_UPDATE_TEAM_DEFINITION_SETTING(SquadNames)
 
-	START_UPDATE_TEAM_DEFINITION_SETTING(SquadColors)
-		m_vSquadColors = TokenizeString(m_SquadColors, _T(','));
-	END_UPDATE_TEAM_DEFINITION_SETTING(SquadColors)
+    START_UPDATE_TEAM_DEFINITION_SETTING(SquadColors)
+        m_vSquadColors = TokenizeString(m_SquadColors, _T(','));
+    END_UPDATE_TEAM_DEFINITION_SETTING(SquadColors)
 }

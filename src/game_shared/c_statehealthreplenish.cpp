@@ -35,5 +35,5 @@ CStateHealthReplenish::CStateHealthReplenish() :
 IEntityState(GetEntityConfig()),
 m_pEntityConfig(GetEntityConfig())
 {
-	m_modHealthRegen.SetAdd(m_pEntityConfig->GetHealthRegenBoost());
+    m_modHealthRegen.SetAdd(m_pEntityConfig->GetHealthRegenBoost());
 }

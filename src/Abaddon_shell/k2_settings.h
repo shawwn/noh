@@ -21,7 +21,7 @@
 #endif
 //#define K2_NOSOUND
 
-#define TERRAIN_OCCLUSION	0
+#define TERRAIN_OCCLUSION   0
 const bool REQUIRE_AUTHENTICATION(false);
 
 //#define K2_PATHFINDING_RESPECTS_TEAM_VISION
@@ -49,9 +49,9 @@ const bool REQUIRE_AUTHENTICATION(false);
 #endif
 
 #ifdef USE_SECURE_CRT
-#define	SECURE_CRT_STRING _T(" [SECURE CRT]")
+#define SECURE_CRT_STRING _T(" [SECURE CRT]")
 #else
-#define	SECURE_CRT_STRING _T("")
+#define SECURE_CRT_STRING _T("")
 #endif
 
 #ifdef _DEBUG
@@ -67,11 +67,11 @@ const bool REQUIRE_AUTHENTICATION(false);
 #endif
 
 #ifdef K2_GARENA
-	#ifdef K2_TEST
+    #ifdef K2_TEST
 #define GARENA_STRING _T(" [GARENA TEST]")
-	#else
+    #else
 #define GARENA_STRING _T(" [GARENA]")
-	#endif
+    #endif
 #else
 #define GARENA_STRING _T("")
 #endif

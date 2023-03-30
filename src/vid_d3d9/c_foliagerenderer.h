@@ -15,9 +15,9 @@
 //=============================================================================
 // Definitions
 //=============================================================================
-const int FOLIAGE_ALPHATEST		(BIT(0));
-const int FOLIAGE_ALPHABLEND	(BIT(1));
-const int FOLIAGE_DEPTHWRITE	(BIT(2));
+const int FOLIAGE_ALPHATEST     (BIT(0));
+const int FOLIAGE_ALPHABLEND    (BIT(1));
+const int FOLIAGE_DEPTHWRITE    (BIT(2));
 //=============================================================================
 
 //=============================================================================
@@ -26,27 +26,27 @@ const int FOLIAGE_DEPTHWRITE	(BIT(2));
 class CFoliageRenderer : public IRenderer
 {
 private:
-	EFoliageRenderOrder	m_eOrder;
-	int					m_iFlags;
+    EFoliageRenderOrder m_eOrder;
+    int                 m_iFlags;
 
-	bool				m_bFirstChunk;
+    bool                m_bFirstChunk;
 
-	int					m_iDiffuseStageIndex;
+    int                 m_iDiffuseStageIndex;
 
-	void	RenderChunk(EMaterialPhase ePhase, int iChunkX, int iChunkY);
-	void	RenderChunkNormals(EMaterialPhase ePhase, int iChunkX, int iChunkY);
+    void    RenderChunk(EMaterialPhase ePhase, int iChunkX, int iChunkY);
+    void    RenderChunkNormals(EMaterialPhase ePhase, int iChunkX, int iChunkY);
 
 public:
-	static CPool<CFoliageRenderer>		s_Pool;
-	
-	void*	operator new(size_t z, const char *szContext = NULL, const char *szType = NULL, const char *szFile = NULL, short nLine = 0); // Uses CPool of preallocated instances
-	void	operator delete(void *p, const char *szContext, const char *szType, const char *szFile, short nLine) { }
-	
-	~CFoliageRenderer();
-	CFoliageRenderer(EFoliageRenderOrder eOrder, int iFlags);
+    static CPool<CFoliageRenderer>      s_Pool;
+    
+    void*   operator new(size_t z, const char *szContext = NULL, const char *szType = NULL, const char *szFile = NULL, short nLine = 0); // Uses CPool of preallocated instances
+    void    operator delete(void *p, const char *szContext, const char *szType, const char *szFile, short nLine) { }
+    
+    ~CFoliageRenderer();
+    CFoliageRenderer(EFoliageRenderOrder eOrder, int iFlags);
 
-	void	Setup(EMaterialPhase ePhase);
-	void	Render(EMaterialPhase ePhase);
+    void    Setup(EMaterialPhase ePhase);
+    void    Render(EMaterialPhase ePhase);
 };
 //=============================================================================
 #endif //__C_FOLIAGERENDERITEM_H__

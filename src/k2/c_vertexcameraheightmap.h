@@ -23,25 +23,25 @@ class CWorld;
 class CVertexCameraHeightMap : public IWorldComponent
 {
 private:
-	float	*m_pHeightMap;
+    float   *m_pHeightMap;
 
 public:
-	~CVertexCameraHeightMap();
-	CVertexCameraHeightMap(EWorldComponent eComponent);
+    ~CVertexCameraHeightMap();
+    CVertexCameraHeightMap(EWorldComponent eComponent);
 
-	bool	Save(CArchive &archive)		{ return true; }
-	bool	Load(CArchive &archive, const CWorld *pWorld);
-	bool	Generate(const CWorld *pWorld);
-	void	Release();
-	void	Update(const CRecti &recArea);
+    bool    Save(CArchive &archive)     { return true; }
+    bool    Load(CArchive &archive, const CWorld *pWorld);
+    bool    Generate(const CWorld *pWorld);
+    void    Release();
+    void    Update(const CRecti &recArea);
 
-	bool	GetRegion(const CRecti &recArea, void *pDest, int iLayer) const;
-	bool	SetRegion(const CRecti &recArea, void *pSource, int iLayer);
+    bool    GetRegion(const CRecti &recArea, void *pDest, int iLayer) const;
+    bool    SetRegion(const CRecti &recArea, void *pSource, int iLayer);
 
-	K2_API float	GetGridPoint(int iX, int iY);
-	K2_API float	GetGridPoint(int i);
+    K2_API float    GetGridPoint(int iX, int iY);
+    K2_API float    GetGridPoint(int i);
 
-	float*	GetHeightMap() const		{ return m_pHeightMap; }
+    float*  GetHeightMap() const        { return m_pHeightMap; }
 };
 //=============================================================================
 

@@ -24,16 +24,16 @@ class CAvatar : public IWidget
 private:
 
 public:
-	~CAvatar();
-	K2_API CAvatar(CInterface *pInterface, IWidget *pParent, const CWidgetStyle& style);
+    ~CAvatar();
+    K2_API CAvatar(CInterface *pInterface, IWidget *pParent, const CWidgetStyle& style);
 
-	void	SetAvatar(const tstring &sURL);
+    void    SetAvatar(const tstring &sURL);
 
-	virtual void	MouseUp(EButton button, const CVec2f &v2CursorPos);
-	virtual void	MouseDown(EButton button, const CVec2f &v2CursorPos);
+    virtual void    MouseUp(EButton button, const CVec2f &v2CursorPos);
+    virtual void    MouseDown(EButton button, const CVec2f &v2CursorPos);
 
-	virtual void	SetTexture(const tstring &sTexture);
-	virtual void	SetTexture(const tstring &sTexture, const tstring &sSuffix);
+    virtual void    SetTexture(const tstring &sTexture);
+    virtual void    SetTexture(const tstring &sTexture, const tstring &sSuffix);
 };
 //=============================================================================
 

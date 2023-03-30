@@ -17,12 +17,12 @@
 class CSkillMorale : public ISkillSelfBuff
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Skill, Morale);
+    DECLARE_ENT_ALLOCATOR2(Skill, Morale);
 
 public:
-	~CSkillMorale()	{}
-	CSkillMorale() :
-	ISkillSelfBuff(GetEntityConfig()) {}
+    ~CSkillMorale() {}
+    CSkillMorale() :
+    ISkillSelfBuff(GetEntityConfig()) {}
 };
 //=============================================================================
 

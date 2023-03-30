@@ -23,17 +23,17 @@ class CListWidgetState;
 class CWidgetState : public IWidget
 {
 protected:
-	tstring		m_sStateName;
+    tstring     m_sStateName;
 
 public:
-	virtual ~CWidgetState()	{}
-	CWidgetState(CInterface *pInterface, IWidget *pParent, const CWidgetStyle& style);
+    virtual ~CWidgetState() {}
+    CWidgetState(CInterface *pInterface, IWidget *pParent, const CWidgetStyle& style);
 
-	const tstring&	GetStateName()								{ return m_sStateName; }
+    const tstring&  GetStateName()                              { return m_sStateName; }
 
-	void	RenderWidget(const CVec2f &vOrigin, float fFade);
+    void    RenderWidget(const CVec2f &vOrigin, float fFade);
 
-	virtual CListWidgetState*	GetAsListWidgetState()	{ return NULL; }
+    virtual CListWidgetState*   GetAsListWidgetState()  { return NULL; }
 };
 //=============================================================================
 

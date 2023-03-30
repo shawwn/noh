@@ -26,60 +26,60 @@ DEFINE_ENT_ALLOCATOR2(Entity, CreepSpawner)
   ====================*/
 CEntityCreepSpawner::CEntityCreepSpawner()
 {
-	for (uint ui(0); ui < NUM_CREEP_SPAWNER_TARGETS; ++ui)
-		m_auiTargetUIDs[ui] = INVALID_INDEX;
+    for (uint ui(0); ui < NUM_CREEP_SPAWNER_TARGETS; ++ui)
+        m_auiTargetUIDs[ui] = INVALID_INDEX;
 }
 
 
 /*====================
   CEntityCreepSpawner::ApplyWorldEntity
   ====================*/
-void	CEntityCreepSpawner::ApplyWorldEntity(const CWorldEntity &ent)
+void    CEntityCreepSpawner::ApplyWorldEntity(const CWorldEntity &ent)
 {
-	IVisualEntity::ApplyWorldEntity(ent);
+    IVisualEntity::ApplyWorldEntity(ent);
 
-	for (uint ui(0); ui < NUM_CREEP_SPAWNER_TARGETS; ++ui)
-		m_asTargets[ui] = ent.GetProperty(_T("target") + XtoA(ui), TSNULL);
+    for (uint ui(0); ui < NUM_CREEP_SPAWNER_TARGETS; ++ui)
+        m_asTargets[ui] = ent.GetProperty(_T("target") + XtoA(ui), TSNULL);
 }
 
 
 /*====================
   CEntityCreepSpawner::Spawn
   ====================*/
-void	CEntityCreepSpawner::Spawn()
+void    CEntityCreepSpawner::Spawn()
 {
-	IVisualEntity::Spawn();
+    IVisualEntity::Spawn();
 
-	CEntityLaneNode *pWaypoint(Game.GetEntityFromNameAs<CEntityLaneNode>(m_asTargets[0]));
-	while (pWaypoint != NULL)
-	{
-		m_cLane.AddWaypoint(pWaypoint->GetPosition().xy());
+    CEntityLaneNode *pWaypoint(Game.GetEntityFromNameAs<CEntityLaneNode>(m_asTargets[0]));
+    while (pWaypoint != NULL)
+    {
+        m_cLane.AddWaypoint(pWaypoint->GetPosition().xy());
 
-		pWaypoint = Game.GetEntityFromNameAs<CEntityLaneNode>(pWaypoint->GetTarget());
-	}
+        pWaypoint = Game.GetEntityFromNameAs<CEntityLaneNode>(pWaypoint->GetTarget());
+    }
 }
 
 
 /*====================
   CEntityCreepSpawner::GameStart
   ====================*/
-void	CEntityCreepSpawner::GameStart()
+void    CEntityCreepSpawner::GameStart()
 {
-	// Register targets
-	for (uint ui(0); ui < NUM_CREEP_SPAWNER_TARGETS; ++ui)
-	{
-		if (m_asTargets[ui].empty())
-			m_auiTargetUIDs[ui] = INVALID_INDEX;
-		else
-		{
-			IVisualEntity *pTarget(Game.GetEntityFromName(m_asTargets[ui]));
-			if (pTarget)
-				m_auiTargetUIDs[ui] = pTarget->GetUniqueID();
-			else
-			{
-				Console.Warn << _T("Target ") << SingleQuoteStr(m_asTargets[ui]) << _T(" not found") << newl;
-				m_auiTargetUIDs[ui] = INVALID_INDEX;
-			}
-		}
-	}
+    // Register targets
+    for (uint ui(0); ui < NUM_CREEP_SPAWNER_TARGETS; ++ui)
+    {
+        if (m_asTargets[ui].empty())
+            m_auiTargetUIDs[ui] = INVALID_INDEX;
+        else
+        {
+            IVisualEntity *pTarget(Game.GetEntityFromName(m_asTargets[ui]));
+            if (pTarget)
+                m_auiTargetUIDs[ui] = pTarget->GetUniqueID();
+            else
+            {
+                Console.Warn << _T("Target ") << SingleQuoteStr(m_asTargets[ui]) << _T(" not found") << newl;
+                m_auiTargetUIDs[ui] = INVALID_INDEX;
+            }
+        }
+    }
 }

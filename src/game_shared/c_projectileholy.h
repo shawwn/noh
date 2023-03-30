@@ -17,11 +17,11 @@
 class CProjectileHoly : public IProjectile
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Projectile, Holy);
+    DECLARE_ENT_ALLOCATOR2(Projectile, Holy);
 
 public:
-	~CProjectileHoly()	{}
-	CProjectileHoly();
+    ~CProjectileHoly()  {}
+    CProjectileHoly();
 };
 //=============================================================================
 

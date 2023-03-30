@@ -47,54 +47,54 @@ m_pParent(pParent)
   ====================*/
 CProfileNode::~CProfileNode()
 {
-	bool bProfile(g_bProfile);
+    bool bProfile(g_bProfile);
 
-	g_bProfile = false;
-	ProfileVector::iterator itEnd(m_vChildren.end());
-	for (ProfileVector::iterator it(m_vChildren.begin()); it != itEnd; ++it)
-		K2_DELETE(*it);
-	g_bProfile = bProfile;
+    g_bProfile = false;
+    ProfileVector::iterator itEnd(m_vChildren.end());
+    for (ProfileVector::iterator it(m_vChildren.begin()); it != itEnd; ++it)
+        K2_DELETE(*it);
+    g_bProfile = bProfile;
 }
 
 
 /*====================
   CProfileNode::ResetFrame
   ====================*/
-void	CProfileNode::ResetFrame(eProfileType eType)
+void    CProfileNode::ResetFrame(eProfileType eType)
 {
-	if (m_eType == eType)
-	{
-		m_iFrameCalls = m_iWorkingFrameCalls;
-		m_iFrameRecursiveCalls = m_iWorkingFrameRecursiveCalls;
-		m_llFrameTime = m_llWorkingFrameTime;
-		
-		m_iWorkingFrameCalls = 0;
-		m_llWorkingFrameTime = 0;
-		m_iWorkingFrameRecursiveCalls = 0;
+    if (m_eType == eType)
+    {
+        m_iFrameCalls = m_iWorkingFrameCalls;
+        m_iFrameRecursiveCalls = m_iWorkingFrameRecursiveCalls;
+        m_llFrameTime = m_llWorkingFrameTime;
+        
+        m_iWorkingFrameCalls = 0;
+        m_llWorkingFrameTime = 0;
+        m_iWorkingFrameRecursiveCalls = 0;
 
-		m_iMaxFrameCalls = MAX(m_iMaxFrameCalls, m_iFrameCalls);
-		m_llMaxFrameTime = MAX(m_llMaxFrameTime, m_llFrameTime);
-		m_iMaxFrameRecursiveCalls = MAX(m_iMaxFrameRecursiveCalls, m_iFrameRecursiveCalls);
+        m_iMaxFrameCalls = MAX(m_iMaxFrameCalls, m_iFrameCalls);
+        m_llMaxFrameTime = MAX(m_llMaxFrameTime, m_llFrameTime);
+        m_iMaxFrameRecursiveCalls = MAX(m_iMaxFrameRecursiveCalls, m_iFrameRecursiveCalls);
 
-		++m_iFrame;
-	}
+        ++m_iFrame;
+    }
 
-	ProfileVector::iterator itEnd(m_vChildren.end());
-	for (ProfileVector::iterator it(m_vChildren.begin()); it != itEnd; ++it)
-		(*it)->ResetFrame(eType);
+    ProfileVector::iterator itEnd(m_vChildren.end());
+    for (ProfileVector::iterator it(m_vChildren.begin()); it != itEnd; ++it)
+        (*it)->ResetFrame(eType);
 }
 
 
 /*====================
   CProfileNode::ResetMax
   ====================*/
-void	CProfileNode::ResetMax()
+void    CProfileNode::ResetMax()
 {
-	m_iMaxFrameCalls = 0;
-	m_llMaxFrameTime = 0;
-	m_iMaxFrameRecursiveCalls = 0;
+    m_iMaxFrameCalls = 0;
+    m_llMaxFrameTime = 0;
+    m_iMaxFrameRecursiveCalls = 0;
 
-	ProfileVector::iterator itEnd(m_vChildren.end());
-	for (ProfileVector::iterator it(m_vChildren.begin()); it != itEnd; ++it)
-		(*it)->ResetMax();
+    ProfileVector::iterator itEnd(m_vChildren.end());
+    for (ProfileVector::iterator it(m_vChildren.begin()); it != itEnd; ++it)
+        (*it)->ResetMax();
 }

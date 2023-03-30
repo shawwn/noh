@@ -29,13 +29,13 @@
 class CEdge
 {
 public:
-	CEdge() {}
-	K2_API CEdge(const CVec3f &a, const CVec3f &b);
+    CEdge() {}
+    K2_API CEdge(const CVec3f &a, const CVec3f &b);
 
-	K2_API void	Transform(const CAxis &aAxis, const CVec3f &v3Pos, float fScale);
+    K2_API void Transform(const CAxis &aAxis, const CVec3f &v3Pos, float fScale);
 
-	CVec3f	v3Normal;
-	CVec3f	v3Point;
+    CVec3f  v3Normal;
+    CVec3f  v3Point;
 };
 //=============================================================================
-#endif	//__C_EDGE_H__
+#endif  //__C_EDGE_H__

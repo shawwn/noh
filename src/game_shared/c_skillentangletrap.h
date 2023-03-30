@@ -17,13 +17,13 @@
 class CSkillEntangleTrap : public ISkillDeploy
 {
 private:
-	DECLARE_ITEM_ALLOCATOR(Skill, EntangleTrap);
+    DECLARE_ITEM_ALLOCATOR(Skill, EntangleTrap);
 
 public:
-	~CSkillEntangleTrap()	{}
-	CSkillEntangleTrap() :
-	ISkillDeploy(GetItemConfig())
-	{}
+    ~CSkillEntangleTrap()   {}
+    CSkillEntangleTrap() :
+    ISkillDeploy(GetItemConfig())
+    {}
 };
 //=============================================================================
 

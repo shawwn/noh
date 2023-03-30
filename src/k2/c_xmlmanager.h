@@ -16,8 +16,8 @@
 //=============================================================================
 class CFileHandle;
 
-typedef map<tstring, CXMLNode>			XMLTemplateMap;
-typedef XMLTemplateMap::iterator		XMLTemplateMap_it;
+typedef map<tstring, CXMLNode>          XMLTemplateMap;
+typedef XMLTemplateMap::iterator        XMLTemplateMap_it;
 
 extern K2_API class CXMLManager XMLManager;
 //=============================================================================
@@ -28,23 +28,23 @@ extern K2_API class CXMLManager XMLManager;
 class CXMLManager
 {
 private:
-	XMLTemplateMap		m_mapTemplates;
+    XMLTemplateMap      m_mapTemplates;
 
-	void	ConvertNodes(void *node, CXMLNode &cNode);
+    void    ConvertNodes(void *node, CXMLNode &cNode);
 
-	void	Preprocess(CXMLNode &cNode);
-	void	PreprocessRecurse(CXMLNode &cNode);
+    void    Preprocess(CXMLNode &cNode);
+    void    PreprocessRecurse(CXMLNode &cNode);
 
 public:
-	~CXMLManager();
-	CXMLManager();
+    ~CXMLManager();
+    CXMLManager();
 
-	K2_API bool	ReadBuffer(const char *pBuffer, int iSize, const tstring &sRoot, void *pObject = NULL);
+    K2_API bool ReadBuffer(const char *pBuffer, int iSize, const tstring &sRoot, void *pObject = NULL);
 
-	K2_API bool	Process(const tstring &sFilename, const tstring &sRoot, void *pObject = NULL, uint uiFileFlags = 0);
-	K2_API bool	Process(CFileHandle &hFile, const tstring &sRoot, void *pObject = NULL);
+    K2_API bool Process(const tstring &sFilename, const tstring &sRoot, void *pObject = NULL, uint uiFileFlags = 0);
+    K2_API bool Process(CFileHandle &hFile, const tstring &sRoot, void *pObject = NULL);
 
-	K2_API void	PrintVersion() const;
+    K2_API void PrintVersion() const;
 };
 //=============================================================================
 

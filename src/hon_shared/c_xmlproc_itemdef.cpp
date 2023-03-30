@@ -17,13 +17,13 @@
 // <item>
 DECLARE_XML_PROCESSOR(item)
 BEGIN_XML_REGISTRATION(item)
-	REGISTER_XML_PROCESSOR(item)
+    REGISTER_XML_PROCESSOR(item)
 END_XML_REGISTRATION
 BEGIN_XML_PROCESSOR(item, CItemDefinition)
-	PropertyMap mapProperties(node.GetPropertyMap());
+    PropertyMap mapProperties(node.GetPropertyMap());
 
-	//pObject->SetNpcType(node.GetProperty(_T("type"), _T("Unnamed Item")));
+    //pObject->SetNpcType(node.GetProperty(_T("type"), _T("Unnamed Item")));
 
-	//for (PropertyMap::iterator it(mapProperties.begin()); it != mapProperties.end(); ++it)
-	//	pObject->SetProperty(it->first, it->second);
+    //for (PropertyMap::iterator it(mapProperties.begin()); it != mapProperties.end(); ++it)
+    //  pObject->SetProperty(it->first, it->second);
 END_XML_PROCESSOR(pObject)

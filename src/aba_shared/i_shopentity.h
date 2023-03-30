@@ -22,16 +22,16 @@ class CShopDefinition;
 //=============================================================================
 class IShopEntity : public IGameEntity
 {
-	DECLARE_ENTITY_DESC
+    DECLARE_ENTITY_DESC
 
 public:
-	typedef CShopDefinition TDefinition;
+    typedef CShopDefinition TDefinition;
 
 public:
-	virtual ~IShopEntity() {}
-	IShopEntity();
+    virtual ~IShopEntity() {}
+    IShopEntity();
 
-	SUB_ENTITY_ACCESSOR(IShopEntity, Shop)
+    SUB_ENTITY_ACCESSOR(IShopEntity, Shop)
 };
 //=============================================================================
 

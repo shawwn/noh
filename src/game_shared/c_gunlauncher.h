@@ -17,13 +17,13 @@
 class CGunLauncher : public IGunItem
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Gun, Launcher);
+    DECLARE_ENT_ALLOCATOR2(Gun, Launcher);
 
 public:
-	~CGunLauncher()	{}
-	CGunLauncher() :
-	IGunItem(GetEntityConfig())
-	{}
+    ~CGunLauncher() {}
+    CGunLauncher() :
+    IGunItem(GetEntityConfig())
+    {}
 };
 //=============================================================================
 

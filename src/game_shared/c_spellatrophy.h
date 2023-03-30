@@ -17,13 +17,13 @@
 class CSpellAtrophy : public ISpellItem
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Spell, Atrophy);
+    DECLARE_ENT_ALLOCATOR2(Spell, Atrophy);
 
 public:
-	~CSpellAtrophy()	{}
-	CSpellAtrophy() :
-	ISpellItem(GetEntityConfig())
-	{}
+    ~CSpellAtrophy()    {}
+    CSpellAtrophy() :
+    ISpellItem(GetEntityConfig())
+    {}
 };
 //=============================================================================
 

@@ -23,24 +23,24 @@ struct STerrainChunk;
 class CTerrainRenderer : public IRenderer
 {
 private:
-	void	RenderChunk(EMaterialPhase ePhase, int iChunkX, int iChunkY);
-	void	RenderChunkNormals(EMaterialPhase ePhase, int iChunkX, int iChunkY);
-	void	RenderChunkCliffs(EMaterialPhase ePhase, int iChunkX, int iChunkY);
+    void    RenderChunk(EMaterialPhase ePhase, int iChunkX, int iChunkY);
+    void    RenderChunkNormals(EMaterialPhase ePhase, int iChunkX, int iChunkY);
+    void    RenderChunkCliffs(EMaterialPhase ePhase, int iChunkX, int iChunkY);
 
-	bool	m_bFirstChunk;
+    bool    m_bFirstChunk;
 
 public:
-	static CPool<CTerrainRenderer>		s_Pool;
-	
-	void*	operator new(size_t z, const char *szContext = NULL, const char *szType = NULL, const char *szFile = NULL, short nLine = 0); // Uses CPool of preallocated instances
-	void	operator delete(void *p) { }
-	void	operator delete(void *p, const char *szContext, const char *szType, const char *szFile, short nLine) { }
+    static CPool<CTerrainRenderer>      s_Pool;
+    
+    void*   operator new(size_t z, const char *szContext = NULL, const char *szType = NULL, const char *szFile = NULL, short nLine = 0); // Uses CPool of preallocated instances
+    void    operator delete(void *p) { }
+    void    operator delete(void *p, const char *szContext, const char *szType, const char *szFile, short nLine) { }
 
-	~CTerrainRenderer();
-	CTerrainRenderer();
+    ~CTerrainRenderer();
+    CTerrainRenderer();
 
-	void	Setup(EMaterialPhase ePhase);
-	void	Render(EMaterialPhase ePhase);
+    void    Setup(EMaterialPhase ePhase);
+    void    Render(EMaterialPhase ePhase);
 };
 //=============================================================================
 

@@ -17,13 +17,13 @@
 class CSpellEntangleTrap : public ISpellItem
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Spell, EntangleTrap);
+    DECLARE_ENT_ALLOCATOR2(Spell, EntangleTrap);
 
 public:
-	~CSpellEntangleTrap()	{}
-	CSpellEntangleTrap() :
-	ISpellItem(GetEntityConfig())
-	{}
+    ~CSpellEntangleTrap()   {}
+    CSpellEntangleTrap() :
+    ISpellItem(GetEntityConfig())
+    {}
 };
 //=============================================================================
 

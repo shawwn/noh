@@ -22,9 +22,9 @@ DEFINE_ENT_ALLOCATOR2(Entity, LaneNode)
 /*====================
   CEntityLaneNode::ApplyWorldEntity
   ====================*/
-void	CEntityLaneNode::ApplyWorldEntity(const CWorldEntity &ent)
+void    CEntityLaneNode::ApplyWorldEntity(const CWorldEntity &ent)
 {
-	IVisualEntity::ApplyWorldEntity(ent);
+    IVisualEntity::ApplyWorldEntity(ent);
 
-	m_sTarget = ent.GetProperty(_T("target0"), TSNULL);
+    m_sTarget = ent.GetProperty(_T("target0"), TSNULL);
 }

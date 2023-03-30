@@ -17,21 +17,21 @@
 class CGadgetMeteor : public IGadgetEntity
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Gadget, Meteor);
+    DECLARE_ENT_ALLOCATOR2(Gadget, Meteor);
 
-	static CCvarui	s_cvarImpactTime;
-	static CCvarf	s_cvarImpactRadius;
-	static CCvarf	s_cvarImpactDamage;
+    static CCvarui  s_cvarImpactTime;
+    static CCvarf   s_cvarImpactRadius;
+    static CCvarf   s_cvarImpactDamage;
 
 public:
-	~CGadgetMeteor()	{}
-	CGadgetMeteor() :
-	IGadgetEntity(GetEntityConfig())
-	{}
+    ~CGadgetMeteor()    {}
+    CGadgetMeteor() :
+    IGadgetEntity(GetEntityConfig())
+    {}
 
-	bool	ServerFrame();
+    bool    ServerFrame();
 
-	GAME_SHARED_API virtual bool	AIShouldTarget()			{ return false; }
+    GAME_SHARED_API virtual bool    AIShouldTarget()            { return false; }
 };
 //=============================================================================
 

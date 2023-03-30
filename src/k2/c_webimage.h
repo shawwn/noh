@@ -16,9 +16,9 @@
 //=============================================================================
 enum EWebImageState
 {
-	WEBIMAGE_BLANK = 0,
-	WEBIMAGE_DOWNLOADING,
-	WEBIMAGE_FINISHED
+    WEBIMAGE_BLANK = 0,
+    WEBIMAGE_DOWNLOADING,
+    WEBIMAGE_FINISHED
 };
 //=============================================================================
 
@@ -28,22 +28,22 @@ enum EWebImageState
 class CWebImage : public IWidget
 {
 private:
-	EWebImageState	m_eState;
-	tstring			m_sURL;
+    EWebImageState  m_eState;
+    tstring         m_sURL;
 
 public:
-	~CWebImage();
-	K2_API CWebImage(CInterface *pInterface, IWidget *pParent, const CWidgetStyle& style);
+    ~CWebImage();
+    K2_API CWebImage(CInterface *pInterface, IWidget *pParent, const CWidgetStyle& style);
 
-	void	SetTextureURL(const tstring &sURL);
+    void    SetTextureURL(const tstring &sURL);
 
-	virtual void	Frame(uint uiFrameLength, bool bProcessFrame);
+    virtual void    Frame(uint uiFrameLength, bool bProcessFrame);
 
-	virtual void	MouseUp(EButton button, const CVec2f &v2CursorPos);
-	virtual void	MouseDown(EButton button, const CVec2f &v2CursorPos);
+    virtual void    MouseUp(EButton button, const CVec2f &v2CursorPos);
+    virtual void    MouseDown(EButton button, const CVec2f &v2CursorPos);
 
-	virtual void	SetTexture(const tstring &sTexture);
-	virtual void	SetTexture(const tstring &sTexture, const tstring &sSuffix);
+    virtual void    SetTexture(const tstring &sTexture);
+    virtual void    SetTexture(const tstring &sTexture, const tstring &sSuffix);
 };
 //=============================================================================
 

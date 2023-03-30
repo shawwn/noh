@@ -16,8 +16,8 @@
   ====================*/
 CClientGameLib::~CClientGameLib()
 {
-	if (m_pGameLib != NULL)
-		K2System.FreeLibrary(m_pGameLib);
+    if (m_pGameLib != NULL)
+        K2System.FreeLibrary(m_pGameLib);
 }
 
 
@@ -58,36 +58,36 @@ m_fnDropNotify(NULL),
 m_fnReinitialize(NULL),
 m_fnLoadAllResources(NULL)
 {
-	try
-	{
-		m_pGameLib = K2System.LoadLibrary(sLibName);
-		if (m_pGameLib == NULL)
-			EX_ERROR(_T("Couldn't load client library: ") + sLibName);
+    try
+    {
+        m_pGameLib = K2System.LoadLibrary(sLibName);
+        if (m_pGameLib == NULL)
+            EX_ERROR(_T("Couldn't load client library: ") + sLibName);
 
-		// Initialize the game library
-		FnInitGameDLL	*pfnInitGameDLL((FnInitGameDLL*)K2System.GetProcAddress(m_pGameLib, _T("InitLibrary")));
-		if (pfnInitGameDLL == NULL)
-			EX_ERROR(_T("Couldn't find entry function InitLibrary()"));
-		pfnInitGameDLL(*this);
+        // Initialize the game library
+        FnInitGameDLL   *pfnInitGameDLL((FnInitGameDLL*)K2System.GetProcAddress(m_pGameLib, _T("InitLibrary")));
+        if (pfnInitGameDLL == NULL)
+            EX_ERROR(_T("Couldn't find entry function InitLibrary()"));
+        pfnInitGameDLL(*this);
 
-		// Validate API
-		if (m_fnInit == NULL)
-			EX_ERROR(_T("Client API is missing Init() function"));
-		if (m_fnFrame == NULL)
-			EX_ERROR(_T("Client API is missing Frame() function"));
-		if (m_fnShutdown == NULL)
-			EX_ERROR(_T("Client API is missing Shutdown() function"));
+        // Validate API
+        if (m_fnInit == NULL)
+            EX_ERROR(_T("Client API is missing Init() function"));
+        if (m_fnFrame == NULL)
+            EX_ERROR(_T("Client API is missing Frame() function"));
+        if (m_fnShutdown == NULL)
+            EX_ERROR(_T("Client API is missing Shutdown() function"));
 
-		m_bValid = true;
-	}
-	catch (CException &ex)
-	{
-		if (m_pGameLib != NULL)
-		{
-			K2System.FreeLibrary(m_pGameLib);
-			m_pGameLib = NULL;
-		}
+        m_bValid = true;
+    }
+    catch (CException &ex)
+    {
+        if (m_pGameLib != NULL)
+        {
+            K2System.FreeLibrary(m_pGameLib);
+            m_pGameLib = NULL;
+        }
 
-		ex.Process(_T("CClientGameLib::CClientGameLib() - "), NO_THROW);
-	}
+        ex.Process(_T("CClientGameLib::CClientGameLib() - "), NO_THROW);
+    }
 }

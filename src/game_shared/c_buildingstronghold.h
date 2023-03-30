@@ -17,15 +17,15 @@
 class CBuildingStronghold : public IBuildingEntity
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Building, Stronghold);
+    DECLARE_ENT_ALLOCATOR2(Building, Stronghold);
 
 public:
-	~CBuildingStronghold()	{}
-	CBuildingStronghold();
+    ~CBuildingStronghold()  {}
+    CBuildingStronghold();
 
-	virtual bool	IsCommandCenter() const		{ return true; }
+    virtual bool    IsCommandCenter() const     { return true; }
 
-	bool	Use(IGameEntity *pActivator)	{ return PlayerEnter(pActivator); }
+    bool    Use(IGameEntity *pActivator)    { return PlayerEnter(pActivator); }
 };
 //=============================================================================
 

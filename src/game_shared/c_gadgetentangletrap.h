@@ -17,13 +17,13 @@
 class CGadgetEntangleTrap : public IGadgetEntity
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Gadget, EntangleTrap)
+    DECLARE_ENT_ALLOCATOR2(Gadget, EntangleTrap)
 
 public:
-	~CGadgetEntangleTrap()	{}
-	CGadgetEntangleTrap() :
-	IGadgetEntity(GetEntityConfig())
-	{}
+    ~CGadgetEntangleTrap()  {}
+    CGadgetEntangleTrap() :
+    IGadgetEntity(GetEntityConfig())
+    {}
 };
 //=============================================================================
 

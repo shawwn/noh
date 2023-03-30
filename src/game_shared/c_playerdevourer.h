@@ -19,15 +19,15 @@
 class CPlayerDevourer : public IPlayerEntity
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Player, Devourer);
+    DECLARE_ENT_ALLOCATOR2(Player, Devourer);
 
 public:
-	~CPlayerDevourer()	{}
-	CPlayerDevourer() :
-	IPlayerEntity(GetEntityConfig())
-	{}
+    ~CPlayerDevourer()  {}
+    CPlayerDevourer() :
+    IPlayerEntity(GetEntityConfig())
+    {}
 
-	void	Move(const CClientSnapshot &snapshot)	{ MoveWalk(snapshot); }
+    void    Move(const CClientSnapshot &snapshot)   { MoveWalk(snapshot); }
 };
 //=============================================================================
 

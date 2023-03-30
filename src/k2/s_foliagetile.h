@@ -12,8 +12,8 @@
 //=============================================================================
 // Declarations
 //=============================================================================
-const byte F_CAMERA		= BIT(0);
-const byte F_PARALLEL	= BIT(1);
+const byte F_CAMERA     = BIT(0);
+const byte F_PARALLEL   = BIT(1);
 //=============================================================================
 
 //=============================================================================
@@ -21,10 +21,10 @@ const byte F_PARALLEL	= BIT(1);
 //=============================================================================
 struct SFoliageTile
 {
-	uint	iMaterialRef;
-	uint	iTextureRef;
-	byte	yNumCrossQuads;
-	byte	yFlags;
+    uint    iMaterialRef;
+    uint    iTextureRef;
+    byte    yNumCrossQuads;
+    byte    yFlags;
 };
 //=============================================================================
 #endif //__S_FOLIAGETILE_H__

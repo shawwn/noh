@@ -17,13 +17,13 @@
 class CGadgetHealingWard : public IGadgetEntity
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Gadget, HealingWard)
+    DECLARE_ENT_ALLOCATOR2(Gadget, HealingWard)
 
 public:
-	~CGadgetHealingWard()	{}
-	CGadgetHealingWard() :
-	IGadgetEntity(GetEntityConfig())
-	{}
+    ~CGadgetHealingWard()   {}
+    CGadgetHealingWard() :
+    IGadgetEntity(GetEntityConfig())
+    {}
 };
 //=============================================================================
 

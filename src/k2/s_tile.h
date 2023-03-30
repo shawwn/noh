@@ -16,9 +16,9 @@
 //=============================================================================
 struct STile
 {
-	ResHandle			hMaterial;
-	ResHandle			hDiffuse;
-	ResHandle			hNormalmap;
+    ResHandle           hMaterial;
+    ResHandle           hDiffuse;
+    ResHandle           hNormalmap;
 };
 
 //=============================================================================
@@ -27,9 +27,9 @@ struct STile
 //=============================================================================
 struct STileInternal
 {
-	ushort				iMaterialRef;
-	ushort				iDiffuseRef;
-	ushort				iNormalmapRef;
+    ushort              iMaterialRef;
+    ushort              iDiffuseRef;
+    ushort              iNormalmapRef;
 };
 //=============================================================================
 #endif // __S_TILE_H__

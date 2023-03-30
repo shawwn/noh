@@ -17,25 +17,25 @@
 class CReliablePacket
 {
 private:
-	uint	m_uiTimeStamp;
-	uint	m_uiOriginalTimeStamp;
-	CPacket	m_pktSaved;
+    uint    m_uiTimeStamp;
+    uint    m_uiOriginalTimeStamp;
+    CPacket m_pktSaved;
 
-	CReliablePacket();
+    CReliablePacket();
 
 public:
-	~CReliablePacket();
-	CReliablePacket(const CPacket &pkt);
-	CReliablePacket(const CReliablePacket &pkt);
+    ~CReliablePacket();
+    CReliablePacket(const CPacket &pkt);
+    CReliablePacket(const CReliablePacket &pkt);
 
-	CReliablePacket&	operator=(const CReliablePacket &pkt);
+    CReliablePacket&    operator=(const CReliablePacket &pkt);
 
-	void			SetTimeStamp(uint uiTime)		{ m_uiTimeStamp = uiTime; }
+    void            SetTimeStamp(uint uiTime)       { m_uiTimeStamp = uiTime; }
 
-	uint			GetTimeStamp() const			{ return m_uiTimeStamp; }
-	uint			GetOriginalTimeStamp() const	{ return m_uiOriginalTimeStamp; }
-	uint			GetSequenceID() const			{ return m_pktSaved.GetHeader()->m_uiSequence; }
-	const CPacket&	GetPacket() const				{ return m_pktSaved; }
+    uint            GetTimeStamp() const            { return m_uiTimeStamp; }
+    uint            GetOriginalTimeStamp() const    { return m_uiOriginalTimeStamp; }
+    uint            GetSequenceID() const           { return m_pktSaved.GetHeader()->m_uiSequence; }
+    const CPacket&  GetPacket() const               { return m_pktSaved; }
 };
 //=============================================================================
 

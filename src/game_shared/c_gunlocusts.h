@@ -17,13 +17,13 @@
 class CGunLocusts : public IGunItem
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Gun, Locusts);
+    DECLARE_ENT_ALLOCATOR2(Gun, Locusts);
 
 public:
-	~CGunLocusts()	{}
-	CGunLocusts() :
-	IGunItem(GetEntityConfig())
-	{}
+    ~CGunLocusts()  {}
+    CGunLocusts() :
+    IGunItem(GetEntityConfig())
+    {}
 };
 //=============================================================================
 

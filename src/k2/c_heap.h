@@ -12,19 +12,19 @@ const uint MEM_DEBUG_MAX_FILE_NAME_LENGTH(48);
 
 struct SMemHeader
 {
-	uint				uiSequence;
-	uint				uiMarker;
-	size_t				zSize;
+    uint                uiSequence;
+    uint                uiMarker;
+    size_t              zSize;
 #ifdef K2_DEBUG_MEM_EX
-	char				szFile[MEM_DEBUG_MAX_FILE_NAME_LENGTH];
-	short				nLine;
-	uint				uiTimeStamp;
+    char                szFile[MEM_DEBUG_MAX_FILE_NAME_LENGTH];
+    short               nLine;
+    uint                uiTimeStamp;
 #endif //K2_DEBUG_MEM_EX
-	const char			*pContext;
-	struct SMemHeader	*pPrev;
-	struct SMemHeader	*pNext;
-	struct SMemHeader	*pTrackPrev;
-	struct SMemHeader	*pTrackNext;
+    const char          *pContext;
+    struct SMemHeader   *pPrev;
+    struct SMemHeader   *pNext;
+    struct SMemHeader   *pTrackPrev;
+    struct SMemHeader   *pTrackNext;
 };
 //=============================================================================
 

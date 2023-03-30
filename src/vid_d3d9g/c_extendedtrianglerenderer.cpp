@@ -42,9 +42,9 @@ CPool<CExtendedTriangleRenderer> CExtendedTriangleRenderer::s_Pool(1, -1);
 /*====================
   CExtendedTriangleRenderer::operator new
   ====================*/
-void*	CExtendedTriangleRenderer::operator new(size_t z)
+void*   CExtendedTriangleRenderer::operator new(size_t z)
 {
-	return s_Pool.Allocate();
+    return s_Pool.Allocate();
 }
 
 
@@ -68,21 +68,21 @@ CExtendedTriangleRenderer::~CExtendedTriangleRenderer()
 /*====================
   CExtendedTriangleRenderer::Render
   ====================*/
-void	CExtendedTriangleRenderer::Render(EMaterialPhase ePhase)
+void    CExtendedTriangleRenderer::Render(EMaterialPhase ePhase)
 {
-	PROFILE("CExtendedTriangleRenderer::Render");
+    PROFILE("CExtendedTriangleRenderer::Render");
 
-	if (!m_bRender)
-		return;
+    if (!m_bRender)
+        return;
 
-	D3D_SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
+    D3D_SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
 
-	SetShaderVars();
+    SetShaderVars();
 
-	D3D_SetStreamSource(0, g_pVBExtendedTriangle, 0, sizeof(SExtendedVertex));
+    D3D_SetStreamSource(0, g_pVBExtendedTriangle, 0, sizeof(SExtendedVertex));
 
-	D3D_SelectMaterial(D3D_GetMaterial(m_hMaterial), ePhase, VERTEX_EXTENDED, g_pCam->GetTime(), gfx_depthFirst);
-	D3D_DrawPrimitive(D3DPT_TRIANGLELIST, m_uiStartIndex * 3, m_uiEndIndex - m_uiStartIndex);
+    D3D_SelectMaterial(D3D_GetMaterial(m_hMaterial), ePhase, VERTEX_EXTENDED, g_pCam->GetTime(), gfx_depthFirst);
+    D3D_DrawPrimitive(D3DPT_TRIANGLELIST, m_uiStartIndex * 3, m_uiEndIndex - m_uiStartIndex);
 
-	SceneStats.RecordBatch((m_uiEndIndex - m_uiStartIndex) * 3, m_uiEndIndex - m_uiStartIndex, ePhase, SSBATCH_EFFECT);
+    SceneStats.RecordBatch((m_uiEndIndex - m_uiStartIndex) * 3, m_uiEndIndex - m_uiStartIndex, ePhase, SSBATCH_EFFECT);
 }

@@ -17,13 +17,13 @@
 class COfficerCommandMove2 : public ISpellItem
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(OfficerCommand, Move2);
+    DECLARE_ENT_ALLOCATOR2(OfficerCommand, Move2);
 
 public:
-	~COfficerCommandMove2()	{}
-	COfficerCommandMove2() : ISpellItem(GetEntityConfig())	{}
+    ~COfficerCommandMove2() {}
+    COfficerCommandMove2() : ISpellItem(GetEntityConfig())  {}
 
-	virtual bool			ImpactPosition(const CVec3f &v3target, CGameEvent &evImpact);
+    virtual bool            ImpactPosition(const CVec3f &v3target, CGameEvent &evImpact);
 };
 //=============================================================================
 

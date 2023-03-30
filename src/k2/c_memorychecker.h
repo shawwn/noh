@@ -22,21 +22,21 @@ template <uint SIZE>
 class CMemoryChecker
 {
 private:
-	tstring		m_sFile;
-	byte		m_ayData[SIZE];
+    tstring     m_sFile;
+    byte        m_ayData[SIZE];
 
 public:
-	~CMemoryChecker()
-	{
-		for (uint ui(0); ui < SIZE; ++ui)
-			assert(m_ayData[ui] == 0xCD);
-	}
+    ~CMemoryChecker()
+    {
+        for (uint ui(0); ui < SIZE; ++ui)
+            assert(m_ayData[ui] == 0xCD);
+    }
 
-	CMemoryChecker(const tstring &sFile) :
-	m_sFile(sFile)
-	{
-		memset(m_ayData, 0xCD, SIZE);
-	}
+    CMemoryChecker(const tstring &sFile) :
+    m_sFile(sFile)
+    {
+        memset(m_ayData, 0xCD, SIZE);
+    }
 };
 //=============================================================================
 

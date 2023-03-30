@@ -17,13 +17,13 @@
 class CSpellEnchant : public ISpellItem
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Spell, Enchant);
+    DECLARE_ENT_ALLOCATOR2(Spell, Enchant);
 
 public:
-	~CSpellEnchant()	{}
-	CSpellEnchant() :
-	ISpellItem(GetEntityConfig())
-	{}
+    ~CSpellEnchant()    {}
+    CSpellEnchant() :
+    ISpellItem(GetEntityConfig())
+    {}
 };
 //=============================================================================
 

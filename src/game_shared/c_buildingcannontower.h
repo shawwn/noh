@@ -17,11 +17,11 @@
 class CBuildingCannonTower : public IAttackBuildingEntity
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Building, CannonTower);
+    DECLARE_ENT_ALLOCATOR2(Building, CannonTower);
 
 public:
-	~CBuildingCannonTower()	{}
-	CBuildingCannonTower();
+    ~CBuildingCannonTower() {}
+    CBuildingCannonTower();
 };
 //=============================================================================
 

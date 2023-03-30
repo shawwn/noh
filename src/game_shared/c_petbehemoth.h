@@ -17,11 +17,11 @@
 class CPetBehemoth : public IPetEntity
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Pet, Behemoth);
+    DECLARE_ENT_ALLOCATOR2(Pet, Behemoth);
 
 public:
-	~CPetBehemoth()	{}
-	CPetBehemoth() : IPetEntity(GetEntityConfig()) {}
+    ~CPetBehemoth() {}
+    CPetBehemoth() : IPetEntity(GetEntityConfig()) {}
 };
 //=============================================================================
 

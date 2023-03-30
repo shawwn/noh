@@ -17,21 +17,21 @@
 class CPropBaseBuilding : public IPropEntity
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Prop, BaseBuilding);
+    DECLARE_ENT_ALLOCATOR2(Prop, BaseBuilding);
 
-	uint			m_uiBaseUID;
+    uint            m_uiBaseUID;
 
 public:
-	~CPropBaseBuilding() {}
-	CPropBaseBuilding();
+    ~CPropBaseBuilding() {}
+    CPropBaseBuilding();
 
-	void	GameStart();
-	void	WarmupStart();
+    void    GameStart();
+    void    WarmupStart();
 
-	void	Link()		{}
-	void	Unlink()	{}
+    void    Link()      {}
+    void    Unlink()    {}
 
-	bool			AddToScene(const CVec4f &v4Color, int iFlags)	{ return false; }
+    bool            AddToScene(const CVec4f &v4Color, int iFlags)   { return false; }
 };
 //=============================================================================
 

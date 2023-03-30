@@ -17,13 +17,13 @@
 class CSkillBurrow : public ISkillToggle
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Skill, Burrow)
+    DECLARE_ENT_ALLOCATOR2(Skill, Burrow)
 
 public:
-	~CSkillBurrow()	{}
-	CSkillBurrow() :
-	ISkillToggle(GetEntityConfig())
-	{}
+    ~CSkillBurrow() {}
+    CSkillBurrow() :
+    ISkillToggle(GetEntityConfig())
+    {}
 };
 //=============================================================================
 

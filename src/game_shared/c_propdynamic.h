@@ -17,36 +17,36 @@
 class CPropDynamic : public IPropEntity
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Prop, Dynamic);
+    DECLARE_ENT_ALLOCATOR2(Prop, Dynamic);
 
-	uint					m_uiCorpseTime;
-	float					m_fMaxHealth;
+    uint                    m_uiCorpseTime;
+    float                   m_fMaxHealth;
 
-	tstring					m_sDeathAnimation;
-	tstring					m_sIdleAnimation;
+    tstring                 m_sDeathAnimation;
+    tstring                 m_sIdleAnimation;
 
 public:
-	~CPropDynamic()	{}
+    ~CPropDynamic() {}
 
-	CPropDynamic() :
-	IPropEntity(GetEntityConfig()),
-	m_uiCorpseTime(7500),
-	m_fMaxHealth(0.0f),
-	m_sDeathAnimation(_T("death"))
-	{}
+    CPropDynamic() :
+    IPropEntity(GetEntityConfig()),
+    m_uiCorpseTime(7500),
+    m_fMaxHealth(0.0f),
+    m_sDeathAnimation(_T("death"))
+    {}
 
-	virtual bool		IsStatic() const				{ return false; }
-	virtual void		ApplyWorldEntity(const CWorldEntity &ent);
-	virtual void		Kill(IVisualEntity *pAttacker = NULL, ushort unKillingObjectID = INVALID_ENT_TYPE);
+    virtual bool        IsStatic() const                { return false; }
+    virtual void        ApplyWorldEntity(const CWorldEntity &ent);
+    virtual void        Kill(IVisualEntity *pAttacker = NULL, ushort unKillingObjectID = INVALID_ENT_TYPE);
 
-	virtual CSkeleton*	AllocateSkeleton();
-	virtual void		Spawn();
-	virtual	bool		ServerFrame();
+    virtual CSkeleton*  AllocateSkeleton();
+    virtual void        Spawn();
+    virtual bool        ServerFrame();
 
-	virtual void		Link();
+    virtual void        Link();
 
-	virtual float		GetMaxHealth() const			{ return m_fMaxHealth; }
-	virtual void		SetMaxHealth(float fValue)		{ m_fMaxHealth = fValue; }
+    virtual float       GetMaxHealth() const            { return m_fMaxHealth; }
+    virtual void        SetMaxHealth(float fValue)      { m_fMaxHealth = fValue; }
 };
 //=============================================================================
 

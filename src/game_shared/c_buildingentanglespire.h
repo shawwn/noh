@@ -17,13 +17,13 @@
 class CBuildingEntangleSpire : public IAttackBuildingEntity
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Building, EntangleSpire)
+    DECLARE_ENT_ALLOCATOR2(Building, EntangleSpire)
 
 public:
-	~CBuildingEntangleSpire()	{}
-	CBuildingEntangleSpire() :
-	IAttackBuildingEntity(GetEntityConfig())
-	{}
+    ~CBuildingEntangleSpire()   {}
+    CBuildingEntangleSpire() :
+    IAttackBuildingEntity(GetEntityConfig())
+    {}
 };
 //=============================================================================
 

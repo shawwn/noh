@@ -19,10 +19,10 @@ class IOfficerSpawnFlag : public IGadgetEntity
 private:
 
 public:
-	~IOfficerSpawnFlag()	{}
-	IOfficerSpawnFlag(CEntityConfig *pConfig) : IGadgetEntity(pConfig)	{}
+    ~IOfficerSpawnFlag()    {}
+    IOfficerSpawnFlag(CEntityConfig *pConfig) : IGadgetEntity(pConfig)  {}
 
-	void	Spawn();
+    void    Spawn();
 };
 //=============================================================================
 

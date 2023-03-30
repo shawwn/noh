@@ -17,13 +17,13 @@
 class CSkillShockwave : public ISkillMelee
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Skill, Shockwave);
+    DECLARE_ENT_ALLOCATOR2(Skill, Shockwave);
 
 public:
-	~CSkillShockwave()	{}
-	CSkillShockwave() :
-	ISkillMelee(GetEntityConfig())
-	{}
+    ~CSkillShockwave()  {}
+    CSkillShockwave() :
+    ISkillMelee(GetEntityConfig())
+    {}
 };
 //=============================================================================
 

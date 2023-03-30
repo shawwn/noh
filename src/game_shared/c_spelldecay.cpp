@@ -20,17 +20,17 @@ DEFINE_ENT_ALLOCATOR2(Spell, Decay)
 /*====================
   CSpellDecay::ActiveFrame
   ====================*/
-void	CSpellDecay::ActiveFrame()
+void    CSpellDecay::ActiveFrame()
 {
-	ISpellToggle::ActiveFrame();
+    ISpellToggle::ActiveFrame();
 
-	if (!HasNetFlags(ITEM_NET_FLAG_ACTIVE))
-		return;
+    if (!HasNetFlags(ITEM_NET_FLAG_ACTIVE))
+        return;
 
-	ICombatEntity *pOwner(GetOwnerEnt());
-	if (pOwner == NULL)
-		return;
+    ICombatEntity *pOwner(GetOwnerEnt());
+    if (pOwner == NULL)
+        return;
 
-	CGameEvent evImpact;
-	ImpactPosition(pOwner->GetPosition(), evImpact);
+    CGameEvent evImpact;
+    ImpactPosition(pOwner->GetPosition(), evImpact);
 }

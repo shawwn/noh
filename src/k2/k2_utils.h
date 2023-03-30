@@ -18,11 +18,11 @@
 class INoncopyable
 {
 private:
-	INoncopyable(const INoncopyable&);
-	INoncopyable&		operator =(const INoncopyable&);
+    INoncopyable(const INoncopyable&);
+    INoncopyable&       operator =(const INoncopyable&);
 public:
-	INoncopyable() {}
-	virtual ~INoncopyable() { }
+    INoncopyable() {}
+    virtual ~INoncopyable() { }
 };
 //=============================================================================
 
@@ -38,45 +38,45 @@ public:
 //
 // Documentation:
 //
-//	The preprocessor token-pasting operator (##) prevents arguments from expanding.
-//	This macro allows its arguments to expand before concatenation.
+//  The preprocessor token-pasting operator (##) prevents arguments from expanding.
+//  This macro allows its arguments to expand before concatenation.
 //
-//	Concatenation must not result in an invocation of a macro that uses
-//	BOOST_PP_CAT.  If that happens, BOOST_PP_CAT will not expand the second time.
+//  Concatenation must not result in an invocation of a macro that uses
+//  BOOST_PP_CAT.  If that happens, BOOST_PP_CAT will not expand the second time.
 
-#define K2_PP_CAT(X,Y)				K2_PP_CAT_DELAY(X,Y)
-#define K2_PP_CAT_DELAY(X,Y)		K2_PP_DO_CAT(X,Y)
-#define K2_PP_DO_CAT(X,Y)			X##Y
+#define K2_PP_CAT(X,Y)              K2_PP_CAT_DELAY(X,Y)
+#define K2_PP_CAT_DELAY(X,Y)        K2_PP_DO_CAT(X,Y)
+#define K2_PP_DO_CAT(X,Y)           X##Y
 
-#define K2_PP_CAT3(X,Y,Z)			K2_PP_CAT3_DELAY(X,Y,Z)
-#define K2_PP_CAT3_DELAY(X,Y,Z)		K2_PP_DO_CAT3(X,Y,Z)
-#define K2_PP_DO_CAT3(X,Y,Z)		X##Y##Z
+#define K2_PP_CAT3(X,Y,Z)           K2_PP_CAT3_DELAY(X,Y,Z)
+#define K2_PP_CAT3_DELAY(X,Y,Z)     K2_PP_DO_CAT3(X,Y,Z)
+#define K2_PP_DO_CAT3(X,Y,Z)        X##Y##Z
 
 /*====================
   Verify (condition, do_this_if_condition_is_false)
   ====================*/
 // this is a utility to simplify the following pattern:
 //
-//	assert (something && somethingElse);
-//	if (!something || !somethingElse)
-//	{
-//		bFailed = true;
-//		return;
-//	}
+//  assert (something && somethingElse);
+//  if (!something || !somethingElse)
+//  {
+//      bFailed = true;
+//      return;
+//  }
 //
 // .... the Verify macro allows you to write that as ....
 //
-//	Verify (something && somethingElse)
-//	{
-//		bFailed = true;
-//		return;
-//	}
+//  Verify (something && somethingElse)
+//  {
+//      bFailed = true;
+//      return;
+//  }
 //
 // which is more concise / clearer / cleaner / shinier / etc.
 //
-#define Verify(condition)													\
-	assert(condition);														\
-	if (!(condition))														
+#define Verify(condition)                                                   \
+    assert(condition);                                                      \
+    if (!(condition))                                                       
 
 // this is a utility to assert only once.  A normal assert() will pop up a
 // messagebox each time the condition fails.  This can become very annoying
@@ -88,20 +88,20 @@ public:
 #define assert_once(condition)
 #else
 // enable in debug mode.
-#define assert_once(condition)												\
-	{																		\
-		static bool ASSERT_ONCE_fired(false);								\
-		if (!(condition))													\
-		{																	\
-			if (!ASSERT_ONCE_fired)											\
-			{																\
-				assert(condition);											\
-				ASSERT_ONCE_fired = true;									\
-			}																\
-			Console.Warn << _T("^oAssertion failed, expression false: ")	\
-				<< _T(#condition) << newl;									\
-		}																	\
-	}
+#define assert_once(condition)                                              \
+    {                                                                       \
+        static bool ASSERT_ONCE_fired(false);                               \
+        if (!(condition))                                                   \
+        {                                                                   \
+            if (!ASSERT_ONCE_fired)                                         \
+            {                                                               \
+                assert(condition);                                          \
+                ASSERT_ONCE_fired = true;                                   \
+            }                                                               \
+            Console.Warn << _T("^oAssertion failed, expression false: ")    \
+                << _T(#condition) << newl;                                  \
+        }                                                                   \
+    }
 #endif //defined(_DEBUG)
 //=============================================================================
 

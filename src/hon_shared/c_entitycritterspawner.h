@@ -22,17 +22,17 @@
 class CEntityCritterSpawner : public IVisualEntity
 {
 protected:
-	DECLARE_ENT_ALLOCATOR2(Entity, CritterSpawner);
+    DECLARE_ENT_ALLOCATOR2(Entity, CritterSpawner);
 
 public:
-	~CEntityCritterSpawner()	{}
-	CEntityCritterSpawner();
+    ~CEntityCritterSpawner()    {}
+    CEntityCritterSpawner();
 
-	virtual bool		IsServerEntity() const			{ return true; }
+    virtual bool        IsServerEntity() const          { return true; }
 
-	void	ApplyWorldEntity(const CWorldEntity &ent);
+    void    ApplyWorldEntity(const CWorldEntity &ent);
 
-	void	Spawn();
+    void    Spawn();
 };
 //=============================================================================
 

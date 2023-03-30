@@ -21,33 +21,33 @@
 class IFileChangeCallback
 {
 private:
-	tstring				m_sPath;
-	bool				m_bExecuting;
+    tstring             m_sPath;
+    bool                m_bExecuting;
 
 public:
-	K2_API virtual ~IFileChangeCallback() {}
-	K2_API IFileChangeCallback(const tstring &sPath);
+    K2_API virtual ~IFileChangeCallback() {}
+    K2_API IFileChangeCallback(const tstring &sPath);
 
-	virtual	void		Execute() = 0;
+    virtual void        Execute() = 0;
 
-	const tstring&		GetPath()		{ return m_sPath; }
-
-
-	bool	TryExecute()
-	{
-		if (!m_bExecuting)
-		{
-			m_bExecuting = true;
-			return true;
-		}
-		return false;
-	}
+    const tstring&      GetPath()       { return m_sPath; }
 
 
-	void	AfterExecute()
-	{
-		m_bExecuting = false;
-	}
+    bool    TryExecute()
+    {
+        if (!m_bExecuting)
+        {
+            m_bExecuting = true;
+            return true;
+        }
+        return false;
+    }
+
+
+    void    AfterExecute()
+    {
+        m_bExecuting = false;
+    }
 };
 //=============================================================================
 

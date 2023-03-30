@@ -17,11 +17,11 @@
 class CPetShaman : public IPetEntity
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Pet, Shaman);
+    DECLARE_ENT_ALLOCATOR2(Pet, Shaman);
 
 public:
-	~CPetShaman()	{}
-	CPetShaman() : IPetEntity(GetEntityConfig()) {}
+    ~CPetShaman()   {}
+    CPetShaman() : IPetEntity(GetEntityConfig()) {}
 };
 //=============================================================================
 

@@ -17,12 +17,12 @@
 class CConsumableHealthShrine : public IConsumableItem
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Consumable, HealthShrine);
+    DECLARE_ENT_ALLOCATOR2(Consumable, HealthShrine);
 
 public:
-	~CConsumableHealthShrine() {}
-	CConsumableHealthShrine() :
-	IConsumableItem(GetEntityConfig()) {}
+    ~CConsumableHealthShrine() {}
+    CConsumableHealthShrine() :
+    IConsumableItem(GetEntityConfig()) {}
 };
 //=============================================================================
 

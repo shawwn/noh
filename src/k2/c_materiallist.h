@@ -16,8 +16,8 @@
 //=============================================================================
 struct SMaterialListEntry
 {
-	uint		uiID;
-	ResHandle	hMaterial;
+    uint        uiID;
+    ResHandle   hMaterial;
 };
 //=============================================================================
 
@@ -27,25 +27,25 @@ struct SMaterialListEntry
 class CMaterialList : public IWorldComponent
 {
 private:
-	typedef map<uint, SMaterialListEntry>	MaterialIDMap;
-	typedef map<ResHandle, SMaterialListEntry>		MaterialHandleMap;
+    typedef map<uint, SMaterialListEntry>   MaterialIDMap;
+    typedef map<ResHandle, SMaterialListEntry>      MaterialHandleMap;
 
-	MaterialIDMap		m_mapMaterials;
-	MaterialHandleMap	m_mapResHandles;
+    MaterialIDMap       m_mapMaterials;
+    MaterialHandleMap   m_mapResHandles;
 
 public:
-	~CMaterialList();
-	CMaterialList(EWorldComponent eComponent);
+    ~CMaterialList();
+    CMaterialList(EWorldComponent eComponent);
 
-	bool		Load(CArchive &archive, const CWorld *pWorld);
-	bool		Generate(const CWorld *pWorld);
-	bool		Serialize(IBuffer *pBuffer);
-	void		Release();
+    bool        Load(CArchive &archive, const CWorld *pWorld);
+    bool        Generate(const CWorld *pWorld);
+    bool        Serialize(IBuffer *pBuffer);
+    void        Release();
 
-	K2_API uint	AddMaterial(ResHandle hResource);
-	K2_API ResHandle		GetMaterialHandle(uint uiID);
-	K2_API uint	GetMaterialID(ResHandle hMaterial);
-	K2_API void			AddMaterial(uint uiID, const tstring &sMaterial);
+    K2_API uint AddMaterial(ResHandle hResource);
+    K2_API ResHandle        GetMaterialHandle(uint uiID);
+    K2_API uint GetMaterialID(ResHandle hMaterial);
+    K2_API void         AddMaterial(uint uiID, const tstring &sMaterial);
 };
 //=============================================================================
 #endif //__C_MATERIALLIST_H__

@@ -32,32 +32,32 @@ CSlider(pInterface, pParent, style)
 /*====================
   CScrollbarSlider::DoChange
   ====================*/
-void	CScrollbarSlider::DoChange()
+void    CScrollbarSlider::DoChange()
 {
-	static_cast<CScrollbar *>(m_pParent)->SliderChange();
+    static_cast<CScrollbar *>(m_pParent)->SliderChange();
 
-	CSlider::DoChange();
+    CSlider::DoChange();
 }
 
 
 /*====================
   CScrollbarSlider::MouseDown
   ====================*/
-void	CScrollbarSlider::MouseDown(EButton button, const CVec2f &v2CursorPos)
+void    CScrollbarSlider::MouseDown(EButton button, const CVec2f &v2CursorPos)
 {
-	if (m_pParent == NULL || m_pParent->GetType() != WIDGET_SCROLLBAR)
-	{
-		CSlider::MouseDown(button, v2CursorPos);
-		return;
-	}
+    if (m_pParent == NULL || m_pParent->GetType() != WIDGET_SCROLLBAR)
+    {
+        CSlider::MouseDown(button, v2CursorPos);
+        return;
+    }
 
-	CScrollbar *pScrollbar(static_cast<CScrollbar*>(m_pParent));
+    CScrollbar *pScrollbar(static_cast<CScrollbar*>(m_pParent));
 
-	if (button == BUTTON_WHEELUP)
-		pScrollbar->MinButtonCommand();
-	else if (button == BUTTON_WHEELDOWN)
-		pScrollbar->MaxButtonCommand();
+    if (button == BUTTON_WHEELUP)
+        pScrollbar->MinButtonCommand();
+    else if (button == BUTTON_WHEELDOWN)
+        pScrollbar->MaxButtonCommand();
 
-	if (button == BUTTON_WHEELUP || button == BUTTON_WHEELDOWN)
-		return CSlider::MouseDown(button, v2CursorPos);
+    if (button == BUTTON_WHEELUP || button == BUTTON_WHEELDOWN)
+        return CSlider::MouseDown(button, v2CursorPos);
 }

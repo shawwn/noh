@@ -17,17 +17,17 @@
 class CSpellDefile : public ISpellItem
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Spell, Defile);
+    DECLARE_ENT_ALLOCATOR2(Spell, Defile);
 
-	static	CCvarf	s_cvarDamage;
+    static  CCvarf  s_cvarDamage;
 
 public:
-	~CSpellDefile()	{}
-	CSpellDefile() :
-	ISpellItem(GetEntityConfig())
-	{}
+    ~CSpellDefile() {}
+    CSpellDefile() :
+    ISpellItem(GetEntityConfig())
+    {}
 
-	bool			TryImpact();
+    bool            TryImpact();
 };
 //=============================================================================
 

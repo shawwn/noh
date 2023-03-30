@@ -17,13 +17,13 @@
 class CMeleeFlameSword : public IMeleeItem
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Melee, FlameSword);
+    DECLARE_ENT_ALLOCATOR2(Melee, FlameSword);
 
 public:
-	~CMeleeFlameSword()			{}
-	CMeleeFlameSword() :
-	IMeleeItem(GetEntityConfig())
-	{}
+    ~CMeleeFlameSword()         {}
+    CMeleeFlameSword() :
+    IMeleeItem(GetEntityConfig())
+    {}
 };
 //=============================================================================
 

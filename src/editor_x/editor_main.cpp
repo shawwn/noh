@@ -36,12 +36,12 @@
 //=============================================================================
 UI_TRIGGER(BrushImage);
 
-CEditor	Editor;
+CEditor Editor;
 
 EXTERN_CVAR_FLOAT(le_camFov);
 
-CVAR_FLOAT	(le_camPitch,		-56.0f);
-CVAR_FLOAT	(le_camDistance,	1650.0f);
+CVAR_FLOAT  (le_camPitch,       -56.0f);
+CVAR_FLOAT  (le_camDistance,    1650.0f);
 //=============================================================================
 
 /*--------------------
@@ -49,21 +49,21 @@ CVAR_FLOAT	(le_camDistance,	1650.0f);
   --------------------*/
 CMD(Center)
 {
-	CVec3f v3LookAt;
-	if (Editor.GetLookAtPoint(v3LookAt))
-	{
-		CVec3f v3Angles(le_camPitch, 0.0f, 0.0f);
+    CVec3f v3LookAt;
+    if (Editor.GetLookAtPoint(v3LookAt))
+    {
+        CVec3f v3Angles(le_camPitch, 0.0f, 0.0f);
 
-		Editor.SetCameraAngles(v3Angles);
-		Editor.SetCameraPosition(v3LookAt - M_GetForwardVecFromAngles(v3Angles) * le_camDistance);
-	}
-	
-	return true;
+        Editor.SetCameraAngles(v3Angles);
+        Editor.SetCameraPosition(v3LookAt - M_GetForwardVecFromAngles(v3Angles) * le_camDistance);
+    }
+    
+    return true;
 }
 
 UI_VOID_CMD(Center, 0)
 {
-	cmdCenter();
+    cmdCenter();
 }
 
 
@@ -72,21 +72,21 @@ UI_VOID_CMD(Center, 0)
   --------------------*/
 CMD(MinimapLeftClick)
 {
-	if (vArgList.size() < 2)
-		return false;
+    if (vArgList.size() < 2)
+        return false;
 
-	CVec3f v3OldPosition(Editor.GetCamera().GetOrigin());
+    CVec3f v3OldPosition(Editor.GetCamera().GetOrigin());
 
-	float fOldHeight(v3OldPosition.z - Editor.GetWorld().GetTerrainHeight(v3OldPosition.x, v3OldPosition.y));
+    float fOldHeight(v3OldPosition.z - Editor.GetWorld().GetTerrainHeight(v3OldPosition.x, v3OldPosition.y));
 
-	CVec3f v3NewPosition;
-	v3NewPosition.x = AtoF(vArgList[0]) * Editor.GetWorld().GetWorldWidth();
-	v3NewPosition.y = AtoF(vArgList[1]) * Editor.GetWorld().GetWorldHeight();
-	v3NewPosition.z = Editor.GetWorld().GetTerrainHeight(v3NewPosition.x, v3NewPosition.y) + fOldHeight;
+    CVec3f v3NewPosition;
+    v3NewPosition.x = AtoF(vArgList[0]) * Editor.GetWorld().GetWorldWidth();
+    v3NewPosition.y = AtoF(vArgList[1]) * Editor.GetWorld().GetWorldHeight();
+    v3NewPosition.z = Editor.GetWorld().GetTerrainHeight(v3NewPosition.x, v3NewPosition.y) + fOldHeight;
 
-	Editor.SetCameraPosition(CVec3f(v3NewPosition));
+    Editor.SetCameraPosition(CVec3f(v3NewPosition));
 
-	return true;
+    return true;
 }
 
 
@@ -95,34 +95,34 @@ CMD(MinimapLeftClick)
   --------------------*/
 CMD(NewWorld)
 {
-	if (vArgList.size() < 3)
-	{
-		Console << _T("syntax: NewWorld <worldname> <size> <scale>") << newl
-				<< _T("Valid sizes are 1 - ") << MAX_WORLD_SIZE << newl;
-		return false;
-	}
+    if (vArgList.size() < 3)
+    {
+        Console << _T("syntax: NewWorld <worldname> <size> <scale>") << newl
+                << _T("Valid sizes are 1 - ") << MAX_WORLD_SIZE << newl;
+        return false;
+    }
 
-	if (vArgList[0].find(_T("/")) != tstring::npos)
-	{
-		Console << _T("No slashes allowed in world names") << newl;
-		return false;
-	}
+    if (vArgList[0].find(_T("/")) != tstring::npos)
+    {
+        Console << _T("No slashes allowed in world names") << newl;
+        return false;
+    }
 
-	return Editor.GetWorld().New(vArgList[0], AtoI(vArgList[1]), AtoF(vArgList[2]));
+    return Editor.GetWorld().New(vArgList[0], AtoI(vArgList[1]), AtoF(vArgList[2]));
 }
 
 UI_CMD(NewWorld, 3)
 {
-	if (vArgList[0]->Evaluate().find(_T("/")) != tstring::npos)
-		return _T("No slashes allowed in world names");
+    if (vArgList[0]->Evaluate().find(_T("/")) != tstring::npos)
+        return _T("No slashes allowed in world names");
 
-	if (AtoI(vArgList[1]->Evaluate()) < 1 || AtoI(vArgList[1]->Evaluate()) > MAX_WORLD_SIZE)
-		return _T("Invalid size: Valid sizes are 1 - ") + XtoA(MAX_WORLD_SIZE);
+    if (AtoI(vArgList[1]->Evaluate()) < 1 || AtoI(vArgList[1]->Evaluate()) > MAX_WORLD_SIZE)
+        return _T("Invalid size: Valid sizes are 1 - ") + XtoA(MAX_WORLD_SIZE);
 
-	if (Editor.GetWorld().New(vArgList[0]->Evaluate(), AtoI(vArgList[1]->Evaluate()), AtoF(vArgList[2]->Evaluate())))
-		return _T("");
-	else
-		return _T("Error creating world!");
+    if (Editor.GetWorld().New(vArgList[0]->Evaluate(), AtoI(vArgList[1]->Evaluate()), AtoF(vArgList[2]->Evaluate())))
+        return _T("");
+    else
+        return _T("Error creating world!");
 }
 
 
@@ -131,15 +131,15 @@ UI_CMD(NewWorld, 3)
   --------------------*/
 CMD(Brush)
 {
-	if (vArgList.size() < 1)
-	{
-		Console << _T("syntax: brush <id>") << newl;
-		return false;
-	}
+    if (vArgList.size() < 1)
+    {
+        Console << _T("syntax: brush <id>") << newl;
+        return false;
+    }
 
-	CBrush::SelectBrush(AtoI(vArgList[0]));
-	BrushImage.Trigger(CBrush::GetCurrentBrush()->GetFilename());
-	return true;
+    CBrush::SelectBrush(AtoI(vArgList[0]));
+    BrushImage.Trigger(CBrush::GetCurrentBrush()->GetFilename());
+    return true;
 }
 
 
@@ -148,8 +148,8 @@ CMD(Brush)
   --------------------*/
 UI_VOID_CMD(SetBrush, 1)
 {
-	CBrush::SelectBrush(AtoI(vArgList[0]->Evaluate()));
-	BrushImage.Trigger(CBrush::GetCurrentBrush()->GetFilename());
+    CBrush::SelectBrush(AtoI(vArgList[0]->Evaluate()));
+    BrushImage.Trigger(CBrush::GetCurrentBrush()->GetFilename());
 }
 
 
@@ -158,107 +158,107 @@ UI_VOID_CMD(SetBrush, 1)
   --------------------*/
 CMD(RayTrace)
 {
-	// Determine size of image to produce
-	int iWidth(160);
-	int iHeight(120);
-	if (vArgList.size() >= 2)
-	{
-		iWidth = AtoI(vArgList[0]);
-		iHeight = AtoI(vArgList[1]);
-	}
-	else if (!vArgList.empty())
-	{
-		iWidth = AtoI(vArgList[0]);
-		iHeight = INT_ROUND(iWidth / Vid.GetAspect());
-	}
-	iWidth = CLAMP(iWidth, 10, 32768);
-	iHeight = CLAMP(iHeight, 10, 32768);
+    // Determine size of image to produce
+    int iWidth(160);
+    int iHeight(120);
+    if (vArgList.size() >= 2)
+    {
+        iWidth = AtoI(vArgList[0]);
+        iHeight = AtoI(vArgList[1]);
+    }
+    else if (!vArgList.empty())
+    {
+        iWidth = AtoI(vArgList[0]);
+        iHeight = INT_ROUND(iWidth / Vid.GetAspect());
+    }
+    iWidth = CLAMP(iWidth, 10, 32768);
+    iHeight = CLAMP(iHeight, 10, 32768);
 
-	Console << _T("Tracing scene at a resolution of ") << iWidth << _T("x") << iHeight << newl;
+    Console << _T("Tracing scene at a resolution of ") << iWidth << _T("x") << iHeight << newl;
 
-	float fRatioX = Vid.GetScreenW() / static_cast<float>(iWidth);
-	float fRatioY = Vid.GetScreenH() / static_cast<float>(iHeight);
+    float fRatioX = Vid.GetScreenW() / static_cast<float>(iWidth);
+    float fRatioY = Vid.GetScreenH() / static_cast<float>(iHeight);
 
-	CBitmap bmp;
-	bmp.Alloc(iWidth, iHeight, BITMAP_RGBA);
+    CBitmap bmp;
+    bmp.Alloc(iWidth, iHeight, BITMAP_RGBA);
 
-	uint uiMsec(K2System.Milliseconds());
+    uint uiMsec(K2System.Milliseconds());
 
-	CVec4f	colors[] =
-	{
-		CVec4f(1.0f, 0.5f, 0.5f, 1.0f),
-		CVec4f(0.0f, 1.0f, 0.5f, 1.0f),
-		CVec4f(0.5f, 0.5f, 1.0f, 1.0f),
-		CVec4f(0.5f, 1.0f, 1.0f, 1.0f),
-		CVec4f(1.0f, 0.5f, 1.0f, 1.0f),
-		CVec4f(1.0f, 1.0f, 0.5f, 1.0f)
-	};
+    CVec4f  colors[] =
+    {
+        CVec4f(1.0f, 0.5f, 0.5f, 1.0f),
+        CVec4f(0.0f, 1.0f, 0.5f, 1.0f),
+        CVec4f(0.5f, 0.5f, 1.0f, 1.0f),
+        CVec4f(0.5f, 1.0f, 1.0f, 1.0f),
+        CVec4f(1.0f, 0.5f, 1.0f, 1.0f),
+        CVec4f(1.0f, 1.0f, 0.5f, 1.0f)
+    };
 
-	CWorld *pWorld(&Editor.GetWorld());
-	CCamera *pCamera(&Editor.GetCamera());
-	bool bTraceBox(vArgList.size() > 2);
-	float fBoxSize(bTraceBox ? AtoF(vArgList[2]) : 0.0f);
-	float fTraceDist(vArgList.size() > 3 ? AtoF(vArgList[3]) : FAR_AWAY);
-	CBBoxf bbBounds(CVec3f(-fBoxSize, -fBoxSize, -fBoxSize), CVec3f(fBoxSize, fBoxSize, fBoxSize));
-	int iIgnoreSurface(0);
+    CWorld *pWorld(&Editor.GetWorld());
+    CCamera *pCamera(&Editor.GetCamera());
+    bool bTraceBox(vArgList.size() > 2);
+    float fBoxSize(bTraceBox ? AtoF(vArgList[2]) : 0.0f);
+    float fTraceDist(vArgList.size() > 3 ? AtoF(vArgList[3]) : FAR_AWAY);
+    CBBoxf bbBounds(CVec3f(-fBoxSize, -fBoxSize, -fBoxSize), CVec3f(fBoxSize, fBoxSize, fBoxSize));
+    int iIgnoreSurface(0);
 
-	if (fBoxSize == 0.0f)
-		iIgnoreSurface |= SURF_HULL;
+    if (fBoxSize == 0.0f)
+        iIgnoreSurface |= SURF_HULL;
 
-	for (int y(0); y < iHeight; ++y)
-	{
-		for (int x(0); x < iWidth; ++x)
-		{
-			// Set up the trace
-			CVec3f v3Dir(pCamera->ConstructRay(x * fRatioX, y * fRatioY));
-			CVec3f v3End(M_PointOnLine(pCamera->GetOrigin(), v3Dir, fTraceDist));
-			STraceInfo trace;
+    for (int y(0); y < iHeight; ++y)
+    {
+        for (int x(0); x < iWidth; ++x)
+        {
+            // Set up the trace
+            CVec3f v3Dir(pCamera->ConstructRay(x * fRatioX, y * fRatioY));
+            CVec3f v3End(M_PointOnLine(pCamera->GetOrigin(), v3Dir, fTraceDist));
+            STraceInfo trace;
 
-			// Perform the trace
-			if (bTraceBox)
-				pWorld->TraceBox(trace, pCamera->GetOrigin(), v3End, bbBounds, iIgnoreSurface);
-			else
-				pWorld->TraceLine(trace, pCamera->GetOrigin(), v3End, iIgnoreSurface);
+            // Perform the trace
+            if (bTraceBox)
+                pWorld->TraceBox(trace, pCamera->GetOrigin(), v3End, bbBounds, iIgnoreSurface);
+            else
+                pWorld->TraceLine(trace, pCamera->GetOrigin(), v3End, iIgnoreSurface);
 
-			// No hit
-			if (trace.fFraction >= 1.0f)
-			{
-				bmp.SetPixel4b(x, y, 255, 0, 0, 255);
-				//--x;
-				continue;
-			}
+            // No hit
+            if (trace.fFraction >= 1.0f)
+            {
+                bmp.SetPixel4b(x, y, 255, 0, 0, 255);
+                //--x;
+                continue;
+            }
 
-			float fDot(DotProduct(-v3Dir, trace.plPlane.v3Normal));
-			if (fDot < 0.0f)
-			{
-				bmp.SetPixel4b(x, y, 255, 0, 255, 255);
-			}
-			else if (trace.uiSurfaceIndex != INVALID_INDEX)
-			{
-				float fLight(CLAMP(fDot, 0.0f, 1.0f));
-				CVec4f	v4Color(colors[trace.uiSurfaceIndex % 6]);
-				bmp.SetPixel4b(x, y, byte(v4Color[R] * fLight * 255), byte(v4Color[G] * fLight * 255), byte(v4Color[B] * fLight * 255), 255);
-			}
-			else if (trace.uiEntityIndex != INVALID_INDEX)
-			{
-				float fLight(CLAMP(fDot, 0.0f, 1.0f));
-				CVec4f	v4Color(colors[trace.uiEntityIndex % 6]);
-				bmp.SetPixel4b(x, y, byte(v4Color[R] * fLight * 255), byte(v4Color[G] * fLight * 255), byte(v4Color[B] * fLight * 255), 255);
-			}
-			else
-			{
-				byte yLight(static_cast<byte>(MAX(fDot, 0.0f) * 255));
-				bmp.SetPixel4b(x, y, yLight, yLight, (trace.uiSurfFlags & SURF_TERRAIN) ? yLight : 0, 255);
-			}
-		}
-	}
+            float fDot(DotProduct(-v3Dir, trace.plPlane.v3Normal));
+            if (fDot < 0.0f)
+            {
+                bmp.SetPixel4b(x, y, 255, 0, 255, 255);
+            }
+            else if (trace.uiSurfaceIndex != INVALID_INDEX)
+            {
+                float fLight(CLAMP(fDot, 0.0f, 1.0f));
+                CVec4f  v4Color(colors[trace.uiSurfaceIndex % 6]);
+                bmp.SetPixel4b(x, y, byte(v4Color[R] * fLight * 255), byte(v4Color[G] * fLight * 255), byte(v4Color[B] * fLight * 255), 255);
+            }
+            else if (trace.uiEntityIndex != INVALID_INDEX)
+            {
+                float fLight(CLAMP(fDot, 0.0f, 1.0f));
+                CVec4f  v4Color(colors[trace.uiEntityIndex % 6]);
+                bmp.SetPixel4b(x, y, byte(v4Color[R] * fLight * 255), byte(v4Color[G] * fLight * 255), byte(v4Color[B] * fLight * 255), 255);
+            }
+            else
+            {
+                byte yLight(static_cast<byte>(MAX(fDot, 0.0f) * 255));
+                bmp.SetPixel4b(x, y, yLight, yLight, (trace.uiSurfFlags & SURF_TERRAIN) ? yLight : 0, 255);
+            }
+        }
+    }
 
-	Console << _T("Raytrace took ") << XtoA(MsToSec(K2System.Milliseconds() - uiMsec), 0, 0, 3) << _T(" seconds") << newl;
+    Console << _T("Raytrace took ") << XtoA(MsToSec(K2System.Milliseconds() - uiMsec), 0, 0, 3) << _T(" seconds") << newl;
 
-	tstring sFilename(FileManager.GetNextFileIncrement(4, _T("~/raytrace"), _T("png")));
-	bmp.WritePNG(sFilename);
-	bmp.Free();
-	return true;
+    tstring sFilename(FileManager.GetNextFileIncrement(4, _T("~/raytrace"), _T("png")));
+    bmp.WritePNG(sFilename);
+    bmp.Free();
+    return true;
 }
 
 
@@ -285,7 +285,7 @@ INPUT_STATE_BOOL(ModifierAlt);
   --------------------*/
 ACTION_AXIS(CameraPitch)
 {
-	Editor.AdjustCameraPitch(fDelta);
+    Editor.AdjustCameraPitch(fDelta);
 }
 
 
@@ -294,7 +294,7 @@ ACTION_AXIS(CameraPitch)
   --------------------*/
 ACTION_AXIS(CameraYaw)
 {
-	Editor.AdjustCameraYaw(fDelta);
+    Editor.AdjustCameraYaw(fDelta);
 }
 
 
@@ -303,7 +303,7 @@ ACTION_AXIS(CameraYaw)
   --------------------*/
 ACTION_IMPULSE(MoveIn)
 {
-	Editor.ShiftCamera(1.0f);
+    Editor.ShiftCamera(1.0f);
 }
 
 
@@ -312,7 +312,7 @@ ACTION_IMPULSE(MoveIn)
   --------------------*/
 ACTION_IMPULSE(MoveOut)
 {
-	Editor.ShiftCamera(-1.0f);
+    Editor.ShiftCamera(-1.0f);
 }
 
 
@@ -321,21 +321,21 @@ ACTION_IMPULSE(MoveOut)
   --------------------*/
 ACTION_BUTTON(ToolPrimary)
 {
-	try
-	{
-		ITool *pTool(ToolBox.GetCurrentTool());
-		if (pTool == NULL)
-			return;
+    try
+    {
+        ITool *pTool(ToolBox.GetCurrentTool());
+        if (pTool == NULL)
+            return;
 
-		if (fValue)
-			pTool->PrimaryDown();
-		else
-			pTool->PrimaryUp();
-	}
-	catch (CException &ex)
-	{
-		ex.Process(_T("ACTION(ToolPrimary) - "), NO_THROW);
-	}
+        if (fValue)
+            pTool->PrimaryDown();
+        else
+            pTool->PrimaryUp();
+    }
+    catch (CException &ex)
+    {
+        ex.Process(_T("ACTION(ToolPrimary) - "), NO_THROW);
+    }
 }
 
 
@@ -344,27 +344,27 @@ ACTION_BUTTON(ToolPrimary)
   --------------------*/
 ACTION_BUTTON(ToolSecondary)
 {
-	try
-	{
-		if (Editor.IsRulerActive())
-		{
-			Editor.RulerPointCreate();
-			return;
-		}
+    try
+    {
+        if (Editor.IsRulerActive())
+        {
+            Editor.RulerPointCreate();
+            return;
+        }
 
-		ITool *pTool(ToolBox.GetCurrentTool());
-		if (pTool == NULL)
-			return;
+        ITool *pTool(ToolBox.GetCurrentTool());
+        if (pTool == NULL)
+            return;
 
-		if (fValue)
-			pTool->SecondaryDown();
-		else
-			pTool->SecondaryUp();
-	}
-	catch (CException &ex)
-	{
-		ex.Process(_T("ACTION(ToolSecondary) - "), NO_THROW);
-	}
+        if (fValue)
+            pTool->SecondaryDown();
+        else
+            pTool->SecondaryUp();
+    }
+    catch (CException &ex)
+    {
+        ex.Process(_T("ACTION(ToolSecondary) - "), NO_THROW);
+    }
 }
 
 
@@ -373,21 +373,21 @@ ACTION_BUTTON(ToolSecondary)
   --------------------*/
 ACTION_BUTTON(ToolTertiary)
 {
-	try
-	{
-		ITool *pTool(ToolBox.GetCurrentTool());
-		if (pTool == NULL)
-			return;
+    try
+    {
+        ITool *pTool(ToolBox.GetCurrentTool());
+        if (pTool == NULL)
+            return;
 
-		if (fValue)
-			pTool->TertiaryDown();
-		else
-			pTool->TertiaryUp();
-	}
-	catch (CException &ex)
-	{
-		ex.Process(_T("ACTION(ToolTertiary) - "), NO_THROW);
-	}
+        if (fValue)
+            pTool->TertiaryDown();
+        else
+            pTool->TertiaryUp();
+    }
+    catch (CException &ex)
+    {
+        ex.Process(_T("ACTION(ToolTertiary) - "), NO_THROW);
+    }
 }
 
 
@@ -396,21 +396,21 @@ ACTION_BUTTON(ToolTertiary)
   --------------------*/
 ACTION_BUTTON(ToolQuaternary)
 {
-	try
-	{
-		ITool *pTool(ToolBox.GetCurrentTool());
-		if (pTool == NULL)
-			return;
+    try
+    {
+        ITool *pTool(ToolBox.GetCurrentTool());
+        if (pTool == NULL)
+            return;
 
-		if (fValue)
-			pTool->QuaternaryDown();
-		else
-			pTool->QuaternaryUp();
-	}
-	catch (CException &ex)
-	{
-		ex.Process(_T("ACTION(ToolQuaternary) - "), NO_THROW);
-	}
+        if (fValue)
+            pTool->QuaternaryDown();
+        else
+            pTool->QuaternaryUp();
+    }
+    catch (CException &ex)
+    {
+        ex.Process(_T("ACTION(ToolQuaternary) - "), NO_THROW);
+    }
 }
 
 
@@ -419,9 +419,9 @@ ACTION_BUTTON(ToolQuaternary)
   --------------------*/
 ACTION_IMPULSE(Cancel)
 {
-	ITool *pTool(ToolBox.GetCurrentTool());
-	if (pTool != NULL)
-		pTool->Cancel();
+    ITool *pTool(ToolBox.GetCurrentTool());
+    if (pTool != NULL)
+        pTool->Cancel();
 }
 
 
@@ -430,9 +430,9 @@ ACTION_IMPULSE(Cancel)
   --------------------*/
 ACTION_IMPULSE(Delete)
 {
-	ITool *pTool(ToolBox.GetCurrentTool());
-	if (pTool != NULL)
-		pTool->Delete();
+    ITool *pTool(ToolBox.GetCurrentTool());
+    if (pTool != NULL)
+        pTool->Delete();
 }
 
 
@@ -441,14 +441,14 @@ ACTION_IMPULSE(Delete)
   --------------------*/
 ACTION_BUTTON(ToolModifier1)
 {
-	ITool *pTool(ToolBox.GetCurrentTool());
-	if (pTool != NULL)
-	{
-		if (fValue)
-			pTool->SetModifier1(true);
-		else
-			pTool->SetModifier1(false);
-	}
+    ITool *pTool(ToolBox.GetCurrentTool());
+    if (pTool != NULL)
+    {
+        if (fValue)
+            pTool->SetModifier1(true);
+        else
+            pTool->SetModifier1(false);
+    }
 }
 
 
@@ -457,14 +457,14 @@ ACTION_BUTTON(ToolModifier1)
   --------------------*/
 ACTION_BUTTON(ToolModifier2)
 {
-	ITool *pTool(ToolBox.GetCurrentTool());
-	if (pTool != NULL)
-	{
-		if (fValue)
-			pTool->SetModifier2(true);
-		else
-			pTool->SetModifier2(false);
-	}
+    ITool *pTool(ToolBox.GetCurrentTool());
+    if (pTool != NULL)
+    {
+        if (fValue)
+            pTool->SetModifier2(true);
+        else
+            pTool->SetModifier2(false);
+    }
 }
 
 
@@ -473,14 +473,14 @@ ACTION_BUTTON(ToolModifier2)
   --------------------*/
 ACTION_BUTTON(ToolModifier3)
 {
-	ITool *pTool(ToolBox.GetCurrentTool());
-	if (pTool != NULL)
-	{
-		if (fValue)
-			pTool->SetModifier3(true);
-		else
-			pTool->SetModifier3(false);
-	}
+    ITool *pTool(ToolBox.GetCurrentTool());
+    if (pTool != NULL)
+    {
+        if (fValue)
+            pTool->SetModifier3(true);
+        else
+            pTool->SetModifier3(false);
+    }
 }
 
 
@@ -489,7 +489,7 @@ ACTION_BUTTON(ToolModifier3)
   --------------------*/
 ACTION_IMPULSE(PathSetStart)
 {
-	Editor.PathSetStart();
+    Editor.PathSetStart();
 }
 
 
@@ -498,7 +498,7 @@ ACTION_IMPULSE(PathSetStart)
   --------------------*/
 ACTION_IMPULSE(PathSetEnd)
 {
-	Editor.PathSetEnd();
+    Editor.PathSetEnd();
 }
 
 
@@ -507,7 +507,7 @@ ACTION_IMPULSE(PathSetEnd)
   --------------------*/
 ACTION_IMPULSE(PathClear)
 {
-	Editor.PathClear();
+    Editor.PathClear();
 }
 
 
@@ -516,42 +516,42 @@ ACTION_IMPULSE(PathClear)
   --------------------*/
 ACTION_BUTTON_EX(Ruler, ACTION_NOREPEAT)
 {
-	if (fValue)
-	{
-		if (fDelta > 0.0f)
-			Editor.RulerStart();
-	}
-	else
-	{
-		Editor.RulerEnd();
-	}
+    if (fValue)
+    {
+        if (fDelta > 0.0f)
+            Editor.RulerStart();
+    }
+    else
+    {
+        Editor.RulerEnd();
+    }
 }
 
 
 /*====================
   CL_Init
   ====================*/
-bool	CL_Init(CHostClient *pHostClient)
+bool    CL_Init(CHostClient *pHostClient)
 {
-	return Editor.Init(pHostClient);
+    return Editor.Init(pHostClient);
 }
 
 
 /*====================
   CL_Frame
   ====================*/
-void	CL_Frame()
+void    CL_Frame()
 {
-	Editor.Frame();
+    Editor.Frame();
 }
 
 
 /*====================
   CL_Shutdown
   ====================*/
-void	CL_Shutdown()
+void    CL_Shutdown()
 {
-	Console << _T("Closing editor...") << newl;
+    Console << _T("Closing editor...") << newl;
 }
 
 
@@ -559,17 +559,17 @@ void	CL_Shutdown()
   InitLibrary
   ====================*/
 #ifdef __GNUC__
-extern "C" void	__attribute__ ((visibility("default"))) InitLibrary(CClientGameLib &GameLib)
+extern "C" void __attribute__ ((visibility("default"))) InitLibrary(CClientGameLib &GameLib)
 #else
-void	InitLibrary(CClientGameLib &GameLib)
+void    InitLibrary(CClientGameLib &GameLib)
 #endif
 {
-	GameLib.SetName(_T("Heroes of Newerth - Level Editor"));
-	GameLib.SetMajorVersion(1);
-	GameLib.SetMinorVersion(0);
-	GameLib.AssignInitFn(CL_Init);
-	GameLib.AssignFrameFn(CL_Frame);
-	GameLib.AssignShutdownFn(CL_Shutdown);
+    GameLib.SetName(_T("Heroes of Newerth - Level Editor"));
+    GameLib.SetMajorVersion(1);
+    GameLib.SetMinorVersion(0);
+    GameLib.AssignInitFn(CL_Init);
+    GameLib.AssignFrameFn(CL_Frame);
+    GameLib.AssignShutdownFn(CL_Shutdown);
 }
 
 
@@ -578,11 +578,11 @@ void	InitLibrary(CClientGameLib &GameLib)
   --------------------*/
 CMD(SetTextureScale)
 {
-	if (vArgList.empty())
-		return false;
+    if (vArgList.empty())
+        return false;
 
-	Editor.SetTextureScale(AtoF(vArgList[0]));
-	return true;
+    Editor.SetTextureScale(AtoF(vArgList[0]));
+    return true;
 }
 
 
@@ -591,11 +591,11 @@ CMD(SetTextureScale)
   --------------------*/
 CMD(SetFancyName)
 {
-	if (vArgList.empty())
-		return false;
+    if (vArgList.empty())
+        return false;
 
-	Editor.SetFancyName(vArgList[0]);
-	return true;
+    Editor.SetFancyName(vArgList[0]);
+    return true;
 }
 
 
@@ -604,18 +604,18 @@ CMD(SetFancyName)
   --------------------*/
 CMD(Load)
 {
-	if (vArgList.empty())
-	{
-		Console << _T("Please specify a world name") << newl;
-		return false;
-	}
+    if (vArgList.empty())
+    {
+        Console << _T("Please specify a world name") << newl;
+        return false;
+    }
 
-	return Editor.LoadWorld(vArgList[0]);
+    return Editor.LoadWorld(vArgList[0]);
 }
 
 UI_VOID_CMD(Load, 1)
 {
-	Editor.LoadWorld(vArgList[0]->Evaluate());
+    Editor.LoadWorld(vArgList[0]->Evaluate());
 }
 
 
@@ -624,21 +624,21 @@ UI_VOID_CMD(Load, 1)
   --------------------*/
 CMD(Save)
 {
-	try
-	{
-		Editor.GetWorld().Save(vArgList.size() > 0 ? vArgList[0] : _T(""));
-		return true;
-	}
-	catch (CException &ex)
-	{
-		ex.Process(_T("cmdSave() - "), NO_THROW);
-		return false;
-	}
+    try
+    {
+        Editor.GetWorld().Save(vArgList.size() > 0 ? vArgList[0] : _T(""));
+        return true;
+    }
+    catch (CException &ex)
+    {
+        ex.Process(_T("cmdSave() - "), NO_THROW);
+        return false;
+    }
 }
 
 UI_VOID_CMD(Save, 0)
 {
-	cmdSave(vArgList.size() > 0 ? vArgList[0]->Evaluate() : _T(""));
+    cmdSave(vArgList.size() > 0 ? vArgList[0]->Evaluate() : _T(""));
 }
 
 
@@ -648,7 +648,7 @@ UI_VOID_CMD(Save, 0)
   --------------------*/
 UI_VOID_CMD(UpdateMinimapTexture, 0)
 {
-	Editor.UpdateMinimapTexture();
+    Editor.UpdateMinimapTexture();
 }
 
 
@@ -657,21 +657,21 @@ UI_VOID_CMD(UpdateMinimapTexture, 0)
   --------------------*/
 CMD(ExportMinimap)
 {
-	if (vArgList.size() < 1)
-	{
-		Console << _T("syntax: ExportMinimap <filename>") << newl;
-		return false;
-	}
+    if (vArgList.size() < 1)
+    {
+        Console << _T("syntax: ExportMinimap <filename>") << newl;
+        return false;
+    }
 
-	CBitmap cMinimap(Editor.GetWorld().GetTileWidth(), Editor.GetWorld().GetTileHeight(), BITMAP_RGB);
+    CBitmap cMinimap(Editor.GetWorld().GetTileWidth(), Editor.GetWorld().GetTileHeight(), BITMAP_RGB);
 
-	Editor.RenderMinimapBitmap(cMinimap);
+    Editor.RenderMinimapBitmap(cMinimap);
 
-	cMinimap.Flip();
+    cMinimap.Flip();
 
-	cMinimap.WritePNG(_TS("~/") + vArgList[0]);
+    cMinimap.WritePNG(_TS("~/") + vArgList[0]);
 
-	return true;
+    return true;
 }
 
 
@@ -680,14 +680,14 @@ CMD(ExportMinimap)
   --------------------*/
 UI_VOID_CMD(SetGlobalScript, 2)
 {
-	if (vArgList.size() < 2)
-	{
-		Console << _T("Syntax: SetGlobalScript <name> <script>") << newl;
-		return;
-	}
+    if (vArgList.size() < 2)
+    {
+        Console << _T("Syntax: SetGlobalScript <name> <script>") << newl;
+        return;
+    }
 
-	Editor.GetWorld().AddScript(vArgList[0]->Evaluate(), NormalizeLineBreaks(vArgList[1]->Evaluate(), _T("\n")));
-	Editor.UpdateScripts();
+    Editor.GetWorld().AddScript(vArgList[0]->Evaluate(), NormalizeLineBreaks(vArgList[1]->Evaluate(), _T("\n")));
+    Editor.UpdateScripts();
 }
 
 
@@ -696,13 +696,13 @@ UI_VOID_CMD(SetGlobalScript, 2)
   --------------------*/
 UI_CMD(GetGlobalScript, 1)
 {
-	if (vArgList.size() < 1)
-	{
-		Console << _T("Syntax: GetGlobalScript <name>") << newl;
-		return _T("");
-	}
+    if (vArgList.size() < 1)
+    {
+        Console << _T("Syntax: GetGlobalScript <name>") << newl;
+        return _T("");
+    }
 
-	return NormalizeLineBreaks(Editor.GetWorld().GetScript(vArgList[0]->Evaluate()));
+    return NormalizeLineBreaks(Editor.GetWorld().GetScript(vArgList[0]->Evaluate()));
 }
 
 
@@ -711,15 +711,15 @@ UI_CMD(GetGlobalScript, 1)
   --------------------*/
 UI_CMD(IsValidScriptName, 1)
 {
-	if (vArgList.size() > 1)
-		return XtoA(false);
-	
-	tstring sScript(LowerString(vArgList[0]->Evaluate()));
+    if (vArgList.size() > 1)
+        return XtoA(false);
+    
+    tstring sScript(LowerString(vArgList[0]->Evaluate()));
 
-	if (sScript.empty() || sScript.find(_T(" ")) != tstring::npos)
-		return XtoA(false);
+    if (sScript.empty() || sScript.find(_T(" ")) != tstring::npos)
+        return XtoA(false);
 
-	return XtoA(true);//XtoA(!(Editor.GetWorld().IsScriptReserved(sScript)));
+    return XtoA(true);//XtoA(!(Editor.GetWorld().IsScriptReserved(sScript)));
 }
 
 
@@ -728,11 +728,11 @@ UI_CMD(IsValidScriptName, 1)
   --------------------*/
 UI_CMD(ImportFile, 2)
 {
-	bool bReturn(Editor.GetWorld().ImportFile(vArgList[0]->Evaluate(), vArgList[1]->Evaluate()));
+    bool bReturn(Editor.GetWorld().ImportFile(vArgList[0]->Evaluate(), vArgList[1]->Evaluate()));
 
-	Editor.UpdateImportedFiles();
+    Editor.UpdateImportedFiles();
 
-	return XtoA(bReturn);
+    return XtoA(bReturn);
 }
 
 
@@ -741,11 +741,11 @@ UI_CMD(ImportFile, 2)
   --------------------*/
 UI_CMD(DeleteImportedFile, 1)
 {
-	bool bReturn(Editor.GetWorld().DeleteImportedFile(vArgList[0]->Evaluate()));
+    bool bReturn(Editor.GetWorld().DeleteImportedFile(vArgList[0]->Evaluate()));
 
-	Editor.UpdateImportedFiles();
+    Editor.UpdateImportedFiles();
 
-	return XtoA(bReturn);
+    return XtoA(bReturn);
 }
 
 
@@ -754,14 +754,14 @@ UI_CMD(DeleteImportedFile, 1)
   --------------------*/
 CMD(CalculateOcclusionMap)
 {
-	uint uiMsec(K2System.Milliseconds());
+    uint uiMsec(K2System.Milliseconds());
 
-	Editor.GetWorld().CalculateOcclusionMap(vArgList.size() > 0 ? AtoI(vArgList[0]) : 16);
+    Editor.GetWorld().CalculateOcclusionMap(vArgList.size() > 0 ? AtoI(vArgList[0]) : 16);
 
-	Console << _T("OcclusionMap calculation took ") << XtoA(MsToSec(K2System.Milliseconds() - uiMsec), 0, 0, 3) << _T(" seconds") << newl;
+    Console << _T("OcclusionMap calculation took ") << XtoA(MsToSec(K2System.Milliseconds() - uiMsec), 0, 0, 3) << _T(" seconds") << newl;
 
-	Console.Execute(_T("RebuildTerrain"));
-	return true;
+    Console.Execute(_T("RebuildTerrain"));
+    return true;
 }
 
 
@@ -770,13 +770,13 @@ CMD(CalculateOcclusionMap)
   --------------------*/
 CMD(TraceTest)
 {
-	CWorld *pWorld(&Editor.GetWorld());
-	CCamera *pCamera(&Editor.GetCamera());
+    CWorld *pWorld(&Editor.GetWorld());
+    CCamera *pCamera(&Editor.GetCamera());
 
-	STraceInfo trace;
-	pWorld->TraceLine(trace, pCamera->GetOrigin(), pCamera->GetOrigin() + CVec3f(0.0f, 0.0f, -10000.0f));
+    STraceInfo trace;
+    pWorld->TraceLine(trace, pCamera->GetOrigin(), pCamera->GetOrigin() + CVec3f(0.0f, 0.0f, -10000.0f));
 
-	return true;
+    return true;
 }
 
 
@@ -785,7 +785,7 @@ CMD(TraceTest)
   --------------------*/
 UI_VOID_CMD(SetMinPlayersPerTeam, 1)
 {
-	Editor.GetWorld().SetMinPlayersPerTeam(AtoI(vArgList[0]->Evaluate()));
+    Editor.GetWorld().SetMinPlayersPerTeam(AtoI(vArgList[0]->Evaluate()));
 }
 
 
@@ -794,7 +794,7 @@ UI_VOID_CMD(SetMinPlayersPerTeam, 1)
   --------------------*/
 UI_CMD(GetMinPlayersPerTeam, 0)
 {
-	return XtoA(Editor.GetWorld().GetMinPlayersPerTeam());
+    return XtoA(Editor.GetWorld().GetMinPlayersPerTeam());
 }
 
 
@@ -803,7 +803,7 @@ UI_CMD(GetMinPlayersPerTeam, 0)
   --------------------*/
 UI_VOID_CMD(SetMaxPlayers, 1)
 {
-	Editor.GetWorld().SetMaxPlayers(AtoI(vArgList[0]->Evaluate()));
+    Editor.GetWorld().SetMaxPlayers(AtoI(vArgList[0]->Evaluate()));
 }
 
 
@@ -812,7 +812,7 @@ UI_VOID_CMD(SetMaxPlayers, 1)
   --------------------*/
 UI_CMD(GetMaxPlayers, 0)
 {
-	return XtoA(Editor.GetWorld().GetMaxPlayers());
+    return XtoA(Editor.GetWorld().GetMaxPlayers());
 }
 
 
@@ -821,8 +821,8 @@ UI_CMD(GetMaxPlayers, 0)
   --------------------*/
 CMD(PathSetStart)
 {
-	Editor.PathSetStart();
-	return true;
+    Editor.PathSetStart();
+    return true;
 }
 
 
@@ -831,8 +831,8 @@ CMD(PathSetStart)
   --------------------*/
 CMD(PathSetEnd)
 {
-	Editor.PathSetEnd();
-	return true;
+    Editor.PathSetEnd();
+    return true;
 }
 
 
@@ -841,8 +841,8 @@ CMD(PathSetEnd)
   --------------------*/
 CMD(PathClear)
 {
-	Editor.PathClear();
-	return true;
+    Editor.PathClear();
+    return true;
 }
 
 
@@ -851,8 +851,8 @@ CMD(PathClear)
   --------------------*/
 CMD(PathSpam)
 {
-	Editor.PathSpam();
-	return true;
+    Editor.PathSpam();
+    return true;
 }
 
 
@@ -861,15 +861,15 @@ CMD(PathSpam)
   --------------------*/
 CMD(Path)
 {
-	if (vArgList.size() < 4)
-		return false;
+    if (vArgList.size() < 4)
+        return false;
 
-	CVec2f v2Start(AtoF(vArgList[0]), AtoF(vArgList[1]));
-	CVec2f v2End(AtoF(vArgList[2]), AtoF(vArgList[3]));
+    CVec2f v2Start(AtoF(vArgList[0]), AtoF(vArgList[1]));
+    CVec2f v2End(AtoF(vArgList[2]), AtoF(vArgList[3]));
 
-	Editor.Path(v2Start, v2End);
+    Editor.Path(v2Start, v2End);
 
-	return true;
+    return true;
 }
 
 
@@ -878,105 +878,105 @@ CMD(Path)
   --------------------*/
 CMD(FixTrees)
 {
-	CWorld &cWorld(Editor.GetWorld());
-	WorldEntList &vEntities(cWorld.GetEntityList());
-	WorldEntList_cit citEnd(vEntities.end());
+    CWorld &cWorld(Editor.GetWorld());
+    WorldEntList &vEntities(cWorld.GetEntityList());
+    WorldEntList_cit citEnd(vEntities.end());
 
-	// Snap to 2 tile grid
-	for (WorldEntList_cit cit(vEntities.begin()); cit != citEnd; ++cit)
-	{
-		CWorldEntity *pWorldEnt(cWorld.GetEntityByHandle(*cit));
-		if (pWorldEnt == NULL)
-			continue;
+    // Snap to 2 tile grid
+    for (WorldEntList_cit cit(vEntities.begin()); cit != citEnd; ++cit)
+    {
+        CWorldEntity *pWorldEnt(cWorld.GetEntityByHandle(*cit));
+        if (pWorldEnt == NULL)
+            continue;
 
-		if (pWorldEnt->GetType() != _T("Prop_Tree"))
-			continue;
+        if (pWorldEnt->GetType() != _T("Prop_Tree"))
+            continue;
 
-		uint uiEntIndex(pWorldEnt->GetIndex());
+        uint uiEntIndex(pWorldEnt->GetIndex());
 
-		cWorld.UnlinkEntity(uiEntIndex);
+        cWorld.UnlinkEntity(uiEntIndex);
 
-		CVec3f v3Position(pWorldEnt->GetPosition());
+        CVec3f v3Position(pWorldEnt->GetPosition());
 
-		v3Position.x = ROUND(v3Position.x / 64.0f) * 64.0f;
-		v3Position.y = ROUND(v3Position.y / 64.0f) * 64.0f;
-		v3Position.z = Editor.GetWorld().GetTerrainHeight(v3Position.x, v3Position.y);
+        v3Position.x = ROUND(v3Position.x / 64.0f) * 64.0f;
+        v3Position.y = ROUND(v3Position.y / 64.0f) * 64.0f;
+        v3Position.z = Editor.GetWorld().GetTerrainHeight(v3Position.x, v3Position.y);
 
-		pWorldEnt->SetPosition(v3Position);
-		pWorldEnt->SetWorldBounds(CBBoxf(-50.0f, 50.0f) + v3Position);
-		
-		cWorld.LinkEntity(pWorldEnt->GetIndex(), LINK_SURFACE | LINK_MODEL, SURF_PROP);
+        pWorldEnt->SetPosition(v3Position);
+        pWorldEnt->SetWorldBounds(CBBoxf(-50.0f, 50.0f) + v3Position);
+        
+        cWorld.LinkEntity(pWorldEnt->GetIndex(), LINK_SURFACE | LINK_MODEL, SURF_PROP);
 
-		map<uint, CWorldEntityEx>::iterator findit(g_WorldEntData.find(uiEntIndex));
+        map<uint, CWorldEntityEx>::iterator findit(g_WorldEntData.find(uiEntIndex));
 
-		if (findit != g_WorldEntData.end())
-		{
-			vector<PoolHandle> &vPathBlockers(findit->second.GetPathBlockers());
+        if (findit != g_WorldEntData.end())
+        {
+            vector<PoolHandle> &vPathBlockers(findit->second.GetPathBlockers());
 
-			vector<PoolHandle>::const_iterator citEnd(vPathBlockers.end());
-			for (vector<PoolHandle>::const_iterator cit(vPathBlockers.begin()); cit != citEnd; ++cit)
-				cWorld.ClearPath(*cit);
+            vector<PoolHandle>::const_iterator citEnd(vPathBlockers.end());
+            for (vector<PoolHandle>::const_iterator cit(vPathBlockers.begin()); cit != citEnd; ++cit)
+                cWorld.ClearPath(*cit);
 
-			const vector<CConvexPolyhedron> &cWorldSurfs(pWorldEnt->GetWorldSurfsRef());
-			for (vector<CConvexPolyhedron>::const_iterator cit(cWorldSurfs.begin()); cit != cWorldSurfs.end(); ++cit)
-				cWorld.BlockPath(vPathBlockers, NAVIGATION_UNIT, *cit, 24.0f);
+            const vector<CConvexPolyhedron> &cWorldSurfs(pWorldEnt->GetWorldSurfsRef());
+            for (vector<CConvexPolyhedron>::const_iterator cit(cWorldSurfs.begin()); cit != cWorldSurfs.end(); ++cit)
+                cWorld.BlockPath(vPathBlockers, NAVIGATION_UNIT, *cit, 24.0f);
 
-			// Hack for tree blockers
-			vPathBlockers.push_back(cWorld.BlockPath(NAVIGATION_UNIT, pWorldEnt->GetPosition().xy() - CVec2f(50.0f), 100.0f, 100.0f));
-		}
-	}
+            // Hack for tree blockers
+            vPathBlockers.push_back(cWorld.BlockPath(NAVIGATION_UNIT, pWorldEnt->GetPosition().xy() - CVec2f(50.0f), 100.0f, 100.0f));
+        }
+    }
 
-	uiset setRelease;
+    uiset setRelease;
 
-	// Delete overlaps
-	for (WorldEntList_cit citA(vEntities.begin()); citA != citEnd; ++citA)
-	{
-		CWorldEntity *pWorldEntA(cWorld.GetEntityByHandle(*citA));
-		if (pWorldEntA == NULL)
-			continue;
+    // Delete overlaps
+    for (WorldEntList_cit citA(vEntities.begin()); citA != citEnd; ++citA)
+    {
+        CWorldEntity *pWorldEntA(cWorld.GetEntityByHandle(*citA));
+        if (pWorldEntA == NULL)
+            continue;
 
-		if (pWorldEntA->GetType() != _T("Prop_Tree"))
-			continue;
+        if (pWorldEntA->GetType() != _T("Prop_Tree"))
+            continue;
 
-		WorldEntList_cit citB(citA);
-		++citB;
+        WorldEntList_cit citB(citA);
+        ++citB;
 
-		for (; citB != citEnd; ++citB)
-		{
-			CWorldEntity *pWorldEntB(cWorld.GetEntityByHandle(*citB));
-			if (pWorldEntB == NULL)
-				continue;
+        for (; citB != citEnd; ++citB)
+        {
+            CWorldEntity *pWorldEntB(cWorld.GetEntityByHandle(*citB));
+            if (pWorldEntB == NULL)
+                continue;
 
-			if (pWorldEntB->GetType() != _T("Prop_Tree"))
-				continue;
+            if (pWorldEntB->GetType() != _T("Prop_Tree"))
+                continue;
 
-			if (IntersectBounds(pWorldEntA->GetWorldBounds(), pWorldEntB->GetWorldBounds()))
-				setRelease.insert(pWorldEntB->GetIndex());
-		}
-	}
+            if (IntersectBounds(pWorldEntA->GetWorldBounds(), pWorldEntB->GetWorldBounds()))
+                setRelease.insert(pWorldEntB->GetIndex());
+        }
+    }
 
-	uiset_it itEnd(setRelease.end());
-	for (uiset_it it(setRelease.begin()); it != itEnd; ++it)
-	{
-		cWorld.UnlinkEntity(*it);
-		cWorld.DeleteEntity(*it);
+    uiset_it itEnd(setRelease.end());
+    for (uiset_it it(setRelease.begin()); it != itEnd; ++it)
+    {
+        cWorld.UnlinkEntity(*it);
+        cWorld.DeleteEntity(*it);
 
-		map<uint, CWorldEntityEx>::iterator findit(g_WorldEntData.find(*it));
-		if (findit != g_WorldEntData.end())
-		{
-			vector<PoolHandle> &vPathBlockers(findit->second.GetPathBlockers());
+        map<uint, CWorldEntityEx>::iterator findit(g_WorldEntData.find(*it));
+        if (findit != g_WorldEntData.end())
+        {
+            vector<PoolHandle> &vPathBlockers(findit->second.GetPathBlockers());
 
-			vector<PoolHandle>::const_iterator citEnd(vPathBlockers.end());
-			for (vector<PoolHandle>::const_iterator cit(vPathBlockers.begin()); cit != citEnd; ++cit)
-				cWorld.ClearPath(*cit);
+            vector<PoolHandle>::const_iterator citEnd(vPathBlockers.end());
+            for (vector<PoolHandle>::const_iterator cit(vPathBlockers.begin()); cit != citEnd; ++cit)
+                cWorld.ClearPath(*cit);
 
-			vPathBlockers.clear();
+            vPathBlockers.clear();
 
-			g_WorldEntData.erase(findit);
-		}
-	}
+            g_WorldEntData.erase(findit);
+        }
+    }
 
-	return true;
+    return true;
 }
 
 
@@ -985,111 +985,111 @@ CMD(FixTrees)
   --------------------*/
 CMD(CloneTrees)
 {
-	CWorld &cWorld(Editor.GetWorld());
-	WorldEntList vEntities(cWorld.GetEntityList()); // copy
-	WorldEntList_cit citEnd(vEntities.end());
+    CWorld &cWorld(Editor.GetWorld());
+    WorldEntList vEntities(cWorld.GetEntityList()); // copy
+    WorldEntList_cit citEnd(vEntities.end());
 
-	ResHandle hBadTree(g_ResourceManager.Register(_T("/environment/trees/bt_brown/model.mdf"), RES_MODEL));
+    ResHandle hBadTree(g_ResourceManager.Register(_T("/environment/trees/bt_brown/model.mdf"), RES_MODEL));
 
-	//
-	// Delete old bad trees
-	//
+    //
+    // Delete old bad trees
+    //
 
-	uiset setRelease;
+    uiset setRelease;
 
-	for (WorldEntList_cit cit(vEntities.begin()); cit != citEnd; ++cit)
-	{
-		CWorldEntity *pWorldEnt(cWorld.GetEntityByHandle(*cit));
-		if (pWorldEnt == NULL)
-			continue;
+    for (WorldEntList_cit cit(vEntities.begin()); cit != citEnd; ++cit)
+    {
+        CWorldEntity *pWorldEnt(cWorld.GetEntityByHandle(*cit));
+        if (pWorldEnt == NULL)
+            continue;
 
-		if (pWorldEnt->GetType() != _T("Prop_Tree") || pWorldEnt->GetModelHandle() != hBadTree)
-			continue;
+        if (pWorldEnt->GetType() != _T("Prop_Tree") || pWorldEnt->GetModelHandle() != hBadTree)
+            continue;
 
-		setRelease.insert(pWorldEnt->GetIndex());
-	}
+        setRelease.insert(pWorldEnt->GetIndex());
+    }
 
-	uiset_it itEnd(setRelease.end());
-	for (uiset_it it(setRelease.begin()); it != itEnd; ++it)
-	{
-		cWorld.UnlinkEntity(*it);
-		cWorld.DeleteEntity(*it);
+    uiset_it itEnd(setRelease.end());
+    for (uiset_it it(setRelease.begin()); it != itEnd; ++it)
+    {
+        cWorld.UnlinkEntity(*it);
+        cWorld.DeleteEntity(*it);
 
-		map<uint, CWorldEntityEx>::iterator findit(g_WorldEntData.find(*it));
-		if (findit != g_WorldEntData.end())
-		{
-			vector<PoolHandle> &vPathBlockers(findit->second.GetPathBlockers());
+        map<uint, CWorldEntityEx>::iterator findit(g_WorldEntData.find(*it));
+        if (findit != g_WorldEntData.end())
+        {
+            vector<PoolHandle> &vPathBlockers(findit->second.GetPathBlockers());
 
-			vector<PoolHandle>::const_iterator citEnd(vPathBlockers.end());
-			for (vector<PoolHandle>::const_iterator cit(vPathBlockers.begin()); cit != citEnd; ++cit)
-				cWorld.ClearPath(*cit);
+            vector<PoolHandle>::const_iterator citEnd(vPathBlockers.end());
+            for (vector<PoolHandle>::const_iterator cit(vPathBlockers.begin()); cit != citEnd; ++cit)
+                cWorld.ClearPath(*cit);
 
-			vPathBlockers.clear();
+            vPathBlockers.clear();
 
-			g_WorldEntData.erase(findit);
-		}
-	}
+            g_WorldEntData.erase(findit);
+        }
+    }
 
-	vEntities = cWorld.GetEntityList(); // new copy
-	citEnd = vEntities.end();
+    vEntities = cWorld.GetEntityList(); // new copy
+    citEnd = vEntities.end();
 
-	//
-	// Clone good trees across x and y axis
-	//
+    //
+    // Clone good trees across x and y axis
+    //
 
-	for (WorldEntList_cit cit(vEntities.begin()); cit != citEnd; ++cit)
-	{
-		CWorldEntity *pWorldEnt(cWorld.GetEntityByHandle(*cit));
-		if (pWorldEnt == NULL)
-			continue;
+    for (WorldEntList_cit cit(vEntities.begin()); cit != citEnd; ++cit)
+    {
+        CWorldEntity *pWorldEnt(cWorld.GetEntityByHandle(*cit));
+        if (pWorldEnt == NULL)
+            continue;
 
-		if (pWorldEnt->GetType() != _T("Prop_Tree"))
-			continue;
-		
-		uint uiNewEntity(Editor.GetWorld().AllocateNewEntity());
-		CWorldEntity *pNewEntity(Editor.GetWorld().GetEntity(uiNewEntity, true));
+        if (pWorldEnt->GetType() != _T("Prop_Tree"))
+            continue;
+        
+        uint uiNewEntity(Editor.GetWorld().AllocateNewEntity());
+        CWorldEntity *pNewEntity(Editor.GetWorld().GetEntity(uiNewEntity, true));
 
-		// Get pointer again in case the pool reallocated
-		CWorldEntity *pOldEntity(cWorld.GetEntityByHandle(*cit));
+        // Get pointer again in case the pool reallocated
+        CWorldEntity *pOldEntity(cWorld.GetEntityByHandle(*cit));
 
-		pNewEntity->Clone(*pOldEntity);
-		
-		pNewEntity->SetIndex(uiNewEntity);
+        pNewEntity->Clone(*pOldEntity);
+        
+        pNewEntity->SetIndex(uiNewEntity);
 
-		pNewEntity->SetPosition(CVec3f(cWorld.GetWorldWidth() - pOldEntity->GetPosition().x, cWorld.GetWorldWidth() - pOldEntity->GetPosition().y, pOldEntity->GetPosition().z)); 
-		pNewEntity->SetModelHandle(hBadTree);
+        pNewEntity->SetPosition(CVec3f(cWorld.GetWorldWidth() - pOldEntity->GetPosition().x, cWorld.GetWorldWidth() - pOldEntity->GetPosition().y, pOldEntity->GetPosition().z)); 
+        pNewEntity->SetModelHandle(hBadTree);
 
-		Editor.GetWorld().LinkEntity(uiNewEntity, LINK_SURFACE|LINK_MODEL, SURF_PROP);
+        Editor.GetWorld().LinkEntity(uiNewEntity, LINK_SURFACE|LINK_MODEL, SURF_PROP);
 
-		map<uint, CWorldEntityEx>::iterator findit(g_WorldEntData.find(uiNewEntity));
+        map<uint, CWorldEntityEx>::iterator findit(g_WorldEntData.find(uiNewEntity));
 
-		if (findit == g_WorldEntData.end())
-		{
-			g_WorldEntData.insert(pair<uint, CWorldEntityEx>(uiNewEntity, CWorldEntityEx()));
-			findit = g_WorldEntData.find(uiNewEntity);
-		}
+        if (findit == g_WorldEntData.end())
+        {
+            g_WorldEntData.insert(pair<uint, CWorldEntityEx>(uiNewEntity, CWorldEntityEx()));
+            findit = g_WorldEntData.find(uiNewEntity);
+        }
 
-		if (findit != g_WorldEntData.end())
-		{
-			vector<PoolHandle> &vPathBlockers(findit->second.GetPathBlockers());
+        if (findit != g_WorldEntData.end())
+        {
+            vector<PoolHandle> &vPathBlockers(findit->second.GetPathBlockers());
 
-			vector<PoolHandle>::const_iterator citEnd(vPathBlockers.end());
-			for (vector<PoolHandle>::const_iterator cit(vPathBlockers.begin()); cit != citEnd; ++cit)
-				Editor.GetWorld().ClearPath(*cit);
+            vector<PoolHandle>::const_iterator citEnd(vPathBlockers.end());
+            for (vector<PoolHandle>::const_iterator cit(vPathBlockers.begin()); cit != citEnd; ++cit)
+                Editor.GetWorld().ClearPath(*cit);
 
-			vPathBlockers.clear();
-		
-			const vector<CConvexPolyhedron> &cWorldSurfs(pNewEntity->GetWorldSurfsRef());
-			for (vector<CConvexPolyhedron>::const_iterator cit(cWorldSurfs.begin()); cit != cWorldSurfs.end(); ++cit)
-				Editor.GetWorld().BlockPath(vPathBlockers, NAVIGATION_UNIT, *cit, 24.0f);
+            vPathBlockers.clear();
+        
+            const vector<CConvexPolyhedron> &cWorldSurfs(pNewEntity->GetWorldSurfsRef());
+            for (vector<CConvexPolyhedron>::const_iterator cit(cWorldSurfs.begin()); cit != cWorldSurfs.end(); ++cit)
+                Editor.GetWorld().BlockPath(vPathBlockers, NAVIGATION_UNIT, *cit, 24.0f);
 
-			// Hack for tree blockers
-			if (pNewEntity->GetType() == _T("Prop_Tree"))
-				vPathBlockers.push_back(Editor.GetWorld().BlockPath(NAVIGATION_UNIT, pNewEntity->GetPosition().xy() - CVec2f(50.0f), 100.0f, 100.0f));
-		}
-	}
+            // Hack for tree blockers
+            if (pNewEntity->GetType() == _T("Prop_Tree"))
+                vPathBlockers.push_back(Editor.GetWorld().BlockPath(NAVIGATION_UNIT, pNewEntity->GetPosition().xy() - CVec2f(50.0f), 100.0f, 100.0f));
+        }
+    }
 
-	return true;
+    return true;
 }
 
 
@@ -1098,51 +1098,51 @@ CMD(CloneTrees)
   --------------------*/
 CMD(RotateTrees)
 {
-	CWorld &cWorld(Editor.GetWorld());
-	WorldEntList &vEntities(cWorld.GetEntityList());
-	WorldEntList_cit citEnd(vEntities.end());
+    CWorld &cWorld(Editor.GetWorld());
+    WorldEntList &vEntities(cWorld.GetEntityList());
+    WorldEntList_cit citEnd(vEntities.end());
 
-	// Snap to 2 tile grid
-	for (WorldEntList_cit cit(vEntities.begin()); cit != citEnd; ++cit)
-	{
-		CWorldEntity *pWorldEnt(cWorld.GetEntityByHandle(*cit));
-		if (pWorldEnt == NULL)
-			continue;
+    // Snap to 2 tile grid
+    for (WorldEntList_cit cit(vEntities.begin()); cit != citEnd; ++cit)
+    {
+        CWorldEntity *pWorldEnt(cWorld.GetEntityByHandle(*cit));
+        if (pWorldEnt == NULL)
+            continue;
 
-		if (pWorldEnt->GetType() != _T("Prop_Tree"))
-			continue;
+        if (pWorldEnt->GetType() != _T("Prop_Tree"))
+            continue;
 
-		uint uiEntIndex(pWorldEnt->GetIndex());
+        uint uiEntIndex(pWorldEnt->GetIndex());
 
-		cWorld.UnlinkEntity(uiEntIndex);
+        cWorld.UnlinkEntity(uiEntIndex);
 
-		CVec3f v3Angles(pWorldEnt->GetAngles());
-		v3Angles[YAW] = M_Randnum(0.0f, 360.0f);
+        CVec3f v3Angles(pWorldEnt->GetAngles());
+        v3Angles[YAW] = M_Randnum(0.0f, 360.0f);
 
-		pWorldEnt->SetAngles(v3Angles);
-		
-		cWorld.LinkEntity(pWorldEnt->GetIndex(), LINK_SURFACE | LINK_MODEL, SURF_PROP);
+        pWorldEnt->SetAngles(v3Angles);
+        
+        cWorld.LinkEntity(pWorldEnt->GetIndex(), LINK_SURFACE | LINK_MODEL, SURF_PROP);
 
-		map<uint, CWorldEntityEx>::iterator findit(g_WorldEntData.find(uiEntIndex));
+        map<uint, CWorldEntityEx>::iterator findit(g_WorldEntData.find(uiEntIndex));
 
-		if (findit != g_WorldEntData.end())
-		{
-			vector<PoolHandle> &vPathBlockers(findit->second.GetPathBlockers());
+        if (findit != g_WorldEntData.end())
+        {
+            vector<PoolHandle> &vPathBlockers(findit->second.GetPathBlockers());
 
-			vector<PoolHandle>::const_iterator citEnd(vPathBlockers.end());
-			for (vector<PoolHandle>::const_iterator cit(vPathBlockers.begin()); cit != citEnd; ++cit)
-				cWorld.ClearPath(*cit);
+            vector<PoolHandle>::const_iterator citEnd(vPathBlockers.end());
+            for (vector<PoolHandle>::const_iterator cit(vPathBlockers.begin()); cit != citEnd; ++cit)
+                cWorld.ClearPath(*cit);
 
-			const vector<CConvexPolyhedron> &cWorldSurfs(pWorldEnt->GetWorldSurfsRef());
-			for (vector<CConvexPolyhedron>::const_iterator cit(cWorldSurfs.begin()); cit != cWorldSurfs.end(); ++cit)
-				cWorld.BlockPath(vPathBlockers, NAVIGATION_UNIT, *cit, 24.0f);
+            const vector<CConvexPolyhedron> &cWorldSurfs(pWorldEnt->GetWorldSurfsRef());
+            for (vector<CConvexPolyhedron>::const_iterator cit(cWorldSurfs.begin()); cit != cWorldSurfs.end(); ++cit)
+                cWorld.BlockPath(vPathBlockers, NAVIGATION_UNIT, *cit, 24.0f);
 
-			// Hack for tree blockers
-			vPathBlockers.push_back(cWorld.BlockPath(NAVIGATION_UNIT, pWorldEnt->GetPosition().xy() - CVec2f(50.0f), 100.0f, 100.0f));
-		}
-	}
+            // Hack for tree blockers
+            vPathBlockers.push_back(cWorld.BlockPath(NAVIGATION_UNIT, pWorldEnt->GetPosition().xy() - CVec2f(50.0f), 100.0f, 100.0f));
+        }
+    }
 
-	return true;
+    return true;
 }
 
 
@@ -1151,58 +1151,58 @@ CMD(RotateTrees)
   --------------------*/
 CMD(ScaleTrees)
 {
-	CWorld &cWorld(Editor.GetWorld());
-	WorldEntList &vEntities(cWorld.GetEntityList());
-	WorldEntList_cit citEnd(vEntities.end());
+    CWorld &cWorld(Editor.GetWorld());
+    WorldEntList &vEntities(cWorld.GetEntityList());
+    WorldEntList_cit citEnd(vEntities.end());
 
-	ResHandle hGoodTree(g_ResourceManager.Register(_T("/world/trees/t_2/model.mdf"), RES_MODEL));
-	ResHandle hBadTree(g_ResourceManager.Register(_T("/environment/trees/bt_brown/model.mdf"), RES_MODEL));
+    ResHandle hGoodTree(g_ResourceManager.Register(_T("/world/trees/t_2/model.mdf"), RES_MODEL));
+    ResHandle hBadTree(g_ResourceManager.Register(_T("/environment/trees/bt_brown/model.mdf"), RES_MODEL));
 
-	// Snap to 2 tile grid
-	for (WorldEntList_cit cit(vEntities.begin()); cit != citEnd; ++cit)
-	{
-		CWorldEntity *pWorldEnt(cWorld.GetEntityByHandle(*cit));
-		if (pWorldEnt == NULL)
-			continue;
+    // Snap to 2 tile grid
+    for (WorldEntList_cit cit(vEntities.begin()); cit != citEnd; ++cit)
+    {
+        CWorldEntity *pWorldEnt(cWorld.GetEntityByHandle(*cit));
+        if (pWorldEnt == NULL)
+            continue;
 
-		if (pWorldEnt->GetType() != _T("Prop_Tree"))
-			continue;
+        if (pWorldEnt->GetType() != _T("Prop_Tree"))
+            continue;
 
-		uint uiEntIndex(pWorldEnt->GetIndex());
+        uint uiEntIndex(pWorldEnt->GetIndex());
 
-		cWorld.UnlinkEntity(uiEntIndex);
+        cWorld.UnlinkEntity(uiEntIndex);
 
-		float fScale(pWorldEnt->GetScale());
+        float fScale(pWorldEnt->GetScale());
 
-		if (pWorldEnt->GetModelHandle() == hGoodTree)
-			fScale = M_Randnum(1.8f, 2.0f);
-		else if (pWorldEnt->GetModelHandle() == hBadTree)
-			fScale = M_Randnum(1.6f, 1.8f);
+        if (pWorldEnt->GetModelHandle() == hGoodTree)
+            fScale = M_Randnum(1.8f, 2.0f);
+        else if (pWorldEnt->GetModelHandle() == hBadTree)
+            fScale = M_Randnum(1.6f, 1.8f);
 
-		pWorldEnt->SetScale(fScale);
-		
-		cWorld.LinkEntity(pWorldEnt->GetIndex(), LINK_SURFACE | LINK_MODEL, SURF_PROP);
+        pWorldEnt->SetScale(fScale);
+        
+        cWorld.LinkEntity(pWorldEnt->GetIndex(), LINK_SURFACE | LINK_MODEL, SURF_PROP);
 
-		map<uint, CWorldEntityEx>::iterator findit(g_WorldEntData.find(uiEntIndex));
+        map<uint, CWorldEntityEx>::iterator findit(g_WorldEntData.find(uiEntIndex));
 
-		if (findit != g_WorldEntData.end())
-		{
-			vector<PoolHandle> &vPathBlockers(findit->second.GetPathBlockers());
+        if (findit != g_WorldEntData.end())
+        {
+            vector<PoolHandle> &vPathBlockers(findit->second.GetPathBlockers());
 
-			vector<PoolHandle>::const_iterator citEnd(vPathBlockers.end());
-			for (vector<PoolHandle>::const_iterator cit(vPathBlockers.begin()); cit != citEnd; ++cit)
-				cWorld.ClearPath(*cit);
+            vector<PoolHandle>::const_iterator citEnd(vPathBlockers.end());
+            for (vector<PoolHandle>::const_iterator cit(vPathBlockers.begin()); cit != citEnd; ++cit)
+                cWorld.ClearPath(*cit);
 
-			const vector<CConvexPolyhedron> &cWorldSurfs(pWorldEnt->GetWorldSurfsRef());
-			for (vector<CConvexPolyhedron>::const_iterator cit(cWorldSurfs.begin()); cit != cWorldSurfs.end(); ++cit)
-				cWorld.BlockPath(vPathBlockers, NAVIGATION_UNIT, *cit, 24.0f);
+            const vector<CConvexPolyhedron> &cWorldSurfs(pWorldEnt->GetWorldSurfsRef());
+            for (vector<CConvexPolyhedron>::const_iterator cit(cWorldSurfs.begin()); cit != cWorldSurfs.end(); ++cit)
+                cWorld.BlockPath(vPathBlockers, NAVIGATION_UNIT, *cit, 24.0f);
 
-			// Hack for tree blockers
-			vPathBlockers.push_back(cWorld.BlockPath(NAVIGATION_UNIT, pWorldEnt->GetPosition().xy() - CVec2f(50.0f), 100.0f, 100.0f));
-		}
-	}
+            // Hack for tree blockers
+            vPathBlockers.push_back(cWorld.BlockPath(NAVIGATION_UNIT, pWorldEnt->GetPosition().xy() - CVec2f(50.0f), 100.0f, 100.0f));
+        }
+    }
 
-	return true;
+    return true;
 }
 
 
@@ -1210,80 +1210,80 @@ CMD(ScaleTrees)
 #pragma pack(1)
 struct SDoodad
 {
-	uint uiType;
-	uint uiVariation;
-	float fX;
-	float fY;
-	float fZ;
-	float fRotation; // Radians
-	float fScaleX;
-	float fScaleY;
-	float fScaleZ;
-	char szUnknown[14];
+    uint uiType;
+    uint uiVariation;
+    float fX;
+    float fY;
+    float fZ;
+    float fRotation; // Radians
+    float fScaleX;
+    float fScaleY;
+    float fScaleZ;
+    char szUnknown[14];
 }; // 50 bytes
 #pragma pack()
 
-#define DOOTYPE(a, b, c, d)	(a + (b << 8) + (c << 16) + (d << 24))
+#define DOOTYPE(a, b, c, d) (a + (b << 8) + (c << 16) + (d << 24))
 
 /*--------------------
   ImportDoo
   --------------------*/
 CMD(ImportDoo)
 {
-	if (vArgList.size() < 1)
-		return false;
+    if (vArgList.size() < 1)
+        return false;
 
-	CFileHandle hFile(vArgList[0], FILE_READ);
+    CFileHandle hFile(vArgList[0], FILE_READ);
 
-	uint dwSig(hFile.ReadInt32());
-	
-	uint ui0(hFile.ReadInt32());
-	uint ui1(hFile.ReadInt32());
-	
-	uint uiNumDoodads(hFile.ReadInt32());
+    uint dwSig(hFile.ReadInt32());
+    
+    uint ui0(hFile.ReadInt32());
+    uint ui1(hFile.ReadInt32());
+    
+    uint uiNumDoodads(hFile.ReadInt32());
 
-	vector<SDoodad> vDoodads(uiNumDoodads);
+    vector<SDoodad> vDoodads(uiNumDoodads);
 
-	uint uiCount(0);
-	while (!hFile.IsEOF() && uiCount < uiNumDoodads)
-	{
-		hFile.Read((char *)&vDoodads[uiCount], sizeof(SDoodad));
-		++uiCount;
-	}
+    uint uiCount(0);
+    while (!hFile.IsEOF() && uiCount < uiNumDoodads)
+    {
+        hFile.Read((char *)&vDoodads[uiCount], sizeof(SDoodad));
+        ++uiCount;
+    }
 
-	ResHandle hGoodTree(g_ResourceManager.Register(_T("/world/trees/t_2/model.mdf"), RES_MODEL));
-	ResHandle hBadTree(g_ResourceManager.Register(_T("/environment/trees/bt_brown/model.mdf"), RES_MODEL));
+    ResHandle hGoodTree(g_ResourceManager.Register(_T("/world/trees/t_2/model.mdf"), RES_MODEL));
+    ResHandle hBadTree(g_ResourceManager.Register(_T("/environment/trees/bt_brown/model.mdf"), RES_MODEL));
 
-	for (vector<SDoodad>::iterator it(vDoodads.begin()), itEnd(vDoodads.end()); it != itEnd; ++it)
-	{
-		if (it->uiType == DOOTYPE('A', 'T', 't', 'r') ||
-			it->uiType == DOOTYPE('A', 'T', 't', 'c') ||
-			it->uiType == DOOTYPE('N', 'T', 't', 'w') ||
-			it->uiType == DOOTYPE('N', 'T', 't', 'c'))
-		{
-			uint uiNewEntity(Editor.GetWorld().AllocateNewEntity());
-			CWorldEntity *pNewEntity(Editor.GetWorld().GetEntity(uiNewEntity, true));
+    for (vector<SDoodad>::iterator it(vDoodads.begin()), itEnd(vDoodads.end()); it != itEnd; ++it)
+    {
+        if (it->uiType == DOOTYPE('A', 'T', 't', 'r') ||
+            it->uiType == DOOTYPE('A', 'T', 't', 'c') ||
+            it->uiType == DOOTYPE('N', 'T', 't', 'w') ||
+            it->uiType == DOOTYPE('N', 'T', 't', 'c'))
+        {
+            uint uiNewEntity(Editor.GetWorld().AllocateNewEntity());
+            CWorldEntity *pNewEntity(Editor.GetWorld().GetEntity(uiNewEntity, true));
 
-			pNewEntity->SetPosition(it->fX + 8192.0f, it->fY + 8192.0f, it->fZ - 896.0f);
-			pNewEntity->SetAngles(CVec3f(0.0f, 0.0f, M_Randnum(0.0f, 360.0f)));
-			pNewEntity->SetScale(M_Randnum(1.8f, 2.0f));
+            pNewEntity->SetPosition(it->fX + 8192.0f, it->fY + 8192.0f, it->fZ - 896.0f);
+            pNewEntity->SetAngles(CVec3f(0.0f, 0.0f, M_Randnum(0.0f, 360.0f)));
+            pNewEntity->SetScale(M_Randnum(1.8f, 2.0f));
 
-			pNewEntity->SetModelHandle(hGoodTree);
-			Editor.GetWorld().LinkEntity(uiNewEntity, LINK_SURFACE | LINK_MODEL, SURF_PROP);
-		}
-	}
+            pNewEntity->SetModelHandle(hGoodTree);
+            Editor.GetWorld().LinkEntity(uiNewEntity, LINK_SURFACE | LINK_MODEL, SURF_PROP);
+        }
+    }
 
-	return true;
+    return true;
 }
 
 #pragma pack(1)
 struct SVertex
 {
-	ushort unHeightOffset;
-	ushort un0;
-	byte y0;
-	byte y1;
-	byte y2;
+    ushort unHeightOffset;
+    ushort un0;
+    byte y0;
+    byte y1;
+    byte y2;
 }; // 7 bytes
 #pragma pack()
 
@@ -1292,342 +1292,342 @@ struct SVertex
   --------------------*/
 CMD(ImportW3E)
 {
-	if (vArgList.size() < 1)
-		return false;
+    if (vArgList.size() < 1)
+        return false;
 
-	CFileHandle hFile(vArgList[0], FILE_READ);
+    CFileHandle hFile(vArgList[0], FILE_READ);
 
-	uint dwSig(hFile.ReadInt32());
+    uint dwSig(hFile.ReadInt32());
 
-	uint ui0(hFile.ReadInt32());
-	byte y0(hFile.ReadByte());
-	
-	uint ui1(hFile.ReadInt32());
+    uint ui0(hFile.ReadInt32());
+    byte y0(hFile.ReadByte());
+    
+    uint ui1(hFile.ReadInt32());
 
-	uint uiNumTableSize1(hFile.ReadInt32());
-	for (uint ui(0); ui < uiNumTableSize1; ++ui)
-		hFile.ReadInt32();
+    uint uiNumTableSize1(hFile.ReadInt32());
+    for (uint ui(0); ui < uiNumTableSize1; ++ui)
+        hFile.ReadInt32();
 
-	uint uiNumTableSize2(hFile.ReadInt32());
-	for (uint ui(0); ui < uiNumTableSize2; ++ui)
-		hFile.ReadInt32();
+    uint uiNumTableSize2(hFile.ReadInt32());
+    for (uint ui(0); ui < uiNumTableSize2; ++ui)
+        hFile.ReadInt32();
 
-	uint uiGridWidth(hFile.ReadInt32());
-	uint uiGridHeight(hFile.ReadInt32());
-	uint uiNumVertexes(uiGridWidth * uiGridHeight);
+    uint uiGridWidth(hFile.ReadInt32());
+    uint uiGridHeight(hFile.ReadInt32());
+    uint uiNumVertexes(uiGridWidth * uiGridHeight);
 
-	float fOffsetX(hFile.ReadFloat());
-	float fOffsetY(hFile.ReadFloat());
+    float fOffsetX(hFile.ReadFloat());
+    float fOffsetY(hFile.ReadFloat());
 
-	vector<SVertex> vVertexes(uiNumVertexes);
+    vector<SVertex> vVertexes(uiNumVertexes);
 
-	uint uiCount(0);
-	while (!hFile.IsEOF() && uiCount < uiNumVertexes)
-	{
-		hFile.Read((char *)&vVertexes[uiCount], sizeof(SVertex));
-		++uiCount;
-	}
+    uint uiCount(0);
+    while (!hFile.IsEOF() && uiCount < uiNumVertexes)
+    {
+        hFile.Read((char *)&vVertexes[uiCount], sizeof(SVertex));
+        ++uiCount;
+    }
 
-	CWorld &cWorld(Editor.GetWorld());
+    CWorld &cWorld(Editor.GetWorld());
 
-	float *pW3E0(new float[uiGridWidth * uiGridHeight]);
+    float *pW3E0(new float[uiGridWidth * uiGridHeight]);
 
-	for (uint iY(0); iY < uiGridHeight; ++iY)
-	{
-		for (uint iX(0); iX < uiGridWidth; ++iX)
-		{
-			int iIndex(iY * uiGridWidth + iX);
-			//pW3E0[iIndex] = (vVertexes[iIndex].unHeightOffset - 8192 + (vVertexes[iIndex].y2 & 0xf) * 512) / 4.0f - 1152.0f;
-			pW3E0[iIndex] = ((vVertexes[iIndex].y2 & 0xf) * 512) / 4.0f - 1152.0f;
-		}
-	}
+    for (uint iY(0); iY < uiGridHeight; ++iY)
+    {
+        for (uint iX(0); iX < uiGridWidth; ++iX)
+        {
+            int iIndex(iY * uiGridWidth + iX);
+            //pW3E0[iIndex] = (vVertexes[iIndex].unHeightOffset - 8192 + (vVertexes[iIndex].y2 & 0xf) * 512) / 4.0f - 1152.0f;
+            pW3E0[iIndex] = ((vVertexes[iIndex].y2 & 0xf) * 512) / 4.0f - 1152.0f;
+        }
+    }
 
-	float *pW3E(new float[uiGridWidth * uiGridHeight]);
+    float *pW3E(new float[uiGridWidth * uiGridHeight]);
 
-	for (uint iY(0); iY < uiGridHeight; ++iY)
-	{
-		for (uint iX(0); iX < uiGridWidth; ++iX)
-		{
-			int iIndex(iY * uiGridWidth + iX);
+    for (uint iY(0); iY < uiGridHeight; ++iY)
+    {
+        for (uint iX(0); iX < uiGridWidth; ++iX)
+        {
+            int iIndex(iY * uiGridWidth + iX);
 
-			float fTotal(0.0f);
-			pW3E[iIndex] = 0.0f;
+            float fTotal(0.0f);
+            pW3E[iIndex] = 0.0f;
 
-			if (iX != 0 && iY != 0 && iX != uiGridWidth - 1 && iY != uiGridHeight - 1 &&
-				vVertexes[iY * uiGridWidth + iX].y0 & BIT(4) &&
-				vVertexes[(iY - 1) * uiGridWidth + (iX - 1)].y0 & BIT(4) &&
-				vVertexes[(iY + 1) * uiGridWidth + (iX + 1)].y0 & BIT(4) &&
-				(vVertexes[(iY - 1) * uiGridWidth + (iX - 1)].y2 & 0xf) != (vVertexes[(iY + 1) * uiGridWidth + (iX + 1)].y2 & 0xf))
-			{
-				pW3E[iIndex] += MAX(pW3E0[(iY - 1) * uiGridWidth + (iX - 1)], pW3E0[iY * uiGridWidth + iX]);
-				pW3E[iIndex] += MAX(pW3E0[(iY + 1) * uiGridWidth + (iX + 1)], pW3E0[iY * uiGridWidth + iX]);
-				fTotal += 2.0f;
-			}
-			else if (iX != 0 && iY != 0 && iX != uiGridWidth - 1 && iY != uiGridHeight - 1 &&
-				vVertexes[iY * uiGridWidth + iX].y0 & BIT(4) &&
-				vVertexes[(iY + 1) * uiGridWidth + (iX - 1)].y0 & BIT(4) &&
-				vVertexes[(iY - 1) * uiGridWidth + (iX + 1)].y0 & BIT(4) &&
-				(vVertexes[(iY + 1) * uiGridWidth + (iX - 1)].y2 & 0xf) != (vVertexes[(iY - 1) * uiGridWidth + (iX + 1)].y2 & 0xf))
-			{
-				pW3E[iIndex] += MAX(pW3E0[(iY + 1) * uiGridWidth + (iX - 1)], pW3E0[iY * uiGridWidth + iX]);
-				pW3E[iIndex] += MAX(pW3E0[(iY - 1) * uiGridWidth + (iX + 1)], pW3E0[iY * uiGridWidth + iX]);
-				fTotal += 2.0f;
-			}
-			else if (iX != 0 && iX != uiGridWidth - 1 &&
-				vVertexes[iY * uiGridWidth + iX].y0 & BIT(4) &&
-				vVertexes[iY * uiGridWidth + (iX - 1)].y0 & BIT(4) &&
-				vVertexes[iY * uiGridWidth + (iX + 1)].y0 & BIT(4) &&
-				(vVertexes[iY * uiGridWidth + (iX - 1)].y2 & 0xf) != (vVertexes[iY * uiGridWidth + (iX + 1)].y2 & 0xf))
-			{
-				pW3E[iIndex] += MAX(pW3E0[iY * uiGridWidth + (iX - 1)], pW3E0[iY * uiGridWidth + iX]);
-				pW3E[iIndex] += MAX(pW3E0[iY * uiGridWidth + (iX + 1)], pW3E0[iY * uiGridWidth + iX]);
-				fTotal += 2.0f;
-			}
-			else if (iY != 0 && iY != uiGridHeight - 1 &&
-				vVertexes[iY * uiGridWidth + iX].y0 & BIT(4) &&
-				vVertexes[(iY - 1) * uiGridWidth + iX].y0 & BIT(4) &&
-				vVertexes[(iY + 1) * uiGridWidth + iX].y0 & BIT(4) &&
-				(vVertexes[(iY - 1) * uiGridWidth + iX].y2 & 0xf) != (vVertexes[(iY + 1) * uiGridWidth + iX].y2 & 0xf))
-			{
-				pW3E[iIndex] += MAX(pW3E0[(iY - 1) * uiGridWidth + iX], pW3E0[iY * uiGridWidth + iX]);
-				pW3E[iIndex] += MAX(pW3E0[(iY + 1) * uiGridWidth + iX], pW3E0[iY * uiGridWidth + iX]);
-				fTotal += 2.0f;
-			}
-			
-			
-			if (fTotal == 0.0f)
-				pW3E[iIndex] = pW3E0[iIndex];
-			else
-				pW3E[iIndex] /= fTotal;
-		}
-	}
+            if (iX != 0 && iY != 0 && iX != uiGridWidth - 1 && iY != uiGridHeight - 1 &&
+                vVertexes[iY * uiGridWidth + iX].y0 & BIT(4) &&
+                vVertexes[(iY - 1) * uiGridWidth + (iX - 1)].y0 & BIT(4) &&
+                vVertexes[(iY + 1) * uiGridWidth + (iX + 1)].y0 & BIT(4) &&
+                (vVertexes[(iY - 1) * uiGridWidth + (iX - 1)].y2 & 0xf) != (vVertexes[(iY + 1) * uiGridWidth + (iX + 1)].y2 & 0xf))
+            {
+                pW3E[iIndex] += MAX(pW3E0[(iY - 1) * uiGridWidth + (iX - 1)], pW3E0[iY * uiGridWidth + iX]);
+                pW3E[iIndex] += MAX(pW3E0[(iY + 1) * uiGridWidth + (iX + 1)], pW3E0[iY * uiGridWidth + iX]);
+                fTotal += 2.0f;
+            }
+            else if (iX != 0 && iY != 0 && iX != uiGridWidth - 1 && iY != uiGridHeight - 1 &&
+                vVertexes[iY * uiGridWidth + iX].y0 & BIT(4) &&
+                vVertexes[(iY + 1) * uiGridWidth + (iX - 1)].y0 & BIT(4) &&
+                vVertexes[(iY - 1) * uiGridWidth + (iX + 1)].y0 & BIT(4) &&
+                (vVertexes[(iY + 1) * uiGridWidth + (iX - 1)].y2 & 0xf) != (vVertexes[(iY - 1) * uiGridWidth + (iX + 1)].y2 & 0xf))
+            {
+                pW3E[iIndex] += MAX(pW3E0[(iY + 1) * uiGridWidth + (iX - 1)], pW3E0[iY * uiGridWidth + iX]);
+                pW3E[iIndex] += MAX(pW3E0[(iY - 1) * uiGridWidth + (iX + 1)], pW3E0[iY * uiGridWidth + iX]);
+                fTotal += 2.0f;
+            }
+            else if (iX != 0 && iX != uiGridWidth - 1 &&
+                vVertexes[iY * uiGridWidth + iX].y0 & BIT(4) &&
+                vVertexes[iY * uiGridWidth + (iX - 1)].y0 & BIT(4) &&
+                vVertexes[iY * uiGridWidth + (iX + 1)].y0 & BIT(4) &&
+                (vVertexes[iY * uiGridWidth + (iX - 1)].y2 & 0xf) != (vVertexes[iY * uiGridWidth + (iX + 1)].y2 & 0xf))
+            {
+                pW3E[iIndex] += MAX(pW3E0[iY * uiGridWidth + (iX - 1)], pW3E0[iY * uiGridWidth + iX]);
+                pW3E[iIndex] += MAX(pW3E0[iY * uiGridWidth + (iX + 1)], pW3E0[iY * uiGridWidth + iX]);
+                fTotal += 2.0f;
+            }
+            else if (iY != 0 && iY != uiGridHeight - 1 &&
+                vVertexes[iY * uiGridWidth + iX].y0 & BIT(4) &&
+                vVertexes[(iY - 1) * uiGridWidth + iX].y0 & BIT(4) &&
+                vVertexes[(iY + 1) * uiGridWidth + iX].y0 & BIT(4) &&
+                (vVertexes[(iY - 1) * uiGridWidth + iX].y2 & 0xf) != (vVertexes[(iY + 1) * uiGridWidth + iX].y2 & 0xf))
+            {
+                pW3E[iIndex] += MAX(pW3E0[(iY - 1) * uiGridWidth + iX], pW3E0[iY * uiGridWidth + iX]);
+                pW3E[iIndex] += MAX(pW3E0[(iY + 1) * uiGridWidth + iX], pW3E0[iY * uiGridWidth + iX]);
+                fTotal += 2.0f;
+            }
+            
+            
+            if (fTotal == 0.0f)
+                pW3E[iIndex] = pW3E0[iIndex];
+            else
+                pW3E[iIndex] /= fTotal;
+        }
+    }
 
-	CRecti recWorld(0, 0, cWorld.GetGridWidth(), cWorld.GetGridHeight());
-	float *pK2(new float[recWorld.GetArea()]);
-	
-	float fTileScaleX(float(uiGridWidth - 1) / cWorld.GetTileWidth());
-	float fTileScaleY(float(uiGridHeight - 1) / cWorld.GetTileHeight());
+    CRecti recWorld(0, 0, cWorld.GetGridWidth(), cWorld.GetGridHeight());
+    float *pK2(new float[recWorld.GetArea()]);
+    
+    float fTileScaleX(float(uiGridWidth - 1) / cWorld.GetTileWidth());
+    float fTileScaleY(float(uiGridHeight - 1) / cWorld.GetTileHeight());
 
-	for (int iY(0); iY < cWorld.GetGridHeight(); ++iY)
-	{
-		for (int iX(0); iX < cWorld.GetGridWidth(); ++iX)
-		{
-			int iTileX(INT_FLOOR(iX * fTileScaleX));
-			int iTileY(INT_FLOOR(iY * fTileScaleY));
+    for (int iY(0); iY < cWorld.GetGridHeight(); ++iY)
+    {
+        for (int iX(0); iX < cWorld.GetGridWidth(); ++iX)
+        {
+            int iTileX(INT_FLOOR(iX * fTileScaleX));
+            int iTileY(INT_FLOOR(iY * fTileScaleY));
 
-			float fFracX(FRAC(iX * fTileScaleX));
-			float fFracY(FRAC(iY * fTileScaleY));
-			
-			if ((FLOAT_EQUALS(fFracX, 0.0f) && FLOAT_EQUALS(fFracY, 0.0f) && iTileX != 0 && iTileY != 0 && (
-					vVertexes[iTileY * uiGridWidth + iTileX].y0 & BIT(4))
-				) ||
-				(FLOAT_EQUALS(fFracX, 0.0f) && iTileX != 0 && iTileY != uiGridHeight - 1 && (
-					vVertexes[iTileY * uiGridWidth + iTileX].y0 & BIT(4) &&
-					vVertexes[(iTileY + 1) * uiGridWidth + iTileX].y0 & BIT(4))
-				) ||
-				(FLOAT_EQUALS(fFracY, 0.0f) && iTileY != 0 && iTileX != uiGridWidth - 1 && (
-					vVertexes[iTileY * uiGridWidth + iTileX].y0 & BIT(4) &&
-					vVertexes[iTileY * uiGridWidth + iTileX + 1].y0 & BIT(4))
-				) || 
-				(iTileX != uiGridWidth - 1 && iTileY != uiGridHeight - 1 && (
-					vVertexes[iTileY * uiGridWidth + iTileX].y0 & BIT(4) &&
-					vVertexes[iTileY * uiGridWidth + iTileX + 1].y0 & BIT(4) &&
-					vVertexes[(iTileY + 1) * uiGridWidth + iTileX].y0 & BIT(4) &&
-					vVertexes[(iTileY + 1) * uiGridWidth + iTileX + 1].y0 & BIT(4)))
-				)
-			{
-				//
-				// Ramp
-				//
+            float fFracX(FRAC(iX * fTileScaleX));
+            float fFracY(FRAC(iY * fTileScaleY));
+            
+            if ((FLOAT_EQUALS(fFracX, 0.0f) && FLOAT_EQUALS(fFracY, 0.0f) && iTileX != 0 && iTileY != 0 && (
+                    vVertexes[iTileY * uiGridWidth + iTileX].y0 & BIT(4))
+                ) ||
+                (FLOAT_EQUALS(fFracX, 0.0f) && iTileX != 0 && iTileY != uiGridHeight - 1 && (
+                    vVertexes[iTileY * uiGridWidth + iTileX].y0 & BIT(4) &&
+                    vVertexes[(iTileY + 1) * uiGridWidth + iTileX].y0 & BIT(4))
+                ) ||
+                (FLOAT_EQUALS(fFracY, 0.0f) && iTileY != 0 && iTileX != uiGridWidth - 1 && (
+                    vVertexes[iTileY * uiGridWidth + iTileX].y0 & BIT(4) &&
+                    vVertexes[iTileY * uiGridWidth + iTileX + 1].y0 & BIT(4))
+                ) || 
+                (iTileX != uiGridWidth - 1 && iTileY != uiGridHeight - 1 && (
+                    vVertexes[iTileY * uiGridWidth + iTileX].y0 & BIT(4) &&
+                    vVertexes[iTileY * uiGridWidth + iTileX + 1].y0 & BIT(4) &&
+                    vVertexes[(iTileY + 1) * uiGridWidth + iTileX].y0 & BIT(4) &&
+                    vVertexes[(iTileY + 1) * uiGridWidth + iTileX + 1].y0 & BIT(4)))
+                )
+            {
+                //
+                // Ramp
+                //
 
-				int iIndex(iY * cWorld.GetGridWidth() + iX);
+                int iIndex(iY * cWorld.GetGridWidth() + iX);
 
-				const int RAMP_FILTER_WIDTH(1);
+                const int RAMP_FILTER_WIDTH(1);
 
-				pK2[iIndex] = 0.0f;
+                pK2[iIndex] = 0.0f;
 
-				for (float fY = -(RAMP_FILTER_WIDTH - 1.0f) / 2.0f; fY <= (RAMP_FILTER_WIDTH - 1.0f) / 2.0f; fY += 1.0f)
-				{
-					for (float fX = -(RAMP_FILTER_WIDTH - 1.0f) / 2.0f; fX <= (RAMP_FILTER_WIDTH - 1.0f) / 2.0f; fX += 1.0f)
-					{
-						int iFilterTileX(INT_FLOOR((iX + fX) * fTileScaleX));
-						int iFilterTileY(INT_FLOOR((iY + fY) * fTileScaleY));
+                for (float fY = -(RAMP_FILTER_WIDTH - 1.0f) / 2.0f; fY <= (RAMP_FILTER_WIDTH - 1.0f) / 2.0f; fY += 1.0f)
+                {
+                    for (float fX = -(RAMP_FILTER_WIDTH - 1.0f) / 2.0f; fX <= (RAMP_FILTER_WIDTH - 1.0f) / 2.0f; fX += 1.0f)
+                    {
+                        int iFilterTileX(INT_FLOOR((iX + fX) * fTileScaleX));
+                        int iFilterTileY(INT_FLOOR((iY + fY) * fTileScaleY));
 
-						float fLerps[2] =
-						{
-							FRAC((iX + fX) * fTileScaleX),
-							FRAC((iY + fY) * fTileScaleY)
-						};
+                        float fLerps[2] =
+                        {
+                            FRAC((iX + fX) * fTileScaleX),
+                            FRAC((iY + fY) * fTileScaleY)
+                        };
 
-						float afHeight[4] =
-						{
-							pW3E[iFilterTileY * uiGridWidth + iFilterTileX],
-							pW3E[iFilterTileY * uiGridWidth + iFilterTileX + 1],
-							pW3E[(iFilterTileY + 1) * uiGridWidth + iFilterTileX],
-							pW3E[(iFilterTileY + 1) * uiGridWidth + iFilterTileX + 1]
-						};
+                        float afHeight[4] =
+                        {
+                            pW3E[iFilterTileY * uiGridWidth + iFilterTileX],
+                            pW3E[iFilterTileY * uiGridWidth + iFilterTileX + 1],
+                            pW3E[(iFilterTileY + 1) * uiGridWidth + iFilterTileX],
+                            pW3E[(iFilterTileY + 1) * uiGridWidth + iFilterTileX + 1]
+                        };
 
-						pK2[iIndex] += PCF(fLerps, afHeight);
-					}
-				}
+                        pK2[iIndex] += PCF(fLerps, afHeight);
+                    }
+                }
 
-				pK2[iIndex] /= (RAMP_FILTER_WIDTH * RAMP_FILTER_WIDTH);
-				
-			}
-			else if (iTileX != uiGridWidth - 1 && iTileY != uiGridHeight - 1)
-			{
-				int iLayer(vVertexes[iTileY * uiGridWidth + iTileX].y2 & 0xf);
+                pK2[iIndex] /= (RAMP_FILTER_WIDTH * RAMP_FILTER_WIDTH);
+                
+            }
+            else if (iTileX != uiGridWidth - 1 && iTileY != uiGridHeight - 1)
+            {
+                int iLayer(vVertexes[iTileY * uiGridWidth + iTileX].y2 & 0xf);
 
-				if ((vVertexes[iTileY * uiGridWidth + iTileX + 1].y2 & 0xf) == iLayer && 
-					(vVertexes[(iTileY + 1) * uiGridWidth + iTileX].y2 & 0xf) == iLayer &&
-					(vVertexes[(iTileY + 1) * uiGridWidth + iTileX + 1].y2 & 0xf) == iLayer)
-				{
-					//
-					// Continous layer
-					//
+                if ((vVertexes[iTileY * uiGridWidth + iTileX + 1].y2 & 0xf) == iLayer && 
+                    (vVertexes[(iTileY + 1) * uiGridWidth + iTileX].y2 & 0xf) == iLayer &&
+                    (vVertexes[(iTileY + 1) * uiGridWidth + iTileX + 1].y2 & 0xf) == iLayer)
+                {
+                    //
+                    // Continous layer
+                    //
 
-					int iIndex(iY * cWorld.GetGridWidth() + iX);
+                    int iIndex(iY * cWorld.GetGridWidth() + iX);
 
-					float fLerps[2] =
-					{
-						FRAC(iX * fTileScaleX),
-						FRAC(iY * fTileScaleY)
-					};
+                    float fLerps[2] =
+                    {
+                        FRAC(iX * fTileScaleX),
+                        FRAC(iY * fTileScaleY)
+                    };
 
-					float afHeight[4] =
-					{
-						pW3E[iTileY * uiGridWidth + iTileX],
-						pW3E[iTileY * uiGridWidth + iTileX + 1],
-						pW3E[(iTileY + 1) * uiGridWidth + iTileX],
-						pW3E[(iTileY + 1) * uiGridWidth + iTileX + 1]
-					};
-					
-					pK2[iIndex] = PCF(fLerps, afHeight);
-				}
-				else
-				{
-					//
-					// Cliff
-					//
+                    float afHeight[4] =
+                    {
+                        pW3E[iTileY * uiGridWidth + iTileX],
+                        pW3E[iTileY * uiGridWidth + iTileX + 1],
+                        pW3E[(iTileY + 1) * uiGridWidth + iTileX],
+                        pW3E[(iTileY + 1) * uiGridWidth + iTileX + 1]
+                    };
+                    
+                    pK2[iIndex] = PCF(fLerps, afHeight);
+                }
+                else
+                {
+                    //
+                    // Cliff
+                    //
 
-					int iIndex(iY * cWorld.GetGridWidth() + iX);
+                    int iIndex(iY * cWorld.GetGridWidth() + iX);
 
-					const int CLIFF_FILTER_WIDTH(1);
+                    const int CLIFF_FILTER_WIDTH(1);
 
-					pK2[iIndex] = 0.0f;
+                    pK2[iIndex] = 0.0f;
 
-					for (float fY = -(CLIFF_FILTER_WIDTH - 1.0f) / 2.0f; fY <= (CLIFF_FILTER_WIDTH - 1.0f) / 2.0f; fY += 1.0f)
-					{
-						for (float fX = -(CLIFF_FILTER_WIDTH - 1.0f) / 2.0f; fX <= (CLIFF_FILTER_WIDTH - 1.0f) / 2.0f; fX += 1.0f)
-						{
-							int iFilterTileX(INT_FLOOR((iX + fX) * fTileScaleX));
-							int iFilterTileY(INT_FLOOR((iY + fY) * fTileScaleY));
+                    for (float fY = -(CLIFF_FILTER_WIDTH - 1.0f) / 2.0f; fY <= (CLIFF_FILTER_WIDTH - 1.0f) / 2.0f; fY += 1.0f)
+                    {
+                        for (float fX = -(CLIFF_FILTER_WIDTH - 1.0f) / 2.0f; fX <= (CLIFF_FILTER_WIDTH - 1.0f) / 2.0f; fX += 1.0f)
+                        {
+                            int iFilterTileX(INT_FLOOR((iX + fX) * fTileScaleX));
+                            int iFilterTileY(INT_FLOOR((iY + fY) * fTileScaleY));
 
-							float fLerps[2] =
-							{
-								FRAC((iX + fX) * fTileScaleX),
-								FRAC((iY + fY) * fTileScaleY)
-							};
+                            float fLerps[2] =
+                            {
+                                FRAC((iX + fX) * fTileScaleX),
+                                FRAC((iY + fY) * fTileScaleY)
+                            };
 
-							float afHeight[4] =
-							{
-								pW3E[iFilterTileY * uiGridWidth + iFilterTileX],
-								pW3E[iFilterTileY * uiGridWidth + iFilterTileX + 1],
-								pW3E[(iFilterTileY + 1) * uiGridWidth + iFilterTileX],
-								pW3E[(iFilterTileY + 1) * uiGridWidth + iFilterTileX + 1]
-							};
+                            float afHeight[4] =
+                            {
+                                pW3E[iFilterTileY * uiGridWidth + iFilterTileX],
+                                pW3E[iFilterTileY * uiGridWidth + iFilterTileX + 1],
+                                pW3E[(iFilterTileY + 1) * uiGridWidth + iFilterTileX],
+                                pW3E[(iFilterTileY + 1) * uiGridWidth + iFilterTileX + 1]
+                            };
 
-							if (FLOAT_EQUALS(fLerps[0], 0.5f) && FLOAT_EQUALS(fLerps[1], 0.5f))
-							{						
-								pK2[iIndex] += MAX(afHeight[0], MAX(afHeight[1], MAX(afHeight[2], afHeight[3])));
-							}
-							else if (FLOAT_EQUALS(fLerps[0], 0.5f))
-							{
-								if (fLerps[1] < 0.5f)
-									pK2[iIndex] += MAX(afHeight[0], afHeight[1]);
-								else
-									pK2[iIndex] += MAX(afHeight[2], afHeight[3]);
-							}
-							else if (FLOAT_EQUALS(fLerps[1], 0.5f))
-							{
-								if (fLerps[0] < 0.5f)
-									pK2[iIndex] += MAX(afHeight[0], afHeight[2]);
-								else
-									pK2[iIndex] += MAX(afHeight[1], afHeight[3]);
-							}
-							else
-							{
-								fLerps[0] = ROUND(fLerps[0]);
-								fLerps[1] = ROUND(fLerps[1]);
+                            if (FLOAT_EQUALS(fLerps[0], 0.5f) && FLOAT_EQUALS(fLerps[1], 0.5f))
+                            {                       
+                                pK2[iIndex] += MAX(afHeight[0], MAX(afHeight[1], MAX(afHeight[2], afHeight[3])));
+                            }
+                            else if (FLOAT_EQUALS(fLerps[0], 0.5f))
+                            {
+                                if (fLerps[1] < 0.5f)
+                                    pK2[iIndex] += MAX(afHeight[0], afHeight[1]);
+                                else
+                                    pK2[iIndex] += MAX(afHeight[2], afHeight[3]);
+                            }
+                            else if (FLOAT_EQUALS(fLerps[1], 0.5f))
+                            {
+                                if (fLerps[0] < 0.5f)
+                                    pK2[iIndex] += MAX(afHeight[0], afHeight[2]);
+                                else
+                                    pK2[iIndex] += MAX(afHeight[1], afHeight[3]);
+                            }
+                            else
+                            {
+                                fLerps[0] = ROUND(fLerps[0]);
+                                fLerps[1] = ROUND(fLerps[1]);
 
-								pK2[iIndex] += PCF(fLerps, afHeight);
-							}
-						}
-					}
+                                pK2[iIndex] += PCF(fLerps, afHeight);
+                            }
+                        }
+                    }
 
-					pK2[iIndex] /= (CLIFF_FILTER_WIDTH * CLIFF_FILTER_WIDTH);
-				}
-			}
-			else
-			{
-				int iIndex(iY * cWorld.GetGridWidth() + iX);
+                    pK2[iIndex] /= (CLIFF_FILTER_WIDTH * CLIFF_FILTER_WIDTH);
+                }
+            }
+            else
+            {
+                int iIndex(iY * cWorld.GetGridWidth() + iX);
 
-				pK2[iIndex] = pW3E[iTileY * uiGridWidth + iTileX];
-			}
-		}
-	}
+                pK2[iIndex] = pW3E[iTileY * uiGridWidth + iTileX];
+            }
+        }
+    }
 
-	float *pK2Smooth(new float[recWorld.GetArea()]);
+    float *pK2Smooth(new float[recWorld.GetArea()]);
 
-	for (int iY(0); iY < cWorld.GetGridHeight(); ++iY)
-	{
-		for (int iX(0); iX < cWorld.GetGridWidth(); ++iX)
-		{
-			int iIndex(iY * cWorld.GetGridWidth() + iX);
+    for (int iY(0); iY < cWorld.GetGridHeight(); ++iY)
+    {
+        for (int iX(0); iX < cWorld.GetGridWidth(); ++iX)
+        {
+            int iIndex(iY * cWorld.GetGridWidth() + iX);
 
-			const int FILTER_WIDTH(2);
+            const int FILTER_WIDTH(2);
 
-			pK2Smooth[iIndex] = 0.0f;
+            pK2Smooth[iIndex] = 0.0f;
 
-			for (float fY = -(FILTER_WIDTH - 1.0f) / 2.0f; fY <= (FILTER_WIDTH - 1.0f) / 2.0f; fY += 1.0f)
-			{
-				for (float fX = -(FILTER_WIDTH - 1.0f) / 2.0f; fX <= (FILTER_WIDTH - 1.0f) / 2.0f; fX += 1.0f)
-				{
-					int iFilterTileX(CLAMP<int>(INT_FLOOR(iX + fX), 0, cWorld.GetGridWidth() - 1));
-					int iFilterTileY(CLAMP<int>(INT_FLOOR(iY + fY), 0, cWorld.GetGridHeight() - 1));
+            for (float fY = -(FILTER_WIDTH - 1.0f) / 2.0f; fY <= (FILTER_WIDTH - 1.0f) / 2.0f; fY += 1.0f)
+            {
+                for (float fX = -(FILTER_WIDTH - 1.0f) / 2.0f; fX <= (FILTER_WIDTH - 1.0f) / 2.0f; fX += 1.0f)
+                {
+                    int iFilterTileX(CLAMP<int>(INT_FLOOR(iX + fX), 0, cWorld.GetGridWidth() - 1));
+                    int iFilterTileY(CLAMP<int>(INT_FLOOR(iY + fY), 0, cWorld.GetGridHeight() - 1));
 
-					float fLerps[2] =
-					{
-						FRAC(iX + fX),
-						FRAC(iY + fY)
-					};
+                    float fLerps[2] =
+                    {
+                        FRAC(iX + fX),
+                        FRAC(iY + fY)
+                    };
 
-					float afHeight[4] =
-					{
-						pK2[iFilterTileY * cWorld.GetGridWidth() + iFilterTileX],
-						pK2[iFilterTileY * cWorld.GetGridWidth() + iFilterTileX + 1],
-						pK2[(iFilterTileY + 1) * cWorld.GetGridWidth() + iFilterTileX],
-						pK2[(iFilterTileY + 1) * cWorld.GetGridWidth() + iFilterTileX + 1]
-					};
+                    float afHeight[4] =
+                    {
+                        pK2[iFilterTileY * cWorld.GetGridWidth() + iFilterTileX],
+                        pK2[iFilterTileY * cWorld.GetGridWidth() + iFilterTileX + 1],
+                        pK2[(iFilterTileY + 1) * cWorld.GetGridWidth() + iFilterTileX],
+                        pK2[(iFilterTileY + 1) * cWorld.GetGridWidth() + iFilterTileX + 1]
+                    };
 
-					pK2Smooth[iIndex] += PCF(fLerps, afHeight);
-				}
-			}
+                    pK2Smooth[iIndex] += PCF(fLerps, afHeight);
+                }
+            }
 
-			pK2Smooth[iIndex] /= (FILTER_WIDTH * FILTER_WIDTH);
-		}
-	}
+            pK2Smooth[iIndex] /= (FILTER_WIDTH * FILTER_WIDTH);
+        }
+    }
 
-	Editor.GetWorld().SetRegion(WORLD_VERT_HEIGHT_MAP, recWorld, pK2);
+    Editor.GetWorld().SetRegion(WORLD_VERT_HEIGHT_MAP, recWorld, pK2);
 
-	Vid.Notify(VID_NOTIFY_TERRAIN_VERTEX_MODIFIED, 0, 0, 1, &Editor.GetWorld());
+    Vid.Notify(VID_NOTIFY_TERRAIN_VERTEX_MODIFIED, 0, 0, 1, &Editor.GetWorld());
 
-	delete[] pW3E0;
-	delete[] pW3E;
-	delete[] pK2;
-	delete[] pK2Smooth;
+    delete[] pW3E0;
+    delete[] pW3E;
+    delete[] pK2;
+    delete[] pK2Smooth;
 
-	return true;
+    return true;
 }
 
 
@@ -1636,162 +1636,162 @@ CMD(ImportW3E)
   --------------------*/
 CMD(ImportW3EBlockers)
 {
-	if (vArgList.size() < 1)
-		return false;
+    if (vArgList.size() < 1)
+        return false;
 
-	CFileHandle hFile(vArgList[0], FILE_READ);
+    CFileHandle hFile(vArgList[0], FILE_READ);
 
-	uint dwSig(hFile.ReadInt32());
+    uint dwSig(hFile.ReadInt32());
 
-	uint ui0(hFile.ReadInt32());
-	byte y0(hFile.ReadByte());
-	
-	uint ui1(hFile.ReadInt32());
+    uint ui0(hFile.ReadInt32());
+    byte y0(hFile.ReadByte());
+    
+    uint ui1(hFile.ReadInt32());
 
-	uint uiNumTableSize1(hFile.ReadInt32());
-	for (uint ui(0); ui < uiNumTableSize1; ++ui)
-		hFile.ReadInt32();
+    uint uiNumTableSize1(hFile.ReadInt32());
+    for (uint ui(0); ui < uiNumTableSize1; ++ui)
+        hFile.ReadInt32();
 
-	uint uiNumTableSize2(hFile.ReadInt32());
-	for (uint ui(0); ui < uiNumTableSize2; ++ui)
-		hFile.ReadInt32();
+    uint uiNumTableSize2(hFile.ReadInt32());
+    for (uint ui(0); ui < uiNumTableSize2; ++ui)
+        hFile.ReadInt32();
 
-	uint uiGridWidth(hFile.ReadInt32());
-	uint uiGridHeight(hFile.ReadInt32());
-	uint uiNumVertexes(uiGridWidth * uiGridHeight);
+    uint uiGridWidth(hFile.ReadInt32());
+    uint uiGridHeight(hFile.ReadInt32());
+    uint uiNumVertexes(uiGridWidth * uiGridHeight);
 
-	float fOffsetX(hFile.ReadFloat());
-	float fOffsetY(hFile.ReadFloat());
+    float fOffsetX(hFile.ReadFloat());
+    float fOffsetY(hFile.ReadFloat());
 
-	vector<SVertex> vVertexes(uiNumVertexes);
+    vector<SVertex> vVertexes(uiNumVertexes);
 
-	uint uiCount(0);
-	while (!hFile.IsEOF() && uiCount < uiNumVertexes)
-	{
-		hFile.Read((char *)&vVertexes[uiCount], sizeof(SVertex));
-		++uiCount;
-	}
+    uint uiCount(0);
+    while (!hFile.IsEOF() && uiCount < uiNumVertexes)
+    {
+        hFile.Read((char *)&vVertexes[uiCount], sizeof(SVertex));
+        ++uiCount;
+    }
 
-	CWorld &cWorld(Editor.GetWorld());
+    CWorld &cWorld(Editor.GetWorld());
 
-	CRecti recWorld(0, 0, cWorld.GetGridWidth(), cWorld.GetGridHeight());
-	byte *pK2(new byte[recWorld.GetArea()]);
-	
-	float fTileScaleX(float(uiGridWidth - 1) / cWorld.GetTileWidth());
-	float fTileScaleY(float(uiGridHeight - 1) / cWorld.GetTileHeight());
+    CRecti recWorld(0, 0, cWorld.GetGridWidth(), cWorld.GetGridHeight());
+    byte *pK2(new byte[recWorld.GetArea()]);
+    
+    float fTileScaleX(float(uiGridWidth - 1) / cWorld.GetTileWidth());
+    float fTileScaleY(float(uiGridHeight - 1) / cWorld.GetTileHeight());
 
-	for (int iY(0); iY < cWorld.GetGridHeight(); ++iY)
-	{
-		for (int iX(0); iX < cWorld.GetGridWidth(); ++iX)
-		{
-			int iTileX(INT_FLOOR(iX * fTileScaleX));
-			int iTileY(INT_FLOOR(iY * fTileScaleY));
+    for (int iY(0); iY < cWorld.GetGridHeight(); ++iY)
+    {
+        for (int iX(0); iX < cWorld.GetGridWidth(); ++iX)
+        {
+            int iTileX(INT_FLOOR(iX * fTileScaleX));
+            int iTileY(INT_FLOOR(iY * fTileScaleY));
 
-			float fFracX(FRAC(iX * fTileScaleX));
-			float fFracY(FRAC(iY * fTileScaleY));
-			
-			if ((FLOAT_EQUALS(fFracX, 0.0f) && FLOAT_EQUALS(fFracY, 0.0f) && iTileX != 0 && iTileY != 0 && (
-					vVertexes[iTileY * uiGridWidth + iTileX].y0 & BIT(4))
-				) ||
-				(FLOAT_EQUALS(fFracX, 0.0f) && iTileX != 0 && iTileY != uiGridHeight - 1 && (
-					vVertexes[iTileY * uiGridWidth + iTileX].y0 & BIT(4) &&
-					vVertexes[(iTileY + 1) * uiGridWidth + iTileX].y0 & BIT(4))
-				) ||
-				(FLOAT_EQUALS(fFracY, 0.0f) && iTileY != 0 && iTileX != uiGridWidth - 1 && (
-					vVertexes[iTileY * uiGridWidth + iTileX].y0 & BIT(4) &&
-					vVertexes[iTileY * uiGridWidth + iTileX + 1].y0 & BIT(4))
-				) || 
-				(iTileX != uiGridWidth - 1 && iTileY != uiGridHeight - 1 && (
-					vVertexes[iTileY * uiGridWidth + iTileX].y0 & BIT(4) &&
-					vVertexes[iTileY * uiGridWidth + iTileX + 1].y0 & BIT(4) &&
-					vVertexes[(iTileY + 1) * uiGridWidth + iTileX].y0 & BIT(4) &&
-					vVertexes[(iTileY + 1) * uiGridWidth + iTileX + 1].y0 & BIT(4)))
-				)
-			{
-				//
-				// Ramp
-				//
+            float fFracX(FRAC(iX * fTileScaleX));
+            float fFracY(FRAC(iY * fTileScaleY));
+            
+            if ((FLOAT_EQUALS(fFracX, 0.0f) && FLOAT_EQUALS(fFracY, 0.0f) && iTileX != 0 && iTileY != 0 && (
+                    vVertexes[iTileY * uiGridWidth + iTileX].y0 & BIT(4))
+                ) ||
+                (FLOAT_EQUALS(fFracX, 0.0f) && iTileX != 0 && iTileY != uiGridHeight - 1 && (
+                    vVertexes[iTileY * uiGridWidth + iTileX].y0 & BIT(4) &&
+                    vVertexes[(iTileY + 1) * uiGridWidth + iTileX].y0 & BIT(4))
+                ) ||
+                (FLOAT_EQUALS(fFracY, 0.0f) && iTileY != 0 && iTileX != uiGridWidth - 1 && (
+                    vVertexes[iTileY * uiGridWidth + iTileX].y0 & BIT(4) &&
+                    vVertexes[iTileY * uiGridWidth + iTileX + 1].y0 & BIT(4))
+                ) || 
+                (iTileX != uiGridWidth - 1 && iTileY != uiGridHeight - 1 && (
+                    vVertexes[iTileY * uiGridWidth + iTileX].y0 & BIT(4) &&
+                    vVertexes[iTileY * uiGridWidth + iTileX + 1].y0 & BIT(4) &&
+                    vVertexes[(iTileY + 1) * uiGridWidth + iTileX].y0 & BIT(4) &&
+                    vVertexes[(iTileY + 1) * uiGridWidth + iTileX + 1].y0 & BIT(4)))
+                )
+            {
+                //
+                // Ramp
+                //
 
-				pK2[iY * cWorld.GetGridWidth() + iX] = 0;
-			}
-			else if (iTileX != uiGridWidth - 1 && iTileY != uiGridHeight - 1 && iTileX != 0 && iTileY != 0)
-			{
-				int iLayer(vVertexes[iTileY * uiGridWidth + iTileX].y2 & 0xf);
+                pK2[iY * cWorld.GetGridWidth() + iX] = 0;
+            }
+            else if (iTileX != uiGridWidth - 1 && iTileY != uiGridHeight - 1 && iTileX != 0 && iTileY != 0)
+            {
+                int iLayer(vVertexes[iTileY * uiGridWidth + iTileX].y2 & 0xf);
 
-				if (FLOAT_EQUALS(fFracX, 0.0f) && FLOAT_EQUALS(fFracY, 0.0f) &&
-					(vVertexes[(iTileY - 1) * uiGridWidth + iTileX - 1].y2 & 0xf) == iLayer && 
-					(vVertexes[(iTileY - 1) * uiGridWidth + iTileX].y2 & 0xf) == iLayer &&
-					(vVertexes[(iTileY - 1) * uiGridWidth + iTileX + 1].y2 & 0xf) == iLayer &&
-					(vVertexes[iTileY * uiGridWidth + iTileX - 1].y2 & 0xf) == iLayer && 
-					(vVertexes[iTileY * uiGridWidth + iTileX + 1].y2 & 0xf) == iLayer &&
-					(vVertexes[(iTileY + 1) * uiGridWidth + iTileX - 1].y2 & 0xf) == iLayer &&
-					(vVertexes[(iTileY + 1) * uiGridWidth + iTileX].y2 & 0xf) == iLayer && 
-					(vVertexes[(iTileY + 1) * uiGridWidth + iTileX + 1].y2 & 0xf) == iLayer)
-				{
-					//
-					// Continous layer
-					//
+                if (FLOAT_EQUALS(fFracX, 0.0f) && FLOAT_EQUALS(fFracY, 0.0f) &&
+                    (vVertexes[(iTileY - 1) * uiGridWidth + iTileX - 1].y2 & 0xf) == iLayer && 
+                    (vVertexes[(iTileY - 1) * uiGridWidth + iTileX].y2 & 0xf) == iLayer &&
+                    (vVertexes[(iTileY - 1) * uiGridWidth + iTileX + 1].y2 & 0xf) == iLayer &&
+                    (vVertexes[iTileY * uiGridWidth + iTileX - 1].y2 & 0xf) == iLayer && 
+                    (vVertexes[iTileY * uiGridWidth + iTileX + 1].y2 & 0xf) == iLayer &&
+                    (vVertexes[(iTileY + 1) * uiGridWidth + iTileX - 1].y2 & 0xf) == iLayer &&
+                    (vVertexes[(iTileY + 1) * uiGridWidth + iTileX].y2 & 0xf) == iLayer && 
+                    (vVertexes[(iTileY + 1) * uiGridWidth + iTileX + 1].y2 & 0xf) == iLayer)
+                {
+                    //
+                    // Continous layer
+                    //
 
-					pK2[iY * cWorld.GetGridWidth() + iX] = 0;
-				}
-				else if (FLOAT_EQUALS(fFracX, 0.0f) && !FLOAT_EQUALS(fFracY, 0.0f) &&
-					(vVertexes[iTileY * uiGridWidth + iTileX - 1].y2 & 0xf) == iLayer && 
-					(vVertexes[iTileY * uiGridWidth + iTileX + 1].y2 & 0xf) == iLayer &&
-					(vVertexes[(iTileY + 1) * uiGridWidth + iTileX - 1].y2 & 0xf) == iLayer &&
-					(vVertexes[(iTileY + 1) * uiGridWidth + iTileX].y2 & 0xf) == iLayer && 
-					(vVertexes[(iTileY + 1) * uiGridWidth + iTileX + 1].y2 & 0xf) == iLayer)
-				{
-					//
-					// Continous layer
-					//
+                    pK2[iY * cWorld.GetGridWidth() + iX] = 0;
+                }
+                else if (FLOAT_EQUALS(fFracX, 0.0f) && !FLOAT_EQUALS(fFracY, 0.0f) &&
+                    (vVertexes[iTileY * uiGridWidth + iTileX - 1].y2 & 0xf) == iLayer && 
+                    (vVertexes[iTileY * uiGridWidth + iTileX + 1].y2 & 0xf) == iLayer &&
+                    (vVertexes[(iTileY + 1) * uiGridWidth + iTileX - 1].y2 & 0xf) == iLayer &&
+                    (vVertexes[(iTileY + 1) * uiGridWidth + iTileX].y2 & 0xf) == iLayer && 
+                    (vVertexes[(iTileY + 1) * uiGridWidth + iTileX + 1].y2 & 0xf) == iLayer)
+                {
+                    //
+                    // Continous layer
+                    //
 
-					pK2[iY * cWorld.GetGridWidth() + iX] = 0;
-				}
-				else if (!FLOAT_EQUALS(fFracX, 0.0f) && FLOAT_EQUALS(fFracY, 0.0f) &&
-					(vVertexes[(iTileY - 1) * uiGridWidth + iTileX].y2 & 0xf) == iLayer &&
-					(vVertexes[(iTileY - 1) * uiGridWidth + iTileX + 1].y2 & 0xf) == iLayer &&
-					(vVertexes[iTileY * uiGridWidth + iTileX + 1].y2 & 0xf) == iLayer &&
-					(vVertexes[(iTileY + 1) * uiGridWidth + iTileX].y2 & 0xf) == iLayer && 
-					(vVertexes[(iTileY + 1) * uiGridWidth + iTileX + 1].y2 & 0xf) == iLayer)
-				{
-					//
-					// Continous layer
-					//
+                    pK2[iY * cWorld.GetGridWidth() + iX] = 0;
+                }
+                else if (!FLOAT_EQUALS(fFracX, 0.0f) && FLOAT_EQUALS(fFracY, 0.0f) &&
+                    (vVertexes[(iTileY - 1) * uiGridWidth + iTileX].y2 & 0xf) == iLayer &&
+                    (vVertexes[(iTileY - 1) * uiGridWidth + iTileX + 1].y2 & 0xf) == iLayer &&
+                    (vVertexes[iTileY * uiGridWidth + iTileX + 1].y2 & 0xf) == iLayer &&
+                    (vVertexes[(iTileY + 1) * uiGridWidth + iTileX].y2 & 0xf) == iLayer && 
+                    (vVertexes[(iTileY + 1) * uiGridWidth + iTileX + 1].y2 & 0xf) == iLayer)
+                {
+                    //
+                    // Continous layer
+                    //
 
-					pK2[iY * cWorld.GetGridWidth() + iX] = 0;
-				}
-				else if (!FLOAT_EQUALS(fFracX, 0.0f) && !FLOAT_EQUALS(fFracY, 0.0f) &&
-					(vVertexes[iTileY * uiGridWidth + iTileX + 1].y2 & 0xf) == iLayer &&
-					(vVertexes[(iTileY + 1) * uiGridWidth + iTileX].y2 & 0xf) == iLayer && 
-					(vVertexes[(iTileY + 1) * uiGridWidth + iTileX + 1].y2 & 0xf) == iLayer)
-				{
-					//
-					// Continous layer
-					//
+                    pK2[iY * cWorld.GetGridWidth() + iX] = 0;
+                }
+                else if (!FLOAT_EQUALS(fFracX, 0.0f) && !FLOAT_EQUALS(fFracY, 0.0f) &&
+                    (vVertexes[iTileY * uiGridWidth + iTileX + 1].y2 & 0xf) == iLayer &&
+                    (vVertexes[(iTileY + 1) * uiGridWidth + iTileX].y2 & 0xf) == iLayer && 
+                    (vVertexes[(iTileY + 1) * uiGridWidth + iTileX + 1].y2 & 0xf) == iLayer)
+                {
+                    //
+                    // Continous layer
+                    //
 
-					pK2[iY * cWorld.GetGridWidth() + iX] = 0;
-				}
-				else
-				{
-					//
-					// Cliff
-					//
+                    pK2[iY * cWorld.GetGridWidth() + iX] = 0;
+                }
+                else
+                {
+                    //
+                    // Cliff
+                    //
 
-					pK2[iY * cWorld.GetGridWidth() + iX] = 1;
-				}
-			}
-			else
-			{
-				pK2[iY * cWorld.GetGridWidth() + iX] = 0;
-			}
-		}
-	}
-	
-	Editor.GetWorld().SetRegion(WORLD_VERT_BLOCKER_MAP, recWorld, pK2);
+                    pK2[iY * cWorld.GetGridWidth() + iX] = 1;
+                }
+            }
+            else
+            {
+                pK2[iY * cWorld.GetGridWidth() + iX] = 0;
+            }
+        }
+    }
+    
+    Editor.GetWorld().SetRegion(WORLD_VERT_BLOCKER_MAP, recWorld, pK2);
 
-	delete[] pK2;
+    delete[] pK2;
 
-	return true;
+    return true;
 }
 #endif
 
@@ -1801,35 +1801,35 @@ CMD(ImportW3EBlockers)
   --------------------*/
 CMD(SnapCliffs)
 {
-	CWorld &cWorld(Editor.GetWorld());
-	WorldEntList &vEntities(cWorld.GetEntityList());
-	WorldEntList_cit citEnd(vEntities.end());
+    CWorld &cWorld(Editor.GetWorld());
+    WorldEntList &vEntities(cWorld.GetEntityList());
+    WorldEntList_cit citEnd(vEntities.end());
 
-	// Snap to 2 tile grid
-	for (WorldEntList_cit cit(vEntities.begin()); cit != citEnd; ++cit)
-	{
-		CWorldEntity *pWorldEnt(cWorld.GetEntityByHandle(*cit));
-		if (pWorldEnt == NULL)
-			continue;
+    // Snap to 2 tile grid
+    for (WorldEntList_cit cit(vEntities.begin()); cit != citEnd; ++cit)
+    {
+        CWorldEntity *pWorldEnt(cWorld.GetEntityByHandle(*cit));
+        if (pWorldEnt == NULL)
+            continue;
 
-		if (pWorldEnt->GetType() != _T("Prop_Cliff") && pWorldEnt->GetType() != _T("Prop_Cliff2"))
-			continue;
+        if (pWorldEnt->GetType() != _T("Prop_Cliff") && pWorldEnt->GetType() != _T("Prop_Cliff2"))
+            continue;
 
-		uint uiEntIndex(pWorldEnt->GetIndex());
+        uint uiEntIndex(pWorldEnt->GetIndex());
 
-		cWorld.UnlinkEntity(uiEntIndex);
+        cWorld.UnlinkEntity(uiEntIndex);
 
-		CVec3f v3Position(pWorldEnt->GetPosition());
-		v3Position.x = ROUND(v3Position.x / 32.0f) * 32.0f;
-		v3Position.y = ROUND(v3Position.y / 32.0f) * 32.0f;
-		v3Position.z = ROUND(v3Position.z / 32.0f) * 32.0f;
+        CVec3f v3Position(pWorldEnt->GetPosition());
+        v3Position.x = ROUND(v3Position.x / 32.0f) * 32.0f;
+        v3Position.y = ROUND(v3Position.y / 32.0f) * 32.0f;
+        v3Position.z = ROUND(v3Position.z / 32.0f) * 32.0f;
 
-		pWorldEnt->SetPosition(v3Position);
-		
-		cWorld.LinkEntity(pWorldEnt->GetIndex(), LINK_SURFACE | LINK_MODEL, SURF_PROP);
-	}
+        pWorldEnt->SetPosition(v3Position);
+        
+        cWorld.LinkEntity(pWorldEnt->GetIndex(), LINK_SURFACE | LINK_MODEL, SURF_PROP);
+    }
 
-	return true;
+    return true;
 }
 
 
@@ -1838,26 +1838,26 @@ CMD(SnapCliffs)
   --------------------*/
 CMD(CompressIndexes)
 {
-	CWorld &cWorld(Editor.GetWorld());
-	WorldEntList &vEntities(cWorld.GetEntityList());
-	WorldEntList vOldEntities(vEntities);
+    CWorld &cWorld(Editor.GetWorld());
+    WorldEntList &vEntities(cWorld.GetEntityList());
+    WorldEntList vOldEntities(vEntities);
 
-	vEntities.clear();
-	for (WorldEntList_cit cit(vOldEntities.begin()), citEnd(vOldEntities.end()); cit != citEnd; ++cit)
-	{
-		if (*cit == INVALID_POOL_HANDLE)
-			continue;
+    vEntities.clear();
+    for (WorldEntList_cit cit(vOldEntities.begin()), citEnd(vOldEntities.end()); cit != citEnd; ++cit)
+    {
+        if (*cit == INVALID_POOL_HANDLE)
+            continue;
 
-		vEntities.push_back(*cit);
+        vEntities.push_back(*cit);
 
-		CWorldEntity *pWorldEnt(cWorld.GetEntityByHandle(vEntities.back()));
-		if (pWorldEnt == NULL)
-			continue; // !!!
+        CWorldEntity *pWorldEnt(cWorld.GetEntityByHandle(vEntities.back()));
+        if (pWorldEnt == NULL)
+            continue; // !!!
 
-		pWorldEnt->SetIndex(uint(vEntities.size() - 1));
-	}
+        pWorldEnt->SetIndex(uint(vEntities.size() - 1));
+    }
 
-	return true;
+    return true;
 }
 
 

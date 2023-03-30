@@ -29,21 +29,21 @@
   --------------------*/
 SERVER_CMD(Damage)
 {
-	if (vArgList.size() < 2)
-		return false;
+    if (vArgList.size() < 2)
+        return false;
 
-	uint uiIndex(AtoI(vArgList[0]));
-	float fDamage(AtoF(vArgList[1]));
+    uint uiIndex(AtoI(vArgList[0]));
+    float fDamage(AtoF(vArgList[1]));
 
-	IUnitEntity *pTarget(GameServer.GetUnitEntity(uiIndex));
-	if (pTarget == NULL)
-		return false;
+    IUnitEntity *pTarget(GameServer.GetUnitEntity(uiIndex));
+    if (pTarget == NULL)
+        return false;
 
-	CDamageEvent dmg;
-	dmg.SetAmount(fDamage);
-	dmg.SetTargetIndex(pTarget->GetIndex());
-	dmg.ApplyDamage();
-	return true;
+    CDamageEvent dmg;
+    dmg.SetAmount(fDamage);
+    dmg.SetTargetIndex(pTarget->GetIndex());
+    dmg.ApplyDamage();
+    return true;
 }
 
 
@@ -52,17 +52,17 @@ SERVER_CMD(Damage)
   --------------------*/
 SERVER_CMD(Kill)
 {
-	if (vArgList.size() < 1)
-		return false;
+    if (vArgList.size() < 1)
+        return false;
 
-	uint uiIndex(AtoI(vArgList[0]));
+    uint uiIndex(AtoI(vArgList[0]));
 
-	IUnitEntity *pTarget(GameServer.GetUnitEntity(uiIndex));
-	if (pTarget == NULL)
-		return false;
+    IUnitEntity *pTarget(GameServer.GetUnitEntity(uiIndex));
+    if (pTarget == NULL)
+        return false;
 
-	pTarget->Kill();
-	return true;
+    pTarget->Kill();
+    return true;
 }
 
 
@@ -71,17 +71,17 @@ SERVER_CMD(Kill)
   --------------------*/
 SERVER_CMD(Armageddon)
 {
-	IGameEntity *pEnt(Game.GetFirstEntity());
-	while (pEnt != NULL)
-	{
-		IUnitEntity *pUnit(pEnt->GetAsUnit());
-		if (pUnit != NULL && !pUnit->IsBuilding() && !pUnit->IsBit())
-			pUnit->Kill();
+    IGameEntity *pEnt(Game.GetFirstEntity());
+    while (pEnt != NULL)
+    {
+        IUnitEntity *pUnit(pEnt->GetAsUnit());
+        if (pUnit != NULL && !pUnit->IsBuilding() && !pUnit->IsBit())
+            pUnit->Kill();
 
-		pEnt = Game.GetNextEntity(pEnt);
-	}
+        pEnt = Game.GetNextEntity(pEnt);
+    }
 
-	return true;
+    return true;
 }
 
 
@@ -90,18 +90,18 @@ SERVER_CMD(Armageddon)
   --------------------*/
 SERVER_CMD(GiveExp)
 {
-	if (vArgList.size() < 2)
-		return false;
+    if (vArgList.size() < 2)
+        return false;
 
-	uint uiIndex(AtoI(vArgList[0]));
-	float fExperience(AtoF(vArgList[1]));
+    uint uiIndex(AtoI(vArgList[0]));
+    float fExperience(AtoF(vArgList[1]));
 
-	IHeroEntity *pTarget(GameServer.GetHeroEntity(uiIndex));
-	if (pTarget == NULL)
-		return false;
+    IHeroEntity *pTarget(GameServer.GetHeroEntity(uiIndex));
+    if (pTarget == NULL)
+        return false;
 
-	pTarget->GiveExperience(fExperience);
-	return true;
+    pTarget->GiveExperience(fExperience);
+    return true;
 }
 
 
@@ -110,18 +110,18 @@ SERVER_CMD(GiveExp)
   --------------------*/
 SERVER_CMD(LevelUp)
 {
-	if (vArgList.size() < 1)
-		return false;
+    if (vArgList.size() < 1)
+        return false;
 
-	uint uiIndex(AtoI(vArgList[0]));
+    uint uiIndex(AtoI(vArgList[0]));
 
-	IHeroEntity *pTarget(GameServer.GetHeroEntity(uiIndex));
-	if (pTarget == NULL)
-		return false;
+    IHeroEntity *pTarget(GameServer.GetHeroEntity(uiIndex));
+    if (pTarget == NULL)
+        return false;
 
-	float fExperience(pTarget->GetExperienceForNextLevel() - pTarget->GetExperience());
-	pTarget->GiveExperience(fExperience);
-	return true;
+    float fExperience(pTarget->GetExperienceForNextLevel() - pTarget->GetExperience());
+    pTarget->GiveExperience(fExperience);
+    return true;
 }
 
 
@@ -130,28 +130,28 @@ SERVER_CMD(LevelUp)
   --------------------*/
 SERVER_CMD(LevelMax)
 {
-	if (vArgList.size() < 1)
-		return false;
+    if (vArgList.size() < 1)
+        return false;
 
-	uint uiIndex(AtoI(vArgList[0]));
+    uint uiIndex(AtoI(vArgList[0]));
 
-	IHeroEntity *pTarget(GameServer.GetHeroEntity(uiIndex));
-	if (pTarget == NULL)
-		return false;
+    IHeroEntity *pTarget(GameServer.GetHeroEntity(uiIndex));
+    if (pTarget == NULL)
+        return false;
 
-	float fExperience(pTarget->GetExperienceForLevel(MAX_HERO_LEVEL));
-	pTarget->GiveExperience(fExperience);
+    float fExperience(pTarget->GetExperienceForLevel(MAX_HERO_LEVEL));
+    pTarget->GiveExperience(fExperience);
 
-	for (int iSlot(INVENTORY_START_ABILITIES); iSlot <= INVENTORY_END_ABILITIES; ++iSlot)
-	{
-		IEntityAbility *pAbility(pTarget->GetAbility(iSlot));
-		if (pAbility == NULL)
-			continue;
+    for (int iSlot(INVENTORY_START_ABILITIES); iSlot <= INVENTORY_END_ABILITIES; ++iSlot)
+    {
+        IEntityAbility *pAbility(pTarget->GetAbility(iSlot));
+        if (pAbility == NULL)
+            continue;
 
-		while (pAbility->CanLevelUp()) pAbility->LevelUp();
-	}
+        while (pAbility->CanLevelUp()) pAbility->LevelUp();
+    }
 
-	return true;
+    return true;
 }
 
 
@@ -159,17 +159,17 @@ SERVER_CMD(LevelMax)
   ResetExp
   --------------------*/
 SERVER_CMD(ResetExp)
-{	
-	if (vArgList.size() < 1)
-		return false;
+{   
+    if (vArgList.size() < 1)
+        return false;
 
-	uint uiIndex(AtoI(vArgList[0]));
-	IHeroEntity *pTarget(GameServer.GetHeroEntity(uiIndex));
-	if (pTarget == NULL)
-		return false;
+    uint uiIndex(AtoI(vArgList[0]));
+    IHeroEntity *pTarget(GameServer.GetHeroEntity(uiIndex));
+    if (pTarget == NULL)
+        return false;
 
-	pTarget->ResetExperience();
-	return true;
+    pTarget->ResetExperience();
+    return true;
 }
 
 
@@ -178,17 +178,17 @@ SERVER_CMD(ResetExp)
   --------------------*/
 SERVER_CMD(GiveGold)
 {
-	if (vArgList.size() < 2)
-		return false;
+    if (vArgList.size() < 2)
+        return false;
 
-	int iClientNum(AtoI(vArgList[0]));
-	ushort unGold(AtoI(vArgList[1]));
-	CPlayer *pPlayer(GameServer.GetPlayerFromClientNumber(iClientNum));
-	if (pPlayer == NULL)
-		return false;
-		
-	pPlayer->GiveGold(unGold, pPlayer->GetHero());
-	return true;
+    int iClientNum(AtoI(vArgList[0]));
+    ushort unGold(AtoI(vArgList[1]));
+    CPlayer *pPlayer(GameServer.GetPlayerFromClientNumber(iClientNum));
+    if (pPlayer == NULL)
+        return false;
+        
+    pPlayer->GiveGold(unGold, pPlayer->GetHero());
+    return true;
 }
 
 
@@ -197,35 +197,35 @@ SERVER_CMD(GiveGold)
   --------------------*/
 SERVER_CMD(Refresh)
 {
-	uint uiIndex(INVALID_INDEX);
-	if (vArgList.size() > 0)
-		uiIndex = AtoI(vArgList[0]);
-	else
-	{
-		CPlayer *pPlayer(GameServer.GetPlayerFromClientNumber(0));
-		if (pPlayer)
-			uiIndex = pPlayer->GetHeroIndex();
-	}
+    uint uiIndex(INVALID_INDEX);
+    if (vArgList.size() > 0)
+        uiIndex = AtoI(vArgList[0]);
+    else
+    {
+        CPlayer *pPlayer(GameServer.GetPlayerFromClientNumber(0));
+        if (pPlayer)
+            uiIndex = pPlayer->GetHeroIndex();
+    }
 
-	IUnitEntity *pTarget(GameServer.GetUnitEntity(uiIndex));
-	if (pTarget == NULL)
-		return false;
+    IUnitEntity *pTarget(GameServer.GetUnitEntity(uiIndex));
+    if (pTarget == NULL)
+        return false;
 
-	pTarget->SetHealth(pTarget->GetMaxHealth());
-	pTarget->SetMana(pTarget->GetMaxMana());
+    pTarget->SetHealth(pTarget->GetMaxHealth());
+    pTarget->SetMana(pTarget->GetMaxMana());
 
-	for (int i(INVENTORY_START_ABILITIES); i <= INVENTORY_END_BACKPACK; ++i)
-	{
-		IEntityTool *pItem(pTarget->GetTool(i));
-		if (pItem == NULL)
-			continue;
+    for (int i(INVENTORY_START_ABILITIES); i <= INVENTORY_END_BACKPACK; ++i)
+    {
+        IEntityTool *pItem(pTarget->GetTool(i));
+        if (pItem == NULL)
+            continue;
 
-		pItem->ResetCooldown();
-	}
+        pItem->ResetCooldown();
+    }
 
-	pTarget->ResetCooldowns();
-		
-	return true;
+    pTarget->ResetCooldowns();
+        
+    return true;
 }
 
 
@@ -234,23 +234,23 @@ SERVER_CMD(Refresh)
   --------------------*/
 SERVER_CMD(Stun)
 {
-	uint uiIndex(INVALID_INDEX);
-	if (vArgList.size() > 0)
-		uiIndex = AtoI(vArgList[0]);
-	else
-	{
-		CPlayer *pPlayer(GameServer.GetPlayerFromClientNumber(0));
-		if (pPlayer)
-			uiIndex = pPlayer->GetHeroIndex();
-	}
+    uint uiIndex(INVALID_INDEX);
+    if (vArgList.size() > 0)
+        uiIndex = AtoI(vArgList[0]);
+    else
+    {
+        CPlayer *pPlayer(GameServer.GetPlayerFromClientNumber(0));
+        if (pPlayer)
+            uiIndex = pPlayer->GetHeroIndex();
+    }
 
-	IUnitEntity *pTarget(GameServer.GetUnitEntity(uiIndex));
-	if (pTarget == NULL)
-		return false;
+    IUnitEntity *pTarget(GameServer.GetUnitEntity(uiIndex));
+    if (pTarget == NULL)
+        return false;
 
-	pTarget->ApplyState(EntityRegistry.LookupID(_T("State_Stunned")), 1, Game.GetGameTime(), 5000);
-		
-	return true;
+    pTarget->ApplyState(EntityRegistry.LookupID(_T("State_Stunned")), 1, Game.GetGameTime(), 5000);
+        
+    return true;
 }
 
 
@@ -259,23 +259,23 @@ SERVER_CMD(Stun)
   --------------------*/
 SERVER_CMD(Silence)
 {
-	uint uiIndex(INVALID_INDEX);
-	if (vArgList.size() > 0)
-		uiIndex = AtoI(vArgList[0]);
-	else
-	{
-		CPlayer *pPlayer(GameServer.GetPlayerFromClientNumber(0));
-		if (pPlayer)
-			uiIndex = pPlayer->GetHeroIndex();
-	}
+    uint uiIndex(INVALID_INDEX);
+    if (vArgList.size() > 0)
+        uiIndex = AtoI(vArgList[0]);
+    else
+    {
+        CPlayer *pPlayer(GameServer.GetPlayerFromClientNumber(0));
+        if (pPlayer)
+            uiIndex = pPlayer->GetHeroIndex();
+    }
 
-	IUnitEntity *pTarget(GameServer.GetUnitEntity(uiIndex));
-	if (pTarget == NULL)
-		return false;
+    IUnitEntity *pTarget(GameServer.GetUnitEntity(uiIndex));
+    if (pTarget == NULL)
+        return false;
 
-	pTarget->ApplyState(EntityRegistry.LookupID(_T("State_Defiler_Ability2")), 1, Game.GetGameTime(), 5000);
-		
-	return true;
+    pTarget->ApplyState(EntityRegistry.LookupID(_T("State_Defiler_Ability2")), 1, Game.GetGameTime(), 5000);
+        
+    return true;
 }
 
 
@@ -284,23 +284,23 @@ SERVER_CMD(Silence)
   --------------------*/
 SERVER_CMD(Ministun)
 {
-	uint uiIndex(INVALID_INDEX);
-	if (vArgList.size() > 0)
-		uiIndex = AtoI(vArgList[0]);
-	else
-	{
-		CPlayer *pPlayer(GameServer.GetPlayerFromClientNumber(0));
-		if (pPlayer)
-			uiIndex = pPlayer->GetHeroIndex();
-	}
+    uint uiIndex(INVALID_INDEX);
+    if (vArgList.size() > 0)
+        uiIndex = AtoI(vArgList[0]);
+    else
+    {
+        CPlayer *pPlayer(GameServer.GetPlayerFromClientNumber(0));
+        if (pPlayer)
+            uiIndex = pPlayer->GetHeroIndex();
+    }
 
-	IUnitEntity *pTarget(GameServer.GetUnitEntity(uiIndex));
-	if (pTarget == NULL)
-		return false;
+    IUnitEntity *pTarget(GameServer.GetUnitEntity(uiIndex));
+    if (pTarget == NULL)
+        return false;
 
-	pTarget->ApplyState(EntityRegistry.LookupID(_T("State_Stunned")), 1, Game.GetGameTime(), 100);
-		
-	return true;
+    pTarget->ApplyState(EntityRegistry.LookupID(_T("State_Stunned")), 1, Game.GetGameTime(), 100);
+        
+    return true;
 }
 
 
@@ -309,39 +309,39 @@ SERVER_CMD(Ministun)
   --------------------*/
 SERVER_CMD(GiveItem)
 {
-	if (vArgList.size() < 2)
-		return false;
+    if (vArgList.size() < 2)
+        return false;
 
-	IUnitEntity *pTarget(GameServer.GetUnitEntity(AtoI(vArgList[0])));
-	if (pTarget == NULL)
-		return false;
+    IUnitEntity *pTarget(GameServer.GetUnitEntity(AtoI(vArgList[0])));
+    if (pTarget == NULL)
+        return false;
 
-	ushort unItemID(EntityRegistry.LookupID(vArgList[1]));
+    ushort unItemID(EntityRegistry.LookupID(vArgList[1]));
 
-	int iTargetSlot(-1);
-	for (int iSlot(INVENTORY_START_BACKPACK); iSlot <= INVENTORY_END_BACKPACK; ++iSlot)
-	{
-		IEntityItem *pItem(pTarget->GetItem(iSlot));
-		if (pItem == NULL)
-		{
-			if (iTargetSlot == -1)
-				iTargetSlot = iSlot;
-			continue;
-		}
-		if (pItem->GetType() == unItemID &&
-			pItem->GetRechargeable() &&
-			pItem->GetInitialCharges() > 0 &&
-			(pItem->GetMaxCharges() == -1 || pItem->GetCharges() + pItem->GetInitialCharges() <= uint(pItem->GetMaxCharges())))
-		{
-			iTargetSlot = iSlot;
-			break;
-		}
-	}
-	
-	if (iTargetSlot != -1)
-		pTarget->GiveItem(iTargetSlot, unItemID, vArgList.size() > 2 ? AtoB(vArgList[2]) : true);
+    int iTargetSlot(-1);
+    for (int iSlot(INVENTORY_START_BACKPACK); iSlot <= INVENTORY_END_BACKPACK; ++iSlot)
+    {
+        IEntityItem *pItem(pTarget->GetItem(iSlot));
+        if (pItem == NULL)
+        {
+            if (iTargetSlot == -1)
+                iTargetSlot = iSlot;
+            continue;
+        }
+        if (pItem->GetType() == unItemID &&
+            pItem->GetRechargeable() &&
+            pItem->GetInitialCharges() > 0 &&
+            (pItem->GetMaxCharges() == -1 || pItem->GetCharges() + pItem->GetInitialCharges() <= uint(pItem->GetMaxCharges())))
+        {
+            iTargetSlot = iSlot;
+            break;
+        }
+    }
+    
+    if (iTargetSlot != -1)
+        pTarget->GiveItem(iTargetSlot, unItemID, vArgList.size() > 2 ? AtoB(vArgList[2]) : true);
 
-	return true;
+    return true;
 }
 
 
@@ -350,11 +350,11 @@ SERVER_CMD(GiveItem)
   --------------------*/
 SERVER_CMD(RemoveHero)
 {
-	if (vArgList.empty())
-		return false;
+    if (vArgList.empty())
+        return false;
 
-	GameServer.RemoveHero(AtoI(vArgList[0]));
-	return true;
+    GameServer.RemoveHero(AtoI(vArgList[0]));
+    return true;
 }
 
 
@@ -363,11 +363,11 @@ SERVER_CMD(RemoveHero)
   --------------------*/
 SERVER_CMD(ResetPicks)
 {
-	if (vArgList.empty())
-		return false;
+    if (vArgList.empty())
+        return false;
 
-	GameServer.ResetPicks(AtoI(vArgList[0]));
-	return true;
+    GameServer.ResetPicks(AtoI(vArgList[0]));
+    return true;
 }
 
 
@@ -376,22 +376,22 @@ SERVER_CMD(ResetPicks)
   --------------------*/
 SERVER_CMD(MorphHero)
 {
-	if (vArgList.size() < 2)
-		return false;
+    if (vArgList.size() < 2)
+        return false;
 
-	int iClientNum(AtoI(vArgList[0]));
-	CPlayer *pPlayer(GameServer.GetPlayerFromClientNumber(iClientNum));
-	if (pPlayer == NULL)
-		return false;
+    int iClientNum(AtoI(vArgList[0]));
+    CPlayer *pPlayer(GameServer.GetPlayerFromClientNumber(iClientNum));
+    if (pPlayer == NULL)
+        return false;
 
-	IHeroEntity *pHero(pPlayer->GetHero());
-	if (pHero == NULL)
-		return true;
+    IHeroEntity *pHero(pPlayer->GetHero());
+    if (pHero == NULL)
+        return true;
 
-	pHero->MorphDynamicType(EntityRegistry.LookupID(vArgList[1]));
-	pHero->UpdateInventory();
-	
-	return true;
+    pHero->MorphDynamicType(EntityRegistry.LookupID(vArgList[1]));
+    pHero->UpdateInventory();
+    
+    return true;
 }
 
 
@@ -400,42 +400,42 @@ SERVER_CMD(MorphHero)
   --------------------*/
 SERVER_CMD(SpawnUnit)
 {
-	if (vArgList.size() < 4)
-		return false;
+    if (vArgList.size() < 4)
+        return false;
 
-	ushort unUnitID(EntityRegistry.LookupID(vArgList[0]));
-	if (unUnitID == INVALID_ENT_TYPE)
-		return false;
+    ushort unUnitID(EntityRegistry.LookupID(vArgList[0]));
+    if (unUnitID == INVALID_ENT_TYPE)
+        return false;
 
-	IGameEntity *pTarget(GameServer.GetEntityFromName(vArgList[1]));
-	if (pTarget == NULL || !pTarget->IsVisual())
-		return false;
-	CVec3f v3Position(pTarget->GetAsVisual()->GetPosition());
+    IGameEntity *pTarget(GameServer.GetEntityFromName(vArgList[1]));
+    if (pTarget == NULL || !pTarget->IsVisual())
+        return false;
+    CVec3f v3Position(pTarget->GetAsVisual()->GetPosition());
 
-	int iClientNum(AtoI(vArgList[2]));
-	CPlayer *pPlayer(GameServer.GetPlayerFromClientNumber(iClientNum));
-	if (pPlayer == NULL)
-		return false;
+    int iClientNum(AtoI(vArgList[2]));
+    CPlayer *pPlayer(GameServer.GetPlayerFromClientNumber(iClientNum));
+    if (pPlayer == NULL)
+        return false;
 
-	int iTeam(CLAMP(AtoI(vArgList[3]), 0, 2));
+    int iTeam(CLAMP(AtoI(vArgList[3]), 0, 2));
 
-	IGameEntity *pNewEntity(GameServer.AllocateEntity(unUnitID));
-	if (pNewEntity == NULL)
-		return false;
+    IGameEntity *pNewEntity(GameServer.AllocateEntity(unUnitID));
+    if (pNewEntity == NULL)
+        return false;
 
-	IUnitEntity *pUnit(pNewEntity->GetAsUnit());
-	if (pUnit == NULL)
-	{
-		GameServer.DeleteEntity(pNewEntity);
-		return false;
-	}
+    IUnitEntity *pUnit(pNewEntity->GetAsUnit());
+    if (pUnit == NULL)
+    {
+        GameServer.DeleteEntity(pNewEntity);
+        return false;
+    }
 
-	pUnit->SetTeam(iTeam);
-	pUnit->SetPosition(v3Position);
-	pUnit->SetLevel(1);
-	pPlayer->AddPet(pUnit, 0, INVALID_INDEX);
-	pUnit->Spawn();
-	return true;
+    pUnit->SetTeam(iTeam);
+    pUnit->SetPosition(v3Position);
+    pUnit->SetLevel(1);
+    pPlayer->AddPet(pUnit, 0, INVALID_INDEX);
+    pUnit->Spawn();
+    return true;
 }
 
 
@@ -446,40 +446,40 @@ SERVER_CMD(SpawnUnit)
   --------------------*/
 SERVER_CMD(SpawnUnit2)
 {
-	if (vArgList.size() < 5)
-		return false;
+    if (vArgList.size() < 5)
+        return false;
 
-	ushort unUnitID(EntityRegistry.LookupID(vArgList[0]));
-	if (unUnitID == INVALID_ENT_TYPE)
-		return false;
+    ushort unUnitID(EntityRegistry.LookupID(vArgList[0]));
+    if (unUnitID == INVALID_ENT_TYPE)
+        return false;
 
-	int iClientNum(AtoI(vArgList[1]));
-	CPlayer *pPlayer(GameServer.GetPlayerFromClientNumber(iClientNum));
+    int iClientNum(AtoI(vArgList[1]));
+    CPlayer *pPlayer(GameServer.GetPlayerFromClientNumber(iClientNum));
 
-	int iTeam(CLAMP(AtoI(vArgList[2]), int(TEAM_NEUTRAL), 2));
+    int iTeam(CLAMP(AtoI(vArgList[2]), int(TEAM_NEUTRAL), 2));
 
-	IGameEntity *pNewEntity(GameServer.AllocateEntity(unUnitID));
-	if (pNewEntity == NULL)
-		return false;
+    IGameEntity *pNewEntity(GameServer.AllocateEntity(unUnitID));
+    if (pNewEntity == NULL)
+        return false;
 
-	IUnitEntity *pUnit(pNewEntity->GetAsUnit());
-	if (pUnit == NULL)
-	{
-		GameServer.DeleteEntity(pNewEntity);
-		return false;
-	}
+    IUnitEntity *pUnit(pNewEntity->GetAsUnit());
+    if (pUnit == NULL)
+    {
+        GameServer.DeleteEntity(pNewEntity);
+        return false;
+    }
 
-	GameServer.Precache(vArgList[0], PRECACHE_ALL);
+    GameServer.Precache(vArgList[0], PRECACHE_ALL);
 
-	pUnit->SetTeam(iTeam);
-	pUnit->SetPosition(Game.GetTerrainPosition(CVec2f(AtoF(vArgList[3]), AtoF(vArgList[4]))));
-	pUnit->SetLevel(1);
+    pUnit->SetTeam(iTeam);
+    pUnit->SetPosition(Game.GetTerrainPosition(CVec2f(AtoF(vArgList[3]), AtoF(vArgList[4]))));
+    pUnit->SetLevel(1);
 
-	if (pPlayer != NULL)
-		pPlayer->AddPet(pUnit, 0, INVALID_INDEX);
+    if (pPlayer != NULL)
+        pPlayer->AddPet(pUnit, 0, INVALID_INDEX);
 
-	pUnit->Spawn();
-	return true;
+    pUnit->Spawn();
+    return true;
 }
 
 
@@ -488,16 +488,16 @@ SERVER_CMD(SpawnUnit2)
   --------------------*/
 SERVER_CMD(ServerChat)
 {
-	if (vArgList.empty())
-		return false;
+    if (vArgList.empty())
+        return false;
 
-	CBufferDynamic buffer;
-	buffer << GAME_CMD_SERVERCHAT_ALL << TStringToUTF8(ConcatinateArgs(vArgList, _T(" "))) << byte(0);
-	GameServer.BroadcastGameData(buffer, true);
+    CBufferDynamic buffer;
+    buffer << GAME_CMD_SERVERCHAT_ALL << TStringToUTF8(ConcatinateArgs(vArgList, _T(" "))) << byte(0);
+    GameServer.BroadcastGameData(buffer, true);
 
-	Console.Server << _T("Server Message: ") << ConcatinateArgs(vArgList, _T(" ")) << newl;
-			
-	return true;
+    Console.Server << _T("Server Message: ") << ConcatinateArgs(vArgList, _T(" ")) << newl;
+            
+    return true;
 }
 
 
@@ -506,8 +506,8 @@ SERVER_CMD(ServerChat)
   --------------------*/
 SERVER_CMD(StartMatch)
 {
-	GameServer.RequestStartGame(-1);
-	return true;
+    GameServer.RequestStartGame(-1);
+    return true;
 }
 
 
@@ -516,11 +516,11 @@ SERVER_CMD(StartMatch)
   --------------------*/
 SERVER_CMD(EndMatch)
 {
-	if (vArgList.empty())
-		return false;
+    if (vArgList.empty())
+        return false;
 
-	GameServer.EndMatch(AtoI(vArgList[0]));
-	return true;
+    GameServer.EndMatch(AtoI(vArgList[0]));
+    return true;
 }
 
 
@@ -529,8 +529,8 @@ SERVER_CMD(EndMatch)
   --------------------*/
 SERVER_CMD(ServerStatus)
 {
-	Console << GameServer.GetServerStatus() << newl;
-	return true;
+    Console << GameServer.GetServerStatus() << newl;
+    return true;
 }
 
 
@@ -539,13 +539,13 @@ SERVER_CMD(ServerStatus)
   --------------------*/
 SERVER_CMD(ReplayRecordStart)
 {
-	if (vArgList.size() < 1)
-		Console << _T("syntax: ReplayRecordStart <filename>") << newl;
+    if (vArgList.size() < 1)
+        Console << _T("syntax: ReplayRecordStart <filename>") << newl;
 
-	ReplayManager.StartRecording(_TS("~/replays/") + vArgList[0]);
+    ReplayManager.StartRecording(_TS("~/replays/") + vArgList[0]);
 
-	Console << _T("Recording ") << vArgList[0] << newl;
-	return true;
+    Console << _T("Recording ") << vArgList[0] << newl;
+    return true;
 }
 
 
@@ -554,8 +554,8 @@ SERVER_CMD(ReplayRecordStart)
   --------------------*/
 SERVER_CMD(ReplayRecordStop)
 {
-	ReplayManager.StopRecording();
-	return true;
+    ReplayManager.StopRecording();
+    return true;
 }
 
 
@@ -564,8 +564,8 @@ SERVER_CMD(ReplayRecordStop)
   --------------------*/
 SERVER_CMD(SpawnCreeps)
 {
-	GameServer.SpawnCreeps();
-	return true;
+    GameServer.SpawnCreeps();
+    return true;
 }
 
 
@@ -574,17 +574,17 @@ SERVER_CMD(SpawnCreeps)
   --------------------*/
 SERVER_CMD(KillCreeps)
 {
-	IGameEntity *pEnt(Game.GetFirstEntity());
-	while (pEnt != NULL)
-	{
-		ICreepEntity *pCreep(pEnt->GetAsCreep());
-		if (pCreep != NULL)
-			pCreep->Kill();
+    IGameEntity *pEnt(Game.GetFirstEntity());
+    while (pEnt != NULL)
+    {
+        ICreepEntity *pCreep(pEnt->GetAsCreep());
+        if (pCreep != NULL)
+            pCreep->Kill();
 
-		pEnt = Game.GetNextEntity(pEnt);
-	}
+        pEnt = Game.GetNextEntity(pEnt);
+    }
 
-	return true;
+    return true;
 }
 
 
@@ -593,8 +593,8 @@ SERVER_CMD(KillCreeps)
   --------------------*/
 SERVER_CMD(KillTrees)
 {
-	GameServer.KillTrees();
-	return true;
+    GameServer.KillTrees();
+    return true;
 }
 
 
@@ -603,8 +603,8 @@ SERVER_CMD(KillTrees)
   --------------------*/
 SERVER_CMD(SpawnTrees)
 {
-	GameServer.SpawnTrees();
-	return true;
+    GameServer.SpawnTrees();
+    return true;
 }
 
 
@@ -613,8 +613,8 @@ SERVER_CMD(SpawnTrees)
   --------------------*/
 SERVER_CMD(SpawnPowerup)
 {
-	GameServer.SpawnPowerup();
-	return true;
+    GameServer.SpawnPowerup();
+    return true;
 }
 
 
@@ -623,21 +623,21 @@ SERVER_CMD(SpawnPowerup)
   --------------------*/
 SERVER_CMD(SpawnNeutrals)
 {
-	static uivector vControllers;
-	vControllers.clear();
+    static uivector vControllers;
+    vControllers.clear();
 
-	GameServer.GetEntities(vControllers, Entity_NeutralCampController);
+    GameServer.GetEntities(vControllers, Entity_NeutralCampController);
 
-	for (uivector_it it(vControllers.begin()), itEnd(vControllers.end()); it != itEnd; ++it)
-	{
-		CEntityNeutralCampController *pController(Game.GetEntityAs<CEntityNeutralCampController>(*it));
-		if (pController == NULL)
-			continue;
+    for (uivector_it it(vControllers.begin()), itEnd(vControllers.end()); it != itEnd; ++it)
+    {
+        CEntityNeutralCampController *pController(Game.GetEntityAs<CEntityNeutralCampController>(*it));
+        if (pController == NULL)
+            continue;
 
-		pController->AttemptSpawn();
-	}
+        pController->AttemptSpawn();
+    }
 
-	return true;
+    return true;
 }
 
 
@@ -646,21 +646,21 @@ SERVER_CMD(SpawnNeutrals)
   --------------------*/
 SERVER_CMD(SpawnKongor)
 {
-	static uivector vControllers;
-	vControllers.clear();
+    static uivector vControllers;
+    vControllers.clear();
 
-	GameServer.GetEntities(vControllers, Entity_BossController);
+    GameServer.GetEntities(vControllers, Entity_BossController);
 
-	for (uivector_it it(vControllers.begin()), itEnd(vControllers.end()); it != itEnd; ++it)
-	{
-		CEntityBossController *pController(Game.GetEntityAs<CEntityBossController>(*it));
-		if (pController == NULL)
-			continue;
+    for (uivector_it it(vControllers.begin()), itEnd(vControllers.end()); it != itEnd; ++it)
+    {
+        CEntityBossController *pController(Game.GetEntityAs<CEntityBossController>(*it));
+        if (pController == NULL)
+            continue;
 
-		pController->AttemptSpawn();
-	}
+        pController->AttemptSpawn();
+    }
 
-	return true;
+    return true;
 }
 
 
@@ -669,8 +669,8 @@ SERVER_CMD(SpawnKongor)
   --------------------*/
 SERVER_CMD(SpawnCritters)
 {
-	GameServer.SpawnCritters();
-	return true;
+    GameServer.SpawnCritters();
+    return true;
 }
 
 
@@ -679,29 +679,29 @@ SERVER_CMD(SpawnCritters)
   --------------------*/
 SERVER_CMD(Demote)
 {
-	if (vArgList.empty())
-	{
-		Console << _T("Must specify client to be demoted") << newl;
-		return false;
-	}
+    if (vArgList.empty())
+    {
+        Console << _T("Must specify client to be demoted") << newl;
+        return false;
+    }
 
-	int iClientNum(GameServer.GetClientNumFromName(vArgList[0]));
-	if (iClientNum == -1)
-		iClientNum = AtoI(vArgList[0]);
-	if (iClientNum == -1)
-	{
-		Console << _T("Invalid client: ") << vArgList[0] << newl;
-		return false;
-	}
+    int iClientNum(GameServer.GetClientNumFromName(vArgList[0]));
+    if (iClientNum == -1)
+        iClientNum = AtoI(vArgList[0]);
+    if (iClientNum == -1)
+    {
+        Console << _T("Invalid client: ") << vArgList[0] << newl;
+        return false;
+    }
 
-	CPlayer *pPlayer(GameServer.GetPlayer(iClientNum));
-	if (pPlayer != NULL)
-		pPlayer->RemoveFlags(PLAYER_FLAG_HOST);
-	CClientConnection *pClient(GameServer.GetHostServer()->GetClient(iClientNum));
-	if (pClient != NULL)
-		pClient->RemoveFlags(CLIENT_CONNECTION_LOCAL);
-	GameServer.ChangeTeam(iClientNum, TEAM_INVALID);
-	return true;
+    CPlayer *pPlayer(GameServer.GetPlayer(iClientNum));
+    if (pPlayer != NULL)
+        pPlayer->RemoveFlags(PLAYER_FLAG_HOST);
+    CClientConnection *pClient(GameServer.GetHostServer()->GetClient(iClientNum));
+    if (pClient != NULL)
+        pClient->RemoveFlags(CLIENT_CONNECTION_LOCAL);
+    GameServer.ChangeTeam(iClientNum, TEAM_INVALID);
+    return true;
 }
 
 
@@ -710,14 +710,14 @@ SERVER_CMD(Demote)
   --------------------*/
 SERVER_CMD(ReplayProfile)
 {
-	if (vArgList.size() < 1)
-	{
-		Console << _T("syntax: ReplayProfile <filename>") << newl;
-		return false;
-	}
+    if (vArgList.size() < 1)
+    {
+        Console << _T("syntax: ReplayProfile <filename>") << newl;
+        return false;
+    }
 
-	ReplayManager.Profile(vArgList[0], vArgList.size() > 1 ? AtoI(vArgList[1]) : -1);
-	return true;
+    ReplayManager.Profile(vArgList[0], vArgList.size() > 1 ? AtoI(vArgList[1]) : -1);
+    return true;
 }
 
 
@@ -726,14 +726,14 @@ SERVER_CMD(ReplayProfile)
   --------------------*/
 SERVER_CMD(ReplayEncode)
 {
-	if (vArgList.size() < 1)
-	{
-		Console << _T("syntax: ReplayEncode <in> <out>") << newl;
-		return false;
-	}
+    if (vArgList.size() < 1)
+    {
+        Console << _T("syntax: ReplayEncode <in> <out>") << newl;
+        return false;
+    }
 
-	ReplayManager.Encode(vArgList[0], vArgList[1]);
-	return true;
+    ReplayManager.Encode(vArgList[0], vArgList[1]);
+    return true;
 }
 
 
@@ -742,14 +742,14 @@ SERVER_CMD(ReplayEncode)
   --------------------*/
 SERVER_CMD(ReplayEncode2)
 {
-	if (vArgList.size() < 1)
-	{
-		Console << _T("syntax: ReplayEncode2 <in> <out>") << newl;
-		return false;
-	}
+    if (vArgList.size() < 1)
+    {
+        Console << _T("syntax: ReplayEncode2 <in> <out>") << newl;
+        return false;
+    }
 
-	ReplayManager.Encode2(vArgList[0], vArgList[1]);
-	return true;
+    ReplayManager.Encode2(vArgList[0], vArgList[1]);
+    return true;
 }
 
 
@@ -758,18 +758,18 @@ SERVER_CMD(ReplayEncode2)
   --------------------*/
 SERVER_CMD(ReplayParse)
 {
-	if (vArgList.size() < 1)
-	{
-		Console << _T("syntax: ReplayParse <filename>") << newl;
-		return false;
-	}
+    if (vArgList.size() < 1)
+    {
+        Console << _T("syntax: ReplayParse <filename>") << newl;
+        return false;
+    }
 
-	uint uiStartTime(K2System.Milliseconds());
+    uint uiStartTime(K2System.Milliseconds());
 
-	ReplayManager.Parse(vArgList[0]);
+    ReplayManager.Parse(vArgList[0]);
 
-	Console << _T("Replay parse took ") << MsToSec(K2System.Milliseconds() - uiStartTime) << _T(" secs") << newl;
-	return true;
+    Console << _T("Replay parse took ") << MsToSec(K2System.Milliseconds() - uiStartTime) << _T(" secs") << newl;
+    return true;
 }
 
 
@@ -778,43 +778,43 @@ SERVER_CMD(ReplayParse)
   --------------------*/
 SERVER_CMD(ListPlayers)
 {
-	Console << _CWS(" #       Status  Index    Player Name    Hero Name   Last Input   Ping ") << newl;
-	Console << _CWS("-- ------------ ------ -------------- ------------ ------------ ------ ") << newl;
-	const PlayerMap &mapPlayers(GameServer.GetPlayerMap());
-	for (PlayerMap_cit itPlayer(mapPlayers.begin()); itPlayer != mapPlayers.end(); ++itPlayer)
-	{
-		CPlayer *pPlayer(itPlayer->second);
+    Console << _CWS(" #       Status  Index    Player Name    Hero Name   Last Input   Ping ") << newl;
+    Console << _CWS("-- ------------ ------ -------------- ------------ ------------ ------ ") << newl;
+    const PlayerMap &mapPlayers(GameServer.GetPlayerMap());
+    for (PlayerMap_cit itPlayer(mapPlayers.begin()); itPlayer != mapPlayers.end(); ++itPlayer)
+    {
+        CPlayer *pPlayer(itPlayer->second);
 
-		Console << XtoA(itPlayer->first, FMT_NONE, 2) << SPACE;
+        Console << XtoA(itPlayer->first, FMT_NONE, 2) << SPACE;
 
-		if (pPlayer == NULL)
-		{
-			Console << XtoA(_CWS("Invalid"), FMT_NONE, 12) << newl;
-			continue;
-		}
+        if (pPlayer == NULL)
+        {
+            Console << XtoA(_CWS("Invalid"), FMT_NONE, 12) << newl;
+            continue;
+        }
 
-		Console << XtoA(pPlayer->GetIndex(), FMT_NONE, 6) << SPACE;
+        Console << XtoA(pPlayer->GetIndex(), FMT_NONE, 6) << SPACE;
 
-		if (pPlayer->HasFlags(PLAYER_FLAG_TERMINATED))
-			Console << XtoA(_CWS("Terminated"), FMT_NONE, 12) << SPACE;
-		else if (pPlayer->HasFlags(PLAYER_FLAG_DISCONNECTED))
-			Console << XtoA(_CWS("Disconnected"), FMT_NONE, 12) << SPACE;
-		else if (pPlayer->HasFlags(PLAYER_FLAG_LOADING))
-			Console << XtoA(_CWS("Loading (") + XtoA(pPlayer->GetLoadingProgress() * 100.0f, FMT_PADZERO, 2, 0) + _CWS("%)"), FMT_NONE, 12) << SPACE;
-		else
-			Console << XtoA(_CWS("Connected"), FMT_NONE, 12) << SPACE;
+        if (pPlayer->HasFlags(PLAYER_FLAG_TERMINATED))
+            Console << XtoA(_CWS("Terminated"), FMT_NONE, 12) << SPACE;
+        else if (pPlayer->HasFlags(PLAYER_FLAG_DISCONNECTED))
+            Console << XtoA(_CWS("Disconnected"), FMT_NONE, 12) << SPACE;
+        else if (pPlayer->HasFlags(PLAYER_FLAG_LOADING))
+            Console << XtoA(_CWS("Loading (") + XtoA(pPlayer->GetLoadingProgress() * 100.0f, FMT_PADZERO, 2, 0) + _CWS("%)"), FMT_NONE, 12) << SPACE;
+        else
+            Console << XtoA(_CWS("Connected"), FMT_NONE, 12) << SPACE;
 
-		Console << XtoA(pPlayer->GetName(), FMT_NONE, 14) << SPACE;
+        Console << XtoA(pPlayer->GetName(), FMT_NONE, 14) << SPACE;
 
-		IHeroEntity *pHero(pPlayer->GetHero());
-		Console << XtoA(pHero ? pHero->GetDisplayName() : _CWS("<none>") , FMT_NONE, 14) << SPACE;
+        IHeroEntity *pHero(pPlayer->GetHero());
+        Console << XtoA(pHero ? pHero->GetDisplayName() : _CWS("<none>") , FMT_NONE, 14) << SPACE;
 
-		Console << XtoA(Game.GetGameTime() - pPlayer->GetLastInputTime(), FMT_NONE, 12) << SPACE;
+        Console << XtoA(Game.GetGameTime() - pPlayer->GetLastInputTime(), FMT_NONE, 12) << SPACE;
 
-		Console << XtoA(pPlayer->GetPing(), FMT_NONE, 6) << SPACE;
-	}
+        Console << XtoA(pPlayer->GetPing(), FMT_NONE, 6) << SPACE;
+    }
 
-	return true;
+    return true;
 }
 
 
@@ -823,8 +823,8 @@ SERVER_CMD(ListPlayers)
   --------------------*/
 SERVER_CMD(Remake)
 {
-	GameServer.Remake();
-	return true;
+    GameServer.Remake();
+    return true;
 }
 
 
@@ -833,11 +833,11 @@ SERVER_CMD(Remake)
   --------------------*/
 SERVER_CMD(Concede)
 {
-	if (vArgList.empty())
-		return false;
+    if (vArgList.empty())
+        return false;
 
-	GameServer.Concede(AtoI(vArgList[0]));
-	return true;
+    GameServer.Concede(AtoI(vArgList[0]));
+    return true;
 }
 
 
@@ -846,8 +846,8 @@ SERVER_CMD(Concede)
   --------------------*/
 SERVER_CMD(BalanceTeams)
 {
-	GameServer.BalanceTeams();
-	return true;
+    GameServer.BalanceTeams();
+    return true;
 }
 
 
@@ -856,16 +856,16 @@ SERVER_CMD(BalanceTeams)
   --------------------*/
 SERVER_CMD(SwapPlayerSlots)
 {
-	if (vArgList.size() < 4)
-		return false;
+    if (vArgList.size() < 4)
+        return false;
 
-	int iTeam1(AtoI(vArgList[0]));
-	int iSlot1(AtoI(vArgList[1]));
-	int iTeam2(AtoI(vArgList[2]));
-	int iSlot2(AtoI(vArgList[3]));
+    int iTeam1(AtoI(vArgList[0]));
+    int iSlot1(AtoI(vArgList[1]));
+    int iTeam2(AtoI(vArgList[2]));
+    int iSlot2(AtoI(vArgList[3]));
 
-	GameServer.SwapPlayerSlots(iTeam1, iSlot1, iTeam2, iSlot2);
-	return true;
+    GameServer.SwapPlayerSlots(iTeam1, iSlot1, iTeam2, iSlot2);
+    return true;
 }
 
 
@@ -874,14 +874,14 @@ SERVER_CMD(SwapPlayerSlots)
   --------------------*/
 SERVER_CMD(LockSlot)
 {
-	if (vArgList.size() < 2)
-		return false;
+    if (vArgList.size() < 2)
+        return false;
 
-	int iTeam(AtoI(vArgList[0]));
-	int iSlot(AtoI(vArgList[1]));
+    int iTeam(AtoI(vArgList[0]));
+    int iSlot(AtoI(vArgList[1]));
 
-	GameServer.LockSlot(iTeam, iSlot);
-	return true;
+    GameServer.LockSlot(iTeam, iSlot);
+    return true;
 }
 
 
@@ -890,14 +890,14 @@ SERVER_CMD(LockSlot)
   --------------------*/
 SERVER_CMD(UnlockSlot)
 {
-	if (vArgList.size() < 2)
-		return false;
+    if (vArgList.size() < 2)
+        return false;
 
-	int iTeam(AtoI(vArgList[0]));
-	int iSlot(AtoI(vArgList[1]));
+    int iTeam(AtoI(vArgList[0]));
+    int iSlot(AtoI(vArgList[1]));
 
-	GameServer.UnlockSlot(iTeam, iSlot);
-	return true;
+    GameServer.UnlockSlot(iTeam, iSlot);
+    return true;
 }
 
 
@@ -906,14 +906,14 @@ SERVER_CMD(UnlockSlot)
   --------------------*/
 SERVER_CMD(ToggleSlotLock)
 {
-	if (vArgList.size() < 2)
-		return false;
+    if (vArgList.size() < 2)
+        return false;
 
-	int iTeam(AtoI(vArgList[0]));
-	int iSlot(AtoI(vArgList[1]));
+    int iTeam(AtoI(vArgList[0]));
+    int iSlot(AtoI(vArgList[1]));
 
-	GameServer.ToggleSlotLock(iTeam, iSlot);
-	return true;
+    GameServer.ToggleSlotLock(iTeam, iSlot);
+    return true;
 }
 
 
@@ -922,8 +922,8 @@ SERVER_CMD(ToggleSlotLock)
   --------------------*/
 SERVER_CMD(ReplayRestart)
 {
-	ReplayManager.SetPlaybackFrame(0);
-	return true;
+    ReplayManager.SetPlaybackFrame(0);
+    return true;
 }
 
 
@@ -932,14 +932,14 @@ SERVER_CMD(ReplayRestart)
   --------------------*/
 SERVER_CMD(ReplaySetFrame)
 {
-	if (vArgList.size() < 1)
-	{
-		Console << _T("syntax: ReplaySetFrame <frame>") << newl;
-		return false;
-	}
+    if (vArgList.size() < 1)
+    {
+        Console << _T("syntax: ReplaySetFrame <frame>") << newl;
+        return false;
+    }
 
-	ReplayManager.SetPlaybackFrame(AtoI(vArgList[0]));
-	return true;
+    ReplayManager.SetPlaybackFrame(AtoI(vArgList[0]));
+    return true;
 }
 
 
@@ -948,7 +948,7 @@ SERVER_CMD(ReplaySetFrame)
   --------------------*/
 UI_VOID_CMD(ReplaySetFrame, 1)
 {
-	cmdReplaySetFrame(vArgList[0]->Evaluate());
+    cmdReplaySetFrame(vArgList[0]->Evaluate());
 }
 
 
@@ -957,14 +957,14 @@ UI_VOID_CMD(ReplaySetFrame, 1)
   --------------------*/
 SERVER_CMD(ReplayIncFrame)
 {
-	if (vArgList.size() < 1)
-	{
-		Console << _T("syntax: ReplayIncFrame <numframes>") << newl;
-		return false;
-	}
+    if (vArgList.size() < 1)
+    {
+        Console << _T("syntax: ReplayIncFrame <numframes>") << newl;
+        return false;
+    }
 
-	ReplayManager.SetPlaybackFrame(ReplayManager.GetFrame() + AtoI(vArgList[0]));
-	return true;
+    ReplayManager.SetPlaybackFrame(ReplayManager.GetFrame() + AtoI(vArgList[0]));
+    return true;
 }
 
 
@@ -973,5 +973,5 @@ SERVER_CMD(ReplayIncFrame)
   --------------------*/
 UI_VOID_CMD(ReplayIncFrame, 1)
 {
-	cmdReplayIncFrame(vArgList[0]->Evaluate());
+    cmdReplayIncFrame(vArgList[0]->Evaluate());
 }

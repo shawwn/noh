@@ -5,17 +5,17 @@ env['GchSh'] = env.GchSh(target = '../game_client_common.h.gch/'+build_type+'-'+
 
 # libs to link against
 if build_type == 'debug':
-	env.Append(LIBS=['k2_debug', 'game_shared_debug', 'speex'])
+    env.Append(LIBS=['k2_debug', 'game_shared_debug', 'speex'])
 else:
-	env.Append(LIBS=['k2', 'game_shared', 'speex'])
+    env.Append(LIBS=['k2', 'game_shared', 'speex'])
 
 # cpp defines
 env.Append(CPPDEFINES = ['K2_DLL'])
 
 if build_type == 'debug':
-	libname = 'cgame_debug'
+    libname = 'cgame_debug'
 else:
-	libname = 'cgame'
+    libname = 'cgame'
 
 # library search path
 env.Append(LIBPATH = ['#k2/'+build_type+'-'+arch, '#game_shared/'+build_type+'-'+arch])

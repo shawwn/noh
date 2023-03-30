@@ -17,26 +17,26 @@
 class ISpellRevive : public ISpellItem
 {
 protected:
-	START_ENTITY_CONFIG(ISpellItem)
-		DECLARE_ENTITY_CVAR(uint, TargetFreezeTime)
-		DECLARE_ENTITY_CVAR(float, TargetHealthPercent)
-		DECLARE_ENTITY_CVAR(float, TargetStaminaPercent)
-		DECLARE_ENTITY_CVAR(float, TargetManaPercent)
-	END_ENTITY_CONFIG
+    START_ENTITY_CONFIG(ISpellItem)
+        DECLARE_ENTITY_CVAR(uint, TargetFreezeTime)
+        DECLARE_ENTITY_CVAR(float, TargetHealthPercent)
+        DECLARE_ENTITY_CVAR(float, TargetStaminaPercent)
+        DECLARE_ENTITY_CVAR(float, TargetManaPercent)
+    END_ENTITY_CONFIG
 
-	CEntityConfig*	m_pEntityConfig;
+    CEntityConfig*  m_pEntityConfig;
 
 public:
-	virtual ~ISpellRevive()	{}
-	ISpellRevive(CEntityConfig *pConfig) :
-	ISpellItem(pConfig),
-	m_pEntityConfig(pConfig)
-	{}
+    virtual ~ISpellRevive() {}
+    ISpellRevive(CEntityConfig *pConfig) :
+    ISpellItem(pConfig),
+    m_pEntityConfig(pConfig)
+    {}
 
-	bool	IsValidTarget(IGameEntity *pEntity, bool bImpact);
-	bool	ImpactEntity(uint uiTargetIndex, CGameEvent &evImpact, bool bCheckTarget = true);
+    bool    IsValidTarget(IGameEntity *pEntity, bool bImpact);
+    bool    ImpactEntity(uint uiTargetIndex, CGameEvent &evImpact, bool bCheckTarget = true);
 
-	TYPE_NAME("Reviving Spell")
+    TYPE_NAME("Reviving Spell")
 };
 //=============================================================================
 

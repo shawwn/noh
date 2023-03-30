@@ -42,12 +42,12 @@ INIT_ENTITY_CVAR(CameraDriftStrength, 10.0f)
   ====================*/
 CStateConfused::~CStateConfused()
 {
-	if (m_pTerrainColor != NULL)
-		m_pTerrainColor->Set(XtoA(m_v3TerrainColorBase));
-	if (m_pEntityColor != NULL)
-		m_pEntityColor->Set(XtoA(m_v3EntityColorBase));
-	if (m_pSkyColor != NULL)
-		m_pSkyColor->Set(XtoA(m_v4SkyColorBase));
+    if (m_pTerrainColor != NULL)
+        m_pTerrainColor->Set(XtoA(m_v3TerrainColorBase));
+    if (m_pEntityColor != NULL)
+        m_pEntityColor->Set(XtoA(m_v3EntityColorBase));
+    if (m_pSkyColor != NULL)
+        m_pSkyColor->Set(XtoA(m_v4SkyColorBase));
 }
 
 
@@ -73,63 +73,63 @@ m_v3ColorDelta(M_RandomDirection()),
 
 m_uiLastCameraUpdate(Host.GetTime())
 {
-	m_modSpeed.SetMult(m_pEntityConfig->GetSpeedMult());
+    m_modSpeed.SetMult(m_pEntityConfig->GetSpeedMult());
 }
 
 
 /*====================
   CStateConfused::ModifyCamera
   ====================*/
-void	CStateConfused::ModifyCamera(CCamera &camera)
+void    CStateConfused::ModifyCamera(CCamera &camera)
 {
-	float fTime(MsToSec(Host.GetTime() - m_uiLastCameraUpdate));
-	float fAmount((Game.GetGameTime() - m_uiStartTime) / float(m_uiDuration));
+    float fTime(MsToSec(Host.GetTime() - m_uiLastCameraUpdate));
+    float fAmount((Game.GetGameTime() - m_uiStartTime) / float(m_uiDuration));
 
-	// Camera angle motion
-	float fDriftMult(m_pEntityConfig->GetCameraDriftVariance());
-	
-	float fYawThreshold(m_pEntityConfig->GetCameraYawThreshold());
-	float fMaxYawDrift((m_v3CameraOffset[YAW] > 0.0f) ? 1.0f - m_v3CameraOffset[YAW] / fYawThreshold : 1.0f);
-	float fMinYawDrift((m_v3CameraOffset[YAW] < 0.0f) ? -(1.0f - m_v3CameraOffset[YAW] / -fYawThreshold) : -1.0f);
-	m_v3CameraDrift[YAW] += M_Randnum(fMinYawDrift, fMaxYawDrift) * fTime * fDriftMult;
+    // Camera angle motion
+    float fDriftMult(m_pEntityConfig->GetCameraDriftVariance());
+    
+    float fYawThreshold(m_pEntityConfig->GetCameraYawThreshold());
+    float fMaxYawDrift((m_v3CameraOffset[YAW] > 0.0f) ? 1.0f - m_v3CameraOffset[YAW] / fYawThreshold : 1.0f);
+    float fMinYawDrift((m_v3CameraOffset[YAW] < 0.0f) ? -(1.0f - m_v3CameraOffset[YAW] / -fYawThreshold) : -1.0f);
+    m_v3CameraDrift[YAW] += M_Randnum(fMinYawDrift, fMaxYawDrift) * fTime * fDriftMult;
 
-	float fRollThreshold(m_pEntityConfig->GetCameraRollThreshold());
-	float fMaxRollDrift((m_v3CameraOffset[ROLL] > 0.0f) ? 1.0f - m_v3CameraOffset[ROLL] / fRollThreshold : 1.0f);
-	float fMinRollDrift((m_v3CameraOffset[ROLL] < 0.0f) ? -(1.0f - m_v3CameraOffset[ROLL] / -fRollThreshold) : -1.0f);
-	m_v3CameraDrift[ROLL] += M_Randnum(fMinRollDrift, fMaxRollDrift) * fTime * fDriftMult;
+    float fRollThreshold(m_pEntityConfig->GetCameraRollThreshold());
+    float fMaxRollDrift((m_v3CameraOffset[ROLL] > 0.0f) ? 1.0f - m_v3CameraOffset[ROLL] / fRollThreshold : 1.0f);
+    float fMinRollDrift((m_v3CameraOffset[ROLL] < 0.0f) ? -(1.0f - m_v3CameraOffset[ROLL] / -fRollThreshold) : -1.0f);
+    m_v3CameraDrift[ROLL] += M_Randnum(fMinRollDrift, fMaxRollDrift) * fTime * fDriftMult;
 
-	float fPitchThreshold(m_pEntityConfig->GetCameraPitchThreshold());
-	float fMaxPitchDrift((m_v3CameraOffset[PITCH] > 0.0f) ? 1.0f - m_v3CameraOffset[PITCH] / fPitchThreshold : 1.0f);
-	float fMinPitchDrift((m_v3CameraOffset[PITCH] < 0.0f) ? -(1.0f - m_v3CameraOffset[PITCH] / -fPitchThreshold) : -1.0f);
-	m_v3CameraDrift[PITCH] += M_Randnum(fMinPitchDrift, fMaxPitchDrift) * fTime * fDriftMult;
+    float fPitchThreshold(m_pEntityConfig->GetCameraPitchThreshold());
+    float fMaxPitchDrift((m_v3CameraOffset[PITCH] > 0.0f) ? 1.0f - m_v3CameraOffset[PITCH] / fPitchThreshold : 1.0f);
+    float fMinPitchDrift((m_v3CameraOffset[PITCH] < 0.0f) ? -(1.0f - m_v3CameraOffset[PITCH] / -fPitchThreshold) : -1.0f);
+    m_v3CameraDrift[PITCH] += M_Randnum(fMinPitchDrift, fMaxPitchDrift) * fTime * fDriftMult;
 
-	m_v3CameraOffset += m_v3CameraDrift * fTime * m_pEntityConfig->GetCameraDriftStrength();
+    m_v3CameraOffset += m_v3CameraDrift * fTime * m_pEntityConfig->GetCameraDriftStrength();
 
-	CAxis axis(camera.GetViewAxis());
-	camera.SetAngles(M_GetAnglesFromForwardVec(axis.Forward()) + m_v3CameraOffset * (1.0f - fAmount));
+    CAxis axis(camera.GetViewAxis());
+    camera.SetAngles(M_GetAnglesFromForwardVec(axis.Forward()) + m_v3CameraOffset * (1.0f - fAmount));
 
-	// FOV
-	camera.SetFovXCalc(camera.GetFovX() + m_pEntityConfig->GetFOVShift() * sqrt(1.0f - fAmount));
+    // FOV
+    camera.SetFovXCalc(camera.GetFovX() + m_pEntityConfig->GetFOVShift() * sqrt(1.0f - fAmount));
 
-	// Colors
-	m_v3Color += m_v3ColorDelta * fTime * m_pEntityConfig->GetColorCycleStrength();
-	float fColorThreshold(m_pEntityConfig->GetColorThreshold());
-	if ((m_v3Color.x >= fColorThreshold && m_v3ColorDelta.x > 0.0f) ||
-		(m_v3Color.x <= 0.0f && m_v3ColorDelta.x < 0.0f))
-		m_v3ColorDelta.x = -m_v3ColorDelta.x;
-	if ((m_v3Color.y >= fColorThreshold && m_v3ColorDelta.y > 0.0f) ||
-		(m_v3Color.y <= 0.0f && m_v3ColorDelta.y < 0.0f))
-		m_v3ColorDelta.y = -m_v3ColorDelta.y;
-	if ((m_v3Color.z >= fColorThreshold && m_v3ColorDelta.z > 0.0f) ||
-		(m_v3Color.z <= 0.0f && m_v3ColorDelta.z < 0.0f))
-		m_v3ColorDelta.z = -m_v3ColorDelta.z;
+    // Colors
+    m_v3Color += m_v3ColorDelta * fTime * m_pEntityConfig->GetColorCycleStrength();
+    float fColorThreshold(m_pEntityConfig->GetColorThreshold());
+    if ((m_v3Color.x >= fColorThreshold && m_v3ColorDelta.x > 0.0f) ||
+        (m_v3Color.x <= 0.0f && m_v3ColorDelta.x < 0.0f))
+        m_v3ColorDelta.x = -m_v3ColorDelta.x;
+    if ((m_v3Color.y >= fColorThreshold && m_v3ColorDelta.y > 0.0f) ||
+        (m_v3Color.y <= 0.0f && m_v3ColorDelta.y < 0.0f))
+        m_v3ColorDelta.y = -m_v3ColorDelta.y;
+    if ((m_v3Color.z >= fColorThreshold && m_v3ColorDelta.z > 0.0f) ||
+        (m_v3Color.z <= 0.0f && m_v3ColorDelta.z < 0.0f))
+        m_v3ColorDelta.z = -m_v3ColorDelta.z;
 
-	if (m_pTerrainColor != NULL)
-		m_pTerrainColor->Set(XtoA(LERP((fAmount), m_v3Color, m_v3TerrainColorBase)));
-	if (m_pEntityColor != NULL)
-		m_pEntityColor->Set(XtoA(LERP((fAmount), m_v3Color, m_v3EntityColorBase)));
-	if (m_pSkyColor != NULL)
-		m_pSkyColor->Set(XtoA(CVec4f(LERP((fAmount), m_v3Color, m_v4SkyColorBase.xyz()), m_v4SkyColorBase[A])));
+    if (m_pTerrainColor != NULL)
+        m_pTerrainColor->Set(XtoA(LERP((fAmount), m_v3Color, m_v3TerrainColorBase)));
+    if (m_pEntityColor != NULL)
+        m_pEntityColor->Set(XtoA(LERP((fAmount), m_v3Color, m_v3EntityColorBase)));
+    if (m_pSkyColor != NULL)
+        m_pSkyColor->Set(XtoA(CVec4f(LERP((fAmount), m_v3Color, m_v4SkyColorBase.xyz()), m_v4SkyColorBase[A])));
 
-	m_uiLastCameraUpdate = Host.GetTime();
+    m_uiLastCameraUpdate = Host.GetTime();
 }

@@ -17,7 +17,7 @@
 //=============================================================================
 DEFINE_ENT_ALLOCATOR(Gadget, OfficerSpawnFlag);
 
-CGadgetOfficerSpawnFlag::CEntityConfig	CGadgetOfficerSpawnFlag::s_EntityConfig(_T("OfficerSpawnFlag"));
+CGadgetOfficerSpawnFlag::CEntityConfig  CGadgetOfficerSpawnFlag::s_EntityConfig(_T("OfficerSpawnFlag"));
 //=============================================================================
 
 /*====================
@@ -32,24 +32,24 @@ IGadgetEntity(&s_EntityConfig)
 /*====================
   CGadgetOfficerSpawnFlag::Spawn
   ====================*/
-void	CGadgetOfficerSpawnFlag::Spawn()
+void    CGadgetOfficerSpawnFlag::Spawn()
 {
-	CTeamInfo *pTeam(Game.GetTeam(m_iTeam));
-	if (pTeam == NULL)
-		return;
+    CTeamInfo *pTeam(Game.GetTeam(m_iTeam));
+    if (pTeam == NULL)
+        return;
 
-	//pTeam->AddSpawnPointIndex(m_uiIndex);
+    //pTeam->AddSpawnPointIndex(m_uiIndex);
 }
 
 
 /*====================
   CGadgetOfficerSpawnFlag::Kill
   ====================*/
-void	CGadgetOfficerSpawnFlag::Kill(IGameEntity *pAttacker)
+void    CGadgetOfficerSpawnFlag::Kill(IGameEntity *pAttacker)
 {
-	CTeamInfo *pTeam(Game.GetTeam(m_iTeam));
-	if (pTeam == NULL)
-		return;
+    CTeamInfo *pTeam(Game.GetTeam(m_iTeam));
+    if (pTeam == NULL)
+        return;
 
-	//pTeam->RemoveSpawnPoint();
+    //pTeam->RemoveSpawnPoint();
 }

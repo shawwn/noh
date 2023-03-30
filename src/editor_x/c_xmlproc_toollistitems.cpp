@@ -25,53 +25,53 @@
 // <toollistitems>
 DECLARE_XML_PROCESSOR(toollistitems)
 BEGIN_XML_REGISTRATION(toollistitems)
-	REGISTER_XML_PROCESSOR(listbox)
-	REGISTER_XML_PROCESSOR(combobox)
-	REGISTER_XML_PROCESSOR(menu)
+    REGISTER_XML_PROCESSOR(listbox)
+    REGISTER_XML_PROCESSOR(combobox)
+    REGISTER_XML_PROCESSOR(menu)
 END_XML_REGISTRATION
 BEGIN_XML_PROCESSOR(toollistitems, IWidget)
-	CInterface *pInterface(pObject->GetInterface());
-	if (pInterface == NULL)
-	{
-		Console.Err << _T("Invalid interface for <dirlistitems>") << m_sElementName << newl;
-		return false;
-	}
+    CInterface *pInterface(pObject->GetInterface());
+    if (pInterface == NULL)
+    {
+        Console.Err << _T("Invalid interface for <dirlistitems>") << m_sElementName << newl;
+        return false;
+    }
 
-	if (!pObject->HasFlags(WFLAG_LIST))
-	{
-		Console.Err << _T("Parent of <dirlistitems> is not a list widget") << newl;
-		return false;
-	}
+    if (!pObject->HasFlags(WFLAG_LIST))
+    {
+        Console.Err << _T("Parent of <dirlistitems> is not a list widget") << newl;
+        return false;
+    }
 
-	IListWidget *pList(static_cast<IListWidget*>(pObject));
+    IListWidget *pList(static_cast<IListWidget*>(pObject));
 
-	bool bHadBgColor(false);
+    bool bHadBgColor(false);
 
-	// Get the properties
-	const tstring &sBgColor(node.GetProperty(_T("bgcolor")));
+    // Get the properties
+    const tstring &sBgColor(node.GetProperty(_T("bgcolor")));
 
-	tstring sWidth(pList->GetBaseListItemWidth());
-	tstring sHeight(pList->GetBaseListItemHeight());
+    tstring sWidth(pList->GetBaseListItemWidth());
+    tstring sHeight(pList->GetBaseListItemHeight());
 
-	if (!sBgColor.empty())
-		bHadBgColor = true;
+    if (!sBgColor.empty())
+        bHadBgColor = true;
 
-	CWidgetStyle style(pInterface, node);
+    CWidgetStyle style(pInterface, node);
 
-	style.SetProperty(_T("width"), sWidth);
-	style.SetProperty(_T("height"), sHeight);
+    style.SetProperty(_T("width"), sWidth);
+    style.SetProperty(_T("height"), sHeight);
 
-	const ToolNameMap &mapTools(ToolBox.GetToolMap());
+    const ToolNameMap &mapTools(ToolBox.GetToolMap());
 
-	for (ToolNameMap::const_iterator it(mapTools.begin()); it != mapTools.end(); ++it)
-	{
-		// Create new listitem
-		CListItem *pNewListItem(new CListItem(pInterface, NULL, style));
+    for (ToolNameMap::const_iterator it(mapTools.begin()); it != mapTools.end(); ++it)
+    {
+        // Create new listitem
+        CListItem *pNewListItem(new CListItem(pInterface, NULL, style));
 
-		// Fill new listitem
-		CLabel *pNewLabel(new CLabel(pInterface, pNewListItem, style));
-		pNewListItem->AddChild(pNewLabel);
+        // Fill new listitem
+        CLabel *pNewLabel(new CLabel(pInterface, pNewListItem, style));
+        pNewListItem->AddChild(pNewLabel);
 
-		pList->AddListItem(pNewListItem);
-	}
+        pList->AddListItem(pNewListItem);
+    }
 END_XML_PROCESSOR_NO_CHILDREN

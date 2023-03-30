@@ -15,63 +15,63 @@
 //=============================================================================
 // Definitions
 //=============================================================================
-IGame*	IGame::s_pGame(NULL);
+IGame*  IGame::s_pGame(NULL);
 //=============================================================================
 
 
 /*====================
   IGame::SetTeam
   ====================*/
-void	IGame::SetTeam(uint ui, CEntityTeamInfo *pTeam)
+void    IGame::SetTeam(uint ui, CEntityTeamInfo *pTeam)
 {
-	while (m_vTeams.size() <= ui)
-	{
-		m_vTeams.resize(m_vTeams.size() + 1);
-		m_vTeams[m_vTeams.size() - 1] = NULL;
-	}
+    while (m_vTeams.size() <= ui)
+    {
+        m_vTeams.resize(m_vTeams.size() + 1);
+        m_vTeams[m_vTeams.size() - 1] = NULL;
+    }
 
-	m_vTeams[ui] = pTeam;
+    m_vTeams[ui] = pTeam;
 }
 
 
 /*====================
   IGame::ClearTeams
   ====================*/
-void	IGame::ClearTeams()
+void    IGame::ClearTeams()
 {
-	m_vTeams.clear();
+    m_vTeams.clear();
 }
 
 
 /*====================
   IGame::GetTeamFromIndex
   ====================*/
-CEntityTeamInfo*	IGame::GetTeamFromIndex(uint uiIndex)
+CEntityTeamInfo*    IGame::GetTeamFromIndex(uint uiIndex)
 {
-	for (vector<CEntityTeamInfo*>::iterator it(m_vTeams.begin()); it != m_vTeams.end(); ++it)
-	{
-		if ((*it)->GetIndex() == uiIndex)
-			return *it;
-	}
+    for (vector<CEntityTeamInfo*>::iterator it(m_vTeams.begin()); it != m_vTeams.end(); ++it)
+    {
+        if ((*it)->GetIndex() == uiIndex)
+            return *it;
+    }
 
-	return NULL;
+    return NULL;
 }
 
 
 /*====================
   IGame::TraceLine
   ====================*/
-bool	IGame::TraceLine(STraceInfo &result, const CVec3f &v3Start, const CVec3f &v3End, int iIgnoreSurface, uint uiIgnoreEntity)
+bool    IGame::TraceLine(STraceInfo &result, const CVec3f &v3Start, const CVec3f &v3End, int iIgnoreSurface, uint uiIgnoreEntity)
 {
-	bool bHit = m_pWorld->TraceLine(result, v3Start, v3End, iIgnoreSurface, uiIgnoreEntity);
-	return bHit;
+    bool bHit = m_pWorld->TraceLine(result, v3Start, v3End, iIgnoreSurface, uiIgnoreEntity);
+    return bHit;
 }
 
 /*====================
   IGame::TraceBox
   ====================*/
-bool	IGame::TraceBox(STraceInfo &result, const CVec3f &v3Start, const CVec3f &v3End, const CBBoxf &bbBounds, int iIgnoreSurface, uint uiIgnoreEntity)
+bool    IGame::TraceBox(STraceInfo &result, const CVec3f &v3Start, const CVec3f &v3End, const CBBoxf &bbBounds, int iIgnoreSurface, uint uiIgnoreEntity)
 {
-	bool bHit = m_pWorld->TraceBox(result, v3Start, v3End, bbBounds, iIgnoreSurface, uiIgnoreEntity);
-	return bHit;
+    bool bHit = m_pWorld->TraceBox(result, v3Start, v3End, bbBounds, iIgnoreSurface, uiIgnoreEntity);
+    return bHit;
 }

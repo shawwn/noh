@@ -24,10 +24,10 @@ class IDebugRenderer : public IRenderer
 protected:
 
 public:
-	~IDebugRenderer();
-	IDebugRenderer();
+    ~IDebugRenderer();
+    IDebugRenderer();
 
-	void	Setup(EMaterialPhase ePhase);
+    void    Setup(EMaterialPhase ePhase);
 };
 //=============================================================================
 #endif //__I_EFFECTRENDERER_H__

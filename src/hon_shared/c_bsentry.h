@@ -17,26 +17,26 @@
 class CBSentry : public IBehavior
 {
 private:
-	uint	m_uiCurrentTargetIndex;	// The unit we're currently attacking
-	uint	m_uiCurrentTargetOrderDisjointSequence;
+    uint    m_uiCurrentTargetIndex; // The unit we're currently attacking
+    uint    m_uiCurrentTargetOrderDisjointSequence;
 
 public:
-	CBSentry() :
-	IBehavior(EBT_SENTRY),
-	m_uiCurrentTargetIndex(uint(-1)),
-	m_uiCurrentTargetOrderDisjointSequence(uint(-1))
-	{}
+    CBSentry() :
+    IBehavior(EBT_SENTRY),
+    m_uiCurrentTargetIndex(uint(-1)),
+    m_uiCurrentTargetOrderDisjointSequence(uint(-1))
+    {}
 
-	virtual void		CopyFrom(const IBehavior* pBehavior);
-	virtual IBehavior*	Clone(CBrain* pNewBrain, IUnitEntity* pNewSelf) const;
+    virtual void        CopyFrom(const IBehavior* pBehavior);
+    virtual IBehavior*  Clone(CBrain* pNewBrain, IUnitEntity* pNewSelf) const;
 
-	virtual bool	Validate();
-	virtual void	Update();
-	virtual void	BeginBehavior();
-	virtual void	ThinkFrame();
-	virtual void	MovementFrame();
-	virtual void	ActionFrame();
-	virtual void	CleanupFrame();
+    virtual bool    Validate();
+    virtual void    Update();
+    virtual void    BeginBehavior();
+    virtual void    ThinkFrame();
+    virtual void    MovementFrame();
+    virtual void    ActionFrame();
+    virtual void    CleanupFrame();
 };
 //=============================================================================
 

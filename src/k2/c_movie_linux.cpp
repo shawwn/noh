@@ -18,7 +18,7 @@
 /*====================
   MoviePlayer_Initialize
   ====================*/
-void	MoviePlayer_Initialize()
+void    MoviePlayer_Initialize()
 {
 }
 
@@ -26,7 +26,7 @@ void	MoviePlayer_Initialize()
 /*====================
   MoviePlayer_Shutdown
   ====================*/
-void	MoviePlayer_Shutdown()
+void    MoviePlayer_Shutdown()
 {
 }
 
@@ -34,16 +34,16 @@ void	MoviePlayer_Shutdown()
 /*====================
   CMovie::Load
   ====================*/
-bool	CMovie::Load(const tstring &sFileName, CBitmap *pBitmap, bool bPreload)
+bool    CMovie::Load(const tstring &sFileName, CBitmap *pBitmap, bool bPreload)
 {
-	return false;
+    return false;
 }
 
 
 /*====================
   CMovie::Unload
   ====================*/
-void	CMovie::Unload()
+void    CMovie::Unload()
 {
 }
 
@@ -51,7 +51,7 @@ void	CMovie::Unload()
 /*====================
   CMovie::UpdateFrame
   ====================*/
-void	CMovie::UpdateFrame()
+void    CMovie::UpdateFrame()
 {
 }
 
@@ -59,7 +59,7 @@ void	CMovie::UpdateFrame()
 /*====================
   CMovie::Stop
   ====================*/
-void	CMovie::Stop()
+void    CMovie::Stop()
 {
 }
 
@@ -67,7 +67,7 @@ void	CMovie::Stop()
 /*====================
   CMovie::Continue
   ====================*/
-void	CMovie::Continue()
+void    CMovie::Continue()
 {
 }
 
@@ -75,7 +75,7 @@ void	CMovie::Continue()
 /*====================
   CMovie::Restart
   ====================*/
-void	CMovie::Restart()
+void    CMovie::Restart()
 {
 }
 

@@ -24,7 +24,7 @@
 //=============================================================================
 // Definitions
 //=============================================================================
-CTriggerManager&	TriggerManager(*CTriggerManager::GetInstance());
+CTriggerManager&    TriggerManager(*CTriggerManager::GetInstance());
 SINGLETON_INIT(CTriggerManager)
 //=============================================================================
 
@@ -38,103 +38,103 @@ CTriggerManager::CTriggerManager()
 /*====================
   CTriggerManager::RegisterTriggerParam
   ====================*/
-void	CTriggerManager::RegisterTriggerParam(const tstring &sName, const tstring &sValue)
+void    CTriggerManager::RegisterTriggerParam(const tstring &sName, const tstring &sValue)
 {
-	m_mapTriggerParams[sName] = sValue;
+    m_mapTriggerParams[sName] = sValue;
 }
 
 /*====================
   CTriggerManager::RegisterEntityScript
   ====================*/
-void	CTriggerManager::RegisterEntityScript(uint uiIndex, const tstring &sName, const tstring &sScript)
+void    CTriggerManager::RegisterEntityScript(uint uiIndex, const tstring &sName, const tstring &sScript)
 {
-	map<uint, smaps>::iterator findit(m_mapEntityScripts.find(uiIndex));
+    map<uint, smaps>::iterator findit(m_mapEntityScripts.find(uiIndex));
 
-	if (findit != m_mapEntityScripts.end())
-		findit->second[sName] = sScript;
-	else
-	{
-		smaps mapScript;
-		mapScript[sName] = sScript;
+    if (findit != m_mapEntityScripts.end())
+        findit->second[sName] = sScript;
+    else
+    {
+        smaps mapScript;
+        mapScript[sName] = sScript;
 
-		m_mapEntityScripts[uiIndex] = mapScript;
-	}
+        m_mapEntityScripts[uiIndex] = mapScript;
+    }
 }
 
 
 /*====================
   CTriggerManager::CopyEntityScripts
   ====================*/
-void	CTriggerManager::CopyEntityScripts(uint uiFromIndex, uint uiToIndex)
+void    CTriggerManager::CopyEntityScripts(uint uiFromIndex, uint uiToIndex)
 {
-	ClearEntityScripts(uiToIndex);
+    ClearEntityScripts(uiToIndex);
 
-	map<uint, smaps>::iterator findit(m_mapEntityScripts.find(uiFromIndex));
+    map<uint, smaps>::iterator findit(m_mapEntityScripts.find(uiFromIndex));
 
-	if (findit != m_mapEntityScripts.end())
-		m_mapEntityScripts[uiToIndex] = findit->second;
+    if (findit != m_mapEntityScripts.end())
+        m_mapEntityScripts[uiToIndex] = findit->second;
 }
 
 
 /*====================
   CTriggerManager::TriggerEntityScript
   ====================*/
-bool	CTriggerManager::TriggerEntityScript(uint uiIndex, const tstring &sName)
+bool    CTriggerManager::TriggerEntityScript(uint uiIndex, const tstring &sName)
 {
-	IGame *pGame(Game.GetCurrentGamePointer());
-	Game.SetCurrentGamePointer(CGameServer::GetInstance());
+    IGame *pGame(Game.GetCurrentGamePointer());
+    Game.SetCurrentGamePointer(CGameServer::GetInstance());
 
-	map<uint, smaps>::iterator findit(m_mapEntityScripts.find(uiIndex));
+    map<uint, smaps>::iterator findit(m_mapEntityScripts.find(uiIndex));
 
-	if (findit != m_mapEntityScripts.end())
-	{
-		smaps::iterator it(findit->second.find(sName));
+    if (findit != m_mapEntityScripts.end())
+    {
+        smaps::iterator it(findit->second.find(sName));
 
-		if (it != findit->second.end() && !it->second.empty())
-		{
-			bool bWasStoring(ICvar::StoreCvars());
-			ICvar::StoreCvars(false);
+        if (it != findit->second.end() && !it->second.empty())
+        {
+            bool bWasStoring(ICvar::StoreCvars());
+            ICvar::StoreCvars(false);
 
-			Console.ExecuteScript(it->second, false, &m_mapTriggerParams);
+            Console.ExecuteScript(it->second, false, &m_mapTriggerParams);
 
-			ICvar::StoreCvars(bWasStoring);
-		}
-	}
-	
-	// Clear the parameters used for this script
-	m_mapTriggerParams.clear();
+            ICvar::StoreCvars(bWasStoring);
+        }
+    }
+    
+    // Clear the parameters used for this script
+    m_mapTriggerParams.clear();
 
-	Game.SetCurrentGamePointer(pGame);
+    Game.SetCurrentGamePointer(pGame);
 
-	return true;
+    return true;
 }
 
 /*====================
   CTriggerManager::TriggerGlobalScript
   ====================*/
-bool	CTriggerManager::TriggerGlobalScript(const tstring &sName)
+bool    CTriggerManager::TriggerGlobalScript(const tstring &sName)
 {
-	IGame *pGame(Game.GetCurrentGamePointer());
-	Game.SetCurrentGamePointer(CGameServer::GetInstance());
+    IGame *pGame(Game.GetCurrentGamePointer());
+    Game.SetCurrentGamePointer(CGameServer::GetInstance());
 
-	smaps::iterator findit(m_mapGlobalScripts.find(sName));
+    smaps::iterator findit(m_mapGlobalScripts.find(sName));
 
-	if (findit != m_mapGlobalScripts.end() && !findit->second.empty())
-	{
-		bool bWasStoring(ICvar::StoreCvars());
-		ICvar::StoreCvars(false);
+    if (findit != m_mapGlobalScripts.end() && !findit->second.empty())
+    {
+        bool bWasStoring(ICvar::StoreCvars());
+        ICvar::StoreCvars(false);
 
-		Console.ExecuteScript(findit->second, false, &m_mapTriggerParams);
+        Console.ExecuteScript(findit->second, false, &m_mapTriggerParams);
 
-		ICvar::StoreCvars(bWasStoring);
-	}
+        ICvar::StoreCvars(bWasStoring);
+    }
 
-	// Clear the parameters used for this script
-	m_mapTriggerParams.clear();
+    // Clear the parameters used for this script
+    m_mapTriggerParams.clear();
 
-	Game.SetCurrentGamePointer(pGame);
+    Game.SetCurrentGamePointer(pGame);
 
-	return true;
+    return true;
 }
 
 //=============================================================================
@@ -144,7 +144,7 @@ bool	CTriggerManager::TriggerGlobalScript(const tstring &sName)
   --------------------*/
 TRIGGER_FCN(GetPosX, Visual, 1)
 {
-	return XtoA(pEnt->GetPosition()[X]);
+    return XtoA(pEnt->GetPosition()[X]);
 }
 
 /*--------------------
@@ -152,7 +152,7 @@ TRIGGER_FCN(GetPosX, Visual, 1)
   --------------------*/
 TRIGGER_FCN(GetPosY, Visual, 1)
 {
-	return XtoA(pEnt->GetPosition()[Y]);
+    return XtoA(pEnt->GetPosition()[Y]);
 }
 
 /*--------------------
@@ -160,7 +160,7 @@ TRIGGER_FCN(GetPosY, Visual, 1)
   --------------------*/
 TRIGGER_FCN(GetPosZ, Visual, 1)
 {
-	return XtoA(pEnt->GetPosition()[Z]);
+    return XtoA(pEnt->GetPosition()[Z]);
 }
 
 /*--------------------
@@ -168,7 +168,7 @@ TRIGGER_FCN(GetPosZ, Visual, 1)
   --------------------*/
 TRIGGER_FCN(GetPitch, Visual, 1)
 {
-	return XtoA(pEnt->GetAngles()[PITCH]);
+    return XtoA(pEnt->GetAngles()[PITCH]);
 }
 
 /*--------------------
@@ -176,7 +176,7 @@ TRIGGER_FCN(GetPitch, Visual, 1)
   --------------------*/
 TRIGGER_FCN(GetRoll, Visual, 1)
 {
-	return XtoA(pEnt->GetAngles()[ROLL]);
+    return XtoA(pEnt->GetAngles()[ROLL]);
 }
 
 /*--------------------
@@ -184,7 +184,7 @@ TRIGGER_FCN(GetRoll, Visual, 1)
   --------------------*/
 TRIGGER_FCN(GetYaw, Visual, 1)
 {
-	return XtoA(pEnt->GetAngles()[YAW]);
+    return XtoA(pEnt->GetAngles()[YAW]);
 }
 
 /*--------------------
@@ -192,7 +192,7 @@ TRIGGER_FCN(GetYaw, Visual, 1)
   --------------------*/
 TRIGGER_FCN(GetClientNumFromIndex, Player, 1)
 {
-	return XtoA(pEnt->GetClientID());
+    return XtoA(pEnt->GetClientID());
 }
 
 /*--------------------
@@ -200,7 +200,7 @@ TRIGGER_FCN(GetClientNumFromIndex, Player, 1)
   --------------------*/
 TRIGGER_FCN(GetHealth, Visual, 1)
 {
-	return XtoA(pEnt->GetHealth());
+    return XtoA(pEnt->GetHealth());
 }
 
 /*--------------------
@@ -208,7 +208,7 @@ TRIGGER_FCN(GetHealth, Visual, 1)
   --------------------*/
 TRIGGER_FCN(GetMaxHealth, Visual, 1)
 {
-	return XtoA(pEnt->GetMaxHealth());
+    return XtoA(pEnt->GetMaxHealth());
 }
 
 /*--------------------
@@ -216,7 +216,7 @@ TRIGGER_FCN(GetMaxHealth, Visual, 1)
   --------------------*/
 TRIGGER_FCN(GetMana, Combat, 1)
 {
-	return XtoA(pEnt->GetMana());
+    return XtoA(pEnt->GetMana());
 }
 
 /*--------------------
@@ -224,7 +224,7 @@ TRIGGER_FCN(GetMana, Combat, 1)
   --------------------*/
 TRIGGER_FCN(GetMaxMana, Combat, 1)
 {
-	return XtoA(pEnt->GetMaxMana());
+    return XtoA(pEnt->GetMaxMana());
 }
 
 /*--------------------
@@ -232,7 +232,7 @@ TRIGGER_FCN(GetMaxMana, Combat, 1)
   --------------------*/
 TRIGGER_FCN(GetStamina, Combat, 1)
 {
-	return XtoA(pEnt->GetStamina());
+    return XtoA(pEnt->GetStamina());
 }
 
 /*--------------------
@@ -240,7 +240,7 @@ TRIGGER_FCN(GetStamina, Combat, 1)
   --------------------*/
 TRIGGER_FCN(GetMaxStamina, Combat, 1)
 {
-	return XtoA(pEnt->GetMaxStamina());
+    return XtoA(pEnt->GetMaxStamina());
 }
 
 /*--------------------
@@ -248,7 +248,7 @@ TRIGGER_FCN(GetMaxStamina, Combat, 1)
   --------------------*/
 TRIGGER_FCN(IsStunned, Combat, 1)
 {
-	return XtoA((pEnt->GetAction() & PLAYER_ACTION_STUNNED) != 0, true);
+    return XtoA((pEnt->GetAction() & PLAYER_ACTION_STUNNED) != 0, true);
 }
 
 /*--------------------
@@ -256,7 +256,7 @@ TRIGGER_FCN(IsStunned, Combat, 1)
   --------------------*/
 TRIGGER_FCN(IsInvulnerable, Visual, 1)
 {
-	return XtoA(pEnt->IsInvulnerable(), true);
+    return XtoA(pEnt->IsInvulnerable(), true);
 }
 
 /*--------------------
@@ -264,10 +264,10 @@ TRIGGER_FCN(IsInvulnerable, Visual, 1)
   --------------------*/
 SERVER_FCN(GetTerrainHeight)
 {
-	if (vArgList.size() < 2)
-		return _T("0");
+    if (vArgList.size() < 2)
+        return _T("0");
 
-	return XtoA(GameServer.GetTerrainHeight(AtoF(vArgList[0]), AtoF(vArgList[1])));
+    return XtoA(GameServer.GetTerrainHeight(AtoF(vArgList[0]), AtoF(vArgList[1])));
 }
 
 /*--------------------
@@ -275,40 +275,40 @@ SERVER_FCN(GetTerrainHeight)
   --------------------*/
 TRIGGER_FCN(IsValidPosition, Visual, 1)
 {
-	CVec3f v3Start(pEnt->GetPosition());
-	STraceInfo trace;
-	uiset setIgnore;
+    CVec3f v3Start(pEnt->GetPosition());
+    STraceInfo trace;
+    uiset setIgnore;
 
-	if (v3Start[Z] < GameServer.GetTerrainHeight(v3Start[X], v3Start[Y]))
-		return _T("0");
+    if (v3Start[Z] < GameServer.GetTerrainHeight(v3Start[X], v3Start[Y]))
+        return _T("0");
 
-	for (svector_cit it(vArgList.begin() + 1); it != vArgList.end(); it++)
-	{
-		IVisualEntity *pVis(GameServer.GetVisualEntity(AtoI(*it)));
+    for (svector_cit it(vArgList.begin() + 1); it != vArgList.end(); it++)
+    {
+        IVisualEntity *pVis(GameServer.GetVisualEntity(AtoI(*it)));
 
-		if (pVis != NULL)
-		{
-			CWorldEntity *pWorld(Game.GetWorldEntity(pVis->GetWorldIndex()));
-			
-			if (pWorld != NULL)
-			{
-				setIgnore.insert(pVis->GetWorldIndex());
-				pWorld->SetSurfFlags(pWorld->GetSurfFlags() | SURF_IGNORE);
-			}
-		}
-	}
+        if (pVis != NULL)
+        {
+            CWorldEntity *pWorld(Game.GetWorldEntity(pVis->GetWorldIndex()));
+            
+            if (pWorld != NULL)
+            {
+                setIgnore.insert(pVis->GetWorldIndex());
+                pWorld->SetSurfFlags(pWorld->GetSurfFlags() | SURF_IGNORE);
+            }
+        }
+    }
 
-	Game.TraceBox(trace, v3Start, v3Start, pEnt->GetBounds(), TRACE_PLAYER_MOVEMENT | SURF_IGNORE, pEnt->GetWorldIndex());
+    Game.TraceBox(trace, v3Start, v3Start, pEnt->GetBounds(), TRACE_PLAYER_MOVEMENT | SURF_IGNORE, pEnt->GetWorldIndex());
 
-	for (uiset::iterator it(setIgnore.begin()); it != setIgnore.end(); it++)
-	{
-		CWorldEntity *pWorld(Game.GetWorldEntity(*it));
-		
-		if (pWorld != NULL)
-			pWorld->SetSurfFlags(pWorld->GetSurfFlags() & ~SURF_IGNORE);
-	}
+    for (uiset::iterator it(setIgnore.begin()); it != setIgnore.end(); it++)
+    {
+        CWorldEntity *pWorld(Game.GetWorldEntity(*it));
+        
+        if (pWorld != NULL)
+            pWorld->SetSurfFlags(pWorld->GetSurfFlags() & ~SURF_IGNORE);
+    }
 
-	return XtoA(trace.bStartedInSurface, true);
+    return XtoA(trace.bStartedInSurface, true);
 }
 
 /*--------------------
@@ -316,17 +316,17 @@ TRIGGER_FCN(IsValidPosition, Visual, 1)
   --------------------*/
 SERVER_FCN(GetIndexFromClientNum)
 {
-	if (vArgList.size() < 1)
-		return _T("");
+    if (vArgList.size() < 1)
+        return _T("");
 
-	uint uiNum(AtoI(vArgList[0]));
+    uint uiNum(AtoI(vArgList[0]));
 
-	IPlayerEntity *pEnt(GameServer.GetPlayerEntityFromClientID(uiNum));
+    IPlayerEntity *pEnt(GameServer.GetPlayerEntityFromClientID(uiNum));
 
-	if (pEnt == NULL)
-		return _T("");
+    if (pEnt == NULL)
+        return _T("");
 
-	return XtoA(pEnt->GetIndex());
+    return XtoA(pEnt->GetIndex());
 }
 
 /*--------------------
@@ -334,12 +334,12 @@ SERVER_FCN(GetIndexFromClientNum)
   --------------------*/
 SERVER_FCN(EntityExists)
 {
-	if (vArgList.size() < 1)
-		return _T("0");
+    if (vArgList.size() < 1)
+        return _T("0");
 
-	uint uiIndex(AtoI(vArgList[0]));
+    uint uiIndex(AtoI(vArgList[0]));
 
-	return XtoA(GameServer.GetEntity(uiIndex) != NULL, true);
+    return XtoA(GameServer.GetEntity(uiIndex) != NULL, true);
 }
 
 /*--------------------
@@ -347,7 +347,7 @@ SERVER_FCN(EntityExists)
   --------------------*/
 SERVER_FCN(GetGameTime)
 {
-	return XtoA(GameServer.GetGameTime());
+    return XtoA(GameServer.GetGameTime());
 }
 
 /*--------------------
@@ -355,7 +355,7 @@ SERVER_FCN(GetGameTime)
   --------------------*/
 SERVER_FCN(GetFrameLength)
 {
-	return XtoA(GameServer.GetFrameLength());
+    return XtoA(GameServer.GetFrameLength());
 }
 
 /*--------------------
@@ -363,24 +363,24 @@ SERVER_FCN(GetFrameLength)
   --------------------*/
 SERVER_FCN(GetIndexFromName)
 {
-	if (vArgList.size() < 1)
-		return _T("");
+    if (vArgList.size() < 1)
+        return _T("");
 
-	tstring sName(ConcatinateArgs(vArgList));
+    tstring sName(ConcatinateArgs(vArgList));
 
-	WorldEntMap map(GameServer.GetWorldEntityMap());
+    WorldEntMap map(GameServer.GetWorldEntityMap());
 
-	for (WorldEntMap_it it(map.begin()); it != map.end(); it++)
-	{
-		CWorldEntity *pWorldEntity(GameServer.GetWorldEntity(it->first));
-		if (!pWorldEntity)
-			EX_ERROR(_T("Failed world entity lookup on #") + XtoA(it->first));
+    for (WorldEntMap_it it(map.begin()); it != map.end(); it++)
+    {
+        CWorldEntity *pWorldEntity(GameServer.GetWorldEntity(it->first));
+        if (!pWorldEntity)
+            EX_ERROR(_T("Failed world entity lookup on #") + XtoA(it->first));
 
-		if (pWorldEntity->GetName() == sName)
-			return XtoA(pWorldEntity->GetGameIndex());
-	}
+        if (pWorldEntity->GetName() == sName)
+            return XtoA(pWorldEntity->GetGameIndex());
+    }
 
-	return _T("");
+    return _T("");
 }
 
 
@@ -389,17 +389,17 @@ SERVER_FCN(GetIndexFromName)
   --------------------*/
 SERVER_FCN(GetClientNameFromClientNum)
 {
-	if (vArgList.size() < 1)
-		return _T("");
+    if (vArgList.size() < 1)
+        return _T("");
 
-	int iClientNum(AtoI(vArgList[0]));
+    int iClientNum(AtoI(vArgList[0]));
 
-	CEntityClientInfo *pClient(Game.GetClientInfo(iClientNum));
+    CEntityClientInfo *pClient(Game.GetClientInfo(iClientNum));
 
-	if (pClient == NULL)
-		return _T("");
+    if (pClient == NULL)
+        return _T("");
 
-	return pClient->GetName();
+    return pClient->GetName();
 }
 
 /*--------------------
@@ -407,12 +407,12 @@ SERVER_FCN(GetClientNameFromClientNum)
   --------------------*/
 TRIGGER_FCN(GetNameFromIndex, Visual, 1)
 {
-	CWorldEntity *pWorld(GameServer.GetWorldEntity(pEnt->GetWorldIndex()));
+    CWorldEntity *pWorld(GameServer.GetWorldEntity(pEnt->GetWorldIndex()));
 
-	if (pWorld == NULL)
-		return _T("");
+    if (pWorld == NULL)
+        return _T("");
 
-	return pWorld->GetName();
+    return pWorld->GetName();
 }
 
 /*--------------------
@@ -420,12 +420,12 @@ TRIGGER_FCN(GetNameFromIndex, Visual, 1)
   --------------------*/
 TRIGGER_FCN(IsGunItem, Combat, 2)
 {
-	IInventoryItem *pItem(pEnt->GetItem(AtoI(vArgList[1]) - 1));
+    IInventoryItem *pItem(pEnt->GetItem(AtoI(vArgList[1]) - 1));
 
-	if (pItem == NULL)
-		return _T("0");
+    if (pItem == NULL)
+        return _T("0");
 
-	return XtoA(pItem->IsGun(), true);
+    return XtoA(pItem->IsGun(), true);
 }
 
 /*--------------------
@@ -433,12 +433,12 @@ TRIGGER_FCN(IsGunItem, Combat, 2)
   --------------------*/
 TRIGGER_FCN(IsSpellItem, Combat, 2)
 {
-	IInventoryItem *pItem(pEnt->GetItem(AtoI(vArgList[1]) - 1));
+    IInventoryItem *pItem(pEnt->GetItem(AtoI(vArgList[1]) - 1));
 
-	if (pItem == NULL)
-		return _T("0");
+    if (pItem == NULL)
+        return _T("0");
 
-	return XtoA(pItem->IsSpell(), true);
+    return XtoA(pItem->IsSpell(), true);
 }
 
 /*--------------------
@@ -446,12 +446,12 @@ TRIGGER_FCN(IsSpellItem, Combat, 2)
   --------------------*/
 TRIGGER_FCN(IsSkillItem, Combat, 2)
 {
-	IInventoryItem *pItem(pEnt->GetItem(AtoI(vArgList[1]) - 1));
+    IInventoryItem *pItem(pEnt->GetItem(AtoI(vArgList[1]) - 1));
 
-	if (pItem == NULL)
-		return _T("0");
+    if (pItem == NULL)
+        return _T("0");
 
-	return XtoA(pItem->IsSkill(), true);
+    return XtoA(pItem->IsSkill(), true);
 }
 
 /*--------------------
@@ -459,12 +459,12 @@ TRIGGER_FCN(IsSkillItem, Combat, 2)
   --------------------*/
 TRIGGER_FCN(IsMeleeItem, Combat, 2)
 {
-	IInventoryItem *pItem(pEnt->GetItem(AtoI(vArgList[1]) - 1));
+    IInventoryItem *pItem(pEnt->GetItem(AtoI(vArgList[1]) - 1));
 
-	if (pItem == NULL)
-		return _T("0");
+    if (pItem == NULL)
+        return _T("0");
 
-	return XtoA(pItem->IsMelee(), true);
+    return XtoA(pItem->IsMelee(), true);
 }
 
 /*--------------------
@@ -472,12 +472,12 @@ TRIGGER_FCN(IsMeleeItem, Combat, 2)
   --------------------*/
 TRIGGER_FCN(IsConsumableItem, Combat, 2)
 {
-	IInventoryItem *pItem(pEnt->GetItem(AtoI(vArgList[1]) - 1));
+    IInventoryItem *pItem(pEnt->GetItem(AtoI(vArgList[1]) - 1));
 
-	if (pItem == NULL)
-		return _T("0");
+    if (pItem == NULL)
+        return _T("0");
 
-	return XtoA(pItem->IsConsumable(), true);
+    return XtoA(pItem->IsConsumable(), true);
 }
 
 /*--------------------
@@ -485,12 +485,12 @@ TRIGGER_FCN(IsConsumableItem, Combat, 2)
   --------------------*/
 TRIGGER_FCN(IsPersistantItem, Combat, 2)
 {
-	IInventoryItem *pItem(pEnt->GetItem(AtoI(vArgList[1]) - 1));
+    IInventoryItem *pItem(pEnt->GetItem(AtoI(vArgList[1]) - 1));
 
-	if (pItem == NULL)
-		return _T("0");
+    if (pItem == NULL)
+        return _T("0");
 
-	return XtoA(pItem->IsPersistant(), true);
+    return XtoA(pItem->IsPersistant(), true);
 }
 
 /*--------------------
@@ -498,7 +498,7 @@ TRIGGER_FCN(IsPersistantItem, Combat, 2)
   --------------------*/
 SERVER_FCN(GetMaxItems)
 {
-	return XtoA(INVENTORY_END_BACKPACK);
+    return XtoA(INVENTORY_END_BACKPACK);
 }
 
 /*--------------------
@@ -506,16 +506,16 @@ SERVER_FCN(GetMaxItems)
   --------------------*/
 TRIGGER_FCN(HasState, Visual, 2)
 {
-	ushort unID(g_EntityRegistry.LookupID(vArgList[1]));
+    ushort unID(g_EntityRegistry.LookupID(vArgList[1]));
 
-	if (unID == INVALID_ENT_TYPE)
-		return _T("0");
+    if (unID == INVALID_ENT_TYPE)
+        return _T("0");
 
-	for (int i(0); i < MAX_ACTIVE_ENTITY_STATES; i++)
-		if (pEnt->GetState(i) != NULL && pEnt->GetState(i)->GetType() == unID)
-			return _T("1");
+    for (int i(0); i < MAX_ACTIVE_ENTITY_STATES; i++)
+        if (pEnt->GetState(i) != NULL && pEnt->GetState(i)->GetType() == unID)
+            return _T("1");
 
-	return _T("0");
+    return _T("0");
 }
 
 
@@ -524,7 +524,7 @@ TRIGGER_FCN(HasState, Visual, 2)
   --------------------*/
 TRIGGER_FCN(IsEntityActive, Visual, 1)
 {
-	return XtoA(pEnt->GetStatus() == ENTITY_STATUS_ACTIVE, true);
+    return XtoA(pEnt->GetStatus() == ENTITY_STATUS_ACTIVE, true);
 }
 
 /*--------------------
@@ -532,13 +532,13 @@ TRIGGER_FCN(IsEntityActive, Visual, 1)
   --------------------*/
 TRIGGER_FCN(GetNpcProperty, Npc, 2)
 {
-	ResHandle hDefinition(pEnt->GetDefinition());
-	CNpcDefinition *pDefinition(g_ResourceManager.GetNpcDefiniton(hDefinition));
+    ResHandle hDefinition(pEnt->GetDefinition());
+    CNpcDefinition *pDefinition(g_ResourceManager.GetNpcDefiniton(hDefinition));
 
-	if (pDefinition == NULL)
-		return _T("");
+    if (pDefinition == NULL)
+        return _T("");
 
-	return pDefinition->GetProperty(vArgList[1]);
+    return pDefinition->GetProperty(vArgList[1]);
 }
 
 /*--------------------
@@ -546,14 +546,14 @@ TRIGGER_FCN(GetNpcProperty, Npc, 2)
   --------------------*/
 TRIGGER_CMD(SetNpcProperty, Npc, 3)
 {
-	ResHandle hDefinition(pEnt->GetDefinition());
-	CNpcDefinition *pDefinition(g_ResourceManager.GetNpcDefiniton(hDefinition));
+    ResHandle hDefinition(pEnt->GetDefinition());
+    CNpcDefinition *pDefinition(g_ResourceManager.GetNpcDefiniton(hDefinition));
 
-	if (pDefinition == NULL)
-		return false;
+    if (pDefinition == NULL)
+        return false;
 
-	pDefinition->SetProperty(vArgList[1], vArgList[2]);
-	return true;
+    pDefinition->SetProperty(vArgList[1], vArgList[2]);
+    return true;
 }
 
 /*--------------------
@@ -561,7 +561,7 @@ TRIGGER_CMD(SetNpcProperty, Npc, 3)
   --------------------*/
 TRIGGER_FCN(IsDashing, Combat, 1)
 {
-	return XtoA((pEnt->GetMoveFlags() & PLAYER_MOVE_DASH) != 0, true);
+    return XtoA((pEnt->GetMoveFlags() & PLAYER_MOVE_DASH) != 0, true);
 }
 
 
@@ -570,9 +570,9 @@ TRIGGER_FCN(IsDashing, Combat, 1)
   --------------------*/
 TRIGGER_CMD(ForceSpawn, Player, 1)
 {
-	pEnt->Spawn3();
+    pEnt->Spawn3();
 
-	return true;
+    return true;
 }
 
 
@@ -581,14 +581,14 @@ TRIGGER_CMD(ForceSpawn, Player, 1)
   --------------------*/
 TRIGGER_CMD(ResetAttributes, Player, 1)
 {
-	CEntityClientInfo *pClient(Game.GetClientInfo(pEnt->GetClientID()));
+    CEntityClientInfo *pClient(Game.GetClientInfo(pEnt->GetClientID()));
 
-	if (pClient == NULL)
-		return true;
+    if (pClient == NULL)
+        return true;
 
-	pClient->ResetAttributes();
+    pClient->ResetAttributes();
 
-	return true;
+    return true;
 }
 
 
@@ -597,15 +597,15 @@ TRIGGER_CMD(ResetAttributes, Player, 1)
   --------------------*/
 TRIGGER_CMD(GiveExperience, Player, 2)
 {
-	CEntityClientInfo *pClient(Game.GetClientInfo(pEnt->GetClientID()));
+    CEntityClientInfo *pClient(Game.GetClientInfo(pEnt->GetClientID()));
 
-	if (pClient == NULL)
-		return true;
+    if (pClient == NULL)
+        return true;
 
-	pClient->GiveExperience(AtoF(vArgList[1]));
-	pClient->SetInitialExperience(pClient->GetInitialExperience() + AtoF(vArgList[1]));
+    pClient->GiveExperience(AtoF(vArgList[1]));
+    pClient->SetInitialExperience(pClient->GetInitialExperience() + AtoF(vArgList[1]));
 
-	return true;
+    return true;
 }
 
 /*--------------------
@@ -613,17 +613,17 @@ TRIGGER_CMD(GiveExperience, Player, 2)
   --------------------*/
 TRIGGER_CMD(SetExperience, Player, 2)
 {
-	CEntityClientInfo *pClient(Game.GetClientInfo(pEnt->GetClientID()));
+    CEntityClientInfo *pClient(Game.GetClientInfo(pEnt->GetClientID()));
 
-	if (pClient == NULL)
-		return true;
+    if (pClient == NULL)
+        return true;
 
-	pClient->SetInitialExperience(MAX(pClient->GetInitialExperience() + (AtoF(vArgList[1]) - pClient->GetExperience()), 0.0f));
-	pClient->ResetExperience();
-	pClient->GiveExperience(AtoF(vArgList[1]));
-	
+    pClient->SetInitialExperience(MAX(pClient->GetInitialExperience() + (AtoF(vArgList[1]) - pClient->GetExperience()), 0.0f));
+    pClient->ResetExperience();
+    pClient->GiveExperience(AtoF(vArgList[1]));
+    
 
-	return true;
+    return true;
 }
 
 /*--------------------
@@ -631,57 +631,57 @@ TRIGGER_CMD(SetExperience, Player, 2)
   --------------------*/
 TRIGGER_CMD(ChangeUnit, Player, 2)
 {
-	/*if (vArgList.size() < 9)
-	{
-		Console << _T("Syntax: ChangeUnit <index> <new> <spawn> <pos> <hp> <kill> <check rules> <damage record> <refund>") << newl;
-		Console << _T("        INDEX: Index of unit to change") << newl;
-		Console << _T("        NEW: Type of unit to change to") << newl;
-		Console << _T("        SPAWN: True/false, determines if unit starts spawned (true) or in loadout (false)") << newl;
-		Console << _T("        POS: True/false, determines if unit inherits the old unit's position") << newl;
-		Console << _T("        HP: True/false, determines if unit inherits the old unit's HP %") << newl;
-		Console << _T("        KILL: True/false, determines if old unit is killed (true) or simply removed (false)") << newl;
-		Console << _T("        CHECK RULES: True/false, determines if they must be able to switch units before doing so") << newl;
-		Console << _T("        DAMAGE RECORD: True/false, determines if unit inherits old unit's damage record") << newl;
-		Console << _T("        REFUND: True/false, determines if player recieves a refund for their old unit") << newl;
-		return false;
-	}*/
+    /*if (vArgList.size() < 9)
+    {
+        Console << _T("Syntax: ChangeUnit <index> <new> <spawn> <pos> <hp> <kill> <check rules> <damage record> <refund>") << newl;
+        Console << _T("        INDEX: Index of unit to change") << newl;
+        Console << _T("        NEW: Type of unit to change to") << newl;
+        Console << _T("        SPAWN: True/false, determines if unit starts spawned (true) or in loadout (false)") << newl;
+        Console << _T("        POS: True/false, determines if unit inherits the old unit's position") << newl;
+        Console << _T("        HP: True/false, determines if unit inherits the old unit's HP %") << newl;
+        Console << _T("        KILL: True/false, determines if old unit is killed (true) or simply removed (false)") << newl;
+        Console << _T("        CHECK RULES: True/false, determines if they must be able to switch units before doing so") << newl;
+        Console << _T("        DAMAGE RECORD: True/false, determines if unit inherits old unit's damage record") << newl;
+        Console << _T("        REFUND: True/false, determines if player recieves a refund for their old unit") << newl;
+        return false;
+    }*/
 
-	int iFlags(0);
+    int iFlags(0);
 
-	ushort unID(EntityRegistry.LookupID(vArgList[1]));
+    ushort unID(EntityRegistry.LookupID(vArgList[1]));
 
-	if (unID == INVALID_ENT_TYPE)
-	{
-		Console << _T("ChangeUnit: New unit type not found.") << newl;
-		return true;
-	}
+    if (unID == INVALID_ENT_TYPE)
+    {
+        Console << _T("ChangeUnit: New unit type not found.") << newl;
+        return true;
+    }
 
-	if (vArgList.size() >= 3 && AtoB(vArgList[2]))
-		iFlags |= CHANGE_UNIT_SPAWN;
+    if (vArgList.size() >= 3 && AtoB(vArgList[2]))
+        iFlags |= CHANGE_UNIT_SPAWN;
 
-	if (vArgList.size() >= 4 &&AtoB(vArgList[3]))
-		iFlags |= CHANGE_UNIT_INHERIT_POS;
+    if (vArgList.size() >= 4 &&AtoB(vArgList[3]))
+        iFlags |= CHANGE_UNIT_INHERIT_POS;
 
-	if (vArgList.size() >= 5 &&AtoB(vArgList[4]))
-		iFlags |= CHANGE_UNIT_INHERIT_HP;
+    if (vArgList.size() >= 5 &&AtoB(vArgList[4]))
+        iFlags |= CHANGE_UNIT_INHERIT_HP;
 
-	if (vArgList.size() >= 6 &&AtoB(vArgList[5]))
-		iFlags |= CHANGE_UNIT_KILL;
+    if (vArgList.size() >= 6 &&AtoB(vArgList[5]))
+        iFlags |= CHANGE_UNIT_KILL;
 
-	if (vArgList.size() >= 7 &&AtoB(vArgList[6]))
-		iFlags |= CHANGE_UNIT_CHECK_RULES;
+    if (vArgList.size() >= 7 &&AtoB(vArgList[6]))
+        iFlags |= CHANGE_UNIT_CHECK_RULES;
 
-	if (vArgList.size() >= 8 &&AtoB(vArgList[7]))
-		iFlags |= CHANGE_UNIT_INHERIT_DAMAGE_RECORD;
+    if (vArgList.size() >= 8 &&AtoB(vArgList[7]))
+        iFlags |= CHANGE_UNIT_INHERIT_DAMAGE_RECORD;
 
-	if (vArgList.size() >= 9 &&AtoB(vArgList[8]))
-		iFlags |= CHANGE_UNIT_REFUND_GOLD;
+    if (vArgList.size() >= 9 &&AtoB(vArgList[8]))
+        iFlags |= CHANGE_UNIT_REFUND_GOLD;
 
-	IPlayerEntity *pPlayer(GameServer.ChangeUnit(pEnt->GetClientID(), unID, iFlags));
-	if (pPlayer != NULL && g_pCurrentScript != NULL)
-		g_pCurrentScript->AddParameter(_T("changedindex"), XtoA(pPlayer->GetIndex()));
+    IPlayerEntity *pPlayer(GameServer.ChangeUnit(pEnt->GetClientID(), unID, iFlags));
+    if (pPlayer != NULL && g_pCurrentScript != NULL)
+        g_pCurrentScript->AddParameter(_T("changedindex"), XtoA(pPlayer->GetIndex()));
 
-	return true;
+    return true;
 }
 
 
@@ -690,20 +690,20 @@ TRIGGER_CMD(ChangeUnit, Player, 2)
   --------------------*/
 TRIGGER_CMD(StartAnim, Visual, 3)
 {
-	/*if (vArgList.size() < 3)
-	
-		Console << _T("Syntax: StartAnim <index> <channel> <animation name> [speed - optional] [length - optional]") << newl;
-		return false;
-	}*/
+    /*if (vArgList.size() < 3)
+    
+        Console << _T("Syntax: StartAnim <index> <channel> <animation name> [speed - optional] [length - optional]") << newl;
+        return false;
+    }*/
 
-	if (vArgList.size() > 4)
-		pEnt->StartAnimation(vArgList[2], AtoI(vArgList[1]), AtoF(vArgList[3]), AtoF(vArgList[4]));
-	else if (vArgList.size() > 3)
-		pEnt->StartAnimation(vArgList[2], AtoI(vArgList[1]), AtoF(vArgList[3]));
-	else
-		pEnt->StartAnimation(vArgList[2], AtoI(vArgList[1]));
+    if (vArgList.size() > 4)
+        pEnt->StartAnimation(vArgList[2], AtoI(vArgList[1]), AtoF(vArgList[3]), AtoF(vArgList[4]));
+    else if (vArgList.size() > 3)
+        pEnt->StartAnimation(vArgList[2], AtoI(vArgList[1]), AtoF(vArgList[3]));
+    else
+        pEnt->StartAnimation(vArgList[2], AtoI(vArgList[1]));
 
-	return true;
+    return true;
 }
 
 
@@ -712,15 +712,15 @@ TRIGGER_CMD(StartAnim, Visual, 3)
   --------------------*/
 TRIGGER_CMD(SetAngles, Visual, 4)
 {
-	/*if (vArgList.size() < 4)
-	{
-		Console << _T("Syntax: SetAngles <index> <pitch> <roll> <yaw>") << newl;
-		return false;
-	}*/
+    /*if (vArgList.size() < 4)
+    {
+        Console << _T("Syntax: SetAngles <index> <pitch> <roll> <yaw>") << newl;
+        return false;
+    }*/
 
-	pEnt->SetAngles(AtoF(vArgList[1]), AtoF(vArgList[2]), AtoF(vArgList[3]));
+    pEnt->SetAngles(AtoF(vArgList[1]), AtoF(vArgList[2]), AtoF(vArgList[3]));
 
-	return true;
+    return true;
 }
 
 
@@ -729,15 +729,15 @@ TRIGGER_CMD(SetAngles, Visual, 4)
   --------------------*/
 TRIGGER_CMD(SetPosition, Visual, 4)
 {
-	/*if (vArgList.size() < 4)
-	{
-		Console << _T("Syntax: SetPosition <index> <X> <Y> <Z>") << newl;
-		return false;
-	}*/
+    /*if (vArgList.size() < 4)
+    {
+        Console << _T("Syntax: SetPosition <index> <X> <Y> <Z>") << newl;
+        return false;
+    }*/
 
-	pEnt->SetPosition(AtoF(vArgList[1]), AtoF(vArgList[2]), AtoF(vArgList[3]));
+    pEnt->SetPosition(AtoF(vArgList[1]), AtoF(vArgList[2]), AtoF(vArgList[3]));
 
-	return true;
+    return true;
 }
 
 
@@ -746,49 +746,49 @@ TRIGGER_CMD(SetPosition, Visual, 4)
   --------------------*/
 TRIGGER_CMD(SetToValidPosition, Visual, 1)
 {
-	CVec3f v3Spawn(pEnt->GetPosition());
-	CVec3f v3Start(v3Spawn);
-	STraceInfo trace;
-	uiset setIgnore;
+    CVec3f v3Spawn(pEnt->GetPosition());
+    CVec3f v3Start(v3Spawn);
+    STraceInfo trace;
+    uiset setIgnore;
 
-	if (v3Start[Z] < GameServer.GetTerrainHeight(v3Start[X], v3Start[Y]))
-		v3Start[Z] = GameServer.GetTerrainHeight(v3Start[X], v3Start[Y]);
+    if (v3Start[Z] < GameServer.GetTerrainHeight(v3Start[X], v3Start[Y]))
+        v3Start[Z] = GameServer.GetTerrainHeight(v3Start[X], v3Start[Y]);
 
-	for (svector_cit it(vArgList.begin() + 1); it != vArgList.end(); it++)
-	{
-		IVisualEntity *pVis(GameServer.GetVisualEntity(AtoI(*it)));
+    for (svector_cit it(vArgList.begin() + 1); it != vArgList.end(); it++)
+    {
+        IVisualEntity *pVis(GameServer.GetVisualEntity(AtoI(*it)));
 
-		if (pVis != NULL)
-		{
-			CWorldEntity *pWorld(Game.GetWorldEntity(pVis->GetWorldIndex()));
-			
-			if (pWorld != NULL)
-			{
-				setIgnore.insert(pVis->GetWorldIndex());
-				pWorld->SetSurfFlags(pWorld->GetSurfFlags() | SURF_IGNORE);
-			}
-		}
-	}
+        if (pVis != NULL)
+        {
+            CWorldEntity *pWorld(Game.GetWorldEntity(pVis->GetWorldIndex()));
+            
+            if (pWorld != NULL)
+            {
+                setIgnore.insert(pVis->GetWorldIndex());
+                pWorld->SetSurfFlags(pWorld->GetSurfFlags() | SURF_IGNORE);
+            }
+        }
+    }
 
-	Game.TraceBox(trace, v3Start, v3Spawn, pEnt->GetBounds(), TRACE_PLAYER_MOVEMENT | SURF_IGNORE, pEnt->GetWorldIndex());
+    Game.TraceBox(trace, v3Start, v3Spawn, pEnt->GetBounds(), TRACE_PLAYER_MOVEMENT | SURF_IGNORE, pEnt->GetWorldIndex());
 
-	while (trace.bStartedInSurface)
-	{
-		v3Start[Z] += 25.0f;
-		Game.TraceBox(trace, v3Start, v3Spawn, pEnt->GetBounds(), TRACE_PLAYER_MOVEMENT | SURF_IGNORE, pEnt->GetWorldIndex());
-	}
+    while (trace.bStartedInSurface)
+    {
+        v3Start[Z] += 25.0f;
+        Game.TraceBox(trace, v3Start, v3Spawn, pEnt->GetBounds(), TRACE_PLAYER_MOVEMENT | SURF_IGNORE, pEnt->GetWorldIndex());
+    }
 
-	pEnt->SetPosition(trace.v3EndPos);
+    pEnt->SetPosition(trace.v3EndPos);
 
-	for (uiset::iterator it(setIgnore.begin()); it != setIgnore.end(); it++)
-	{
-		CWorldEntity *pWorld(Game.GetWorldEntity(*it));
-		
-		if (pWorld != NULL)
-			pWorld->SetSurfFlags(pWorld->GetSurfFlags() & ~SURF_IGNORE);
-	}
+    for (uiset::iterator it(setIgnore.begin()); it != setIgnore.end(); it++)
+    {
+        CWorldEntity *pWorld(Game.GetWorldEntity(*it));
+        
+        if (pWorld != NULL)
+            pWorld->SetSurfFlags(pWorld->GetSurfFlags() & ~SURF_IGNORE);
+    }
 
-	return true;
+    return true;
 }
 
 
@@ -797,18 +797,18 @@ TRIGGER_CMD(SetToValidPosition, Visual, 1)
   --------------------*/
 TRIGGER_CMD(SetTeam, Visual, 2)
 {
-	/*if (vArgList.size() < 2)
-	{
-		Console << _T("Syntax: SetTeam <index> <team>") << newl;
-		return false;
-	}*/
+    /*if (vArgList.size() < 2)
+    {
+        Console << _T("Syntax: SetTeam <index> <team>") << newl;
+        return false;
+    }*/
 
-	if (pEnt->IsPlayer())
-		GameServer.ChangeTeam(pEnt->GetAsPlayerEnt()->GetClientID(), AtoI(vArgList[1]));
-	else
-		pEnt->SetTeam(AtoI(vArgList[1]));
+    if (pEnt->IsPlayer())
+        GameServer.ChangeTeam(pEnt->GetAsPlayerEnt()->GetClientID(), AtoI(vArgList[1]));
+    else
+        pEnt->SetTeam(AtoI(vArgList[1]));
 
-	return true;
+    return true;
 }
 
 /*--------------------
@@ -816,7 +816,7 @@ TRIGGER_CMD(SetTeam, Visual, 2)
   --------------------*/
 TRIGGER_FCN(GetTeam, Visual, 1)
 {
-	return XtoA(pEnt->GetTeam());
+    return XtoA(pEnt->GetTeam());
 }
 
 /*--------------------
@@ -824,7 +824,7 @@ TRIGGER_FCN(GetTeam, Visual, 1)
   --------------------*/
 TRIGGER_FCN(GetType, Visual, 1)
 {
-	return pEnt->GetTypeName();
+    return pEnt->GetTypeName();
 }
 
 /*--------------------
@@ -832,15 +832,15 @@ TRIGGER_FCN(GetType, Visual, 1)
   --------------------*/
 SERVER_FCN(IsClientConnected)
 {
-	if (vArgList.size() < 1)
-		return _T("0");
+    if (vArgList.size() < 1)
+        return _T("0");
 
-	CEntityClientInfo *pClient(Game.GetClientInfo(AtoI(vArgList[0])));
+    CEntityClientInfo *pClient(Game.GetClientInfo(AtoI(vArgList[0])));
 
-	if (pClient == NULL)
-		return _T("0");
+    if (pClient == NULL)
+        return _T("0");
 
-	return XtoA(!pClient->IsDisconnected(), true);
+    return XtoA(!pClient->IsDisconnected(), true);
 }
 
 /*--------------------
@@ -848,15 +848,15 @@ SERVER_FCN(IsClientConnected)
   --------------------*/
 TRIGGER_CMD(SetInvulnerable, Visual, 2)
 {
-	/*if (vArgList.size() < 2)
-	{
-		Console << _T("Syntax: SetInvulnerability <index> <value>") << newl;
-		return false;
-	}*/
+    /*if (vArgList.size() < 2)
+    {
+        Console << _T("Syntax: SetInvulnerability <index> <value>") << newl;
+        return false;
+    }*/
 
-	pEnt->SetInvulnerable(AtoB(vArgList[1]));
+    pEnt->SetInvulnerable(AtoB(vArgList[1]));
 
-	return true;
+    return true;
 }
 
 
@@ -865,15 +865,15 @@ TRIGGER_CMD(SetInvulnerable, Visual, 2)
   --------------------*/
 TRIGGER_CMD(SetHealth, Visual, 2)
 {
-	/*if (vArgList.size() < 2)
-	{
-		Console << _T("Syntax: SetHealth <index> <value>") << newl;
-		return false;
-	}*/
+    /*if (vArgList.size() < 2)
+    {
+        Console << _T("Syntax: SetHealth <index> <value>") << newl;
+        return false;
+    }*/
 
-	pEnt->SetHealth(AtoF(vArgList[1]));
+    pEnt->SetHealth(AtoF(vArgList[1]));
 
-	return true;
+    return true;
 }
 
 
@@ -882,15 +882,15 @@ TRIGGER_CMD(SetHealth, Visual, 2)
   --------------------*/
 TRIGGER_CMD(SetMana, Combat, 2)
 {
-	/*if (vArgList.size() < 2)
-	{
-		Console << _T("Syntax: SetMana <index> <value>") << newl;
-		return false;
-	}*/
+    /*if (vArgList.size() < 2)
+    {
+        Console << _T("Syntax: SetMana <index> <value>") << newl;
+        return false;
+    }*/
 
-	pEnt->SetMana(AtoF(vArgList[1]));
+    pEnt->SetMana(AtoF(vArgList[1]));
 
-	return true;
+    return true;
 }
 
 
@@ -899,15 +899,15 @@ TRIGGER_CMD(SetMana, Combat, 2)
   --------------------*/
 TRIGGER_CMD(SetStamina, Combat, 2)
 {
-	/*if (vArgList.size() < 2)
-	{
-		Console << _T("Syntax: SetStamina <index> <value>") << newl;
-		return false;
-	}*/
+    /*if (vArgList.size() < 2)
+    {
+        Console << _T("Syntax: SetStamina <index> <value>") << newl;
+        return false;
+    }*/
 
-	pEnt->SetStamina(AtoF(vArgList[1]));
+    pEnt->SetStamina(AtoF(vArgList[1]));
 
-	return true;
+    return true;
 }
 
 
@@ -916,9 +916,9 @@ TRIGGER_CMD(SetStamina, Combat, 2)
   --------------------*/
 TRIGGER_CMD(RefillHealth, Visual, 1)
 {
-	pEnt->SetHealth(pEnt->GetMaxHealth());
+    pEnt->SetHealth(pEnt->GetMaxHealth());
 
-	return true;
+    return true;
 }
 
 
@@ -927,9 +927,9 @@ TRIGGER_CMD(RefillHealth, Visual, 1)
   --------------------*/
 TRIGGER_CMD(RefillMana, Combat, 1)
 {
-	pEnt->SetMana(pEnt->GetMaxMana());
+    pEnt->SetMana(pEnt->GetMaxMana());
 
-	return true;
+    return true;
 }
 
 
@@ -938,9 +938,9 @@ TRIGGER_CMD(RefillMana, Combat, 1)
   --------------------*/
 TRIGGER_CMD(RefillStamina, Combat, 1)
 {
-	pEnt->SetStamina(pEnt->GetMaxStamina());
+    pEnt->SetStamina(pEnt->GetMaxStamina());
 
-	return true;
+    return true;
 }
 
 
@@ -949,20 +949,20 @@ TRIGGER_CMD(RefillStamina, Combat, 1)
   --------------------*/
 TRIGGER_CMD(SetName, Visual, 2)
 {
-	/*if (vArgList.size() < 2)
-	{
-		Console << _T("Syntax: SetName <index> <name>") << newl;
-		return false;
-	}*/
+    /*if (vArgList.size() < 2)
+    {
+        Console << _T("Syntax: SetName <index> <name>") << newl;
+        return false;
+    }*/
 
-	CWorldEntity *pWorld(GameServer.GetWorldEntity(pEnt->GetWorldIndex()));
+    CWorldEntity *pWorld(GameServer.GetWorldEntity(pEnt->GetWorldIndex()));
 
-	if (pWorld == NULL)
-		return true;
+    if (pWorld == NULL)
+        return true;
 
-	pWorld->SetName(vArgList[1]);
+    pWorld->SetName(vArgList[1]);
 
-	return true;
+    return true;
 }
 
 
@@ -972,23 +972,23 @@ TRIGGER_CMD(SetName, Visual, 2)
   --------------------*/
 TRIGGER_CMD(AddNPCJobFollow, Npc, 2)
 {
-/*	if (vArgList.size() < 2)
-	{
-		Console << _T("Syntax: AddNPCJobFollow <index> <target index>") << newl;
-		return false;
-	}*/
+/*  if (vArgList.size() < 2)
+    {
+        Console << _T("Syntax: AddNPCJobFollow <index> <target index>") << newl;
+        return false;
+    }*/
 
-	IVisualEntity *pTargetEnt(GameServer.GetVisualEntity(AtoI(vArgList[1])));
+    IVisualEntity *pTargetEnt(GameServer.GetVisualEntity(AtoI(vArgList[1])));
 
-	if (pTargetEnt == NULL)
-	{
-		Console << _T("AddNPCJobFollow: Invalid target world index.") << newl;
-		return true;
-	}
+    if (pTargetEnt == NULL)
+    {
+        Console << _T("AddNPCJobFollow: Invalid target world index.") << newl;
+        return true;
+    }
 
-	pEnt->AddJob(K2_NEW(global,   CAIJobFollow)(pEnt, pTargetEnt->GetIndex()));
+    pEnt->AddJob(K2_NEW(global,   CAIJobFollow)(pEnt, pTargetEnt->GetIndex()));
 
-	return true;
+    return true;
 }
 
 
@@ -997,15 +997,15 @@ TRIGGER_CMD(AddNPCJobFollow, Npc, 2)
   --------------------*/
 TRIGGER_CMD(AddNPCJobMove, Npc, 4)
 {
-	/*if (vArgList.size() < 4)
-	{
-		Console << _T("Syntax: AddNPCJobMove <index> <X> <Y> <Z>") << newl;
-		return false;
-	}*/
+    /*if (vArgList.size() < 4)
+    {
+        Console << _T("Syntax: AddNPCJobMove <index> <X> <Y> <Z>") << newl;
+        return false;
+    }*/
 
-	pEnt->AddJob(K2_NEW(global,   CAIJobMove)(pEnt, CVec3f(AtoF(vArgList[1]), AtoF(vArgList[2]), AtoF(vArgList[3]))));
+    pEnt->AddJob(K2_NEW(global,   CAIJobMove)(pEnt, CVec3f(AtoF(vArgList[1]), AtoF(vArgList[2]), AtoF(vArgList[3]))));
 
-	return true;
+    return true;
 }
 
 
@@ -1014,15 +1014,15 @@ TRIGGER_CMD(AddNPCJobMove, Npc, 4)
   --------------------*/
 TRIGGER_CMD(AddNPCJobGuard, Npc, 4)
 {
-	/*if (vArgList.size() < 4)
-	{
-		Console << _T("Syntax: AddNPCJobGuard <index> <X> <Y> <Z>") << newl;
-		return false;
-	}*/
+    /*if (vArgList.size() < 4)
+    {
+        Console << _T("Syntax: AddNPCJobGuard <index> <X> <Y> <Z>") << newl;
+        return false;
+    }*/
 
-	pEnt->AddJob(K2_NEW(global,   CAIJobGuardPos)(pEnt, CVec3f(AtoF(vArgList[1]), AtoF(vArgList[2]), AtoF(vArgList[3]))));
+    pEnt->AddJob(K2_NEW(global,   CAIJobGuardPos)(pEnt, CVec3f(AtoF(vArgList[1]), AtoF(vArgList[2]), AtoF(vArgList[3]))));
 
-	return true;
+    return true;
 }
 
 
@@ -1031,15 +1031,15 @@ TRIGGER_CMD(AddNPCJobGuard, Npc, 4)
   --------------------*/
 TRIGGER_CMD(AddNPCJobAttackMove, Npc, 4)
 {
-	/*if (vArgList.size() < 4)
-	{
-		Console << _T("Syntax: AddNPCJobAttackMove <index> <X> <Y> <Z>") << newl;
-		return false;
-	}*/
+    /*if (vArgList.size() < 4)
+    {
+        Console << _T("Syntax: AddNPCJobAttackMove <index> <X> <Y> <Z>") << newl;
+        return false;
+    }*/
 
-	pEnt->AddJob(K2_NEW(global,   CAIJobAttackMove)(pEnt, CVec3f(AtoF(vArgList[1]), AtoF(vArgList[2]), AtoF(vArgList[3]))));
+    pEnt->AddJob(K2_NEW(global,   CAIJobAttackMove)(pEnt, CVec3f(AtoF(vArgList[1]), AtoF(vArgList[2]), AtoF(vArgList[3]))));
 
-	return true;
+    return true;
 }
 
 /*--------------------
@@ -1047,23 +1047,23 @@ TRIGGER_CMD(AddNPCJobAttackMove, Npc, 4)
   --------------------*/
 TRIGGER_CMD(SetNPCJobFollow, Npc, 2)
 {
-/*	if (vArgList.size() < 2)
-	{
-		Console << _T("Syntax: AddNPCJobFollow <index> <target index>") << newl;
-		return false;
-	}*/
+/*  if (vArgList.size() < 2)
+    {
+        Console << _T("Syntax: AddNPCJobFollow <index> <target index>") << newl;
+        return false;
+    }*/
 
-	IVisualEntity *pTargetEnt(GameServer.GetVisualEntity(AtoI(vArgList[1])));
+    IVisualEntity *pTargetEnt(GameServer.GetVisualEntity(AtoI(vArgList[1])));
 
-	if (pTargetEnt == NULL)
-	{
-		Console << _T("AddNPCJobFollow: Invalid target world index.") << newl;
-		return true;
-	}
+    if (pTargetEnt == NULL)
+    {
+        Console << _T("AddNPCJobFollow: Invalid target world index.") << newl;
+        return true;
+    }
 
-	pEnt->SetJob(K2_NEW(global,   CAIJobFollow)(pEnt, pTargetEnt->GetIndex()));
+    pEnt->SetJob(K2_NEW(global,   CAIJobFollow)(pEnt, pTargetEnt->GetIndex()));
 
-	return true;
+    return true;
 }
 
 
@@ -1072,15 +1072,15 @@ TRIGGER_CMD(SetNPCJobFollow, Npc, 2)
   --------------------*/
 TRIGGER_CMD(SetNPCJobMove, Npc, 4)
 {
-	/*if (vArgList.size() < 4)
-	{
-		Console << _T("Syntax: AddNPCJobMove <index> <X> <Y> <Z>") << newl;
-		return false;
-	}*/
+    /*if (vArgList.size() < 4)
+    {
+        Console << _T("Syntax: AddNPCJobMove <index> <X> <Y> <Z>") << newl;
+        return false;
+    }*/
 
-	pEnt->SetJob(K2_NEW(global,   CAIJobMove)(pEnt, CVec3f(AtoF(vArgList[1]), AtoF(vArgList[2]), AtoF(vArgList[3]))));
+    pEnt->SetJob(K2_NEW(global,   CAIJobMove)(pEnt, CVec3f(AtoF(vArgList[1]), AtoF(vArgList[2]), AtoF(vArgList[3]))));
 
-	return true;
+    return true;
 }
 
 
@@ -1089,15 +1089,15 @@ TRIGGER_CMD(SetNPCJobMove, Npc, 4)
   --------------------*/
 TRIGGER_CMD(SetNPCJobGuard, Npc, 4)
 {
-	/*if (vArgList.size() < 4)
-	{
-		Console << _T("Syntax: AddNPCJobGuard <index> <X> <Y> <Z>") << newl;
-		return false;
-	}*/
+    /*if (vArgList.size() < 4)
+    {
+        Console << _T("Syntax: AddNPCJobGuard <index> <X> <Y> <Z>") << newl;
+        return false;
+    }*/
 
-	pEnt->SetJob(K2_NEW(global,   CAIJobGuardPos)(pEnt, CVec3f(AtoF(vArgList[1]), AtoF(vArgList[2]), AtoF(vArgList[3]))));
+    pEnt->SetJob(K2_NEW(global,   CAIJobGuardPos)(pEnt, CVec3f(AtoF(vArgList[1]), AtoF(vArgList[2]), AtoF(vArgList[3]))));
 
-	return true;
+    return true;
 }
 
 
@@ -1106,15 +1106,15 @@ TRIGGER_CMD(SetNPCJobGuard, Npc, 4)
   --------------------*/
 TRIGGER_CMD(SetNPCJobAttackMove, Npc, 4)
 {
-	/*if (vArgList.size() < 4)
-	{
-		Console << _T("Syntax: AddNPCJobAttackMove <index> <X> <Y> <Z>") << newl;
-		return false;
-	}*/
+    /*if (vArgList.size() < 4)
+    {
+        Console << _T("Syntax: AddNPCJobAttackMove <index> <X> <Y> <Z>") << newl;
+        return false;
+    }*/
 
-	pEnt->SetJob(K2_NEW(global,   CAIJobAttackMove)(pEnt, CVec3f(AtoF(vArgList[1]), AtoF(vArgList[2]), AtoF(vArgList[3]))));
+    pEnt->SetJob(K2_NEW(global,   CAIJobAttackMove)(pEnt, CVec3f(AtoF(vArgList[1]), AtoF(vArgList[2]), AtoF(vArgList[3]))));
 
-	return true;
+    return true;
 }
 #endif
 
@@ -1123,9 +1123,9 @@ TRIGGER_CMD(SetNPCJobAttackMove, Npc, 4)
   --------------------*/
 TRIGGER_CMD(SetNpcJobPatrol, Npc, 4)
 {
-	pEnt->PlayerCommand(NPCCMD_PATROL, INVALID_INDEX, CVec3f(AtoF(vArgList[1]), AtoF(vArgList[2]), AtoF(vArgList[3])));
+    pEnt->PlayerCommand(NPCCMD_PATROL, INVALID_INDEX, CVec3f(AtoF(vArgList[1]), AtoF(vArgList[2]), AtoF(vArgList[3])));
 
-	return true;
+    return true;
 }
 
 /*--------------------
@@ -1133,9 +1133,9 @@ TRIGGER_CMD(SetNpcJobPatrol, Npc, 4)
   --------------------*/
 TRIGGER_CMD(SetNpcJobMove, Npc, 4)
 {
-	pEnt->PlayerCommand(NPCCMD_MOVE, INVALID_INDEX, CVec3f(AtoF(vArgList[1]), AtoF(vArgList[2]), AtoF(vArgList[3])));
+    pEnt->PlayerCommand(NPCCMD_MOVE, INVALID_INDEX, CVec3f(AtoF(vArgList[1]), AtoF(vArgList[2]), AtoF(vArgList[3])));
 
-	return true;
+    return true;
 }
 
 /*--------------------
@@ -1143,9 +1143,9 @@ TRIGGER_CMD(SetNpcJobMove, Npc, 4)
   --------------------*/
 TRIGGER_CMD(SetPetJobPatrol, Pet, 4)
 {
-	pEnt->PlayerCommand(PETCMD_PATROL, INVALID_INDEX, CVec3f(AtoF(vArgList[1]), AtoF(vArgList[2]), AtoF(vArgList[3])));
+    pEnt->PlayerCommand(PETCMD_PATROL, INVALID_INDEX, CVec3f(AtoF(vArgList[1]), AtoF(vArgList[2]), AtoF(vArgList[3])));
 
-	return true;
+    return true;
 }
 
 /*--------------------
@@ -1153,23 +1153,23 @@ TRIGGER_CMD(SetPetJobPatrol, Pet, 4)
   --------------------*/
 TRIGGER_CMD(AddNPCAggro, Npc, 3)
 {
-	/*if (vArgList.size() < 3)
-	{
-		Console << _T("Syntax: AddNPCAggro <index> <target index> <aggro amount>") << newl;
-		return false;
-	}*/
+    /*if (vArgList.size() < 3)
+    {
+        Console << _T("Syntax: AddNPCAggro <index> <target index> <aggro amount>") << newl;
+        return false;
+    }*/
 
-	IVisualEntity *pTargetEnt(GameServer.GetVisualEntity(AtoI(vArgList[1])));
+    IVisualEntity *pTargetEnt(GameServer.GetVisualEntity(AtoI(vArgList[1])));
 
-	if (pTargetEnt == NULL)
-	{
-		Console << _T("AddNPCAggro: Invalid target world index.") << newl;
-		return true;
-	}
+    if (pTargetEnt == NULL)
+    {
+        Console << _T("AddNPCAggro: Invalid target world index.") << newl;
+        return true;
+    }
 
-	pEnt->AddAggro(pTargetEnt->GetIndex(), AtoF(vArgList[2]), false);
+    pEnt->AddAggro(pTargetEnt->GetIndex(), AtoF(vArgList[2]), false);
 
-	return true;
+    return true;
 }
 
 
@@ -1178,15 +1178,15 @@ TRIGGER_CMD(AddNPCAggro, Npc, 3)
   --------------------*/
 TRIGGER_CMD(RemoveEntity, Visual, 1)
 {
-	/*if (vArgList.size() < 1)
-	{
-		Console << _T("Syntax: RemoveEntity <index>") << newl;
-		return false;
-	}*/
+    /*if (vArgList.size() < 1)
+    {
+        Console << _T("Syntax: RemoveEntity <index>") << newl;
+        return false;
+    }*/
 
-	GameServer.DeleteEntity(pEnt);
+    GameServer.DeleteEntity(pEnt);
 
-	return true;
+    return true;
 }
 
 /*--------------------
@@ -1194,29 +1194,29 @@ TRIGGER_CMD(RemoveEntity, Visual, 1)
   --------------------*/
 TRIGGER_CMD(KillEntity, Visual, 1)
 {
-	/*if (vArgList.size() < 1)
-	{
-		Console << _T("Syntax: KillEntity <index> [killing index - optional]") << newl;
-		return false;
-	}*/
+    /*if (vArgList.size() < 1)
+    {
+        Console << _T("Syntax: KillEntity <index> [killing index - optional]") << newl;
+        return false;
+    }*/
 
-	IVisualEntity *pKillingEnt(NULL);
+    IVisualEntity *pKillingEnt(NULL);
 
-	if (vArgList.size() > 1)
-	{
-		pKillingEnt = GameServer.GetVisualEntity(AtoI(vArgList[1]));
+    if (vArgList.size() > 1)
+    {
+        pKillingEnt = GameServer.GetVisualEntity(AtoI(vArgList[1]));
 
-		if (pKillingEnt == NULL)
-		{
-			Console << _T("KillEntity: Invalid killing index.") << newl;
-			return true;
-		}
-	}
+        if (pKillingEnt == NULL)
+        {
+            Console << _T("KillEntity: Invalid killing index.") << newl;
+            return true;
+        }
+    }
 
-	if (pEnt->GetStatus() != ENTITY_STATUS_CORPSE && pEnt->GetStatus() != ENTITY_STATUS_DEAD)
-		pEnt->Kill(pKillingEnt);
+    if (pEnt->GetStatus() != ENTITY_STATUS_CORPSE && pEnt->GetStatus() != ENTITY_STATUS_DEAD)
+        pEnt->Kill(pKillingEnt);
 
-	return true;
+    return true;
 }
 
 /*--------------------
@@ -1224,84 +1224,84 @@ TRIGGER_CMD(KillEntity, Visual, 1)
   --------------------*/
 TRIGGER_CMD(SetOrder, Combat, 2)
 {
-	/*if (vArgList.size() < 2)
-	{
-		Console << _T("Syntax: SetOrder <index> <target index>") << newl;
-		return false;
-	}*/
+    /*if (vArgList.size() < 2)
+    {
+        Console << _T("Syntax: SetOrder <index> <target index>") << newl;
+        return false;
+    }*/
 
-	if (vArgList.size() == 2)
-	{
-		IVisualEntity *pTargetEnt(GameServer.GetVisualEntity(AtoI(vArgList[1])));
-		ECommanderOrder eOrder;
+    if (vArgList.size() == 2)
+    {
+        IVisualEntity *pTargetEnt(GameServer.GetVisualEntity(AtoI(vArgList[1])));
+        ECommanderOrder eOrder;
 
-		if (pTargetEnt == NULL)
-		{
-			Console << _T("SetOrder: Invalid target world index.") << newl;
-			return true;
-		}
+        if (pTargetEnt == NULL)
+        {
+            Console << _T("SetOrder: Invalid target world index.") << newl;
+            return true;
+        }
 
-		if (pEnt->IsEnemy(pTargetEnt))
-			eOrder = CMDR_ORDER_ATTACK;
-		else
-			eOrder = CMDR_ORDER_MOVE;
+        if (pEnt->IsEnemy(pTargetEnt))
+            eOrder = CMDR_ORDER_ATTACK;
+        else
+            eOrder = CMDR_ORDER_MOVE;
 
-		if (pEnt->IsPlayer())
-		{
-			IPlayerEntity *pPlayer(pEnt->GetAsPlayerEnt());
+        if (pEnt->IsPlayer())
+        {
+            IPlayerEntity *pPlayer(pEnt->GetAsPlayerEnt());
 
-			pPlayer->ClearOrders();
-			pPlayer->AddOrder(eOrder, AtoI(vArgList[1]), V3_ZERO);
-		}
-		else if (pEnt->IsNpc())
-		{
-			if (pEnt->IsEnemy(pTargetEnt))
-				pEnt->GetAsNpc()->PlayerCommand(NPCCMD_ATTACK, AtoI(vArgList[1]), V3_ZERO);
-			else if (pTargetEnt->IsBuilding() && (pTargetEnt->GetStatus() == ENTITY_STATUS_SPAWNING || pTargetEnt->GetHealthPercent() < 1.0f))
-				pEnt->GetAsNpc()->PlayerCommand(NPCCMD_REPAIR, AtoI(vArgList[1]), V3_ZERO);
-			else
-				pEnt->GetAsNpc()->PlayerCommand(NPCCMD_FOLLOW, AtoI(vArgList[1]), V3_ZERO);
-		}
-		else if (pEnt->IsPet())
-		{
-			if (pEnt->IsEnemy(pTargetEnt))
-				pEnt->GetAsPet()->PlayerCommand(PETCMD_ATTACK, AtoI(vArgList[1]), V3_ZERO);
-			else if (pTargetEnt->IsBuilding() && (pTargetEnt->GetStatus() == ENTITY_STATUS_SPAWNING || pTargetEnt->GetHealthPercent() < 1.0f))
-				pEnt->GetAsPet()->PlayerCommand(PETCMD_REPAIR, AtoI(vArgList[1]), V3_ZERO);
-			else
-				pEnt->GetAsPet()->PlayerCommand(PETCMD_FOLLOW, AtoI(vArgList[1]), V3_ZERO);
-		}
+            pPlayer->ClearOrders();
+            pPlayer->AddOrder(eOrder, AtoI(vArgList[1]), V3_ZERO);
+        }
+        else if (pEnt->IsNpc())
+        {
+            if (pEnt->IsEnemy(pTargetEnt))
+                pEnt->GetAsNpc()->PlayerCommand(NPCCMD_ATTACK, AtoI(vArgList[1]), V3_ZERO);
+            else if (pTargetEnt->IsBuilding() && (pTargetEnt->GetStatus() == ENTITY_STATUS_SPAWNING || pTargetEnt->GetHealthPercent() < 1.0f))
+                pEnt->GetAsNpc()->PlayerCommand(NPCCMD_REPAIR, AtoI(vArgList[1]), V3_ZERO);
+            else
+                pEnt->GetAsNpc()->PlayerCommand(NPCCMD_FOLLOW, AtoI(vArgList[1]), V3_ZERO);
+        }
+        else if (pEnt->IsPet())
+        {
+            if (pEnt->IsEnemy(pTargetEnt))
+                pEnt->GetAsPet()->PlayerCommand(PETCMD_ATTACK, AtoI(vArgList[1]), V3_ZERO);
+            else if (pTargetEnt->IsBuilding() && (pTargetEnt->GetStatus() == ENTITY_STATUS_SPAWNING || pTargetEnt->GetHealthPercent() < 1.0f))
+                pEnt->GetAsPet()->PlayerCommand(PETCMD_REPAIR, AtoI(vArgList[1]), V3_ZERO);
+            else
+                pEnt->GetAsPet()->PlayerCommand(PETCMD_FOLLOW, AtoI(vArgList[1]), V3_ZERO);
+        }
 
-		return true;
-	}
-	else if (vArgList.size() >= 4)
-	{
-		CVec3f v3Position(AtoF(vArgList[1]), AtoF(vArgList[2]), AtoF(vArgList[3]));
+        return true;
+    }
+    else if (vArgList.size() >= 4)
+    {
+        CVec3f v3Position(AtoF(vArgList[1]), AtoF(vArgList[2]), AtoF(vArgList[3]));
 
-		if (pEnt->IsPlayer())
-		{
-			IPlayerEntity *pPlayer(pEnt->GetAsPlayerEnt());
+        if (pEnt->IsPlayer())
+        {
+            IPlayerEntity *pPlayer(pEnt->GetAsPlayerEnt());
 
-			pPlayer->ClearOrders();
-			pPlayer->AddOrder(CMDR_ORDER_MOVE, INVALID_INDEX, v3Position);
-		}
-		else if (pEnt->IsNpc())
-		{
-			INpcEntity *pNpc(pEnt->GetAsNpc());
+            pPlayer->ClearOrders();
+            pPlayer->AddOrder(CMDR_ORDER_MOVE, INVALID_INDEX, v3Position);
+        }
+        else if (pEnt->IsNpc())
+        {
+            INpcEntity *pNpc(pEnt->GetAsNpc());
 
-			pNpc->PlayerCommand(NPCCMD_MOVE, INVALID_INDEX, v3Position);
-		}
-		else if (pEnt->IsPet())
-		{
-			IPetEntity *pPet(pEnt->GetAsPet());
+            pNpc->PlayerCommand(NPCCMD_MOVE, INVALID_INDEX, v3Position);
+        }
+        else if (pEnt->IsPet())
+        {
+            IPetEntity *pPet(pEnt->GetAsPet());
 
-			pPet->PlayerCommand(PETCMD_MOVE, INVALID_INDEX, v3Position);
-		}
-		
-		return true;
-	}
+            pPet->PlayerCommand(PETCMD_MOVE, INVALID_INDEX, v3Position);
+        }
+        
+        return true;
+    }
 
-	return false;
+    return false;
 }
 
 /*--------------------
@@ -1309,80 +1309,80 @@ TRIGGER_CMD(SetOrder, Combat, 2)
   --------------------*/
 TRIGGER_CMD(AddOrder, Combat, 2)
 {
-	/*if (vArgList.size() < 2)
-	{
-		Console << _T("Syntax: SetOrder <index> <target index>") << newl;
-		return false;
-	}*/
+    /*if (vArgList.size() < 2)
+    {
+        Console << _T("Syntax: SetOrder <index> <target index>") << newl;
+        return false;
+    }*/
 
-	if (vArgList.size() == 2)
-	{
-		IVisualEntity *pTargetEnt(GameServer.GetVisualEntity(AtoI(vArgList[1])));
-		ECommanderOrder eOrder;
+    if (vArgList.size() == 2)
+    {
+        IVisualEntity *pTargetEnt(GameServer.GetVisualEntity(AtoI(vArgList[1])));
+        ECommanderOrder eOrder;
 
-		if (pTargetEnt == NULL)
-		{
-			Console << _T("SetOrder: Invalid target world index.") << newl;
-			return true;
-		}
+        if (pTargetEnt == NULL)
+        {
+            Console << _T("SetOrder: Invalid target world index.") << newl;
+            return true;
+        }
 
-		if (pEnt->IsEnemy(pTargetEnt))
-			eOrder = CMDR_ORDER_ATTACK;
-		else
-			eOrder = CMDR_ORDER_MOVE;
+        if (pEnt->IsEnemy(pTargetEnt))
+            eOrder = CMDR_ORDER_ATTACK;
+        else
+            eOrder = CMDR_ORDER_MOVE;
 
-		if (pEnt->IsPlayer())
-		{
-			IPlayerEntity *pPlayer(pEnt->GetAsPlayerEnt());
-			pPlayer->AddOrder(eOrder, AtoI(vArgList[1]), V3_ZERO);
-		}
-		else if (pEnt->IsNpc())
-		{
-			if (pEnt->IsEnemy(pTargetEnt))
-				pEnt->GetAsNpc()->PlayerCommand(NPCCMD_ATTACK, AtoI(vArgList[1]), V3_ZERO);
-			else if (pTargetEnt->IsBuilding() && (pTargetEnt->GetStatus() == ENTITY_STATUS_SPAWNING || pTargetEnt->GetHealthPercent() < 1.0f))
-				pEnt->GetAsNpc()->PlayerCommand(NPCCMD_REPAIR, AtoI(vArgList[1]), V3_ZERO);
-			else
-				pEnt->GetAsNpc()->PlayerCommand(NPCCMD_FOLLOW, AtoI(vArgList[1]), V3_ZERO);
-		}
-		else if (pEnt->IsPet())
-		{
-			if (pEnt->IsEnemy(pTargetEnt))
-				pEnt->GetAsPet()->PlayerCommand(PETCMD_ATTACK, AtoI(vArgList[1]), V3_ZERO);
-			else if (pTargetEnt->IsBuilding() && (pTargetEnt->GetStatus() == ENTITY_STATUS_SPAWNING || pTargetEnt->GetHealthPercent() < 1.0f))
-				pEnt->GetAsPet()->PlayerCommand(PETCMD_REPAIR, AtoI(vArgList[1]), V3_ZERO);
-			else
-				pEnt->GetAsPet()->PlayerCommand(PETCMD_FOLLOW, AtoI(vArgList[1]), V3_ZERO);
-		}
+        if (pEnt->IsPlayer())
+        {
+            IPlayerEntity *pPlayer(pEnt->GetAsPlayerEnt());
+            pPlayer->AddOrder(eOrder, AtoI(vArgList[1]), V3_ZERO);
+        }
+        else if (pEnt->IsNpc())
+        {
+            if (pEnt->IsEnemy(pTargetEnt))
+                pEnt->GetAsNpc()->PlayerCommand(NPCCMD_ATTACK, AtoI(vArgList[1]), V3_ZERO);
+            else if (pTargetEnt->IsBuilding() && (pTargetEnt->GetStatus() == ENTITY_STATUS_SPAWNING || pTargetEnt->GetHealthPercent() < 1.0f))
+                pEnt->GetAsNpc()->PlayerCommand(NPCCMD_REPAIR, AtoI(vArgList[1]), V3_ZERO);
+            else
+                pEnt->GetAsNpc()->PlayerCommand(NPCCMD_FOLLOW, AtoI(vArgList[1]), V3_ZERO);
+        }
+        else if (pEnt->IsPet())
+        {
+            if (pEnt->IsEnemy(pTargetEnt))
+                pEnt->GetAsPet()->PlayerCommand(PETCMD_ATTACK, AtoI(vArgList[1]), V3_ZERO);
+            else if (pTargetEnt->IsBuilding() && (pTargetEnt->GetStatus() == ENTITY_STATUS_SPAWNING || pTargetEnt->GetHealthPercent() < 1.0f))
+                pEnt->GetAsPet()->PlayerCommand(PETCMD_REPAIR, AtoI(vArgList[1]), V3_ZERO);
+            else
+                pEnt->GetAsPet()->PlayerCommand(PETCMD_FOLLOW, AtoI(vArgList[1]), V3_ZERO);
+        }
 
-		return true;
-	}
-	else if (vArgList.size() >= 4)
-	{
-		CVec3f v3Position(AtoF(vArgList[1]), AtoF(vArgList[2]), AtoF(vArgList[3]));
+        return true;
+    }
+    else if (vArgList.size() >= 4)
+    {
+        CVec3f v3Position(AtoF(vArgList[1]), AtoF(vArgList[2]), AtoF(vArgList[3]));
 
-		if (pEnt->IsPlayer())
-		{
-			IPlayerEntity *pPlayer(pEnt->GetAsPlayerEnt());
-			pPlayer->AddOrder(CMDR_ORDER_MOVE, INVALID_INDEX, v3Position);
-		}
-		else if (pEnt->IsNpc())
-		{
-			INpcEntity *pNpc(pEnt->GetAsNpc());
+        if (pEnt->IsPlayer())
+        {
+            IPlayerEntity *pPlayer(pEnt->GetAsPlayerEnt());
+            pPlayer->AddOrder(CMDR_ORDER_MOVE, INVALID_INDEX, v3Position);
+        }
+        else if (pEnt->IsNpc())
+        {
+            INpcEntity *pNpc(pEnt->GetAsNpc());
 
-			pNpc->PlayerCommand(NPCCMD_MOVE, INVALID_INDEX, v3Position);
-		}
-		else if (pEnt->IsPet())
-		{
-			IPetEntity *pPet(pEnt->GetAsPet());
+            pNpc->PlayerCommand(NPCCMD_MOVE, INVALID_INDEX, v3Position);
+        }
+        else if (pEnt->IsPet())
+        {
+            IPetEntity *pPet(pEnt->GetAsPet());
 
-			pPet->PlayerCommand(PETCMD_MOVE, INVALID_INDEX, v3Position);
-		}
-		
-		return true;
-	}
+            pPet->PlayerCommand(PETCMD_MOVE, INVALID_INDEX, v3Position);
+        }
+        
+        return true;
+    }
 
-	return false;
+    return false;
 }
 
 /*--------------------
@@ -1390,26 +1390,26 @@ TRIGGER_CMD(AddOrder, Combat, 2)
   --------------------*/
 TRIGGER_CMD(ClearOrders, Combat, 1)
 {
-	if (pEnt->IsPlayer())
-	{
-		IPlayerEntity *pPlayer(pEnt->GetAsPlayerEnt());
+    if (pEnt->IsPlayer())
+    {
+        IPlayerEntity *pPlayer(pEnt->GetAsPlayerEnt());
 
-		pPlayer->ClearOrders();
-	}
-	else if (pEnt->IsNpc())
-	{
-		INpcEntity *pNpc(pEnt->GetAsNpc());
+        pPlayer->ClearOrders();
+    }
+    else if (pEnt->IsNpc())
+    {
+        INpcEntity *pNpc(pEnt->GetAsNpc());
 
-		pNpc->PlayerCommand(NPCCMD_STOP, INVALID_INDEX, V3_ZERO);
-	}
-	else if (pEnt->IsPet())
-	{
-		IPetEntity *pPet(pEnt->GetAsPet());
+        pNpc->PlayerCommand(NPCCMD_STOP, INVALID_INDEX, V3_ZERO);
+    }
+    else if (pEnt->IsPet())
+    {
+        IPetEntity *pPet(pEnt->GetAsPet());
 
-		pPet->PlayerCommand(PETCMD_STOP, INVALID_INDEX, V3_ZERO);
-	}
-		
-	return true;
+        pPet->PlayerCommand(PETCMD_STOP, INVALID_INDEX, V3_ZERO);
+    }
+        
+    return true;
 }
 
 /*--------------------
@@ -1417,15 +1417,15 @@ TRIGGER_CMD(ClearOrders, Combat, 1)
   --------------------*/
 TRIGGER_CMD(TriggerEntity, Trigger, 3)
 {
-	/*if (vArgList.size() < 3)
-	{
-		Console << _T("Syntax: Trigger <trigger index> <triggering index> <play effect, true/false>") << newl;
-		return false;
-	}*/
+    /*if (vArgList.size() < 3)
+    {
+        Console << _T("Syntax: Trigger <trigger index> <triggering index> <play effect, true/false>") << newl;
+        return false;
+    }*/
 
-	pEnt->Trigger(AtoI(vArgList[1]), _T(""), AtoB(vArgList[2]));
+    pEnt->Trigger(AtoI(vArgList[1]), _T(""), AtoB(vArgList[2]));
 
-	return true;
+    return true;
 }
 
 /*--------------------
@@ -1433,18 +1433,18 @@ TRIGGER_CMD(TriggerEntity, Trigger, 3)
   --------------------*/
 TRIGGER_CMD(EnableTrigger, Trigger, 1)
 {
-	/*if (vArgList.size() < 1)
-	{
-		Console << _T("Syntax: EnableTrigger <index> [amount of time - optional]") << newl;
-		return false;
-	}*/
+    /*if (vArgList.size() < 1)
+    {
+        Console << _T("Syntax: EnableTrigger <index> [amount of time - optional]") << newl;
+        return false;
+    }*/
 
-	if (vArgList.size() > 1)
-		pEnt->Enable(AtoI(vArgList[1]));
-	else
-		pEnt->Enable();
+    if (vArgList.size() > 1)
+        pEnt->Enable(AtoI(vArgList[1]));
+    else
+        pEnt->Enable();
 
-	return true;
+    return true;
 }
 
 /*--------------------
@@ -1452,18 +1452,18 @@ TRIGGER_CMD(EnableTrigger, Trigger, 1)
   --------------------*/
 TRIGGER_CMD(DisableTrigger, Trigger, 1)
 {
-	/*if (vArgList.size() < 1)
-	{
-		Console << _T("Syntax: DisableTrigger <index> [amount of time - optional]") << newl;
-		return false;
-	}*/
+    /*if (vArgList.size() < 1)
+    {
+        Console << _T("Syntax: DisableTrigger <index> [amount of time - optional]") << newl;
+        return false;
+    }*/
 
-	if (vArgList.size() > 1)
-		pEnt->Disable(AtoI(vArgList[1]));
-	else
-		pEnt->Disable();
+    if (vArgList.size() > 1)
+        pEnt->Disable(AtoI(vArgList[1]));
+    else
+        pEnt->Disable();
 
-	return true;
+    return true;
 }
 
 
@@ -1472,18 +1472,18 @@ TRIGGER_CMD(DisableTrigger, Trigger, 1)
   --------------------*/
 TRIGGER_CMD(EnableItem, Combat, 2)
 {
-	/*if (vArgList.size() < 2)
-	{
-		Console << _T("Syntax: EnableItem <index> <slot>") << newl;
-		return false;
-	}*/
+    /*if (vArgList.size() < 2)
+    {
+        Console << _T("Syntax: EnableItem <index> <slot>") << newl;
+        return false;
+    }*/
 
-	IInventoryItem *pItem(pEnt->GetItem(AtoI(vArgList[1]) - 1));
+    IInventoryItem *pItem(pEnt->GetItem(AtoI(vArgList[1]) - 1));
 
-	if (pItem != NULL)
-		pItem->Enable();
+    if (pItem != NULL)
+        pItem->Enable();
 
-	return true;
+    return true;
 }
 
 
@@ -1492,18 +1492,18 @@ TRIGGER_CMD(EnableItem, Combat, 2)
   --------------------*/
 TRIGGER_CMD(DisableItem, Combat, 2)
 {
-	/*if (vArgList.size() < 2)
-	{
-		Console << _T("Syntax: DisableItem <index> <slot>") << newl;
-		return false;
-	}*/
+    /*if (vArgList.size() < 2)
+    {
+        Console << _T("Syntax: DisableItem <index> <slot>") << newl;
+        return false;
+    }*/
 
-	IInventoryItem *pItem(pEnt->GetItem(AtoI(vArgList[1]) - 1));
+    IInventoryItem *pItem(pEnt->GetItem(AtoI(vArgList[1]) - 1));
 
-	if (pItem != NULL)
-		pItem->Disable();
+    if (pItem != NULL)
+        pItem->Disable();
 
-	return true;
+    return true;
 }
 
 /*--------------------
@@ -1511,9 +1511,9 @@ TRIGGER_CMD(DisableItem, Combat, 2)
   --------------------*/
 TRIGGER_CMD(RegisterEntityScript, Visual, 3)
 {
-	TriggerManager.RegisterEntityScript(pEnt->GetIndex(), vArgList[1], ConcatinateArgs(vArgList.begin() + 2, vArgList.end()));
+    TriggerManager.RegisterEntityScript(pEnt->GetIndex(), vArgList[1], ConcatinateArgs(vArgList.begin() + 2, vArgList.end()));
 
-	return true;
+    return true;
 }
 
 /*--------------------
@@ -1521,12 +1521,12 @@ TRIGGER_CMD(RegisterEntityScript, Visual, 3)
   --------------------*/
 SERVER_CMD(RegisterGlobalScript)
 {
-	if (vArgList.size() < 2)
-		return false;
+    if (vArgList.size() < 2)
+        return false;
 
-	TriggerManager.RegisterGlobalScript(vArgList[2], ConcatinateArgs(vArgList.begin() + 1, vArgList.end()));
+    TriggerManager.RegisterGlobalScript(vArgList[2], ConcatinateArgs(vArgList.begin() + 1, vArgList.end()));
 
-	return true;
+    return true;
 }
 
 /*--------------------
@@ -1534,19 +1534,19 @@ SERVER_CMD(RegisterGlobalScript)
   --------------------*/
 SERVER_CMD(StartEffect)
 {
-	if (vArgList.size() < 4)
-	{
-		Console << _T("Syntax: StartEffect <effect> <X> <Y> <Z>") << newl;
-		return false;
-	}
+    if (vArgList.size() < 4)
+    {
+        Console << _T("Syntax: StartEffect <effect> <X> <Y> <Z>") << newl;
+        return false;
+    }
 
-	CGameEvent ev;
-	ev.SetSourcePosition(CVec3f(AtoF(vArgList[1]), AtoF(vArgList[2]), AtoF(vArgList[3])));
-	ev.SetEffect(g_ResourceManager.Register(vArgList[0], RES_EFFECT));
-	ev.Spawn();
-	GameServer.AddEvent(ev);
+    CGameEvent ev;
+    ev.SetSourcePosition(CVec3f(AtoF(vArgList[1]), AtoF(vArgList[2]), AtoF(vArgList[3])));
+    ev.SetEffect(g_ResourceManager.Register(vArgList[0], RES_EFFECT));
+    ev.Spawn();
+    GameServer.AddEvent(ev);
 
-	return true;
+    return true;
 }
 
 /*--------------------
@@ -1554,16 +1554,16 @@ SERVER_CMD(StartEffect)
   --------------------*/
 TRIGGER_CMD(StartEffectOnObject, Visual, 2)
 {
-	/*if (vArgList.size() < 2)
-	{
-		Console << _T("Syntax: StartEffectOnObject <index> <effect>") << newl;
-		return false;
-	}*/
+    /*if (vArgList.size() < 2)
+    {
+        Console << _T("Syntax: StartEffectOnObject <index> <effect>") << newl;
+        return false;
+    }*/
 
-	pEnt->SetEffect(EFFECT_CHANNEL_TRIGGER, g_ResourceManager.Register(vArgList[1], RES_EFFECT));
-	pEnt->IncEffectSequence(EFFECT_CHANNEL_TRIGGER);
+    pEnt->SetEffect(EFFECT_CHANNEL_TRIGGER, g_ResourceManager.Register(vArgList[1], RES_EFFECT));
+    pEnt->IncEffectSequence(EFFECT_CHANNEL_TRIGGER);
 
-	return true;
+    return true;
 }
 
 /*--------------------
@@ -1571,9 +1571,9 @@ TRIGGER_CMD(StartEffectOnObject, Visual, 2)
   --------------------*/
 TRIGGER_CMD(DamageEntity, Visual, 2)
 {
-	pEnt->Damage(AtoF(vArgList[1]), DAMAGE_FLAG_DIRECT);
+    pEnt->Damage(AtoF(vArgList[1]), DAMAGE_FLAG_DIRECT);
 
-	return true;
+    return true;
 }
 
 /*--------------------
@@ -1581,73 +1581,73 @@ TRIGGER_CMD(DamageEntity, Visual, 2)
   --------------------*/
 SERVER_CMD(SpawnObject)
 {
-	if (vArgList.size() < 5)
-	{
-		Console << _T("Syntax: SpawnObject <object> <X> <Y> <Z> <team> [Model - Optional] [Definition - Optional]") << newl;
-		return false;
-	}
+    if (vArgList.size() < 5)
+    {
+        Console << _T("Syntax: SpawnObject <object> <X> <Y> <Z> <team> [Model - Optional] [Definition - Optional]") << newl;
+        return false;
+    }
 
-	ushort unID(EntityRegistry.LookupID(vArgList[0]));
+    ushort unID(EntityRegistry.LookupID(vArgList[0]));
 
-	if (unID == INVALID_ENT_TYPE)
-	{
-		Console << _T("SpawnObject: Invalid object specified.") << newl;
-		return true;
-	}
+    if (unID == INVALID_ENT_TYPE)
+    {
+        Console << _T("SpawnObject: Invalid object specified.") << newl;
+        return true;
+    }
 
-	IGameEntity* pNewEnt(GameServer.AllocateEntity(unID));
+    IGameEntity* pNewEnt(GameServer.AllocateEntity(unID));
 
-	if (pNewEnt == NULL)
-	{
-		Console << _T("SpawnObject: Object could not be allocated.") << newl;
-		return true;
-	}
+    if (pNewEnt == NULL)
+    {
+        Console << _T("SpawnObject: Object could not be allocated.") << newl;
+        return true;
+    }
 
-	IVisualEntity *pEnt(pNewEnt->GetAsVisualEnt());
+    IVisualEntity *pEnt(pNewEnt->GetAsVisualEnt());
 
-	if (pEnt == NULL)
-	{
-		Console << _T("SpawnObject: Improper entity type.") << newl;
-		GameServer.DeleteEntity(pNewEnt);
-		return true;
-	}
+    if (pEnt == NULL)
+    {
+        Console << _T("SpawnObject: Improper entity type.") << newl;
+        GameServer.DeleteEntity(pNewEnt);
+        return true;
+    }
 
-	uint uiWorldIndex(GameServer.AllocateNewWorldEntity());
-	CWorldEntity *pWorldEnt(GameServer.GetWorldEntity(uiWorldIndex));
+    uint uiWorldIndex(GameServer.AllocateNewWorldEntity());
+    CWorldEntity *pWorldEnt(GameServer.GetWorldEntity(uiWorldIndex));
 
-	if (pWorldEnt == NULL)
-	{
-		Console << _T("SpawnObject: World entity could not be created.") << newl;
-		GameServer.DeleteEntity(pNewEnt);
-		return true;
-	}
+    if (pWorldEnt == NULL)
+    {
+        Console << _T("SpawnObject: World entity could not be created.") << newl;
+        GameServer.DeleteEntity(pNewEnt);
+        return true;
+    }
 
-	pWorldEnt->SetType(vArgList[0]);
-	pWorldEnt->SetTeam(AtoI(vArgList[4]));
-	pWorldEnt->SetPosition(CVec3f(AtoF(vArgList[1]), AtoF(vArgList[2]), AtoF(vArgList[3])));
-	pWorldEnt->SetGameIndex(pEnt->GetIndex());
+    pWorldEnt->SetType(vArgList[0]);
+    pWorldEnt->SetTeam(AtoI(vArgList[4]));
+    pWorldEnt->SetPosition(CVec3f(AtoF(vArgList[1]), AtoF(vArgList[2]), AtoF(vArgList[3])));
+    pWorldEnt->SetGameIndex(pEnt->GetIndex());
 
-	if (vArgList.size() > 5)
-	{
-		pWorldEnt->SetModelPath(vArgList[5]);
-		pWorldEnt->SetModelHandle(GameServer.RegisterModel(vArgList[5]));
-	}
+    if (vArgList.size() > 5)
+    {
+        pWorldEnt->SetModelPath(vArgList[5]);
+        pWorldEnt->SetModelHandle(GameServer.RegisterModel(vArgList[5]));
+    }
 
-	if (vArgList.size() > 6)
-		pWorldEnt->SetProperty(_T("definition"), vArgList[6]);
+    if (vArgList.size() > 6)
+        pWorldEnt->SetProperty(_T("definition"), vArgList[6]);
 
-	if (pEnt->GetWorldIndex() != INVALID_INDEX)
-		GameServer.DeleteWorldEntity(pEnt->GetWorldIndex());
+    if (pEnt->GetWorldIndex() != INVALID_INDEX)
+        GameServer.DeleteWorldEntity(pEnt->GetWorldIndex());
 
-	pEnt->ApplyWorldEntity(*pWorldEnt);
-	pEnt->Spawn();
+    pEnt->ApplyWorldEntity(*pWorldEnt);
+    pEnt->Spawn();
 
-	pEnt->Validate();
+    pEnt->Validate();
 
-	if (g_pCurrentScript != NULL)
-		g_pCurrentScript->AddParameter(_T("spawnedindex"), XtoA(pEnt->GetIndex()));
+    if (g_pCurrentScript != NULL)
+        g_pCurrentScript->AddParameter(_T("spawnedindex"), XtoA(pEnt->GetIndex()));
 
-	return true;
+    return true;
 }
 
 
@@ -1656,68 +1656,68 @@ SERVER_CMD(SpawnObject)
   --------------------*/
 TRIGGER_CMD(SpawnFromObject, Visual, 3)
 {
-	ushort unID(EntityRegistry.LookupID(vArgList[1]));
+    ushort unID(EntityRegistry.LookupID(vArgList[1]));
 
-	if (unID == INVALID_ENT_TYPE)
-	{
-		Console << _T("SpawnFromObject: Invalid object specified.") << newl;
-		return true;
-	}
+    if (unID == INVALID_ENT_TYPE)
+    {
+        Console << _T("SpawnFromObject: Invalid object specified.") << newl;
+        return true;
+    }
 
-	IGameEntity* pNewEnt(GameServer.AllocateEntity(unID, pEnt->GetIndex() + 1));
+    IGameEntity* pNewEnt(GameServer.AllocateEntity(unID, pEnt->GetIndex() + 1));
 
-	if (pNewEnt == NULL)
-	{
-		Console << _T("SpawnFromObject: Object could not be allocated.") << newl;
-		return true;
-	}
+    if (pNewEnt == NULL)
+    {
+        Console << _T("SpawnFromObject: Object could not be allocated.") << newl;
+        return true;
+    }
 
-	IVisualEntity *pVisEnt(pNewEnt->GetAsVisualEnt());
+    IVisualEntity *pVisEnt(pNewEnt->GetAsVisualEnt());
 
-	if (pVisEnt == NULL)
-	{
-		Console << _T("SpawnFromObject: Improper entity type.") << newl;
-		GameServer.DeleteEntity(pNewEnt);
-		return true;
-	}
+    if (pVisEnt == NULL)
+    {
+        Console << _T("SpawnFromObject: Improper entity type.") << newl;
+        GameServer.DeleteEntity(pNewEnt);
+        return true;
+    }
 
-	uint uiWorldIndex(GameServer.AllocateNewWorldEntity());
-	CWorldEntity *pWorldEnt(GameServer.GetWorldEntity(uiWorldIndex));
+    uint uiWorldIndex(GameServer.AllocateNewWorldEntity());
+    CWorldEntity *pWorldEnt(GameServer.GetWorldEntity(uiWorldIndex));
 
-	if (pWorldEnt == NULL)
-	{
-		Console << _T("SpawnFromObject: World entity could not be created.") << newl;
-		GameServer.DeleteEntity(pNewEnt);
-		return true;
-	}
+    if (pWorldEnt == NULL)
+    {
+        Console << _T("SpawnFromObject: World entity could not be created.") << newl;
+        GameServer.DeleteEntity(pNewEnt);
+        return true;
+    }
 
-	pWorldEnt->SetType(vArgList[1]);
-	pWorldEnt->SetTeam(AtoI(vArgList[2]));
-	pWorldEnt->SetPosition(pEnt->GetPosition());
-	pWorldEnt->SetAngles(pEnt->GetAngles());
-	pWorldEnt->SetGameIndex(pVisEnt->GetIndex());
+    pWorldEnt->SetType(vArgList[1]);
+    pWorldEnt->SetTeam(AtoI(vArgList[2]));
+    pWorldEnt->SetPosition(pEnt->GetPosition());
+    pWorldEnt->SetAngles(pEnt->GetAngles());
+    pWorldEnt->SetGameIndex(pVisEnt->GetIndex());
 
-	if (vArgList.size() > 3)
-	{
-		pWorldEnt->SetModelPath(vArgList[3]);
-		pWorldEnt->SetModelHandle(GameServer.RegisterModel(vArgList[3]));
-	}
+    if (vArgList.size() > 3)
+    {
+        pWorldEnt->SetModelPath(vArgList[3]);
+        pWorldEnt->SetModelHandle(GameServer.RegisterModel(vArgList[3]));
+    }
 
-	if (vArgList.size() > 4)
-		pWorldEnt->SetProperty(_T("definition"), vArgList[4]);
+    if (vArgList.size() > 4)
+        pWorldEnt->SetProperty(_T("definition"), vArgList[4]);
 
-	if (pVisEnt->GetWorldIndex() != INVALID_INDEX)
-		GameServer.DeleteWorldEntity(pVisEnt->GetWorldIndex());
+    if (pVisEnt->GetWorldIndex() != INVALID_INDEX)
+        GameServer.DeleteWorldEntity(pVisEnt->GetWorldIndex());
 
-	pVisEnt->ApplyWorldEntity(*pWorldEnt);
-	pVisEnt->Spawn();
+    pVisEnt->ApplyWorldEntity(*pWorldEnt);
+    pVisEnt->Spawn();
 
-	pVisEnt->Validate();
+    pVisEnt->Validate();
 
-	if (g_pCurrentScript != NULL)
-		g_pCurrentScript->AddParameter(_T("spawnedindex"), XtoA(pVisEnt->GetIndex()));
+    if (g_pCurrentScript != NULL)
+        g_pCurrentScript->AddParameter(_T("spawnedindex"), XtoA(pVisEnt->GetIndex()));
 
-	return true;
+    return true;
 }
 
 /*--------------------
@@ -1725,55 +1725,55 @@ TRIGGER_CMD(SpawnFromObject, Visual, 3)
   --------------------*/
 TRIGGER_CMD(CopyObject, Visual, 1)
 {
-	/*if (vArgList.size() < 1)
-	{
-		Console << _T("Syntax: CopyObject <target index>") << newl;
-		return false;
-	}*/
+    /*if (vArgList.size() < 1)
+    {
+        Console << _T("Syntax: CopyObject <target index>") << newl;
+        return false;
+    }*/
 
-	IGameEntity* pNewEnt(GameServer.AllocateEntity(pEnt->GetType()));
+    IGameEntity* pNewEnt(GameServer.AllocateEntity(pEnt->GetType()));
 
-	if (pNewEnt == NULL)
-	{
-		Console << _T("CopyObject: Object could not be allocated.") << newl;
-		return true;
-	}
+    if (pNewEnt == NULL)
+    {
+        Console << _T("CopyObject: Object could not be allocated.") << newl;
+        return true;
+    }
 
-	IVisualEntity *pVisEnt(pNewEnt->GetAsVisualEnt());
+    IVisualEntity *pVisEnt(pNewEnt->GetAsVisualEnt());
 
-	if (pVisEnt == NULL || pVisEnt->GetType() != pEnt->GetType())
-	{
-		Console << _T("CopyObject: Improper entity type.") << newl;
-		GameServer.DeleteEntity(pNewEnt);
-		return true;
-	}
+    if (pVisEnt == NULL || pVisEnt->GetType() != pEnt->GetType())
+    {
+        Console << _T("CopyObject: Improper entity type.") << newl;
+        GameServer.DeleteEntity(pNewEnt);
+        return true;
+    }
 
-	uint uiWorldIndex(GameServer.AllocateNewWorldEntity());
-	CWorldEntity *pWorldEnt(GameServer.GetWorldEntity(uiWorldIndex));
+    uint uiWorldIndex(GameServer.AllocateNewWorldEntity());
+    CWorldEntity *pWorldEnt(GameServer.GetWorldEntity(uiWorldIndex));
 
-	if (pWorldEnt == NULL)
-	{
-		Console << _T("CopyObject: World entity could not be created.") << newl;
-		GameServer.DeleteEntity(pNewEnt);
-		return true;
-	}
+    if (pWorldEnt == NULL)
+    {
+        Console << _T("CopyObject: World entity could not be created.") << newl;
+        GameServer.DeleteEntity(pNewEnt);
+        return true;
+    }
 
-	uint uiNewIndex(pEnt->GetWorldIndex());
-	CWorldEntity *pTargetEnt(GameServer.GetWorldEntity(uiNewIndex));
+    uint uiNewIndex(pEnt->GetWorldIndex());
+    CWorldEntity *pTargetEnt(GameServer.GetWorldEntity(uiNewIndex));
 
-	(*pWorldEnt) = (*pTargetEnt);
-	pWorldEnt->SetIndex(uiNewIndex);
-	pWorldEnt->SetGameIndex(pVisEnt->GetIndex());
+    (*pWorldEnt) = (*pTargetEnt);
+    pWorldEnt->SetIndex(uiNewIndex);
+    pWorldEnt->SetGameIndex(pVisEnt->GetIndex());
 
-	pVisEnt->ApplyWorldEntity(*pWorldEnt);
-	pVisEnt->Spawn();
+    pVisEnt->ApplyWorldEntity(*pWorldEnt);
+    pVisEnt->Spawn();
 
-	pVisEnt->Validate();
+    pVisEnt->Validate();
 
-	if (g_pCurrentScript != NULL)
-		g_pCurrentScript->AddParameter(_T("spawnedindex"), XtoA(pVisEnt->GetIndex()));
+    if (g_pCurrentScript != NULL)
+        g_pCurrentScript->AddParameter(_T("spawnedindex"), XtoA(pVisEnt->GetIndex()));
 
-	return true;
+    return true;
 }
 
 
@@ -1782,100 +1782,100 @@ TRIGGER_CMD(CopyObject, Visual, 1)
   --------------------*/
 SERVER_CMD(SpawnEntity)
 {
-	if (vArgList.size() < 1 || (int(vArgList.size()) - 1) % 2 != 0)
-	{
-		Console << _T("Syntax: SpawnEntity <type> [property1] [value1] [property2] [value2] ... [propertyN] [valueN]") << newl;
-		return false;
-	}
+    if (vArgList.size() < 1 || (int(vArgList.size()) - 1) % 2 != 0)
+    {
+        Console << _T("Syntax: SpawnEntity <type> [property1] [value1] [property2] [value2] ... [propertyN] [valueN]") << newl;
+        return false;
+    }
 
-	ushort unID(EntityRegistry.LookupID(vArgList[0]));
+    ushort unID(EntityRegistry.LookupID(vArgList[0]));
 
-	if (unID == INVALID_ENT_TYPE)
-	{
-		Console << _T("SpawnEntity: Invalid entity specified.") << newl;
-		return true;
-	}
+    if (unID == INVALID_ENT_TYPE)
+    {
+        Console << _T("SpawnEntity: Invalid entity specified.") << newl;
+        return true;
+    }
 
-	IGameEntity* pNewEnt(GameServer.AllocateEntity(unID));
+    IGameEntity* pNewEnt(GameServer.AllocateEntity(unID));
 
-	if (pNewEnt == NULL)
-	{
-		Console << _T("SpawnEntity: Entity could not be allocated.") << newl;
-		return true;
-	}
+    if (pNewEnt == NULL)
+    {
+        Console << _T("SpawnEntity: Entity could not be allocated.") << newl;
+        return true;
+    }
 
-	IVisualEntity *pEnt(pNewEnt->GetAsVisualEnt());
+    IVisualEntity *pEnt(pNewEnt->GetAsVisualEnt());
 
-	if (pEnt == NULL)
-	{
-		Console << _T("SpawnEntity: Improper entity type.") << newl;
-		GameServer.DeleteEntity(pNewEnt);
-		return true;
-	}
+    if (pEnt == NULL)
+    {
+        Console << _T("SpawnEntity: Improper entity type.") << newl;
+        GameServer.DeleteEntity(pNewEnt);
+        return true;
+    }
 
-	uint uiWorldIndex(GameServer.AllocateNewWorldEntity());
-	CWorldEntity *pWorldEnt(GameServer.GetWorldEntity(uiWorldIndex));
+    uint uiWorldIndex(GameServer.AllocateNewWorldEntity());
+    CWorldEntity *pWorldEnt(GameServer.GetWorldEntity(uiWorldIndex));
 
-	if (pWorldEnt == NULL)
-	{
-		Console << _T("SpawnEntity: World entity could not be created.") << newl;
-		GameServer.DeleteEntity(pNewEnt);
-		return true;
-	}
+    if (pWorldEnt == NULL)
+    {
+        Console << _T("SpawnEntity: World entity could not be created.") << newl;
+        GameServer.DeleteEntity(pNewEnt);
+        return true;
+    }
 
-	pWorldEnt->SetType(vArgList[0]);
-	pWorldEnt->SetGameIndex(pNewEnt->GetIndex());
+    pWorldEnt->SetType(vArgList[0]);
+    pWorldEnt->SetGameIndex(pNewEnt->GetIndex());
 
-	int iNumProperties((int(vArgList.size()) - 1) / 2);
+    int iNumProperties((int(vArgList.size()) - 1) / 2);
 
-	for (int i(0); i < iNumProperties; ++i)
-	{
-		const tstring &sProperty(vArgList[1 + i * 2]);
-		const tstring &sValue(vArgList[1 + i * 2 + 1]);
+    for (int i(0); i < iNumProperties; ++i)
+    {
+        const tstring &sProperty(vArgList[1 + i * 2]);
+        const tstring &sValue(vArgList[1 + i * 2 + 1]);
 
-		if (sProperty == _T("position"))
-		{
-			pWorldEnt->SetPosition(AtoV3(sValue));
-		}
-		else if (sProperty == _T("angles"))
-		{
-			pWorldEnt->SetAngles(AtoV3(sValue));
-		}
-		else if (sProperty == _T("scale"))
-		{
-			pWorldEnt->SetScale(AtoF(sValue));
-		}
-		else if (sProperty == _T("team"))
-		{
-			pWorldEnt->SetTeam(AtoI(sValue));
-		}
-		else if (sProperty == _T("model"))
-		{
-			pWorldEnt->SetModelPath(sValue);
-		}
-		else if (sProperty == _T("name"))
-		{
-			pWorldEnt->SetName(sValue);
-		}
-		else
-		{
-			pWorldEnt->SetProperty(sProperty, sValue);
-		}
-	}
+        if (sProperty == _T("position"))
+        {
+            pWorldEnt->SetPosition(AtoV3(sValue));
+        }
+        else if (sProperty == _T("angles"))
+        {
+            pWorldEnt->SetAngles(AtoV3(sValue));
+        }
+        else if (sProperty == _T("scale"))
+        {
+            pWorldEnt->SetScale(AtoF(sValue));
+        }
+        else if (sProperty == _T("team"))
+        {
+            pWorldEnt->SetTeam(AtoI(sValue));
+        }
+        else if (sProperty == _T("model"))
+        {
+            pWorldEnt->SetModelPath(sValue);
+        }
+        else if (sProperty == _T("name"))
+        {
+            pWorldEnt->SetName(sValue);
+        }
+        else
+        {
+            pWorldEnt->SetProperty(sProperty, sValue);
+        }
+    }
 
-	// This probably isn't needed, but just to be sure
-	if (pEnt->GetWorldIndex() != INVALID_INDEX)
-		GameServer.DeleteWorldEntity(pEnt->GetWorldIndex());
+    // This probably isn't needed, but just to be sure
+    if (pEnt->GetWorldIndex() != INVALID_INDEX)
+        GameServer.DeleteWorldEntity(pEnt->GetWorldIndex());
 
-	pEnt->ApplyWorldEntity(*pWorldEnt);
-	pEnt->Spawn();
+    pEnt->ApplyWorldEntity(*pWorldEnt);
+    pEnt->Spawn();
 
-	pEnt->Validate();
+    pEnt->Validate();
 
-	if (g_pCurrentScript != NULL)
-		g_pCurrentScript->AddParameter(_T("spawnedindex"), XtoA(pEnt->GetIndex()));
+    if (g_pCurrentScript != NULL)
+        g_pCurrentScript->AddParameter(_T("spawnedindex"), XtoA(pEnt->GetIndex()));
 
-	return true;
+    return true;
 }
 
 
@@ -1884,100 +1884,100 @@ SERVER_CMD(SpawnEntity)
   --------------------*/
 TRIGGER_CMD(SpawnEntityAtEntity, Visual, 2)
 {
-	if ((int(vArgList.size()) - 2) % 2 != 0)
-	{
-		Console << _T("Syntax: SpawnEntityAtEntity <entity> <type> [property1] [value1] [property2] [value2] ... [propertyN] [valueN]") << newl;
-		return false;
-	}
+    if ((int(vArgList.size()) - 2) % 2 != 0)
+    {
+        Console << _T("Syntax: SpawnEntityAtEntity <entity> <type> [property1] [value1] [property2] [value2] ... [propertyN] [valueN]") << newl;
+        return false;
+    }
 
-	ushort unID(EntityRegistry.LookupID(vArgList[1]));
+    ushort unID(EntityRegistry.LookupID(vArgList[1]));
 
-	if (unID == INVALID_ENT_TYPE)
-	{
-		Console << _T("SpawnEntityAtEntity: Invalid entity specified.") << newl;
-		return true;
-	}
+    if (unID == INVALID_ENT_TYPE)
+    {
+        Console << _T("SpawnEntityAtEntity: Invalid entity specified.") << newl;
+        return true;
+    }
 
-	IGameEntity* pNewEnt(GameServer.AllocateEntity(unID));
+    IGameEntity* pNewEnt(GameServer.AllocateEntity(unID));
 
-	if (pNewEnt == NULL)
-	{
-		Console << _T("SpawnEntityAtEntity: Object could not be allocated.") << newl;
-		return true;
-	}
+    if (pNewEnt == NULL)
+    {
+        Console << _T("SpawnEntityAtEntity: Object could not be allocated.") << newl;
+        return true;
+    }
 
-	IVisualEntity *pVisEnt(pNewEnt->GetAsVisualEnt());
+    IVisualEntity *pVisEnt(pNewEnt->GetAsVisualEnt());
 
-	if (pVisEnt == NULL)
-	{
-		Console << _T("SpawnEntityAtEntity: Improper entity type.") << newl;
-		GameServer.DeleteEntity(pNewEnt);
-		return true;
-	}
+    if (pVisEnt == NULL)
+    {
+        Console << _T("SpawnEntityAtEntity: Improper entity type.") << newl;
+        GameServer.DeleteEntity(pNewEnt);
+        return true;
+    }
 
-	uint uiWorldIndex(GameServer.AllocateNewWorldEntity());
-	CWorldEntity *pWorldEnt(GameServer.GetWorldEntity(uiWorldIndex));
+    uint uiWorldIndex(GameServer.AllocateNewWorldEntity());
+    CWorldEntity *pWorldEnt(GameServer.GetWorldEntity(uiWorldIndex));
 
-	if (pWorldEnt == NULL)
-	{
-		Console << _T("SpawnFromObject: World entity could not be created.") << newl;
-		GameServer.DeleteEntity(pNewEnt);
-		return true;
-	}
+    if (pWorldEnt == NULL)
+    {
+        Console << _T("SpawnFromObject: World entity could not be created.") << newl;
+        GameServer.DeleteEntity(pNewEnt);
+        return true;
+    }
 
-	pWorldEnt->SetType(vArgList[1]);
-	pWorldEnt->SetGameIndex(pNewEnt->GetIndex());
+    pWorldEnt->SetType(vArgList[1]);
+    pWorldEnt->SetGameIndex(pNewEnt->GetIndex());
 
-	// Use <entity> position and angles as defaults
-	pWorldEnt->SetPosition(pEnt->GetPosition());
-	pWorldEnt->SetAngles(pEnt->GetAngles());
+    // Use <entity> position and angles as defaults
+    pWorldEnt->SetPosition(pEnt->GetPosition());
+    pWorldEnt->SetAngles(pEnt->GetAngles());
 
-	int iNumProperties((int(vArgList.size()) - 2) / 2);
+    int iNumProperties((int(vArgList.size()) - 2) / 2);
 
-	for (int i(0); i < iNumProperties; ++i)
-	{
-		const tstring &sProperty(vArgList[2 + i * 2]);
-		const tstring &sValue(vArgList[2 + i * 2 + 1]);
+    for (int i(0); i < iNumProperties; ++i)
+    {
+        const tstring &sProperty(vArgList[2 + i * 2]);
+        const tstring &sValue(vArgList[2 + i * 2 + 1]);
 
-		if (sProperty == _T("position"))
-		{
-			pWorldEnt->SetPosition(AtoV3(sValue));
-		}
-		else if (sProperty == _T("angles"))
-		{
-			pWorldEnt->SetAngles(AtoV3(sValue));
-		}
-		else if (sProperty == _T("scale"))
-		{
-			pWorldEnt->SetScale(AtoF(sValue));
-		}
-		else if (sProperty == _T("team"))
-		{
-			pWorldEnt->SetTeam(AtoI(sValue));
-		}
-		else if (sProperty == _T("model"))
-		{
-			pWorldEnt->SetModelPath(sValue);
-		}
-		else if (sProperty == _T("name"))
-		{
-			pWorldEnt->SetName(sValue);
-		}
-		else
-		{
-			pWorldEnt->SetProperty(sProperty, sValue);
-		}
-	}
+        if (sProperty == _T("position"))
+        {
+            pWorldEnt->SetPosition(AtoV3(sValue));
+        }
+        else if (sProperty == _T("angles"))
+        {
+            pWorldEnt->SetAngles(AtoV3(sValue));
+        }
+        else if (sProperty == _T("scale"))
+        {
+            pWorldEnt->SetScale(AtoF(sValue));
+        }
+        else if (sProperty == _T("team"))
+        {
+            pWorldEnt->SetTeam(AtoI(sValue));
+        }
+        else if (sProperty == _T("model"))
+        {
+            pWorldEnt->SetModelPath(sValue);
+        }
+        else if (sProperty == _T("name"))
+        {
+            pWorldEnt->SetName(sValue);
+        }
+        else
+        {
+            pWorldEnt->SetProperty(sProperty, sValue);
+        }
+    }
 
-	pVisEnt->ApplyWorldEntity(*pWorldEnt);
-	pVisEnt->Spawn();
+    pVisEnt->ApplyWorldEntity(*pWorldEnt);
+    pVisEnt->Spawn();
 
-	pVisEnt->Validate();
+    pVisEnt->Validate();
 
-	if (g_pCurrentScript != NULL)
-		g_pCurrentScript->AddParameter(_T("spawnedindex"), XtoA(pVisEnt->GetIndex()));
+    if (g_pCurrentScript != NULL)
+        g_pCurrentScript->AddParameter(_T("spawnedindex"), XtoA(pVisEnt->GetIndex()));
 
-	return true;
+    return true;
 }
 
 
@@ -1986,8 +1986,8 @@ TRIGGER_CMD(SpawnEntityAtEntity, Visual, 2)
   --------------------*/
 TRIGGER_CMD(SetAmmo, Combat, 3)
 {
-	pEnt->SetAmmo(AtoI(vArgList[1]) - 1, AtoI(vArgList[2]));
-	return true;
+    pEnt->SetAmmo(AtoI(vArgList[1]) - 1, AtoI(vArgList[2]));
+    return true;
 }
 
 /*--------------------
@@ -1995,12 +1995,12 @@ TRIGGER_CMD(SetAmmo, Combat, 3)
   --------------------*/
 TRIGGER_CMD(RefillAmmo, Combat, 1)
 {
-	if (vArgList.size() > 1)
-		pEnt->RefillAmmo(AtoI(vArgList[1]) - 1);
-	else
-		pEnt->RefillAmmo();
+    if (vArgList.size() > 1)
+        pEnt->RefillAmmo(AtoI(vArgList[1]) - 1);
+    else
+        pEnt->RefillAmmo();
 
-	return true;
+    return true;
 }
 
 /*--------------------
@@ -2008,17 +2008,17 @@ TRIGGER_CMD(RefillAmmo, Combat, 1)
   --------------------*/
 TRIGGER_CMD(GiveItem, Visual, 3)
 {
-	ushort unID(EntityRegistry.LookupID(vArgList[2]));
+    ushort unID(EntityRegistry.LookupID(vArgList[2]));
 
-	if (unID == INVALID_ENT_TYPE)
-	{
-		Console << _T("GiveItem: Invalid item type.");
-		return true;
-	}
+    if (unID == INVALID_ENT_TYPE)
+    {
+        Console << _T("GiveItem: Invalid item type.");
+        return true;
+    }
 
-	pEnt->GiveItem(AtoI(vArgList[1]) - 1, unID);
+    pEnt->GiveItem(AtoI(vArgList[1]) - 1, unID);
 
-	return true;
+    return true;
 }
 
 /*--------------------
@@ -2026,9 +2026,9 @@ TRIGGER_CMD(GiveItem, Visual, 3)
   --------------------*/
 TRIGGER_CMD(TakeItem, Visual, 2)
 {
-	pEnt->RemoveItem(AtoI(vArgList[1]) - 1);
+    pEnt->RemoveItem(AtoI(vArgList[1]) - 1);
 
-	return true;
+    return true;
 }
 
 
@@ -2037,9 +2037,9 @@ TRIGGER_CMD(TakeItem, Visual, 2)
   --------------------*/
 TRIGGER_CMD(SwapItem, Visual, 3)
 {
-	pEnt->SwapItem(AtoI(vArgList[1]) - 1, AtoI(vArgList[2]) - 1);
+    pEnt->SwapItem(AtoI(vArgList[1]) - 1, AtoI(vArgList[2]) - 1);
 
-	return true;
+    return true;
 }
 
 
@@ -2048,19 +2048,19 @@ TRIGGER_CMD(SwapItem, Visual, 3)
   --------------------*/
 SERVER_CMD(ExecScript)
 {
-	if (vArgList.size() < 1)
-		return false;
+    if (vArgList.size() < 1)
+        return false;
 
-	uint uiParam(1);
-	while (uiParam + 1 < INT_SIZE(vArgList.size()))
-	{
-		TriggerManager.RegisterTriggerParam(vArgList[uiParam], vArgList[uiParam + 1]);
-		uiParam += 2;
-	}
+    uint uiParam(1);
+    while (uiParam + 1 < INT_SIZE(vArgList.size()))
+    {
+        TriggerManager.RegisterTriggerParam(vArgList[uiParam], vArgList[uiParam + 1]);
+        uiParam += 2;
+    }
 
-	TriggerManager.TriggerGlobalScript(vArgList[0]);
+    TriggerManager.TriggerGlobalScript(vArgList[0]);
 
-	return true;
+    return true;
 }
 
 /*--------------------
@@ -2068,31 +2068,31 @@ SERVER_CMD(ExecScript)
   --------------------*/
 SERVER_CMD(ClientExecScript)
 {
-	if (vArgList.size() < 2)
-		return false;
+    if (vArgList.size() < 2)
+        return false;
 
-	int iClientNum(AtoI(vArgList[0]));
+    int iClientNum(AtoI(vArgList[0]));
 
-	CBufferDynamic buffer;
+    CBufferDynamic buffer;
 
-	buffer << GAME_CMD_EXEC_SCRIPT << vArgList[1] << byte(0);
+    buffer << GAME_CMD_EXEC_SCRIPT << vArgList[1] << byte(0);
 
-	// Add # of arguments to buffer
-	buffer << short(INT_FLOOR((vArgList.size() - 2) / 2));
+    // Add # of arguments to buffer
+    buffer << short(INT_FLOOR((vArgList.size() - 2) / 2));
 
-	uint uiParam(2);
-	while (uiParam + 1 < INT_SIZE(vArgList.size()))
-	{
-		buffer << vArgList[uiParam] << byte(0) << vArgList[uiParam + 1] << byte(0);
-		uiParam += 2;
-	}
+    uint uiParam(2);
+    while (uiParam + 1 < INT_SIZE(vArgList.size()))
+    {
+        buffer << vArgList[uiParam] << byte(0) << vArgList[uiParam + 1] << byte(0);
+        uiParam += 2;
+    }
 
-	if (iClientNum >= 0)
-		GameServer.SendGameData(iClientNum, buffer, true);
-	else
-		GameServer.BroadcastGameData(buffer, true);
+    if (iClientNum >= 0)
+        GameServer.SendGameData(iClientNum, buffer, true);
+    else
+        GameServer.BroadcastGameData(buffer, true);
 
-	return true;
+    return true;
 }
 
 /*--------------------
@@ -2100,21 +2100,21 @@ SERVER_CMD(ClientExecScript)
   --------------------*/
 SERVER_CMD(SendMessage)
 {
-	if (vArgList.size() < 2)
-		return false;
+    if (vArgList.size() < 2)
+        return false;
 
-	CBufferDynamic buffer;
+    CBufferDynamic buffer;
 
-	buffer << GAME_CMD_SCRIPT_MESSAGE << ConcatinateArgs(vArgList.begin() + 1, vArgList.end()) << byte(0);
+    buffer << GAME_CMD_SCRIPT_MESSAGE << ConcatinateArgs(vArgList.begin() + 1, vArgList.end()) << byte(0);
 
-	int iClientNum(AtoI(vArgList[0]));
+    int iClientNum(AtoI(vArgList[0]));
 
-	if (iClientNum >= 0)
-		GameServer.SendGameData(iClientNum, buffer, true);
-	else
-		GameServer.BroadcastGameData(buffer, true);
+    if (iClientNum >= 0)
+        GameServer.SendGameData(iClientNum, buffer, true);
+    else
+        GameServer.BroadcastGameData(buffer, true);
 
-	return true;
+    return true;
 }
 
 /*--------------------
@@ -2122,16 +2122,16 @@ SERVER_CMD(SendMessage)
   --------------------*/
 SERVER_FCN(IsAlliedTeam)
 {
-	if (vArgList.size() < 2)
-		return false;
+    if (vArgList.size() < 2)
+        return false;
 
-	int iTeam(AtoI(vArgList[0]));
-	int iTargetTeam(AtoI(vArgList[1]));
+    int iTeam(AtoI(vArgList[0]));
+    int iTargetTeam(AtoI(vArgList[1]));
 
-	if (GameServer.GetTeam(iTeam) == NULL)
-		return _T("");
+    if (GameServer.GetTeam(iTeam) == NULL)
+        return _T("");
 
-	return XtoA(GameServer.GetTeam(iTeam)->IsAlliedTeam(iTargetTeam), true);
+    return XtoA(GameServer.GetTeam(iTeam)->IsAlliedTeam(iTargetTeam), true);
 }
 
 /*--------------------
@@ -2139,17 +2139,17 @@ SERVER_FCN(IsAlliedTeam)
   --------------------*/
 SERVER_CMD(AddAlliedTeam)
 {
-	if (vArgList.size() < 2)
-		return false;
+    if (vArgList.size() < 2)
+        return false;
 
-	int iTeam(AtoI(vArgList[0]));
-	int iTargetTeam(AtoI(vArgList[1]));
+    int iTeam(AtoI(vArgList[0]));
+    int iTargetTeam(AtoI(vArgList[1]));
 
-	if (GameServer.GetTeam(iTeam) == NULL)
-		return true;
+    if (GameServer.GetTeam(iTeam) == NULL)
+        return true;
 
-	GameServer.GetTeam(iTeam)->AddAlliedTeam(iTargetTeam);
-	return true;
+    GameServer.GetTeam(iTeam)->AddAlliedTeam(iTargetTeam);
+    return true;
 }
 
 /*--------------------
@@ -2157,17 +2157,17 @@ SERVER_CMD(AddAlliedTeam)
   --------------------*/
 SERVER_CMD(RemoveAlliedTeam)
 {
-	if (vArgList.size() < 2)
-		return false;
+    if (vArgList.size() < 2)
+        return false;
 
-	int iTeam(AtoI(vArgList[0]));
-	int iTargetTeam(AtoI(vArgList[1]));
+    int iTeam(AtoI(vArgList[0]));
+    int iTargetTeam(AtoI(vArgList[1]));
 
-	if (GameServer.GetTeam(iTeam) == NULL)
-		return true;
+    if (GameServer.GetTeam(iTeam) == NULL)
+        return true;
 
-	GameServer.GetTeam(iTeam)->RemoveAlliedTeam(iTargetTeam);
-	return true;
+    GameServer.GetTeam(iTeam)->RemoveAlliedTeam(iTargetTeam);
+    return true;
 }
 
 /*--------------------
@@ -2175,7 +2175,7 @@ SERVER_CMD(RemoveAlliedTeam)
   --------------------*/
 SERVER_FCN(GetMaxTeams)
 {
-	return XtoA(Game.GetNumTeams());
+    return XtoA(Game.GetNumTeams());
 }
 
 /*--------------------
@@ -2183,10 +2183,10 @@ SERVER_FCN(GetMaxTeams)
   --------------------*/
 SERVER_FCN(FileExists)
 {
-	if (vArgList.size() < 1)
-		return false;
+    if (vArgList.size() < 1)
+        return false;
 
-	return XtoA(FileManager.Exists(vArgList[0]), true);
+    return XtoA(FileManager.Exists(vArgList[0]), true);
 }
 
 /*--------------------
@@ -2194,10 +2194,10 @@ SERVER_FCN(FileExists)
   --------------------*/
 SERVER_FCN(GetNumClients)
 {
-	if (vArgList.size() < 1)
-		return XtoA(GameServer.GetConnectedClientCount());
+    if (vArgList.size() < 1)
+        return XtoA(GameServer.GetConnectedClientCount());
 
-	return XtoA(GameServer.GetConnectedClientCount(AtoI(vArgList[0])));
+    return XtoA(GameServer.GetConnectedClientCount(AtoI(vArgList[0])));
 }
 
 /*--------------------
@@ -2205,19 +2205,19 @@ SERVER_FCN(GetNumClients)
   --------------------*/
 TRIGGER_CMD(ClearStates, Visual, 1)
 {
-	pEnt->ClearStates();
+    pEnt->ClearStates();
 
-	for (int i(0); i < MAX_INVENTORY; ++i)
-	{
-		IInventoryItem *pItem(pEnt->GetItem(i));
+    for (int i(0); i < MAX_INVENTORY; ++i)
+    {
+        IInventoryItem *pItem(pEnt->GetItem(i));
 
-		if (!pItem)
-			continue;
+        if (!pItem)
+            continue;
 
-		pItem->ActivatePassive();
-	}
+        pItem->ActivatePassive();
+    }
 
-	return true;
+    return true;
 }
 
 /*--------------------
@@ -2225,17 +2225,17 @@ TRIGGER_CMD(ClearStates, Visual, 1)
   --------------------*/
 TRIGGER_CMD(RefreshCooldowns, Visual, 1)
 {
-	for (int i(0); i < MAX_INVENTORY; ++i)
-	{
-		IInventoryItem *pItem(pEnt->GetItem(i));
+    for (int i(0); i < MAX_INVENTORY; ++i)
+    {
+        IInventoryItem *pItem(pEnt->GetItem(i));
 
-		if (!pItem)
-			continue;
+        if (!pItem)
+            continue;
 
-		pItem->SetCooldownTimer(INVALID_TIME, INVALID_TIME);
-	}
+        pItem->SetCooldownTimer(INVALID_TIME, INVALID_TIME);
+    }
 
-	return true;
+    return true;
 }
 
 /*--------------------
@@ -2243,27 +2243,27 @@ TRIGGER_CMD(RefreshCooldowns, Visual, 1)
   --------------------*/
 TRIGGER_CMD(SetStatus, Visual, 2)
 {
-	int iStatus;
-	tstring sStatus(LowerString(vArgList[1]));
+    int iStatus;
+    tstring sStatus(LowerString(vArgList[1]));
 
-	if (sStatus == _T("preview"))
-		iStatus = ENTITY_STATUS_PREVIEW;
-	else if (sStatus == _T("dormant"))
-		iStatus = ENTITY_STATUS_DORMANT;
-	else if (sStatus == _T("dead"))
-		iStatus = ENTITY_STATUS_DEAD;
-	else if (sStatus == _T("corpse"))
-		iStatus = ENTITY_STATUS_CORPSE;
-	else if (sStatus == _T("spawning"))
-		iStatus = ENTITY_STATUS_SPAWNING;
-	else if (sStatus == _T("hidden"))
-		iStatus = ENTITY_STATUS_HIDDEN;
-	else
-		iStatus = ENTITY_STATUS_ACTIVE;
+    if (sStatus == _T("preview"))
+        iStatus = ENTITY_STATUS_PREVIEW;
+    else if (sStatus == _T("dormant"))
+        iStatus = ENTITY_STATUS_DORMANT;
+    else if (sStatus == _T("dead"))
+        iStatus = ENTITY_STATUS_DEAD;
+    else if (sStatus == _T("corpse"))
+        iStatus = ENTITY_STATUS_CORPSE;
+    else if (sStatus == _T("spawning"))
+        iStatus = ENTITY_STATUS_SPAWNING;
+    else if (sStatus == _T("hidden"))
+        iStatus = ENTITY_STATUS_HIDDEN;
+    else
+        iStatus = ENTITY_STATUS_ACTIVE;
 
-	pEnt->SetStatus(iStatus);
+    pEnt->SetStatus(iStatus);
 
-	return true;
+    return true;
 }
 
 /*--------------------
@@ -2271,9 +2271,9 @@ TRIGGER_CMD(SetStatus, Visual, 2)
   --------------------*/
 TRIGGER_CMD(SetBuildPercent, Building, 2)
 {
-	pEnt->SetBuildPercent(AtoF(vArgList[1]));
+    pEnt->SetBuildPercent(AtoF(vArgList[1]));
 
-	return true;
+    return true;
 }
 
 /*--------------------
@@ -2281,20 +2281,20 @@ TRIGGER_CMD(SetBuildPercent, Building, 2)
   --------------------*/
 TRIGGER_CMD(SpawnSoul, Player, 4)
 {
-	CEntitySoul *pSoul(static_cast<CEntitySoul*>(Game.AllocateEntity(_T("Entity_Soul"))));
-	if (pSoul == NULL)
-	{
-		Console.Warn << _T("Failed to create soul entity") << newl;
-		return false;
-	}
-	else
-	{
-		pSoul->SetPosition(CVec3f(AtoF(vArgList[1]), AtoF(vArgList[2]), AtoF(vArgList[3])));
-		pSoul->SetTarget(pEnt->GetIndex());
-		pSoul->Spawn();
-	}
+    CEntitySoul *pSoul(static_cast<CEntitySoul*>(Game.AllocateEntity(_T("Entity_Soul"))));
+    if (pSoul == NULL)
+    {
+        Console.Warn << _T("Failed to create soul entity") << newl;
+        return false;
+    }
+    else
+    {
+        pSoul->SetPosition(CVec3f(AtoF(vArgList[1]), AtoF(vArgList[2]), AtoF(vArgList[3])));
+        pSoul->SetTarget(pEnt->GetIndex());
+        pSoul->Spawn();
+    }
 
-	return true;
+    return true;
 }
 
 /*--------------------
@@ -2302,50 +2302,50 @@ TRIGGER_CMD(SpawnSoul, Player, 4)
   --------------------*/
 TRIGGER_CMD(CastSpell, Combat, 2)
 {
-	ushort unID(EntityRegistry.LookupID(vArgList[1]));
+    ushort unID(EntityRegistry.LookupID(vArgList[1]));
 
-	if (unID == INVALID_ENT_TYPE)
-	{
-		Console << _T("CastSpell: Invalid spell type.") << newl;
-		return true;
-	}
+    if (unID == INVALID_ENT_TYPE)
+    {
+        Console << _T("CastSpell: Invalid spell type.") << newl;
+        return true;
+    }
 
-	IInventoryItem *pNewEnt;
-	
-	pNewEnt = static_cast<IInventoryItem *>(GameServer.AllocateEntity(unID));
+    IInventoryItem *pNewEnt;
+    
+    pNewEnt = static_cast<IInventoryItem *>(GameServer.AllocateEntity(unID));
 
-	if (pNewEnt == NULL)
-	{
-		Console << _T("CastSpell: Could not allocate spell.") << newl;
-		return true;
-	}
+    if (pNewEnt == NULL)
+    {
+        Console << _T("CastSpell: Could not allocate spell.") << newl;
+        return true;
+    }
 
-	if (!pNewEnt->IsSpell() || pNewEnt->GetType() != unID)
-	{
-		Console << _T("CastSpell: Failed to allocate correct entity type.") << newl;
-		GameServer.DeleteEntity(pNewEnt);
-		return true;
-	}
+    if (!pNewEnt->IsSpell() || pNewEnt->GetType() != unID)
+    {
+        Console << _T("CastSpell: Failed to allocate correct entity type.") << newl;
+        GameServer.DeleteEntity(pNewEnt);
+        return true;
+    }
 
-	ISpellItem *pSpell(pNewEnt->GetAsSpell());
-	CGameEvent ev;
+    ISpellItem *pSpell(pNewEnt->GetAsSpell());
+    CGameEvent ev;
 
-	if (pSpell->IsSnapcast())
-		pSpell->ImpactEntity(pEnt->GetIndex(), ev, false);
-	else
-	{
-		pSpell->SetOwner(pEnt->GetIndex());
-		pSpell->ImpactPosition(pEnt->GetPosition(), ev);
-	}
+    if (pSpell->IsSnapcast())
+        pSpell->ImpactEntity(pEnt->GetIndex(), ev, false);
+    else
+    {
+        pSpell->SetOwner(pEnt->GetIndex());
+        pSpell->ImpactPosition(pEnt->GetPosition(), ev);
+    }
 
-	// Impact event
-	if (!pSpell->GetImpactEffectPath().empty())
-	{
-		ev.SetEffect(g_ResourceManager.Register(pSpell->GetImpactEffectPath(), RES_EFFECT));
-		Game.AddEvent(ev);
-	}
+    // Impact event
+    if (!pSpell->GetImpactEffectPath().empty())
+    {
+        ev.SetEffect(g_ResourceManager.Register(pSpell->GetImpactEffectPath(), RES_EFFECT));
+        Game.AddEvent(ev);
+    }
 
-	GameServer.DeleteEntity(pNewEnt);
+    GameServer.DeleteEntity(pNewEnt);
 
-	return true;
+    return true;
 }

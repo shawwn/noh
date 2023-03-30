@@ -17,18 +17,18 @@
 class CStateBehemothStunned : public IEntityState
 {
 private:
-	START_ENTITY_CONFIG(IEntityState)
-	END_ENTITY_CONFIG
+    START_ENTITY_CONFIG(IEntityState)
+    END_ENTITY_CONFIG
 
-	CEntityConfig*	m_pEntityConfig;
+    CEntityConfig*  m_pEntityConfig;
 
-	DECLARE_ENT_ALLOCATOR2(State, BehemothStunned);
+    DECLARE_ENT_ALLOCATOR2(State, BehemothStunned);
 
 public:
-	~CStateBehemothStunned()	{}
-	CStateBehemothStunned();
+    ~CStateBehemothStunned()    {}
+    CStateBehemothStunned();
 
-	void	Activated();
+    void    Activated();
 };
 //=============================================================================
 

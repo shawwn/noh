@@ -17,12 +17,12 @@
 class CConsumableChainmail : public IConsumableItem
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Consumable, Chainmail);
+    DECLARE_ENT_ALLOCATOR2(Consumable, Chainmail);
 
 public:
-	~CConsumableChainmail() {}
-	CConsumableChainmail() :
-	IConsumableItem(GetEntityConfig()) {}
+    ~CConsumableChainmail() {}
+    CConsumableChainmail() :
+    IConsumableItem(GetEntityConfig()) {}
 };
 //=============================================================================
 

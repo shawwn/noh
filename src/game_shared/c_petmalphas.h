@@ -17,11 +17,11 @@
 class CPetMalphas : public IPetEntity
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Pet, Malphas);
+    DECLARE_ENT_ALLOCATOR2(Pet, Malphas);
 
 public:
-	~CPetMalphas()	{}
-	CPetMalphas() : IPetEntity(GetEntityConfig()) {}
+    ~CPetMalphas()  {}
+    CPetMalphas() : IPetEntity(GetEntityConfig()) {}
 };
 //=============================================================================
 

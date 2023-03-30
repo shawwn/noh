@@ -12,12 +12,12 @@
 template <class T>
 inline CVec3<T> Multiply(const CMatrix3x3<T> &a, const CVec3<T> &b)
 {
-	return CVec3<T>
-	(
-		a.m[0][0] * b.x + a.m[0][1] * b.y + a.m[0][2] * b.z,
-		a.m[1][0] * b.x + a.m[1][1] * b.y + a.m[1][2] * b.z,
-		a.m[2][0] * b.x + a.m[2][1] * b.y + a.m[2][2] * b.z
-	);
+    return CVec3<T>
+    (
+        a.m[0][0] * b.x + a.m[0][1] * b.y + a.m[0][2] * b.z,
+        a.m[1][0] * b.x + a.m[1][1] * b.y + a.m[1][2] * b.z,
+        a.m[2][0] * b.x + a.m[2][1] * b.y + a.m[2][2] * b.z
+    );
 }
 
 
@@ -27,20 +27,20 @@ inline CVec3<T> Multiply(const CMatrix3x3<T> &a, const CVec3<T> &b)
 template <class T>
 inline CMatrix3x3<T> Multiply(const CMatrix3x3<T> &a, const CMatrix3x3<T> &b)
 {
-	return CMatrix3x3<T>
-	(
-		a.m[0][0] * b.m[0][0] + a.m[1][0] * b.m[0][1] + a.m[2][0] * b.m[0][2],
-		a.m[0][1] * b.m[0][0] + a.m[1][1] * b.m[0][1] + a.m[2][1] * b.m[0][2],
-		a.m[0][2] * b.m[0][0] + a.m[1][2] * b.m[0][1] + a.m[2][2] * b.m[0][2],
+    return CMatrix3x3<T>
+    (
+        a.m[0][0] * b.m[0][0] + a.m[1][0] * b.m[0][1] + a.m[2][0] * b.m[0][2],
+        a.m[0][1] * b.m[0][0] + a.m[1][1] * b.m[0][1] + a.m[2][1] * b.m[0][2],
+        a.m[0][2] * b.m[0][0] + a.m[1][2] * b.m[0][1] + a.m[2][2] * b.m[0][2],
 
-		a.m[0][0] * b.m[1][0] + a.m[1][0] * b.m[1][1] + a.m[2][0] * b.m[1][2],
-		a.m[0][1] * b.m[1][0] + a.m[1][1] * b.m[1][1] + a.m[2][1] * b.m[1][2],
-		a.m[0][2] * b.m[1][0] + a.m[1][2] * b.m[1][1] + a.m[2][2] * b.m[1][2],
+        a.m[0][0] * b.m[1][0] + a.m[1][0] * b.m[1][1] + a.m[2][0] * b.m[1][2],
+        a.m[0][1] * b.m[1][0] + a.m[1][1] * b.m[1][1] + a.m[2][1] * b.m[1][2],
+        a.m[0][2] * b.m[1][0] + a.m[1][2] * b.m[1][1] + a.m[2][2] * b.m[1][2],
 
-		a.m[0][0] * b.m[2][0] + a.m[1][0] * b.m[2][1] + a.m[2][0] * b.m[2][2],
-		a.m[0][1] * b.m[2][0] + a.m[1][1] * b.m[2][1] + a.m[2][1] * b.m[2][2],
-		a.m[0][2] * b.m[2][0] + a.m[1][2] * b.m[2][1] + a.m[2][2] * b.m[2][2]
-	);
+        a.m[0][0] * b.m[2][0] + a.m[1][0] * b.m[2][1] + a.m[2][0] * b.m[2][2],
+        a.m[0][1] * b.m[2][0] + a.m[1][1] * b.m[2][1] + a.m[2][1] * b.m[2][2],
+        a.m[0][2] * b.m[2][0] + a.m[1][2] * b.m[2][1] + a.m[2][2] * b.m[2][2]
+    );
 }
 
 

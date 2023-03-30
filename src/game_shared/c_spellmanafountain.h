@@ -17,12 +17,12 @@
 class CSpellManaFountain : public ISpellItem
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Spell, ManaFountain)
+    DECLARE_ENT_ALLOCATOR2(Spell, ManaFountain)
 
 public:
-	~CSpellManaFountain() {}
-	CSpellManaFountain() :
-	ISpellItem(GetEntityConfig()) {}
+    ~CSpellManaFountain() {}
+    CSpellManaFountain() :
+    ISpellItem(GetEntityConfig()) {}
 };
 //=============================================================================
 

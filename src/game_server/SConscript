@@ -5,17 +5,17 @@ env['GchSh'] = env.GchSh(target = '../game_server_common.h.gch/'+build_type+'-'+
 
 # libs to link against
 if build_type == 'debug':
-	env.Append(LIBS=['k2_debug', 'game_shared_debug'])
+    env.Append(LIBS=['k2_debug', 'game_shared_debug'])
 else:
-	env.Append(LIBS=['k2', 'game_shared'])
+    env.Append(LIBS=['k2', 'game_shared'])
 
 # cpp defines
 env.Append(CPPDEFINES = ['K2_DLL'])
 
 if build_type == 'debug':
-	libname = 'game_debug'
+    libname = 'game_debug'
 else:
-	libname = 'game'
+    libname = 'game'
 
 # library search path
 env.Append(LIBPATH = ['#k2/'+build_type+'-'+arch, '#game_shared/'+build_type+'-'+arch])

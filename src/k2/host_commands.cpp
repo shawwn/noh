@@ -19,12 +19,12 @@
   --------------------*/
 CMD(StartServer)
 {
-	return Host.StartServer(vArgList.empty() ? TSNULL : vArgList[0]);
+    return Host.StartServer(vArgList.empty() ? TSNULL : vArgList[0]);
 }
 
 UI_VOID_CMD(Start, 0)
 {
-	cmdStartServer(vArgList.empty() ? TSNULL : vArgList[0]->Evaluate());
+    cmdStartServer(vArgList.empty() ? TSNULL : vArgList[0]->Evaluate());
 }
 
 
@@ -33,12 +33,12 @@ UI_VOID_CMD(Start, 0)
   --------------------*/
 CMD(StartClient)
 {
-	return Host.StartClient(vArgList.empty() ? TSNULL : vArgList[0]);
+    return Host.StartClient(vArgList.empty() ? TSNULL : vArgList[0]);
 }
 
 UI_VOID_CMD(StartClient, 0)
 {
-	Console.AddCmdBuffer(_T("StartClient ") + (vArgList.empty() ? TSNULL : QuoteStr(vArgList[0]->Evaluate())));
+    Console.AddCmdBuffer(_T("StartClient ") + (vArgList.empty() ? TSNULL : QuoteStr(vArgList[0]->Evaluate())));
 }
 
 
@@ -47,11 +47,11 @@ UI_VOID_CMD(StartClient, 0)
   --------------------*/
 CMD(SetActiveClient)
 {
-	if (vArgList.empty())
-		return false;
+    if (vArgList.empty())
+        return false;
 
-	Host.SetActiveClient(AtoI(vArgList[0]));
-	return true;
+    Host.SetActiveClient(AtoI(vArgList[0]));
+    return true;
 }
 
 
@@ -60,8 +60,8 @@ CMD(SetActiveClient)
   --------------------*/
 CMD(NextClient)
 {
-	Host.NextClient();
-	return true;
+    Host.NextClient();
+    return true;
 }
 
 
@@ -70,8 +70,8 @@ CMD(NextClient)
   --------------------*/
 CMD(PrevClient)
 {
-	Host.PrevClient();
-	return true;
+    Host.PrevClient();
+    return true;
 }
 
 
@@ -80,22 +80,22 @@ CMD(PrevClient)
   --------------------*/
 CMD(StartLocalGame)
 {
-	if (vArgList.size() < 2)
-	{
-		Console << _T("Invalid arguments") << newl;
-		return false;
-	}
+    if (vArgList.size() < 2)
+    {
+        Console << _T("Invalid arguments") << newl;
+        return false;
+    }
 
-	Host.StartGame(_T("local"), vArgList[0], ConcatinateArgs(vArgList.begin() + 1, vArgList.end()));
-	return true;
+    Host.StartGame(_T("local"), vArgList[0], ConcatinateArgs(vArgList.begin() + 1, vArgList.end()));
+    return true;
 }
 
 UI_VOID_CMD(StartLocalGame, 1)
 {
-	tstring sArgs;
-	for (ScriptTokenVector_cit it(vArgList.begin() + 1); it != vArgList.end(); ++it)
-		sArgs += (*it)->Evaluate() + SPACE;
-	cmdStartLocalGame(vArgList[0]->Evaluate(), sArgs);
+    tstring sArgs;
+    for (ScriptTokenVector_cit it(vArgList.begin() + 1); it != vArgList.end(); ++it)
+        sArgs += (*it)->Evaluate() + SPACE;
+    cmdStartLocalGame(vArgList[0]->Evaluate(), sArgs);
 }
 
 
@@ -104,22 +104,22 @@ UI_VOID_CMD(StartLocalGame, 1)
   --------------------*/
 CMD(StartGame)
 {
-	if (vArgList.size() < 3)
-	{
-		Console << _T("Invalid arguments") << newl;
-		return false;
-	}
+    if (vArgList.size() < 3)
+    {
+        Console << _T("Invalid arguments") << newl;
+        return false;
+    }
 
-	Host.StartGame(vArgList[0], vArgList[1], ConcatinateArgs(vArgList.begin() + 2, vArgList.end()));
-	return true;
+    Host.StartGame(vArgList[0], vArgList[1], ConcatinateArgs(vArgList.begin() + 2, vArgList.end()));
+    return true;
 }
 
 UI_VOID_CMD(StartGame, 2)
 {
-	tstring sArgs;
-	for (ScriptTokenVector_cit it(vArgList.begin() + 2); it != vArgList.end(); ++it)
-		sArgs += (*it)->Evaluate() + SPACE;
-	cmdStartGame(vArgList[0]->Evaluate(), vArgList[1]->Evaluate(), sArgs);
+    tstring sArgs;
+    for (ScriptTokenVector_cit it(vArgList.begin() + 2); it != vArgList.end(); ++it)
+        sArgs += (*it)->Evaluate() + SPACE;
+    cmdStartGame(vArgList[0]->Evaluate(), vArgList[1]->Evaluate(), sArgs);
 }
 
 
@@ -128,25 +128,25 @@ UI_VOID_CMD(StartGame, 2)
   --------------------*/
 CMD(StartReplay)
 {
-	if (vArgList.empty())
-	{
-		Console << _T("No replay specified") << newl;
-		return false;
-	}
+    if (vArgList.empty())
+    {
+        Console << _T("No replay specified") << newl;
+        return false;
+    }
 
-	if (!Host.StartReplay(vArgList[0]))
-	{
-		Console << _T("Failed to start replay") << newl;
-		return false;
-	}
-	
-	Host.Connect(_T("localhost"), false, true);
-	return true;
+    if (!Host.StartReplay(vArgList[0]))
+    {
+        Console << _T("Failed to start replay") << newl;
+        return false;
+    }
+    
+    Host.Connect(_T("localhost"), false, true);
+    return true;
 }
 
 UI_VOID_CMD(StartReplay, 1)
 {
-	cmdStartReplay(vArgList[0]->Evaluate());
+    cmdStartReplay(vArgList[0]->Evaluate());
 }
 
 
@@ -155,13 +155,13 @@ UI_VOID_CMD(StartReplay, 1)
   --------------------*/
 CMD(StopReplay)
 {
-	Host.StopReplay();
-	return true;
+    Host.StopReplay();
+    return true;
 }
 
 UI_VOID_CMD(StopReplay, 0)
 {
-	cmdStopReplay();
+    cmdStopReplay();
 }
 
 
@@ -170,18 +170,18 @@ UI_VOID_CMD(StopReplay, 0)
   --------------------*/
 CMD(DownloadReplayCompat)
 {
-	if (vArgList.empty())
-	{
-		Console << _T("No replay specified") << newl;
-		return false;
-	}
+    if (vArgList.empty())
+    {
+        Console << _T("No replay specified") << newl;
+        return false;
+    }
 
-	return true;
+    return true;
 }
 
 UI_VOID_CMD(DownloadReplayCompat, 1)
 {
-	cmdDownloadReplayCompat(vArgList[0]->Evaluate());
+    cmdDownloadReplayCompat(vArgList[0]->Evaluate());
 }
 
 
@@ -191,19 +191,19 @@ UI_VOID_CMD(DownloadReplayCompat, 1)
   --------------------*/
 CMD(Connect)
 {
-	if (vArgList.empty())
-	{
-		Console << _T("No address specified") << newl;
-		return false;
-	}
+    if (vArgList.empty())
+    {
+        Console << _T("No address specified") << newl;
+        return false;
+    }
 
-	Host.Connect(vArgList[0], vArgList.size() > 2 ? AtoB(vArgList[2]) : false);
-	return true;
+    Host.Connect(vArgList[0], vArgList.size() > 2 ? AtoB(vArgList[2]) : false);
+    return true;
 }
 
 UI_VOID_CMD(Connect, 1)
 {
-	Host.Connect(vArgList[0]->Evaluate(), vArgList.size() > 2 ? AtoB(vArgList[2]->Evaluate()) : false);
+    Host.Connect(vArgList[0]->Evaluate(), vArgList.size() > 2 ? AtoB(vArgList[2]->Evaluate()) : false);
 }
 
 
@@ -212,8 +212,8 @@ UI_VOID_CMD(Connect, 1)
   --------------------*/
 CMD(Reconnect)
 {
-	Host.Reconnect();
-	return true;
+    Host.Reconnect();
+    return true;
 }
 
 
@@ -222,8 +222,8 @@ CMD(Reconnect)
   --------------------*/
 CMD(Disconnect)
 {
-	Host.DisconnectNextFrame(_T("CMD(Disconnect)"));
-	return true;
+    Host.DisconnectNextFrame(_T("CMD(Disconnect)"));
+    return true;
 }
 
 
@@ -232,8 +232,8 @@ CMD(Disconnect)
   --------------------*/
 CMD(StopServer)
 {
-	Host.StopServer();
-	return true;
+    Host.StopServer();
+    return true;
 }
 
 
@@ -242,11 +242,11 @@ CMD(StopServer)
   --------------------*/
 CMD(StopClient)
 {
-	if (vArgList.empty())
-		Host.StopClient();
-	else
-		Host.StopClient(AtoI(vArgList[0]));
-	return true;
+    if (vArgList.empty())
+        Host.StopClient();
+    else
+        Host.StopClient(AtoI(vArgList[0]));
+    return true;
 }
 
 
@@ -255,8 +255,8 @@ CMD(StopClient)
   --------------------*/
 CMD(Version)
 {
-	Host.ToggleVersionStamp();
-	return true;
+    Host.ToggleVersionStamp();
+    return true;
 }
 
 
@@ -265,9 +265,9 @@ CMD(Version)
   --------------------*/
 CMD(Quit)
 {
-	K2System.RestartOnExit(false);
-	K2System.Exit(0);
-	return true;
+    K2System.RestartOnExit(false);
+    K2System.Exit(0);
+    return true;
 }
 
 
@@ -276,9 +276,9 @@ CMD(Quit)
   --------------------*/
 CMD(Restart)
 {
-	K2System.RestartOnExit(true);
-	K2System.Exit(0);
-	return true;
+    K2System.RestartOnExit(true);
+    K2System.Exit(0);
+    return true;
 }
 
 
@@ -287,12 +287,12 @@ CMD(Restart)
   --------------------*/
 CMD(Beep)
 {
-	if (vArgList.empty())
-		K2System.Beep(500, 200);
-	else
-		K2System.Beep(AtoI(vArgList[0]), AtoI(vArgList[1]));
-	
-	return true;
+    if (vArgList.empty())
+        K2System.Beep(500, 200);
+    else
+        K2System.Beep(AtoI(vArgList[0]), AtoI(vArgList[1]));
+    
+    return true;
 }
 
 
@@ -301,19 +301,19 @@ CMD(Beep)
   --------------------*/
 CMD(SystemMemoryInfo)
 {
-	Console << _T("System:") << newl;
-	Console << _T("-------------------") << newl;
-	Console << _T("Physical: ") << GetByteString(K2System.GetFreePhysicalMemory()) << _T(" / ") << GetByteString(K2System.GetTotalPhysicalMemory()) << newl;
-	Console << _T("Virtual: ") << GetByteString(K2System.GetFreeVirtualMemory()) << _T(" / ") << GetByteString(K2System.GetTotalVirtualMemory()) << newl;
-	Console << _T("Page File: ") << GetByteString(K2System.GetFreePageFile()) << _T(" / ") << GetByteString(K2System.GetTotalPageFile()) << newl;
-	Console << newl;
-	Console << _T("This process:") << newl;
-	Console << _T("-------------------") << newl;
-	Console << _T("Physical: ") << GetByteString(K2System.GetProcessMemoryUsage()) << _T(" ") << ParenStr(K2System.GetProcessMemoryUsage()) << newl;
-	Console << _T("Virtual: ") << GetByteString(K2System.GetProcessVirtualMemoryUsage()) << _T(" ") << ParenStr(K2System.GetProcessVirtualMemoryUsage()) << newl;
-	Console << _T("Virtual Limit: ") << GetByteString(K2System.GetVirtualMemoryLimit()) << _T(" ") << ParenStr(K2System.GetVirtualMemoryLimit()) << newl;
-	
-	return true;
+    Console << _T("System:") << newl;
+    Console << _T("-------------------") << newl;
+    Console << _T("Physical: ") << GetByteString(K2System.GetFreePhysicalMemory()) << _T(" / ") << GetByteString(K2System.GetTotalPhysicalMemory()) << newl;
+    Console << _T("Virtual: ") << GetByteString(K2System.GetFreeVirtualMemory()) << _T(" / ") << GetByteString(K2System.GetTotalVirtualMemory()) << newl;
+    Console << _T("Page File: ") << GetByteString(K2System.GetFreePageFile()) << _T(" / ") << GetByteString(K2System.GetTotalPageFile()) << newl;
+    Console << newl;
+    Console << _T("This process:") << newl;
+    Console << _T("-------------------") << newl;
+    Console << _T("Physical: ") << GetByteString(K2System.GetProcessMemoryUsage()) << _T(" ") << ParenStr(K2System.GetProcessMemoryUsage()) << newl;
+    Console << _T("Virtual: ") << GetByteString(K2System.GetProcessVirtualMemoryUsage()) << _T(" ") << ParenStr(K2System.GetProcessVirtualMemoryUsage()) << newl;
+    Console << _T("Virtual Limit: ") << GetByteString(K2System.GetVirtualMemoryLimit()) << _T(" ") << ParenStr(K2System.GetVirtualMemoryLimit()) << newl;
+    
+    return true;
 }
 
 
@@ -322,7 +322,7 @@ CMD(SystemMemoryInfo)
   --------------------*/
 UI_CMD(GetActiveClientIndex, 0)
 {
-	return XtoA(Host.GetActiveClientIndex());
+    return XtoA(Host.GetActiveClientIndex());
 }
 
 
@@ -331,7 +331,7 @@ UI_CMD(GetActiveClientIndex, 0)
   --------------------*/
 FUNCTION(GetActiveClientIndex)
 {
-	return XtoA(Host.GetActiveClientIndex());
+    return XtoA(Host.GetActiveClientIndex());
 }
 
 
@@ -340,7 +340,7 @@ FUNCTION(GetActiveClientIndex)
   --------------------*/
 UI_CMD(IsClientConnected, 0)
 {
-	return XtoA(Host.IsConnected());
+    return XtoA(Host.IsConnected());
 }
 
 
@@ -349,9 +349,9 @@ UI_CMD(IsClientConnected, 0)
   --------------------*/
 CMD(PreloadWorld)
 {
-	if (vArgList.size() > 0)
-		Host.PreloadWorld(vArgList[0]);
-	return true;
+    if (vArgList.size() > 0)
+        Host.PreloadWorld(vArgList[0]);
+    return true;
 }
 
 
@@ -360,6 +360,6 @@ CMD(PreloadWorld)
   --------------------*/
 UI_VOID_CMD(PreloadWorld, 1)
 {
-	Host.PreloadWorld(vArgList[0]->Evaluate());
+    Host.PreloadWorld(vArgList[0]->Evaluate());
 }
 

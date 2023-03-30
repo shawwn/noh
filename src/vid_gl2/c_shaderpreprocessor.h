@@ -21,25 +21,25 @@
 class CShaderPreprocessor
 {
 private:
-	DefinitionMap	m_mapDefinitions;
+    DefinitionMap   m_mapDefinitions;
 
 public:
-	~CShaderPreprocessor();
-	CShaderPreprocessor();
+    ~CShaderPreprocessor();
+    CShaderPreprocessor();
 
-	void	Define(const string &sName, const string &sDefinition = "");
-	void	Undefine(const string &sName);
+    void    Define(const string &sName, const string &sDefinition = "");
+    void    Undefine(const string &sName);
 
-	string	GetDefinition(const string &sName);
+    string  GetDefinition(const string &sName);
 
-	void	UndefineAll();
+    void    UndefineAll();
 
-	const char*	AllocMacroArray();
+    const char* AllocMacroArray();
 
-	string	GetDefinitionHeaderString();
-	string	GetDefinitionString();
+    string  GetDefinitionHeaderString();
+    string  GetDefinitionString();
 };
 
-extern	CShaderPreprocessor g_ShaderPreprocessor;
+extern  CShaderPreprocessor g_ShaderPreprocessor;
 //=============================================================================
 #endif //__C_SHADERPREPROCESSOR_H__

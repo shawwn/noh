@@ -17,13 +17,13 @@
 class CGadgetHealthShrine : public IGadgetEntity
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Gadget, HealthShrine);
+    DECLARE_ENT_ALLOCATOR2(Gadget, HealthShrine);
 
 public:
-	~CGadgetHealthShrine()	{}
-	CGadgetHealthShrine() :
-	IGadgetEntity(GetEntityConfig())
-	{}
+    ~CGadgetHealthShrine()  {}
+    CGadgetHealthShrine() :
+    IGadgetEntity(GetEntityConfig())
+    {}
 };
 //=============================================================================
 

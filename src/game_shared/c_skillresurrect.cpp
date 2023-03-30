@@ -36,10 +36,10 @@ CSkillResurrect::CSkillResurrect()
 /*====================
   CSkillResurrect::ActivatePrimary
   ====================*/
-bool	CSkillResurrect::ActivatePrimary(int iButtonStatus)
+bool    CSkillResurrect::ActivatePrimary(int iButtonStatus)
 {
-	if (!ISkillItem::ActivatePrimary(iButtonStatus))
-		return false;
+    if (!ISkillItem::ActivatePrimary(iButtonStatus))
+        return false;
 
-	return true;
+    return true;
 }

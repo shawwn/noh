@@ -23,46 +23,46 @@ class INpcEntity;
 class CEntityNpcController : public IVisualEntity
 {
 private:
-	struct SNpcSpawnState
-	{
-		ushort		unType;
-		CVec3f		v3Pos;
-		CVec3f		v3Angles;
-		ResHandle	hDefinition;
-	};
+    struct SNpcSpawnState
+    {
+        ushort      unType;
+        CVec3f      v3Pos;
+        CVec3f      v3Angles;
+        ResHandle   hDefinition;
+    };
 
 protected:
-	START_ENTITY_CONFIG(IVisualEntity)
-	END_ENTITY_CONFIG
+    START_ENTITY_CONFIG(IVisualEntity)
+    END_ENTITY_CONFIG
 
-	CEntityConfig*	m_pEntityConfig;
+    CEntityConfig*  m_pEntityConfig;
 
-	DECLARE_ENT_ALLOCATOR2(Entity, NpcController);
+    DECLARE_ENT_ALLOCATOR2(Entity, NpcController);
 
-	// Settings
-	uint						m_uiSpawnPeriod;
-	float						m_fSpawnRadius;
+    // Settings
+    uint                        m_uiSpawnPeriod;
+    float                       m_fSpawnRadius;
 
-	uint						m_uiNextRespawnCheckTime;
-	vector<SNpcSpawnState>		m_vNpcSpawnStates;
-	uivector					m_vChildren;
+    uint                        m_uiNextRespawnCheckTime;
+    vector<SNpcSpawnState>      m_vNpcSpawnStates;
+    uivector                    m_vChildren;
 
-	void						DeleteChildren();
-	void						SpawnChildren();
+    void                        DeleteChildren();
+    void                        SpawnChildren();
 
 public:
-	~CEntityNpcController()	{}
-	CEntityNpcController();
+    ~CEntityNpcController() {}
+    CEntityNpcController();
 
-	void	ApplyWorldEntity(const CWorldEntity &ent);
+    void    ApplyWorldEntity(const CWorldEntity &ent);
 
-	void	Spawn();
-	bool	ServerFrame();
+    void    Spawn();
+    bool    ServerFrame();
 
-	virtual CVec4f	GetMapIconColor(CPlayer *pLocalPlayer, bool bLargeMap)		{ return WHITE; }
-	virtual bool	IsVisibleOnMinimap(CPlayer *pLocalPlayer, bool bLargeMap)	{ return !pLocalPlayer->CanSee(this); }
+    virtual CVec4f  GetMapIconColor(CPlayer *pLocalPlayer, bool bLargeMap)      { return WHITE; }
+    virtual bool    IsVisibleOnMinimap(CPlayer *pLocalPlayer, bool bLargeMap)   { return !pLocalPlayer->CanSee(this); }
 
-	void	AddNpc(INpcEntity *pNpc);
+    void    AddNpc(INpcEntity *pNpc);
 };
 //=============================================================================
 

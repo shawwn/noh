@@ -17,13 +17,13 @@
 class CGunExorcise : public IGunItem
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Gun, Exorcise);
+    DECLARE_ENT_ALLOCATOR2(Gun, Exorcise);
 
 public:
-	~CGunExorcise()	{}
-	CGunExorcise() :
-	IGunItem(GetEntityConfig())
-	{}
+    ~CGunExorcise() {}
+    CGunExorcise() :
+    IGunItem(GetEntityConfig())
+    {}
 };
 //=============================================================================
 

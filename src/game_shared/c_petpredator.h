@@ -17,11 +17,11 @@
 class CPetPredator : public IPetEntity
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Pet, Predator);
+    DECLARE_ENT_ALLOCATOR2(Pet, Predator);
 
 public:
-	~CPetPredator()	{}
-	CPetPredator() : IPetEntity(GetEntityConfig()) {}
+    ~CPetPredator() {}
+    CPetPredator() : IPetEntity(GetEntityConfig()) {}
 };
 //=============================================================================
 

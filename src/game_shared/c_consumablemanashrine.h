@@ -17,12 +17,12 @@
 class CConsumableManaShrine : public IConsumableItem
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Consumable, ManaShrine);
+    DECLARE_ENT_ALLOCATOR2(Consumable, ManaShrine);
 
 public:
-	~CConsumableManaShrine() {}
-	CConsumableManaShrine() :
-	IConsumableItem(GetEntityConfig()) {}
+    ~CConsumableManaShrine() {}
+    CConsumableManaShrine() :
+    IConsumableItem(GetEntityConfig()) {}
 };
 //=============================================================================
 

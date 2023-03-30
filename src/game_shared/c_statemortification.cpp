@@ -35,5 +35,5 @@ CStateMortification::CStateMortification() :
 IEntityState(GetEntityConfig()),
 m_pEntityConfig(GetEntityConfig())
 {
-	m_modSpeed.SetMult(1.0f - m_pEntityConfig->GetSpeedReduction());
+    m_modSpeed.SetMult(1.0f - m_pEntityConfig->GetSpeedReduction());
 }

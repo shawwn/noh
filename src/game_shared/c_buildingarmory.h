@@ -17,11 +17,11 @@
 class CBuildingArmory : public IBuildingEntity
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Building, Armory);
+    DECLARE_ENT_ALLOCATOR2(Building, Armory);
 
 public:
-	~CBuildingArmory()	{}
-	CBuildingArmory();
+    ~CBuildingArmory()  {}
+    CBuildingArmory();
 };
 //=============================================================================
 

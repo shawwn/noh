@@ -17,17 +17,17 @@
 class CPlayerMalphas : public IPlayerEntity
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Player, Malphas);
+    DECLARE_ENT_ALLOCATOR2(Player, Malphas);
 
 public:
-	~CPlayerMalphas()	{}
-	CPlayerMalphas() :
-	IPlayerEntity(GetEntityConfig())
-	{}
+    ~CPlayerMalphas()   {}
+    CPlayerMalphas() :
+    IPlayerEntity(GetEntityConfig())
+    {}
 
-	virtual void Spawn();
+    virtual void Spawn();
 
-	void	Move(const CClientSnapshot &snapshot)	{ MoveWalk(snapshot); }
+    void    Move(const CClientSnapshot &snapshot)   { MoveWalk(snapshot); }
 };
 //=============================================================================
 

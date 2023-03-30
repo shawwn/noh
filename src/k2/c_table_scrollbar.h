@@ -20,8 +20,8 @@
 class CTableScrollbar : public CScrollbar
 {
 public:
-	~CTableScrollbar();
-	CTableScrollbar(CInterface *pInterface, IWidget *pParent, const CWidgetStyle& style);
+    ~CTableScrollbar();
+    CTableScrollbar(CInterface *pInterface, IWidget *pParent, const CWidgetStyle& style);
 };
 //=============================================================================
 

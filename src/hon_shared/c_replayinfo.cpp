@@ -21,55 +21,55 @@
 /*====================
   CReplayInfo::Reset
   ====================*/
-void	CReplayInfo::Reset()
+void    CReplayInfo::Reset()
 {
-	m_cGameInfoProperties = g_NullXMLNode;
-	m_vPlayerInfo.clear();
-	m_vPlayerInfo.resize(10, g_NullXMLNode);
+    m_cGameInfoProperties = g_NullXMLNode;
+    m_vPlayerInfo.clear();
+    m_vPlayerInfo.resize(10, g_NullXMLNode);
 }
 
 
 /*====================
   CReplayInfo::SetReplayGameInfo
   ====================*/
-void	CReplayInfo::SetReplayGameInfo(const CXMLNode& cNode)
+void    CReplayInfo::SetReplayGameInfo(const CXMLNode& cNode)
 {
-	m_cGameInfoProperties = cNode;
+    m_cGameInfoProperties = cNode;
 }
 
 
 /*====================
   CReplayInfo::SetReplayPlayerInfo
   ====================*/
-void	CReplayInfo::SetReplayPlayerInfo(const CXMLNode& cNode)
+void    CReplayInfo::SetReplayPlayerInfo(const CXMLNode& cNode)
 {
-	uint uiTeam(cNode.GetPropertyInt(_T("team")));
-	if (uiTeam != 1 && uiTeam != 2)
-		return;
+    uint uiTeam(cNode.GetPropertyInt(_T("team")));
+    if (uiTeam != 1 && uiTeam != 2)
+        return;
 
-	uint uiPlayerIndex((uiTeam - 1) * 5  + cNode.GetPropertyInt(_T("teamindex")));
+    uint uiPlayerIndex((uiTeam - 1) * 5  + cNode.GetPropertyInt(_T("teamindex")));
 
-	uiPlayerIndex = CLAMP(uiPlayerIndex, 0u, 9u);
+    uiPlayerIndex = CLAMP(uiPlayerIndex, 0u, 9u);
 
-	m_vPlayerInfo[uiPlayerIndex] = cNode;
+    m_vPlayerInfo[uiPlayerIndex] = cNode;
 }
 
 
 // <replayinfo>
 DECLARE_XML_PROCESSOR(replayinfo);
 BEGIN_XML_REGISTRATION(replayinfo)
-	REGISTER_XML_PROCESSOR(root)
+    REGISTER_XML_PROCESSOR(root)
 END_XML_REGISTRATION
 BEGIN_XML_PROCESSOR(replayinfo, CReplayInfo)
-	pObject->Reset();
-	pObject->SetReplayGameInfo(node);
+    pObject->Reset();
+    pObject->SetReplayGameInfo(node);
 END_XML_PROCESSOR(pObject)
 
 // <player>
 DECLARE_XML_PROCESSOR(player)
 BEGIN_XML_REGISTRATION(player)
-	REGISTER_XML_PROCESSOR(replayinfo)
+    REGISTER_XML_PROCESSOR(replayinfo)
 END_XML_REGISTRATION
 BEGIN_XML_PROCESSOR(player, CReplayInfo)
-	pObject->SetReplayPlayerInfo(node);
+    pObject->SetReplayPlayerInfo(node);
 END_XML_PROCESSOR_NO_CHILDREN

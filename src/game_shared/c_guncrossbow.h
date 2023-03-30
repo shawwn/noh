@@ -17,13 +17,13 @@
 class CGunCrossbow : public IGunItem
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Gun, Crossbow);
+    DECLARE_ENT_ALLOCATOR2(Gun, Crossbow);
 
 public:
-	~CGunCrossbow()	{}
-	CGunCrossbow() :
-	IGunItem(GetEntityConfig())
-	{}
+    ~CGunCrossbow() {}
+    CGunCrossbow() :
+    IGunItem(GetEntityConfig())
+    {}
 };
 //=============================================================================
 

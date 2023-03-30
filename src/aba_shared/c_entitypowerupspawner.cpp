@@ -30,16 +30,16 @@ CEntityPowerupSpawner::CEntityPowerupSpawner()
 /*====================
   CEntityPowerupSpawner::ApplyWorldEntity
   ====================*/
-void	CEntityPowerupSpawner::ApplyWorldEntity(const CWorldEntity &ent)
+void    CEntityPowerupSpawner::ApplyWorldEntity(const CWorldEntity &ent)
 {
-	IVisualEntity::ApplyWorldEntity(ent);
+    IVisualEntity::ApplyWorldEntity(ent);
 }
 
 
 /*====================
   CEntityPowerupSpawner::Spawn
   ====================*/
-void	CEntityPowerupSpawner::Spawn()
+void    CEntityPowerupSpawner::Spawn()
 {
-	IVisualEntity::Spawn();
+    IVisualEntity::Spawn();
 }

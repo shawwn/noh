@@ -17,11 +17,11 @@
 class CMeleeBattleAxe : public IMeleeItem
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Melee, BattleAxe);
+    DECLARE_ENT_ALLOCATOR2(Melee, BattleAxe);
 
 public:
-	~CMeleeBattleAxe()	{}
-	CMeleeBattleAxe() :	IMeleeItem(GetEntityConfig()) {}
+    ~CMeleeBattleAxe()  {}
+    CMeleeBattleAxe() : IMeleeItem(GetEntityConfig()) {}
 };
 //=============================================================================
 

@@ -17,17 +17,17 @@
 class CStateManaShrine : public IEntityState
 {
 private:
-	START_ENTITY_CONFIG(IEntityState)
-		DECLARE_ENTITY_CVAR(float, ManaRegenBoost)
-	END_ENTITY_CONFIG
+    START_ENTITY_CONFIG(IEntityState)
+        DECLARE_ENTITY_CVAR(float, ManaRegenBoost)
+    END_ENTITY_CONFIG
 
-	CEntityConfig*	m_pEntityConfig;
+    CEntityConfig*  m_pEntityConfig;
 
-	DECLARE_ENT_ALLOCATOR2(State, ManaShrine);
+    DECLARE_ENT_ALLOCATOR2(State, ManaShrine);
 
 public:
-	~CStateManaShrine()	{}
-	CStateManaShrine();
+    ~CStateManaShrine() {}
+    CStateManaShrine();
 };
 //=============================================================================
 

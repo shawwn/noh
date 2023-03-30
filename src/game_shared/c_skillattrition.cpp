@@ -36,10 +36,10 @@ CSkillAttrition::CSkillAttrition()
 /*====================
   CSkillAttrition::ActivatePrimary
   ====================*/
-bool	CSkillAttrition::ActivatePrimary(int iButtonStatus)
+bool    CSkillAttrition::ActivatePrimary(int iButtonStatus)
 {
-	if (!ISkillItem::ActivatePrimary(iButtonStatus))
-		return false;
+    if (!ISkillItem::ActivatePrimary(iButtonStatus))
+        return false;
 
-	return true;
+    return true;
 }

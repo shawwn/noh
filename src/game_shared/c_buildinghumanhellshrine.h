@@ -17,16 +17,16 @@
 class CBuildingHumanHellShrine : public IBuildingEntity
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Building, HumanHellShrine);
+    DECLARE_ENT_ALLOCATOR2(Building, HumanHellShrine);
 
 public:
-	~CBuildingHumanHellShrine()	{}
-	CBuildingHumanHellShrine();
+    ~CBuildingHumanHellShrine() {}
+    CBuildingHumanHellShrine();
 
-	virtual void Spawn();
-	virtual void Kill(IVisualEntity *pAttacker = NULL, ushort unKillingObjectID = INVALID_ENT_TYPE);
+    virtual void Spawn();
+    virtual void Kill(IVisualEntity *pAttacker = NULL, ushort unKillingObjectID = INVALID_ENT_TYPE);
 
-	void	Use(IGameEntity *pActivator);
+    void    Use(IGameEntity *pActivator);
 };
 //=============================================================================
 

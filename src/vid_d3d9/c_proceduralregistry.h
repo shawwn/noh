@@ -15,8 +15,8 @@ class CProcedural;
 //=============================================================================
 // Definitions
 //=============================================================================
-typedef map<tstring, CProcedural*>			ProceduralMap;
-typedef map<tstring, int>					ProceduralIndexMap;
+typedef map<tstring, CProcedural*>          ProceduralMap;
+typedef map<tstring, int>                   ProceduralIndexMap;
 
 //=============================================================================
 
@@ -26,60 +26,60 @@ typedef map<tstring, int>					ProceduralIndexMap;
 class CProceduralRegistry
 {
 private:
-	static CProceduralRegistry	*s_pInstance;
-	static bool				s_bRequested, s_bReleased;
+    static CProceduralRegistry  *s_pInstance;
+    static bool             s_bRequested, s_bReleased;
 
-	CProceduralRegistry() {}
-	CProceduralRegistry(CProceduralRegistry&);
-	CProceduralRegistry& operator=(CProceduralRegistry&);
+    CProceduralRegistry() {}
+    CProceduralRegistry(CProceduralRegistry&);
+    CProceduralRegistry& operator=(CProceduralRegistry&);
 
-	ProceduralMap		m_mapProcedurals;
-	ProceduralIndexMap	m_mapIndices;
+    ProceduralMap       m_mapProcedurals;
+    ProceduralIndexMap  m_mapIndices;
 
 public:
-	static CProceduralRegistry*	GetInstance();
-	static void				Release();
-	static bool				IsReleased()	{ return s_bReleased; }
+    static CProceduralRegistry* GetInstance();
+    static void             Release();
+    static bool             IsReleased()    { return s_bReleased; }
 
-	void					Register(CProcedural *pProcedural);
-	void					Unregister(const tstring &sName);
+    void                    Register(CProcedural *pProcedural);
+    void                    Unregister(const tstring &sName);
 
-	inline CProcedural*		GetProcedural(const tstring &sProcedural);
+    inline CProcedural*     GetProcedural(const tstring &sProcedural);
 
-	const ProceduralMap&	GetProceduralMap()	{ return m_mapProcedurals; }
+    const ProceduralMap&    GetProceduralMap()  { return m_mapProcedurals; }
 
-	inline bool				Exists(const tstring &sProcedural);
+    inline bool             Exists(const tstring &sProcedural);
 
-	int						GetTextureIndex(const tstring &sName);
-	void					RegisterProcedurals();
+    int                     GetTextureIndex(const tstring &sName);
+    void                    RegisterProcedurals();
 };
 
 
 /*====================
   CProceduralRegistry::Exists
   ====================*/
-bool	CProceduralRegistry::Exists(const tstring &sProcedural)
+bool    CProceduralRegistry::Exists(const tstring &sProcedural)
 {
-	ProceduralMap::iterator find = m_mapProcedurals.find(sProcedural);
+    ProceduralMap::iterator find = m_mapProcedurals.find(sProcedural);
 
-	if (find == m_mapProcedurals.end())
-		return false;
+    if (find == m_mapProcedurals.end())
+        return false;
 
-	return true;
+    return true;
 }
 
 
 /*====================
   CProceduralRegistry::GetProcedural
   ====================*/
-CProcedural	*CProceduralRegistry::GetProcedural(const tstring &sProcedural)
+CProcedural *CProceduralRegistry::GetProcedural(const tstring &sProcedural)
 {
-	ProceduralMap::iterator find = m_mapProcedurals.find(sProcedural);
+    ProceduralMap::iterator find = m_mapProcedurals.find(sProcedural);
 
-	if (find == m_mapProcedurals.end())
-		return NULL;
-	else
-		return find->second;
+    if (find == m_mapProcedurals.end())
+        return NULL;
+    else
+        return find->second;
 }
 //=============================================================================
 #endif //__C_PROCEDURALRREGISTRY_H__

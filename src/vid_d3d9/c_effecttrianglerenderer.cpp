@@ -41,9 +41,9 @@ CPool<CEffectTriangleRenderer> CEffectTriangleRenderer::s_Pool(1, -1);
 /*====================
   CEffectTriangleRenderer::operator new
   ====================*/
-void*	CEffectTriangleRenderer::operator new(size_t z, const char *szContext, const char *szType, const char *szFile, short nLine)
+void*   CEffectTriangleRenderer::operator new(size_t z, const char *szContext, const char *szType, const char *szFile, short nLine)
 {
-	return s_Pool.Allocate();
+    return s_Pool.Allocate();
 }
 
 
@@ -67,32 +67,32 @@ CEffectTriangleRenderer::~CEffectTriangleRenderer()
 /*====================
   CEffectTriangleRenderer::Render
   ====================*/
-void	CEffectTriangleRenderer::Render(EMaterialPhase ePhase)
+void    CEffectTriangleRenderer::Render(EMaterialPhase ePhase)
 {
-	PROFILE("CEffectTriangleRenderer::Render");
+    PROFILE("CEffectTriangleRenderer::Render");
 
-	if (!m_bRender)
-		return;
+    if (!m_bRender)
+        return;
 
-	D3D_SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
+    D3D_SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
 
-	SetShaderVars();
+    SetShaderVars();
 
-	D3D_SetStreamSource(0, g_pVBEffectTriangle, 0, sizeof(SEffectVertex));
+    D3D_SetStreamSource(0, g_pVBEffectTriangle, 0, sizeof(SEffectVertex));
 
-	CMaterial &cMaterial(D3D_GetMaterial(m_hMaterial));
+    CMaterial &cMaterial(D3D_GetMaterial(m_hMaterial));
 
-	const SMaterialState &cMaterialState(D3D_GetMaterialState());
-	if (cMaterialState.ePhase == ePhase && g_iCurrentVertexShader == m_iVertexShaderInstance)
-	{
-		D3D_SelectPixelShader(cMaterial, ePhase, g_pCam->GetTime());
-	}
-	else
-	{
-		D3D_SelectMaterial(cMaterial, ePhase, VERTEX_EFFECT, g_pCam->GetTime(), gfx_depthFirst);
-	}
+    const SMaterialState &cMaterialState(D3D_GetMaterialState());
+    if (cMaterialState.ePhase == ePhase && g_iCurrentVertexShader == m_iVertexShaderInstance)
+    {
+        D3D_SelectPixelShader(cMaterial, ePhase, g_pCam->GetTime());
+    }
+    else
+    {
+        D3D_SelectMaterial(cMaterial, ePhase, VERTEX_EFFECT, g_pCam->GetTime(), gfx_depthFirst);
+    }
 
-	D3D_DrawPrimitive(D3DPT_TRIANGLELIST, m_uiStartIndex * 3, m_uiEndIndex - m_uiStartIndex);
+    D3D_DrawPrimitive(D3DPT_TRIANGLELIST, m_uiStartIndex * 3, m_uiEndIndex - m_uiStartIndex);
 
-	SceneStats.RecordBatch((m_uiEndIndex - m_uiStartIndex) * 3, m_uiEndIndex - m_uiStartIndex, ePhase, SSBATCH_EFFECT);
+    SceneStats.RecordBatch((m_uiEndIndex - m_uiStartIndex) * 3, m_uiEndIndex - m_uiStartIndex, ePhase, SSBATCH_EFFECT);
 }

@@ -22,24 +22,24 @@
 //=============================================================================
 struct JitterData
 {
-	char *pData;
-	uint uiLength;
-	uint uiFrame;
+    char *pData;
+    uint uiLength;
+    uint uiFrame;
 
-	JitterData() :
-	pData(NULL),
-	uiLength(0),
-	uiFrame(0)
-	{
-	}
+    JitterData() :
+    pData(NULL),
+    uiLength(0),
+    uiFrame(0)
+    {
+    }
 };
 
-typedef	deque<JitterData*>			VoiceJitterDeq;
-typedef VoiceJitterDeq::iterator	VoiceJitterDeq_it;
+typedef deque<JitterData*>          VoiceJitterDeq;
+typedef VoiceJitterDeq::iterator    VoiceJitterDeq_it;
 
-const uint	VOICE_TALK_DURATION(500);
-const uint	VOICE_FRAMES_WRITE_AHEAD(3);
-const uint	VOICE_MAX_EXTRAPOLATE_FRAMES(10);
+const uint  VOICE_TALK_DURATION(500);
+const uint  VOICE_FRAMES_WRITE_AHEAD(3);
+const uint  VOICE_MAX_EXTRAPOLATE_FRAMES(10);
 //=============================================================================
 
 //=============================================================================
@@ -48,52 +48,52 @@ const uint	VOICE_MAX_EXTRAPOLATE_FRAMES(10);
 class CVoiceUser
 {
 private:
-	SpeexBits		m_Bits;
-	void*			m_DecoderState;
+    SpeexBits       m_Bits;
+    void*           m_DecoderState;
 
-	uint			m_uiFrameSize;
-	uint			m_uiBytesPerFrame;
+    uint            m_uiFrameSize;
+    uint            m_uiBytesPerFrame;
 
-	uint			m_uiSampleLength;
+    uint            m_uiSampleLength;
 
-	byte			m_yLastWritePos;
-	byte			m_yLastReadPos;
-	byte			m_yFramesAhead;
-	uint			m_uiLastWrittenFrame;
-	uint			m_uiLastInternalFrame;
+    byte            m_yLastWritePos;
+    byte            m_yLastReadPos;
+    byte            m_yFramesAhead;
+    uint            m_uiLastWrittenFrame;
+    uint            m_uiLastInternalFrame;
 
-	CSample*		m_pSample;
-	SoundHandle		m_hHandle;
+    CSample*        m_pSample;
+    SoundHandle     m_hHandle;
 
-	VoiceJitterDeq	m_dequeJitter;
+    VoiceJitterDeq  m_dequeJitter;
 
-	bool			m_bRecievedFirstFrame;
+    bool            m_bRecievedFirstFrame;
 
-	short			m_pInputBuffer[VOICE_INPUT_BUFFER_SIZE];
+    short           m_pInputBuffer[VOICE_INPUT_BUFFER_SIZE];
 
-	uint			m_uiClientNum;
+    uint            m_uiClientNum;
 
-	uint			m_uiLastTalkTime;
+    uint            m_uiLastTalkTime;
 
-	bool			m_bMuted;
+    bool            m_bMuted;
 
-	CVoiceUser();
+    CVoiceUser();
 
 public:
-	CVoiceUser(uint uiClientNum, bool bMuted);
-	~CVoiceUser();
+    CVoiceUser(uint uiClientNum, bool bMuted);
+    ~CVoiceUser();
 
-	void			DecodeFrame();
-	void			AddFrame(uint uiSequence, byte *pData, uint uiLength);
+    void            DecodeFrame();
+    void            AddFrame(uint uiSequence, byte *pData, uint uiLength);
 
-	bool			IsTalking();
-	uint			GetClientNum()			{ return m_uiClientNum; }
+    bool            IsTalking();
+    uint            GetClientNum()          { return m_uiClientNum; }
 
-	bool			IsMuted()				{ return m_bMuted; }
-	void			SetMuted(bool bValue)	{ m_bMuted = bValue; }
-	
-	void			Stop();
-	void			Restart();
+    bool            IsMuted()               { return m_bMuted; }
+    void            SetMuted(bool bValue)   { m_bMuted = bValue; }
+    
+    void            Stop();
+    void            Restart();
 };
 //=============================================================================
 

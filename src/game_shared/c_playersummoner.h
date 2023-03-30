@@ -19,15 +19,15 @@
 class CPlayerSummoner : public IPlayerEntity
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Player, Summoner);
+    DECLARE_ENT_ALLOCATOR2(Player, Summoner);
 
 public:
-	~CPlayerSummoner()	{}
-	CPlayerSummoner() :
-	IPlayerEntity(GetEntityConfig())
-	{}
+    ~CPlayerSummoner()  {}
+    CPlayerSummoner() :
+    IPlayerEntity(GetEntityConfig())
+    {}
 
-	void	Move(const CClientSnapshot &snapshot)	{ MoveWalk(snapshot); }
+    void    Move(const CClientSnapshot &snapshot)   { MoveWalk(snapshot); }
 };
 //=============================================================================
 

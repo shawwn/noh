@@ -17,13 +17,13 @@
 class CSkillImpPoisoned : public ISkillMelee
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Skill, ImpPoisoned);
+    DECLARE_ENT_ALLOCATOR2(Skill, ImpPoisoned);
 
 public:
-	~CSkillImpPoisoned()	{}
-	CSkillImpPoisoned() :
-	ISkillMelee(GetEntityConfig())
-	{}
+    ~CSkillImpPoisoned()    {}
+    CSkillImpPoisoned() :
+    ISkillMelee(GetEntityConfig())
+    {}
 };
 //=============================================================================
 

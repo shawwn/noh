@@ -17,11 +17,11 @@
 class CPetHumanWorker : public IPetEntity
 {
 private:
-	DECLARE_ENT_ALLOCATOR2(Pet, HumanWorker);
+    DECLARE_ENT_ALLOCATOR2(Pet, HumanWorker);
 
 public:
-	~CPetHumanWorker()	{}
-	CPetHumanWorker() : IPetEntity(GetEntityConfig()) {}
+    ~CPetHumanWorker()  {}
+    CPetHumanWorker() : IPetEntity(GetEntityConfig()) {}
 };
 //=============================================================================
 

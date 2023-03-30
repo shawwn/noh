@@ -24,37 +24,37 @@ DECLARE_ENTITY_DEFINITION_XML_PROCESSOR(IOrderEntity, Order, order)
 //=============================================================================
 class COrderDefinition : public IEntityDefinition
 {
-	DECLARE_DEFINITION_TYPE_INFO
+    DECLARE_DEFINITION_TYPE_INFO
 
-	ENT_DEF_ARRAY_PROPERTY(TriggerRange, float)
+    ENT_DEF_ARRAY_PROPERTY(TriggerRange, float)
 
 public:
-	~COrderDefinition()	{}
-	COrderDefinition() :
-	IEntityDefinition(&g_allocatorOrder)
-	{}
+    ~COrderDefinition() {}
+    COrderDefinition() :
+    IEntityDefinition(&g_allocatorOrder)
+    {}
 
-	IEntityDefinition*	GetCopy() const	{ return K2_NEW(g_heapResources,    COrderDefinition)(*this); }
+    IEntityDefinition*  GetCopy() const { return K2_NEW(g_heapResources,    COrderDefinition)(*this); }
 
-	virtual void	Precache(EPrecacheScheme eScheme)
-	{
-		IEntityDefinition::Precache(eScheme);
+    virtual void    Precache(EPrecacheScheme eScheme)
+    {
+        IEntityDefinition::Precache(eScheme);
 
-		PRECACHE_GUARD
-			// ...
-		PRECACHE_GUARD_END
-	}
+        PRECACHE_GUARD
+            // ...
+        PRECACHE_GUARD_END
+    }
 
-	virtual void	GetPrecacheList(EPrecacheScheme eScheme, HeroPrecacheList &deqPrecache)
-	{
-		IEntityDefinition::GetPrecacheList(eScheme, deqPrecache);
+    virtual void    GetPrecacheList(EPrecacheScheme eScheme, HeroPrecacheList &deqPrecache)
+    {
+        IEntityDefinition::GetPrecacheList(eScheme, deqPrecache);
 
-		PRECACHE_GUARD
-			deqPrecache.push_back(SHeroPrecache(GetName(), eScheme));
-		PRECACHE_GUARD_END
-	}
+        PRECACHE_GUARD
+            deqPrecache.push_back(SHeroPrecache(GetName(), eScheme));
+        PRECACHE_GUARD_END
+    }
 
-	virtual void	ImportDefinition(IEntityDefinition *pOtherDefinition);
+    virtual void    ImportDefinition(IEntityDefinition *pOtherDefinition);
 };
 //=============================================================================
 

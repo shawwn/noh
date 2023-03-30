@@ -17,24 +17,24 @@
 class CEntityNeutralCampSpawner : public IVisualEntity
 {
 protected:
-	DECLARE_ENT_ALLOCATOR2(Entity, NeutralCampSpawner);
+    DECLARE_ENT_ALLOCATOR2(Entity, NeutralCampSpawner);
 
-	tstring			m_sSpawnName;
-	IUnitEntity*	m_pSpawnedUnit;
+    tstring         m_sSpawnName;
+    IUnitEntity*    m_pSpawnedUnit;
 
 public:
-	~CEntityNeutralCampSpawner()	{}
-	CEntityNeutralCampSpawner()
-		: m_pSpawnedUnit(NULL)
-	{}
+    ~CEntityNeutralCampSpawner()    {}
+    CEntityNeutralCampSpawner()
+        : m_pSpawnedUnit(NULL)
+    {}
 
-	SUB_ENTITY_ACCESSOR(CEntityNeutralCampSpawner, NeutralCampSpawner)
+    SUB_ENTITY_ACCESSOR(CEntityNeutralCampSpawner, NeutralCampSpawner)
 
-	virtual bool			IsServerEntity() const		{ return true; }
-	virtual IUnitEntity*	GetSpawnedUnit() const		{ return m_pSpawnedUnit; }
+    virtual bool            IsServerEntity() const      { return true; }
+    virtual IUnitEntity*    GetSpawnedUnit() const      { return m_pSpawnedUnit; }
 
-	void					ApplyWorldEntity(const CWorldEntity &ent);
-	void					Trigger(IGameEntity *pActivator);
+    void                    ApplyWorldEntity(const CWorldEntity &ent);
+    void                    Trigger(IGameEntity *pActivator);
 };
 //=============================================================================
 

@@ -61,7 +61,7 @@ int wcscasecmp(const wchar_t *s1, const wchar_t *s2);
 #define _tcsncpy strncpy
 #define _vstprintf vsprintf
 #define _vsntprintf vsnprintf
-	
+    
 #endif //UNICODE
 
 // the following do not have wide char versions, use TStringToNative(...) to convert the string args
