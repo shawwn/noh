@@ -1,0 +1,45 @@
+Import(['getCPPFiles', 'env', 'project', 'build_type', 'arch'])
+
+# precompiled header
+env['GchSh'] = env.GchSh(target = '../mv_common.h.gch/'+build_type+'-'+arch, source = 'mv_common.h')[0]
+
+# libs to link against
+if build_type == 'debug':
+	env.Append(LIBS=['k2_debug-'+arch])
+else:
+	env.Append(LIBS=['k2-'+arch])
+
+# cpp defines
+env.Append(CPPDEFINES = ['K2_DLL'])
+
+# library search path
+env.Append(LIBPATH = ['#k2/'+build_type+'-'+arch])
+
+# rpath-link path
+env.Append(RPATHLINK = ['../k2/'+build_type+'-'+arch])
+
+# runtime lib path
+env.Append(LINKFLAGS = '-z origin -Wl,--enable-new-dtags')
+env.Append(RPATH = [ Literal('\\$$ORIGIN/../libs-'+arch), Literal('\\$$ORIGIN/..') ])
+
+# source files
+src = getCPPFiles('../modelviewer.vcproj')
+
+# don't want the lib prefix on this one
+env.Replace(SHLIBPREFIX='')
+
+# create the library, dependencies, install to game dir, target
+if build_type == 'debug':
+	libname = 'cgame_debug-'+arch+'.so'
+	env.SharedLibrary(target = libname, source = src)
+	env.Depends(libname, Alias('k2-' + build_type + '-' + arch))
+	env.Install('#../Heroes of Newerth/modelviewer', libname)
+	Alias(project + '-' + build_type + '-' + arch, libname)
+	Alias('install-' + project + '-' + build_type + '-' + arch, '#../Heroes of Newerth/modelviewer/'+libname)
+else:
+	libname = 'cgame-'+arch+'.so'
+	env.SplitSharedLibrary(target = [libname, libname+'.dbg'], source = src)
+	env.Depends([libname, libname+'.dbg'], Alias('k2-' + build_type + '-' + arch))
+	env.Install('#../Heroes of Newerth/modelviewer', [libname, libname+'.dbg'])
+	Alias(project + '-' + build_type + '-' + arch, [libname, libname+'.dbg'])
+	Alias('install-' + project + '-' + build_type + '-' + arch, ['#../Heroes of Newerth/modelviewer/'+libname,  '#../Heroes of Newerth/modelviewer/'+libname+'.dbg'])

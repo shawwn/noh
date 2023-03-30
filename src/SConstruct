@@ -1,0 +1,184 @@
+import re
+import os
+import os.path
+import xml.dom.minidom
+
+import SCons
+
+if Environment()['PLATFORM'] is not 'posix':
+	print 'Invalid platform'
+	Exit(1)
+
+# following 2 builders produce stripped binary/library with gnu-debuglink set to debug symbol file
+split_program = Builder(action = [ SCons.Defaults.LinkAction,
+								   '$OBJCOPY --only-keep-debug ${TARGETS[0]} ${TARGETS[1]}',
+								   '$OBJCOPY --strip-unneeded ${TARGETS[0]}',
+								   '$OBJCOPY --add-gnu-debuglink=${TARGETS[1]} ${TARGETS[0]}' ],
+						emitter = '$PROGEMITTER',
+						prefix = '$PROGPREFIX',
+						suffix = '$PROGSUFFIX',
+						src_suffix = '$OBJSUFFIX',
+						src_builder = 'Object',
+						target_scanner = ProgramScanner)
+
+split_shared_lib = Builder(action = [ SCons.Defaults.SharedCheck,
+									  SCons.Defaults.ShLinkAction,
+									  '$OBJCOPY --only-keep-debug ${TARGETS[0]} ${TARGETS[1]}',
+									  '$OBJCOPY --strip-unneeded ${TARGETS[0]}',
+									  '$OBJCOPY --add-gnu-debuglink=${TARGETS[1]} ${TARGETS[0]}' ],
+						   emitter = "$SHLIBEMITTER",
+						   prefix = '$SHLIBPREFIX',
+						   suffix = '$SHLIBSUFFIX',
+						   target_scanner = ProgramScanner,
+						   src_suffix = '$SHOBJSUFFIX',
+						   src_builder = 'SharedObject')
+
+architectures = ['x86', 'x86_64']
+build_types = ['debug', 'release']
+
+# cflags (build_type)
+cflags = {}
+cflags['all'] = '-pipe -fvisibility=hidden -fmessage-length=0'
+cflags['debug'] = '-O0 -g3'
+cflags['release'] = '-Os -g -fomit-frame-pointer -fno-strict-aliasing'
+cflags['x86'] = '-m32 -march=i686 -mtune=generic -mmmx -msse -mfpmath=sse'
+cflags['x86_64'] = '-m64 -mtune=generic -mmmx -msse -msse2'
+cflags['warning'] = '-Wall'
+
+# cxx flags (build_type, arch)
+cxxflags = {}
+# flags to play with later on: -fno-threadsafe-statics, -fnortti, -fconserve-space
+cxxflags['all'] = '-pipe -fuse-cxa-atexit -fvisibility=hidden -fvisibility-inlines-hidden'
+cxxflags['debug'] = '-O0 -g3'
+cxxflags['release'] = '-Os -g -fomit-frame-pointer -fno-strict-aliasing'
+cxxflags['x86'] = '-m32 -march=i686 -mtune=generic -mmmx -msse -mfpmath=sse'
+cxxflags['x86_64'] = '-m64 -mtune=generic -mmmx -msse -msse2'
+cxxflags['warning'] = '-Wall -Wno-comment -Wno-switch -Wno-unknown-pragmas -Wno-reorder -Wno-sign-compare' # -Wshadow
+
+# cpp defines (build_type)
+cppdefines = {}
+cppdefines['debug'] = ['_DEBUG', 'DEBUG']
+cppdefines['release'] = ['NDEBUG']
+
+# preprocessor include paths
+cpppath = ['.', '#Heroes of Newerth_shell', '#k2', '#./../lib/k2public']
+
+# linker flags (build_type, arch)
+linkflags = {}
+linkflags['debug'] = ''
+linkflags['release'] = '-O3'
+linkflags['x86'] = '-m32'
+linkflags['x86_64'] = '-m64'
+
+target="x86_64-unknown-linux-gnu"
+toolchain="gcc-4.3.2-glibc-2.3.4"
+
+# archiver, assembler, compilers, linker
+ar = '/opt/toolchain/'+toolchain+'/'+target+'/bin/'+target+'-ar'
+assembler = '/opt/toolchain/'+toolchain+'/'+target+'/bin/'+target+'-as'
+cc = '/opt/toolchain/'+toolchain+'/'+target+'/bin/'+target+'-gcc'
+cxx = '/opt/toolchain/'+toolchain+'/'+target+'/bin/'+target+'-g++'
+link = '/opt/toolchain/'+toolchain+'/'+target+'/bin/'+target+'-g++'
+objcopy = '/opt/toolchain/'+toolchain+'/'+target+'/bin/'+target+'-objcopy'
+
+# projects (project_dir)
+projects =	[
+				'k2',
+				'shell',
+				'hon_shared',
+				'hon_server',
+				'hon_client',
+				'modelviewer',
+				'editor',
+				'vid_gl2',
+				'K2_Updater'
+				#'updater'
+			]
+
+def createTargets():
+	'''	Creates the targets consisting of every combination of:
+			<project>-<build_type>-<arch>
+		and aliases for all projects for a specific arch/build_type combination:
+			all-<build_type>-<arch>
+		Returns a dictionary of all the targets' environments
+	'''
+	env = {}
+	for build_type in build_types:
+		for arch in architectures:
+			for project in projects:
+				env["%(project)s-%(build_type)s-%(arch)s" % locals()] = createProject(project, build_type, arch)
+				Alias('all-' + build_type + '-' + arch, project + '-' + build_type + '-' + arch)
+				Alias('all-' + build_type + '-' + arch, 'install-' + project + '-' + build_type + '-' + arch)
+	return env
+
+
+def createProject(project, build_type, arch):
+	'''	Returns an environment for the project, configured with a specific build_type and arch
+	'''
+	env = Environment(	AR = ar,
+						AS = assembler,
+						CC = cc,
+						CXX = cxx,
+						LINK = link,
+						OBJCOPY = objcopy,
+						CFLAGS = cflags['all'] + ' ' + cflags[build_type] + ' ' + cflags[arch] + ' ' + cflags['warning'],
+						CXXFLAGS = cxxflags['all'] + ' ' + cxxflags[build_type] + ' ' + cxxflags[arch] + ' ' + cxxflags['warning'],
+						CPPDEFINES = cppdefines[build_type],
+						CPPPATH = cpppath,
+						tools = ['default', 'gch'],
+						toolpath = ['.'])
+	env.Append(	LINKFLAGS = linkflags[build_type] + ' ' + linkflags[arch])
+	env.Append( BUILDERS = { 'SplitSharedLibrary' : split_shared_lib, 'SplitProgram' : split_program } )
+	if arch=='x86':
+		env.Replace( SHCXXFLAGS = env['CXXFLAGS'])
+	if not os.path.exists(project + '/' + build_type + '-' + arch):
+		os.mkdir(project + '/' + build_type + '-' + arch)
+	env.SConscript(	project + '/SConscript',
+					exports = ['env', 'project', 'build_type', 'arch'],
+					build_dir = project + '/' + build_type + '-' + arch,
+					duplicate = 0)
+	return env
+
+
+filelist = {}
+def getCPPFiles(vcproj):
+	'''	Returns a list of the .cpp files in the vcproj file
+		TODO: check build configuration to see if file is excluded?
+	'''
+	files = []
+	if filelist.has_key(vcproj):
+		return filelist[vcproj]
+	dom = xml.dom.minidom.parse(vcproj)
+	for File in dom.getElementsByTagName('File'):
+		# change \ to /, remove leading ./, change win32 to linux
+		name = re.sub(r'win32', r'linux', re.sub(r'^./', r'', re.sub(r'\\', '/', File.attributes['RelativePath'].value)))
+		excluded = False
+		if File.hasChildNodes():
+			for child in File.getElementsByTagName('FileConfiguration'):
+				if child.nodeType == xml.dom.Node.ELEMENT_NODE \
+				and child.hasAttributes() \
+				and child.getAttribute('ExcludedFromBuild') == 'true' \
+				and child.getAttribute('Name') == 'Release|Win32':
+					excluded = True
+					break
+		if not excluded and re.search(r".(?:cpp|c)$", name) and name not in files:
+			files.append(name)
+	filelist[vcproj] = files
+	return files
+
+
+Export('getCPPFiles')
+env = createTargets()
+
+Alias('all-debug', 'all-debug-x86')
+Alias('all-debug', 'all-debug-x86_64')
+Alias('all-release', 'all-release-x86')
+Alias('all-release', 'all-release-x86_64')
+
+Alias('all-x86', 'all-debug-x86')
+Alias('all-x86', 'all-release-x86')
+Alias('all-x86_64', 'all-debug-x86_64')
+Alias('all-x86_64', 'all-release-x86_64')
+
+Alias('all', 'all-debug')
+Alias('all', 'all-release')

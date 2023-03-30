@@ -1,0 +1,39 @@
+Import(['getCPPFiles', 'env', 'project', 'build_type', 'arch'])
+
+# precompiled header
+env['GchSh'] = env.GchSh(target = '../game_server_common.h.gch/'+build_type+'-'+arch, source = 'game_server_common.h')[0]
+
+# libs to link against
+if build_type == 'debug':
+	env.Append(LIBS=['k2_debug', 'game_shared_debug'])
+else:
+	env.Append(LIBS=['k2', 'game_shared'])
+
+# cpp defines
+env.Append(CPPDEFINES = ['K2_DLL'])
+
+if build_type == 'debug':
+	libname = 'game_debug'
+else:
+	libname = 'game'
+
+# library search path
+env.Append(LIBPATH = ['#k2/'+build_type+'-'+arch, '#game_shared/'+build_type+'-'+arch])
+
+# rpath-link path
+env.Append(RPATHLINK = ['../k2/'+build_type+'-'+arch])
+
+# source files
+src = getCPPFiles('../game_server.vcproj')
+
+# don't want the lib prefix on this one
+env.Replace(SHLIBPREFIX='')
+
+# create the library
+env.SharedLibrary(target = libname, source = src)
+
+# dependencies
+env.Depends(libname + '.so', Alias('game_shared-' + build_type + '-' + arch))
+
+# target
+Alias(project + '-' + build_type + '-' + arch, libname + '.so')

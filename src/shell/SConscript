@@ -1,0 +1,39 @@
+Import(['getCPPFiles', 'env', 'project', 'build_type', 'arch'])
+
+# precompiled header
+env['Gch'] = env.GchSh(target = '../../Heroes of Newerth_shell/shell_common.h.gch/'+build_type+'-'+arch, source = '../Heroes of Newerth_shell/shell_common.h')[0]
+
+# libs to link against
+if build_type == 'debug':
+	env.Append(LIBS=['pthread', 'k2_debug-'+arch])
+else:
+	env.Append(LIBS=['pthread', 'k2-'+arch])
+
+# cpp defines
+env.Append(CPPDEFINES = ['K2_DLL'])
+
+# library search path
+env.Append(LIBPATH = ['#k2/'+build_type+'-'+arch])
+
+# runtime lib path
+env.Append(LINKFLAGS = '-z origin -Wl,--enable-new-dtags')
+env.Append(RPATH = [ Literal('\\$$ORIGIN/libs-'+arch), Literal('\\$$ORIGIN') ])
+
+# source files
+src = ['misc_cmds.cpp', 'shell_common.cpp', 'main_linux.cpp']
+
+# create the binary, dependencies, install to game dir, target
+if build_type == 'debug':
+	binname = 'hon_debug-'+arch
+	env.Program(target = binname, source = src)
+	env.Depends(binname, 'k2-' + build_type + '-' + arch)
+	env.Install('#../Heroes of Newerth', binname)
+	Alias(project + '-' + build_type + '-' + arch, binname)
+	Alias('install-' + project + '-' + build_type + '-' + arch, '#../Heroes of Newerth/'+binname)
+else:
+	binname = 'hon-'+arch
+	env.SplitProgram(target = [binname, binname+'.dbg'], source = src)
+	env.Depends([binname, binname+'.dbg'], 'k2-' + build_type + '-' + arch)
+	env.Install('#../Heroes of Newerth', [binname, binname+'.dbg'])
+	Alias(project + '-' + build_type + '-' + arch, [binname, binname+'.dbg'])
+	Alias('install-' + project + '-' + build_type + '-' + arch, ['#../Heroes of Newerth/'+binname, '#../Heroes of Newerth/'+binname+'.dbg'])

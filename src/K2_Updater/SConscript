@@ -1,0 +1,23 @@
+Import(['getCPPFiles', 'env', 'project', 'build_type', 'arch'])
+
+# libs to link against
+env.Append(LIBS=['X11'])
+
+# source files
+src = ['main_linux.c', 'ui_linux_stdio.c', 'ui_linux_x11.c']
+
+# create the binary, dependencies, install to game dir, target
+if build_type == 'debug':
+	binname = 'hon_update_debug-'+arch
+	env.Program(target = binname, source = src)
+	env.Depends(binname, 'k2-' + build_type + '-' + arch)
+	env.Install('#../Heroes of Newerth', binname)
+	Alias(project + '-' + build_type + '-' + arch, binname)
+	Alias('install-' + project + '-' + build_type + '-' + arch, '#../Heroes of Newerth/'+binname)
+else:
+	binname = 'hon_update-'+arch
+	env.SplitProgram(target = [binname, binname+'.dbg'], source = src)
+	env.Depends([binname, binname+'.dbg'], 'k2-' + build_type + '-' + arch)
+	env.Install('#../Heroes of Newerth', [binname, binname+'.dbg'])
+	Alias(project + '-' + build_type + '-' + arch, [binname, binname+'.dbg'])
+	Alias('install-' + project + '-' + build_type + '-' + arch, ['#../Heroes of Newerth/'+binname, '#../Heroes of Newerth/'+binname+'.dbg'])

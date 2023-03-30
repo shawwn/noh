@@ -1,0 +1,217 @@
+// (C)2009 S2 Games
+// i_orderentity.cpp
+//
+//=============================================================================
+
+//=============================================================================
+// Headers
+//=============================================================================
+#include "game_shared_common.h"
+
+#include "i_orderentity.h"
+
+#include "../k2/c_scenemanager.h"
+#include "../k2/c_resourcemanager.h"
+//=============================================================================
+
+//=============================================================================
+// Definitions
+//=============================================================================
+uint				IOrderEntity::s_uiBaseType(ENTITY_BASE_TYPE_ORDER);
+
+DEFINE_ENTITY_DESC(IOrderEntity, 1)
+{
+	s_cDesc.pFieldTypes = K2_NEW(g_heapTypeVector,   TypeVector)();
+}
+//=============================================================================
+
+/*====================
+  IOrderEntity::IOrderEntity
+  ====================*/
+IOrderEntity::IOrderEntity() :
+IGameEntity(NULL),
+m_uiLevel(1),
+m_uiOwnerIndex(INVALID_INDEX),
+m_fParam(0.0f),
+m_bComplete(false),
+m_bCancel(false)
+{
+	for (int i(0); i < 4; ++i)
+		m_auiProxyUID[i] = INVALID_INDEX;
+}
+
+
+/*====================
+  IOrderEntity::Baseline
+  ====================*/
+void	IOrderEntity::Baseline()
+{
+}
+
+
+/*====================
+  IOrderEntity::GetSnapshot
+  ====================*/
+void	IOrderEntity::GetSnapshot(CEntitySnapshot &snapshot, uint uiFlags) const
+{
+}
+
+
+/*====================
+  IOrderEntity::ReadSnapshot
+  ====================*/
+bool	IOrderEntity::ReadSnapshot(CEntitySnapshot &snapshot, uint uiVersion)
+{
+	try
+	{
+		Validate();
+
+		return true;
+	}
+	catch (CException &ex)
+	{
+		ex.Process(_T("IVisualEntity::ReadSnapshot() - "), NO_THROW);
+		return false;
+	}
+
+	return true;
+}
+
+
+/*====================
+  IOrderEntity::ClientPrecache
+  ====================*/
+void	IOrderEntity::ClientPrecache(CEntityConfig *pConfig, EPrecacheScheme eScheme)
+{
+	IGameEntity::ClientPrecache(pConfig, eScheme);
+}
+
+
+/*====================
+  IOrderEntity::ServerPrecache
+  ====================*/
+void	IOrderEntity::ServerPrecache(CEntityConfig *pConfig, EPrecacheScheme eScheme)
+{
+	IGameEntity::ServerPrecache(pConfig, eScheme);
+}
+
+
+/*====================
+  IOrderEntity::Spawn
+  ====================*/
+void	IOrderEntity::Spawn()
+{
+	IGameEntity::Spawn();
+
+#if 0
+	if (Game.IsServer())
+	{
+		COrderDefinition *pDefinition(GetDefinition<CAffectorDefinition>(GetModifierBits()));
+		if (pDefinition != NULL)
+			pDefinition->ExecuteActionScript(ACTION_SCRIPT_SPAWN, this, GetOwner(), this, NULL, GetPosition(), GetProxy(0), GetLevel());
+	}
+#endif
+}
+
+
+/*====================
+  IOrderEntity::ServerFrameSetup
+  ====================*/
+bool	IOrderEntity::ServerFrameSetup()
+{
+	return IGameEntity::ServerFrameSetup();
+}
+
+
+/*====================
+  IOrderEntity::ServerFrameMovement
+  ====================*/
+bool	IOrderEntity::ServerFrameMovement()
+{
+	return IGameEntity::ServerFrameMovement();
+}
+
+
+/*====================
+  IOrderEntity::ServerFrameAction
+  ====================*/
+bool	IOrderEntity::ServerFrameAction()
+{
+	return IGameEntity::ServerFrameAction();
+}
+
+
+/*====================
+  IOrderEntity::ServerFrameCleanup
+  ====================*/
+bool	IOrderEntity::ServerFrameCleanup()
+{
+	return IGameEntity::ServerFrameCleanup();
+}
+
+
+/*====================
+  IOrderEntity::ExecuteActionScript
+  ====================*/
+void	IOrderEntity::ExecuteActionScript(EEntityActionScript eScript, IUnitEntity *pTarget, const CVec3f &v3Target)
+{
+	COrderDefinition *pDefinition(GetDefinition<COrderDefinition>(GetModifierBits()));
+	if (pDefinition == NULL)
+		return;
+
+	pDefinition->ExecuteActionScript(eScript, this, GetOwner(), this, pTarget, v3Target, GetProxy(0), GetLevel());
+}
+
+
+/*====================
+  IOrderEntity::UpdateModifiers
+  ====================*/
+void	IOrderEntity::UpdateModifiers(const uivector &vModifiers)
+{
+	m_vModifierKeys = vModifiers;
+
+	uint uiModifierBits(0);
+	if (m_uiActiveModifierKey != INVALID_INDEX)
+		uiModifierBits |= GetModifierBit(m_uiActiveModifierKey);
+
+	SetModifierBits(uiModifierBits | GetModifierBits(vModifiers));
+
+	// Activate conditional modifiers
+	IUnitEntity *pOwner(GetOwner());
+	if (pOwner == NULL)
+		return;
+
+	CEntityDefinitionResource *pResource(g_ResourceManager.Get<CEntityDefinitionResource>(m_hDefinition));
+	if (pResource == NULL)
+		return;
+	IEntityDefinition *pDefinition(pResource->GetDefinition<IEntityDefinition>());
+	if (pDefinition == NULL)
+		return;
+
+	const map<ushort, IEntityDefinition*> &mapModifiers(pDefinition->GetModifiers());
+	for (map<ushort, IEntityDefinition*>::const_iterator cit(mapModifiers.begin()), citEnd(mapModifiers.end()); cit != citEnd; ++cit)
+	{
+		const tstring &sCondition(cit->second->GetCondition());
+		if (sCondition.empty())
+			continue;
+
+		tsvector vsTypes(TokenizeString(sCondition, _T(' ')));
+
+		tsvector_cit itType(vsTypes.begin()), itTypeEnd(vsTypes.end());
+		for (; itType != itTypeEnd; ++itType)
+		{
+			if (!itType->empty() && (*itType)[0] == _T('!'))
+			{
+				if (pOwner->IsTargetType(itType->substr(1), pOwner))
+					break;
+			}
+			else
+			{
+				if (!pOwner->IsTargetType(*itType, pOwner))
+					break;
+			}
+		}
+		if (itType == itTypeEnd)
+			SetModifierBits(GetModifierBits() | cit->first);
+	}
+}

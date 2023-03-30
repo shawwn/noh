@@ -1,0 +1,45 @@
+Import(['getCPPFiles', 'env', 'project', 'build_type', 'arch'])
+
+# precompiled header
+env['GchSh'] = env.GchSh(target = '../game_client_common.h.gch/'+build_type+'-'+arch, source = 'game_client_common.h')[0]
+
+# libs to link against
+if build_type == 'debug':
+	env.Append(LIBS=['k2_debug-'+arch, 'game_shared_debug-'+arch])
+else:
+	env.Append(LIBS=['k2-'+arch, 'game_shared-'+arch])
+
+# cpp defines
+env.Append(CPPDEFINES = ['K2_DLL', 'GAME_SHARED_DLL', 'GAME_CLIENT_EXPORTS'])
+
+# library search path
+env.Append(LIBPATH = ['#k2/'+build_type+'-'+arch, '#hon_shared/'+build_type+'-'+arch])
+
+# rpath-link path
+env.Append(RPATHLINK = ['../k2/'+build_type+'-'+arch])
+
+# runtime lib path
+env.Append(LINKFLAGS = '-z origin -Wl,--enable-new-dtags')
+env.Append(RPATH = [ Literal('\\$$ORIGIN/../libs-'+arch), Literal('\\$$ORIGIN/..'), Literal('\\$$ORIGIN') ])
+
+# source files
+src = getCPPFiles('../game_client.vcproj')
+
+# don't want the lib prefix on this one
+env.Replace(SHLIBPREFIX='')
+
+# create the library, dependencies, install to game dir, target
+if build_type == 'debug':
+	libname = 'cgame_debug-'+arch+'.so'
+	env.SharedLibrary(target = libname, source = src)
+	env.Depends(libname, Alias('hon_shared-' + build_type + '-' + arch))
+	env.Install('#../Heroes of Newerth/game', libname)
+	Alias(project + '-' + build_type + '-' + arch, libname)
+	Alias('install-' + project + '-' + build_type + '-' + arch, '#../Heroes of Newerth/game/'+libname)
+else:
+	libname = 'cgame-'+arch+'.so'
+	env.SplitSharedLibrary(target = [libname, libname+'.dbg'], source = src)
+	env.Depends([libname, libname+'.dbg'], Alias('hon_shared-' + build_type + '-' + arch))
+	env.Install('#../Heroes of Newerth/game', [libname, libname+'.dbg'])
+	Alias(project + '-' + build_type + '-' + arch, [libname, libname+'.dbg'])
+	Alias('install-' + project + '-' + build_type + '-' + arch, ['#../Heroes of Newerth/game/'+libname, '#../Heroes of Newerth/game/'+libname+'.dbg'])
