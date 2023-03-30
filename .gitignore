@@ -1046,3 +1046,9 @@ dkms.conf
 
 # Build artifacts
 Debug Lite/
+
+# Xcode
+XCBuildData/
+SharedPrecompiledHeaders/
+xcuserdata/
+*.xcworkspace
