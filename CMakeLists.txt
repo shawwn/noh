@@ -928,7 +928,7 @@ if (APPLE)
           )
 elseif (WIN32)
   set(K2_SOURCES ${K2_SOURCES}
-          src/k2/c_system_win32.mm
+          src/k2/c_system_win32.cpp
           )
 elseif (UNIX)
   set(K2_SOURCES ${K2_SOURCES}
