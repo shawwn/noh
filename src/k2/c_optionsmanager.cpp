@@ -32,7 +32,7 @@ CVAR_INT        (options_display,           -1);
 ARRAY_CVAR_UINT (options_resolution,        _T("0,0"));
 CVAR_INT        (options_bpp,               0);
 CVAR_INT        (options_refreshRate,       0);
-CVAR_BOOL       (options_fullscreen,        true);
+CVAR_BOOL       (options_fullscreen,        false);
 CVAR_BOOL       (options_exclusive,         true);
 CVAR_BOOL       (options_framequeuing,      false);
 CVAR_BOOL       (options_vsync,             false);
