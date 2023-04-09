@@ -796,8 +796,11 @@ void    CTextBox::SetInputLine(const tstring &sInputLine)
 
     if (!m_bWrap && m_pFontMap != NULL)
     {
-        while (m_pFontMap->GetStringWidth(m_sInputLine.substr(m_zStart, m_zEnd - m_zStart)) + m_pFontMap->GetCharMapInfo(_T(' '))->m_fAdvance > m_recArea.GetWidth())
+        while (m_pFontMap->GetStringWidth(m_sInputLine.substr(m_zStart, m_zEnd - m_zStart)) + m_pFontMap->GetCharMapInfo(_T(' '))->m_fAdvance > m_recArea.GetWidth()) {
+            if (m_zStart >= m_zEnd)
+                break;
             m_zStart++;
+        }
     }
 
     DO_EVENT(WEVENT_CHANGE)
@@ -828,8 +831,11 @@ void    CTextBox::SetInputPos(size_t zInputPos)
 
     if (!m_bWrap && m_pFontMap != NULL)
     {
-        while (m_pFontMap->GetStringWidth(m_sInputLine.substr(m_zStart, m_zEnd - m_zStart)) + m_pFontMap->GetCharMapInfo(_T(' '))->m_fAdvance > m_recArea.GetWidth())
+        while (m_pFontMap->GetStringWidth(m_sInputLine.substr(m_zStart, m_zEnd - m_zStart)) + m_pFontMap->GetCharMapInfo(_T(' '))->m_fAdvance > m_recArea.GetWidth()) {
+            if (m_zStart >= m_zEnd)
+                break;
             m_zStart++;
+        }
     }
 
     m_zSelStart = -1;
