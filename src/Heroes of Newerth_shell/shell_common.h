@@ -140,7 +140,7 @@
 #else
 #define BUILD_OS        _T("ma1")
 #endif
-#define BUILD_ARCH      _T("universal")
+#define BUILD_ARCH      _T("arm64")
 
 #endif
 //=============================================================================
