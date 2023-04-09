@@ -582,8 +582,8 @@ set(K2_SOURCES
         src/k2/c_swatch.h
         src/k2/c_system.h
         # src/k2/c_system_linux.cpp
-        src/k2/c_system_osx.mm
-        src/k2/c_system_posix.cpp
+        # src/k2/c_system_osx.mm
+        # src/k2/c_system_posix.cpp
         # src/k2/c_system_win32.cpp
         src/k2/c_table.cpp
         src/k2/c_table.h
@@ -918,6 +918,22 @@ set(K2_SOURCES
         src/k2/c_srp.h
         src/k2/c_srp.cpp
         )
+
+if (APPLE)
+  set(K2_SOURCES ${K2_SOURCES}
+          src/k2/c_system_osx.mm
+          src/k2/c_system_posix.cpp
+          )
+elseif (WIN32)
+  set(K2_SOURCES ${K2_SOURCES}
+          src/k2/c_system_win32.mm
+          )
+elseif (UNIX)
+  set(K2_SOURCES ${K2_SOURCES}
+          src/k2/c_system_linux.cpp
+          src/k2/c_system_posix.cpp
+          )
+endif()
 
 app_dll(${K2_LIBRARY} "${K2_SOURCES}")
 target_compile_definitions(${K2_LIBRARY} PUBLIC K2_EXPORTS)
