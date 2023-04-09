@@ -1,3 +1,6 @@
 [submodule "lib"]
 	path = lib
 	url = https://github.com/shawwn/noh-lib
+[submodule "Heroes of Newerth"]
+	path = Heroes of Newerth
+	url = https://github.com/shawwn/noh-game
