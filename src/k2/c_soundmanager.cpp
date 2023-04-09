@@ -2780,7 +2780,7 @@ void    CSoundManager::PlayPlaylist(const tsvector &vPlaylist, bool bShuffle)
 
     m_vMusicPlaylist = vPlaylist;
     if (bShuffle)
-        std::random_shuffle(m_vMusicPlaylist.begin(), m_vMusicPlaylist.end());
+        K2::random_shuffle(m_vMusicPlaylist.begin(), m_vMusicPlaylist.end());
 
     m_bPlaylistActive = true;
     m_iNextPlaylistIndex = 1 % int(vPlaylist.size());

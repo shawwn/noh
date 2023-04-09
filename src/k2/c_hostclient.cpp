@@ -2160,7 +2160,7 @@ void    CHostClient::SendPackets()
     if (m_pktReliableSend.GetLength() > 0)
     {
         if (cl_showPackets)
-            Console.Net << _T("RELIABLE: ") << ParenStr(m_pktReliableSend.GetLength()) << _T(" bytes") << newl;
+            Console.Net << _T("RELIABLE: ") << ParenStr(XtoA(m_pktReliableSend.GetLength())) << _T(" bytes") << newl;
 
         NetStats.RecordPacket(NETSOCKET_OUTGOING, m_pktReliableSend.GetLength());
 
@@ -4235,7 +4235,7 @@ void    CServerList::ProcessServerList(const wstring &sResponse)
         RequestServerInfo(pEntry->GetString(_T("ip")) + _T(":") + pEntry->GetString(_T("port")), pEntry->GetInteger(_T("class")) > 0, m_eRequestList, false, TSNULL);
     }
 
-    std::random_shuffle(m_deqRequests.begin(), m_deqRequests.end());
+    K2::random_shuffle(m_deqRequests.begin(), m_deqRequests.end());
 
     RelistServers();
 

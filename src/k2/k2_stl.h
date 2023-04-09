@@ -37,6 +37,16 @@
 //=============================================================================
 // Declarations
 //=============================================================================
+#include <random>
+namespace K2
+{
+    template<class RandomAccessIterator>
+    void random_shuffle(RandomAccessIterator first, RandomAccessIterator last) {
+        std::random_device rd;
+        std::mt19937 g(rd());
+        std::shuffle(first, last, g);
+    }
+}
 
 // to turn off trapping STL allocations, see k2_stl_allocator.h
 

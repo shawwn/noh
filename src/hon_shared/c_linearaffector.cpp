@@ -356,7 +356,7 @@ void    CLinearAffector::Impact(vector<IUnitEntity*> &vTargets)
                     vPotentialImpacts.push_back(pTarget);
             }
 
-            std::random_shuffle(vPotentialImpacts.begin(), vPotentialImpacts.end());
+            K2::random_shuffle(vPotentialImpacts.begin(), vPotentialImpacts.end());
             
             if (uiRemainingImpacts < vPotentialImpacts.size())
                 vPotentialImpacts.resize(uiRemainingImpacts);

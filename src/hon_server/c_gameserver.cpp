@@ -1415,7 +1415,7 @@ void    CGameServer::StartGame(bool bAllowSolo, bool bAllowEmpty)
                 vClients.push_back(it->second);
         }
 
-        std::random_shuffle(vClients.begin(), vClients.end());
+        K2::random_shuffle(vClients.begin(), vClients.end());
         for (vector<CPlayer*>::iterator it(vClients.begin()); it != vClients.end(); ++it)
             ChangeTeam((*it)->GetClientNumber(), TEAM_INVALID);
 
@@ -5469,14 +5469,15 @@ void    CGameServer::SendGeneralMessage(const tstring &sMsg, int iNumPlayers, in
   ====================*/
 bool    CGameServer::ProcessGameData(int iClientNum, CPacket &pkt)
 {
-    // OMG spam...
-    // Console << _T("Message from client #") << iClientNum << _T("...") << newl;
-
     CPlayer *pPlayer(GetPlayer(iClientNum));
     if (pPlayer != NULL)
         pPlayer->SetLastInputTime(Game.GetGameTime());
 
     byte yCmd(pkt.ReadByte());
+
+    // OMG spam...
+    // Console << _T("Message from client #") << iClientNum << _T("...") << yCmd << newl;
+
     switch (yCmd)
     {
     case GAME_CMD_PURCHASE:
@@ -7502,9 +7503,9 @@ void    CGameServer::BuildHeroLists()
         }
 
         // Randomize lists
-        std::random_shuffle(vAgiHeroes.begin(), vAgiHeroes.end());
-        std::random_shuffle(vIntHeroes.begin(), vIntHeroes.end());
-        std::random_shuffle(vStrHeroes.begin(), vStrHeroes.end());
+        K2::random_shuffle(vAgiHeroes.begin(), vAgiHeroes.end());
+        K2::random_shuffle(vIntHeroes.begin(), vIntHeroes.end());
+        K2::random_shuffle(vStrHeroes.begin(), vStrHeroes.end());
 
         // Create a list for each player with one hero from each attribute list
         for (uint ui(0); ui < NUM_HERO_LISTS; ++ui)
@@ -7530,7 +7531,7 @@ void    CGameServer::BuildHeroLists()
         }
 
         // Generate a random selection
-        std::random_shuffle(vHeroes.begin(), vHeroes.end());
+        K2::random_shuffle(vHeroes.begin(), vHeroes.end());
         if (vHeroes.size() > GetGameInfo()->GetHeroPoolSize())
             vHeroes.resize(GetGameInfo()->GetHeroPoolSize());
 
@@ -7560,9 +7561,9 @@ void    CGameServer::BuildHeroLists()
         }
 
         // Randomize lists
-        std::random_shuffle(vAgiHeroes.begin(), vAgiHeroes.end());
-        std::random_shuffle(vIntHeroes.begin(), vIntHeroes.end());
-        std::random_shuffle(vStrHeroes.begin(), vStrHeroes.end());
+        K2::random_shuffle(vAgiHeroes.begin(), vAgiHeroes.end());
+        K2::random_shuffle(vIntHeroes.begin(), vIntHeroes.end());
+        K2::random_shuffle(vStrHeroes.begin(), vStrHeroes.end());
 
         for (uint ui(0); ui < MIN(INT_SIZE(vAgiHeroes.size()), GetGameInfo()->GetHeroPoolSize() / 3); ++ui)
             m_vHeroLists[0].push_back(HeroListEntry(vAgiHeroes[ui], HERO_LIST_AVAILABLE_ALL));
