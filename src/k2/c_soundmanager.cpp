@@ -696,16 +696,18 @@ void    CSoundManager::Start()
         else if ((_tcsicmp(sound_output.c_str(), _T("alsa")) == 0))
             result = m_pFMODSystem->setOutput(FMOD_OUTPUTTYPE_ALSA);
 #elif defined(_WIN32)
+#if TKTK // This seems removed as of 2023
         if (_tcsicmp(sound_output.c_str(), _T("dsound")) == 0)
             result = m_pFMODSystem->setOutput(FMOD_OUTPUTTYPE_DSOUND);
         else if (_tcsicmp(sound_output.c_str(), _T("winmm")) == 0)
             result = m_pFMODSystem->setOutput(FMOD_OUTPUTTYPE_WINMM);
-        else if (_tcsicmp(sound_output.c_str(), _T("asio")) == 0)
+        else if (_tcsicmp(sound_output.c_str(), _T("openal")) == 0)
+            result = m_pFMODSystem->setOutput(FMOD_OUTPUTTYPE_OPENAL);
+#endif
+        if (_tcsicmp(sound_output.c_str(), _T("asio")) == 0)
             result = m_pFMODSystem->setOutput(FMOD_OUTPUTTYPE_ASIO);
         else if (_tcsicmp(sound_output.c_str(), _T("wasapi")) == 0)
             result = m_pFMODSystem->setOutput(FMOD_OUTPUTTYPE_WASAPI);
-        else if (_tcsicmp(sound_output.c_str(), _T("openal")) == 0)
-            result = m_pFMODSystem->setOutput(FMOD_OUTPUTTYPE_OPENAL);
 #elif defined(__APPLE__)
 #if TKTK // Seems to be removed as of 2023
         if (_tcsicmp(sound_output.c_str(), _T("soundmanager")) == 0)
@@ -915,12 +917,14 @@ void    CSoundManager::Start()
             break;
         }
 
+#if TKTK // This seems removed as of 2023
 #ifdef _WIN32
         if (caps & FMOD_CAPS_HARDWARE_EMULATED)
         {
             // Acceleration slider set to off - increase buffer size to avoid stuttering
             m_pFMODSystem->setDSPBufferSize(1024, 10);
         }
+#endif
 #endif
 
         FMOD_DSP_RESAMPLER resampler(FMOD_DSP_RESAMPLER_LINEAR);
@@ -1308,16 +1312,18 @@ void    CSoundManager::RefreshDrivers()
     else if ((_tcsicmp(sound_output.c_str(), _T("alsa")) == 0))
         result = pSystem->setOutput(FMOD_OUTPUTTYPE_ALSA);
 #elif defined(_WIN32)
+#if TKTK // Seems removed as of 2023
     if (_tcsicmp(sound_output.c_str(), _T("dsound")) == 0)
         result = pSystem->setOutput(FMOD_OUTPUTTYPE_DSOUND);
     else if (_tcsicmp(sound_output.c_str(), _T("winmm")) == 0)
         result = pSystem->setOutput(FMOD_OUTPUTTYPE_WINMM);
-    else if (_tcsicmp(sound_output.c_str(), _T("asio")) == 0)
+    else if (_tcsicmp(sound_output.c_str(), _T("openal")) == 0)
+        result = pSystem->setOutput(FMOD_OUTPUTTYPE_OPENAL);
+#endif
+    if (_tcsicmp(sound_output.c_str(), _T("asio")) == 0)
         result = pSystem->setOutput(FMOD_OUTPUTTYPE_ASIO);
     else if (_tcsicmp(sound_output.c_str(), _T("wasapi")) == 0)
         result = pSystem->setOutput(FMOD_OUTPUTTYPE_WASAPI);
-    else if (_tcsicmp(sound_output.c_str(), _T("openal")) == 0)
-        result = pSystem->setOutput(FMOD_OUTPUTTYPE_OPENAL);
 #elif defined(__APPLE__)
 #if TKTK // Seems removed as of 2023
     if (_tcsicmp(sound_output.c_str(), _T("soundmanager")) == 0)
