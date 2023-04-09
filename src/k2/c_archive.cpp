@@ -21,24 +21,7 @@ bool        CArchive::ExamineChecksums = true;
 /*====================
   CArchive::CArchive
   ====================*/
-CArchive::CArchive() :
-m_iMode(0),
-m_pZipFile(NULL),
-m_pUnzipFile(NULL),
-m_pChecksums(NULL),
-m_bRequireChecksums(false)
-{
-}
-
-
-/*====================
-  CArchive::CArchive
-  ====================*/
-CArchive::CArchive(const tstring &sPath, int iMode) :
-m_pZipFile(NULL),
-m_pUnzipFile(NULL),
-m_pChecksums(NULL),
-m_bRequireChecksums(false)
+CArchive::CArchive(const tstring &sPath, int iMode)
 {
     Open(sPath, iMode);
 }
@@ -121,22 +104,37 @@ bool    CArchive::Open(const tstring &sPath, int iMode, const tstring &sMod)
 
     tstring sBasePath;
 
+    // store and compare paths in lowercase
+    m_sPath = LowerString(FileManager.SanitizePath(sPath));
+    m_sPathToArchive = m_sPath.substr(0, m_sPath.find_last_of(_T("/")) + 1);
+    m_sBasePath = sBasePath;
+    m_sMod = sMod.empty() ? FileManager.GetTopModPath() : sMod;
+
     if (m_iMode & ARCHIVE_READ)
     {
+        tstring sPathDir(FileManager.GetSystemPath(Filename_StripExtension(FileManager.SanitizePath(sPath)) + _T("/"), sMod, false, false, false, &sBasePath));
+#if defined(linux) || defined(__APPLE__)
+        // need to check ~sPath as well since maps are saved/downloaded to user dir and mod s2z files can reside there
+        if (sPathDir.empty() && sPath[0] != _T('~') && sPath[0] != _T('#')  && sPath[0] != _T(':'))
+            sPathDir = FileManager.GetSystemPath(Filename_StripExtension(FileManager.SanitizePath(_T("~") + sPath)) + _T("/"));
+#endif
+
         tstring sPathCopy(FileManager.GetSystemPath(FileManager.SanitizePath(sPath), sMod, false, false, false, &sBasePath));
-        
+
 #if defined(linux) || defined(__APPLE__)
         // need to check ~sPath as well since maps are saved/downloaded to user dir and mod s2z files can reside there
         if (sPathCopy.empty() && sPath[0] != _T('~') && sPath[0] != _T('#')  && sPath[0] != _T(':'))
             sPathCopy = FileManager.GetSystemPath(FileManager.SanitizePath(_T("~") + sPath));
 #endif
 
+        if (sPathCopy.empty() && !sPathDir.empty()) {
+            sPathCopy = TrimRight(sPathDir, _T("/")) + sPath.substr(sPath.find_last_of(_T(".")));
+        }
+
         if (sPathCopy.empty())
             return false;
 
         m_pUnzipFile = K2_NEW(ctx_FileSystem,  CMMapUnzip)(sPathCopy);
-        if (m_pUnzipFile == NULL)
-            return false;
 
         m_sCompleteDiskPath = sPathCopy;
 
@@ -200,11 +198,6 @@ bool    CArchive::Open(const tstring &sPath, int iMode, const tstring &sMod)
             return false;
         }
     }
-
-    // store and compare paths in lowercase
-    m_sPath = LowerString(FileManager.SanitizePath(sPath));
-    m_sPathToArchive = m_sPath.substr(0, m_sPath.find_last_of(_T("/")) + 1);
-    m_sBasePath = sBasePath;
     return true;
 }
 
@@ -346,6 +339,12 @@ void    CArchive::StopFilePreload(const tstring &sFilename)
 bool    CArchive::ContainsFile(const tstring &sPath)
 {
     tstring sFullPath(FileManager.IsCleanPath(sPath) ? sPath : FileManager.SanitizePath(sPath, false));
+
+    auto sFilePath(Filename_StripExtension(m_sPath) + _T("/") + sFullPath);
+    const tstring &sSystemPath(FileManager.GetSystemPath(sFilePath, m_sMod, false, false, true));
+    if (!sSystemPath.empty())
+        return true;
+
     if (sFullPath.compare(0, m_sPathToArchive.length(), m_sPathToArchive) != 0)
         return false;
 
@@ -365,9 +364,24 @@ void    CArchive::GetFileList(tsvector &vFileList) const
 {
     if (m_pUnzipFile == NULL)
         return;
-    
+
     const tsvector &vArchiveFiles(m_pUnzipFile->GetFileList());
     vFileList.insert(vFileList.end(), vArchiveFiles.begin(), vArchiveFiles.end());
+
+    tsvector vDiskFileList;
+    K2System.GetFileList(Filename_StripExtension(m_sPath) + _T("/"), _T("*"), true, vDiskFileList, m_sMod);
+    if (!vDiskFileList.empty())
+    {
+        hash_set<tstring> vSeen;
+        std::copy(vFileList.begin(), vFileList.end(), std::inserter(vSeen, vSeen.end()));
+        for (const auto& sFile : vDiskFileList) {
+            if (vSeen.find(sFile) == vSeen.end()) {
+                vFileList.emplace_back(sFile);
+                vSeen.insert(sFile);
+            }
+        }
+
+    }
 }
 
 

@@ -43,11 +43,11 @@ private:
     tstring         m_sMod;
     tstring         m_sBasePath;
     tstring         m_sCompleteDiskPath;
-    int             m_iMode;
-    CZip*           m_pZipFile;
-    CMMapUnzip*     m_pUnzipFile;
-    CChecksumTable* m_pChecksums;
-    bool            m_bRequireChecksums;
+    int             m_iMode = 0;
+    CZip*           m_pZipFile = nullptr;
+    CMMapUnzip*     m_pUnzipFile = nullptr;
+    CChecksumTable* m_pChecksums = nullptr;
+    bool            m_bRequireChecksums = false;
 
     bool            ValidateFileChecksum(const tstring &sPath);
 
@@ -56,7 +56,7 @@ public:
     static bool     ExamineChecksums;
 
 public:
-    CArchive();
+    CArchive() = default;
     CArchive(const tstring &sPath, int iMode = ARCHIVE_READ);
     ~CArchive();
 

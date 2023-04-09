@@ -2900,31 +2900,33 @@ tstring ReplaceTokens(tstring &sStr, const tsmapts &mapTokens)
 /*====================
   TrimLeft
   ====================*/
-tstring TrimLeft(tstring sStr)
+tstring TrimLeft(const tstring& sString, const tstring& sChars)
 {
-   tstring::size_type pos = sStr.find_first_not_of(WHITESPACE);
-   sStr.erase(0, pos);
-   return sStr;
+    tstring sStr(sString);
+    tstring::size_type pos = sStr.find_first_not_of(sChars);
+    sStr.erase(0, pos);
+    return sStr;
 }
 
 
 /*====================
   TrimRight
   ====================*/
-tstring TrimRight(tstring sStr)
+tstring TrimRight(const tstring& sString, const tstring& sChars)
 {
-   tstring::size_type pos = sStr.find_last_not_of(WHITESPACE);
-   sStr.erase(pos + 1);
-   return sStr;
+    tstring sStr(sString);
+    tstring::size_type pos = sStr.find_last_not_of(sChars);
+    sStr.erase(pos + 1);
+    return sStr;
 }
 
 
 /*====================
   Trim
   ====================*/
-tstring Trim(tstring sStr)
+tstring Trim(const tstring& sStr, const tstring& sChars)
 {
-   return TrimLeft(TrimRight(sStr));
+   return TrimLeft(TrimRight(sStr, sChars), sChars);
 }
 
 

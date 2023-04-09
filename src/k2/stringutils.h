@@ -196,9 +196,9 @@ K2_API float        BiggestStringWidth(const tstring &sStr, CFontMap *pFontMap, 
 K2_API tstring      ReplaceTokens(tstring &sStr, const tsmapts &mapTokens);
 inline tstring      ReplaceTokens(const tstring &sStr, const tsmapts &mapTokens)    { tstring sReturn(sStr); return ReplaceTokens(sReturn, mapTokens); }
 
-K2_API tstring      TrimLeft(const tstring sStr);
-K2_API tstring      TrimRight(const tstring sStr);
-K2_API tstring      Trim(const tstring sStr);
+K2_API tstring      TrimLeft(const tstring& sStr, const tstring& sChars = WHITESPACE);
+K2_API tstring      TrimRight(const tstring& sStr, const tstring& sChars = WHITESPACE);
+K2_API tstring      Trim(const tstring& sStr, const tstring& sChars = WHITESPACE);
 
 K2_API tstring      StringReplace(tstring sString, const tstring sSearch, const tstring sReplace, const int iReplaceFlag = 0);
 

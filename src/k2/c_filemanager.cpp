@@ -779,8 +779,6 @@ void    CFileManager::RegisterArchives(const tstring &sMod, bool bRecurse)
                 m_setCustomArchives.insert(sArchivePath);
         }
 
-        pNewArchive->SetMod(sMod);
-
         // store it in the list
         m_vArchiveList.push_back(pNewArchive);
         Console << _T("Registered archive: ") << sMod << sArchivePath << newl;
@@ -853,9 +851,6 @@ bool    CFileManager::RegisterArchive(const tstring &sPath)
         K2_DELETE(pNewArchive);
         return false;
     }
-
-    pNewArchive->SetPath(sPathLower);
-    pNewArchive->SetMod(m_vModPathStack.back());
 
     // store it in the list
     m_vArchiveList.push_back(pNewArchive);

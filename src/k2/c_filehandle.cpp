@@ -147,6 +147,13 @@ bool    CFileHandle::Open(const tstring &sFilePath, int iMode, CArchive &hArchiv
     }
     else
     {
+        {
+            tstring sAbsolutePath(FileManager.IsCleanPath(sFilePath, false) ? sFilePath : FileManager.SanitizePath(sFilePath, false));
+            tstring sPath(Filename_StripExtension(hArchive.GetPath()) + _T("/") + sAbsolutePath);
+            if (Open(sPath, iMode, hArchive.GetMod()))
+                return true;
+        }
+
         if (!FileManager.GetCompatVersion().empty())
         {
             bool bDeleted(false);

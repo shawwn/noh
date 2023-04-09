@@ -2542,13 +2542,26 @@ UI_VOID_CMD(AddMaps, 1)
     }
 
     tsvector vFileList;
-    vFileList.clear();
     FileManager.GetFileList(_T("/maps/"), _T("*.s2z"), true, vFileList, true);
     FileManager.GetFileList(_T("~/maps/"), _T("*.s2z"), true, vFileList, true);
 
-    for (size_t i(0); i < vFileList.size(); ++i)
+    tsvector vFileOnDiskList;
+    FileManager.GetFileList(_T("/maps/"), _T("worldconfig"), true, vFileOnDiskList, true);
+    FileManager.GetFileList(_T("~/maps/"), _T("worldconfig"), true, vFileOnDiskList, true);
+    for (const auto& sFile : vFileOnDiskList)
     {
-        CArchive cMapArchive(vFileList[i], ARCHIVE_READ);
+        auto sPath(TrimRight(Filename_GetPath(sFile), _T("/")));
+        vFileList.emplace_back(sPath + _T(".s2z"));
+    }
+
+    hash_set<tstring> vSeen;
+    for (const auto& sFile : vFileList)
+    {
+        if (vSeen.find(sFile) != vSeen.end())
+            continue;
+        vSeen.insert(sFile);
+
+        CArchive cMapArchive(sFile, ARCHIVE_READ);
         CWorld cWorld(WORLDHOST_NULL);
 
         // Load the main config file
@@ -2560,7 +2573,7 @@ UI_VOID_CMD(AddMaps, 1)
         mapParams[_T("label")] = Filename_GetName(cWorld.GetFancyName());
 
         if (!cWorld.GetDev() || cg_dev)
-            pList->CreateNewListItemFromTemplate(vArgList[0]->Evaluate(), Filename_GetName(vFileList[i]), mapParams);
+            pList->CreateNewListItemFromTemplate(vArgList[0]->Evaluate(), Filename_GetName(sFile), mapParams);
 
         cWorld.Free();
         cMapArchive.Close();
