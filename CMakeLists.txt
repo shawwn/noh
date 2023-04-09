@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 3.24)
 project(noh)
 
 set(CMAKE_CXX_STANDARD 14)
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 
 enable_language(CXX)
 
@@ -103,12 +104,15 @@ else()
 endif()
 
 include(FindOpenGL)
-if(GIF_FOUND)
+if(OPENGL_FOUND)
   include_directories(${OPENGL_INCLUDE_DIR})
 else()
   message( FATAL_ERROR "Can't find OpenGL" )
 endif()
 
+if(UNIX)
+  include(FindXrandr)
+endif()
 
 # game shared
 include_directories(src/hon_shared)
