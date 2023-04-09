@@ -191,11 +191,16 @@ bool    CMeshRenderer::SetupObjectMatrix()
 }
 
 
+CVAR_BOOL(vid_skipMeshRenderer, false);
+
 /*====================
   CMeshRenderer::Setup
   ====================*/
 void    CMeshRenderer::Setup(EMaterialPhase ePhase)
 {
+    if (vid_skipMeshRenderer)
+        return;
+
     PROFILE("CMeshRenderer::Setup");
 
     m_pMaterial = g_ResourceManager.GetMaterial(m_hMaterial);

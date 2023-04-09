@@ -68,12 +68,16 @@ CTreeBranchRenderer::~CTreeBranchRenderer()
 {
 }
 
+CVAR_BOOL(vid_skipTreeBranchRenderer, false);
 
 /*====================
   CTreeBranchRenderer::Setup
   ====================*/
 void    CTreeBranchRenderer::Setup(EMaterialPhase ePhase)
 {
+    if (vid_skipTreeBranchRenderer)
+        return;
+
     if (m_LOD.m_iLOD == -1)
         return;
 

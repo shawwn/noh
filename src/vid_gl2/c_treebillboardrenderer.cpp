@@ -73,11 +73,16 @@ CTreeBillboardRenderer::~CTreeBillboardRenderer()
 }
 
 
+CVAR_BOOL(vid_skipTreeBillboardRenderer, false);
+
 /*====================
   CTreeBillboardRenderer::Setup
   ====================*/
 void    CTreeBillboardRenderer::Setup(EMaterialPhase ePhase)
 {
+    if (vid_skipTreeBillboardRenderer)
+        return;
+
     CMaterial &material(GfxUtils->GetMaterial(m_hMaterial));
 
     if (!material.HasPhase(ePhase))

@@ -76,12 +76,16 @@ CSkyRenderer::~CSkyRenderer()
 {
 }
 
+CVAR_BOOL(vid_skipSkyRenderer, false);
 
 /*====================
   CSkyRenderer::Setup
   ====================*/
 void    CSkyRenderer::Setup(EMaterialPhase ePhase)
 {
+    if (vid_skipSkyRenderer)
+        return;
+
     PROFILE("CSkyRenderer::Setup");
 
     CMaterial &material(GfxUtils->GetMaterial(g_ResourceManager.Register(SceneManager.GetSkyboxMaterial(), RES_MATERIAL)));

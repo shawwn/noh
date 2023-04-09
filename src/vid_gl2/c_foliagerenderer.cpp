@@ -70,11 +70,16 @@ CFoliageRenderer::~CFoliageRenderer()
 }
 
 
+CVAR_BOOL(vid_skipFoliageRenderer, false);
+
 /*====================
   CFoliageRenderer::Setup
   ====================*/
 void    CFoliageRenderer::Setup(EMaterialPhase ePhase)
 {
+    if (vid_skipFoliageRenderer)
+        return;
+
     PROFILE("CFoliageRenderer::Setup");
 
     SFoliageChunk &oChunk = g_Foliage.ppChunks[m_iChunkY][m_iChunkX];

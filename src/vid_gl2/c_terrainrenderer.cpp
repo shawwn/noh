@@ -88,11 +88,16 @@ CTerrainRenderer::~CTerrainRenderer()
 }
 
 
+CVAR_BOOL(vid_skipTerrainRenderer, false);
+
 /*====================
   CTerrainRenderer::Setup
   ====================*/
 void    CTerrainRenderer::Setup(EMaterialPhase ePhase)
 {
+    if (vid_skipTerrainRenderer)
+        return;
+
     PROFILE("CTerrainRenderer::Setup");
 
     m_pCam = g_pCam;

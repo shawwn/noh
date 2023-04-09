@@ -69,11 +69,16 @@ CTreeFrondRenderer::~CTreeFrondRenderer()
 }
 
 
+CVAR_BOOL(vid_skipTreeFrondRenderer, false);
+
 /*====================
   CTreeFrondRenderer::Setup
   ====================*/
 void    CTreeFrondRenderer::Setup(EMaterialPhase ePhase)
 {
+    if (vid_skipTreeFrondRenderer)
+        return;
+
     PROFILE("CTreeFrondRenderer::Setup");
 
     if (m_LOD.m_iLOD == -1)

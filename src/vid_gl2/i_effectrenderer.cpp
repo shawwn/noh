@@ -63,12 +63,16 @@ IEffectRenderer::~IEffectRenderer()
 {
 }
 
+CVAR_BOOL(vid_skipEffectRenderer, false);
 
 /*====================
   IEffectRenderer::Setup
   ====================*/
 void    IEffectRenderer::Setup(EMaterialPhase ePhase)
 {
+    if (vid_skipEffectRenderer)
+        return;
+
     PROFILE("IEffectRenderer::Setup");
 
     CMaterial &material(GfxUtils->GetMaterial(m_hMaterial));

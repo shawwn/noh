@@ -89,12 +89,16 @@ CTreeLeafRenderer::~CTreeLeafRenderer()
 {
 }
 
+CVAR_BOOL(vid_skipTreeLeafRenderer, false);
 
 /*====================
   CTreeLeafRenderer::Setup
   ====================*/
 void    CTreeLeafRenderer::Setup(EMaterialPhase ePhase)
 {
+    if (vid_skipTreeLeafRenderer)
+        return;
+
     PROFILE("CTreeLeafRenderer::Setup");
 
     if (!m_avLeafLODs[0].m_bActive && m_avLeafLODs[1].m_bActive)

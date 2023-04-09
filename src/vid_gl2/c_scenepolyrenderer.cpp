@@ -62,12 +62,16 @@ CScenePolyRenderer::~CScenePolyRenderer()
 {
 }
 
+CVAR_BOOL(vid_skipScenePolyRenderer, false);
 
 /*====================
   CScenePolyRenderer::Setup
   ====================*/
 void    CScenePolyRenderer::Setup(EMaterialPhase ePhase)
 {
+    if (vid_skipScenePolyRenderer)
+        return;
+
     PROFILE("CScenePolyRenderer::Setup");
 
     CMaterial &material(GfxUtils->GetMaterial(m_hMaterial));

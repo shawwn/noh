@@ -61,12 +61,16 @@ IDebugRenderer::~IDebugRenderer()
 {
 }
 
+CVAR_BOOL(vid_skipDebugRenderer, false);
 
 /*====================
   IDebugRenderer::Setup
   ====================*/
 void    IDebugRenderer::Setup(EMaterialPhase ePhase)
 {
+    if (vid_skipDebugRenderer)
+        return;
+
     PROFILE("IDebugRenderer::Setup");
 
     if (ePhase != PHASE_COLOR)
