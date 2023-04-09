@@ -110,8 +110,8 @@ CNavGridUnits::~CNavGridUnits()
   ====================*/
 void    CNavGridUnits::Reset()
 {
-    memset(m_pHorizontal, 0, sizeof(uint) * m_uiIntsPerRow * m_uiCnxnWidth);
-    memset(m_pVertical, 0, sizeof(uint) * m_uiIntsPerColumn * m_uiCnxnHeight);
+    MemManager.Set(m_pHorizontal, 0, sizeof(uint) * m_uiIntsPerRow * m_uiCnxnWidth);
+    MemManager.Set(m_pVertical, 0, sizeof(uint) * m_uiIntsPerColumn * m_uiCnxnHeight);
 }
 
 

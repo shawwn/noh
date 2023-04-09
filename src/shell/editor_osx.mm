@@ -191,7 +191,15 @@ int main(int argc, char *argv[])
     // transform it to a gui application & bring it to the front
     ProcessSerialNumber psn = { 0, kCurrentProcess };
     TransformProcessType(&psn, kProcessTransformToForegroundApplication);
-    SetFrontProcess(&psn);
+#if 1
+    SetFrontProcess(&psn); // TKTK: This is deprecated
+#else
+    NSProcessInfo *processInfo = [NSProcessInfo processInfo];
+    NSString *processName = [processInfo processName];
+    int processID = [processInfo processIdentifier];
+    NSRunningApplication* app = [NSRunningApplication runningApplicationWithProcessIdentifier: processID];
+    [app activateWithOptions: NSApplicationActivateAllWindows];
+#endif
     
     NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
     [NSApplication sharedApplication];

@@ -224,42 +224,21 @@ K2_API uint         ConvertLineEndings(char *pOutBuf, const char *pInBuf, uint u
 /*====================
   QuoteStr
 ====================*/
-template<class T>
-inline tstring  QuoteStr(T x)
-{
-    return _T("\"") + XtoA(x) + _T("\"");
-}
-
-template<>
-inline tstring  QuoteStr(const TCHAR *x)
-{
-    return _T("\"") + tstring(x) + _T("\"");
-}
-
-template<>
-inline tstring  QuoteStr(TCHAR *x)
-{
-    return _T("\"") + tstring(x) + _T("\"");
-}
+tstring    QuoteStr(const tstring& x);
+tstring    QuoteStr(const TCHAR *x);
+tstring    QuoteStr(TCHAR *x);
 
 
 /*====================
   ParenStr
 ====================*/
-template<class T>
-inline tstring  ParenStr(T x)
-{
-    return _T("(") + XtoA(x) + _T(")");
-}
+tstring    ParenStr(const tstring& x);
 
 
 /*====================
   SingleQuoteStr
 ====================*/
-template<class T>
-inline tstring  SingleQuoteStr(T x)
-{
-    return _T("'") + XtoA(x) + _T("'");
-}
+tstring    SingleQuoteStr(const tstring& x);
+
 
 #endif // __STRINGUTILS_H__

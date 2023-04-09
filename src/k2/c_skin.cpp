@@ -63,6 +63,9 @@ m_pModel(pModel)
     case MODEL_SPEEDTREE:
         {
         } break;
+    case NUM_MODEL_TYPES:
+        K2_UNREACHABLE();
+        break;
     }
 
     
@@ -113,6 +116,9 @@ void     CSkin::SetSkinRef(const tstring &sSkinRef, const tstring &sMaterialName
     case MODEL_SPEEDTREE:
         {
         } break;
+    case NUM_MODEL_TYPES:
+        K2_UNREACHABLE();
+        break;
     }
 }
 

@@ -64,16 +64,7 @@ typedef unsigned __int64    ULONGLONG;
 
 typedef unsigned char       byte;
 typedef unsigned short      word;
-#ifdef __GNUC__
 typedef unsigned int        dword;
-#else
-typedef unsigned long       dword;
-#endif
-
-#ifdef linux
-typedef intptr_t            INT_PTR;
-#endif
-
 typedef unsigned int        uint;
 typedef unsigned short      ushort;
 

@@ -309,9 +309,9 @@ CMD(SystemMemoryInfo)
     Console << newl;
     Console << _T("This process:") << newl;
     Console << _T("-------------------") << newl;
-    Console << _T("Physical: ") << GetByteString(K2System.GetProcessMemoryUsage()) << _T(" ") << ParenStr(K2System.GetProcessMemoryUsage()) << newl;
-    Console << _T("Virtual: ") << GetByteString(K2System.GetProcessVirtualMemoryUsage()) << _T(" ") << ParenStr(K2System.GetProcessVirtualMemoryUsage()) << newl;
-    Console << _T("Virtual Limit: ") << GetByteString(K2System.GetVirtualMemoryLimit()) << _T(" ") << ParenStr(K2System.GetVirtualMemoryLimit()) << newl;
+    Console << _T("Physical: ") << GetByteString(K2System.GetProcessMemoryUsage()) << _T(" ") << ParenStr(XtoA(K2System.GetProcessMemoryUsage())) << newl;
+    Console << _T("Virtual: ") << GetByteString(K2System.GetProcessVirtualMemoryUsage()) << _T(" ") << ParenStr(XtoA(K2System.GetProcessVirtualMemoryUsage())) << newl;
+    Console << _T("Virtual Limit: ") << GetByteString(K2System.GetVirtualMemoryLimit()) << _T(" ") << ParenStr(XtoA(K2System.GetVirtualMemoryLimit())) << newl;
     
     return true;
 }

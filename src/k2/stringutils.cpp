@@ -901,6 +901,7 @@ char*   StrChrBackwards(const char *str, int c)
  ====================*/
 char*   FirstToken(const char *str)
 {
+    static char empty[1] = { 0 };
     static char buf[NUM_TOK_STRINGS][128];
     static uint marker = 0;
     uint idx = marker;
@@ -913,8 +914,9 @@ char*   FirstToken(const char *str)
 
         buf[idx][pos] = *s;
         ++pos;
-        if (pos >= 128)
-            return "";
+        if (pos >= 128) {
+            return empty; // TKTK: was ""
+        }
         ++s;
     }
     buf[idx][pos] = 0;
@@ -3402,4 +3404,39 @@ tsvector ExplodeString(tstring sList, tstring sSeperator)
     }
 
     return vOut;
+}
+
+/*====================
+  QuoteStr
+====================*/
+tstring    QuoteStr(const tstring& x)
+{
+    return _T("\"") + XtoA(x) + _T("\"");
+}
+
+tstring    QuoteStr(const TCHAR *x)
+{
+    return _T("\"") + tstring(x) + _T("\"");
+}
+
+tstring    QuoteStr(TCHAR *x)
+{
+    return _T("\"") + tstring(x) + _T("\"");
+}
+
+/*====================
+  ParenStr
+====================*/
+tstring    ParenStr(const tstring& x)
+{
+    return _T("(") + XtoA(x) + _T(")");
+}
+
+
+/*====================
+  SingleQuoteStr
+====================*/
+tstring    SingleQuoteStr(const tstring& x)
+{
+    return _T("'") + XtoA(x) + _T("'");
 }

@@ -569,95 +569,99 @@ bool    CTextBuffer::ButtonDown(EButton button)
         break;
 
     case BUTTON_ENTER:
-        if (m_vSelStart != CVec2ui(uint(-1), uint(-1)))
         {
-            CVec2ui vMin;
-            CVec2ui vMax;
-
-            if (m_vSelStart[Y] < m_vInputPos[Y])
+            if (m_vSelStart != CVec2ui(uint(-1), uint(-1)))
             {
-                vMin = m_vSelStart;
-                vMax = m_vInputPos;
-            }
-            else if (m_vSelStart[Y] > m_vInputPos[Y])
-            {
-                vMin = m_vInputPos;
-                vMax = m_vSelStart;
-            }
-            else
-            {
-                vMin = CVec2ui(MIN(m_vInputPos[X], m_vSelStart[X]), m_vInputPos[Y]);
-                vMax = CVec2ui(MAX(m_vInputPos[X], m_vSelStart[X]), m_vInputPos[Y]);
-            }
+                CVec2ui vMin;
+                CVec2ui vMax;
 
-            for (uint i(vMin[Y]); i <= vMax[Y]; i++)
-            {
-                size_t zStart(0);
-                size_t zEnd(m_vsText[i].length());
-
-                if (i == vMin[Y])
-                    zStart = vMin[X];
-
-                if (i == vMax[Y])
-                    zEnd = vMax[X];
-
-                m_vsText[i].erase(zStart, zEnd - zStart);
-
-                if (m_vsText[i].empty() && i != vMin[Y])
+                if (m_vSelStart[Y] < m_vInputPos[Y])
                 {
-                    m_vsText.erase(m_vsText.begin() + i);
-                    i--;
-                    vMax[Y]--;
+                    vMin = m_vSelStart;
+                    vMax = m_vInputPos;
                 }
-            }
-
-            m_vInputPos = vMin;
-            m_vSelStart = CVec2ui(uint(-1), uint(-1));
-
-            if (m_vStart[X] > m_vInputPos[X])
-                m_vStart[X] = m_vInputPos[X];
-
-            if (m_vInputPos[Y] < m_vStart[Y])
-                m_vStart[Y] = m_vInputPos[Y];
-        }
-
-        tstring sString;
-
-        if (m_vInputPos[Y] < m_vsText.size())
-        {
-            if (m_vInputPos[X] < m_vsText[m_vInputPos[Y]].length())
-            {
-                sString = m_vsText[m_vInputPos[Y]].substr(m_vInputPos[X], m_vsText[m_vInputPos[Y]].length() - m_vInputPos[X]);
-                m_vsText[m_vInputPos[Y]].erase(m_vInputPos[X], m_vsText[m_vInputPos[Y]].length() - m_vInputPos[X]);
-            }
-
-            m_vInputPos[Y]++;
-            m_vInputPos[X] = 0;
-
-            m_vStart[X] = 0;
-
-            float fHeight(0.0f);
-            float fStep(m_pFontMap->GetMaxHeight());
-            for (uint i(m_vInputPos[Y]); i >= m_vStart[Y] && i != uint(-1); i--)
-            {
-                fHeight += fStep;
-
-                if (fHeight > GetHeight())
+                else if (m_vSelStart[Y] > m_vInputPos[Y])
                 {
-                    m_vStart[Y] = i + 1;
-                    break;
+                    vMin = m_vInputPos;
+                    vMax = m_vSelStart;
                 }
+                else
+                {
+                    vMin = CVec2ui(MIN(m_vInputPos[X], m_vSelStart[X]), m_vInputPos[Y]);
+                    vMax = CVec2ui(MAX(m_vInputPos[X], m_vSelStart[X]), m_vInputPos[Y]);
+                }
+
+                for (uint i(vMin[Y]); i <= vMax[Y]; i++)
+                {
+                    size_t zStart(0);
+                    size_t zEnd(m_vsText[i].length());
+
+                    if (i == vMin[Y])
+                        zStart = vMin[X];
+
+                    if (i == vMax[Y])
+                        zEnd = vMax[X];
+
+                    m_vsText[i].erase(zStart, zEnd - zStart);
+
+                    if (m_vsText[i].empty() && i != vMin[Y])
+                    {
+                        m_vsText.erase(m_vsText.begin() + i);
+                        i--;
+                        vMax[Y]--;
+                    }
+                }
+
+                m_vInputPos = vMin;
+                m_vSelStart = CVec2ui(uint(-1), uint(-1));
+
+                if (m_vStart[X] > m_vInputPos[X])
+                    m_vStart[X] = m_vInputPos[X];
+
+                if (m_vInputPos[Y] < m_vStart[Y])
+                    m_vStart[Y] = m_vInputPos[Y];
             }
 
-            m_vsText.insert(m_vsText.begin() + m_vInputPos[Y], sString);
-            m_viFadeTime.insert(m_viFadeTime.begin() + m_vInputPos[Y], Host.GetTime() + m_iFadeLength);
-            m_vFadeColor.insert(m_vFadeColor.begin() + m_vInputPos[Y], m_v4TextColor);
-            m_vFadeShadowColor.insert(m_vFadeShadowColor.begin() + m_vInputPos[Y], m_v4ShadowColor);
-            m_vFadeOutlineColor.insert(m_vFadeOutlineColor.begin() + m_vInputPos[Y], m_v4OutlineColor);
+            tstring sString;
+
+            if (m_vInputPos[Y] < m_vsText.size())
+            {
+                if (m_vInputPos[X] < m_vsText[m_vInputPos[Y]].length())
+                {
+                    sString = m_vsText[m_vInputPos[Y]].substr(m_vInputPos[X], m_vsText[m_vInputPos[Y]].length() - m_vInputPos[X]);
+                    m_vsText[m_vInputPos[Y]].erase(m_vInputPos[X], m_vsText[m_vInputPos[Y]].length() - m_vInputPos[X]);
+                }
+
+                m_vInputPos[Y]++;
+                m_vInputPos[X] = 0;
+
+                m_vStart[X] = 0;
+
+                float fHeight(0.0f);
+                float fStep(m_pFontMap->GetMaxHeight());
+                for (uint i(m_vInputPos[Y]); i >= m_vStart[Y] && i != uint(-1); i--)
+                {
+                    fHeight += fStep;
+
+                    if (fHeight > GetHeight())
+                    {
+                        m_vStart[Y] = i + 1;
+                        break;
+                    }
+                }
+
+                m_vsText.insert(m_vsText.begin() + m_vInputPos[Y], sString);
+                m_viFadeTime.insert(m_viFadeTime.begin() + m_vInputPos[Y], Host.GetTime() + m_iFadeLength);
+                m_vFadeColor.insert(m_vFadeColor.begin() + m_vInputPos[Y], m_v4TextColor);
+                m_vFadeShadowColor.insert(m_vFadeShadowColor.begin() + m_vInputPos[Y], m_v4ShadowColor);
+                m_vFadeOutlineColor.insert(m_vFadeOutlineColor.begin() + m_vInputPos[Y], m_v4OutlineColor);
+            }
+
+            DO_EVENT_RETURN(WEVENT_CHANGE, true)
         }
+        break;
 
-        DO_EVENT_RETURN(WEVENT_CHANGE, true)
-
+    default:
         break;
     }
 

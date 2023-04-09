@@ -34,7 +34,7 @@ enum EPoseType
     NUM_POSE_TYPES
 };
 
-#pragma pack(1)
+#pragma pack(push, 1)
 typedef struct modelHeader_s
 {
     int version;
@@ -131,7 +131,7 @@ typedef struct vertexBlock_s
     int mesh_index;
 }
 vertexBlock_t;
-#pragma pack()
+#pragma pack(pop)
 
 class CAnim;
 

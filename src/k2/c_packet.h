@@ -20,12 +20,7 @@
 //=============================================================================
 // Definitions
 //=============================================================================
-#ifdef __APPLE__
-#pragma pack(1)
-#else
-#pragma pack(push)
-#pragma pack(1)
-#endif
+#pragma pack(push, 1)
 struct SPacketHeader
 {
     ushort  m_unConnectionID;
@@ -45,11 +40,7 @@ struct SPacketHeader
         m_uiSequence = uiSequence;
     }
 };
-#ifdef __APPLE___
-#pragma pack()
-#else
 #pragma pack(pop)
-#endif
 
 const size_t HEADER_SIZE(sizeof(SPacketHeader));
 const size_t MAX_PACKET_SIZE(8192 - HEADER_SIZE);

@@ -143,6 +143,8 @@ void    CProfileManager::Frame()
                     }
                 }
                 break;
+            default:
+                break;
             }
             break;
 

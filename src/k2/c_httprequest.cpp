@@ -112,10 +112,19 @@ int CURLDebugCallback(CURL *pCurlEasy, curl_infotype type, char *pString, size_t
         Console.Net << L"CURL (header out): " << NormalizeLineBreaks(buffer.Get());
         break;
     case CURLINFO_DATA_IN:
-        Console.Net << L"CURL (data in): " << NormalizeLineBreaks(buffer.Get());
+        Console.Net << L"CURL (data in): " << NormalizeLineBreaks(buffer.Get()) << newl;
         break;
     case CURLINFO_DATA_OUT:
-        Console.Net << L"CURL (data out): " << NormalizeLineBreaks(buffer.Get());
+        Console.Net << L"CURL (data out): " << NormalizeLineBreaks(buffer.Get()) << newl;
+        break;
+    case CURLINFO_SSL_DATA_IN:
+        Console.Net << L"CURL (SSL data in): " << NormalizeLineBreaks(buffer.Get()) << newl;
+        break;
+    case CURLINFO_SSL_DATA_OUT:
+        Console.Net << L"CURL (SSL data out): " << NormalizeLineBreaks(buffer.Get()) << newl;
+        break;
+    case CURLINFO_END:
+        K2_UNREACHABLE();
         break;
     }
     return 0;
@@ -175,7 +184,7 @@ void    CHTTPRequest::SendRequest(const string &sURL, bool bPost, bool bSSL)
 
     // Error buffer
     m_pErrorBuffer = K2_NEW_ARRAY(ctx_Net, char, CURL_ERROR_SIZE+1);
-    memset(m_pErrorBuffer, 0, CURL_ERROR_SIZE + 1);
+    MemManager.Set(m_pErrorBuffer, 0, CURL_ERROR_SIZE + 1);
     curl_easy_setopt(m_pCurlEasy, CURLOPT_ERRORBUFFER, (void*)m_pErrorBuffer);
 
     // SSL

@@ -52,11 +52,11 @@ CVAR_BOOL(res_debugContext, false);
 
 #define ForEachResChainEnd_DoAllToplevel()                                                          \
         };                                                                                          \
-        IterateToplevel(&FOREACH_Iterator());                                                       \
+        IterateToplevel(FOREACH_Iterator());                                                        \
     }
 #define ForEachResChainEnd_DoContext(sCtxName, pCurCtx)                                             \
         };                                                                                          \
-        IterateContext(&FOREACH_Iterator(), sCtxName, pCurCtx);                                     \
+        IterateContext(FOREACH_Iterator(), sCtxName, pCurCtx);                                      \
     }
 
 #define ForEachResChain_ForEachParent(stkParents, resPtrDecl, infoPtrDecl)                          \
@@ -407,8 +407,9 @@ void    CResourceInfo::IResourceGraphIterator::DoResource(CResourceInfo::ResInfo
 /*====================
   CResourceInfo::IterateToplevel
   ====================*/
-void    CResourceInfo::IterateToplevel(IResourceGraphIterator* pIterator)
+void    CResourceInfo::IterateToplevel(const IResourceGraphIterator& vIterator)
 {
+    IResourceGraphIterator* pIterator = const_cast<IResourceGraphIterator*>(&vIterator);
     ResInfoStack stkParents;
     ForEachResInfo(IResource* pRes, SResInfo* pInfo)
     {
@@ -425,8 +426,9 @@ void    CResourceInfo::IterateToplevel(IResourceGraphIterator* pIterator)
 /*====================
   CResourceInfo::IterateContext
   ====================*/
-void    CResourceInfo::IterateContext(IResourceGraphIterator* pIterator, const tstring &sCtxName, SResContext* pCtx)
+void    CResourceInfo::IterateContext(const IResourceGraphIterator& vIterator, const tstring &sCtxName, SResContext* pCtx)
 {
+    IResourceGraphIterator* pIterator = const_cast<IResourceGraphIterator*>(&vIterator);
     if (pCtx == NULL)
         pCtx = LookupContext(sCtxName);
 

@@ -67,6 +67,31 @@
 #endif /* GLEW_MX */
 
 #if defined(__APPLE__)
+#include <stdlib.h>
+#include <string.h>
+#include <AvailabilityMacros.h>
+
+#if defined(MAC_OS_X_VERSION_10_3) && MAC_OS_X_VERSION_MIN_REQUIRED >= MAC_OS_X_VERSION_10_3
+
+#include <dlfcn.h>
+
+void* NSGLGetProcAddress (const GLubyte *name)
+{
+    static void* image = NULL;
+    if (NULL == image)
+        image = dlopen("/System/Library/Frameworks/OpenGL.framework/Versions/Current/OpenGL", RTLD_LAZY);
+    if (!image)
+        return NULL;
+    void* addr = dlsym(image, (const char*)name);
+    if( addr )
+        return addr;
+#ifdef GLEW_APPLE_GLX
+    return dlGetProcAddress( name ); // try next for glx symbols
+#else
+    return NULL;
+#endif
+}
+#else
 #include <mach-o/dyld.h>
 #include <stdlib.h>
 #include <string.h>
@@ -91,6 +116,7 @@ void* NSGLGetProcAddress (const GLubyte *name)
   free(symbolName);
   return symbol ? NSAddressOfSymbol(symbol) : NULL;
 }
+#endif
 #endif /* __APPLE__ */
 
 #if defined(__sgi) || defined (__sun)

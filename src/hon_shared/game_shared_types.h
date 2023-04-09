@@ -930,7 +930,7 @@ const ushort PLAYER_SIGHTED_BIT             (BIT(1));
 const ushort SIGHTED_FLAG_MASK              (SIGHTED_BIT | SIGHTED_BIT << 8);
 const ushort REVEALED_FLAG_MASK             (REVEALED_BIT | REVEALED_BIT << 8);
 const ushort VISION_FLAG_MASK               (VISION_BIT | VISION_BIT << 8);
-const ushort PLAYER_SIGHTED_FLAG_MASK       (~(SIGHTED_FLAG_MASK | REVEALED_FLAG_MASK | VISION_FLAG_MASK));
+const ushort PLAYER_SIGHTED_FLAG_MASK       ((ushort)~(SIGHTED_FLAG_MASK | REVEALED_FLAG_MASK | VISION_FLAG_MASK));
 //=============================================================================
 
 #endif //__GAME_SHARED_TYPES_H__

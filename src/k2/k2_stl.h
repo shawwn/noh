@@ -15,6 +15,7 @@
 #include <map>
 #include <set>
 #include <stack>
+#if TKTK
 #ifdef __GNUC__
 #if (__GNUC__ > 4) || (__GNUC__ == 4 && __GNUC_MINOR__ > 2) // gcc >= 4.3
 // hash_map is depreciated under gcc-3.4, use tr1 equivalents
@@ -27,6 +28,10 @@
 #else
 #include <hash_map>
 #include <hash_set>
+#endif
+#else
+#include <unordered_map>
+#include <unordered_set>
 #endif
 #include <utility>
 #include <sstream>
@@ -415,10 +420,10 @@ public:
 #endif // #ifndef K2_USE_STL_ALLOCATOR
 
 #ifdef __GNUC__
-#if (__GNUC__ > 4) || (__GNUC__ == 4 && __GNUC_MINOR__ > 2) // gcc >= 4.3
-using std::tr1::unordered_map;
+#if (__GNUC__ > 4) || (__GNUC__ == 4 && __GNUC_MINOR__ > 2) || __clang__ // gcc >= 4.3
+using std::unordered_map;
 #define hash_map unordered_map
-using std::tr1::unordered_set;
+using std::unordered_set;
 #define hash_set unordered_set
 #ifdef K2_USE_STL_ALLOCATOR
 namespace std
@@ -481,7 +486,7 @@ namespace __gnu_cxx
             return fnv1a_hash(reinterpret_cast<const char *>(s.c_str()), s.length() * sizeof(wchar_t));
         }
     };
-    
+
     template <typename _T>
     struct hash<_T*>
     {
@@ -595,6 +600,7 @@ namespace K2
     };
 }
 
+#if TKTK
 // in release mode, you can get an increase in performance of up to ~3.5x in practice
 // by using a hash_map or hash_set, rather than map or set.  And it is always going
 // to be faster to use a hash_map than a map, and hash_set instead of set.
@@ -611,6 +617,7 @@ namespace K2
 // hash_map will resolve to map, and hash_set will resolve to set.
 #ifdef _DEBUG
 #define K2_NO_HASH_CONTAINERS
+#endif
 #endif
 
 //

@@ -1533,7 +1533,7 @@ void    CL_Frame()
 
 
     SSceneFaceVert poly[1024];
-    memset(poly, 0, sizeof(poly));
+    MemManager.Set(poly, 0, sizeof(poly));
     int p = 0;
 
     for (vector<CVec3f>::iterator it = vPoints.begin(); it != vPoints.end(); ++it)
@@ -1557,7 +1557,7 @@ void    CL_Frame()
         SceneManager.AddPoly(p, poly, hMaterial, POLY_POINTLIST | POLY_NO_DEPTH_TEST);
 
     SSceneFaceVert plane[4];
-    memset(plane, 0, sizeof(plane));
+    MemManager.Set(plane, 0, sizeof(plane));
     int q = 0;
 
     CVec3_cast(plane[q].vtx) = CVec3f(10.0f, 10.0f, 1.0210210);
@@ -1592,7 +1592,7 @@ void    CL_Frame()
     //  SceneManager.AddPoly(q, plane, hMaterial, POLY_DOUBLESIDED);
 
     SSceneFaceVert lines[14];
-    memset(lines, 0, sizeof(lines));
+    MemManager.Set(lines, 0, sizeof(lines));
     int l = 0;
 
     CVec3_cast(lines[l].vtx) = vOrigin;
@@ -1786,7 +1786,7 @@ void    CL_Frame()
         vPlanePoints[3] = v3Right * wr0 + v3Up * wb0 + v3Offset;    // bottom - right point
 
         SSceneFaceVert plane[4];
-        memset(plane, 0, sizeof(plane));
+        MemManager.Set(plane, 0, sizeof(plane));
         int q = 0;
 
         for (int i(0); i < 4; ++i)
@@ -1807,7 +1807,7 @@ void    CL_Frame()
     CVec3f v3Dir(Normalize(CVec3f(sin(MsToSec(g_pHostClient->GetTime())), cos(MsToSec(g_pHostClient->GetTime())), 0.0f)));
 
     SSceneFaceVert poly[256];
-    memset(poly, 0, sizeof(poly));
+    MemManager.Set(poly, 0, sizeof(poly));
     int p = 0;
 
     for (int i(0); i < 256; ++i)
@@ -1824,7 +1824,7 @@ void    CL_Frame()
         SceneManager.AddPoly(p, poly, hMaterial, POLY_POINTLIST | POLY_NO_DEPTH_TEST);
 
     SSceneFaceVert lines[4];
-    memset(lines, 0, sizeof(lines));
+    MemManager.Set(lines, 0, sizeof(lines));
     int l = 0;
 
     CVec3_cast(lines[l].vtx) = v3Origin;
@@ -3426,7 +3426,7 @@ CMD(TestTransmitFlags)
         for (uint uiTest(0); uiTest != uiNumTests; ++uiTest)
         {
             {
-                memset(ayTransmitFlagTree, 0, uiNumBytes * sizeof(byte));
+                MemManager.Set(ayTransmitFlagTree, 0, uiNumBytes * sizeof(byte));
                 
                 // Setup the transmit flag tree
                 for (uint uiField(0); uiField < uiTreeWidth; ++uiField)
@@ -3437,7 +3437,7 @@ CMD(TestTransmitFlags)
             }
 
             {
-                memset(ayTransmitFlagTree2, 0, uiNumBytes * sizeof(byte));
+                MemManager.Set(ayTransmitFlagTree2, 0, uiNumBytes * sizeof(byte));
 
                 // Setup the transmit flag tree
                 for (uint uiField(0); uiField < uiTreeWidth; ++uiField)
@@ -3473,7 +3473,7 @@ CMD(ProfileTransmitFlags)
 
     for (uint uiTest(0); uiTest != uiNumTests; ++uiTest)
     {
-        memset(ayTransmitFlagTree2, 0, uiNumBytes * sizeof(byte));
+        MemManager.Set(ayTransmitFlagTree2, 0, uiNumBytes * sizeof(byte));
 
         // Setup the transmit flag tree
         for (uint uiField(0); uiField < uiTreeWidth; ++uiField)
@@ -3500,7 +3500,7 @@ CMD(ProfileTransmitFlags)
 
     for (uint uiTest(0); uiTest != uiNumTests; ++uiTest)
     {
-        memset(ayTransmitFlagTree2, 0, uiNumBytes * sizeof(byte));
+        MemManager.Set(ayTransmitFlagTree2, 0, uiNumBytes * sizeof(byte));
 
         // Setup the transmit flag tree
         for (uint uiField(0); uiField < uiTreeWidth; ++uiField)

@@ -101,6 +101,9 @@ void    CAction::Do(float fValue, float fDelta, const CVec2f &v2Cursor, const ts
         if (fValue && !(m_iFlags & ACTION_NOREPEAT && fDelta == 0.0f))
             m_pfnAction(1.0f, fDelta, v2Cursor, sParam);
         break;
+    case AT_INVALID:
+        K2_UNREACHABLE();
+        break;
     }
 }
 

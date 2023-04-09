@@ -1023,11 +1023,22 @@ void    CInput::ExecuteBinds(EBindTable eTable, int iFlags)
                 case AXIS_JOY_V:
                     fDelta *= input_joySensitivityV;
                     break;
+                case AXIS_INVALID:
+                case NUM_AXES:
+                    K2_UNREACHABLE();
+                    break;
                 }
 
                 pBind->DoAction(itInput->cAbs.fValue, fDelta, itInput->cAbs.v2Cursor);
                 bUsed = true;
             }
+            break;
+        case INPUT_NONE:
+        case INPUT_CHARACTER:
+        case INPUT_CURSOR:
+            break;
+        case NUM_INPUT_TYPES:
+            K2_UNREACHABLE();
             break;
         }
 

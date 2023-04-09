@@ -217,9 +217,9 @@ uint    CNavigationGraph::GetNodeY(CSearchNode *pA)
 inline
 uint    CNavigationGraph::ValidateNode(CSearchNode *pA)
 {
-    ptrdiff_t iOffset(pA > m_pNodeBucket ? pA - m_pNodeBucket : 0);
+    size_t uiOffset(pA > m_pNodeBucket ? pA - m_pNodeBucket : 0);
 
-    if (((iOffset & m_uiBucketMaskX) != 0) && ((iOffset & m_uiBucketMaskY) != 0))
+    if (((uiOffset & m_uiBucketMaskX) != 0) && ((uiOffset & m_uiBucketMaskY) != 0))
         return 1;
 
     return 0;
@@ -232,7 +232,7 @@ uint    CNavigationGraph::ValidateNode(CSearchNode *pA)
 inline
 CSearchGateR&   CNavigationGraph::GetGate(CSearchNode *pA)
 {
-    uint uiOffset(pA - m_pNodeBucket);
+    size_t uiOffset(pA > m_pNodeBucket ? pA - m_pNodeBucket : 0);
 
     assert (uiOffset < m_uiMaxNodeCount);
 

@@ -6211,7 +6211,7 @@ void    CChatManager::CreateClan(const tstring &sName, const tstring &sTag, cons
   ====================*/
 tstring CChatManager::RemoveClanTag(const tstring &sName)
 {
-    uint uiPos(INT_SIZE(sName.find(_T("]"))));
+    auto uiPos(sName.find(_T("]")));
 
     if (uiPos != tstring::npos)
         return sName.substr(uiPos + 1);
@@ -6228,8 +6228,8 @@ bool    CChatManager::CompareNames(const tstring &sOrig, const tstring &sName)
     if (CompareNoCase(sOrig, sName) == 0)
         return true;
 
-    uint uiPos(INT_SIZE(sOrig.find(_T("]"))));
-    uint uiPos2(INT_SIZE(sName.find(_T("]"))));
+    auto uiPos(sOrig.find(_T("]")));
+    auto uiPos2(sName.find(_T("]")));
 
     if (uiPos != tstring::npos && uiPos2 != tstring::npos)
         return (CompareNoCase(sOrig.substr(uiPos + 1), sName.substr(uiPos2 + 1)) == 0);

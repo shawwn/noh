@@ -345,7 +345,7 @@ EVENT_CMD(Cmd)
   --------------------*/
 EVENT_CMD(Echo)
 {
-    Console << ParenStr(iTimeNudge) << " ";
+    Console << ParenStr(XtoA(iTimeNudge)) << " ";
 
     for (size_t z(0); z < vArgList.size(); ++z)
         Console << vArgList[z] << " ";

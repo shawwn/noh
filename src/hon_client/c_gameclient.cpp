@@ -2398,8 +2398,8 @@ void    CGameClient::ActiveFrame()
         byte yVersion(0);
         byte pBaseResources0Checksum[CHECKSUM_SIZE];
         byte pGameResources0Checksum[CHECKSUM_SIZE];
-        memset(pBaseResources0Checksum, 0, CHECKSUM_SIZE);
-        memset(pGameResources0Checksum, 0, CHECKSUM_SIZE);
+        MemManager.Set(pBaseResources0Checksum, 0, CHECKSUM_SIZE);
+        MemManager.Set(pGameResources0Checksum, 0, CHECKSUM_SIZE);
         CArchive *pBaseResources0(FileManager.GetArchive(_T("/resources0.s2z"), _T("base")));
         CArchive *pGameResources0(FileManager.GetArchive(_T("/resources0.s2z"), _T("game")));
         if (pBaseResources0)
@@ -3182,7 +3182,7 @@ void    CGameClient::DumpSnapshot(CSnapshot &snapshot)
                 break; // End of snapshot
             }
 
-            Console << _T("Index: ") << ParenStr(entSnapshot.GetIndex()) << newl;
+            Console << _T("Index: ") << ParenStr(XtoA(entSnapshot.GetIndex())) << newl;
         }
         else
         {
@@ -11884,7 +11884,7 @@ uint    CGameClient::CalcAvailableWeatherEffects(vector<SWeatherInfo>& vWeather)
         cInfo.sKeyName = _T("");
         cInfo.sLocalizedName = _T("");
         // Now localize the name of the default weather effect
-        //  Find weather entry in stringtable ("acidrain" => "game_weather_acidrain" => "Chuva Ácida")
+        //  Find weather entry in stringtable ("acidrain" => "game_weather_acidrain" => "Chuva ï¿½ï¿½cida")
         tstring sStringtableKey(_TS("game_weather_"));
         uint uiFindIdx(pGameMessagesStringtable->GetIndex(sStringtableKey));
         if (uiFindIdx != INVALID_INDEX)
@@ -11927,7 +11927,7 @@ uint    CGameClient::CalcAvailableWeatherEffects(vector<SWeatherInfo>& vWeather)
         cInfo.sKeyName = LowerString(StringReplace(cInfo.sKeyName, _T(" "), _T("")));
 
         // Now localize the name of the weather effect
-        //  Find weather entry in stringtable ("acidrain" => "game_weather_acidrain" => "Chuva Ácida")
+        //  Find weather entry in stringtable ("acidrain" => "game_weather_acidrain" => "Chuva ï¿½ï¿½cida")
         tstring sStringtableKey(_TS("game_weather_") + cInfo.sKeyName);
         uint uiFindIdx(pGameMessagesStringtable->GetIndex(sStringtableKey));
         if (uiFindIdx != INVALID_INDEX)

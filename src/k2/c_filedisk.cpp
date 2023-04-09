@@ -99,16 +99,21 @@ bool    CFileDisk::Open(const tstring &sPath, int iMode)
     }
     else
     {
+#if TKTK // Just disable this for now, since can't figure out how to access the file descriptor in a cross-platform way as of 2023
 #if defined(linux) || defined(__APPLE__)
-        // set files to close on exec
-        struct fd_accessor : public std::basic_filebuf<char> { int fd() { return _M_file.fd(); } };
-        int fd = static_cast<fd_accessor*>(m_File.rdbuf())->fd();
+    // set files to close on exec
+#if defined(__APPLE__)
+    struct fd_accessor : public std::basic_filebuf<char> { int fd() { return __file_; } }; // error: '__file_' is a private member of 'std::filebuf'
+#else
+    struct fd_accessor : public std::basic_filebuf<char> { int fd() { return _M_file.fd(); } };
+#endif
         long flags;
         if ((flags = fcntl(fd, F_GETFD, 0)) == -1)
             flags = 0;
 
         if (fcntl(fd, F_SETFD, flags | FD_CLOEXEC) == -1)
             EX_ERROR(_T("fcntl() failure: ") + K2System.GetErrorString(errno));
+#endif
 #endif
         
         // Unicode files get a BOM
@@ -289,7 +294,7 @@ tstring CFileDisk::ReadLine()
                     }
                 }
             }
-            else if (m_iMode & FILE_UTF16 && FILE_LITTLE_ENDIAN)
+            else if (m_iMode & FILE_UTF16 & FILE_LITTLE_ENDIAN)
             {
 #if BYTE_ORDER == LITTLE_ENDIAN
                 c = *((ushort*)aBuffer);
@@ -297,7 +302,7 @@ tstring CFileDisk::ReadLine()
                 c = ushort(SwapShortEndian(*((ushort*)aBuffer)));
 #endif
             }
-            else if (m_iMode & FILE_UTF16 && FILE_BIG_ENDIAN)
+            else if (m_iMode & FILE_UTF16 & FILE_BIG_ENDIAN)
             {
 #if BYTE_ORDER == LITTLE_ENDIAN
                 c = ushort(SwapShortEndian(*((ushort*)aBuffer)));
@@ -305,7 +310,7 @@ tstring CFileDisk::ReadLine()
                 c = *((ushort*)aBuffer);
 #endif
             }
-            else if (m_iMode & FILE_UTF32 && FILE_LITTLE_ENDIAN)
+            else if (m_iMode & FILE_UTF32 & FILE_LITTLE_ENDIAN)
             {
 #if BYTE_ORDER == LITTLE_ENDIAN
                 c = *((uint*)aBuffer);
@@ -313,7 +318,7 @@ tstring CFileDisk::ReadLine()
                 c = SwapIntEndian(*((uint*)aBuffer));
 #endif
             }
-            else if (m_iMode & FILE_UTF32 && FILE_BIG_ENDIAN)
+            else if (m_iMode & FILE_UTF32 & FILE_BIG_ENDIAN)
             {
 #if BYTE_ORDER == LITTLE_ENDIAN
                 c = SwapIntEndian(*((uint*)aBuffer));

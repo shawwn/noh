@@ -122,8 +122,17 @@ uint    CNavGridZ::MaxMaskFromIndex(uint uiIndex) const
 inline
 void    CNavGridZ::Reset()
 {
-    memset(m_pHorizontal, GRIDZ_PASSIBLE, sizeof(uint) * m_uiIntsPerColumn * m_uiCnxnWidth);
-    memset(m_pVertical, GRIDZ_PASSIBLE, sizeof(uint) * m_uiIntsPerRow * m_uiCnxnHeight);
+#if TKTK
+    MemManager.Set(m_pHorizontal, GRIDZ_PASSIBLE, sizeof(uint) * m_uiIntsPerColumn * m_uiCnxnWidth);
+    MemManager.Set(m_pVertical, GRIDZ_PASSIBLE, sizeof(uint) * m_uiIntsPerRow * m_uiCnxnHeight);
+#else
+    for (uint i = 0; i < m_uiIntsPerColumn * m_uiCnxnWidth; i++) {
+        m_pHorizontal[i] = GRIDZ_PASSIBLE;
+    }
+    for (uint i = 0; i < m_uiIntsPerRow * m_uiCnxnHeight; i++) {
+        m_pVertical[i] = GRIDZ_PASSIBLE;
+    }
+#endif
 }
 //=============================================================================
 

@@ -13,7 +13,9 @@
 //=============================================================================
 #include "k2_common.h"
 
-#include <png.h>
+#include <libpng16/png.h>
+#include <libpng16/pngstruct.h>
+#include <libpng16/pnginfo.h>
 
 extern "C"
 {
@@ -458,7 +460,7 @@ void    PNG_Error(png_structp pPNGStruct, png_const_charp szMsg)
 #if 1
 #ifdef __GNUC__
     g_sErrorMsg = szTemp;
-    longjmp(pPNGStruct->jmpbuf, 1);
+    longjmp(png_jmpbuf(pPNGStruct), 1);
 #else
     EX_ERROR(tstring(szTemp));
 #endif
@@ -512,7 +514,7 @@ bool    CBitmap::LoadPNG(const tstring &sFilename, bool bMonoAsAlpha)
             EX_ERROR(_T("png_create_info_struct() failed"));
 
 #ifdef __GNUC__
-        if (setjmp(pPNGRead->jmpbuf))
+        if (setjmp(png_jmpbuf(pPNGRead)))
         {
             EX_ERROR(g_sErrorMsg);
         }
@@ -566,11 +568,11 @@ bool    CBitmap::LoadPNG(const tstring &sFilename, bool bMonoAsAlpha)
         case 3: m_iBMPType = BITMAP_RGB; break;
         case 4: m_iBMPType = BITMAP_RGBA; break;
         default:
-            EX_ERROR(_T("Unsupported number of channels ") + ParenStr(pPNGInfo->channels));
+            EX_ERROR(_T("Unsupported number of channels ") + ParenStr(XtoA(pPNGInfo->channels)));
         }
 
         if (pPNGInfo->bit_depth != 8)
-            EX_ERROR(_T("Unsupported bit depth ") + ParenStr(pPNGInfo->bit_depth));
+            EX_ERROR(_T("Unsupported bit depth ") + ParenStr(XtoA(pPNGInfo->bit_depth)));
 
         m_pData = K2_NEW_ARRAY(ctx_Bitmap, byte, pPNGInfo->channels*pPNGInfo->width*pPNGInfo->height);
 
@@ -1285,7 +1287,7 @@ bool    CBitmap::WritePNG(const tstring &sFilename)
             EX_ERROR(_T("png_create_write_struct failed."));
         
 #ifdef __GNUC__
-        if (setjmp(pPNGWrite->jmpbuf))
+        if (setjmp(png_jmpbuf(pPNGWrite)))
         {
             EX_ERROR(g_sErrorMsg);
         }
@@ -1332,7 +1334,7 @@ bool    CBitmap::WritePNG(const tstring &sFilename)
             EX_ERROR(_T("Can't write from a compressed bitmap format"));
 
         default:
-            EX_ERROR(_TS("Unknown BMPType ") + ParenStr(m_iBMPType));
+            EX_ERROR(_TS("Unknown BMPType ") + ParenStr(XtoA(m_iBMPType)));
         }
 
         // HACK: The bit depth parameter would have always been 8 before...
@@ -2246,7 +2248,7 @@ boolean JPEG_EmptyOutputBuffer(j_compress_ptr pInfo)
     pDest->m_pFileHandle->Write(pDest->m_pBuffer, pDest->m_iBufferSize);
     pInfo->dest->next_output_byte = (JOCTET*)pDest->m_pBuffer;
     pInfo->dest->free_in_buffer = pDest->m_iBufferSize;
-    return true;
+    return TRUE;
 }
 
 
@@ -2584,8 +2586,9 @@ bool    CBitmap::LoadGIF(const tstring &sFilename)
     }
     catch (CException &ex)
     {
-        if (GifFile != NULL)
+        if (GifFile != NULL) {
             DGifCloseFile(GifFile);
+        }
 
         ex.Process(_TS("CBitmap::LoadGIF(") + sFilename + _T(") - "), NO_THROW);
         return false;

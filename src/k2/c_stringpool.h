@@ -61,8 +61,7 @@ class CStringPool
     //*********************
     typedef hash_map<tstring, SStringEntry>     StringsMap;
 
-#pragma pack(push)
-#pragma pack(1)
+#pragma pack(push, 1)
     // SStringEntry
     struct SStringEntry
     {

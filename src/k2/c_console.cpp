@@ -1588,6 +1588,8 @@ void    CConsole::Frame()
                     }
                 }
                 break;
+            default:
+                break;
             }
             break;
 
@@ -2054,13 +2056,12 @@ CMD(Hitch)
   --------------------*/
 CMD(Break)
 {
-#ifdef __GNUC__
-#ifdef __ppc__
-#else
+#ifdef WIN32
     asm("int $0x03");
-#endif
-#else
+#elif defined(__GNUC__) && !defined(__APPLE__)
     __asm int 0x03;
+#else // __APPLE__
+    // TODO
 #endif
     return true;
 }

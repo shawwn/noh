@@ -386,9 +386,10 @@ ULONGLONG   CSystem::GetDriveFreeSpaceEx(const wstring &sName) const
 /*====================
  CSystem::GetCurrentThread
  ====================*/
-dword   CSystem::GetCurrentThread()
+size_t   CSystem::GetCurrentThread()
 {
-    return (dword)pthread_self();
+    return (size_t)pthread_self();
+
 }
 
 

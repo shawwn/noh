@@ -16,8 +16,9 @@ CHostInterface::~CHostInterface()
     if (m_pGameInterface != NULL)
     {
         m_InterfaceLib.Shutdown();
-        if (!K2System.FreeLibrary(m_pGameInterface))
-            EX_ERROR(_T("Failed to release Game Interface Library"));
+        if (!K2System.FreeLibrary(m_pGameInterface)) {
+            assert(!"Failed to release Game Interface Library");
+        }
     }
 }
 

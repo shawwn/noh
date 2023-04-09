@@ -40,7 +40,7 @@ m_pTreeGrid(NULL),
 m_pUnitGrid(NULL),
 m_pAntiGrid(NULL)
 {
-    memset(m_ahGrids, 0xffffffff, sizeof(m_ahGrids));
+    MemManager.Set(m_ahGrids, 0xff, sizeof(m_ahGrids));
 };
 
 
@@ -122,7 +122,7 @@ void    CNavigationMap::Release()
     SAFE_DELETE(m_pAntiGrid);
     SAFE_DELETE(m_pUnitGrid);
 
-    memset(m_ahGrids, 0xffffffff, sizeof(m_ahGrids));
+    MemManager.Set(m_ahGrids, 0xff, sizeof(m_ahGrids));
 
     CNavGridZ::ReleaseAlloc();
 

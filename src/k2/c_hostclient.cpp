@@ -157,9 +157,10 @@ tstring     XtoA(EClientState eState)
 
     case CLIENT_STATE_IN_GAME:
         return _T("CLIENT_STATE_IN_GAME");
+    
+    default:
+        return _T("");
     }
-
-    return _T("");
 }
 
 
@@ -1685,6 +1686,10 @@ void    CHostClient::Frame()
     case CLIENT_STATE_IN_GAME:
         _cl_delta = m_uiGameTime - m_uiPrevServerTimeStamp;
         _cl_lerp = GetLerpValue();
+        break;
+
+    case NUM_CLIENT_STATES:
+        K2_UNREACHABLE();
         break;
     }
 

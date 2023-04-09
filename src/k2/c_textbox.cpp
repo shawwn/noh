@@ -357,6 +357,9 @@ bool    CTextBox::ButtonDown(EButton button)
     case BUTTON_TAB:
         // Don't eat BUTTON_TAB to allow tab order to change widget focus
         return false;
+
+    default:
+        break;
     }
 
     DO_EVENT_PARAM_RETURN(WEVENT_KEYDOWN, XtoA(button), true);
@@ -459,6 +462,9 @@ void    CTextBox::MouseDown(EButton button, const CVec2f &v2CursorPos)
 
             break;
         }
+
+    default:
+        break;
     }
 }
 
@@ -489,6 +495,9 @@ void    CTextBox::MouseUp(EButton button, const CVec2f &v2CursorPos)
 
             break;
         }
+
+    default:
+        break;
     }
 }
 

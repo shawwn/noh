@@ -10361,7 +10361,7 @@ UI_CMD(GetIconPathFromHeroDefinition, 1)
 FUNCTION(GetHeroIconPathFromHeroDefinition)
 {
     if (vArgList.size() < 1)
-        return false;
+        return TSNULL;
 
     return GameClient.GetInterfaceManager()->GetHeroIconPathFromHeroDefinition(vArgList[0], vArgList.size() > 1 ? vArgList[1] : TSNULL);
 }
@@ -10378,7 +10378,7 @@ UI_CMD(GetHeroIconPathFromProduct, 1)
 FUNCTION(GetHeroIconPathFromProduct)
 {
     if (vArgList.size() < 1)
-        return false;
+        return TSNULL;
 
     return GameClient.GetInterfaceManager()->GetHeroIconPathFromProduct(vArgList[0]);
 }
@@ -10395,7 +10395,7 @@ UI_CMD(GetHeroPreviewModelPathFromProduct, 1)
 FUNCTION(GetHeroPreviewModelPathFromProduct)
 {
     if (vArgList.size() < 1)
-        return false;
+        return TSNULL;
 
     return GameClient.GetInterfaceManager()->GetHeroPreviewModelPathFromProduct(vArgList[0]);
 }
@@ -10412,7 +10412,7 @@ UI_CMD(GetHeroPassiveEffectPathFromProduct, 1)
 FUNCTION(GetHeroPassiveEffectPathFromProduct)
 {
     if (vArgList.size() < 1)
-        return false;
+        return TSNULL;
 
     return GameClient.GetInterfaceManager()->GetHeroPassiveEffectPathFromProduct(vArgList[0]);
 }
@@ -10429,7 +10429,7 @@ UI_CMD(GetHeroPreviewPosFromProduct, 1)
 FUNCTION(GetHeroPreviewPosFromProduct)
 {
     if (vArgList.size() < 1)
-        return false;
+        return TSNULL;
 
     return XtoA(GameClient.GetInterfaceManager()->GetHeroPreviewPosFromProduct(vArgList[0]));
 }
@@ -10446,7 +10446,7 @@ UI_CMD(GetHeroPreviewAnglesFromProduct, 1)
 FUNCTION(GetHeroPreviewAnglesFromProduct)
 {
     if (vArgList.size() < 1)
-        return false;
+        return TSNULL;
 
     return XtoA(GameClient.GetInterfaceManager()->GetHeroPreviewAnglesFromProduct(vArgList[0]));
 }
@@ -10463,7 +10463,7 @@ UI_CMD(GetHeroPreviewScaleFromProduct, 1)
 FUNCTION(GetHeroPreviewScaleFromProduct)
 {
     if (vArgList.size() < 1)
-        return false;
+        return TSNULL;
 
     return XtoA(GameClient.GetInterfaceManager()->GetHeroPreviewScaleFromProduct(vArgList[0]));
 }

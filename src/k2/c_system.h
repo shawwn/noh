@@ -160,7 +160,7 @@ private:
     void*           m_pfnMainWndProc;
     void*           m_pfnConsoleWndProc;
     bool            m_bRestartProcess;
-    dword           m_hMainThread;
+    size_t          m_hMainThread;
 
     // File system
     tstring         m_sRootDir;
@@ -320,8 +320,8 @@ public:
     K2_API void             SetConsoleWndProc(void *pfnConsoleWndProc)  { m_pfnConsoleWndProc = pfnConsoleWndProc; }
     K2_API void*            GetConsoleWndProc()                         { return m_pfnConsoleWndProc; }
 
-    K2_API dword            GetMainThread()                     { return m_hMainThread; }
-    K2_API dword            GetCurrentThread();
+    K2_API size_t           GetMainThread()                     { return m_hMainThread; }
+    K2_API size_t           GetCurrentThread();
 
     // Mouse
     K2_API void             SetMousePos(int x, int y);

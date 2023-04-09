@@ -167,6 +167,8 @@ bool    CComboBox::ButtonDown(EButton button)
             return true;
         }
         break;
+    default:
+        break;
     }
 
     if (m_pListBox->HasFlags(WFLAG_VISIBLE))

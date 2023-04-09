@@ -108,17 +108,17 @@ void    CSceneStats::ResetFrame()
     m_iVerts = 0;
     m_iTris = 0;
 
-    memset(m_aiPhaseBatches, 0, sizeof(m_aiPhaseBatches));
-    memset(m_aiPhaseVerts, 0, sizeof(m_aiPhaseVerts));
-    memset(m_aiPhaseTris, 0, sizeof(m_aiPhaseTris));
+    MemManager.Set(m_aiPhaseBatches, 0, sizeof(m_aiPhaseBatches));
+    MemManager.Set(m_aiPhaseVerts, 0, sizeof(m_aiPhaseVerts));
+    MemManager.Set(m_aiPhaseTris, 0, sizeof(m_aiPhaseTris));
 
-    memset(m_aiBatchTypeBatches, 0, sizeof(m_aiBatchTypeBatches));
-    memset(m_aiBatchTypeVerts, 0, sizeof(m_aiBatchTypeVerts));
-    memset(m_aiBatchTypeTris, 0, sizeof(m_aiBatchTypeTris));
+    MemManager.Set(m_aiBatchTypeBatches, 0, sizeof(m_aiBatchTypeBatches));
+    MemManager.Set(m_aiBatchTypeVerts, 0, sizeof(m_aiBatchTypeVerts));
+    MemManager.Set(m_aiBatchTypeTris, 0, sizeof(m_aiBatchTypeTris));
 
-    memset(m_aiCombinedBatches, 0, sizeof(m_aiCombinedBatches));
-    memset(m_aiCombinedVerts, 0, sizeof(m_aiCombinedVerts));
-    memset(m_aiCombinedTris, 0, sizeof(m_aiCombinedTris));
+    MemManager.Set(m_aiCombinedBatches, 0, sizeof(m_aiCombinedBatches));
+    MemManager.Set(m_aiCombinedVerts, 0, sizeof(m_aiCombinedVerts));
+    MemManager.Set(m_aiCombinedTris, 0, sizeof(m_aiCombinedTris));
 }
 
 
@@ -151,6 +151,8 @@ void    CSceneStats::Frame()
                 break;
             case BUTTON_ESC:
                 m_bDraw = m_bActive = false;
+                break;
+            default:
                 break;
             }
             break;
@@ -212,6 +214,9 @@ void    CSceneStats::Draw()
         break;
     case SS_COMBINED:
         fLines += 2.0f * float(NUM_SSBATCH_TYPES + 2);
+        break;
+    case NUM_SCENESTAT_MODES:
+        K2_UNREACHABLE();
         break;
     }
 
@@ -313,6 +318,9 @@ void    CSceneStats::Draw()
                 fDrawY += FONT_HEIGHT;
             }
         } break;
+    case NUM_SCENESTAT_MODES:
+        K2_UNREACHABLE();
+        break;
     }
 
     Draw2D.SetColor(1.0f, 1.0f, 0.0f, 1.0f);

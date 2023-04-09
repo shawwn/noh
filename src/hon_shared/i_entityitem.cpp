@@ -480,7 +480,7 @@ CEntityChest*   IEntityItem::Drop(const CVec3f &v3Pos, bool bLoseOwnership)
 {
     IUnitEntity *pOwner(GetOwner());
     if (pOwner == NULL)
-        return false;
+        return NULL;
 
     // Spawn a chest
     CEntityChest *pChest(static_cast<CEntityChest*>(Game.AllocateEntity(Entity_Chest)));

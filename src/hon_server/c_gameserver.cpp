@@ -7349,8 +7349,8 @@ bool    CGameServer::ProcessGameData(int iClientNum, CPacket &pkt)
                 byte pGameResources0Checksum[CHECKSUM_SIZE];
                 tstring sBaseResources0Checksum;
                 tstring sGameResources0Checksum;
-                memset(pBaseResources0Checksum, 0, CHECKSUM_SIZE);
-                memset(pGameResources0Checksum, 0, CHECKSUM_SIZE);
+                MemManager.Set(pBaseResources0Checksum, 0, CHECKSUM_SIZE);
+                MemManager.Set(pGameResources0Checksum, 0, CHECKSUM_SIZE);
                 pkt.Read((char *)pBaseResources0Checksum, CHECKSUM_SIZE);
                 pkt.Read((char *)pGameResources0Checksum, CHECKSUM_SIZE);
 

@@ -107,7 +107,7 @@ main() {
     MersenneTwister *mt = K2_NEW(ctx_Singleton,  MersenneTwister)(init, length);
     printf("1000 outputs of genrand_int32()\n");
     for (i=0; i<1000; i++) {
-        printf("%10lu ", mt->genrand_uint32());
+        printf("%10u ", mt->genrand_uint32());
         if (i%5==4) printf("\n");
     }
     printf("\n1000 outputs of genrand_real2()\n");

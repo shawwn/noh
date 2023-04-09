@@ -111,9 +111,8 @@ public:
 
                 return sValue;
             }
+        default:            return TSNULL;
         }
-
-        return TSNULL;
     }
 
     int GetInteger(const tstring &sKey, int iDefault = 0) const
@@ -132,9 +131,8 @@ public:
         case PHP_FLOAT:     return INT_ROUND(m_fValue);
         case PHP_BOOL:      return m_bValue ? 1 : 0;
         case PHP_STRING:    return AtoI(m_sValue);
+        default:            return 0;
         }
-
-        return 0;
     }
 
     float   GetFloat(const tstring &sKey, float fDefault = 0.0f) const
@@ -153,9 +151,8 @@ public:
         case PHP_FLOAT:     return m_fValue;
         case PHP_BOOL:      return m_bValue ? 1.0f : 0.0f;
         case PHP_STRING:    return AtoF(m_sValue);
+        default:            return 0.0f;
         }
-
-        return 0.0f;
     }
 
     bool    GetBool(const tstring &sKey, bool bDefault = false) const
@@ -174,9 +171,8 @@ public:
         case PHP_FLOAT:     return m_fValue != 0.0f;
         case PHP_BOOL:      return m_bValue;
         case PHP_STRING:    return AtoB(m_sValue);
+        default:            return false;
         }
-
-        return false;
     }
 
     const CPHPData*     GetVar(const tstring &sKey) const

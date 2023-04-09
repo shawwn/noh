@@ -51,6 +51,7 @@ protected:
 
 public:
     IActionState(CBrain &cParent) : m_uiActionStateFlags(0), m_cBrain(cParent) { }
+    virtual ~IActionState() { }
 
     bool    IsActive() const        { return (m_uiActionStateFlags & ASR_ACTIVE) != 0; }
 

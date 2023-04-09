@@ -180,8 +180,8 @@ private:
     public:
         virtual void IterateResource(const ResInfoStack& stkParents, uint uiDepth, IResource* pRes, SResInfo* pInfo)=0;
     };
-    void                IterateToplevel(IResourceGraphIterator* pIterator);
-    void                IterateContext(IResourceGraphIterator* pIterator, const tstring &sCtxName, SResContext* pCtx);
+    void                IterateToplevel(const IResourceGraphIterator& pIterator);
+    void                IterateContext(const IResourceGraphIterator& pIterator, const tstring &sCtxName, SResContext* pCtx);
 
     //*********************
     // Member Variables

@@ -171,18 +171,18 @@ inline wstring  XtoW(const void *p, bool bLower = false)    { wstring sReturn; F
 inline string   XtoS(const void *p, bool bLower = false)    { string sReturn; FormatInt(reinterpret_cast<size_t>(p), FMT_PADZERO, sizeof(size_t) * 2, 16, '\0', sReturn); return sReturn; }
 
 // Text
-K2_API wstring  XtoW(const wstring &s, int flags, size_t width = 0);
-K2_API string   XtoS(const string &s, int flags, size_t width = 0);
-inline const wstring&   XtoW(const wstring &s)  { return s; }
-inline const string&    XtoS(const string &s)   { return s; }
-inline wstring          XtoW(wchar_t c)         { return wstring(1, c); }
-inline string           XtoS(char c)            { return string(1, c); }
+K2_API wstring          XtoW(const wstring &s, int flags, size_t width = 0);
+K2_API string           XtoS(const string &s, int flags, size_t width = 0);
+inline const wstring&   XtoW(const wstring &s)          { return s; }
+inline const string&    XtoS(const string &s)           { return s; }
+inline wstring          XtoW(wchar_t c)                 { return wstring(1, c); }
+inline string           XtoS(char c)                    { return string(1, c); }
 
 // AtoX
-inline int&     AtoX(const string &s, int &i)           { i = atoi(s.c_str()); return i; }
-inline int&     AtoX(const wstring &s, int &i)          { i = _wtoi(s.c_str()); return i; }
-inline uint&    AtoX(const string &s, uint &ui)         { ui = strtoul(s.c_str(), NULL, 10); return ui; }
-inline uint&    AtoX(const wstring &s, uint &ui)        { ui = wcstoul(s.c_str(), NULL, 10); return ui; }
+inline int&     AtoX(const string &s, int &i)           { i = static_cast<int>(atoi(s.c_str())); return i; }
+inline int&     AtoX(const wstring &s, int &i)          { i = static_cast<int>(_wtoi(s.c_str())); return i; }
+inline uint&    AtoX(const string &s, uint &ui)         { ui = static_cast<uint>(strtoul(s.c_str(), NULL, 10)); return ui; }
+inline uint&    AtoX(const wstring &s, uint &ui)        { ui = static_cast<uint>(wcstoul(s.c_str(), NULL, 10)); return ui; }
 inline float&   AtoX(const string &s, float &f)         { f = float(atof(s.c_str())); return f; }
 inline float&   AtoX(const wstring &s, float &f)        { f = float(WTOF(s)); return f; }
 inline double&  AtoX(const string &s, double &d)        { d = atof(s.c_str()); return d; }
@@ -197,12 +197,12 @@ K2_API CVec3f&  AtoX(const tstring &s, CVec3f &vec);
 K2_API CVec4f&  AtoX(const tstring &s, CVec4f &vec);
 
 // Non-ref versions
-inline int                  AtoI(const string &s)   { return atoi(s.c_str()); }
-inline int                  AtoI(const wstring &s)  { return _wtoi(s.c_str()); }
+inline int                  AtoI(const string &s)   { return static_cast<int>(atoi(s.c_str())); }
+inline int                  AtoI(const wstring &s)  { return static_cast<int>(_wtoi(s.c_str())); }
 template <class T> short    AtoN(const T &s)        { return short(AtoI(s) & USHRT_MAX); }
 
-inline uint                 AtoUI(const string &s)  { return strtoul(s.c_str(), NULL, 10); }
-inline uint                 AtoUI(const wstring &s) { return wcstoul(s.c_str(), NULL, 10); }
+inline uint                 AtoUI(const string &s)  { return static_cast<uint>(strtoul(s.c_str(), NULL, 10)); }
+inline uint                 AtoUI(const wstring &s) { return static_cast<uint>(wcstoul(s.c_str(), NULL, 10)); }
 
 inline float                AtoF(const string &s)   { return float(atof(s.c_str())); }
 inline float                AtoF(const wstring &s)  { return float(WTOF(s)); }

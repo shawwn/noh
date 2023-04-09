@@ -418,7 +418,7 @@ public:
 
     template <class T> T*   GetEntityFromNameAs(const tstring &sName)
     {
-        IGameEntity *pEntity(GetEntityFromName(sName));
+        IGameEntity *pEntity(reinterpret_cast<IGameEntity*>(GetEntityFromName(sName))); // TKTK 2023: Tricky forward declaration situation here; remove reinterpret_cast eventually.
         if (pEntity != NULL && pEntity->GetType() == T::GetEntityType())
             return static_cast<T*>(pEntity);
         else
@@ -496,7 +496,7 @@ public:
     // Pathfinding
     virtual PoolHandle      FindPath(const CVec2f &v2Src, float fEntityWidth, uint uiNavigationFlags, const CVec2f &v2Goal, float fGoalRange, vector<PoolHandle> *pBlockers = NULL) const       { return INVALID_POOL_HANDLE; }
     virtual CPath*          AccessPath(PoolHandle hPath) const                                                                          { return NULL; }
-    virtual PoolHandle      ClonePath(PoolHandle hPath) const                                                                           { return NULL; }
+    virtual PoolHandle      ClonePath(PoolHandle hPath) const                                                                           { return INVALID_POOL_HANDLE; }
     virtual void            FreePath(PoolHandle hPath) const                                                                            {}
     virtual PoolHandle      BlockPath(uint uiFlags, const CVec2f &v2Position, float fWidth, float fHeight)                              { return INVALID_POOL_HANDLE; }
     virtual void            BlockPath(vector<PoolHandle> &vecBlockers, uint uiFlags, const CConvexPolyhedron &cSurf, float fStepHeight) {}

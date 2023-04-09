@@ -340,7 +340,9 @@ void    CHost::Init(const tstring &sGame)
 
 #ifdef K2_TRACK_MEM
         physx::shdfnd2::createMemoryTracker("MemoryTracker");
+#ifdef WIN32
         assert(physx::shdfnd2::gMemoryTracker != NULL);
+#endif
         if (physx::shdfnd2::gMemoryTracker)
             physx::shdfnd2::gMemoryTracker->setLogLevel(false, false);
 #endif

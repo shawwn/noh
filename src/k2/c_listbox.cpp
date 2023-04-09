@@ -663,6 +663,9 @@ bool    CListBox::ButtonDown(EButton button)
 
     case BUTTON_ENTER:
         break;
+
+    default:
+        break;
     }
 
     return true;
@@ -1748,7 +1751,7 @@ void    CListBox::SetHoverItem(CListItem *pListItem, bool bEvent)
   ====================*/
 CListItem*  CListBox::GetItem(uint uiItem)
 {
-    if (uiItem <= m_vItems.size())
+    if (uiItem < m_vItems.size())
         return m_vItems[uiItem];
     else
         return NULL;

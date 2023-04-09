@@ -81,7 +81,7 @@ enum keyTypes_enum
     NUM_MKEY_TYPES
 };
 
-#pragma pack(1)     //make sure there's no member padding.  these structs must match up with the file read in
+#pragma pack(push, 1)     //make sure there's no member padding.  these structs must match up with the file read in
 
 struct SClipHeader
 {
@@ -102,7 +102,7 @@ typedef struct keyBlock_s
 }
 keyBlock_t;
 
-#pragma pack()
+#pragma pack(pop)
 
 const int CLIP_VERSION(2);
 //=============================================================================

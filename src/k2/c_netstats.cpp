@@ -50,9 +50,9 @@ m_bDraw(false),
 m_bRecord(false),
 m_eMode(NS_TOTALS)
 {
-    memset(m_auiFrameTimeStamp, 0, sizeof(m_auiFrameTimeStamp));
-    memset(m_aiSocketBytes, 0, sizeof(m_aiSocketBytes));
-    memset(m_aiSampleTypeBytes, 0, sizeof(m_aiSampleTypeBytes));
+    MemManager.Set(m_auiFrameTimeStamp, 0, sizeof(m_auiFrameTimeStamp));
+    MemManager.Set(m_aiSocketBytes, 0, sizeof(m_aiSocketBytes));
+    MemManager.Set(m_aiSampleTypeBytes, 0, sizeof(m_aiSampleTypeBytes));
 
     for (int iSocket(0); iSocket < NUM_NETSOCKET_TYPES; ++iSocket)
         m_iFrame[iSocket] = -1;
@@ -92,7 +92,7 @@ void    CNetStats::RecordPacket(ENetStatSocketType eSocketType, int iBytes)
 
     m_auiFrameTimeStamp[m_iFrame[eSocketType]][eSocketType] = Host.GetSystemTime();
     m_aiSocketBytes[m_iFrame[eSocketType]][eSocketType] = iBytes;
-    memset(m_aiSampleTypeBytes[m_iFrame[eSocketType]][eSocketType], 0, sizeof(m_aiSampleTypeBytes[m_iFrame[eSocketType]][eSocketType]));
+    MemManager.Set(m_aiSampleTypeBytes[m_iFrame[eSocketType]][eSocketType], 0, sizeof(m_aiSampleTypeBytes[m_iFrame[eSocketType]][eSocketType]));
 }
 
 
@@ -125,6 +125,8 @@ void    CNetStats::Frame()
                 break;
             case BUTTON_ESC:
                 m_bDraw = m_bActive = false;
+                break;
+            default:
                 break;
             }
             break;
@@ -176,6 +178,9 @@ void    CNetStats::Draw()
     case NS_DETAILS:
         fLines += NUM_NETSOCKET_TYPES * float(NUM_NETSAMPLE_TYPES + 2);
         break;
+    case NUM_NETSTAT_MODES:
+        K2_UNREACHABLE();
+        break;
     }
 
     const float FONT_WIDTH = pFontMap->GetFixedAdvance();
@@ -191,9 +196,9 @@ void    CNetStats::Draw()
     int aiSocketBytesPerSec[NUM_NETSOCKET_TYPES];
     int aiSampleTypeBytesPerSec[NUM_NETSOCKET_TYPES][NUM_NETSAMPLE_TYPES];
 
-    memset(aiSocketPacketsPerSec, 0, sizeof(aiSocketPacketsPerSec));
-    memset(aiSocketBytesPerSec, 0, sizeof(aiSocketBytesPerSec));
-    memset(aiSampleTypeBytesPerSec, 0, sizeof(aiSampleTypeBytesPerSec));
+    MemManager.Set(aiSocketPacketsPerSec, 0, sizeof(aiSocketPacketsPerSec));
+    MemManager.Set(aiSocketBytesPerSec, 0, sizeof(aiSocketBytesPerSec));
+    MemManager.Set(aiSampleTypeBytesPerSec, 0, sizeof(aiSampleTypeBytesPerSec));
 
     for (int iSocket(0); iSocket < NUM_NETSOCKET_TYPES; ++iSocket)
     {
@@ -286,6 +291,9 @@ void    CNetStats::Draw()
                 fDrawY += FONT_HEIGHT;
             }
         } break;
+    case NUM_NETSTAT_MODES:
+        K2_UNREACHABLE();
+        break;
     }
 
     Draw2D.SetColor(1.0f, 1.0f, 1.0f, 1.0f);

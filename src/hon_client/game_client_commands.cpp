@@ -3650,11 +3650,11 @@ UI_CMD(CanKick, 1)
     }
 
     if (iClientNumber == -1)
-        return false;
+        return TSNULL;
 
     CPlayer *pPlayer(GameClient.GetPlayer(iClientNumber));
     if (pPlayer == NULL)
-        return false;
+        return TSNULL;
 
     return XtoA(pPlayer->CanKick());
 }

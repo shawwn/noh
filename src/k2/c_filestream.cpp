@@ -664,7 +664,7 @@ tstring CFileStream::ReadLine()
                     }
                 }
             }
-            else if (m_iMode & FILE_UTF16 && FILE_LITTLE_ENDIAN)
+            else if (m_iMode & FILE_UTF16 & FILE_LITTLE_ENDIAN)
             {
 #if BYTE_ORDER == LITTLE_ENDIAN
                 c = *((ushort*)aBuffer);
@@ -672,7 +672,7 @@ tstring CFileStream::ReadLine()
                 c = ushort(SwapShortEndian(*((ushort*)aBuffer)));
 #endif
             }
-            else if (m_iMode & FILE_UTF16 && FILE_BIG_ENDIAN)
+            else if (m_iMode & FILE_UTF16 & FILE_BIG_ENDIAN)
             {
 #if BYTE_ORDER == LITTLE_ENDIAN
                 c = ushort(SwapShortEndian(*((ushort*)aBuffer)));
@@ -680,7 +680,7 @@ tstring CFileStream::ReadLine()
                 c = *((ushort*)aBuffer);
 #endif
             }
-            else if (m_iMode & FILE_UTF32 && FILE_LITTLE_ENDIAN)
+            else if (m_iMode & FILE_UTF32 & FILE_LITTLE_ENDIAN)
             {
 #if BYTE_ORDER == LITTLE_ENDIAN
                 c = *((uint*)aBuffer);
@@ -688,7 +688,7 @@ tstring CFileStream::ReadLine()
                 c = SwapIntEndian(*((uint*)aBuffer));
 #endif
             }
-            else if (m_iMode & FILE_UTF32 && FILE_BIG_ENDIAN)
+            else if (m_iMode & FILE_UTF32 & FILE_BIG_ENDIAN)
             {
 #if BYTE_ORDER == LITTLE_ENDIAN
                 c = SwapIntEndian(*((uint*)aBuffer));
@@ -799,7 +799,7 @@ uint    CFileStream::Read(char* pBuffer, uint uiBufferSize) const
             m_bEOF = true;
         }
 
-        memcpy(pBuffer, m_pBuffer + m_uiPos, uiSize);
+        MemManager.Copy(pBuffer, m_pBuffer + m_uiPos, uiSize);
         m_uiPos += uiSize;
         return uiSize;
     }

@@ -188,6 +188,8 @@ void    CSlider::MouseDown(EButton button, const CVec2f &v2CursorPos)
         m_pHandle->BeginSlide(CVec2f(m_pHandle->GetRect().GetMid()));
         m_pHandle->DoSlide(v2CursorPos - m_recArea.lt());
         break;
+    default:
+        break;
     }
 }
 

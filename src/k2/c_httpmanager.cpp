@@ -68,7 +68,7 @@ void    CHTTPManager::Frame()
     {
         int iProcessCount(0);
         result = curl_multi_perform(m_pCurlMulti, &iProcessCount);
-        if (result != CURLE_OK && result != CURLM_CALL_MULTI_PERFORM)
+        if (result != CURLM_OK && result != CURLM_CALL_MULTI_PERFORM)
             Console.Net << _T("CHTTPManager::Frame() - ") << curl_multi_strerror(result) << newl;
     }
 

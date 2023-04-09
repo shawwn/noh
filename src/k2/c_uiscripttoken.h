@@ -33,8 +33,6 @@ public:
         TOKEN_CMD,
         TOKEN_CVAR,
         TOKEN_TRIGGER,
-        TOKEN_WIDGET_VALUE,
-        TOKEN_WIDGET_NAME,
         TOKEN_LITERAL
     };
 

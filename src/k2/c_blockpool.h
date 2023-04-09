@@ -35,7 +35,7 @@ public:
 
         m_ayBuffer = K2_NEW_ARRAY(ctx_Nav, byte, uiElements<<uiPow2OfBytesPerBlock);
         m_ayAvailable = K2_NEW_ARRAY(ctx_Nav, byte, uiElements);
-        memset(m_ayAvailable, 0xff, sizeof(byte) * uiElements);
+        MemManager.Set(m_ayAvailable, 0xff, sizeof(byte) * uiElements);
     };
 
     void    ReleaseAll()

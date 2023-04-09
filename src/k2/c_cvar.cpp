@@ -96,6 +96,7 @@ m_bInherentValue(false),
 m_pParent(NULL),
 m_uiChildIndex(0)
 {
+    CMemManager::GetInstance(); // Ensure the memory manager is initialized
     MemManager.Set(m_pXYZW, 0, sizeof(m_pXYZW));
     MemManager.Set(m_pRGBA, 0, sizeof(m_pRGBA));
     MemManager.Set(m_apReferences, 0, sizeof(m_apReferences));

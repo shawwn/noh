@@ -761,7 +761,13 @@ bool    CNavigationGraph::Init(const CWorld* pWorld)
         m_pNodeBucket = K2_NEW_ARRAY(ctx_Nav, CSearchNode, m_uiMaxNodeCount);
 
         //uint uiStart(K2System.Microseconds());
-        memset(m_pNodeBucket, 0xFFFFFFFF, sizeof(CSearchNode) * m_uiMaxNodeCount);
+        #if TKTK
+        for (size_t i = 0; i < m_uiMaxNodeCount; i++) {
+            m_pNodeBucket[i].Reset();
+        }
+        #else
+        MemManager.Set(m_pNodeBucket, 0xff, sizeof(CSearchNode) * m_uiMaxNodeCount); // TKTK 2023: TODO: Replace this with a loop?
+        #endif
         //uint uiStop(K2System.Microseconds());
 
         m_uiNavSize = pWorld->GetNavigationSize();
@@ -808,7 +814,7 @@ void    CNavigationGraph::ResetForNextSearch()
 
         assert(v2Span.y >= v2Span.x);
 
-        memset(&m_pNodeBucket[uiY * m_uiBucketWidth + v2Span.x], 0xFFFFFFFF, (v2Span.y - v2Span.x + 1) * sizeof(CSearchNode));
+        MemManager.Set(&m_pNodeBucket[uiY * m_uiBucketWidth + v2Span.x], 0xff, (v2Span.y - v2Span.x + 1) * sizeof(CSearchNode));
 
         v2Span = unClear;
     }

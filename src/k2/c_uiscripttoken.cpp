@@ -49,6 +49,9 @@ const tstring&  CUIScriptToken::Evaluate()
 
     case TOKEN_LITERAL:
         return m_sLiteral;
+
+    case TOKEN_NULL:
+        return TSNULL;
     }
     return TSNULL;
 }
@@ -79,6 +82,9 @@ int     CUIScriptToken::EvaluateInteger()
 
     case TOKEN_LITERAL:
         return AtoI(m_sLiteral);
+
+    case TOKEN_NULL:
+        return 0;
     }
     return 0;
 }
@@ -108,6 +114,10 @@ void    CUIScriptToken::Assign(const tstring &sValue)
     case TOKEN_LITERAL:
         Console.Warn << _T("Assigned value to a string literal") << newl;
         m_sLiteral = sValue;
+        break;
+
+    case TOKEN_NULL:
+        Console << _T("Can not assign a value to null") << newl;
         break;
     }
 }

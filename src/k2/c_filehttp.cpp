@@ -191,7 +191,7 @@ size_t  HTTP_WriteMemoryCallback(void *ptr, size_t size, size_t nmemb, void *dat
     if (realsize > buf->max_size - buf->size)
     {
         oursize = realsize - (buf->max_size - buf->size);
-        buf->buf = static_cast<byte*>(realloc(buf->buf, buf->max_size + oursize));
+        buf->buf = static_cast<byte*>(MemManager.Reallocate(buf->buf, buf->max_size + oursize));
         buf->max_size += oursize;
     }
 
@@ -241,7 +241,12 @@ int HTTP_ProgressCallback(void *clientp, double dltotal, double dlnow, double ul
   CFileHTTP::CFileHTTP
   ====================*/
 CFileHTTP::CFileHTTP() :
-m_pFile(NULL)
+m_pFile(NULL),
+m_bOpen(false),
+m_bUploaded(false),
+m_bError(false),
+m_zResumePos(0),
+m_szPostData(NULL)
 {
 }
 
@@ -305,6 +310,15 @@ static int HTTP_DebugCallback(CURL *pCurlEasy, curl_infotype type, char *pString
         break;
     case CURLINFO_DATA_OUT:
         Console.Net << L"CURL (data out): " << NormalizeLineBreaks(buffer.Get());
+        break;
+    case CURLINFO_SSL_DATA_IN:
+        Console.Net << L"CURL (SSL data in): " << NormalizeLineBreaks(buffer.Get());
+        break;
+    case CURLINFO_SSL_DATA_OUT:
+        Console.Net << L"CURL (SSL data out): " << NormalizeLineBreaks(buffer.Get());
+        break;
+    case CURLINFO_END:
+        K2_UNREACHABLE();
         break;
     }
     return 0;

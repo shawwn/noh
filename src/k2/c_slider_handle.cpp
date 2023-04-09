@@ -74,6 +74,8 @@ void    CSliderHandle::MouseDown(EButton button, const CVec2f &v2CursorPos)
     case BUTTON_WHEELUP:
         m_pParent->MouseDown(button, v2CursorPos);
         break;
+    default:
+        break;
     }
 }
 
@@ -87,6 +89,8 @@ void    CSliderHandle::MouseUp(EButton button, const CVec2f &v2CursorPos)
     {
     case BUTTON_MOUSEL:
         EndSlide();
+        break;
+    default:
         break;
     }
 }

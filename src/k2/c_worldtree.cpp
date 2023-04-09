@@ -971,9 +971,10 @@ bool    CWorldTree::IntersectLineWithModel(CWorldEntity *pEnt)
             return IntersectLineWithK2Model(static_cast<CK2Model *>(pModel->GetModelFile()), pEnt->GetAxis(), pEnt->GetPosition(), pEnt->GetScale() * pEnt->GetScale2());
         case MODEL_SPEEDTREE:
             return IntersectLineWithTreeModel(static_cast<CTreeModel *>(pModel->GetModelFile()), pEnt->GetAxis(), pEnt->GetPosition(), pEnt->GetScale() * pEnt->GetScale2());
+        default:
+            return false;
         }
-
-        return false;
+        K2_UNREACHABLE();
     }
     catch (CException &ex)
     {
@@ -1503,6 +1504,10 @@ bool    CWorldTree::IntersectLineWithWorld()
 
                 switch (pWorldTreeNode->GetSplitType())
                 {
+                case Z_SPLIT:
+                case NO_SPLIT:
+                    K2_UNREACHABLE();
+                    break;
                 case X_SPLIT: // Vertical Line
                     {
                         if (tv.v3Start.x <= fSplitPos)
@@ -4648,6 +4653,9 @@ CWorldTreeNode*     CWorldTree::FindBestFitNode(const CBBoxf &bbBounds)
 
         switch (pNode->GetSplitType())
         {
+        case Z_SPLIT:
+            K2_UNREACHABLE();
+            break;
         case NO_SPLIT:
             pBestFitNode = pNode;
             break;
@@ -5314,6 +5322,10 @@ bool    CWorldTree::TestBoundsVisibilty(const CVec3f &v3ViewPos, const CBBoxf &b
 
                     switch (pWorldTreeNode->GetSplitType())
                     {
+                    case Z_SPLIT:
+                    case NO_SPLIT:
+                        K2_UNREACHABLE();
+                        break;
                     case X_SPLIT: // Vertical Line
                         {
                             if (v3ViewPos.x <= fSplitPos)

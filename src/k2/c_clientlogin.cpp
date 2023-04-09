@@ -1155,6 +1155,9 @@ void    CClientAccount::UpdateUpgrades()
         case UPGRADE_TAUNT:
             m_uiTaunt = Host.LookupTaunt(sName);
             break;
+        case UPGRADE_VALUE_INVALID:
+            K2_UNREACHABLE();
+            break;
         }
     }
 }
@@ -1707,6 +1710,8 @@ UI_CMD(GetChatSymbolTexturePathFromUpgrades, 1)
         {
         case UPGRADE_CHAT_SYMBOL:
             return Host.GetChatSymbolTexturePath(Host.LookupChatSymbol(sName));
+        default:
+            break;
         }
     }
 
@@ -1732,6 +1737,8 @@ UI_CMD(GetChatNameColorTexturePathFromUpgrades, 1)
         {
         case UPGRADE_CHAT_NAME_COLOR:
             return Host.GetChatNameColorTexturePath(Host.LookupChatNameColor(sName));
+        default:
+            break;
         }
     }
 
@@ -1757,6 +1764,8 @@ UI_CMD(GetChatNameColorStringFromUpgrades, 1)
         {
         case UPGRADE_CHAT_NAME_COLOR:
             return Host.GetChatNameColorString(Host.LookupChatNameColor(sName));
+        default:
+            break;
         }
     }
 
@@ -1782,6 +1791,8 @@ UI_CMD(GetAccountIconTexturePathFromUpgrades, 1)
         {
         case UPGRADE_ACCOUNT_ICON:
             return Host.GetAccountIconTexturePath(Host.LookupAccountIcon(sName));
+        default:
+            break;
         }
     }
 

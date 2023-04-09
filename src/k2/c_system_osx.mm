@@ -338,7 +338,7 @@ void    CSystem::InitMore()
         hidMatchDictionary = IOServiceMatching(kIOHIDDeviceKey);
         
         io_iterator_t hidObjectIterator;
-        IOServiceGetMatchingServices(kIOMasterPortDefault, hidMatchDictionary, &hidObjectIterator);
+        IOServiceGetMatchingServices(kIOMainPortDefault, hidMatchDictionary, &hidObjectIterator);
         
         io_object_t hidDevice;
         int iJoystick(0);
@@ -1046,10 +1046,10 @@ void    CSystem::Exit(int iErrorLevel)
     if (m_bRestartProcess)
     {
         // Restart the game via the updater
-        char *argv[] = { "HoN_Update", NULL };
+        const char *argv[] = { "HoN_Update", NULL };
         // need to fork() first since under OS X can't exec in an app that has multiple threads...
         if (fork() == 0)
-            execv(argv[0], argv);
+            execv(argv[0], (char**)argv);
     }
 #endif
     
@@ -1241,8 +1241,14 @@ void    CSystem::SetMousePos(int x, int y)
         newCursorPosition.y = displayBounds.size.height - newCursorPosition.y;
     }*/
 
+#if TKTK || 1
     CGSetLocalEventsSuppressionInterval(0.0);
     CGWarpMouseCursorPosition(*(CGPoint*)&newCursorPosition);
+#else
+    // https://stackoverflow.com/questions/10196603/using-cgeventsourcesetlocaleventssuppressioninterval-instead-of-the-deprecated
+    CGWarpMouseCursorPosition(*(CGPoint*)&newCursorPosition);
+    CGAssociateMouseAndMouseCursorPosition(true);
+#endif
 }
 
 
@@ -1543,13 +1549,12 @@ void    CSystem::Beep(dword dwFreq, dword dwDuration)
  ====================*/
 bool    CSystem::IsDebuggerPresent()
 {
-    int mib[4] = { CTL_KERN, KERN_PROC, KERN_PROC_PID, 0 };
+    int mib[4] = { CTL_KERN, KERN_PROC, KERN_PROC_PID, getpid() };
     struct kinfo_proc info;
     size_t size = sizeof(info);
     
     info.kp_proc.p_flag = 0;
-    mib[4] = getpid();
-    
+
     sysctl(mib, 4, &info, &size, NULL, 0);
     
     return (info.kp_proc.p_flag & P_TRACED) != 0;
@@ -1856,7 +1861,7 @@ void    CSystem::SetConfig(const tstring &sConfig)
         
         NSString *pPath = [NSString stringWithUTF8String:TStringToNative(m_sUserDir).c_str()];
         if (![pMgr fileExistsAtPath:pPath])
-            if (![pMgr createDirectoryAtPath:pPath attributes:nil])
+            if (![pMgr createDirectoryAtPath:pPath withIntermediateDirectories:YES attributes:nil error:nil])
                 EX_WARN(_T("Failed to create user directory, settings will not be saved!"));
     }
     catch (CException &ex)
