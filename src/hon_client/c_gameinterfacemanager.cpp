@@ -1004,10 +1004,16 @@ void    CGameInterfaceManager::LoadMainInterfaces()
     PROFILE("CGameInterfaceManager::LoadMainInterfaces");
 
     wsvector vInterfaceList;
+#if TKTK // TKTK 2023: Should we try to get the fe2 UI working?
     vInterfaceList.push_back(L"/ui/fe2/main.interface");
     vInterfaceList.push_back(L"/ui/fe2/loading.interface");
     vInterfaceList.push_back(L"/ui/fe2/loading_matchmaking_preload.interface");
     vInterfaceList.push_back(L"/ui/fe2/loading_matchmaking_connecting.interface");
+#else
+    vInterfaceList.push_back(L"/ui/main.interface");
+    vInterfaceList.push_back(L"/ui/loading.interface");
+    vInterfaceList.push_back(L"/ui/game_loading.interface");
+#endif
     vInterfaceList.push_back(L"/ui/main_popup.interface");
 
     for (tsvector_it it(vInterfaceList.begin()); it != vInterfaceList.end(); ++it)
@@ -1040,6 +1046,9 @@ ResHandle   CGameInterfaceManager::LoadGameInterface(const tstring &sName)
 void    CGameInterfaceManager::LoadGameInterfaces()
 {
     GameClient.AddResourceToLoadingQueue(CLIENT_RESOURCE_UNTRACKED, _T("/ui/game.interface"), RES_INTERFACE);
+    GameClient.AddResourceToLoadingQueue(CLIENT_RESOURCE_UNTRACKED, _T("/ui/game_lobby.interface"), RES_INTERFACE);
+    GameClient.AddResourceToLoadingQueue(CLIENT_RESOURCE_UNTRACKED, _T("/ui/game_hero_select.interface"), RES_INTERFACE);
+    GameClient.AddResourceToLoadingQueue(CLIENT_RESOURCE_UNTRACKED, _T("/ui/game_hero_loading.interface"), RES_INTERFACE);
     GameClient.AddResourceToLoadingQueue(CLIENT_RESOURCE_UNTRACKED, _T("/ui/game_menu.interface"), RES_INTERFACE);
     GameClient.AddResourceToLoadingQueue(CLIENT_RESOURCE_UNTRACKED, _T("/ui/game_spectator.interface"), RES_INTERFACE);
     GameClient.AddResourceToLoadingQueue(CLIENT_RESOURCE_UNTRACKED, _T("/ui/game_replay_control.interface"), RES_INTERFACE);
@@ -2182,27 +2191,27 @@ void    CGameInterfaceManager::Update()
         break;
 
     case CG_INTERFACE_LOADING:
-        UIManager.SetActiveInterface(m_sMainInterface);
+        UIManager.SetActiveInterface(m_sMainInterface == _T("main") ? _T("game_loading") : m_sMainInterface);
         UpdateLogin();
         UpdateLobby();
         break;
 
     case CG_INTERFACE_LOBBY:
-        UIManager.SetActiveInterface(m_sMainInterface);
+        UIManager.SetActiveInterface(m_sMainInterface == _T("main") ? _T("game_lobby") : m_sMainInterface);
         UpdateLogin();
         UpdateLobby();
         UpdateVoiceChat();
         break;
 
     case CG_INTERFACE_HERO_SELECT:
-        UIManager.SetActiveInterface(m_sMainInterface);
+        UIManager.SetActiveInterface(m_sMainInterface == _T("main") ? _T("game_hero_select") : m_sMainInterface);
         UpdateLogin();
         UpdateHeroSelect();
         UpdateLobby();
         break;
 
     case CG_INTERFACE_HERO_LOADING:
-        UIManager.SetActiveInterface(m_sMainInterface);
+        UIManager.SetActiveInterface(m_sMainInterface == _T("main") ? _T("game_hero_loading") : m_sMainInterface);
         UpdateLogin();
         UpdateHeroSelect();
         break;

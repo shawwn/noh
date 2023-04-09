@@ -1028,6 +1028,9 @@ ResHandle   CGameInterfaceManager::LoadGameInterface(const tstring &sName)
 void    CGameInterfaceManager::LoadGameInterfaces()
 {
     GameClient.AddResourceToLoadingQueue(CLIENT_RESOURCE_UNTRACKED, _T("/ui/game.interface"), RES_INTERFACE);
+    GameClient.AddResourceToLoadingQueue(CLIENT_RESOURCE_UNTRACKED, _T("/ui/game_lobby.interface"), RES_INTERFACE);
+    GameClient.AddResourceToLoadingQueue(CLIENT_RESOURCE_UNTRACKED, _T("/ui/game_hero_select.interface"), RES_INTERFACE);
+    GameClient.AddResourceToLoadingQueue(CLIENT_RESOURCE_UNTRACKED, _T("/ui/game_hero_loading.interface"), RES_INTERFACE);
     GameClient.AddResourceToLoadingQueue(CLIENT_RESOURCE_UNTRACKED, _T("/ui/game_menu.interface"), RES_INTERFACE);
     GameClient.AddResourceToLoadingQueue(CLIENT_RESOURCE_UNTRACKED, _T("/ui/game_spectator.interface"), RES_INTERFACE);
     GameClient.AddResourceToLoadingQueue(CLIENT_RESOURCE_UNTRACKED, _T("/ui/game_replay_control.interface"), RES_INTERFACE);
