@@ -69,6 +69,12 @@ CVAR_BOOLF  (sys_fileChangeNotify,      true,   CONEL_DEV);
 CVAR_BOOLF  (sys_autoSaveDump,          false,  CVAR_SAVECONFIG);
 CVAR_BOOL   (sys_dumpOnFatal,           false);
 
+#if defined(_DEBUG)
+CVAR_BOOL   (sys_debugOutput,           true);
+#else
+CVAR_BOOL   (sys_debugOutput,           false);
+#endif
+
 // Keyboard settings
 CVAR_BOOLF(key_splitShift,  false, CVAR_SAVECONFIG);
 CVAR_BOOLF(key_splitAlt,    false, CVAR_SAVECONFIG);
@@ -502,6 +508,15 @@ void    CSystem::Exit(int iErrorLevel)
 void    CSystem::DebugOutput(const tstring &sOut)
 {
     OutputDebugString(sOut.c_str());
+
+    if (!sys_debugOutput)
+        return;
+#ifdef UNICODE
+    wprintf(_T("%ls"), sOut.c_str());
+#else
+    printf("%s", sOut.c_str());
+#endif
+    fflush(stdout);
 }
 
 
