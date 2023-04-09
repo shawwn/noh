@@ -1234,7 +1234,7 @@ CMD(ScaleTrees)
 
 
 #if 1
-#pragma pack(1)
+#pragma pack(push, 1)
 struct SDoodad
 {
     uint uiType;
@@ -1248,7 +1248,7 @@ struct SDoodad
     float fScaleZ;
     char szUnknown[14];
 }; // 50 bytes
-#pragma pack()
+#pragma pack(pop)
 
 #define DOOTYPE(a, b, c, d) (a + (b << 8) + (c << 16) + (d << 24))
 
@@ -1310,7 +1310,7 @@ CMD(ImportDoo)
     return true;
 }
 
-#pragma pack(1)
+#pragma pack(push, 1)
 struct SVertex
 {
     ushort unHeightOffset;
@@ -1319,7 +1319,7 @@ struct SVertex
     byte y1;
     byte y2;
 }; // 7 bytes
-#pragma pack()
+#pragma pack(pop)
 
 /*--------------------
   ImportW3E
