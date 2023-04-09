@@ -10,6 +10,7 @@
 //=============================================================================
 class CHTTPManager;
 class CHTTPRequest;
+class CSRP;
 //=============================================================================
 
 //=============================================================================
@@ -83,6 +84,8 @@ class CClientAccount
 
 private:
     CHTTPManager*               m_pHTTPManager;
+    CSRP*                       m_pSRP;
+    CHTTPRequest*               m_pPreAuthRequest;
     CHTTPRequest*               m_pAuthRequest;
     CHTTPRequest*               m_pChangePasswordRequest;
     CHTTPRequest*               m_pSelectUpgradesRequest;
@@ -136,6 +139,7 @@ private:
 
     CClientAccount();
 
+    void    ProcessLoginPreAuth(const tstring &sResponse);
     void    ProcessLoginResponse(const tstring &sResponse);
     void    ProcessPasswordChangeResponse(const tstring &sResponse);
     void    ProcessRefreshUpgradesResponse(const tstring &sResponse);

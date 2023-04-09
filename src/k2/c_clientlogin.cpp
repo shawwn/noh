@@ -20,6 +20,7 @@
 #include "c_phpdata.h"
 #include "c_httpmanager.h"
 #include "c_httprequest.h"
+#include "c_srp.h"
 //=============================================================================
 
 //=============================================================================
@@ -32,6 +33,7 @@ CVAR_BOOL(      login_rememberName,     false);
 CVAR_BOOL(      login_rememberPassword, false);
 CVAR_BOOLF(     login_invisible,        false,  CVAR_SAVECONFIG);
 CVAR_BOOL(      login_useSSL,           false);
+CVAR_BOOL(      login_useSRP,           true);
 
 CVAR_BOOLF(     _testTrialAccount,      false,  CVAR_SAVECONFIG);
 
@@ -52,6 +54,8 @@ UI_TRIGGER(RefreshInfosStatus);
   ====================*/
 CClientAccount::CClientAccount(CHTTPManager *pHTTPManager) :
 m_pHTTPManager(pHTTPManager),
+m_pSRP(NULL),
+m_pPreAuthRequest(NULL),
 m_pAuthRequest(NULL),
 m_pChangePasswordRequest(NULL),
 m_pSelectUpgradesRequest(NULL),
@@ -91,6 +95,8 @@ m_uiCoins(0)
   ====================*/
 CClientAccount::~CClientAccount()
 {
+    SAFE_DELETE(m_pSRP);
+    m_pHTTPManager->ReleaseRequest(m_pPreAuthRequest);
     m_pHTTPManager->ReleaseRequest(m_pAuthRequest);
     m_pHTTPManager->ReleaseRequest(m_pChangePasswordRequest);
     m_pHTTPManager->ReleaseRequest(m_pSelectUpgradesRequest);
@@ -104,6 +110,11 @@ CClientAccount::~CClientAccount()
   ====================*/
 void    CClientAccount::Disconnect(const tstring &sReason, EClientLoginStatus eStatus)
 {
+    SAFE_DELETE(m_pSRP);
+
+    m_pHTTPManager->ReleaseRequest(m_pPreAuthRequest);
+    m_pPreAuthRequest = NULL;
+
     m_pHTTPManager->ReleaseRequest(m_pAuthRequest);
     m_pAuthRequest = NULL;
 
@@ -226,30 +237,58 @@ void    CClientAccount::Connect(const tstring &sUser, const tstring &sPassword)
 
     Console.Client << _T("Connecting to authentication server...") << newl;
 
-    // Send an authorization message to the DB
-    m_pAuthRequest = m_pHTTPManager->SpawnRequest();
-    if (m_pAuthRequest == NULL)
-        return;
+    if (login_useSRP) {
+        SAFE_DELETE(m_pSRP);
+        m_pSRP = K2_NEW(ctx_Net, CSRP)();
+        tstring sA = m_pSRP->Start(sUser, sPassword);
 
-    m_pAuthRequest->SetTargetURL(K2System.GetMasterServerAddress() + "/client_requester.php");
+        m_pPreAuthRequest = m_pHTTPManager->SpawnRequest();
+        if (m_pPreAuthRequest == NULL)
+            return;
 
-#ifdef K2_GARENA
-    m_pAuthRequest->AddVariable(L"f", L"token_auth");
-    m_pAuthRequest->AddVariable(L"token", sToken);
+        m_pPreAuthRequest->SetTargetURL(K2System.GetMasterServerAddress() + "/client_requester.php");
+        m_pPreAuthRequest->AddVariable(L"f", L"pre_auth");
+        m_pPreAuthRequest->AddVariable(L"login", sUser);
+        m_pPreAuthRequest->AddVariable(L"A", sA);
+#ifdef WIN32
+        m_pPreAuthRequest->AddVariable(L"SysInfo", "running on windows");
 #else
-    m_pAuthRequest->AddVariable(L"f", L"auth");
-    m_pAuthRequest->AddVariable(L"login", sUser);
-    m_pAuthRequest->AddVariable(L"password", sPassword);
+        m_pPreAuthRequest->AddVariable(L"SysInfo", "not running on windows");
 #endif
 
-    m_pAuthRequest->SetTimeout(0);
-    m_pAuthRequest->SetConnectTimeout(0);
-    m_pAuthRequest->SetLowSpeedTimeout(0, 0);
-        
-    if (login_useSSL)
-        m_pAuthRequest->SendSecurePostRequest();
-    else
-        m_pAuthRequest->SendPostRequest();
+        m_pPreAuthRequest->SetTimeout(0);
+        m_pPreAuthRequest->SetConnectTimeout(0);
+        m_pPreAuthRequest->SetLowSpeedTimeout(0, 0);
+        if (login_useSSL)
+            m_pPreAuthRequest->SendSecurePostRequest();
+        else
+            m_pPreAuthRequest->SendPostRequest();
+    } else {
+        // Send an authorization message to the DB
+        m_pAuthRequest = m_pHTTPManager->SpawnRequest();
+        if (m_pAuthRequest == NULL)
+            return;
+
+        m_pAuthRequest->SetTargetURL(K2System.GetMasterServerAddress() + "/client_requester.php");
+
+#ifdef K2_GARENA
+        m_pAuthRequest->AddVariable(L"f", L"token_auth");
+        m_pAuthRequest->AddVariable(L"token", sToken);
+#else
+        m_pAuthRequest->AddVariable(L"f", L"auth");
+        m_pAuthRequest->AddVariable(L"login", sUser);
+        m_pAuthRequest->AddVariable(L"password", sPassword);
+#endif
+
+        m_pAuthRequest->SetTimeout(0);
+        m_pAuthRequest->SetConnectTimeout(0);
+        m_pAuthRequest->SetLowSpeedTimeout(0, 0);
+
+        if (login_useSSL)
+            m_pAuthRequest->SendSecurePostRequest();
+        else
+            m_pAuthRequest->SendPostRequest();
+    }
 
     AccountManager.ClearAccountID();
 }
@@ -295,6 +334,22 @@ void    CClientAccount::ChangePassword(const tstring &sUser, const tstring &sOld
   ====================*/
 void    CClientAccount::Frame()
 {
+    if (m_pPreAuthRequest != NULL && !m_pPreAuthRequest->IsActive())
+    {
+        if (m_pPreAuthRequest->WasSuccessful())
+        {
+            ProcessLoginPreAuth(m_pPreAuthRequest->GetResponse());
+        }
+        else
+        {
+            Disconnect(_T("Connection failed"));
+            ClientLoginError.Trigger(L"1");
+        }
+
+        m_pHTTPManager->ReleaseRequest(m_pPreAuthRequest);
+        m_pPreAuthRequest = NULL;
+    }
+
     if (m_pAuthRequest != NULL && !m_pAuthRequest->IsActive())
     {
         if (m_pAuthRequest->WasSuccessful())
@@ -389,6 +444,97 @@ void    CClientAccount::Frame()
         m_pHTTPManager->ReleaseRequest(m_pRefreshInfosRequest);
         m_pRefreshInfosRequest = NULL;
     }
+}
+
+
+/*====================
+  CClientAccount::ProcessLoginPreAuth
+  ====================*/
+void    CClientAccount::ProcessLoginPreAuth(const tstring &sResponse)
+{
+    if (sResponse.empty())
+    {
+        Disconnect(_T("Empty response from server"));
+        return;
+    }
+
+    //Console << _T("Login response: ") << sResponse << newl;
+
+    CPHPData phpResponse(sResponse);
+    if (!phpResponse.IsValid())
+    {
+        Disconnect(_T("Bad Data - Please wait a few minutes and try again."));
+        return;
+    }
+
+    phpResponse.Print();
+
+    const CPHPData *pError(phpResponse.GetVar(_T("error")));
+    if (pError != NULL)
+    {
+        const CPHPData *pErrorCode(pError->GetVar(0));
+        Disconnect(pErrorCode == NULL ? _T("Unknown error") : pErrorCode->GetString());
+        return;
+    }
+
+    auto sSalt(phpResponse.GetString(_T("salt")));
+    auto sSalt2(phpResponse.GetString(_T("salt2")));
+    auto sB(phpResponse.GetString(_T("B")));
+
+    if (sSalt.empty())
+    {
+        Disconnect(_T("SRP salt empty"));
+        return;
+    }
+
+    if (sSalt2.empty())
+    {
+        Disconnect(_T("SRP salt2 empty"));
+        return;
+    }
+
+    if (sB.empty())
+    {
+        Disconnect(_T("SRP B empty"));
+        return;
+    }
+
+    if (m_pSRP == NULL)
+    {
+        Disconnect(_T("SRP is null"));
+        return;
+    }
+
+
+
+    tstring sProof = m_pSRP->ProcessChallenge(sSalt, sSalt2, sB);
+    if (sProof.empty())
+    {
+        Disconnect(_T("SRP proof empty"));
+        return;
+    }
+
+    // Send an authorization message to the DB
+    m_pAuthRequest = m_pHTTPManager->SpawnRequest();
+    if (m_pAuthRequest == NULL)
+        return;
+
+    m_pAuthRequest->SetTargetURL(K2System.GetMasterServerAddress() + "/client_requester.php");
+
+    tstring sUser(m_pSRP->GetUsername());
+    m_pAuthRequest->AddVariable(L"f", L"srpAuth");
+    m_pAuthRequest->AddVariable(L"login", sUser);
+    m_pAuthRequest->AddVariable(L"proof", sProof);
+    m_pAuthRequest->AddVariable(L"SysInfo", L"0");
+
+    m_pAuthRequest->SetTimeout(0);
+    m_pAuthRequest->SetConnectTimeout(0);
+    m_pAuthRequest->SetLowSpeedTimeout(0, 0);
+
+    if (login_useSSL)
+        m_pAuthRequest->SendSecurePostRequest();
+    else
+        m_pAuthRequest->SendPostRequest();
 }
 
 
