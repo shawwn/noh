@@ -77,13 +77,17 @@ CVAR_FLOATR     (host_replaySpeed,              1.0f,       0,                  
 CVAR_STRING     (host_autoexec,                 "");
 CVAR_STRING     (host_init,                     "");
 CVAR_BOOL       (host_debugInit,                false);
+#ifdef _DEBUG
+CVAR_INT        (host_drawFPS,                  1);
+#else
 CVAR_INT        (host_drawFPS,                  0);
+#endif
 CVAR_BOOL       (host_drawActiveClient,         false);
 CVAR_STRINGF    (host_runOnce,                  "",         CVAR_SAVECONFIG);
 CVAR_STRINGF    (host_config,                   "",         CVAR_READONLY);
 CVAR_INTF       (host_affinity,                 0,          CVAR_SAVECONFIG);
 CVAR_STRINGF    (host_language,                 "en",       CVAR_SAVECONFIG);
-CVAR_INTR       (host_maxFPS,                   125,        CVAR_SAVECONFIG,    1,      1000);
+CVAR_INTR       (host_maxFPS,                   1000,       CVAR_SAVECONFIG,    1,      10000);
 #if defined(_WIN32)
 CVAR_STRINGF    (host_os,                       "windows",  CVAR_READONLY);
 #elif defined(linux)
