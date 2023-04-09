@@ -160,7 +160,7 @@ CProfileNode*   CProfileNode::StartSample(const TCHAR *szName, eProfileType eTyp
         g_bProfile = bProfile;
     }
 
-    uint uiIndex(findit - m_vChildrenNames.begin());
+    size_t uiIndex(findit - m_vChildrenNames.begin());
 
     m_vChildren[uiIndex]->StartTimer();
     return m_vChildren[uiIndex];

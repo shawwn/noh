@@ -1446,7 +1446,7 @@ bool    CEntityTeamInfo::ServerFrame()
                 pBuilding->UpkeepFailed(fFraction);
             }
         }
-        /**/
+        */
 
         m_uiNextEconomyInterval += g_economyInterval;
     }

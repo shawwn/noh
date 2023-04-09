@@ -271,7 +271,7 @@ void    CUIManager::SetActiveInterface(const tstring &sName)
     if (itFind == m_mapInterfaces.end())
     {
             m_itActiveInterface = itFind;
-        Console.Warn << _T("CUIManager::SetActiveInterface() - Interface ") << sName << _T(" not found") << newl;
+            Console.Warn << _T("CUIManager::SetActiveInterface() - Interface ") << sName << _T(" not found") << newl;
             return;
     }
 

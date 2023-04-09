@@ -217,7 +217,7 @@ uint    CNavigationGraph::GetNodeY(CSearchNode *pA)
 inline
 uint    CNavigationGraph::ValidateNode(CSearchNode *pA)
 {
-    int iOffset(pA > m_pNodeBucket ? pA - m_pNodeBucket : 0);
+    ptrdiff_t iOffset(pA > m_pNodeBucket ? pA - m_pNodeBucket : 0);
 
     if (((iOffset & m_uiBucketMaskX) != 0) && ((iOffset & m_uiBucketMaskY) != 0))
         return 1;
@@ -246,8 +246,8 @@ CSearchGateR&   CNavigationGraph::GetGate(CSearchNode *pA)
 inline
 void    CNavigationGraph::TileDistance(CSearchNode *pSrc, CSearchNode *pDst, uint &uiDiagonal, uint &uiLinear)
 {
-    int iSrcOffset(pSrc - m_pNodeBucket);
-    int iDstOffset(pDst - m_pNodeBucket);
+    ptrdiff_t iSrcOffset(pSrc - m_pNodeBucket);
+    ptrdiff_t iDstOffset(pDst - m_pNodeBucket);
     int iDiffX((iSrcOffset & m_uiBucketMaskX) - (iDstOffset & m_uiBucketMaskX));
     int iDiffY((iSrcOffset & m_uiBucketMaskY) - (iDstOffset & m_uiBucketMaskY));
 
@@ -270,8 +270,8 @@ void    CNavigationGraph::TileDistance(CSearchNode *pSrc, CSearchNode *pDst, uin
 inline
 void    CNavigationGraph::TileDistanceH(CSearchNode *pSrc, CSearchNode *pDst, uint &uiDiagonal, uint &uiLinear)
 {
-    int iSrcOffset(pSrc - m_pNodeBucket);
-    int iDstOffset(pDst - m_pNodeBucket);
+    ptrdiff_t iSrcOffset(pSrc - m_pNodeBucket);
+    ptrdiff_t iDstOffset(pDst - m_pNodeBucket);
     int iDiffX((iSrcOffset & m_uiBucketMaskX) - (iDstOffset & m_uiBucketMaskX));
     int iDiffY((iSrcOffset & m_uiBucketMaskY) - (iDstOffset & m_uiBucketMaskY));
 

@@ -182,7 +182,6 @@ void    CFontMap::AddCharacter(uint uiChar, const CCharacterRange &charRange)
             if (FT_Render_Glyph(m_pFace->glyph, FT_RENDER_MODE_NORMAL) != 0)
                 EX_ERROR(_T("Failed to render glyph"));
         }
-        /**/
 
         if (m_pFace->glyph->bitmap.rows > m_iMaxBitmapHeight)
             EX_ERROR(_T("Glyph taller than MaxBitmapHeight"));
@@ -469,7 +468,7 @@ const SCharacterMapInfo*    CFontMap::ActuallyGetCharMapInfo(uint uiIndex)
         return &m_MissingCharInfo;
     if (uiIndex <= FONT_LAST_HANGUL_CHAR && (m_uiCharacterRanges & BIT(FONT_RANGE_HANGUL)))
         return &m_vCharInfo[g_HangulCharacterRange.GetRange()][uiIndex - g_HangulCharacterRange.GetFirstChar()];
-    /**/
+    */
     
     return &m_MissingCharInfo;
 }

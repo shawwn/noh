@@ -2027,7 +2027,7 @@ void    CNavigationGraph::ConstructTraveledPath(PathResult &vecPath)
 
         while (uiPtTestTo > uiPtStart + 1)
         {
-            if (bLineOfSight = LineOfSight(uiPtStart, uiPtTestTo, cResult))
+            if ((bLineOfSight = LineOfSight(uiPtStart, uiPtTestTo, cResult)))
                 break;
 
             --uiPtTestTo;

@@ -192,7 +192,7 @@ void*   CMemManager::Allocate(size_t z, const char *szContext, MemoryType eMemTy
         K2System.DebugBreak();
     if (K2System.IsInitialized() && z >= mem_BreakSize)
         K2System.DebugBreak();
-    /**/
+    */
 
     char *p = (char*)malloc(sizeof(SMemHeader) + z + sizeof(MEM_END_TAG));
     assert (p != NULL);
@@ -270,7 +270,7 @@ void    CMemManager::Deallocate(void *p, const char *szContext, MemoryType eMemT
     /*
     if (K2System.IsInitialized() && pe->uiSequence == mem_BreakTag)
         K2System.DebugBreak();
-    /**/
+    */
 
     if (pe->pNext != NULL)
         pe->pNext->pPrev = pe->pPrev;
@@ -351,7 +351,7 @@ void    CMemManager::PrintTrackingStats()
         Console.Mem << _T("#") << pHeader->uiSequence << SPACE << pHeader->pHeap->GetName() << SPACE << INT_SIZE(pHeader->zSize) << newl;
         pHeader = pHeader->pTrackNext;
     }
-    /**/
+    */
 
     Console.Mem << _T("Total allocations: ") << INT_SIZE(zAllocs) << _T(" (") << INT_SIZE(zAllocSize) << _T(" bytes)") << newl
         << _T("Total deallocations: ") << INT_SIZE(zDeallocs) << _T(" (") << INT_SIZE(zDeallocSize) << _T(" bytes)") << newl

@@ -718,7 +718,7 @@ int     CUnzip::ReadCurrentFile(SZipFile *pFile, voidp pBuf, uint iLen)
 
     if (pfileInZipReadInfo == NULL)
         return UNZ_PARAMERROR;
-    if ((pfileInZipReadInfo->preadBuffer == NULL))
+    if (pfileInZipReadInfo->preadBuffer == NULL)
         return UNZ_END_OF_LIST_OF_FILE;
     if (iLen == 0)
         return 0;
@@ -1073,4 +1073,4 @@ int CUnzip::_getGlobalComment (char *szComment, uLong uSizeBuf) {
         *(szComment + pzipfileInfInternal->globalInfo.size_comment)='\0';
     return (int)uReadThis;
 }
-/**/
+*/

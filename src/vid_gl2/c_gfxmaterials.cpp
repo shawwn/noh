@@ -509,13 +509,22 @@ bool    CGfxMaterials::SelectMaterial(const CMaterial &material, EMaterialPhase 
                             glUniform1fARB(cUniform.iLocation, pParam->GetFloat(fTime));
                             break;
                         case MPT_VEC2:
-                            glUniform2fvARB(cUniform.iLocation, 1, (GLfloat *)&pParam->GetVec2(fTime));
+                            {
+                                auto val = pParam->GetVec2(fTime);
+                                glUniform2fvARB(cUniform.iLocation, 1, (GLfloat *)&val);
+                            }
                             break;
                         case MPT_VEC3:
-                            glUniform3fvARB(cUniform.iLocation, 1, (GLfloat *)&pParam->GetVec3(fTime));
+                            {
+                                auto val = pParam->GetVec3(fTime);
+                                glUniform3fvARB(cUniform.iLocation, 1, (GLfloat *)&val);
+                            }
                             break;
                         case MPT_VEC4:
-                            glUniform4fvARB(cUniform.iLocation, 1, (GLfloat *)&pParam->GetVec4(fTime));
+                            {
+                                auto val = pParam->GetVec4(fTime);
+                                glUniform4fvARB(cUniform.iLocation, 1, (GLfloat *)&val);
+                            }
                             break;
                         }
                     }
@@ -896,13 +905,22 @@ bool    CGfxMaterials::UpdateShaderParams(const CMaterial &material, float fTime
                             glUniform1fARB(cUniform.iLocation, pParam->GetFloat(fTime));
                             break;
                         case MPT_VEC2:
-                            glUniform2fvARB(cUniform.iLocation, 1, (GLfloat *)&pParam->GetVec2(fTime));
+                            {
+                                auto val = pParam->GetVec2(fTime);
+                                glUniform2fvARB(cUniform.iLocation, 1, (GLfloat *)&val);
+                            }
                             break;
                         case MPT_VEC3:
-                            glUniform3fvARB(cUniform.iLocation, 1, (GLfloat *)&pParam->GetVec3(fTime));
+                            {
+                                auto val = pParam->GetVec3(fTime);
+                                glUniform3fvARB(cUniform.iLocation, 1, (GLfloat *)&val);
+                            }
                             break;
                         case MPT_VEC4:
-                            glUniform4fvARB(cUniform.iLocation, 1, (GLfloat *)&pParam->GetVec4(fTime));
+                            {
+                                auto val = pParam->GetVec4(fTime);
+                                glUniform4fvARB(cUniform.iLocation, 1, (GLfloat *)&val);
+                            }
                             break;
                         }
                     }

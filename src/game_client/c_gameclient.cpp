@@ -466,7 +466,7 @@ bool    CGameClient::Initialize(CHostClient *pHostClient)
         ActionRegistry.BindButton(BINDTABLE_GAME_PLAYER,    BUTTON_JOYSTICK5, BIND_MOD_NONE,    _T("QuickAttack"));
         ActionRegistry.BindButton(BINDTABLE_GAME_PLAYER,    BUTTON_JOYSTICK6, BIND_MOD_NONE,    _T("StrongAttack"));
         ActionRegistry.BindButton(BINDTABLE_GAME_PLAYER,    BUTTON_JOYSTICK8, BIND_MOD_NONE,    _T("Block"));
-        /**/
+        */
 
         ActionRegistry.BindAxis(BINDTABLE_GAME_PLAYER,      AXIS_MOUSE_X, BIND_MOD_NONE,        _T("CameraYaw"),        _T(""), BIND_CONFIG, 0);
         ActionRegistry.BindAxis(BINDTABLE_GAME_PLAYER,      AXIS_MOUSE_Y, BIND_MOD_NONE,        _T("CameraPitch"),      _T(""), BIND_CONFIG, 0);
@@ -8658,7 +8658,7 @@ void    CGameClient::DoUpkeepEvent(bool bFailed, int iTeam)
             << ((iNotification & BIT(0)) ? _T("beast") : _T("human")) << SPACE
             << ((iNotification & BIT(1)) ? _T("enemy") : _T("ally")) << SPACE
             << ((iNotification & BIT(2)) ? _T("restored") : _T("failed")) << newl;
-    /**/
+    */
 }
 
 

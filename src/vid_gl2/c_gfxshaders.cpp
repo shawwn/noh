@@ -232,9 +232,6 @@ bool    CGfxShaders::LoadVertexShader(const tstring &sName, int &iIndex)
 
         if (!iResult)
         {
-            K2_DELETE_ARRAY(szBuffer);  
-            K2_DELETE_ARRAY(szMacros);
-            
             GLint iLogLength;
             glGetObjectParameterivARB(uiShader, GL_OBJECT_INFO_LOG_LENGTH_ARB, &iLogLength);
 
@@ -252,7 +249,10 @@ bool    CGfxShaders::LoadVertexShader(const tstring &sName, int &iIndex)
 
                 K2_DELETE_ARRAY(szLog);
             }
-            
+
+            K2_DELETE_ARRAY(szBuffer);
+            K2_DELETE_ARRAY(szMacros);
+
             FileManager.SetWorkingDirectory(sOldDir);
 
             return false;

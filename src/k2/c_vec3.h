@@ -79,6 +79,8 @@ public:
     CVec3<T>    operator-(const CVec3<T> &b) const  { return CVec3<T>(x - b.x, y - b.y, z - b.z); }
     CVec3<T>    operator*(const CVec3<T> &b) const  { return CVec3<T>(x * b.x, y * b.y, z * b.z); }
     CVec3<T>    operator/(const CVec3<T> &b) const  { return CVec3<T>(x / b.x, y / b.y, z / b.z); }
+    CVec3<T>    operator+(T s) const                { return CVec3<T>(x + s, y + s, z + s); }
+    CVec3<T>    operator-(T s) const                { return CVec3<T>(x - s, y - s, z - s); }
     CVec3<T>    operator*(T s) const                { return CVec3<T>(x * s, y * s, z * s); }
     CVec3<T>    operator/(T s) const                { return CVec3<T>(x / s, y / s, z / s); }
 

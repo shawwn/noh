@@ -84,7 +84,7 @@ public:
     bool    IsEmpty() const                     { return m_Buffer.GetLength() == 0; }
     uint    GetLength() const                   { return m_Buffer.GetLength(); }
     uint    GetUnreadLength() const             { return m_Buffer.GetUnreadLength(); }
-    uint    GetRemainingSpace() const           { return INT_SIZE(m_Buffer.GetCapacity()) - m_Buffer.GetLength(); }
+    size_t  GetRemainingSpace() const           { return m_Buffer.GetCapacity() - m_Buffer.GetLength(); }
     bool    DoneReading() const                 { return (m_Buffer.GetUnreadLength() == 0 || GetReadPos() > GetLength()); }
     void    Seek(uint uiOffset)                 { m_Buffer.Seek(uiOffset); }
     void    Advance(uint uiBytes)               { m_Buffer.Seek(m_Buffer.GetReadPos() + uiBytes); }

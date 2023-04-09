@@ -321,6 +321,15 @@ void    GL_SetupTextureFilterSettings()
         g_textureMinFilterMipmap = GL_LINEAR_MIPMAP_LINEAR;
         g_textureMaxAnisotropy = MIN(16.0f, fMaxAnisotropy);
         break;
+    case TEXTUREFILTERING_ANISOTROPIC32:
+        g_textureMagFilter = GL_LINEAR;
+        g_textureMinFilter = GL_LINEAR;
+        g_textureMinFilterMipmap = GL_LINEAR_MIPMAP_LINEAR;
+        g_textureMaxAnisotropy = MIN(32.0f, fMaxAnisotropy);
+        break;
+    case NUM_TEXTUREFILTERING_MODES:
+        K2_UNREACHABLE();
+        break;
     }
 }
 

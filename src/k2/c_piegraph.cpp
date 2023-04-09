@@ -122,7 +122,7 @@ void    CPieGraph::DrawCircle(const CVec2f &v2Origin)
     float fRefWidth(m_recArea.GetWidth() / 2.0f);
     float fRefHeight(m_recArea.GetHeight() / 2.0f);
     Draw2D.Rect(fRefX, fRefY, fRefWidth, fRefHeight, m_hTexture);
-    /**/
+    */
 
     for (int i(0); i < m_iDetail * 2; ++i)
     {   
@@ -165,14 +165,14 @@ void    CPieGraph::DrawCircle(const CVec2f &v2Origin)
         Draw2D.Line(CVec2f(fRefX + fRefWidth * t2.x, fRefY + fRefHeight * t2.y), CVec2f(fRefX + fRefWidth * t3.x, fRefY + fRefHeight * t3.y), v4Color, v4Color);
         Draw2D.Line(CVec2f(fRefX + fRefWidth * t3.x, fRefY + fRefHeight * t3.y), CVec2f(fRefX + fRefWidth * t4.x, fRefY + fRefHeight * t4.y), v4Color, v4Color);
         Draw2D.Line(CVec2f(fRefX + fRefWidth * t4.x, fRefY + fRefHeight * t4.y), CVec2f(fRefX + fRefWidth * t1.x, fRefY + fRefHeight * t1.y), v4Color, v4Color);
-        /**/
+        */
 
         /*
         Draw2D.Line(v2Origin + v4, v2Origin + v3, v4Color, v4Color);
         Draw2D.Line(v2Origin + v3, v2Origin + v2, v4Color, v4Color);
         Draw2D.Line(v2Origin + v2, v2Origin + v1, v4Color, v4Color);
         Draw2D.Line(v2Origin + v1, v2Origin + v4, v4Color, v4Color);
-        /**/
+        */
 
         fAngle += fStep;
         if ((m_fSign > 0.0f && fAngle >= fEnd) ||

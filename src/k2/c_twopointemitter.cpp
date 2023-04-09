@@ -178,8 +178,8 @@ m_fSelectionWeightRange(0.0f),
 m_fAccumulator(0.0f),
 m_iSpawnCount(0),
 m_bChildEmitters(false),
-m_v3LastBasePosA(m_v3PosA),
-m_v3LastBasePosB(m_v3PosB),
+m_v3LastBasePosA(V3_ZERO),
+m_v3LastBasePosB(V3_ZERO),
 m_v3LastBaseVelocityA(V3_ZERO),
 m_v3LastBaseVelocityB(V3_ZERO),
 m_iCount(eSettings.GetCount()),
@@ -221,6 +221,9 @@ m_tfParticleAlpha(eSettings.GetParticleAlpha()),
 m_tfParticleScale(eSettings.GetParticleScale()),
 m_fDepthBias(eSettings.GetDepthBias())
 {
+    m_v3LastBasePosA = m_v3PosA;
+    m_v3LastBasePosB = m_v3PosB;
+
     if (pOwner != NULL)
     {
         m_pOwnerA = pOwner;

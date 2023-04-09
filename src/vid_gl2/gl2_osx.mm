@@ -36,7 +36,7 @@ NSOpenGLContext *g_pSharedContext(nil);
 NSOpenGLContext *g_pActiveContext(nil);
 GLint           g_iMaxSamples;
 CGGammaValue    g_GammaTable[3][256];
-CGTableCount    g_iGammaTableSize(256);
+uint32_t        g_iGammaTableSize;
 CGDirectDisplayID g_Display(kCGDirectMainDisplay);
 bool            g_bExclusive(false);
 
@@ -168,7 +168,7 @@ struct
             [NSMenu setMenuBarVisible:YES];
         // wait for appkit/system events so the miniaturize goes through
         NSEvent *event;
-        while(event = [NSApp nextEventMatchingMask:(NSAppKitDefinedMask|NSSystemDefinedMask) untilDate:[NSDate dateWithTimeIntervalSinceNow:0.2] inMode:NSDefaultRunLoopMode dequeue:YES])
+        while((event = [NSApp nextEventMatchingMask:(NSEventMaskAppKitDefined|NSEventMaskSystemDefined) untilDate:[NSDate dateWithTimeIntervalSinceNow:0.2] inMode:NSDefaultRunLoopMode dequeue:YES]))
             [NSApp sendEvent:event];
         [super miniaturize:sender];
     }
@@ -213,7 +213,7 @@ struct
             [NSMenu setMenuBarVisible:YES];
         // wait for appkit/system events
         NSEvent *event;
-        while(event = [NSApp nextEventMatchingMask:(NSAppKitDefinedMask|NSSystemDefinedMask) untilDate:[NSDate dateWithTimeIntervalSinceNow:0.2] inMode:NSDefaultRunLoopMode dequeue:YES])
+        while((event = [NSApp nextEventMatchingMask:(NSEventMaskAppKitDefined|NSEventMaskSystemDefined) untilDate:[NSDate dateWithTimeIntervalSinceNow:0.2] inMode:NSDefaultRunLoopMode dequeue:YES]))
             [NSApp sendEvent:event];
     }
 }
@@ -251,7 +251,7 @@ struct
     for (uint ui(0); screens && ui < [screens count]; ++ui)
     {
         NSScreen *screen = [screens objectAtIndex:ui];
-        CGDirectDisplayID screenID = (CGDirectDisplayID)[[[screen deviceDescription] valueForKey:@"NSScreenNumber"] pointerValue];
+        CGDirectDisplayID screenID = (CGDirectDisplayID)(size_t)[[[screen deviceDescription] valueForKey:@"NSScreenNumber"] pointerValue];
         if (screenID == display)
             break;
         screen = nil;
@@ -264,7 +264,7 @@ struct
     
     // wait for appkit/system events (so we don't do stuff like setup a new window before system is aware of the updated geometry)
     NSEvent *event;
-    while(event = [NSApp nextEventMatchingMask:(NSAppKitDefinedMask|NSSystemDefinedMask) untilDate:[NSDate dateWithTimeIntervalSinceNow:0.1] inMode:NSDefaultRunLoopMode dequeue:YES])
+    while((event = [NSApp nextEventMatchingMask:(NSEventMaskAppKitDefined|NSEventMaskSystemDefined) untilDate:[NSDate dateWithTimeIntervalSinceNow:0.1] inMode:NSDefaultRunLoopMode dequeue:YES]))
         [NSApp sendEvent:event];
 }
 
@@ -369,7 +369,7 @@ struct
     for (uint ui(0); screens && ui < [screens count]; ++ui)
     {
         NSScreen *screen = [screens objectAtIndex:ui];
-        CGDirectDisplayID screenID = (CGDirectDisplayID)[[[screen deviceDescription] valueForKey:@"NSScreenNumber"] pointerValue];
+        CGDirectDisplayID screenID = (CGDirectDisplayID)(size_t)[[[screen deviceDescription] valueForKey:@"NSScreenNumber"] pointerValue];
         if (screenID == m_Display)
             return [screen frame];
     }
@@ -490,7 +490,7 @@ int     GL_Init()
         K2System.Error(_T("Unable to get pixel format"));
     g_pSharedContext = [[NSOpenGLContext alloc] initWithFormat:pPixelFormat shareContext:nil];
     
-    long rendererID;
+    int rendererID;
     [pPixelFormat getValues:&rendererID forAttribute:NSOpenGLPFARendererID forVirtualScreen:0];
     rendererID &= kCGLRendererIDMatchingMask;
     
@@ -645,13 +645,13 @@ void    GL_Start()
     
     g_pWindow = [[Window alloc] initWithContentRect:rect styleMask:(NSTitledWindowMask | NSClosableWindowMask | NSMiniaturizableWindowMask) backing:NSBackingStoreBuffered defer:NO];
     [g_pWindow setTitle:@"Heroes of Newerth"];
-    [g_pWindow setDelegate:g_pWindow];
+    [g_pWindow setDelegate:static_cast<id<NSWindowDelegate>>(g_pWindow)];
     g_pActiveWindow = g_pWindow;
     K2System.SetWindowHandle(g_pActiveWindow);
     
     g_pFullscreenWindow = [[FullscreenWindow alloc] initWithContentRect:rect styleMask:NSBorderlessWindowMask backing:NSBackingStoreBuffered defer:NO];
     [g_pFullscreenWindow setTitle:@"Heroes of Newerth"];
-    [g_pFullscreenWindow setDelegate:g_pFullscreenWindow];
+    [g_pFullscreenWindow setDelegate:static_cast<id<NSWindowDelegate>>(g_pFullscreenWindow)];
 
     GL_SetMode();
     
@@ -825,7 +825,7 @@ int     GL_SetMode()
     }
     
     GLint iSwapInterval = gl_swapInterval;
-    [g_pActiveContext setValues:&iSwapInterval forParameter:NSOpenGLCPSwapInterval];
+    [g_pActiveContext setValues:&iSwapInterval forParameter:NSOpenGLContextParameterSwapInterval];
     
     if (g_bExclusive)
     {
@@ -835,6 +835,12 @@ int     GL_SetMode()
     {
         [g_pActiveWindow setContentSize:NSMakeSize(g_CurrentVidMode.iWidth, g_CurrentVidMode.iHeight)];
         [g_pActiveWindow setContentView:[[OpenGLView alloc] initWithFrame:[[g_pActiveWindow contentView] frame] pixelFormat:nil]];
+        
+        // TKTK: See https://github.com/turican0/dosbox-x-remc2/blob/3fd2ff189d98a43218b330bad6b16c11c479dc27/vs2015/sdl/src/video/quartz/SDL_QuartzVideo.m#L1172
+        NSRect contentRectOrig = NSMakeRect (0, 0, g_CurrentVidMode.iWidth, g_CurrentVidMode.iHeight);
+        contentRectOrig = [[g_pActiveWindow contentView] convertRectFromBacking:contentRectOrig];
+        [[g_pActiveWindow contentView] setBoundsSize: contentRectOrig.size];
+        
         [[g_pActiveWindow contentView] setOpenGLContext:g_pActiveContext];
         [g_pActiveContext setView:[g_pActiveWindow contentView]];
         [g_pActiveWindow center];

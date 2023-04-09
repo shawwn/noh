@@ -345,7 +345,7 @@ void    CSystem::InitMore()
         
         input_joyDeviceID = -1;
         
-        while (hidDevice = IOIteratorNext(hidObjectIterator))
+        while ((hidDevice = IOIteratorNext(hidObjectIterator)))
         {
             IOHIDDeviceInterface122 **hidDeviceInterface(NULL);
             IOCFPlugInInterface **plugInInterface(NULL);
@@ -522,7 +522,7 @@ static inline EButton mouseButtonToEButton(int button, uint modifierFlags)
     switch (button)
     {
         case 0:
-            if (modifierFlags & NSCommandKeyMask)
+            if (modifierFlags & NSEventModifierFlagCommand)
                 return BUTTON_MOUSER;
             else
                 return BUTTON_MOUSEL;
@@ -562,8 +562,8 @@ static inline void handleModifiers(uint uiModifierFlags)
         if (uiChanged & NX_DEVICERSHIFTKEYMASK)
             Input.AddEvent(BUTTON_RSHIFT, uiModifierFlags & NX_DEVICERSHIFTKEYMASK);
     }
-    else if (uiChanged & NSShiftKeyMask)
-        Input.AddEvent(BUTTON_SHIFT, uiModifierFlags & NSShiftKeyMask);
+    else if (uiChanged & NSEventModifierFlagShift)
+        Input.AddEvent(BUTTON_SHIFT, uiModifierFlags & NSEventModifierFlagShift);
     
     if (key_splitControl)
     {
@@ -572,8 +572,8 @@ static inline void handleModifiers(uint uiModifierFlags)
         if (uiChanged & NX_DEVICERCTLKEYMASK)
             Input.AddEvent(BUTTON_RCTRL, uiModifierFlags & NX_DEVICERCTLKEYMASK);
     }
-    else if (uiChanged & NSControlKeyMask)
-        Input.AddEvent(BUTTON_CTRL, uiModifierFlags & NSControlKeyMask);
+    else if (uiChanged & NSEventModifierFlagControl)
+        Input.AddEvent(BUTTON_CTRL, uiModifierFlags & NSEventModifierFlagControl);
 
     if (key_splitOption)
     {
@@ -582,8 +582,8 @@ static inline void handleModifiers(uint uiModifierFlags)
         if (uiChanged & NX_DEVICERALTKEYMASK)
             Input.AddEvent(BUTTON_ROPT, uiModifierFlags & NX_DEVICERALTKEYMASK);
     }
-    else if (uiChanged & NSAlternateKeyMask)
-        Input.AddEvent(BUTTON_OPT, uiModifierFlags & NSAlternateKeyMask);
+    else if (uiChanged & NSEventModifierFlagOption)
+        Input.AddEvent(BUTTON_OPT, uiModifierFlags & NSEventModifierFlagOption);
     
     if (key_splitCommand)
     {
@@ -592,14 +592,14 @@ static inline void handleModifiers(uint uiModifierFlags)
         if (uiChanged & NX_DEVICERCMDKEYMASK)
             Input.AddEvent(BUTTON_RCMD, uiModifierFlags & NX_DEVICERCMDKEYMASK);
     }
-    else if (uiChanged & NSCommandKeyMask)
-        Input.AddEvent(BUTTON_CMD, uiModifierFlags & NSCommandKeyMask);
+    else if (uiChanged & NSEventModifierFlagCommand)
+        Input.AddEvent(BUTTON_CMD, uiModifierFlags & NSEventModifierFlagCommand);
         
-    if (uiChanged & NSAlphaShiftKeyMask)
-        Input.AddEvent(BUTTON_CAPS_LOCK, uiModifierFlags & NSAlphaShiftKeyMask);
+    if (uiChanged & NSEventModifierFlagCapsLock)
+        Input.AddEvent(BUTTON_CAPS_LOCK, uiModifierFlags & NSEventModifierFlagCapsLock);
     
-    if (uiChanged & NSFunctionKeyMask)
-        Input.AddEvent(BUTTON_FN, uiModifierFlags & NSFunctionKeyMask);
+    if (uiChanged & NSEventModifierFlagFunction)
+        Input.AddEvent(BUTTON_FN, uiModifierFlags & NSEventModifierFlagFunction);
         
 #else
     switch ((uiOldModifierFlags ^ uiModifierFlags) & 0xffff)
@@ -664,25 +664,25 @@ static inline void handleModifiers(uint uiModifierFlags)
         default:
             switch ((uiOldModifierFlags ^ uiModifierFlags) & 0xffff0000)
         {
-            case NSAlphaShiftKeyMask:
-                Input.AddEvent(BUTTON_CAPS_LOCK, uiModifierFlags & NSAlphaShiftKeyMask);
+            case NSEventModifierFlagCapsLock:
+                Input.AddEvent(BUTTON_CAPS_LOCK, uiModifierFlags & NSEventModifierFlagCapsLock);
                 break;
-            case NSShiftKeyMask:
-                Input.AddEvent(BUTTON_SHIFT, uiModifierFlags & NSShiftKeyMask);
+            case NSEventModifierFlagShift:
+                Input.AddEvent(BUTTON_SHIFT, uiModifierFlags & NSEventModifierFlagShift);
                 break;
-            case NSControlKeyMask:
-                Input.AddEvent(BUTTON_CTRL, uiModifierFlags & NSControlKeyMask);
+            case NSEventModifierFlagControl:
+                Input.AddEvent(BUTTON_CTRL, uiModifierFlags & NSEventModifierFlagControl);
                 break;
-            case NSAlternateKeyMask:
-                Input.AddEvent(BUTTON_OPT, uiModifierFlags & NSAlternateKeyMask);
+            case NSEventModifierFlagOption:
+                Input.AddEvent(BUTTON_OPT, uiModifierFlags & NSEventModifierFlagOption);
                 break;
-            case NSCommandKeyMask:
-                Input.AddEvent(BUTTON_CMD, uiModifierFlags & NSCommandKeyMask);
+            case NSEventModifierFlagCommand:
+                Input.AddEvent(BUTTON_CMD, uiModifierFlags & NSEventModifierFlagCommand);
                 break;
-                // case NSNumericPadKeyMask: // this is not num lock, it shows up as "clear" keypress
-                // case NSHelpKeyMask:
-            case NSFunctionKeyMask: // INS on a windows keyboard
-                Input.AddEvent(BUTTON_FN, uiModifierFlags & NSFunctionKeyMask);
+                // case NSEventModifierFlagNumericPad: // this is not num lock, it shows up as "clear" keypress
+                // case NSEventModifierFlagHelp:
+            case NSEventModifierFlagFunction: // INS on a windows keyboard
+                Input.AddEvent(BUTTON_FN, uiModifierFlags & NSEventModifierFlagFunction);
                 break;
             default:
                 break;
@@ -839,7 +839,7 @@ void    CSystem::HandleOSMessages()
     NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
     NSEvent *event;
     
-    while ((event = [NSApp nextEventMatchingMask:NSAnyEventMask untilDate:[NSDate distantPast] inMode:NSDefaultRunLoopMode dequeue:YES]) != nil)
+    while ((event = [NSApp nextEventMatchingMask:NSEventMaskAny untilDate:[NSDate distantPast] inMode:NSDefaultRunLoopMode dequeue:YES]) != nil)
     {
         NSEventType type = [event type];
         NSWindow *win = [event window];
@@ -850,12 +850,12 @@ void    CSystem::HandleOSMessages()
         }
         switch (type)
         {
-            case NSKeyDown:
-            case NSKeyUp:
+            case NSEventTypeKeyDown:
+            case NSEventTypeKeyUp:
             {
                 ushort unKeyCode = [event keyCode];
                 if (key_debugEvents)
-                    Console << _T("KeyCode: ") << INT_HEX_STR(unKeyCode) << (type == NSKeyDown ? _T(" pressed") : _T(" released")) << newl;
+                    Console << _T("KeyCode: ") << INT_HEX_STR(unKeyCode) << (type == NSEventTypeKeyDown ? _T(" pressed") : _T(" released")) << newl;
                 EButton button(keyCodeToEButton(unKeyCode));
                 // Ensure that menu events get passed on
                 if (Input.IsCommandDown() &&
@@ -869,15 +869,15 @@ void    CSystem::HandleOSMessages()
                     break;
                 }
                 if (button != BUTTON_INVALID)
-                    Input.AddEvent(button, type == NSKeyDown);
-                if (type == NSKeyDown && !Input.IsCommandDown() && !Input.IsCtrlDown()) // ignore chars typed when command or control is down
+                    Input.AddEvent(button, type == NSEventTypeKeyDown);
+                if (type == NSEventTypeKeyDown && !Input.IsCommandDown() && !Input.IsCtrlDown()) // ignore chars typed when command or control is down
                 {
                     NSString *chars = [event characters];
                     string sCharsUTF8([chars UTF8String]);
                     tstring sChars(UTF8ToTString(sCharsUTF8));
                     if (key_debugEvents)
                     {
-                        Console << _T("Chars: ") << sChars;
+                        Console << _T("Chars: "); // << sChars; // TKTK: This breaks when pressing F8
                         for (tstring::iterator it(sChars.begin()); it != sChars.end(); ++it)
                             Console << _T(", ") << XtoA(uint(*it));
                         Console << newl;
@@ -893,12 +893,12 @@ void    CSystem::HandleOSMessages()
             }
                 break;
                 
-            case NSLeftMouseDown:
-            case NSRightMouseDown:
-            case NSOtherMouseDown:
-            case NSLeftMouseUp:
-            case NSRightMouseUp:
-            case NSOtherMouseUp:
+            case NSEventTypeLeftMouseDown:
+            case NSEventTypeRightMouseDown:
+            case NSEventTypeOtherMouseDown:
+            case NSEventTypeLeftMouseUp:
+            case NSEventTypeRightMouseUp:
+            case NSEventTypeOtherMouseUp:
             {
                 NSPoint mousePosition;
                 if (!win)
@@ -931,7 +931,7 @@ void    CSystem::HandleOSMessages()
             }
                 break;
                 
-            case NSScrollWheel:
+            case NSEventTypeScrollWheel:
             {
                 NSPoint mousePosition;
                 if (!win)
@@ -982,31 +982,31 @@ void    CSystem::HandleOSMessages()
             }
                 break;
                 
-            case NSFlagsChanged:
+            case NSEventTypeFlagsChanged:
             {
                 handleModifiers([event modifierFlags]);
             }
                 break;
-            case NSAppKitDefined:
+            case NSEventTypeAppKitDefined:
                 [NSApp sendEvent:event];
                 // restore custom cursor in exclusive mode fullscreen, doing it with this event seems to catch all cases where it gets clobbered
                 if ([event subtype] == 0)
                     Vid.SetCursor(ResHandle(-2));
                 break;
                 
-            case NSMouseMoved:
-            case NSLeftMouseDragged:
-            case NSRightMouseDragged:
-            case NSOtherMouseDragged:
+            case NSEventTypeMouseMoved:
+            case NSEventTypeLeftMouseDragged:
+            case NSEventTypeRightMouseDragged:
+            case NSEventTypeOtherMouseDragged:
                 // using polling -- may want to use events for relative motion
                 
-            case NSMouseEntered:
-            case NSMouseExited:
+            case NSEventTypeMouseEntered:
+            case NSEventTypeMouseExited:
                 
-            case NSSystemDefined:
-            case NSApplicationDefined:
-            case NSPeriodic:
-            case NSCursorUpdate:
+            case NSEventTypeSystemDefined:
+            case NSEventTypeApplicationDefined:
+            case NSEventTypePeriodic:
+            case NSEventTypeCursorUpdate:
             default:
                 [NSApp sendEvent:event];
         }
@@ -1497,9 +1497,9 @@ void    CSystem::GetJoystickList(imaps &mapNames)
 void    CSystem::CopyToClipboard(const tstring &sText)
 {
     NSPasteboard *pClipboard = [NSPasteboard generalPasteboard];
-    NSArray *pTypes = [NSArray arrayWithObjects:NSStringPboardType, nil];
+    NSArray *pTypes = [NSArray arrayWithObjects:NSPasteboardTypeString, nil];
     [pClipboard declareTypes:pTypes owner:nil];
-    [pClipboard setString:[NSString stringWithUTF8String:(TStringToNative(sText).c_str())] forType:NSStringPboardType];
+    [pClipboard setString:[NSString stringWithUTF8String:(TStringToNative(sText).c_str())] forType:NSPasteboardTypeString];
 }
 
 
@@ -1508,7 +1508,7 @@ void    CSystem::CopyToClipboard(const tstring &sText)
  ====================*/
 bool    CSystem::IsClipboardString()
 {
-    NSArray *pTypes = [NSArray arrayWithObjects:NSStringPboardType, nil];
+    NSArray *pTypes = [NSArray arrayWithObjects:NSPasteboardTypeString, nil];
     NSString *pBestType = [[NSPasteboard generalPasteboard] availableTypeFromArray:pTypes];
     
     return (pBestType != nil);
@@ -1520,7 +1520,7 @@ bool    CSystem::IsClipboardString()
  ====================*/
 tstring CSystem::GetClipboardString()
 {
-    NSString *pString = [[NSPasteboard generalPasteboard] stringForType:NSStringPboardType];
+    NSString *pString = [[NSPasteboard generalPasteboard] stringForType:NSPasteboardTypeString];
     
     if (pString == nil)
         return _T("");
@@ -1678,8 +1678,7 @@ SSysInfo    CSystem::GetSystemInfo()
         }
         
         // Video Card
-        io_registry_entry_t displayport;
-        displayport = CGDisplayIOServicePort(kCGDirectMainDisplay);
+        io_registry_entry_t displayport = CGDisplayIOServicePort(kCGDirectMainDisplay);
         CFDataRef model = (CFDataRef)IORegistryEntrySearchCFProperty(displayport, kIOServicePlane, CFSTR("model"), kCFAllocatorDefault, kIORegistryIterateRecursively | kIORegistryIterateParents);
         if (model)
         {
@@ -1712,15 +1711,15 @@ SSysInfo    CSystem::GetSystemInfo()
                 CFDictionarySetValue(propertyMatchDict, CFSTR(kIOPrimaryInterface), kCFBooleanTrue);
                 CFDictionarySetValue(matchingDict, CFSTR(kIOPropertyMatchKey), propertyMatchDict);
                 CFRelease(propertyMatchDict);
-                if (IOServiceGetMatchingServices(kIOMasterPortDefault, matchingDict, &matchingServices) == KERN_SUCCESS)
+                if (IOServiceGetMatchingServices(kIOMainPortDefault, matchingDict, &matchingServices) == KERN_SUCCESS)
                 {
                     io_object_t intfService, controllerService;
-                    while (intfService = IOIteratorNext(matchingServices))
+                    while ((intfService = IOIteratorNext(matchingServices)))
                     {
                         CFTypeRef MACAddressAsCFData;
                         if (IORegistryEntryGetParentEntry(intfService, kIOServicePlane, &controllerService) == KERN_SUCCESS)
                         {
-                            if (MACAddressAsCFData = IORegistryEntryCreateCFProperty(controllerService, CFSTR(kIOMACAddress), kCFAllocatorDefault, 0))
+                            if ((MACAddressAsCFData = IORegistryEntryCreateCFProperty(controllerService, CFSTR(kIOMACAddress), kCFAllocatorDefault, 0)))
                             {
                                 UInt8 macaddr[kIOEthernetAddressSize] = { 0 };
                                 CFDataGetBytes((CFDataRef)MACAddressAsCFData, CFRangeMake(0, kIOEthernetAddressSize), macaddr);

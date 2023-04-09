@@ -131,7 +131,8 @@ union UShortBytes
     byte    y[sizeof(short)];
 };
 
-#define K2_UNREFERENCED_PARAMETER(P)          (P)
+#define K2_UNREFERENCED_PARAMETER(P)          (void)(P)
+#define K2_UNREACHABLE()                      assert(!"Shouldn't reach here")
 //=============================================================================
 
 //=============================================================================

@@ -20,7 +20,7 @@
 // Definitions
 //=============================================================================
 
-@interface AppDelegate : NSObject
+@interface AppDelegate : NSObject<NSApplicationDelegate>
 {
     BOOL    m_bMinimized;
 }
@@ -57,12 +57,12 @@
     // hide/show (standard entries)
     [pMenu addItemWithTitle:@"Hide Heroes of Newerth" action:@selector(hide:) keyEquivalent:@"h"];
     pMenuItem = (NSMenuItem*)[pMenu addItemWithTitle:@"Hide Others" action:@selector(hideOtherApplications:) keyEquivalent:@"h"];
-    [pMenuItem setKeyEquivalentModifierMask:(NSAlternateKeyMask|NSCommandKeyMask)];
+    [pMenuItem setKeyEquivalentModifierMask:(NSEventModifierFlagOption|NSEventModifierFlagCommand)];
     [pMenu addItemWithTitle:@"Show All" action:@selector(unhideAllApplications:) keyEquivalent:@""];
     // quit
     [pMenu addItem:[NSMenuItem separatorItem]];
     pMenuItem = (NSMenuItem*)[pMenu addItemWithTitle:@"Quit Heroes of Newerth" action:@selector(quit:) keyEquivalent:@"q"];
-    [pMenuItem setKeyEquivalentModifierMask:(NSShiftKeyMask|NSCommandKeyMask)];
+    [pMenuItem setKeyEquivalentModifierMask:(NSEventModifierFlagShift|NSEventModifierFlagCommand)];
     // add to menu bar
     pMenuItem = [[NSMenuItem alloc] initWithTitle:@"" action:nil keyEquivalent:@""];
     [pMenuItem setSubmenu:pMenu];

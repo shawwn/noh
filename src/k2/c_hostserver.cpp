@@ -971,7 +971,7 @@ void    CHostServer::ReadPackets()
                 }
             }
             break;
-            /**/
+            */
 #endif
         }
 

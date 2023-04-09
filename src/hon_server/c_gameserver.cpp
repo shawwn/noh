@@ -5620,7 +5620,7 @@ bool    CGameServer::ProcessGameData(int iClientNum, CPacket &pkt)
 
             pPlayer->RemoveFlags(PLAYER_FLAG_READY);
         }
-        /**/
+        */
         return true;
 
     case GAME_CMD_FINISHED_LOADING_HEROES:

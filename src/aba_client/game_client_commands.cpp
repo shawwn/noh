@@ -1678,7 +1678,7 @@ UI_VOID_CMD(UnReady, 0)
 {
     cmdUnReady();
 }
-/**/
+*/
 
 
 /*--------------------

@@ -67,6 +67,8 @@ public:
 
     CVec2<T> operator+(const CVec2<T> &b) const { return CVec2<T>(x + b.x, y + b.y); }
     CVec2<T> operator-(const CVec2<T> &b) const { return CVec2<T>(x - b.x, y - b.y); }
+    CVec2<T> operator+(T s) const           { return CVec2<T>(x + s, y + s); }
+    CVec2<T> operator-(T s) const           { return CVec2<T>(x - s, y - s); }
     CVec2<T> operator*(T s) const           { return CVec2<T>(x * s, y * s); }
     CVec2<T> operator/(T s) const           { return CVec2<T>(x / s, y / s); }
 

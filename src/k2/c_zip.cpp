@@ -36,7 +36,7 @@ const ushort    ZIP_METHOD_DEFLATE  (Z_DEFLATED);
 class CCompressedFile;
 //=============================================================================
 
-#pragma pack(1)
+#pragma pack(push, 1)
 //=============================================================================
 // CZipCentralFileHeader
 //=============================================================================
@@ -179,7 +179,7 @@ public:
     uint    GetStoredSize() const       { return m_uiStoredSize; }
 };
 //=============================================================================
-#pragma pack()
+#pragma pack(pop)
 
 /*====================
   CZipCentralFileHeader::CZipCentralFileHeader
@@ -706,9 +706,14 @@ bool    CZip::Open(const tstring &sPath, bool bAppend)
             return false;
     }
     
+#if TKTK // Just disable this for now, since can't figure out how to access the file descriptor in a cross-platform way as of 2023
 #if defined(linux) || defined(__APPLE__)
     // set files to close on exec
+#if defined(__APPLE__)
+    struct fd_accessor : public std::basic_filebuf<char> { int fd() { return __file_; } }; // error: '__file_' is a private member of 'std::filebuf'
+#else
     struct fd_accessor : public std::basic_filebuf<char> { int fd() { return _M_file.fd(); } };
+#endif
     int fd = static_cast<fd_accessor*>(m_file.rdbuf())->fd();
     long flags;
     if ((flags = fcntl(fd, F_GETFD, 0)) == -1)
@@ -716,6 +721,7 @@ bool    CZip::Open(const tstring &sPath, bool bAppend)
 
     if (fcntl(fd, F_SETFD, flags | FD_CLOEXEC) == -1)
         return false;
+#endif
 #endif
 
     if (bAppend)

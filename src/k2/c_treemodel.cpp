@@ -532,7 +532,7 @@ void    CTreeModel::SetSeed(uint uiSeed)
     m_uiSeed = uiSeed;
     FreeGeometry();
     CSpeedTreeRT *pClone(m_pSpeedTree->Clone());
-    ::K2_DELETE(m_pSpeedTree);
+    K2_DELETE(m_pSpeedTree);
     m_pSpeedTree = pClone;
     m_pSpeedTree->Compute(NULL, uiSeed);
     LoadBranchGeometry();

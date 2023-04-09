@@ -1397,6 +1397,8 @@ UI_VOID_CMD(ClearChildren, 0)
             pThis->RecalculateSize();
         }
         break;
+    default:
+        break;
     }
 }
 

@@ -279,15 +279,19 @@ PROCEDURAL_EX(tile_norm, 32, 32, TEXFMT_A8R8G8B8, TEX_FULL_QUALITY)
     }
 
     if(fColorY >= fColorX)
+    {
         if(bX)
             return CVec4f(1.0f, 0.5f, 0.75f, 1.0f);
         else
             return CVec4f(0.5f, 0.0f, 0.75f, 0.0f);
+    }
     else if(fColorY < fColorX)
+    {
         if(bY)
             return CVec4f(0.75f, 0.5f, 0.75f, 0.75f);
         else
             return CVec4f(0.5f, 0.25f, 0.75f, 0.25f);
+    }
 
     return CVec4f(0.0f, 0.0f, 0.0f, 0.0f);
 }
@@ -326,15 +330,19 @@ PROCEDURAL_EX(pyrmid_norm, 32, 32, TEXFMT_A8R8G8B8, TEX_FULL_QUALITY)
     }
 
     if(fColorY >= fColorX)
+    {
         if(bX)
             return CVec4f(1.0f, 0.5f, 0.75f, 1.0f);
         else
             return CVec4f(0.5f, 0.0f, 0.75f, 0.0f);
+    }
     else if(fColorY < fColorX)
+    {
         if(bY)
             return CVec4f(0.75f, 0.5f, 0.75f, 0.75f);
         else
             return CVec4f(0.5f, 0.25f, 0.75f, 0.25f);
+    }
 
     return CVec4f(0.0f, 0.0f, 0.0f, 0.0f);
 }

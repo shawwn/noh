@@ -877,7 +877,7 @@ bool    IUnitEntity::ServerFrameMovement()
             }
         }
     }
-    /**/
+    */
     
     return IVisualEntity::ServerFrameMovementEnd();
 }

@@ -8,7 +8,7 @@
 //=============================================================================
 // Definitions
 //=============================================================================
-const char STATE_STRING_SEPERATOR(_T('\xff'));
+const char STATE_STRING_SEPERATOR('\xff');
 
 typedef void (*StateStringCallBack)(const string &sStateUTF8, const string &sValueUTF8);
 

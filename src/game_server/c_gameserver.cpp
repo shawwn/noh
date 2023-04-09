@@ -3770,7 +3770,7 @@ iset    CGameServer::GetVoiceTargets(int iClientNum)
                 setTargets.insert(*it);
         }
     }
-    /**/
+    */
     
     return setTargets;
 }

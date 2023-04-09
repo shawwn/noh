@@ -44,10 +44,12 @@ void    CSystem::Sleep(uint uiMsecs)
   ====================*/
 void    CSystem::DebugBreak()
 {
-#ifdef __ppc__
+#ifdef WIN32
+    asm("int $0x03");
+#elif defined(__GNUC__) && !defined(__APPLE__)
+    __asm int 0x03;
+#else // __APPLE__
     // TODO
-#else
-    asm ("int $0x03");
 #endif
 }
 
