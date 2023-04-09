@@ -65,7 +65,7 @@ m_bRecievedFirstFrame(false)
     int iOn(1);
 
     speex_bits_init(&m_Bits);
-    m_DecoderState = speex_decoder_init(&speex_nb_mode);
+    m_DecoderState = speex_decoder_init(speex_lib_get_mode(SPEEX_MODEID_NB));
 
     speex_decoder_ctl(m_DecoderState, SPEEX_SET_ENH, &iOn);
     speex_decoder_ctl(m_DecoderState, SPEEX_GET_FRAME_SIZE, &m_uiFrameSize);

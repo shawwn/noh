@@ -109,7 +109,7 @@ void    CVoiceManager::Init()
     m_sockVoice.Init(K2_SOCKET_UDP);
 
     speex_bits_init(m_Bits);
-    m_EncoderState = speex_encoder_init(&speex_nb_mode);
+    m_EncoderState = speex_encoder_init(speex_lib_get_mode(SPEEX_MODEID_NB));
 
     speex_encoder_ctl(m_EncoderState, SPEEX_SET_SAMPLING_RATE, &iSampleRate);
     speex_encoder_ctl(m_EncoderState, SPEEX_SET_VAD, &iOn);
