@@ -84,6 +84,8 @@ enum EMaterialPhase
     PHASE_FADE,
     PHASE_VELOCITY,
     PHASE_REFRACT,
+    PHASE_OUTLINE,
+    PHASE_2DWORLD,
     NUM_SHADER_PHASES
 };
 

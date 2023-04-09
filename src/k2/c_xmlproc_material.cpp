@@ -86,6 +86,10 @@ static EMaterialPhase   GetMaterialPhase(const tstring &sMaterialPhase)
         return PHASE_VELOCITY;
     else if (TStringCompare(sMaterialPhase, _T("refract")) == 0)
         return PHASE_REFRACT;
+    else if (TStringCompare(sMaterialPhase, _T("outline")) == 0)
+        return PHASE_OUTLINE;
+    else if (TStringCompare(sMaterialPhase, _T("2dworld")) == 0)
+        return PHASE_2DWORLD;
     else
     {
         Console.Warn << _T("Unrecognized material phase ") << SingleQuoteStr(sMaterialPhase) << newl;
