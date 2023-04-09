@@ -1231,7 +1231,7 @@ void    CTextBuffer::MouseDown(EButton button, const CVec2f &v2CursorPos)
 CVec2ui CTextBuffer::AddTextAtPos(const tstring &sStr, CVec2ui v2Pos)
 {
     tstring sStrCopy(sStr);
-    size_t zPos;(sStrCopy.find(TLINEBREAK));
+    size_t zPos(sStrCopy.find(TLINEBREAK));
     CVec2ui v2LastPos;
 
     NormalizeLineBreaks(sStrCopy);
