@@ -8,6 +8,7 @@
 //=============================================================================
 // Configuration
 //=============================================================================
+//#define K2_FAULT_NOTEXIST
 //#define K2_DEBUG_MEM
 //#define K2_DEBUG_MEM_EX
 
@@ -148,7 +149,7 @@ private:
 public:
     ~CMemManager()  {}
 
-    static inline CMemManager*  GetInstance();
+    static K2_API CMemManager*  GetInstance();
     static void                 Release();
     static void                 Frame();
 
@@ -157,9 +158,9 @@ public:
     template<class T> T*        Reallocate(T *&p, size_t z);
     K2_API void                 Deallocate(void *p, const char *szContext = "global", MemoryType eMemType = MT_FREE, const char *szFile = __FILE__, short nLine = __LINE__);
 #else
-    inline static void*         Allocate(size_t z, const char *szContext = "global", MemoryType eMemType = MT_MALLOC, const char *szType = "none", const char *szFile = __FILE__, short nLine = __LINE__);
+    K2_API static void*         Allocate(size_t z, const char *szContext = "global", MemoryType eMemType = MT_MALLOC, const char *szType = "none", const char *szFile = __FILE__, short nLine = __LINE__);
     template<class T> static T* Reallocate(T *&p, size_t z);
-    inline static K2_API void   Deallocate(void *p, const char *szContext = "global", MemoryType eMemType = MT_FREE, const char *szFile = __FILE__, short nLine = __LINE__);
+    K2_API static K2_API void   Deallocate(void *p, const char *szContext = "global", MemoryType eMemType = MT_FREE, const char *szFile = __FILE__, short nLine = __LINE__);
 #endif
 
 #ifdef K2_TRACK_MEM
@@ -173,15 +174,15 @@ public:
 #endif
 
 #ifdef K2_DEBUG_MEM
-    inline void*                Copy(void *pDest, const void *pSrc, size_t z);
-    inline errno_t              Copy_s(void *pDest, size_t dstSize, const void *pSrc, size_t z);
-    inline void*                Move(void *pDest, const void *pSrc, size_t z);
-    inline void*                Set(void *pDest, byte y, size_t z);
+    void*                Copy(void *pDest, const void *pSrc, size_t z);
+    errno_t              Copy_s(void *pDest, size_t dstSize, const void *pSrc, size_t z);
+    void*                Move(void *pDest, const void *pSrc, size_t z);
+    void*                Set(void *pDest, byte y, size_t z);
 #else
-    inline static void*         Copy(void *pDest, const void *pSrc, size_t z);
-    inline static errno_t       Copy_s(void *pDest, size_t dstSize, const void *pSrc, size_t z);
-    inline static void*         Move(void *pDest, const void *pSrc, size_t z);
-    inline static void*         Set(void *pDest, byte y, size_t z);
+    static K2_API void*         Copy(void *pDest, const void *pSrc, size_t z);
+    static K2_API errno_t       Copy_s(void *pDest, size_t dstSize, const void *pSrc, size_t z);
+    static K2_API void*         Move(void *pDest, const void *pSrc, size_t z);
+    static K2_API void*         Set(void *pDest, byte y, size_t z);
 #endif
 
     inline static void*         StackAlloc(size_t z, const char *szContext = "global", MemoryType eMemType = MT_MALLOC, const char *szType = "none", const char *szFile = __FILE__, short nLine = __LINE__)
@@ -218,83 +219,6 @@ public:
 };
 //=============================================================================
 
-/*====================
-  CMemManager::GetInstance
-  ====================*/
-inline
-CMemManager*    CMemManager::GetInstance()
-{
-    assert(!s_bReleased);
-    if (s_pInstance == NULL)
-    {
-        assert(!s_bRequested);
-        s_bRequested = true;
-        s_pInstance = (CMemManager*)malloc(sizeof(CMemManager));
-#ifdef __GNUC__
-        g_pMemManager = s_pInstance;
-#endif
-        s_pInstance->Init();
-    }
-    return s_pInstance;
-}
-
-
-/*====================
-  CMemManager::Copy
-  ====================*/
-inline
-void*   CMemManager::Copy(void *pDest, const void *pSrc, size_t z)
-{
-#ifdef K2_DEBUG_MEM
-    assert(pDest != NULL);
-    assert(pSrc != NULL);
-    ++m_zCopyCount;
-    m_zCopyBytes += z;
-#endif //K2_DEBUG_MEM
-    return memcpy(pDest, pSrc, z);
-}
-
-inline
-errno_t CMemManager::Copy_s(void *pDest, size_t dstSize, const void *pSrc, size_t z)
-{
-#ifdef K2_DEBUG_MEM
-    assert(pDest != NULL);
-    assert(pSrc != NULL);
-    ++m_zCopyCount;
-    m_zCopyBytes += z;
-#endif
-    return MEMCPY_S(pDest, dstSize, pSrc, z);
-}
-
-/*====================
-  CMemManager::Move
-  ====================*/
-inline
-void*   CMemManager::Move(void *pDest, const void *pSrc, size_t z)
-{
-#ifdef K2_DEBUG_MEM
-    assert(pDest != NULL);
-    assert(pSrc != NULL);
-    ++m_zMoveCount;
-    m_zMoveBytes += z;
-#endif //K2_DEBUG_MEM
-    return memmove(pDest, pSrc, z);
-}
-
-
-/*====================
-  CMemManager::Set
-  ====================*/
-void*   CMemManager::Set(void *pDest, byte y, size_t z)
-{
-#ifdef K2_DEBUG_MEM
-    assert(pDest != NULL);
-    ++m_zWriteCount;
-    m_zWriteBytes += z;
-#endif //K2_DEBUG_MEM
-    return memset(pDest, y, z);
-}
-
 
 template<class T>
 inline const T& MIN(const T& _Left, const T& _Right);
@@ -322,58 +246,11 @@ T*  CMemManager::Reallocate(T *&p, size_t z)
 
 
 #ifdef K2_USE_MICRO_ALLOCATOR
-    return MICRO_ALLOCATOR::heap_realloc(m_cMicroHeapManager, p, z);
+    return p = static_cast<T*>(MICRO_ALLOCATOR::heap_realloc(m_cMicroHeapManager, p, z));
 #else
-    return realloc(p, z);
+    return p = static_cast<T*>(realloc(p, z));
 #endif
 }
-
-
-#ifndef K2_DEBUG_MEM
-/*====================
-  CMemManager::Allocate
-  ====================*/
-void*   CMemManager::Allocate(size_t z, const char *szContext, MemoryType eMemType, const char *szType, const char *szFile, short nLine)
-{
-    void* pResult;
-#ifdef K2_USE_MICRO_ALLOCATOR
-    pResult = MICRO_ALLOCATOR::heap_malloc(m_cMicroHeapManager, z);
-#else
-    pResult = malloc(z);
-#endif
-
-#ifdef K2_TRACK_MEM
-    if (s_bTrackAllocs)
-    {
-        if (szContext != NULL)
-            TRACK_ALLOC(pResult, (uint)z, eMemType, GetStr(szContext), GetStr(szType), GetStr(szFile), nLine);
-    }
-#endif
-    return pResult;
-}
-#endif
-
-
-#ifndef K2_DEBUG_MEM
-/*====================
-  CMemManager::Deallocate
-  ====================*/
-void    CMemManager::Deallocate(void *p, const char *szContext, MemoryType eMemType, const char *szFile, short nLine)
-{
-#ifdef K2_TRACK_MEM
-    if (s_bTrackAllocs)
-    {
-        if (szContext != NULL)
-            TRACK_FREE(p, eMemType, GetStr(szContext), GetStr(szFile), nLine);
-    }
-#endif
-#ifdef K2_USE_MICRO_ALLOCATOR
-    MICRO_ALLOCATOR::heap_free(m_cMicroHeapManager, p);
-#else
-    free(p);
-#endif
-}
-#endif
 
 
 #ifdef K2_TRACK_MEM
@@ -411,89 +288,33 @@ void    CMemManager::TrackExternalFree(void *p, const char *szContext, MemoryTyp
 /*====================
   operator new
   ====================*/
-inline
-void*   operator new(size_t z)
-{
-    return MemManager.Allocate(z, "global", MT_GLOBAL_NEW);
-}
-
-inline
-void*   operator new(size_t z, const char *szContext, const char *szType)
-{
-    return MemManager.Allocate(z, szContext, MT_GLOBAL_NEW, szType);
-}
-
-inline
-void*   operator new(size_t z, const char *szContext, const char *szType, const char *szFile, short nLine)
-{
-    return MemManager.Allocate(z, szContext, MT_GLOBAL_NEW, szType, szFile, nLine);
-}
+void*   operator new(size_t z);
+void*   operator new(size_t z, const char *szContext, const char *szType);
+void*   operator new(size_t z, const char *szContext, const char *szType, const char *szFile, short nLine);
 
 
 /*====================
   operator new[]
   ====================*/
-inline
-void*   operator new[](size_t z)
-{
-    return MemManager.Allocate(z, "global", MT_GLOBAL_NEW_ARRAY);
-}
-
-inline
-void*   operator new[](size_t z, const char *szContext, const char *szType)
-{
-    return MemManager.Allocate(z, szContext, MT_GLOBAL_NEW_ARRAY, szType);
-}
-
-inline
-void*   operator new[](size_t z, const char *szContext, const char *szType, const char *szFile, short nLine)
-{
-    return MemManager.Allocate(z, szContext, MT_GLOBAL_NEW_ARRAY, szType, szFile, nLine);
-}
+void*   operator new[](size_t z);
+void*   operator new[](size_t z, const char *szContext, const char *szType);
+void*   operator new[](size_t z, const char *szContext, const char *szType, const char *szFile, short nLine);
 
 
 /*====================
   operator delete
   ====================*/
-inline
-void    operator delete(void *p)
-{
-    MemManager.Deallocate(p, "global", MT_GLOBAL_DELETE);
-}
-
-inline
-void    operator delete(void *p, const char *szContext, const char *szType)
-{
-    MemManager.Deallocate(p, szContext, MT_GLOBAL_DELETE);
-}
-
-inline
-void    operator delete(void *p, const char *szContext, const char *szType, const char *szFile, short nLine)
-{
-    return MemManager.Deallocate(p, szContext, MT_GLOBAL_DELETE, szFile, nLine);
-}
+void    operator delete(void *p) _NOEXCEPT;
+void    operator delete(void *p, const char *szContext, const char *szType) _NOEXCEPT;
+void    operator delete(void *p, const char *szContext, const char *szType, const char *szFile, short nLine) _NOEXCEPT;
 
 
 /*====================
   operator delete[]
   ====================*/
-inline
-void    operator delete[](void *p)
-{
-    MemManager.Deallocate(p, "global", MT_GLOBAL_DELETE_ARRAY);
-}
-
-inline
-void    operator delete[](void *p, const char *szContext, const char *szType)
-{
-    MemManager.Deallocate(p, szContext, MT_GLOBAL_DELETE_ARRAY);
-}
-
-inline
-void    operator delete[](void *p, const char *szContext, const char *szType, const char *szFile, short nLine)
-{
-    return MemManager.Deallocate(p, szContext, MT_GLOBAL_DELETE_ARRAY, szFile, nLine);
-}
+void    operator delete[](void *p) _NOEXCEPT;
+void    operator delete[](void *p, const char *szContext, const char *szType) _NOEXCEPT;
+void    operator delete[](void *p, const char *szContext, const char *szType, const char *szFile, short nLine) _NOEXCEPT;
 
 #endif //K2_DEBUG_MEM
 

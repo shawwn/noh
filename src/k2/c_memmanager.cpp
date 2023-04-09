@@ -15,6 +15,7 @@
 #include "c_draw2d.h"
 #include "c_resourcemanager.h"
 #include "c_restorevalue.h"
+#include "c_mutex.h"
 //=============================================================================
 
 //=============================================================================
@@ -22,6 +23,7 @@
 //=============================================================================
 #ifdef K2_DEBUG_MEM
 CMemManager *g_pMemManager(CMemManager::GetInstance());
+CK2Mutex g_cMemMutex;
 #else
 CMemManager *g_pMemManager(NULL);
 #endif
@@ -169,18 +171,63 @@ void    CMemManager::Frame()
 }
 
 
+#ifndef K2_DEBUG_MEM
+/*====================
+  CMemManager::Allocate
+  ====================*/
+void*   CMemManager::Allocate(size_t z, const char *szContext, MemoryType eMemType, const char *szType, const char *szFile, short nLine)
+{
+    void* pResult;
+#ifdef K2_USE_MICRO_ALLOCATOR
+    pResult = MICRO_ALLOCATOR::heap_malloc(m_cMicroHeapManager, z);
+#else
+    pResult = malloc(z);
+#endif
+
+#ifdef K2_TRACK_MEM
+    if (s_bTrackAllocs)
+    {
+        if (szContext != NULL)
+            TRACK_ALLOC(pResult, (uint)z, eMemType, GetStr(szContext), GetStr(szType), GetStr(szFile), nLine);
+    }
+#endif
+    return pResult;
+}
+#endif
+
+
+#ifndef K2_DEBUG_MEM
+/*====================
+  CMemManager::Deallocate
+  ====================*/
+void    CMemManager::Deallocate(void *p, const char *szContext, MemoryType eMemType, const char *szFile, short nLine)
+{
+#ifdef K2_TRACK_MEM
+    if (s_bTrackAllocs)
+    {
+        if (szContext != NULL)
+            TRACK_FREE(p, eMemType, GetStr(szContext), GetStr(szFile), nLine);
+    }
+#endif
+#ifdef K2_USE_MICRO_ALLOCATOR
+    MICRO_ALLOCATOR::heap_free(m_cMicroHeapManager, p);
+#else
+    free(p);
+#endif
+}
+#endif // #ifndef K2_DEBUG_MEM
+
+
 #ifdef K2_DEBUG_MEM
 /*====================
   CMemManager::Allocate
   ====================*/
 void*   CMemManager::Allocate(size_t z, const char *szContext, MemoryType eMemType, const char *szType, const char *szFile, short nLine)
 {
-#if 0
-    if (CSystem::IsInitialized())
-        assert(K2System.GetCurrentThread() == K2System.GetMainThread());
-#endif
+    assert(g_pMemManager != NULL);
+    g_cMemMutex.Lock();
 
-    PROFILE("CMemManager::Allocate");
+//    PROFILE("CMemManager::Allocate"); // TKTK 2023: This causes a crash when K2_PROFILE is enabled
 
     if (szContext == NULL)
         szContext = "stl";
@@ -240,6 +287,8 @@ void*   CMemManager::Allocate(size_t z, const char *szContext, MemoryType eMemTy
 
     //Validate();
 
+    g_cMemMutex.Unlock();
+
     return p;
 }
 #endif
@@ -251,15 +300,12 @@ void*   CMemManager::Allocate(size_t z, const char *szContext, MemoryType eMemTy
   ====================*/
 void    CMemManager::Deallocate(void *p, const char *szContext, MemoryType eMemType, const char *szFile, short nLine)
 {
-#if 0
-    if (CSystem::IsInitialized())
-        assert(K2System.GetCurrentThread() == K2System.GetMainThread());
-#endif
-
-    PROFILE("CMemManager::Deallocate");
+//    PROFILE("CMemManager::Deallocate"); // TKTK 2023: This causes a crash when K2_PROFILE is enabled
 
     if (!p) // Microsoft documentation says deallocate should simply ignore NULL pointers
         return;
+    
+    g_cMemMutex.Lock();
 
     //Validate();
 
@@ -307,6 +353,8 @@ void    CMemManager::Deallocate(void *p, const char *szContext, MemoryType eMemT
 #endif
 
     //Validate();
+    
+    g_cMemMutex.Unlock();
 }
 #endif
 
@@ -495,6 +543,8 @@ void    CMemManager::PrintAllocationsNoDuplicates(const char *szHeapName, uint u
   ====================*/
 void    CMemManager::ResetTracking()
 {
+    g_cMemMutex.Lock();
+    
     m_zTrackAllocs = m_zTrackDeallocs = 0;
     m_zTrackAllocSize = m_zTrackDeallocSize = 0;
     m_uiTimeStamp = Host.GetTime();
@@ -512,6 +562,8 @@ void    CMemManager::ResetTracking()
     m_pTrackTail = NULL;
 
     ++m_uiSequence;
+    
+    g_cMemMutex.Unlock();
 }
 
 
@@ -525,6 +577,8 @@ void    CMemManager::PrintSequenceAllocations(uint uiSequence)
         Console.Mem << _T("Current sequence is: ") << m_uiSequence << newl;
         return;
     }
+    
+    g_cMemMutex.Lock();
 
     SMemHeader *pHeader(m_pTail);
 
@@ -534,6 +588,8 @@ void    CMemManager::PrintSequenceAllocations(uint uiSequence)
             Console.Mem << pHeader->pContext << SPACE << INT_SIZE(pHeader->zSize) << newl;
         pHeader = pHeader->pNext;
     }
+    
+    g_cMemMutex.Unlock();
 }
 #endif //K2_DEBUG_MEM
 
@@ -645,6 +701,80 @@ void    CMemManager::Draw()
 bool    CMemManager::Validate()
 {
     return true;
+}
+
+
+/*====================
+  CMemManager::GetInstance
+  ====================*/
+CMemManager*    CMemManager::GetInstance()
+{
+    assert(!s_bReleased);
+    if (s_pInstance == NULL)
+    {
+        assert(!s_bRequested);
+        s_bRequested = true;
+        s_pInstance = (CMemManager*)malloc(sizeof(CMemManager));
+#ifdef __GNUC__
+        g_pMemManager = s_pInstance;
+#endif
+        s_pInstance->Init();
+    }
+    return s_pInstance;
+}
+
+
+/*====================
+  CMemManager::Copy
+  ====================*/
+void*   CMemManager::Copy(void *pDest, const void *pSrc, size_t z)
+{
+#ifdef K2_DEBUG_MEM
+    assert(pDest != NULL);
+    assert(pSrc != NULL);
+    ++m_zCopyCount;
+    m_zCopyBytes += z;
+#endif //K2_DEBUG_MEM
+    return memcpy(pDest, pSrc, z);
+}
+
+errno_t CMemManager::Copy_s(void *pDest, size_t dstSize, const void *pSrc, size_t z)
+{
+#ifdef K2_DEBUG_MEM
+    assert(pDest != NULL);
+    assert(pSrc != NULL);
+    ++m_zCopyCount;
+    m_zCopyBytes += z;
+#endif
+    return MEMCPY_S(pDest, dstSize, pSrc, z);
+}
+
+/*====================
+  CMemManager::Move
+  ====================*/
+void*   CMemManager::Move(void *pDest, const void *pSrc, size_t z)
+{
+#ifdef K2_DEBUG_MEM
+    assert(pDest != NULL);
+    assert(pSrc != NULL);
+    ++m_zMoveCount;
+    m_zMoveBytes += z;
+#endif //K2_DEBUG_MEM
+    return memmove(pDest, pSrc, z);
+}
+
+
+/*====================
+  CMemManager::Set
+  ====================*/
+void*   CMemManager::Set(void *pDest, byte y, size_t z)
+{
+#ifdef K2_DEBUG_MEM
+    assert(pDest != NULL);
+    ++m_zWriteCount;
+    m_zWriteBytes += z;
+#endif //K2_DEBUG_MEM
+    return memset(pDest, y, z);
 }
 
 
@@ -771,3 +901,94 @@ CMD(MemoryReport)
     return true;
 }
 #endif
+
+#if defined(K2_TRAP_ALLOCS)
+/*====================
+  operator new
+  ====================*/
+void*   operator new(size_t z)
+{
+    CMemManager::GetInstance(); // ensure MemManager is initialized
+    return MemManager.Allocate(z, "global", MT_GLOBAL_NEW);
+}
+
+void*   operator new(size_t z, const char *szContext, const char *szType)
+{
+    CMemManager::GetInstance(); // ensure MemManager is initialized
+    return MemManager.Allocate(z, szContext, MT_GLOBAL_NEW, szType);
+}
+
+void*   operator new(size_t z, const char *szContext, const char *szType, const char *szFile, short nLine)
+{
+    CMemManager::GetInstance(); // ensure MemManager is initialized
+    return MemManager.Allocate(z, szContext, MT_GLOBAL_NEW, szType, szFile, nLine);
+}
+
+
+/*====================
+  operator new[]
+  ====================*/
+void*   operator new[](size_t z)
+{
+    CMemManager::GetInstance(); // ensure MemManager is initialized
+    return MemManager.Allocate(z, "global", MT_GLOBAL_NEW_ARRAY);
+}
+
+void*   operator new[](size_t z, const char *szContext, const char *szType)
+{
+    CMemManager::GetInstance(); // ensure MemManager is initialized
+    return MemManager.Allocate(z, szContext, MT_GLOBAL_NEW_ARRAY, szType);
+}
+
+void*   operator new[](size_t z, const char *szContext, const char *szType, const char *szFile, short nLine)
+{
+    CMemManager::GetInstance(); // ensure MemManager is initialized
+    return MemManager.Allocate(z, szContext, MT_GLOBAL_NEW_ARRAY, szType, szFile, nLine);
+}
+
+
+/*====================
+  operator delete
+  ====================*/
+void    operator delete(void *p) _NOEXCEPT
+{
+    CMemManager::GetInstance(); // ensure MemManager is initialized
+    MemManager.Deallocate(p, "global", MT_GLOBAL_DELETE);
+}
+
+void    operator delete(void *p, const char *szContext, const char *szType) _NOEXCEPT
+{
+    CMemManager::GetInstance(); // ensure MemManager is initialized
+    MemManager.Deallocate(p, szContext, MT_GLOBAL_DELETE);
+}
+
+void    operator delete(void *p, const char *szContext, const char *szType, const char *szFile, short nLine) _NOEXCEPT
+{
+    CMemManager::GetInstance(); // ensure MemManager is initialized
+    return MemManager.Deallocate(p, szContext, MT_GLOBAL_DELETE, szFile, nLine);
+}
+
+
+/*====================
+  operator delete[]
+  ====================*/
+void    operator delete[](void *p) _NOEXCEPT
+{
+    CMemManager::GetInstance(); // ensure MemManager is initialized
+    MemManager.Deallocate(p, "global", MT_GLOBAL_DELETE_ARRAY);
+}
+
+void    operator delete[](void *p, const char *szContext, const char *szType) _NOEXCEPT
+{
+    CMemManager::GetInstance(); // ensure MemManager is initialized
+    MemManager.Deallocate(p, szContext, MT_GLOBAL_DELETE_ARRAY);
+}
+
+void    operator delete[](void *p, const char *szContext, const char *szType, const char *szFile, short nLine) _NOEXCEPT
+{
+    CMemManager::GetInstance(); // ensure MemManager is initialized
+    return MemManager.Deallocate(p, szContext, MT_GLOBAL_DELETE_ARRAY, szFile, nLine);
+}
+
+#endif //K2_DEBUG_MEM
+
