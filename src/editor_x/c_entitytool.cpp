@@ -3001,7 +3001,7 @@ tstring CEntityTool::GetSelectionTreeDef()
     CTreeDefinitionResource *pTreeDefinition;
     tstring sTreePath;
 
-    if (TreeHandle != NULL)
+    if (TreeHandle != INVALID_RESOURCE)
     {
         pTreeDefinition = static_cast<CTreeDefinitionResource*>(g_ResourceManager.Get(TreeHandle));
         sTreePath = pTreeDefinition->GetPath();
@@ -3016,7 +3016,7 @@ tstring CEntityTool::GetSelectionTreeDef()
         if (pEntity == NULL)
             continue;
 
-        if (pEntity->GetTreeDefinition() != NULL)
+        if (pEntity->GetTreeDefinition() != INVALID_RESOURCE)
         {
             CTreeDefinitionResource * TreeDefinition2 = static_cast<CTreeDefinitionResource*>(g_ResourceManager.Get(pEntity->GetTreeDefinition()));
             if (sTreePath != TreeDefinition2->GetPath())
@@ -3044,7 +3044,7 @@ void    CEntityTool::SetSelectionTreeDef(const tstring &sTreePath)
             continue;
 
         ResHandle hTreeDef2 = pEntity->GetTreeDefinition();
-        if (hTreeDef2 == NULL)
+        if (hTreeDef2 == INVALID_RESOURCE)
             continue;
 
         Editor.GetWorld().UnlinkEntity(pEntity->GetIndex());

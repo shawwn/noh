@@ -83,7 +83,7 @@ public:
     m_uiSeed(0),
     m_sName(_T("")),
     m_sType(_T("Prop_Scenery")),
-    m_hTreeDefinition(NULL),
+    m_hTreeDefinition(INVALID_RESOURCE),
     m_iTeam(0),
     m_uiSurfFlags(0),
 
