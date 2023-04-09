@@ -218,7 +218,7 @@ bool CSoundManager::CSoundFadeVolumeSpeed::Update(FMOD::Channel *pChannel, uint 
 /*====================
   Sound_FMODAlloc
   ====================*/
-void* F_CALLBACK    Sound_FMODAlloc(uint uiSize, FMOD_MEMORY_TYPE type)
+void* F_CALLBACK    Sound_FMODAlloc(uint uiSize, FMOD_MEMORY_TYPE type, const char *sourcestr)
 {
     void *pVoid(K2_NEW_ARRAY(ctx_Sound, byte, uiSize));
     return pVoid;
@@ -228,7 +228,7 @@ void* F_CALLBACK    Sound_FMODAlloc(uint uiSize, FMOD_MEMORY_TYPE type)
 /*====================
   Sound_FMODRealloc
   ====================*/
-void* F_CALLBACK    Sound_FMODRealloc(void *ptr, uint uiSize, FMOD_MEMORY_TYPE type)
+void* F_CALLBACK    Sound_FMODRealloc(void *ptr, uint uiSize, FMOD_MEMORY_TYPE type, const char *sourcestr)
 {
     void *pVoid(MemManager.Reallocate(ptr, uiSize));
     return pVoid;
@@ -238,16 +238,26 @@ void* F_CALLBACK    Sound_FMODRealloc(void *ptr, uint uiSize, FMOD_MEMORY_TYPE t
 /*====================
   Sound_FMODFree
   ====================*/
-void F_CALLBACK Sound_FMODFree(void *ptr, FMOD_MEMORY_TYPE type)
+void F_CALLBACK Sound_FMODFree(void *ptr, FMOD_MEMORY_TYPE type, const char *sourcestr)
 {
     K2_DELETE_ARRAY(static_cast<byte*>(ptr));
 }
 
 
 /*====================
+  SInfoHandle
+  ====================*/
+struct SInfoHandle
+{
+    void* handle;
+    void* userdata;
+};
+
+
+/*====================
   Sound_CallbackFileOpen
   ====================*/
-FMOD_RESULT F_CALLBACK Sound_CallbackFileOpen(const char* name, int unicode, unsigned int *filesize, void **handle, void **userdata)
+FMOD_RESULT F_CALLBACK Sound_CallbackFileOpen(const char* name, unsigned int *filesize, void **handle, void *userdata)
 {
     tstring sPath((TCHAR*)name);
 
@@ -286,8 +296,10 @@ FMOD_RESULT F_CALLBACK Sound_CallbackFileOpen(const char* name, int unicode, uns
         }
 
         *filesize = (int)pFile->GetLength();
-        *handle = (void*)pFile;
-        *userdata = 0;
+        SInfoHandle* pInfo = new SInfoHandle();
+        pInfo->handle = (void*)pFile;
+        pInfo->userdata = 0;
+        *handle = pInfo;
     }
     else
     {
@@ -322,8 +334,11 @@ FMOD_RESULT F_CALLBACK Sound_CallbackFileOpen(const char* name, int unicode, uns
         }
 
         *filesize = (int)pFile->GetLength();
-        *handle = (void*)pFile;
-        *userdata = (void*)1;
+        
+        SInfoHandle* pInfo = new SInfoHandle();
+        pInfo->handle = (void*)pFile;
+        pInfo->userdata = (void*)1;
+        *handle = pInfo;
     }
 
     return FMOD_OK;
@@ -335,18 +350,20 @@ FMOD_RESULT F_CALLBACK Sound_CallbackFileOpen(const char* name, int unicode, uns
   ====================*/
 FMOD_RESULT F_CALLBACK Sound_CallbackFileClose(void *handle, void *userdata)
 {
-    if (!userdata)
+    SInfoHandle* pInfo = (SInfoHandle*)handle;
+    if (pInfo && !pInfo->userdata)
     {
-        CFileHandle *pFile((CFileHandle*)(handle));
+        CFileHandle *pFile((CFileHandle*)(pInfo->handle));
 
         SAFE_DELETE(pFile);
     }
-    else
+    else if (pInfo)
     {
-        CFileStream *pFile((CFileStream*)(handle));
+        CFileStream *pFile((CFileStream*)(pInfo->handle));
 
         SAFE_DELETE(pFile);
     }
+    SAFE_DELETE(pInfo);
     return FMOD_OK; 
 }
 
@@ -356,15 +373,16 @@ FMOD_RESULT F_CALLBACK Sound_CallbackFileClose(void *handle, void *userdata)
   ====================*/
 FMOD_RESULT F_CALLBACK Sound_CallbackFileRead(void *handle, void *buffer, unsigned int sizebytes, unsigned int *bytesread, void *userdata)
 {
-    if (!userdata)
+    SInfoHandle* pInfo = (SInfoHandle*)handle;
+    if (pInfo && !pInfo->userdata)
     {
-        CFileHandle *pFile((CFileHandle*)(handle));
+        CFileHandle *pFile((CFileHandle*)(pInfo->handle));
 
         *bytesread = pFile->Read((char*)buffer, sizebytes);
     }
-    else
+    else if (pInfo)
     {
-        CFileStream *pFile((CFileStream*)(handle));
+        CFileStream *pFile((CFileStream*)(pInfo->handle));
 
         *bytesread = pFile->Read((char*)buffer, sizebytes);
     }
@@ -377,20 +395,42 @@ FMOD_RESULT F_CALLBACK Sound_CallbackFileRead(void *handle, void *buffer, unsign
 
 
 /*====================
+  Sound_CallbackFileReadAsync
+  ====================*/
+FMOD_RESULT F_CALLBACK Sound_CallbackFileReadAsync(FMOD_ASYNCREADINFO *pInfo, void *userdata)
+{
+    // TKTK: Read asynchronously? See https://www.fmod.com/docs/2.00/api/white-papers-asynchronous-io.html
+    FMOD_RESULT result = Sound_CallbackFileRead(pInfo->handle, pInfo->buffer, pInfo->sizebytes, &pInfo->bytesread, pInfo->userdata);
+    pInfo->done(pInfo, result);
+    return result;
+}
+
+
+/*====================
+  Sound_CallbackFileCancelAsync
+  ====================*/
+FMOD_RESULT F_CALLBACK Sound_CallbackFileCancelAsync(FMOD_ASYNCREADINFO *pInfo, void *userdata)
+{
+    return Sound_CallbackFileClose(pInfo->handle, pInfo->userdata);
+}
+
+
+/*====================
   Sound_CallbackFileSeek
   ====================*/
 FMOD_RESULT F_CALLBACK Sound_CallbackFileSeek(void *handle, unsigned int pos, void *userdata)
 {
-    if (!userdata)
+    SInfoHandle* pInfo = (SInfoHandle*)handle;
+    if (pInfo && !pInfo->userdata)
     {
-        CFileHandle *pFile((CFileHandle*)(handle));
+        CFileHandle *pFile((CFileHandle*)(pInfo->handle));
 
         if (!pFile->Seek(pos, SEEK_ORIGIN_START))
             return FMOD_ERR_FILE_COULDNOTSEEK;
     }
-    else
+    else if (pInfo)
     {
-        CFileStream *pFile((CFileStream*)(handle));
+        CFileStream *pFile((CFileStream*)(pInfo->handle));
 
         if (!pFile->Seek(pos, SEEK_ORIGIN_START))
             return FMOD_ERR_FILE_COULDNOTSEEK;
@@ -403,11 +443,24 @@ FMOD_RESULT F_CALLBACK Sound_CallbackFileSeek(void *handle, unsigned int pos, vo
 /*====================
   Sound_CallbackStopActiveSound
   ====================*/
-FMOD_RESULT F_CALLBACK Sound_CallbackStopActiveSound(FMOD_CHANNEL *pChannel, FMOD_CHANNEL_CALLBACKTYPE type, void* commanddata1, void* commanddata2)
+FMOD_RESULT F_CALLBACK Sound_CallbackStopActiveSound(FMOD_CHANNELCONTROL *pControl, FMOD_CHANNELCONTROL_TYPE controltype, FMOD_CHANNELCONTROL_CALLBACK_TYPE type, void* commanddata1, void* commanddata2)
 {
-    if (type == FMOD_CHANNEL_CALLBACKTYPE_END)
+    if (type == FMOD_CHANNELCONTROL_CALLBACK_END)
     {
-        K2SoundManager.StopActiveSound((FMOD::Channel *)pChannel);
+        if (controltype == FMOD_CHANNELCONTROL_CHANNEL) {
+            K2SoundManager.StopActiveSound((FMOD::Channel *)pControl);
+        } else {
+            FMOD::ChannelGroup *pGroup = (FMOD::ChannelGroup *)pControl;
+            int iNumChannels = 0;
+            pGroup->getNumChannels(&iNumChannels);
+            for (int i = 0; i < iNumChannels; i++) {
+                FMOD::Channel *pChannel = NULL;
+                pGroup->getChannel(0, &pChannel);
+                if (pChannel) {
+                    K2SoundManager.StopActiveSound(pChannel);
+                }
+            }
+        }
     }
 
     return FMOD_OK;
@@ -417,14 +470,30 @@ FMOD_RESULT F_CALLBACK Sound_CallbackStopActiveSound(FMOD_CHANNEL *pChannel, FMO
 /*====================
   Sound_CallbackStopActiveStream
   ====================*/
-FMOD_RESULT F_CALLBACK Sound_CallbackStopActiveStream(FMOD_CHANNEL *pChannel, FMOD_CHANNEL_CALLBACKTYPE type, void* commanddata1, void* commanddata2)
+FMOD_RESULT F_CALLBACK Sound_CallbackStopActiveStream(FMOD_CHANNELCONTROL *pControl, FMOD_CHANNELCONTROL_TYPE controltype, FMOD_CHANNELCONTROL_CALLBACK_TYPE type, void* commanddata1, void* commanddata2)
 {
-    if (type == FMOD_CHANNEL_CALLBACKTYPE_END)
+    if (type == FMOD_CHANNELCONTROL_CALLBACK_END)
     {
-        FMOD::Sound *pStream;
-        ((FMOD::Channel *)pChannel)->getCurrentSound(&pStream);
-        K2SoundManager.StopActiveSound((FMOD::Channel *)pChannel);
-        pStream->release();
+        if (controltype == FMOD_CHANNELCONTROL_CHANNEL) {
+            FMOD::Sound *pStream = NULL;
+            ((FMOD::Channel *)pControl)->getCurrentSound(&pStream);
+            K2SoundManager.StopActiveSound((FMOD::Channel *)pControl);
+            pStream->release();
+        } else {
+            FMOD::ChannelGroup *pGroup = (FMOD::ChannelGroup *)pControl;
+            int iNumChannels = 0;
+            pGroup->getNumChannels(&iNumChannels);
+            for (int i = 0; i < iNumChannels; i++) {
+                FMOD::Channel *pChannel = NULL;
+                pGroup->getChannel(0, &pChannel);
+                if (pChannel) {
+                    FMOD::Sound *pStream = NULL;
+                    pChannel->getCurrentSound(&pStream);
+                    K2SoundManager.StopActiveSound(pChannel);
+                    pStream->release();
+                }
+            }
+        }
     }
 
     return FMOD_OK;
@@ -434,11 +503,24 @@ FMOD_RESULT F_CALLBACK Sound_CallbackStopActiveStream(FMOD_CHANNEL *pChannel, FM
 /*====================
   Sound_CallbackStopActiveMusicSample
   ====================*/
-FMOD_RESULT F_CALLBACK Sound_CallbackStopActiveMusicSample(FMOD_CHANNEL *pChannel, FMOD_CHANNEL_CALLBACKTYPE type, void* commanddata1, void* commanddata2)
+FMOD_RESULT F_CALLBACK Sound_CallbackStopActiveMusicSample(FMOD_CHANNELCONTROL *pControl, FMOD_CHANNELCONTROL_TYPE controltype, FMOD_CHANNELCONTROL_CALLBACK_TYPE type, void* commanddata1, void* commanddata2)
 {
-    if (type == FMOD_CHANNEL_CALLBACKTYPE_END)
+    if (type == FMOD_CHANNELCONTROL_CALLBACK_END)
     {
-        K2SoundManager.MusicStopped((FMOD::Channel *)pChannel);
+        if (controltype == FMOD_CHANNELCONTROL_CHANNEL) {
+            K2SoundManager.MusicStopped((FMOD::Channel *)pControl);
+        } else {
+            FMOD::ChannelGroup *pGroup = (FMOD::ChannelGroup *)pControl;
+            int iNumChannels = 0;
+            pGroup->getNumChannels(&iNumChannels);
+            for (int i = 0; i < iNumChannels; i++) {
+                FMOD::Channel *pChannel = NULL;
+                pGroup->getChannel(0, &pChannel);
+                if (pChannel) {
+                    K2SoundManager.MusicStopped(pChannel);
+                }
+            }
+        }
     }
 
     return FMOD_OK;
@@ -453,7 +535,7 @@ union floid
 /*====================
   Sound_Callback3dRolloff
   ====================*/
-float F_CALLBACK Sound_Callback3dRolloff(FMOD_CHANNEL *Channel, float fFmodDistance)
+float F_CALLBACK Sound_Callback3dRolloff(FMOD_CHANNELCONTROL *Channel, float fFmodDistance)
 {
     FMOD::Channel *pChannel((FMOD::Channel*)Channel);
 
@@ -621,9 +703,11 @@ void    CSoundManager::Start()
         else if (_tcsicmp(sound_output.c_str(), _T("openal")) == 0)
             result = m_pFMODSystem->setOutput(FMOD_OUTPUTTYPE_OPENAL);
 #elif defined(__APPLE__)
+#if TKTK // Seems to be removed as of 2023
         if (_tcsicmp(sound_output.c_str(), _T("soundmanager")) == 0)
             result = m_pFMODSystem->setOutput(FMOD_OUTPUTTYPE_OSS);
-        else if (_tcsicmp(sound_output.c_str(), _T("coreaudio")) == 0)
+#endif
+        if (_tcsicmp(sound_output.c_str(), _T("coreaudio")) == 0)
             result = m_pFMODSystem->setOutput(FMOD_OUTPUTTYPE_ALSA);
 #endif
         else
@@ -638,6 +722,7 @@ void    CSoundManager::Start()
         Console << _T("Using ");
         switch (output)
         {
+#if TKTK // These seem to be removed as of 2023
         case FMOD_OUTPUTTYPE_DSOUND: 
             Console << _T("DirectSound");
             break;
@@ -647,6 +732,10 @@ void    CSoundManager::Start()
         case FMOD_OUTPUTTYPE_OPENAL:
             Console << _T("OpenAL");
             break;
+        case FMOD_OUTPUTTYPE_SOUNDMANAGER:
+            Console << _T("SoundManager");
+            break;
+#endif
         case FMOD_OUTPUTTYPE_WASAPI:
             Console << _T("Windows Audio Session API");
             break;
@@ -670,9 +759,6 @@ void    CSoundManager::Start()
             Console << _T("PulseAudio");
             break;
 #endif
-        case FMOD_OUTPUTTYPE_SOUNDMANAGER:
-            Console << _T("SoundManager");
-            break;
         case FMOD_OUTPUTTYPE_COREAUDIO:
             Console << _T("CoreAudio");
             break;
@@ -693,7 +779,7 @@ void    CSoundManager::Start()
         Console << _T("FMOD found ") << m_iNumDrivers << _T(" sound drivers: ") << newl;
         for (int i(0); i < m_iNumDrivers; ++i)
         {
-            m_pFMODSystem->getDriverInfo(i, szDriverName, 1024, NULL);
+            m_pFMODSystem->getDriverInfo(i, szDriverName, 1024, NULL, NULL, NULL, NULL);
             StrToTString(sDriverName, szDriverName);
             Console << XtoA(i, 0, 2) << _T(": ") << sDriverName << newl;
             ICvar::CreateString(_T("sound_driver") + XtoA(i, FMT_PADZERO, 2), sDriverName);
@@ -704,13 +790,51 @@ void    CSoundManager::Start()
         StrToTString(sError, FMOD_ErrorString(result));
         if (result != FMOD_OK)
             EX_ERROR(_T("Couldn't set driver: ") + sError);
-
-        m_pFMODSystem->getDriverInfo(sound_driver, szDriverName, 1024, NULL);
+        
+        FMOD_SPEAKERMODE speakermode = FMOD_SPEAKERMODE_DEFAULT;
+        m_pFMODSystem->getDriverInfo(sound_driver, szDriverName, 1024, NULL, NULL, &speakermode, NULL);
         StrToTString(sDriverName, szDriverName);
         Console << _T("Using driver ") << XtoA(sound_driver) << ": " << sDriverName << newl;
+        
+        FMOD_SOUND_FORMAT format(FMOD_SOUND_FORMAT_PCM16);
+        if (sDriverName == _T("SigmaTel"))   // Sigmatel sound devices crackle for some reason if the format is PCM 16bit.  PCM floating point output seems to solve it.
+            format = FMOD_SOUND_FORMAT_PCMFLOAT;
+        
+        //         FMOD_RESULT F_API setSoftwareFormat      (int samplerate, FMOD_SOUND_FORMAT format, int numoutputchannels, int maxinputchannels, FMOD_DSP_RESAMPLER resamplemethod);
+
+//        result = m_pFMODSystem->setSoftwareFormat(sound_mixrate, format, 0, 2, resampler);
+        
+//        FMOD_RESULT F_API setSoftwareFormat       (int samplerate, FMOD_SPEAKERMODE speakermode, int numrawspeakers);
+        result = m_pFMODSystem->setSoftwareFormat(sound_mixrate, speakermode, 2);
+        if (result != FMOD_OK)
+        {
+            StrToTString(sError, FMOD_ErrorString(result));
+            EX_ERROR(_T("FMOD::System::setSoftwareFormat failed: ") + sError);
+        }
+
+        result = m_pFMODSystem->setSoftwareChannels(sound_numChannels);
+        if (result != FMOD_OK)
+        {
+            StrToTString(sError, FMOD_ErrorString(result));
+            EX_ERROR(_T("FMOD::System::setSoftwareChannels failed: ") + sError);
+        }
+        
+        result = m_pFMODSystem->init(768, FMOD_INIT_3D_RIGHTHANDED | FMOD_INIT_VOL0_BECOMES_VIRTUAL, NULL);
+        if (result == FMOD_ERR_OUTPUT_CREATEBUFFER)
+        {
+            // selected speaker mode not supported, fall back to stereo
+#if TKTK // Seems removed as of 2023
+            m_pFMODSystem->setSpeakerMode(FMOD_SPEAKERMODE_STEREO);
+#endif
+            result = m_pFMODSystem->init(768, FMOD_INIT_3D_RIGHTHANDED | FMOD_INIT_VOL0_BECOMES_VIRTUAL, NULL);
+        }
+        StrToTString(sError, FMOD_ErrorString(result));
+        if (result != FMOD_OK)
+            EX_ERROR(_T("FMOD system init failed: ") + sError);
 
         // Enumerate recording drivers
-        result = m_pFMODSystem->getRecordNumDrivers(&m_iNumRecordingDrivers);
+        int iNumConnectedDrivers = 0; // TKTK 2023: Do we need to make any changes to support this?
+        result = m_pFMODSystem->getRecordNumDrivers(&m_iNumRecordingDrivers, &iNumConnectedDrivers);
         StrToTString(sError, FMOD_ErrorString(result));
         if (result != FMOD_OK)
             EX_ERROR(_T("Couldn't get recording driver count from FMOD: ") + sError);
@@ -724,7 +848,7 @@ void    CSoundManager::Start()
             Console << _T("FMOD found ") << m_iNumRecordingDrivers << _T(" sound recording drivers: ") << newl;
             for (int i(0); i < m_iNumRecordingDrivers; ++i)
             {
-                m_pFMODSystem->getRecordDriverInfo(i, szDriverName, 1024, NULL);
+                m_pFMODSystem->getRecordDriverInfo(i, szDriverName, 1024, NULL, NULL, NULL, NULL, NULL);
                 StrToTString(sDriverName, szDriverName);
                 Console << XtoA(i, 0, 2) << _T(": ") << sDriverName << newl;
                 ICvar::CreateString(_T("sound_recording_driver") + XtoA(i, FMT_PADZERO, 2), sDriverName);
@@ -732,13 +856,14 @@ void    CSoundManager::Start()
 
             if (sound_recording_driver >= m_iNumRecordingDrivers) sound_recording_driver = 0;
             m_iRecordingDriver = sound_recording_driver;
-            m_pFMODSystem->getRecordDriverInfo(sound_recording_driver, szDriverName, 1024, NULL);
+            m_pFMODSystem->getRecordDriverInfo(sound_recording_driver, szDriverName, 1024, NULL, NULL, NULL, NULL, NULL);
             StrToTString(sDriverName, szDriverName);
             Console << _T("Using recording driver ") << XtoA(sound_recording_driver) << ": " << sDriverName << newl;
 
             m_sRecordDriverName = sDriverName;
         }
 
+#if TKTK // seems to be removed as of 2023
         // Set speakermode based on what's set in the control panel
         FMOD_SPEAKERMODE speakermode;
         FMOD_CAPS caps;
@@ -752,9 +877,14 @@ void    CSoundManager::Start()
             EX_WARN(_T("Couldn't set speaker mode: ") + sError);
 
         m_pFMODSystem->getSpeakerMode(&speakermode);
+#endif
+        
         Console << _T("Speaker mode set to ");
         switch (speakermode)
         {
+        case FMOD_SPEAKERMODE_DEFAULT:
+            Console << _T("Default") << newl;
+            break;
         case FMOD_SPEAKERMODE_RAW:
             Console << _T("Raw") << newl;
             break;
@@ -773,11 +903,20 @@ void    CSoundManager::Start()
         case FMOD_SPEAKERMODE_5POINT1:
             Console << _T("5.1 Surround") << newl;
             break;
-        case FMOD_SPEAKERMODE_7POINT1:
-            Console << _T("7.1 Surround") << newl;
-            break;
+            case FMOD_SPEAKERMODE_7POINT1:
+                Console << _T("7.1 Surround") << newl;
+                break;
+            case FMOD_SPEAKERMODE_7POINT1POINT4:
+                Console << _T("7.1.4 Surround") << newl;
+                break;
+#if TKTK // Seems removed as of 2023
         case FMOD_SPEAKERMODE_PROLOGIC:
             Console << _T("Prologic") << newl;
+            break;
+#endif
+        case FMOD_SPEAKERMODE_MAX:
+        case FMOD_SPEAKERMODE_FORCEINT:
+            K2_UNREACHABLE();
             break;
         }
 
@@ -811,20 +950,13 @@ void    CSoundManager::Start()
             break;
         }
 
-        FMOD_SOUND_FORMAT format(FMOD_SOUND_FORMAT_PCM16);
-        if (sDriverName == _T("SigmaTel"))   // Sigmatel sound devices crackle for some reason if the format is PCM 16bit.  PCM floating point output seems to solve it.
-            format = FMOD_SOUND_FORMAT_PCMFLOAT;
-
-        result = m_pFMODSystem->setSoftwareFormat(sound_mixrate, format, 0, 2, resampler);
-        if (result != FMOD_OK)
-        {
-            StrToTString(sError, FMOD_ErrorString(result));
-            EX_ERROR(_T("FMOD::System::setSoftwareFormat failed: ") + sError);
-        }
-
-        m_pFMODSystem->setSoftwareChannels(sound_numChannels);
-
-        result = m_pFMODSystem->setFileSystem(Sound_CallbackFileOpen, Sound_CallbackFileClose, Sound_CallbackFileRead, Sound_CallbackFileSeek, -1);
+        result = m_pFMODSystem->setFileSystem(Sound_CallbackFileOpen, Sound_CallbackFileClose, Sound_CallbackFileRead, Sound_CallbackFileSeek,
+#if TKTK // TODO: read async?
+                                              Sound_CallbackFileReadAsync, Sound_CallbackFileCancelAsync,
+#else
+                                              NULL, NULL,
+#endif
+                                              -1);
         if (result != FMOD_OK)
         {
             StrToTString(sError, FMOD_ErrorString(result));
@@ -851,7 +983,7 @@ void    CSoundManager::Start()
             sound_bufferSize = iBufferLength * iNumBuffers;
             result = m_pFMODSystem->setDSPBufferSize(iBufferLength, iNumBuffers);
             if (result != FMOD_OK)
-                Console << _T("Error setting sound buffer size ") << ParenStr(FMOD_ErrorString(result)) << _T(". Using default buffer size.") << newl;
+                Console << _T("Error setting sound buffer size ") << ParenStr(UTF8ToTString(FMOD_ErrorString(result))) << _T(". Using default buffer size.") << newl;
         }
 
 #if 0
@@ -867,18 +999,12 @@ void    CSoundManager::Start()
         }
 #endif
 
-        result = m_pFMODSystem->init(768, FMOD_INIT_3D_RIGHTHANDED | FMOD_INIT_VOL0_BECOMES_VIRTUAL, NULL);
-        if (result == FMOD_ERR_OUTPUT_CREATEBUFFER)
-        {
-            // selected speaker mode not supported, fall back to stereo
-            m_pFMODSystem->setSpeakerMode(FMOD_SPEAKERMODE_STEREO);
-            result = m_pFMODSystem->init(768, FMOD_INIT_3D_RIGHTHANDED | FMOD_INIT_VOL0_BECOMES_VIRTUAL, NULL);
-        }
-        StrToTString(sError, FMOD_ErrorString(result));
+        result = m_pFMODSystem->set3DSettings(sound_dopplerFactor, sound_distanceFactor, sound_rolloffScale);
         if (result != FMOD_OK)
-            EX_ERROR(_T("FMOD system init failed: ") + sError);
-
-        m_pFMODSystem->set3DSettings(sound_dopplerFactor, sound_distanceFactor, sound_rolloffScale);
+        {
+            StrToTString(sError, FMOD_ErrorString(result));
+            EX_ERROR(_T("FMOD::System::set3DSettings failed: ") + sError);
+        }
 
         // Output info
         uint uiVersion(0);
@@ -1200,9 +1326,11 @@ void    CSoundManager::RefreshDrivers()
     else if (_tcsicmp(sound_output.c_str(), _T("openal")) == 0)
         result = pSystem->setOutput(FMOD_OUTPUTTYPE_OPENAL);
 #elif defined(__APPLE__)
+#if TKTK // Seems removed as of 2023
     if (_tcsicmp(sound_output.c_str(), _T("soundmanager")) == 0)
         result = pSystem->setOutput(FMOD_OUTPUTTYPE_OSS);
-    else if (_tcsicmp(sound_output.c_str(), _T("coreaudio")) == 0)
+#endif
+    if (_tcsicmp(sound_output.c_str(), _T("coreaudio")) == 0)
         result = pSystem->setOutput(FMOD_OUTPUTTYPE_ALSA);
 #endif
     else
@@ -1225,14 +1353,15 @@ void    CSoundManager::RefreshDrivers()
     {
         for (int i(0); i < m_iNumDrivers; ++i)
         {
-            if (pSystem->getDriverInfo(i, szDriverName, 1024, NULL) != FMOD_OK)
+            if (pSystem->getDriverInfo(i, szDriverName, 1024, NULL, NULL, NULL, NULL) != FMOD_OK)
                 continue;
             StrToTString(sDriverName, szDriverName);
             ICvar::CreateString(_T("sound_driver") + XtoA(i, FMT_PADZERO, 2), sDriverName);
         }
     }
 
-    if (pSystem->getRecordNumDrivers(&m_iNumRecordingDrivers) != FMOD_OK)
+    int iNumConnected = 0; // TKTK 2023: Do we need to make any changes to support this new parameter?
+    if (pSystem->getRecordNumDrivers(&m_iNumRecordingDrivers, &iNumConnected) != FMOD_OK)
     {
         m_iNumRecordingDrivers = 0;
     }
@@ -1240,7 +1369,7 @@ void    CSoundManager::RefreshDrivers()
     {
         for (int i(0); i < m_iNumRecordingDrivers; ++i)
         {
-            if (pSystem->getRecordDriverInfo(i, szDriverName, 1024, NULL) != FMOD_OK)
+            if (pSystem->getRecordDriverInfo(i, szDriverName, 1024, NULL, NULL, NULL, NULL, NULL) != FMOD_OK)
                 continue;
             StrToTString(sDriverName, szDriverName);
             ICvar::CreateString(_T("sound_recording_driver") + XtoA(i, FMT_PADZERO, 2), sDriverName);
@@ -1690,7 +1819,7 @@ FMOD::Sound*    CSoundManager::CreateSound(int iFrequency, int iNumChannels, int
 
     pNewSound = NULL;
 
-    uint uiFlags(FMOD_OPENUSER | FMOD_SOFTWARE | FMOD_LOWMEM);
+    uint uiFlags(FMOD_OPENUSER | FMOD_LOWMEM);
     if (iSoundFlags & SND_2D)
         uiFlags |= FMOD_2D;
     else
@@ -1723,7 +1852,7 @@ FMOD::Sound*    CSoundManager::CreateExtendedSound(FMOD_CREATESOUNDEXINFO &exInf
 
     pNewSound = NULL;
 
-    uint uiFlags(FMOD_OPENUSER | FMOD_SOFTWARE | FMOD_LOWMEM);
+    uint uiFlags(FMOD_OPENUSER | FMOD_LOWMEM);
     if (iSoundFlags & SND_2D)
         uiFlags |= FMOD_2D;
     else
@@ -1754,7 +1883,7 @@ FMOD::Sound*    CSoundManager::LoadSample(const tstring &sInPath, int iSoundFlag
         return NULL;
     }
 
-    uint uiFlags(FMOD_SOFTWARE | FMOD_LOWMEM);
+    uint uiFlags(FMOD_LOWMEM);
     if (iSoundFlags & SND_2D)
         uiFlags |= FMOD_2D;
     else
@@ -1842,7 +1971,7 @@ FMOD::Sound*    CSoundManager::LoadSample(const tstring &sInPath, int iSoundFlag
         FMOD::Sound *pDownsampledSound(NULL);
 
         pNewSound->getFormat(&type, &format, &iChannels, &iBits);
-        pNewSound->getDefaults(&fRate, NULL, NULL, NULL);
+        pNewSound->getDefaults(&fRate, NULL);
         pNewSound->getLength(&length, FMOD_TIMEUNIT_PCMBYTES);
         pNewSound->lock(0, length, &ptr1, &ptr2, &len1, &len2);
 
@@ -1863,7 +1992,7 @@ FMOD::Sound*    CSoundManager::LoadSample(const tstring &sInPath, int iSoundFlag
             if (speex_resampler_process_interleaved_int(pResampler, reinterpret_cast<spx_int16_t*>(ptr1), &uiSamples, reinterpret_cast<spx_int16_t*>(pData), &uiNewSamples) == RESAMPLER_ERR_SUCCESS)
             {
                 FMOD_CREATESOUNDEXINFO exinfo;
-                memset(&exinfo, 0, sizeof(FMOD_CREATESOUNDEXINFO));
+                MemManager.Set(&exinfo, 0, sizeof(FMOD_CREATESOUNDEXINFO));
                 exinfo.cbsize = sizeof(FMOD_CREATESOUNDEXINFO);
                 exinfo.length = uiNewSamples * iChannels * iBits / 8;
                 exinfo.numchannels = iChannels;
@@ -1892,7 +2021,7 @@ FMOD::Sound*    CSoundManager::LoadSample(const tstring &sInPath, int iSoundFlag
             if (speex_resampler_process_interleaved_float(pResampler, reinterpret_cast<float*>(ptr1), &uiSamples, pData, &uiNewSamples) == RESAMPLER_ERR_SUCCESS)
             {
                 FMOD_CREATESOUNDEXINFO exinfo;
-                memset(&exinfo, 0, sizeof(FMOD_CREATESOUNDEXINFO));
+                MemManager.Set(&exinfo, 0, sizeof(FMOD_CREATESOUNDEXINFO));
                 exinfo.cbsize = sizeof(FMOD_CREATESOUNDEXINFO);
                 exinfo.length = uiNewSamples * iChannels * iBits / 8;
                 exinfo.numchannels = iChannels;
@@ -1995,8 +2124,9 @@ void    CSoundManager::SetListenerPosition(const CVec3f &v3Pos, const CVec3f &v3
         Console.Warn << _T("CSoundManager::SetListenerPosition() - Invalid up vector") << newl;
         //return;
     }*/
+    CVec3f v3Pos2 = v3Pos + m_v3Jitter;
     m_pFMODSystem->set3DListenerAttributes(0,
-        FMOD_VECTOR_CAST(&(v3Pos + m_v3Jitter)), NULL/*FMOD_VECTOR_CAST(&v3Velocity)*/, // Velocity set to NULL to disable doppler
+        FMOD_VECTOR_CAST(&v3Pos2), NULL/*FMOD_VECTOR_CAST(&v3Velocity)*/, // Velocity set to NULL to disable doppler
         FMOD_VECTOR_CAST(&v3Forward), FMOD_VECTOR_CAST(&v3Up));
 
     m_v3Center = v3Pos;
@@ -2288,10 +2418,10 @@ SoundHandle CSoundManager::PlaySound
         PROFILE("Stream playSound");
 
         FMOD::Sound *pSound;
-        result = m_pFMODSystem->createStream(TStringToString(pSample->GetPath()).c_str(), FMOD_SOFTWARE | FMOD_LOWMEM, NULL, &pSound);
+        result = m_pFMODSystem->createStream(TStringToString(pSample->GetPath()).c_str(), FMOD_LOWMEM, NULL, &pSound);
         if (result != FMOD_OK)
             return INVALID_INDEX;
-        result = m_pFMODSystem->playSound(FMOD_CHANNEL_FREE, pSound, true, &pChannel);
+        result = m_pFMODSystem->playSound(pSound, NULL, true, &pChannel);
     }
     else
     {
@@ -2302,7 +2432,7 @@ SoundHandle CSoundManager::PlaySound
         if (!pSampleData)
             return INVALID_INDEX;
 
-        result = m_pFMODSystem->playSound(FMOD_CHANNEL_FREE, pSampleData, true, &pChannel);
+        result = m_pFMODSystem->playSound(pSampleData, NULL, true, &pChannel);
     }
     if (result != FMOD_OK)
     {
@@ -2693,7 +2823,7 @@ void    CSoundManager::StartNextMusic()
     FMOD::Sound* pSampleData(LoadSample(sFilename, iSoundFlags));
 
     // Attempt to play the music
-    FMOD_RESULT result(m_pFMODSystem->playSound(FMOD_CHANNEL_FREE, pSampleData, true, &m_pMusicChannel));
+    FMOD_RESULT result(m_pFMODSystem->playSound(pSampleData, NULL, true, &m_pMusicChannel));
 
     // If the music could not be played for some reason, then abort
     if (result != FMOD_OK)
@@ -2887,9 +3017,11 @@ void    CSoundManager::UpdateMusic()
         }
     }
 
+#if TKTK // Skip music due to multithreading crash
     // If the music channel is null, attempt to start the next specified track
     if (m_pMusicChannel == NULL)
         StartNextMusic();
+#endif
 
     // If the music channel is still null, it means that no next track has been specified or it failed
     // to start.
