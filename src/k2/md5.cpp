@@ -214,21 +214,5 @@ tstring MD5String(const string &sSource)
 
 tstring MD5String(const wstring &sSource)
 {
-    SMD5Context mdContext;
-
-    mdContext.i[0] = mdContext.i[1] = 0;
-
-    mdContext.buf[0] = 0x67452301;
-    mdContext.buf[1] = 0xefcdab89;
-    mdContext.buf[2] = 0x98badcfe;
-    mdContext.buf[3] = 0x10325476;
-
-    MD5Update(mdContext, (byte*)sSource.c_str(), INT_SIZE(sSource.length()));
-    MD5Final(mdContext);
-
-    tstring sReturn;
-    for (int i(0); i < 16; ++i)
-        sReturn += XtoA(ushort(mdContext.digest[i]), FMT_NOPREFIX | FMT_PADZERO | FMT_LOWERCASE, 2, 16);
-
-    return sReturn;
+    return MD5String(WStringToUTF8(sSource));
 }
