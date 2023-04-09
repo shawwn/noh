@@ -210,15 +210,10 @@ CVAR_BOOL(      cc_forceTMMInterfaceUpdate,                 false);
 CVAR_STRING(    chat_serverAddrOverride,            "64.20.203.130");
 //CVAR_STRING(  chat_serverAddrOverride,            "127.0.0.1");
 #else
-CVAR_STRING(    chat_serverAddrOverride,            "");
+CVAR_STRING(    chat_serverAddrOverride,            ""); // TKTK NOTE: chat server is now chat.kongor.online
 #endif
 
-#if 1
 CVAR_BOOL(      chat_serverTCP2,                    true);
-#else
-CVAR_BOOL(      chat_serverTCP2,                    false);
-#endif
-
 CVAR_UINTF(     chat_serverPort,                    11031,          CVAR_SAVECONFIG);
 CVAR_UINTF(     chat_serverTestPort,                11032,          CVAR_SAVECONFIG);
 

@@ -332,12 +332,8 @@ public:
     K2_API void             OpenLog();
     K2_API void             CloseLog();
     
-    void                    WriteLog(const tstring &s)
-    {
-        if (m_hLogFile.IsOpen())
-            m_hLogFile << s;
-    }
-    
+    K2_API void             WriteLog(const tstring &s);
+
     CConsoleElement*        GetElement(const tstring &sName)        { return ConsoleRegistry.GetElement(sName); }
 
     K2_API void             SetMaxInputHistory(size_t size);

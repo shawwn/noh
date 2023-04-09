@@ -678,8 +678,11 @@ ESystemSpace    GetSpace(const tstring &sSpace)
     else if (sSpace == _T("entity"))
         return ENTITY_SPACE;
     else if (sSpace == _T("bone"))
-        //return BONE_SPACE;
+#if TKTK
         return ENTITY_SPACE;
+#else
+        return BONE_SPACE;
+#endif
     else
     {
         Console.Warn << _T("Unrecognized space ") << SingleQuoteStr(sSpace) << newl;

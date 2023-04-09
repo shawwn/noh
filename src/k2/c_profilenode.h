@@ -136,6 +136,8 @@ public:
   ====================*/
 CProfileNode*   CProfileNode::StartSample(const TCHAR *szName, eProfileType eType)
 {
+    if (!CSystem::IsInitialized())
+        return this;
     if (m_szName == szName)
     {
         ++m_iWorkingFrameCalls;
@@ -172,6 +174,8 @@ CProfileNode*   CProfileNode::StartSample(const TCHAR *szName, eProfileType eTyp
   ====================*/
 CProfileNode*   CProfileNode::EndSample()
 {
+    if (!CSystem::IsInitialized())
+        return this;
     if (m_iWorkingFrameRecursiveCalls > 0)
     {
         --m_iWorkingFrameRecursiveCalls;

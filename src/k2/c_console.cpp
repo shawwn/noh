@@ -76,6 +76,7 @@ CVAR_FLOAT  (con_leftMargin,    5.0f);
 
 CVAR_BOOL   (con_appendLog,     false);
 CVAR_BOOL   (con_writeLog,      true);
+CVAR_BOOL   (con_flushLog,      true);
 CVAR_BOOL   (con_developer,     false);
 CVAR_BOOL   (con_debugOutput,   true);
 
@@ -463,6 +464,20 @@ void    CConsole::CloseLog()
 {
     if (m_hLogFile.IsOpen())
         m_hLogFile.Close();
+}
+
+
+/*====================
+  CConsole::WriteLog
+  ====================*/
+void    CConsole::WriteLog(const tstring &s)
+{
+    if (m_hLogFile.IsOpen()) {
+        m_hLogFile << s;
+        if (con_flushLog) {
+            m_hLogFile.Flush(); // TKTK
+        }
+    }
 }
 
 

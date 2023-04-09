@@ -90,7 +90,11 @@ __attribute__((visibility("default")))
 CVAR_BOOLF  (sys_grabInput,             false,  CVAR_SAVECONFIG);
 CVAR_BOOLF  (sys_dedicatedConsole,      true,   CVAR_SAVECONFIG);
 CVAR_BOOL   (sys_interactive,           true);
-CVAR_BOOLF  (sys_debugOutput,           false,  CVAR_SAVECONFIG);
+#if defined(_DEBUG)
+CVAR_BOOL   (sys_debugOutput,           true);
+#else
+CVAR_BOOL   (sys_debugOutput,           false);
+#endif
 
 // Keyboard settings
 CVAR_BOOLF  (key_splitShift,            false,  CVAR_SAVECONFIG);

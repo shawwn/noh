@@ -296,6 +296,7 @@ bool    CGroundSpriteEmitter::GetEntity(uint uiIndex, CSceneEntity &outEntity)
                 outEntity.angle = M_GetAnglesFromForwardVec(v3Dir);
             }
         } break;
+    case BONE_SPACE:
     case ENTITY_SPACE:
         {
             const CVec3f    &v3Pos(m_pParticleSystem->GetSourcePosition());

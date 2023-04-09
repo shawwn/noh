@@ -825,6 +825,7 @@ bool    CDebrisEmitter::GetEntity(uint uiIndex, CSceneEntity &outEntity)
             outEntity.scale = 1.0f;
             outEntity.bounds = m_bbBounds;
         } break;
+    case BONE_SPACE:
     case ENTITY_SPACE:
         {
             outEntity.SetPosition(m_v3LastPos);

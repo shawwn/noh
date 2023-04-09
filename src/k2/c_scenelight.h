@@ -18,7 +18,10 @@ private:
 
 public:
     ~CSceneLight()  {}
-    CSceneLight(const CVec3f &v3Pos, const CVec3f &v3Color, float fFalloffStart, float fFalloffEnd);
+    CSceneLight(const CVec3f &v3Pos = V_ZERO,
+                const CVec3f &v3Color = CVec3f(1.0f, 1.0f, 1.0f),
+                float fFalloffStart = 0.0f,
+                float fFalloffEnd = 1000.0f);
     CSceneLight(const CSceneLight &light);
 
     const CVec3f&   GetPosition() const             { return m_v3Position; }
@@ -41,10 +44,10 @@ public:
   CSceneLight::CSceneLight
   ====================*/
 inline
-CSceneLight::CSceneLight(const CVec3f &v3Pos = V_ZERO,
-                         const CVec3f &v3Color = CVec3f(1.0f, 1.0f, 1.0f),
-                         float fFalloffStart = 0.0f,
-                         float fFalloffEnd = 1000.0f) :
+CSceneLight::CSceneLight(const CVec3f &v3Pos,
+                         const CVec3f &v3Color,
+                         float fFalloffStart,
+                         float fFalloffEnd) :
 m_v3Position(v3Pos),
 m_v3Color(v3Color),
 m_fFalloffStart(fFalloffStart),

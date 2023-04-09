@@ -348,6 +348,7 @@ bool    CBillboardEmitter::GetBillboard(uint uiIndex, SBillboard &outBillboard)
                     outBillboard.aAxis = AXIS_IDENTITY;
             }
         } break;
+    case BONE_SPACE:
     case ENTITY_SPACE:
         {
             const CVec3f    &v3Pos(m_pParticleSystem->GetSourcePosition());

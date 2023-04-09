@@ -317,6 +317,7 @@ bool    CTracerEmitter::GetBeam(uint uiIndex, SBeam &outBeam)
     case WORLD_SPACE:
         {
         } break;
+    case BONE_SPACE:
     case ENTITY_SPACE:
         {
             const CVec3f    &v3Pos(m_pParticleSystem->GetSourcePosition());
