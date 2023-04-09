@@ -734,7 +734,10 @@ IEntityDefinition*  IEntityDefinition::GetModifiedDefinition(const uivector &vMo
   ====================*/
 ushort  IEntityDefinition::RegisterModifier(uint uiModifierID)
 {
+#if TKTK // Why does this assert limit the count to 16?
     assert(m_uiModifierCount < sizeof(ushort) * 8);
+#endif
+    
 
     if (uiModifierID == INVALID_INDEX || uiModifierID == 0)
         return 0;
