@@ -1552,9 +1552,7 @@ if(APPLE)
 endif()
 
 
-if(WIN32)
-  message("https://cmake.org/cmake/help/latest/variable/WIN32.html?highlight=win32")
-elseif(APPLE)
+if(APPLE)
   message("https://cmake.org/cmake/help/latest/variable/APPLE.html?highlight=apple")
 
   macro(finalize_bundle app_name)
@@ -1615,6 +1613,14 @@ elseif(UNIX)
   message("https://cmake.org/cmake/help/latest/variable/UNIX.html?highlight=unix")
   add_executable (${APP_NAME}
           src/shell/main_linux.cpp
+          src/shell/shell_common.cpp
+          src/shell/misc_cmds.cpp
+          )
+  target_link_libraries(${APP_NAME} ${K2_LIBRARY} ${HON_SHARED_LIBRARY}) #${VID_GL2_LIBRARY})
+elseif(WIN32)
+  message("https://cmake.org/cmake/help/latest/variable/WIN32.html?highlight=win32")
+  add_executable (${APP_NAME}
+          src/shell/main_win32.cpp
           src/shell/shell_common.cpp
           src/shell/misc_cmds.cpp
           )
