@@ -103,6 +103,11 @@ else()
 endif()
 
 include(FindOpenGL)
+if(GIF_FOUND)
+  include_directories(${OPENGL_INCLUDE_DIR})
+else()
+  message( FATAL_ERROR "Can't find OpenGL" )
+endif()
 
 
 # game shared
