@@ -68,7 +68,7 @@ CVAR_STRINGF    (host_date,                     "",         CVAR_READONLY);
 CVAR_STRINGF    (host_time,                     "",         CVAR_READONLY);
 CVAR_STRINGF    (host_version,                  "",         CVAR_READONLY);
 #ifdef _WIN32
-CVAR_STRING     (host_vidDriver,                "vid_d3d9");
+CVAR_STRING     (host_vidDriver,                "vid_gl2");
 #else
 CVAR_STRING     (host_vidDriver,                "vid_gl2");
 #endif
