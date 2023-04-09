@@ -1470,6 +1470,23 @@ tstring CExpressionEvaluator::Evaluate(const tstring &sExpression, IWidget *pAct
                 break;
             } // PROFILE("Whitespace")
 
+            { PROFILE("Block comments");
+            // Block comment
+            if (sExpression[z] == _T('#') && (z + 1) < sExpression.length() && sExpression[z + 1] == _T('#')) {
+                z += 2;
+                while (z < sExpression.length()) {
+                    if (sExpression[z] == '#') {
+                        if ((z + 1) < sExpression.length() && sExpression[z + 1] == '#') {
+                            z += 2;
+                            break;
+                        }
+                    }
+                    z++;
+                }
+                continue;
+            }
+            } // PROFILE("Block comments")
+
             { PROFILE("String literals");
             // String literals
             if (sExpression[z] == _T('\''))
