@@ -1959,7 +1959,7 @@ void    CCliffTool::CalculateTile(int iXC, int iYC)
         float WTdr(0.0f);
         float WSdr(0.0f);
 
-        if (CliffDefinition)
+        if (CliffDefinition && CliffDefinition->GetInnerCorner().GetVariation(uiVariation) != NULL) // TKTK: This null check was added because it seems to be null sometimes
         {
             //Cliff Paths
             InnerCornerPathPerm = CliffDefinition->GetInnerCorner().GetVariation(uiVariation)->GetPiecePath();
