@@ -3,13 +3,14 @@ project(noh)
 
 set(APP_NAME NoH)
 set(EDITOR_NAME NoH_Editor)
+set(CONTENT_DIR "${CMAKE_CURRENT_SOURCE_DIR}/Heroes of Newerth")
 
-set(CMAKE_CXX_STANDARD 14)
+#set(CMAKE_CXX_STANDARD 14)
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 
-enable_language(CXX)
+#enable_language(CXX)
 set(CMAKE_CXX_STANDARD 14)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
+#set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 # from https://gitlab.kitware.com/cmake/cmake/-/issues/22184
 if(APPLE)
@@ -39,7 +40,9 @@ else()
 endif()
 #MESSAGE( STATUS "COMMON_DEFS: " ${COMMON_DEFS} )
 
-add_definitions(-DK2_X64)
+if(!WIN32)
+  add_definitions(-DK2_X64)
+endif()
 if(BUILD_STATIC)
   add_definitions(-DK2_LIB)
   add_definitions(-DGAME_SHARED_LIB)
@@ -52,27 +55,47 @@ endif()
 MESSAGE( STATUS "CMAKE_CXX_FLAGS: " ${CMAKE_CXX_FLAGS} )
 MESSAGE( STATUS "CMAKE_OBJC_FLAGS: " ${CMAKE_OBJC_FLAGS} )
 
-set(CONTENT_DIR "${CMAKE_CURRENT_SOURCE_DIR}/Heroes of Newerth")
-
 include_directories(src/shell)
-include_directories(src/k2)
+#include_directories(src/k2)
 include_directories("src/Heroes of Newerth_shell")
 include_directories(lib/k2public)
 include_directories(lib/fmodex/api/core/inc)
-link_directories(lib/fmodex/api/core/lib)
+if(WIN32)
+  link_directories(lib/fmodex/api/core/lib/x86)
+  #link_directories(lib/fmodex/api/core/lib/x64)
+  set(FMOD_LIBRARIES fmod_vc)
+else()
+  link_directories(lib/fmodex/api/core/lib)
+  set(FMOD_LIBRARIES fmod)
+endif()
+
 include_directories(lib/SpeedTree/include)
-if(APPLE)
-  include_directories(/opt/homebrew/opt/speex/include)
-  include_directories(/opt/homebrew/opt/speexdsp/include)
-  include_directories(/opt/homebrew/opt/giflib/include)
-  link_directories(/opt/homebrew/opt/speex/lib)
-  link_directories(/opt/homebrew/opt/speexdsp/lib)
-  link_directories(/opt/homebrew/opt/giflib/lib)
-  IF(CMAKE_BUILD_TYPE MATCHES DEBUG)
+if(WIN32)
+  if(CMAKE_BUILD_TYPE MATCHES Debug)
+    set(SPEEDTREE_LIBRARIES SpeedTreeRT_Static_d)
+    link_directories("lib/SpeedTree/lib/vc 8/debug")
+  else()
+    set(SPEEDTREE_LIBRARIES SpeedTreeRT_Static)
+    link_directories("lib/SpeedTree/lib/vc 8/release")
+  endif()
+elseif(APPLE)
+  set(SPEEDTREE_LIBRARIES SpeedTreeRT)
+  IF(CMAKE_BUILD_TYPE MATCHES Debug)
     link_directories(lib/SpeedTree/lib/Xcode/Debug)
   else()
     link_directories(lib/SpeedTree/lib/Xcode/Release)
   endif()
+endif()
+
+if(APPLE)
+  include_directories(/opt/homebrew/opt/speex/include)
+  include_directories(/opt/homebrew/opt/speexdsp/include)
+  link_directories(/opt/homebrew/opt/speex/lib)
+  link_directories(/opt/homebrew/opt/speexdsp/lib)
+  include_directories(/opt/homebrew/opt/giflib/include)
+  link_directories(/opt/homebrew/opt/giflib/lib)
+  set(GIF_LIBRARIES gif)
+  set(SPEEX_LIBRARIES speex speexdsp)
 else()
   include(FindSpeex)
   include(FindSpeexDSP)
@@ -80,52 +103,49 @@ else()
   if(GIF_FOUND)
     include_directories(${GIF_INCLUDE_DIR})
   else()
-    message( FATAL_ERROR "Can't find giflib" )
+    message(FATAL_ERROR "Can't find giflib")
   endif()
 endif()
 
+include(FindCURL)
+include(FindZLIB)
 include(FindJPEG)
 
-if(APPLE)
-  set(OPENSSL_ROOT_DIR "/opt/homebrew/opt/openssl@1.1")
-endif()
+#if(APPLE)
+#  set(OPENSSL_ROOT_DIR "/opt/homebrew/opt/openssl@1.1")
+#endif()
 include(FindOpenSSL)
 if(OPENSSL_FOUND)
   include_directories(${OPENSSL_INCLUDE_DIR})
 else()
-  message(FATAL_ERROR "Can't find openssl@1.1. Try setting -D 'OPENSSL_ROOT_DIR=/path/to/openssl@1.1'")
+  message(FATAL_ERROR "Can't find OpenSSL")
 endif()
 
 include(FindLibXml2)
-include_directories(${LIBXML2_INCLUDE_DIRS})
+#include_directories(${LIBXML2_INCLUDE_DIRS})
 
 include(FindFreetype)
 include_directories(${FREETYPE_INCLUDE_DIRS})
 
 include_directories(lib/libpng/include)
-#if(APPLE)
-##  include_directories(/opt/homebrew/opt/libpng/include)
-#  link_directories(/opt/homebrew/opt/libpng/lib)
-#  set(PNG_LIBRARIES "-lpng")
-#else()
-#  include(FindPNG)
-#endif()
 include(FindPNG)
 
 include(FindOpenGL)
 if(OPENGL_FOUND)
-  include_directories(${OPENGL_INCLUDE_DIR})
+#  include_directories(${OPENGL_INCLUDE_DIR})
 else()
   message( FATAL_ERROR "Can't find OpenGL" )
 endif()
 
 if(UNIX)
-  include(FindXrandr)
+  if(!APPLE)
+    include(FindXrandr)
+  endif()
   include(FindCurses)
 endif()
 
 # game shared
-include_directories(src/hon_shared)
+#include_directories(src/hon_shared)
 
 macro(app_dll library sources)
   if(BUILD_STATIC)
@@ -153,26 +173,29 @@ endmacro()
 set(K2_LIBRARY k2${POSTFIX})
 if(APPLE)
   set(K2_LIBRARY_DLL "${CMAKE_BINARY_DIR}/lib${K2_LIBRARY}.dylib")
+  set(K2_LIBRARY_LIB "${CMAKE_BINARY_DIR}/lib${K2_LIBRARY}.dylib")
 elseif(UNIX)
   set(K2_LIBRARY_DLL "${CMAKE_BINARY_DIR}/lib${K2_LIBRARY}.so")
+  set(K2_LIBRARY_LIB "${CMAKE_BINARY_DIR}/lib${K2_LIBRARY}.so")
 elseif(WIN32)
   set(K2_LIBRARY_DLL "${CMAKE_BINARY_DIR}/${K2_LIBRARY}.dll")
+  set(K2_LIBRARY_LIB "${CMAKE_BINARY_DIR}/${K2_LIBRARY}.lib")
 endif()
 
 set(K2_LIBRARIES
-    -lspeex
-    -lspeexdsp
-    -lfmod
+    ${SPEEX_LIBRARIES}
+    ${SPEEXDSP_LIBRARIES}
+    ${FMOD_LIBRARIES}
     ${LIBXML2_LIBRARIES}
     ${FREETYPE_LIBRARIES}
     ${PNG_LIBRARIES}
-    -lncurses
-    -lcurl
-    -lz
-    -lSpeedTreeRT
+    ${CURSES_LIBRARIES}
+    ${CURL_LIBRARIES}
+    ${ZLIB_LIBRARIES}
+    ${GIF_LIBRARIES}
+    ${SPEEDTREE_LIBRARIES}
     ${OPENSSL_LIBRARIES}
     ${JPEG_LIBRARIES}
-    -lgif
     )
 if(APPLE)
   set(K2_LIBRARIES ${K2_LIBRARIES}
@@ -180,6 +203,14 @@ if(APPLE)
           "-framework AppKit"
           "-framework CoreAudio"
           "-framework IOKit")
+elseif(WIN32)
+  set(K2_LIBRARIES ${K2_LIBRARIES}
+          wsock32
+          ws2_32
+          psapi
+          iphlpapi
+          wbemuuid
+          )
 endif()
 
 set(K2_SOURCES
@@ -444,8 +475,6 @@ set(K2_SOURCES
         src/k2/c_navigationmap.cpp
         src/k2/c_navigationmap.h
         src/k2/c_netdriver.h
-        src/k2/c_netdriver_linux.cpp
-        # src/k2/c_netdriver_win32.cpp
         src/k2/c_netstats.cpp
         src/k2/c_netstats.h
         src/k2/c_networkresourcemanager.cpp
@@ -921,19 +950,23 @@ set(K2_SOURCES
         src/k2/c_srp.cpp
         )
 
-if (APPLE)
+if (WIN32)
+  set(K2_SOURCES ${K2_SOURCES}
+          src/k2/MemoryTrackerDLL.cpp
+          src/k2/c_system_win32.cpp
+          src/k2/c_netdriver_win32.cpp
+          )
+elseif (APPLE)
   set(K2_SOURCES ${K2_SOURCES}
           src/k2/c_system_osx.mm
           src/k2/c_system_posix.cpp
-          )
-elseif (WIN32)
-  set(K2_SOURCES ${K2_SOURCES}
-          src/k2/c_system_win32.cpp
+          src/k2/c_netdriver_linux.cpp
           )
 elseif (UNIX)
   set(K2_SOURCES ${K2_SOURCES}
           src/k2/c_system_linux.cpp
           src/k2/c_system_posix.cpp
+          src/k2/c_netdriver_linux.cpp
           )
 endif()
 
@@ -956,20 +989,29 @@ elseif(WIN32)
   set(VID_GL2_LIBRARY_DLL "${CMAKE_BINARY_DIR}/${VID_GL2_LIBRARY}.dll")
 endif()
 
+set(VID_GL2_C_SOURCES
+  src/vid_gl2/SOIL/SOIL.c
+  src/vid_gl2/SOIL/image_DXT.c
+  src/vid_gl2/SOIL/image_helper.c
+  src/vid_gl2/SOIL/stb_image_aug.c
+)
+add_library(vid_gl2_c STATIC ${VID_GL2_C_SOURCES})
+set(VID_GL2_LIBRARIES vid_gl2_c)
+
 # vid_gl2 sources
-include_directories(src/vid_gl2)
+#include_directories(src/vid_gl2)
 set(VID_GL2_SOURCES
   src/vid_gl2/GLEW/glew.cpp
   src/vid_gl2/GLEW/glew.h
   src/vid_gl2/GLEW/glxew.h
   src/vid_gl2/GLEW/wglew.h
-  src/vid_gl2/SOIL/SOIL.c
+#  src/vid_gl2/SOIL/SOIL.c
   src/vid_gl2/SOIL/SOIL.h
-  src/vid_gl2/SOIL/image_DXT.c
+#  src/vid_gl2/SOIL/image_DXT.c
   src/vid_gl2/SOIL/image_DXT.h
-  src/vid_gl2/SOIL/image_helper.c
+#  src/vid_gl2/SOIL/image_helper.c
   src/vid_gl2/SOIL/image_helper.h
-  src/vid_gl2/SOIL/stb_image_aug.c
+#  src/vid_gl2/SOIL/stb_image_aug.c
   src/vid_gl2/SOIL/stb_image_aug.h
   src/vid_gl2/SOIL/stbi_DDS_aug.h
   src/vid_gl2/SOIL/stbi_DDS_aug_c.h
@@ -1058,7 +1100,7 @@ set(VID_GL2_SOURCES
   src/vid_gl2/c_treescenemanager.h
   src/vid_gl2/d3dx_shared.cpp
   src/vid_gl2/d3dx_shared.h
-  src/vid_gl2/gl2_common.h
+#  src/vid_gl2/gl2_common.h
   src/vid_gl2/gl2_foliage.cpp
   src/vid_gl2/gl2_foliage.h
   src/vid_gl2/gl2_main.cpp
@@ -1081,33 +1123,44 @@ set(VID_GL2_SOURCES
 #  src/vid_gl2/libXNVCtrl/nv_control.h
 #  src/vid_gl2/ogl_mac.cpp
   src/vid_gl2/vid_common.cpp
-  src/vid_gl2/vid_common.h
+#  src/vid_gl2/vid_common.h
 )
 if(WIN32)
   set(VID_GL2_SOURCES ${VID_GL2_SOURCES}
           src/vid_gl2/gl2_win32.cpp
           )
+  set(VID_GL2_LIBRARIES ${VID_GL2_LIBRARIES}
+          ${K2_LIBRARY_LIB}
+          ${OPENGL_LIBRARIES}
+          )
 elseif(APPLE)
   set(VID_GL2_SOURCES ${VID_GL2_SOURCES}
-          #          src/vid_gl2/ogl_mac.cpp
+          #src/vid_gl2/ogl_mac.cpp
           src/vid_gl2/gl2_osx.mm
+          )
+  set(VID_GL2_LIBRARIES ${VID_GL2_LIBRARIES}
+          ${K2_LIBRARY_LIB}
+          "-framework OpenGL"
+          "-framework Cocoa"
           )
 elseif(UNIX)
   set(VID_GL2_SOURCES ${VID_GL2_SOURCES}
           src/vid_gl2/gl2_linux.cpp
           )
-endif()
-
-app_module("${VID_GL2_LIBRARY}" "${VID_GL2_SOURCES}")
-target_compile_definitions(${VID_GL2_LIBRARY} PUBLIC GLEW_STATIC GL_SILENCE_DEPRECATION)
-#target_precompile_headers(${VID_GL2_LIBRARY} PUBLIC src/vid_gl2/vid_common.h)
-if(APPLE)
-  target_link_libraries(${VID_GL2_LIBRARY}
-          "-framework OpenGL"
-          "-framework Cocoa"
-          "${K2_LIBRARY_DLL}"
+  set(VID_GL2_LIBRARIES ${VID_GL2_LIBRARIES}
+          ${K2_LIBRARY_LIB}
+          ${OPENGL_LIBRARIES}
           )
 endif()
+
+app_module(${VID_GL2_LIBRARY} "${VID_GL2_SOURCES}")
+set_target_properties( ${VID_GL2_LIBRARY} PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CONTENT_DIR}/ )
+set_target_properties( ${VID_GL2_LIBRARY} PROPERTIES LIBRARY_OUTPUT_DIRECTORY ${CONTENT_DIR}/ )
+target_compile_definitions(${VID_GL2_LIBRARY} PUBLIC GLEW_STATIC GL_SILENCE_DEPRECATION)
+target_precompile_headers(${VID_GL2_LIBRARY} PUBLIC src/vid_gl2/vid_common.h)
+target_link_libraries(${VID_GL2_LIBRARY}
+        ${VID_GL2_LIBRARIES}
+        )
 
 #========================================
 # hon_shared
@@ -1116,10 +1169,13 @@ set(HON_SHARED_LIBRARY hon_shared${POSTFIX})
 
 if(APPLE)
   set(HON_SHARED_LIBRARY_DLL "${CMAKE_BINARY_DIR}/lib${HON_SHARED_LIBRARY}.dylib")
+  set(HON_SHARED_LIBRARY_LIB "${CMAKE_BINARY_DIR}/lib${HON_SHARED_LIBRARY}.dylib")
 elseif(UNIX)
   set(HON_SHARED_LIBRARY_DLL "${CMAKE_BINARY_DIR}/lib${HON_SHARED_LIBRARY}.so")
+  set(HON_SHARED_LIBRARY_LIB "${CMAKE_BINARY_DIR}/lib${HON_SHARED_LIBRARY}.so")
 elseif(WIN32)
   set(HON_SHARED_LIBRARY_DLL "${CMAKE_BINARY_DIR}/${HON_SHARED_LIBRARY}.dll")
+  set(HON_SHARED_LIBRARY_LIB "${CMAKE_BINARY_DIR}/${HON_SHARED_LIBRARY}.lib")
 endif()
 
 set(HON_SHARED_SOURCES
@@ -1390,10 +1446,10 @@ set(HON_SHARED_SOURCES
 
 app_dll(${HON_SHARED_LIBRARY} "${HON_SHARED_SOURCES}")
 target_compile_definitions(${HON_SHARED_LIBRARY} PUBLIC GAME_SHARED_EXPORTS)
-#target_precompile_headers(${HON_SHARED_LIBRARY} PUBLIC src/hon_shared/hon_shared_common.h)
+target_precompile_headers(${HON_SHARED_LIBRARY} PUBLIC src/hon_shared/game_shared_common.h)
 target_link_libraries(${HON_SHARED_LIBRARY}
   ${HON_SHARED_LIBRARIES}
-  "${K2_LIBRARY_DLL}"
+  ${K2_LIBRARY_LIB}
   )
 
 #========================================
@@ -1407,10 +1463,13 @@ endif()
 if(APPLE)
   #  set(HON_CLIENT_LIBRARY_DLL "${CMAKE_BINARY_DIR}/lib${HON_CLIENT_LIBRARY}.dylib")
   set(HON_CLIENT_LIBRARY_DLL "${CMAKE_BINARY_DIR}/lib${HON_CLIENT_LIBRARY}.so")
+  set(HON_CLIENT_LIBRARY_LIB "${CMAKE_BINARY_DIR}/lib${HON_CLIENT_LIBRARY}.so")
 elseif(UNIX)
   set(HON_CLIENT_LIBRARY_DLL "${CMAKE_BINARY_DIR}/lib${HON_CLIENT_LIBRARY}.so")
+  set(HON_CLIENT_LIBRARY_LIB "${CMAKE_BINARY_DIR}/lib${HON_CLIENT_LIBRARY}.so")
 elseif(WIN32)
   set(HON_CLIENT_LIBRARY_DLL "${CMAKE_BINARY_DIR}/${HON_CLIENT_LIBRARY}.dll")
+  set(HON_CLIENT_LIBRARY_LIB "${CMAKE_BINARY_DIR}/${HON_CLIENT_LIBRARY}.lib")
 endif()
 
 # hon_client sources
@@ -1433,15 +1492,15 @@ set(HON_CLIENT_SOURCES
         src/hon_client/game_client_main.cpp
         )
 
-app_module("${HON_CLIENT_LIBRARY}" "${HON_CLIENT_SOURCES}")
+app_module(${HON_CLIENT_LIBRARY} "${HON_CLIENT_SOURCES}")
+set_target_properties( ${HON_CLIENT_LIBRARY} PROPERTIES LIBRARY_OUTPUT_DIRECTORY ${CONTENT_DIR}/game )
+set_target_properties( ${HON_CLIENT_LIBRARY} PROPERTIES LIBRARY_OUTPUT_NAME cgame${POSTFIX} )
 target_compile_definitions(${HON_CLIENT_LIBRARY} PUBLIC GAME_CLIENT_EXPORTS)
 target_precompile_headers(${HON_CLIENT_LIBRARY} PUBLIC src/hon_client/game_client_common.h)
-if(APPLE)
-  target_link_libraries(${HON_CLIENT_LIBRARY}
-          "${K2_LIBRARY_DLL}"
-          "${HON_SHARED_LIBRARY_DLL}"
-          )
-endif()
+target_link_libraries(${HON_CLIENT_LIBRARY}
+        "${K2_LIBRARY_LIB}"
+        "${HON_SHARED_LIBRARY_LIB}"
+        )
 
 #========================================
 # hon_server
@@ -1454,10 +1513,13 @@ endif()
 if(APPLE)
   #  set(HON_SERVER_LIBRARY_DLL "${CMAKE_BINARY_DIR}/lib${HON_SERVER_LIBRARY}.dylib")
   set(HON_SERVER_LIBRARY_DLL "${CMAKE_BINARY_DIR}/lib${HON_SERVER_LIBRARY}.so")
+  set(HON_SERVER_LIBRARY_LIB "${CMAKE_BINARY_DIR}/lib${HON_SERVER_LIBRARY}.so")
 elseif(UNIX)
   set(HON_SERVER_LIBRARY_DLL "${CMAKE_BINARY_DIR}/lib${HON_SERVER_LIBRARY}.so")
+  set(HON_SERVER_LIBRARY_LIB "${CMAKE_BINARY_DIR}/lib${HON_SERVER_LIBRARY}.so")
 elseif(WIN32)
   set(HON_SERVER_LIBRARY_DLL "${CMAKE_BINARY_DIR}/${HON_SERVER_LIBRARY}.dll")
+  set(HON_SERVER_LIBRARY_LIB "${CMAKE_BINARY_DIR}/${HON_SERVER_LIBRARY}.lib")
 endif()
 
 # hon_server sources
@@ -1485,15 +1547,16 @@ set(HON_SERVER_SOURCES
         src/hon_server/game_server_main.cpp
         )
 
-app_module("${HON_SERVER_LIBRARY}" "${HON_SERVER_SOURCES}")
+app_module(${HON_SERVER_LIBRARY} "${HON_SERVER_SOURCES}")
+set_target_properties( ${HON_SERVER_LIBRARY} PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CONTENT_DIR}/game )
+set_target_properties( ${HON_SERVER_LIBRARY} PROPERTIES LIBRARY_OUTPUT_DIRECTORY ${CONTENT_DIR}/game )
+set_target_properties( ${HON_SERVER_LIBRARY} PROPERTIES LIBRARY_OUTPUT_NAME game${POSTFIX} )
 target_compile_definitions(${HON_SERVER_LIBRARY} PUBLIC GAME_SERVER_EXPORTS)
 target_precompile_headers(${HON_SERVER_LIBRARY} PUBLIC src/hon_server/game_server_common.h)
-if(APPLE)
-  target_link_libraries(${HON_SERVER_LIBRARY}
-          "${K2_LIBRARY_DLL}"
-          "${HON_SHARED_LIBRARY_DLL}"
-          )
-endif()
+target_link_libraries(${HON_SERVER_LIBRARY}
+        ${K2_LIBRARY_LIB}
+        ${HON_SHARED_LIBRARY_LIB}
+        )
 
 #========================================
 # editor
@@ -1506,10 +1569,13 @@ endif()
 if(APPLE)
 #  set(EDITOR_LIBRARY_DLL "${CMAKE_BINARY_DIR}/lib${EDITOR_LIBRARY}.dylib")
   set(EDITOR_LIBRARY_DLL "${CMAKE_BINARY_DIR}/lib${EDITOR_LIBRARY}.so")
+  set(EDITOR_LIBRARY_LIB "${CMAKE_BINARY_DIR}/lib${EDITOR_LIBRARY}.so")
 elseif(UNIX)
   set(EDITOR_LIBRARY_DLL "${CMAKE_BINARY_DIR}/lib${EDITOR_LIBRARY}.so")
+  set(EDITOR_LIBRARY_LIB "${CMAKE_BINARY_DIR}/lib${EDITOR_LIBRARY}.so")
 elseif(WIN32)
   set(EDITOR_LIBRARY_DLL "${CMAKE_BINARY_DIR}/${EDITOR_LIBRARY}.dll")
+  set(EDITOR_LIBRARY_LIB "${CMAKE_BINARY_DIR}/${EDITOR_LIBRARY}.lib")
 endif()
 
 # editor sources
@@ -1544,12 +1610,10 @@ set(EDITOR_SOURCES
 app_module("${EDITOR_LIBRARY}" "${EDITOR_SOURCES}")
 target_compile_definitions(${EDITOR_LIBRARY} PUBLIC EDITOR_EXPORTS)
 target_precompile_headers(${EDITOR_LIBRARY} PUBLIC src/editor/editor_common.h)
-if(APPLE)
-  target_link_libraries(${EDITOR_LIBRARY}
-          "${K2_LIBRARY_DLL}"
-          "${HON_SHARED_LIBRARY_DLL}"
-          )
-endif()
+target_link_libraries(${EDITOR_LIBRARY}
+        ${K2_LIBRARY_LIB}
+        ${HON_SHARED_LIBRARY_LIB}
+        )
 
 
 if(APPLE)
@@ -1577,7 +1641,7 @@ if(APPLE)
 
   # NoH.app
   set(MACOSX_BUNDLE_ICON_FILE honicon.icns)
-  set(noh_ICON "${CONTENT_DIR}/Contents/Resources/honicon.icns" src/k2/srp.cpp src/k2/srp.h)
+  set(noh_ICON "${CONTENT_DIR}/Contents/Resources/honicon.icns")
   set_source_files_properties(${noh_ICON} PROPERTIES MACOSX_PACKAGE_LOCATION "Resources")
   add_executable (${APP_NAME}
     MACOSX_BUNDLE ${noh_ICON}
@@ -1619,12 +1683,18 @@ elseif(UNIX)
   target_link_libraries(${APP_NAME} ${K2_LIBRARY} ${HON_SHARED_LIBRARY}) #${VID_GL2_LIBRARY})
 elseif(WIN32)
   message("https://cmake.org/cmake/help/latest/variable/WIN32.html?highlight=win32")
-  add_executable (${APP_NAME}
+  add_executable (${APP_NAME} WIN32
           src/shell/main_win32.cpp
           src/shell/shell_common.cpp
           src/shell/misc_cmds.cpp
           )
-  target_link_libraries(${APP_NAME} ${K2_LIBRARY} ${HON_SHARED_LIBRARY}) #${VID_GL2_LIBRARY})
+  target_link_libraries(${APP_NAME} ${K2_LIBRARY_LIB} ${HON_SHARED_LIBRARY_LIB} #${VID_GL2_LIBRARY}
+          )
+#  IF(CMAKE_BUILD_TYPE MATCHES Debug)
+#    execute_process(COMMAND ${CMAKE_COMMAND} -E create_symlink "${CMAKE_BINARY_DIR}/vid_gl2_debug.dll" "${CONTENT_DIR}/game/vid_gl2_debug.dll")
+#  else()
+#    execute_process(COMMAND ${CMAKE_COMMAND} -E create_symlink "${CMAKE_BINARY_DIR}/vid_gl2.dll" "${CONTENT_DIR}/game/vid_gl2.dll")
+#  endif()
 endif()
 
 
