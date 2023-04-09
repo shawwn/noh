@@ -375,7 +375,7 @@ tstring CNetDriver::GetBroadcastAddress(dword dwSocket)
     netAddr_t netAddr;
     MemManager.Set(&netAddr, 0, sizeof(netAddr_t));
 
-    dword dwBytesWritten;
+    DWORD dwBytesWritten;
     WSAIoctl(dwSocket, SIO_GET_BROADCAST_ADDRESS, NULL, NULL, &netAddr, sizeof(netAddr_t), &dwBytesWritten, NULL, NULL);
 
     return StringToTString(inet_ntoa(netAddr.sin_addr));

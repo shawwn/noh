@@ -50,12 +50,14 @@ public:
     typedef typename std::allocator<T>::size_type   size_type;
     typedef typename std::allocator<T>::pointer     pointer;
 #endif
-    
+
+#ifndef WIN32
     template<class _Other>
     struct rebind
     {
         typedef CParticleAllocator<_Other> other;
     };
+#endif
 
     CParticleAllocator() {}
 

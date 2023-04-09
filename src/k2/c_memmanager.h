@@ -160,7 +160,7 @@ public:
 #else
     K2_API static void*         Allocate(size_t z, const char *szContext = "global", MemoryType eMemType = MT_MALLOC, const char *szType = "none", const char *szFile = __FILE__, short nLine = __LINE__);
     template<class T> static T* Reallocate(T *&p, size_t z);
-    K2_API static K2_API void   Deallocate(void *p, const char *szContext = "global", MemoryType eMemType = MT_FREE, const char *szFile = __FILE__, short nLine = __LINE__);
+    K2_API static void          Deallocate(void *p, const char *szContext = "global", MemoryType eMemType = MT_FREE, const char *szFile = __FILE__, short nLine = __LINE__);
 #endif
 
 #ifdef K2_TRACK_MEM
