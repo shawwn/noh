@@ -46,7 +46,7 @@ CVAR_STRINGF    (vid_aspect,                    "",         CVAR_SAVECONFIG);
 CVAR_FLOATF     (vid_gamma,                     1.1f,       CVAR_SAVECONFIG);
 ARRAY_CVAR_UINTF(vid_antialiasing,              _T("0,0"),  CVAR_SAVECONFIG);
 CVAR_INTR       (vid_textureFiltering,          TEXTUREFILTERING_TRILINEAR, CVAR_SAVECONFIG, 0, NUM_TEXTUREFILTERING_MODES - 1);
-CVAR_BOOLF      (vid_fullscreen,                true,       CVAR_SAVECONFIG);
+CVAR_BOOLF      (vid_fullscreen,                false,      CVAR_SAVECONFIG);
 CVAR_BOOL       (vid_windowResize,              false);
 
 typedef void (*_initapis_t)(SVidDriver *vid_api, void *_MainWndProc, void *hInstance);
