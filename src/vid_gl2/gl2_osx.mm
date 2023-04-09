@@ -921,9 +921,11 @@ void    GL_SetCursor(ResHandle hCursor)
     CCursor *pCursor(g_ResourceManager.GetCursor(hCursor));
     if (pCursor == NULL)
         return GL_ShowCursor(false);
-    
+
+#if TKTK // TKTK 2023: TODO: Does this leak cursors? Seems to crash if we try to release them here
     if (g_pCursor != nil)
         [g_pCursor release];
+#endif
     
     CBitmap *pBitmap(pCursor->GetBitmapPointer());
     if (pBitmap == NULL)
@@ -996,9 +998,11 @@ void    GL_Shutdown()
         [g_pFullscreenWindow close];
         [g_pFullscreenWindow release];
     }
-    
+
+#if TKTK // TKTK 2023: TODO: Does this leak cursors? Seems to crash if we try to release them here
     if (g_pCursor)
         [g_pCursor release];
+#endif
     
     gl_initialized = false;
 }
