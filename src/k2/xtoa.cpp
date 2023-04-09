@@ -1084,3 +1084,45 @@ float   P2toF(const tstring &s)
     float fRet(AtoF(s.substr(0, s.length() - 1)));
     return fRet;
 }
+
+
+/*====================
+  BytesToHexString
+  ====================*/
+tstring         BytesToHexString(const byte* pData, size_t uiLen)
+{
+    // https://stackoverflow.com/questions/14050452/how-to-convert-byte-array-to-hex-string-in-visual-c
+    std::stringstream ss;
+    ss << std::hex;
+
+    for( size_t i(0) ; i < uiLen; ++i ) {
+        ss << std::setw(2) << std::setfill('0') << (int)pData[i];
+    }
+
+    return StringToTString(ss.str());
+}
+
+/*====================
+  HexStringToBytes
+  ====================*/
+vector<byte>    HexStringToBytes(const tstring& sData)
+{
+    // https://stackoverflow.com/questions/17261798/converting-a-hex-string-to-a-byte-array
+    std::stringstream ss;
+    ss << TStringToUTF8(sData);
+
+    std::vector<byte> resBytes;
+    size_t count = 0;
+    const auto len = sData.size();
+    while(ss.good() && count < len)
+    {
+        unsigned short num;
+        char hexNum[2];
+        ss.read(hexNum, 2);
+        sscanf(hexNum, "%2hX", &num);
+        assert(num >= 0 && num <= 255);
+        resBytes.push_back(static_cast<byte>(num));
+        count += 2;
+    }
+    return resBytes;
+}

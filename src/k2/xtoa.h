@@ -318,6 +318,9 @@ int     HexAtoI(const T &s)
 
     return iResult;
 }
+
+K2_API tstring      BytesToHexString(const byte* pData, size_t uiLen);
+K2_API vector<byte> HexStringToBytes(const tstring& sData);
 //=============================================================================
 
 #endif  //__XTOA_H__
