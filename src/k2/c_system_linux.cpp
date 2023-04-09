@@ -1704,7 +1704,7 @@ tstring CSystem::GetClipboardString()
         if (XCheckTypedEvent(g_X11Info.dpy, SelectionNotify, &e))
         {
             if (e.xselection.property == None)
-                return false;
+                return _T("");
             
             Atom returnedType;
             int ReturnedFormat;
