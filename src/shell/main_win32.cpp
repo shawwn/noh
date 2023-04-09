@@ -16,11 +16,14 @@
 #define _WIN32_WINDOWS 0x0410
 #define WIN32_LEAN_AND_MEAN
 
+#pragma push_macro("Console")
+#undef Console
 #include <windows.h>
 #include <windowsx.h>
 #include <mmsystem.h>
 #include <direct.h>
 #include <shellapi.h>
+#pragma pop_macro("Console")
 
 #include "resource.h"
 
