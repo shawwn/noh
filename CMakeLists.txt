@@ -117,6 +117,7 @@ endif()
 
 if(UNIX)
   include(FindXrandr)
+  include(FindCurses)
 endif()
 
 # game shared
