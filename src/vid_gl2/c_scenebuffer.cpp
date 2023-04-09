@@ -32,7 +32,8 @@
 CSceneBuffer    g_SceneBuffer;
 
 CVAR_BOOLF  (vid_sceneBuffer,           true,               CVAR_SAVECONFIG);
-CVAR_BOOLF  (vid_sceneBufferMipmap,     true,               CVAR_SAVECONFIG);
+//CVAR_BOOLF  (vid_sceneBufferMipmap,     true,               CVAR_SAVECONFIG); // TKTK: This causes a crash on MacOS!
+CVAR_BOOLF  (vid_sceneBufferMipmap,     false,               CVAR_SAVECONFIG);
 //=============================================================================
 
 /*====================
@@ -107,6 +108,7 @@ void    CSceneBuffer::Initialize(int iWidth, int iHeight)
 void    CSceneBuffer::Release()
 {
     GfxTextures->UnregisterTexture(_T("$scene"));
+    m_uiSceneBuffer = 0;
 
     // Update reference texture
     CTexture *pSceneBufferTexture(g_ResourceManager.GetTexture(m_hSceneBufferTexture));
