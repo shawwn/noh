@@ -416,7 +416,6 @@ STerrainArray*  CGfxTerrain::AllocTerrainArray()
 STerrainCliffArray* CGfxTerrain::AllocTerrainCliffArray()
 {
     STerrainCliffArray *pNewArray(K2_NEW(ctx_GL2,    STerrainCliffArray));
-    MemManager.Set(pNewArray, 0, sizeof(STerrainCliffArray));
 
     return pNewArray;
 }

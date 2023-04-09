@@ -49,15 +49,15 @@ struct STerrainArray
 
 struct STerrainCliffArray
 {
-    ResHandle       hMaterial;
-    ResHandle       hDiffuse;
-    ResHandle       hNormalmap;
+    ResHandle       hMaterial = INVALID_RESOURCE;
+    ResHandle       hDiffuse = INVALID_RESOURCE;
+    ResHandle       hNormalmap = INVALID_RESOURCE;
 
-    uint    uiNumVerts;
-    uint    uiNumFaces;
+    uint    uiNumVerts = 0;
+    uint    uiNumFaces = 0;
     
-    uint    uiStartVert;
-    uint    uiStartIndex;
+    uint    uiStartVert = 0;
+    uint    uiStartIndex = 0;
 
     vector<pair<CWorldEntity *, uint> > vCliffs;
 };
