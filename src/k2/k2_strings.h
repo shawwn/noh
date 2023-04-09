@@ -34,6 +34,7 @@ using K2::tfstream;
 #define _TS(s) tstring(_T(s))
 #define _TSL(s) tstring(_T(s), sizeof(_T(s)) / sizeof(TCHAR) - 1)
 
+#if TKTK // disable for now
 //=============================================================================
 // const_string
 //=============================================================================
@@ -74,11 +75,18 @@ public:
 // I'll look at this later -- gnu's basic string is a complex beast (there isn't just a pointer I can assign)
 #endif
 //=============================================================================
+#endif // TKTK: disable for now
 
 #ifdef _MSC_VER
+#if TKTK // disable for now
 typedef const_string<TCHAR, std::char_traits<TCHAR>, K2_STRINGS_allocator<TCHAR> > ctstring;
 typedef const_string<char, std::char_traits<char>, K2_STRINGS_allocator<char> > cstring;
 typedef const_string<wchar_t, std::char_traits<wchar_t>, K2_STRINGS_allocator<wchar_t> > cwstring;
+#else
+typedef const std::basic_string<TCHAR, std::char_traits<TCHAR>, K2_STRINGS_allocator<TCHAR> > ctstring;
+typedef const std::basic_string<char, std::char_traits<char>, K2_STRINGS_allocator<char> > cstring;
+typedef const std::basic_string<wchar_t, std::char_traits<wchar_t>, K2_STRINGS_allocator<wchar_t> > cwstring;
+#endif
 #elif defined(__GNUC__)
 typedef const std::basic_string<TCHAR, std::char_traits<TCHAR>, K2_STRINGS_allocator<TCHAR> > ctstring;
 typedef const std::basic_string<char, std::char_traits<char>, K2_STRINGS_allocator<char> > cstring;

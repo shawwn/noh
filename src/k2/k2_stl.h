@@ -419,12 +419,13 @@ public:
 
 #endif // #ifndef K2_USE_STL_ALLOCATOR
 
-#ifdef __GNUC__
-#if (__GNUC__ > 4) || (__GNUC__ == 4 && __GNUC_MINOR__ > 2) || __clang__ // gcc >= 4.3
+#if defined(__GNUC__) || defined(WIN32)
 using std::unordered_map;
 #define hash_map unordered_map
 using std::unordered_set;
 #define hash_set unordered_set
+#if TKTK // disable for now
+#if (__GNUC__ > 4) || (__GNUC__ == 4 && __GNUC_MINOR__ > 2) || __clang__ // gcc >= 4.3
 #ifdef K2_USE_STL_ALLOCATOR
 namespace std
 {
@@ -498,6 +499,7 @@ namespace __gnu_cxx
 
 }
 #endif
+#endif // TKTK: disable for now
 #else
 
 namespace K2
