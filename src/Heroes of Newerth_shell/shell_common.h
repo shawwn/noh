@@ -40,7 +40,8 @@
 #if defined(K2_GARENA)
 #define MASTER_SERVER_ADDRESS               "masterserver.garena.s2games.com"
 #else
-#define MASTER_SERVER_ADDRESS               "masterserver.hon.s2games.com"
+//#define MASTER_SERVER_ADDRESS               "masterserver.hon.s2games.com"
+#define MASTER_SERVER_ADDRESS               "api.kongor.online"
 #endif
 #else
 #if defined(K2_GARENA)
