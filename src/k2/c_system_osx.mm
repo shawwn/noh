@@ -921,7 +921,8 @@ void    CSystem::HandleOSMessages()
                 }
                 else
                 {
-                    mousePosition = [[win contentView] convertPoint:[event locationInWindow] fromView:nil];
+//                    mousePosition = [[win contentView] convertPointToBacking:[event locationInWindow]]; // TKTK TODO: Was this for non-retina screens? [event locationInWindow] seems to work...
+                    mousePosition = [event locationInWindow];
                     mousePosition.y = [[win contentView] frame].size.height - mousePosition.y;
                 }
 
