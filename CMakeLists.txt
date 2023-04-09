@@ -4,11 +4,10 @@ project(noh)
 set(CMAKE_CXX_STANDARD 14)
 
 enable_language(CXX)
-enable_language(OBJC)
-enable_language(OBJCXX)
 
 # from https://gitlab.kitware.com/cmake/cmake/-/issues/22184
 if(APPLE)
+    enable_language(OBJCXX)
     set (CMAKE_OSX_DEPLOYMENT_TARGET "13.1" CACHE STRING "Minimum OS X deployment version" FORCE)
     #set (CMAKE_OSX_ARCHITECTURES "x86_64;arm64" CACHE STRING "Architectures" FORCE)
     #set (CMAKE_XCODE_ATTRIBUTE_MACOSX_DEPLOYMENT_TARGET[arch=arm64] "13.1" CACHE STRING "arm 64 minimum deployment target" FORCE)
@@ -102,6 +101,8 @@ if(GIF_FOUND)
 else()
   message( FATAL_ERROR "Can't find giflib" )
 endif()
+
+include(FindOpenGL)
 
 
 # game shared
