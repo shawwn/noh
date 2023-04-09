@@ -268,7 +268,11 @@ bool    CEditor::Init(CHostClient *pHostClient)
         ActionRegistry.BindButton(BINDTABLE_GAME, BUTTON_SHIFT, BIND_MOD_NONE,      _T("ToolModifier1"));
         ActionRegistry.BindButton(BINDTABLE_GAME, BUTTON_CTRL, BIND_MOD_NONE,       _T("ToolModifier2"));
         ActionRegistry.BindButton(BINDTABLE_GAME, BUTTON_ALT, BIND_MOD_NONE,        _T("ToolModifier3"));
+#if TKTK
         ActionRegistry.BindButton(BINDTABLE_GAME, BUTTON_MOUSEM, BIND_MOD_NONE,     _T("MouseLook"));
+#else
+        ActionRegistry.BindButton(BINDTABLE_GAME, BUTTON_TAB, BIND_MOD_NONE,     _T("MouseLook"));
+#endif
 
         ActionRegistry.BindImpulse(BINDTABLE_GAME, BUTTON_MISC4, BIND_MOD_NONE,     _T("PathSetStart"));
         ActionRegistry.BindImpulse(BINDTABLE_GAME, BUTTON_MISC6, BIND_MOD_NONE,     _T("PathSetEnd"));
