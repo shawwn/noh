@@ -132,6 +132,8 @@ int CURLDebugCallback(CURL *pCurlEasy, curl_infotype type, char *pString, size_t
 
 void    CHTTPRequest::SendRequest(const string &sURL, bool bPost, bool bSSL)
 {
+    string sFinalURL(sURL);
+
     PROFILE("CHTTPRequest::SendRequest");
 
     if (bPost && m_vVariables.empty())
@@ -152,8 +154,23 @@ void    CHTTPRequest::SendRequest(const string &sURL, bool bPost, bool bSSL)
         AddVariable(L"neverusethisvar", L"xx");
 #endif
         string sVarString;
-        for (StringPairVector_it it(m_vVariables.begin()); it != m_vVariables.end(); ++it)
-            sVarString += (sVarString.empty() ? "" : "&") + it->first + "=" + it->second;
+        for (StringPairVector_it it(m_vVariables.begin()); it != m_vVariables.end(); ++it) {
+            const auto& sKey(it->first);
+            const auto& sVal(it->second);
+
+            // TKTK 2023: special case for the new HoN servers: make f be a query parameter
+            if (sKey == "f") {
+                sFinalURL += (sFinalURL.find('?') != string::npos) ? "&" : "?";
+                sFinalURL += sKey;
+                sFinalURL += "=";
+                sFinalURL += sVal;
+            } else {
+                sVarString += (sVarString.empty() ? "" : "&");
+                sVarString += sKey;
+                sVarString += "=";
+                sVarString += sVal;
+            }
+        }
 
         curl_easy_setopt(m_pCurlEasy, CURLOPT_POST, 1l);
         curl_easy_setopt(m_pCurlEasy, CURLOPT_COPYPOSTFIELDS, sVarString.c_str());
@@ -164,7 +181,7 @@ void    CHTTPRequest::SendRequest(const string &sURL, bool bPost, bool bSSL)
     curl_easy_setopt(m_pCurlEasy, CURLOPT_IPRESOLVE, CURL_IPRESOLVE_V4);
 
     // Set target URL
-    curl_easy_setopt(m_pCurlEasy, CURLOPT_URL, sURL.c_str());
+    curl_easy_setopt(m_pCurlEasy, CURLOPT_URL, sFinalURL.c_str());
 
     // User Agent
     curl_easy_setopt(m_pCurlEasy, CURLOPT_USERAGENT, m_pHTTPManager->GetUserAgent().c_str());
@@ -196,6 +213,7 @@ void    CHTTPRequest::SendRequest(const string &sURL, bool bPost, bool bSSL)
         string sCertPath(WCSToMBS(FileManager.GetSystemPath(_T(":/ca-bundle.crt"))));
 #else
         string sCertPath(TStringToNative(FileManager.GetSystemPath(_T(":/ca-bundle.crt"))));
+//        curl_easy_setopt(m_pCurlEasy, CURLOPT_CAPATH, _T("/etc/ssl/certs"));
 #endif
         curl_easy_setopt(m_pCurlEasy, CURLOPT_CAINFO, sCertPath.c_str());
     }
