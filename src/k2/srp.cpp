@@ -26,6 +26,7 @@
  * SOFTWARE.
  *
  */
+#include "k2_common.h"
 
 //#define SRP_DEBUG 1
 
