@@ -377,7 +377,7 @@ m_vAxisStates(NUM_AXES)
   ====================*/
 void    CInput::Init()
 {
-    ActionRegistry.BindImpulse(BINDTABLE_CONSOLE, BUTTON_F8, BIND_MOD_CTRL, _T("ToggleConsole"), _T(""), BIND_PRIORITY);
+    ActionRegistry.BindImpulse(BINDTABLE_CONSOLE, BUTTON_F8, BIND_MOD_NONE, _T("ToggleConsole"), _T(""), BIND_PRIORITY);
 #if __APPLE__
     ActionRegistry.BindImpulse(BINDTABLE_CONSOLE, BUTTON_MISC3, BIND_MOD_CTRL, _T("ToggleConsole"), _T(""), BIND_PRIORITY);
 #endif
