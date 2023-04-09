@@ -679,6 +679,13 @@ void    CGfx3D::SetupCamera(const CCamera &cCamera)
     int iCamWidth = INT_ROUND(cCamera.GetWidth());
     int iCamHeight = INT_ROUND(cCamera.GetHeight());
 
+    if (iCamHeight < 0) {
+        iCamHeight = 0;
+    }
+    if (iCamWidth < 0) {
+        iCamWidth = 0;
+    }
+
     glViewport(iCamX, g_iScreenHeight - (iCamY + iCamHeight), iCamWidth, iCamHeight);
 
     if (cCamera.GetFlags() & CAM_DEPTH_COMPRESS)
