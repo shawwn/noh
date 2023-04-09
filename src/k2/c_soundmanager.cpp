@@ -85,8 +85,10 @@ EXTERN_CVAR_BOOL(fs_disablemods);
 
 const unsigned int sound_musicFadeTime(2000);
 
+#if TKTK // This seems removed as of 2023
 #if defined(linux)
 SpeexResamplerState *g_VoiceResampler(NULL); // For OSS since we need to resample :(
+#endif
 #endif
 
 SINGLETON_INIT(CSoundManager)
@@ -681,13 +683,15 @@ void    CSoundManager::Start()
 
         // Set sound output
 #if defined(linux)
+#if TKTK // This seems removed as of 2023
         if (_tcsicmp(sound_output.c_str(), _T("oss")) == 0)
             result = m_pFMODSystem->setOutput(FMOD_OUTPUTTYPE_OSS);
         else if (_tcsicmp(sound_output.c_str(), _T("ossv4")) == 0)
             result = m_pFMODSystem->setOutput(FMOD_OUTPUTTYPE_OSSV4);
         else if (_tcsicmp(sound_output.c_str(), _T("esd")) == 0)
             result = m_pFMODSystem->setOutput(FMOD_OUTPUTTYPE_ESD);
-        else if (_tcsicmp(sound_output.c_str(), _T("pulseaudio")) == 0)
+#endif
+        if (_tcsicmp(sound_output.c_str(), _T("pulseaudio")) == 0)
             result = m_pFMODSystem->setOutput(FMOD_OUTPUTTYPE_PULSEAUDIO);
         else if ((_tcsicmp(sound_output.c_str(), _T("alsa")) == 0))
             result = m_pFMODSystem->setOutput(FMOD_OUTPUTTYPE_ALSA);
@@ -743,17 +747,8 @@ void    CSoundManager::Start()
             Console << _T("Low latency ASIO driver");
             break;
 #if defined(linux)
-        case FMOD_OUTPUTTYPE_OSS:
-            Console << _T("Open Sound System");
-            break;
-        case FMOD_OUTPUTTYPE_OSSV4:
-            Console << _T("Open Sound System Version 4");
-            break;
         case FMOD_OUTPUTTYPE_ALSA:
             Console << _T("Advanced Linux Sound Architecture");
-            break;
-        case FMOD_OUTPUTTYPE_ESD:
-            Console << _T("Enlightenment Sound Daemon");
             break;
         case FMOD_OUTPUTTYPE_PULSEAUDIO:
             Console << _T("PulseAudio");
@@ -1037,7 +1032,8 @@ void    CSoundManager::Start()
             Console.Warn << _T("Sound downsampling disabled.") << newl;
             sound_downsample = false; // disable downsampling
         }
-        
+
+#if TKTK // This seems removed as of 2023
 #if defined(linux)
         if (output == FMOD_OUTPUTTYPE_OSS)
         {
@@ -1047,6 +1043,7 @@ void    CSoundManager::Start()
             g_VoiceResampler = speex_resampler_init(1, iRate, VOICE_SAMPLE_RATE, 3, NULL);
             speex_resampler_set_input_stride(g_VoiceResampler, iChannels);
         }
+#endif
 #endif
 
         m_bInitialized = true;
@@ -1253,13 +1250,15 @@ void    CSoundManager::Stop()
         speex_resampler_destroy(m_pResamplerStereo);
         m_pResamplerStereo = NULL;
     }
-    
+
+#if TKTK // This seems removed as of 2023
 #if defined(linux)
     if (g_VoiceResampler)
     {
         speex_resampler_destroy(g_VoiceResampler);
         g_VoiceResampler = NULL;
     }
+#endif
 #endif
 
     if (m_pFMODSystem != NULL)
@@ -1304,13 +1303,7 @@ void    CSoundManager::RefreshDrivers()
 
     // Set sound output
 #ifdef linux
-    if (_tcsicmp(sound_output.c_str(), _T("oss")) == 0)
-        result = pSystem->setOutput(FMOD_OUTPUTTYPE_OSS);
-    else if (_tcsicmp(sound_output.c_str(), _T("ossv4")) == 0)
-        result = pSystem->setOutput(FMOD_OUTPUTTYPE_OSSV4);
-    else if (_tcsicmp(sound_output.c_str(), _T("esd")) == 0)
-        result = pSystem->setOutput(FMOD_OUTPUTTYPE_ESD);
-    else if (_tcsicmp(sound_output.c_str(), _T("pulseaudio")) == 0)
+    if (_tcsicmp(sound_output.c_str(), _T("pulseaudio")) == 0)
         result = pSystem->setOutput(FMOD_OUTPUTTYPE_PULSEAUDIO);
     else if ((_tcsicmp(sound_output.c_str(), _T("alsa")) == 0))
         result = pSystem->setOutput(FMOD_OUTPUTTYPE_ALSA);
@@ -1443,7 +1436,8 @@ CSample *CSoundManager::StartRecording(int iFrequency, uint uiBufferSize)
 
     if (bRecording)
         return m_pRecordTarget;
-    
+
+#if TKTK // This seems removed as of 2023
 #ifdef linux
     FMOD_OUTPUTTYPE output;
     if (m_pFMODSystem->getOutput(&output),output == FMOD_OUTPUTTYPE_OSS)
@@ -1455,6 +1449,7 @@ CSample *CSoundManager::StartRecording(int iFrequency, uint uiBufferSize)
         pNewSound = K2SoundManager.CreateSound(iRate, iChannels, SOUND_SAMPLE_RATE, uiBufferSize, SND_LOOP | SND_2D);
     }
     else
+#endif
 #endif
     pNewSound = K2SoundManager.CreateSound(iFrequency, 1, SOUND_SAMPLE_RATE, uiBufferSize, SND_LOOP | SND_2D);
     pNewSample = K2_NEW(ctx_Sound,  CSample)(pNewSound);
@@ -1540,6 +1535,7 @@ uint    CSoundManager::GetRecordingPos()
         return 0;
     }
 
+#if TKTK // This seems removed as of 2023
 #ifdef linux
     FMOD_OUTPUTTYPE output;
     if (m_pFMODSystem->getOutput(&output),output == FMOD_OUTPUTTYPE_OSS)
@@ -1549,6 +1545,7 @@ uint    CSoundManager::GetRecordingPos()
         m_pFMODSystem->getSoftwareFormat(&iRate, NULL, NULL, NULL, NULL, NULL);
         uPos = static_cast<uint>(static_cast<unsigned long long>(uPos) * VOICE_SAMPLE_RATE / iRate);
     }
+#endif
 #endif
     uPos *= 2;
 
@@ -1567,6 +1564,7 @@ uint    CSoundManager::GetSampleLength(CSample *pSample)
 
     result = pSample->GetSampleData()->getLength(&uLength, FMOD_TIMEUNIT_PCMBYTES);
 
+#if TKTK // This seems removed as of 2023
 #ifdef linux
     FMOD_OUTPUTTYPE output;
     if (pSample == m_pRecordTarget && (m_pFMODSystem->getOutput(&output),output == FMOD_OUTPUTTYPE_OSS))
@@ -1576,6 +1574,7 @@ uint    CSoundManager::GetSampleLength(CSample *pSample)
         m_pFMODSystem->getSoftwareFormat(&iRate, NULL, &iChannels, NULL, NULL, NULL);
         uLength = static_cast<uint>(static_cast<unsigned long long>(uLength) * VOICE_SAMPLE_RATE / (iRate * iChannels));
     }
+#endif
 #endif
     
     if (result != FMOD_OK)
@@ -1647,6 +1646,7 @@ bool    CSoundManager::GetSampleData(CSample *pSample, byte *pTarget, uint uLeng
     unsigned int len1, len2;
     void *ptr1, *ptr2;
 
+#if TKTK // This seems removed as of 2023
 #ifdef linux
     FMOD_OUTPUTTYPE output;
     int iRate, iChannels;
@@ -1660,6 +1660,7 @@ bool    CSoundManager::GetSampleData(CSample *pSample, byte *pTarget, uint uLeng
         uLength = static_cast<uint>(static_cast<unsigned long long>(uLength) * iRate * iChannels / VOICE_SAMPLE_RATE);
     }
 #endif
+#endif
     
     result = pSample->GetSampleData()->lock(uOffset, uLength, &ptr1, &ptr2, &len1, &len2);
 
@@ -1670,6 +1671,7 @@ bool    CSoundManager::GetSampleData(CSample *pSample, byte *pTarget, uint uLeng
         return false;
     }
 
+#if TKTK // This seems removed as of 2023
 #ifdef linux
     if (pSample == m_pRecordTarget && output == FMOD_OUTPUTTYPE_OSS)
     {
@@ -1684,6 +1686,7 @@ bool    CSoundManager::GetSampleData(CSample *pSample, byte *pTarget, uint uLeng
         }
     }
     else
+#endif
 #endif
     {
         MemManager.Copy(pTarget, ptr1, len1);
@@ -3866,12 +3869,14 @@ UI_VOID_CMD(AddSoundOutputs, 1)
 #ifdef linux
     mapParams[_T("label")] = _T("ALSA");
     pList->CreateNewListItemFromTemplate(vArgList[0]->Evaluate(), _T("alsa"), mapParams);
+#if TKTK // This seems removed as of 2023
     mapParams[_T("label")] = _T("ESound");
     pList->CreateNewListItemFromTemplate(vArgList[0]->Evaluate(), _T("esd"), mapParams);
     mapParams[_T("label")] = _T("OSS");
     pList->CreateNewListItemFromTemplate(vArgList[0]->Evaluate(), _T("oss"), mapParams);
     mapParams[_T("label")] = _T("OSSv4");
     pList->CreateNewListItemFromTemplate(vArgList[0]->Evaluate(), _T("ossv4"), mapParams);
+#endif
     mapParams[_T("label")] = _T("PulseAudio");
     pList->CreateNewListItemFromTemplate(vArgList[0]->Evaluate(), _T("pulseaudio"), mapParams);
     
