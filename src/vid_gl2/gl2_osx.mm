@@ -60,19 +60,6 @@ struct
     { 0,                            { 0, 0,  0}, false }
 };
 
-@interface NSScreen (NSScreenAccess)
--(void) setFrame:(NSRect)frame;
-@end
-
-@implementation NSScreen (NSScreenAccess)
-
--(void)setFrame:(NSRect)frame
-{
-    _frame = frame;
-}
-
-@end
-
 // Custom view to set up a cursor rect for our custom cursors
 @interface OpenGLView : NSOpenGLView
 
@@ -105,7 +92,7 @@ struct
 - (BOOL)canBecomeKeyWindow;
 - (BOOL)canBecomeMainWindow;
 
-- (BOOL)miniaturize:(id)sender;
+- (void)miniaturize:(id)sender;
 - (void)windowDidDeminiaturize:(NSNotification *)notification;
 
 - (void)willHide:(NSNotification *)notification;
@@ -151,7 +138,7 @@ struct
     return YES;
 }
 
-- (BOOL)miniaturize:(id)sender
+- (void)miniaturize:(id)sender
 {
     if (m_bExclusive)
     {
@@ -836,7 +823,7 @@ int     GL_SetMode()
         [g_pActiveWindow setContentSize:NSMakeSize(g_CurrentVidMode.iWidth, g_CurrentVidMode.iHeight)];
         [g_pActiveWindow setContentView:[[OpenGLView alloc] initWithFrame:[[g_pActiveWindow contentView] frame] pixelFormat:nil]];
         
-        // TKTK: See https://github.com/turican0/dosbox-x-remc2/blob/3fd2ff189d98a43218b330bad6b16c11c479dc27/vs2015/sdl/src/video/quartz/SDL_QuartzVideo.m#L1172
+        // TKTK: Support retina displays. See https://github.com/turican0/dosbox-x-remc2/blob/3fd2ff189d98a43218b330bad6b16c11c479dc27/vs2015/sdl/src/video/quartz/SDL_QuartzVideo.m#L1172
         NSRect contentRectOrig = NSMakeRect (0, 0, g_CurrentVidMode.iWidth, g_CurrentVidMode.iHeight);
         contentRectOrig = [[g_pActiveWindow contentView] convertRectFromBacking:contentRectOrig];
         [[g_pActiveWindow contentView] setBoundsSize: contentRectOrig.size];
@@ -1047,10 +1034,12 @@ void    GL_EndFrame()
  ====================*/
 void    GL_Break()
 {
-#ifdef __ppc__
-    asm ("trap");
-#else
-    asm ("int $0x03");
+#ifdef WIN32
+    asm("int $0x03");
+#elif defined(__GNUC__) && !defined(__APPLE__)
+    __asm int 0x03;
+#else // __APPLE__
+    // TODO
 #endif
 }
 
