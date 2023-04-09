@@ -32,7 +32,7 @@
 #define HOTFIX_VERSION  0
 #include "buildnumber.h"
 
-#define _MAKE_VERSION_STRING(a, b, c, d)    _T(#a)_T(".")_T(#b)_T(".")_T(#c)_T(".")_T(#d)
+#define _MAKE_VERSION_STRING(a, b, c, d)    _T(#a) _T(".") _T(#b) _T(".") _T(#c) _T(".") _T(#d)
 #define MAKE_VERSION_STRING(a, b, c, d)     _MAKE_VERSION_STRING(a, b, c, d)
 #define VERSION_STRING                      MAKE_VERSION_STRING(MAJOR_VERSION, MINOR_VERSION, MICRO_VERSION, HOTFIX_VERSION)
 
