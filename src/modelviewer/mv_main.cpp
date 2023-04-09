@@ -2084,10 +2084,11 @@ void    CL_FileDropNotify(const tsvector &vsFiles)
   InitLibrary
   ====================*/
 #ifdef __GNUC__
-extern "C" void __attribute__ ((visibility("default"))) InitLibrary(CClientGameLib &GameLib)
-#else
-void    InitLibrary(CClientGameLib &GameLib)
+extern "C" void __attribute__ ((visibility("default")))
+#elif defined(WIN32)
+extern "C" __declspec(dllexport)
 #endif
+void    InitLibrary(CClientGameLib &GameLib)
 {
     GameLib.SetName(_T("K2 Model Viewer"));
     GameLib.SetTypeName(_T("modelviewer"));

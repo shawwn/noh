@@ -616,10 +616,11 @@ void    SV_UpdateUpgrades(int iClientNum)
   InitLibrary
   ====================*/
 #ifdef __GNUC__
-extern "C" void __attribute__ ((visibility("default"))) InitLibrary(CServerGameLib &GameLib)
-#else
-void    InitLibrary(CServerGameLib &GameLib)
+extern "C" void __attribute__ ((visibility("default")))
+#elif defined(WIN32)
+extern "C" __declspec(dllexport)
 #endif
+void    InitLibrary(CServerGameLib &GameLib)
 {
     GameLib.SetName(_T("Heroes of Newerth - Game Server"));
     GameLib.SetTypeName(_T("honserver"));

@@ -303,10 +303,11 @@ tstring CL_GetGameOptionsString(uint uiOptions)
   InitLibrary
   ====================*/
 #ifdef __GNUC__
-extern "C" void __attribute__ ((visibility("default"))) InitLibrary(CClientGameLib &GameLib)
-#else
-void    InitLibrary(CClientGameLib &GameLib)
+extern "C" void __attribute__ ((visibility("default")))
+#elif defined(WIN32)
+extern "C" __declspec(dllexport)
 #endif
+void    InitLibrary(CClientGameLib &GameLib)
 {
     GameLib.SetName(_T("Heroes of Newerth - Game Client"));
     GameLib.SetMajorVersion(1);

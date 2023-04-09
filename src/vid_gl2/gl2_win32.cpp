@@ -35,6 +35,7 @@ CVAR_BOOL   (win_changeDisplayMode,     false);
   the engine. It's a wrapper to do the windows-specific stuff
   and call the shared API initialization function, basically.
   ====================*/
+extern "C" __declspec(dllexport)
 void    InitAPIs(SVidDriver *vid_api, WNDPROC _MainWndProc, HINSTANCE hInstance)
 {
     g_hInstance = hInstance;

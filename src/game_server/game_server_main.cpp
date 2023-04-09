@@ -160,10 +160,11 @@ void    SV_UnloadWorld()
   InitLibrary
   ====================*/
 #ifdef __GNUC__
-extern "C" void __attribute__ ((visibility("default"))) InitLibrary(SServerGameLib &GameLib)
-#else
-void    InitLibrary(SServerGameLib &GameLib)
+extern "C" void __attribute__ ((visibility("default")))
+#elif defined(WIN32)
+extern "C" __declspec(dllexport)
 #endif
+void    InitLibrary(SServerGameLib &GameLib)
 {
     GameLib.sName = _T("Savage 2 - Base Game Server");
     GameLib.iMajorVersion = 1;
