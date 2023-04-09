@@ -41,7 +41,7 @@
     // hide/show (standard entries)
     [pMenu addItemWithTitle:@"Heroes of Newerth Updater" action:@selector(hide:) keyEquivalent:@"h"];
     NSMenuItem *pMenuItem = (NSMenuItem*)[pMenu addItemWithTitle:@"Hide Others" action:@selector(hideOtherApplications:) keyEquivalent:@"h"];
-    [pMenuItem setKeyEquivalentModifierMask:(NSAlternateKeyMask|NSCommandKeyMask)];
+    [pMenuItem setKeyEquivalentModifierMask:(NSEventModifierFlagOption|NSEventModifierFlagCommand)];
     [pMenu addItemWithTitle:@"Show All" action:@selector(unhideAllApplications:) keyEquivalent:@""];
     // quit
     [pMenu addItem:[NSMenuItem separatorItem]];
