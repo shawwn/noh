@@ -224,21 +224,21 @@ K2_API uint         ConvertLineEndings(char *pOutBuf, const char *pInBuf, uint u
 /*====================
   QuoteStr
 ====================*/
-tstring    QuoteStr(const tstring& x);
-tstring    QuoteStr(const TCHAR *x);
-tstring    QuoteStr(TCHAR *x);
+K2_API tstring    QuoteStr(const tstring& x);
+K2_API tstring    QuoteStr(const TCHAR *x);
+K2_API tstring    QuoteStr(TCHAR *x);
 
 
 /*====================
   ParenStr
 ====================*/
-tstring    ParenStr(const tstring& x);
+K2_API tstring    ParenStr(const tstring& x);
 
 
 /*====================
   SingleQuoteStr
 ====================*/
-tstring    SingleQuoteStr(const tstring& x);
+K2_API tstring    SingleQuoteStr(const tstring& x);
 
 
 #endif // __STRINGUTILS_H__

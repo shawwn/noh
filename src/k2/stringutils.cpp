@@ -3425,17 +3425,17 @@ tsvector ExplodeString(tstring sList, tstring sSeperator)
 /*====================
   QuoteStr
 ====================*/
-tstring    QuoteStr(const tstring& x)
+K2_API tstring    QuoteStr(const tstring& x)
 {
-    return _T("\"") + XtoA(x) + _T("\"");
+    return _T("\"") + x + _T("\"");
 }
 
-tstring    QuoteStr(const TCHAR *x)
+K2_API tstring    QuoteStr(const TCHAR *x)
 {
     return _T("\"") + tstring(x) + _T("\"");
 }
 
-tstring    QuoteStr(TCHAR *x)
+K2_API tstring    QuoteStr(TCHAR *x)
 {
     return _T("\"") + tstring(x) + _T("\"");
 }
@@ -3443,16 +3443,16 @@ tstring    QuoteStr(TCHAR *x)
 /*====================
   ParenStr
 ====================*/
-tstring    ParenStr(const tstring& x)
+K2_API tstring    ParenStr(const tstring& x)
 {
-    return _T("(") + XtoA(x) + _T(")");
+    return _T("(") + x + _T(")");
 }
 
 
 /*====================
   SingleQuoteStr
 ====================*/
-tstring    SingleQuoteStr(const tstring& x)
+K2_API tstring    SingleQuoteStr(const tstring& x)
 {
     return _T("'") + XtoA(x) + _T("'");
 }
