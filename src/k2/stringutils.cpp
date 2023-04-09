@@ -16,6 +16,8 @@
 #include "c_function.h"
 #include "c_fontmap.h"
 #include "c_uicmd.h"
+
+#include <codecvt>
 //=============================================================================
 
 //=============================================================================
@@ -1689,6 +1691,10 @@ string  UTF8ToString(const string &sIn)
   ====================*/
 wstring UTF8ToWString(const string &sIn)
 {
+#if 1
+    std::wstring_convert< std::codecvt_utf8_utf16<wchar_t> > myconv;
+    return myconv.from_bytes(sIn);
+#else // TKTK
     wstring sReturn;
     size_t zSize(sIn.length());
 
@@ -1740,10 +1746,17 @@ wstring UTF8ToWString(const string &sIn)
     }
 
     return sReturn;
+#endif
 }
+
 
 string  WStringToUTF8(const wstring &in)
 {
+#if 1
+    std::wstring_convert< std::codecvt_utf8_utf16<wchar_t> > myconv;
+    return myconv.to_bytes(in);
+#else // TKTK
+
         //MikeG Check for null
     if (in.empty())
         return "";
@@ -1838,6 +1851,7 @@ string  WStringToUTF8(const wstring &in)
     K2_DELETE_ARRAY(decoded);
 #endif
     return out;
+#endif
 }
 
 
