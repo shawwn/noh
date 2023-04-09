@@ -1,6 +1,9 @@
 cmake_minimum_required(VERSION 3.24)
 project(noh)
 
+set(APP_NAME NoH)
+set(EDITOR_NAME NoH_Editor)
+
 set(CMAKE_CXX_STANDARD 14)
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 
@@ -1551,7 +1554,6 @@ elseif(APPLE)
 
 
   # NoH.app
-  set(APP_NAME NoH)
   set(MACOSX_BUNDLE_ICON_FILE honicon.icns)
   set(noh_ICON "${CONTENT_DIR}/Contents/Resources/honicon.icns" src/k2/srp.cpp src/k2/srp.h)
   set_source_files_properties(${noh_ICON} PROPERTIES MACOSX_PACKAGE_LOCATION "Resources")
@@ -1569,7 +1571,6 @@ elseif(APPLE)
   execute_process(COMMAND ${CMAKE_COMMAND} -E create_symlink "${HON_SERVER_LIBRARY_DLL}" "${CMAKE_BINARY_DIR}/${APP_NAME}.app/game${POSTFIX}.dylib")
 
   # NoH_Editor.app
-  set(EDITOR_NAME "NoH_Editor")
   set(MACOSX_BUNDLE_ICON_FILE honicon.icns)
   set(noh_ICON "${CONTENT_DIR}/Contents/Resources/honicon.icns")
   set_source_files_properties(${noh_ICON} PROPERTIES MACOSX_PACKAGE_LOCATION "Resources")
@@ -1588,6 +1589,12 @@ elseif(APPLE)
 
 elseif(UNIX)
   message("https://cmake.org/cmake/help/latest/variable/UNIX.html?highlight=unix")
+  add_executable (${APP_NAME}
+          src/shell/main_linux.cpp
+          src/shell/shell_common.cpp
+          src/shell/misc_cmds.cpp
+          )
+  target_link_libraries(${APP_NAME} ${K2_LIBRARY} ${HON_SHARED_LIBRARY}) #${VID_GL2_LIBRARY})
 endif()
 
 
