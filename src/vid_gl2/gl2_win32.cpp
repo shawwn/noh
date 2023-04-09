@@ -459,6 +459,8 @@ void    GL_ShowCursor(bool bShow)
   ====================*/
 void    GL_SetCursor(ResHandle hCursor)
 {
+    if (hCursor == g_hCursor)
+        return;
     g_hCursor = hCursor;
 
     if (g_hCursor == INVALID_RESOURCE)
@@ -514,14 +516,17 @@ void    GL_SetCursor(ResHandle hCursor)
 
     CVec2i v2Hotspot(pCursor->GetHotspot());
 
+    if (g_hCursorIcon != NULL) {
+        DeleteObject(g_IconInfo.hbmMask);
+        DeleteObject(g_IconInfo.hbmColor);
+        DestroyIcon(g_hCursorIcon);
+    }
+
     g_IconInfo.fIcon = false;
     g_IconInfo.xHotspot = v2Hotspot.x;
     g_IconInfo.yHotspot = v2Hotspot.y;
     g_IconInfo.hbmMask = CreateBitmap(WIDTH, HEIGHT, 1, 1, NULL);
     g_IconInfo.hbmColor = CreateBitmap(WIDTH, HEIGHT, 1, BYTEPP * 8, yBuffer);
-
-    if (g_hCursorIcon != NULL)
-        DestroyIcon(g_hCursorIcon);
 
     g_hCursorIcon = CreateIconIndirect(&g_IconInfo);
 
