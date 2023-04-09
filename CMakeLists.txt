@@ -62,12 +62,21 @@ include_directories(lib/SpeedTree/include)
 if(APPLE)
   include_directories(/opt/homebrew/opt/speex/include)
   include_directories(/opt/homebrew/opt/speexdsp/include)
+  include_directories(/opt/homebrew/opt/giflib/include)
   link_directories(/opt/homebrew/opt/speex/lib)
   link_directories(/opt/homebrew/opt/speexdsp/lib)
+  link_directories(/opt/homebrew/opt/giflib/lib)
   IF(CMAKE_BUILD_TYPE MATCHES DEBUG)
     link_directories(lib/SpeedTree/lib/Xcode/Debug)
   else()
     link_directories(lib/SpeedTree/lib/Xcode/Release)
+  endif()
+else()
+  include(FindGIF)
+  if(GIF_FOUND)
+    include_directories(${GIF_INCLUDE_DIR})
+  else()
+    message( FATAL_ERROR "Can't find giflib" )
   endif()
 endif()
 
@@ -98,13 +107,6 @@ include_directories(lib/libpng/include)
 #  include(FindPNG)
 #endif()
 include(FindPNG)
-
-include(FindGIF)
-if(GIF_FOUND)
-  include_directories(${GIF_INCLUDE_DIR})
-else()
-  message( FATAL_ERROR "Can't find giflib" )
-endif()
 
 include(FindOpenGL)
 if(OPENGL_FOUND)
@@ -165,7 +167,8 @@ set(K2_LIBRARIES
     -lSpeedTreeRT
     ${OPENSSL_LIBRARIES}
     ${JPEG_LIBRARIES}
-    ${GIF_LIBRARIES})
+    -lgif
+    )
 if(APPLE)
   set(K2_LIBRARIES ${K2_LIBRARIES}
           "-framework Foundation"
