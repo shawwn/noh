@@ -110,6 +110,7 @@ endif()
 include(FindCURL)
 include(FindZLIB)
 include(FindJPEG)
+include_directories(${JPEG_INCLUDE_DIR})
 
 if(APPLE)
   set(OPENSSL_ROOT_DIR "/opt/homebrew/opt/openssl")
