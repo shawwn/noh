@@ -25,7 +25,6 @@
 #define K2_EXTERN extern
 #endif
 #else
-#define K2_DLL_EXPORT
 #ifdef K2_EXPORTS
 #define K2_API  __declspec(dllexport)
 #define K2_EXTERN
@@ -37,6 +36,7 @@
 
 #elif K2_LIB
 
+#define K2_DLL_EXPORT
 #define K2_API
 #define K2_EXTERN
 
