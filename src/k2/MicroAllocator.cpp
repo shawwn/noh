@@ -42,6 +42,7 @@
 #include <stdio.h>
 
 #ifdef WIN32
+#include "k2_include_windows.h"
 #include <windows.h>
 #endif
 

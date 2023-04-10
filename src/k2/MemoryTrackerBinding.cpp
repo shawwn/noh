@@ -7,6 +7,7 @@
 extern unsigned char g_MemoryTrackerDLL[MEMTRACK_DLL_SIZE];
 
 #ifdef WIN32
+#include "k2_include_windows.h"
 #include <windows.h>
 #undef LoadLibrary
 #endif

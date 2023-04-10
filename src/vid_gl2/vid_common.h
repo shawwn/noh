@@ -48,6 +48,7 @@
 #endif
 
 #ifdef _WIN32
+#include "../k2/k2_include_windows.h"
 #include <resource.h>
 #include <windows.h>
 #else
