@@ -13,6 +13,7 @@
 //#include "c_phpdata.h"
 //#include "c_console.h"
 
+#include "k2_include_windows.h"
 #include "curl/curl.h"
 //=============================================================================
 

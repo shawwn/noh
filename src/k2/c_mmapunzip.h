@@ -9,6 +9,7 @@
 // Headers
 //=============================================================================
 #ifdef _WIN32
+#include "k2_include_windows.h"
 #include <windows.h>
 #else
 #include <sys/mman.h>

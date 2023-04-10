@@ -952,6 +952,7 @@ namespace MICRO_ALLOCATOR
 #define TEST_INLINE 1
 
 #ifdef WIN32
+#include "k2_include_windows.h"
 #include <windows.h>
 #include <mmsystem.h>
 #pragma comment(lib,"winmm.lib")

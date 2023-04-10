@@ -8,6 +8,7 @@
 #include "k2_common.h"
 
 #include "c_filehttp.h"
+#include "k2_include_windows.h"
 #include "curl/curl.h"
 //=============================================================================
 

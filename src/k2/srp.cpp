@@ -31,6 +31,7 @@
 //#define SRP_DEBUG 1
 
 #ifdef WIN32
+    #include "k2_include_windows.h"
     #include <Wincrypt.h>
 #else
     #include <sys/time.h>
