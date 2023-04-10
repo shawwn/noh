@@ -1154,8 +1154,8 @@ elseif(UNIX)
 endif()
 
 app_module(${VID_GL2_LIBRARY} "${VID_GL2_SOURCES}")
-set_target_properties( ${VID_GL2_LIBRARY} PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CONTENT_DIR}/ )
-set_target_properties( ${VID_GL2_LIBRARY} PROPERTIES LIBRARY_OUTPUT_DIRECTORY ${CONTENT_DIR}/ )
+set_target_properties( ${VID_GL2_LIBRARY} PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${CONTENT_DIR}/" )
+set_target_properties( ${VID_GL2_LIBRARY} PROPERTIES LIBRARY_OUTPUT_DIRECTORY "${CONTENT_DIR}/" )
 target_compile_definitions(${VID_GL2_LIBRARY} PUBLIC GLEW_STATIC GL_SILENCE_DEPRECATION)
 target_precompile_headers(${VID_GL2_LIBRARY} PUBLIC src/vid_gl2/vid_common.h)
 target_link_libraries(${VID_GL2_LIBRARY}
@@ -1690,11 +1690,7 @@ elseif(WIN32)
           )
   target_link_libraries(${APP_NAME} ${K2_LIBRARY_LIB} ${HON_SHARED_LIBRARY_LIB} #${VID_GL2_LIBRARY}
           )
-#  IF(CMAKE_BUILD_TYPE MATCHES Debug)
-#    execute_process(COMMAND ${CMAKE_COMMAND} -E create_symlink "${CMAKE_BINARY_DIR}/vid_gl2_debug.dll" "${CONTENT_DIR}/game/vid_gl2_debug.dll")
-#  else()
-#    execute_process(COMMAND ${CMAKE_COMMAND} -E create_symlink "${CMAKE_BINARY_DIR}/vid_gl2.dll" "${CONTENT_DIR}/game/vid_gl2.dll")
-#  endif()
+  execute_process(COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_SOURCE_DIR}/lib/fmodex/api/core/lib/x86/fmod.dll" "${CMAKE_BINARY_DIR}/fmod.dll")
 endif()
 
 
