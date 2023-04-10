@@ -32,7 +32,7 @@
 #include "../vid_common.h"
 
 #if defined(_WIN32)
-#  include "k2_include_windows.h"
+#  include "../../k2/k2_include_windows.h"
 #  include "wglew.h"
 #elif !defined(__APPLE__) || defined(GLEW_APPLE_GLX)
 #  include "glxew.h"
