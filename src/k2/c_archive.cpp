@@ -21,6 +21,13 @@ bool        CArchive::ExamineChecksums = true;
 /*====================
   CArchive::CArchive
   ====================*/
+CArchive::CArchive()
+{
+}
+
+/*====================
+  CArchive::CArchive
+  ====================*/
 CArchive::CArchive(const tstring &sPath, int iMode)
 {
     Open(sPath, iMode);

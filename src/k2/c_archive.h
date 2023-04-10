@@ -56,7 +56,7 @@ public:
     static bool     ExamineChecksums;
 
 public:
-    CArchive() = default;
+    CArchive(); // TKTK NOTE: Don't use = default constructors! It causes symbol not found errors in dylib imports.
     CArchive(const tstring &sPath, int iMode = ARCHIVE_READ);
     ~CArchive();
 
