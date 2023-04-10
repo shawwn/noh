@@ -477,12 +477,7 @@ tstring SV_GetGameInfoString(const tstring &sType)
 /*====================
   InitLibrary
   ====================*/
-#ifdef __GNUC__
-extern "C" void __attribute__ ((visibility("default")))
-#elif defined(WIN32)
-extern "C" __declspec(dllexport)
-#endif
-void InitLibrary(CServerGameLib &GameLib)
+K2_DLL_EXPORT void InitLibrary(CServerGameLib &GameLib)
 {
     GameLib.SetName(_T("Heroes of Newerth - Game Server"));
     GameLib.SetVersion(1, 0);

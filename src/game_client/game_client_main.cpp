@@ -158,12 +158,7 @@ void    CL_Connect(const tstring &sAddr)
 /*====================
   InitLibrary
   ====================*/
-#ifdef __GNUC__
-extern "C" void __attribute__ ((visibility("default")))
-#elif defined(WIN32)
-extern "C" __declspec(dllexport)
-#endif
-void    InitLibrary(CClientGameLib &GameLib)
+K2_DLL_EXPORT void InitLibrary(CClientGameLib &GameLib)
 {
     GameLib.SetName(_T("Savage 2 - Base Game Client"));
     GameLib.SetMajorVersion(1);

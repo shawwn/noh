@@ -11,6 +11,12 @@
 //=============================================================================
 #ifdef K2_DLL
 
+#if defined(WIN32)
+#define K2_DLL_EXPORT extern "C" __declspec(dllexport)
+#else
+#define K2_DLL_EXPORT extern "C" __attribute__ ((visibility("default")))
+#endif
+
 #ifdef __GNUC__
 #define K2_API __attribute__ ((visibility("default")))
 #ifdef K2_EXPORTS
@@ -19,6 +25,7 @@
 #define K2_EXTERN extern
 #endif
 #else
+#define K2_DLL_EXPORT
 #ifdef K2_EXPORTS
 #define K2_API  __declspec(dllexport)
 #define K2_EXTERN

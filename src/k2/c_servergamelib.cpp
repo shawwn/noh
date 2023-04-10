@@ -24,7 +24,7 @@ CServerGameLib::~CServerGameLib()
 }
 
 #ifdef GAME_SHARED_LIB
-void    InitLibrary(CServerGameLib &GameLib);
+extern "C" void    InitLibrary(CServerGameLib &GameLib);
 #endif
 
 /*====================

@@ -29,7 +29,7 @@
 ** THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#include "vid_common.h"
+#include "../vid_common.h"
 
 #if defined(_WIN32)
 #  include "wglew.h"
