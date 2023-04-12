@@ -2,8 +2,8 @@
 <project version="4">
   <component name="CMakeSharedSettings">
     <configurations>
-      <configuration PROFILE_NAME="Debug" ENABLED="true" CONFIG_NAME="Debug" />
       <configuration PROFILE_NAME="Release" ENABLED="true" CONFIG_NAME="RelWithDebInfo" />
+      <configuration PROFILE_NAME="Debug" ENABLED="true" CONFIG_NAME="Debug" />
     </configurations>
   </component>
 </project>
