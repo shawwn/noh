@@ -133,9 +133,8 @@ int CURLDebugCallback(CURL *pCurlEasy, curl_infotype type, char *pString, size_t
 
 void    CHTTPRequest::SendRequest(const string &sURL, bool bPost, bool bSSL)
 {
-    string sFinalURL(sURL);
-
     PROFILE("CHTTPRequest::SendRequest");
+    string sFinalURL(sURL);
 
     if (bPost && m_vVariables.empty())
     {
