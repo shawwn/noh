@@ -33,12 +33,14 @@ macro(app_configure_lib library)
   set_target_properties( ${library} PROPERTIES IMPORT_SUFFIX "${LIB_EXT}" )
   if(NOT APPLE)
     set_target_properties( ${library} PROPERTIES LIBRARY_OUTPUT_DIRECTORY "${CONTENT_DIR}/" )
+    set_target_properties( ${library} PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${CONTENT_DIR}/" )
   endif()
 endmacro()
 
 macro(finalize_bundle app_name)
   set_target_properties(${app_name} PROPERTIES
           BUNDLE True
+          RUNTIME_OUTPUT_DIRECTORY "${APP_DIR}"
           MACOSX_BUNDLE_GUI_IDENTIFIER shawwn.com.noh
           MACOSX_BUNDLE_BUNDLE_NAME noh
           MACOSX_BUNDLE_BUNDLE_VERSION "0.1"
@@ -1177,10 +1179,6 @@ elseif(UNIX)
 endif()
 
 app_module(${VID_GL2_LIBRARY} "${VID_GL2_SOURCES}")
-if(NOT APPLE)
-  set_target_properties( ${VID_GL2_LIBRARY} PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${CONTENT_DIR}/" )
-  set_target_properties( ${VID_GL2_LIBRARY} PROPERTIES LIBRARY_OUTPUT_DIRECTORY "${CONTENT_DIR}/" )
-endif()
 target_compile_definitions(${VID_GL2_LIBRARY} PUBLIC GLEW_STATIC GL_SILENCE_DEPRECATION)
 target_precompile_headers(${VID_GL2_LIBRARY} PUBLIC src/vid_gl2/vid_common.h)
 target_link_libraries(${VID_GL2_LIBRARY}
@@ -1608,7 +1606,6 @@ if(APPLE)
 #    "${K2_LIBRARY_DLL}"
 #    "${VID_GL2_LIBRARY_DLL}"
     )
-  set_target_properties( ${APP_NAME} PROPERTIES OUTPUT_DIRECTORY "${APP_DIR}" )
   target_link_libraries(${APP_NAME} ${K2_LIBRARY} ${HON_SHARED_LIBRARY}) #${VID_GL2_LIBRARY})
   finalize_bundle("${APP_NAME}")
 #  execute_process(COMMAND ${CMAKE_COMMAND} -E create_symlink "${HON_CLIENT_LIBRARY_DLL}" "${APP_DIR}/${APP_NAME}.app/cgame${SUFFIX}.dylib")
