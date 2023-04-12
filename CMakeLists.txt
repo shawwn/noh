@@ -1155,8 +1155,10 @@ elseif(UNIX)
 endif()
 
 app_module(${VID_GL2_LIBRARY} "${VID_GL2_SOURCES}")
-set_target_properties( ${VID_GL2_LIBRARY} PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${CONTENT_DIR}/" )
-set_target_properties( ${VID_GL2_LIBRARY} PROPERTIES LIBRARY_OUTPUT_DIRECTORY "${CONTENT_DIR}/" )
+if (!APPLE)
+  set_target_properties( ${VID_GL2_LIBRARY} PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${CONTENT_DIR}/" )
+  set_target_properties( ${VID_GL2_LIBRARY} PROPERTIES LIBRARY_OUTPUT_DIRECTORY "${CONTENT_DIR}/" )
+endif()
 target_compile_definitions(${VID_GL2_LIBRARY} PUBLIC GLEW_STATIC GL_SILENCE_DEPRECATION)
 target_precompile_headers(${VID_GL2_LIBRARY} PUBLIC src/vid_gl2/vid_common.h)
 target_link_libraries(${VID_GL2_LIBRARY}
@@ -1494,8 +1496,10 @@ set(HON_CLIENT_SOURCES
         )
 
 app_module(${HON_CLIENT_LIBRARY} "${HON_CLIENT_SOURCES}")
-set_target_properties( ${HON_CLIENT_LIBRARY} PROPERTIES LIBRARY_OUTPUT_DIRECTORY ${CONTENT_DIR}/game )
-set_target_properties( ${HON_CLIENT_LIBRARY} PROPERTIES LIBRARY_OUTPUT_NAME cgame${POSTFIX} )
+if (!APPLE)
+  set_target_properties( ${HON_CLIENT_LIBRARY} PROPERTIES LIBRARY_OUTPUT_DIRECTORY ${CONTENT_DIR}/game )
+  set_target_properties( ${HON_CLIENT_LIBRARY} PROPERTIES LIBRARY_OUTPUT_NAME cgame${POSTFIX} )
+endif()
 target_compile_definitions(${HON_CLIENT_LIBRARY} PUBLIC GAME_CLIENT_EXPORTS)
 target_precompile_headers(${HON_CLIENT_LIBRARY} PUBLIC src/hon_client/game_client_common.h)
 target_link_libraries(${HON_CLIENT_LIBRARY}
@@ -1549,9 +1553,11 @@ set(HON_SERVER_SOURCES
         )
 
 app_module(${HON_SERVER_LIBRARY} "${HON_SERVER_SOURCES}")
-set_target_properties( ${HON_SERVER_LIBRARY} PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CONTENT_DIR}/game )
-set_target_properties( ${HON_SERVER_LIBRARY} PROPERTIES LIBRARY_OUTPUT_DIRECTORY ${CONTENT_DIR}/game )
-set_target_properties( ${HON_SERVER_LIBRARY} PROPERTIES LIBRARY_OUTPUT_NAME game${POSTFIX} )
+if (!APPLE)
+  set_target_properties( ${HON_SERVER_LIBRARY} PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CONTENT_DIR}/game )
+  set_target_properties( ${HON_SERVER_LIBRARY} PROPERTIES LIBRARY_OUTPUT_DIRECTORY ${CONTENT_DIR}/game )
+  set_target_properties( ${HON_SERVER_LIBRARY} PROPERTIES LIBRARY_OUTPUT_NAME game${POSTFIX} )
+endif()
 target_compile_definitions(${HON_SERVER_LIBRARY} PUBLIC GAME_SERVER_EXPORTS)
 target_precompile_headers(${HON_SERVER_LIBRARY} PUBLIC src/hon_server/game_server_common.h)
 target_link_libraries(${HON_SERVER_LIBRARY}
