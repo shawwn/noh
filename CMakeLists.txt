@@ -5,6 +5,54 @@ set(APP_NAME NoH)
 set(EDITOR_NAME NoH_Editor)
 set(CONTENT_DIR "${CMAKE_CURRENT_SOURCE_DIR}/Heroes of Newerth")
 
+set(SUFFIX "")
+IF(CMAKE_BUILD_TYPE MATCHES Debug)
+  set(SUFFIX "_debug")
+  add_definitions(-DDEBUG -D_DEBUG)
+else()
+  add_definitions(-DNDEBUG)
+endif()
+if(APPLE)
+  set(LIB_EXT "${SUFFIX}.dylib")
+  set(DLL_EXT "${SUFFIX}.dylib")
+  set(BINARY_DIR "${CMAKE_BINARY_DIR}")
+  set(APP_DIR "${CMAKE_BINARY_DIR}")
+elseif(WIN32)
+  set(LIB_EXT "${SUFFIX}.lib")
+  set(DLL_EXT "${SUFFIX}.dll")
+  set(BINARY_DIR "${CONTENT_DIR}")
+else()
+  set(LIB_EXT "${SUFFIX}.so")
+  set(DLL_EXT "${SUFFIX}.so")
+  set(BINARY_DIR "${CONTENT_DIR}")
+endif()
+
+macro(app_configure_lib library)
+  set_target_properties( ${library} PROPERTIES PREFIX "" )
+  set_target_properties( ${library} PROPERTIES SUFFIX        "${DLL_EXT}" )
+  set_target_properties( ${library} PROPERTIES IMPORT_SUFFIX "${LIB_EXT}" )
+  if(NOT APPLE)
+    set_target_properties( ${library} PROPERTIES LIBRARY_OUTPUT_DIRECTORY "${CONTENT_DIR}/" )
+  endif()
+endmacro()
+
+macro(finalize_bundle app_name)
+  set_target_properties(${app_name} PROPERTIES
+          BUNDLE True
+          MACOSX_BUNDLE_GUI_IDENTIFIER shawwn.com.noh
+          MACOSX_BUNDLE_BUNDLE_NAME noh
+          MACOSX_BUNDLE_BUNDLE_VERSION "0.1"
+          MACOSX_BUNDLE_SHORT_VERSION_STRING "0.1"
+          )
+  execute_process(COMMAND ${CMAKE_COMMAND} -E create_symlink "${K2_LIBRARY_DLL}" "${APP_DIR}/${app_name}.app/${K2_LIBRARY}.dylib")
+  execute_process(COMMAND ${CMAKE_COMMAND} -E create_symlink "${VID_GL2_LIBRARY_DLL}" "${APP_DIR}/${app_name}.app/${VID_GL2_LIBRARY}.dylib")
+  execute_process(COMMAND ${CMAKE_COMMAND} -E create_symlink "${CONTENT_DIR}/game" "${APP_DIR}/${app_name}.app/game")
+  execute_process(COMMAND ${CMAKE_COMMAND} -E create_symlink "${CONTENT_DIR}/base" "${APP_DIR}/${app_name}.app/base")
+  execute_process(COMMAND ${CMAKE_COMMAND} -E create_symlink "${CONTENT_DIR}/editor" "${APP_DIR}/${app_name}.app/editor")
+endmacro()
+
+
+
 #set(CMAKE_CXX_STANDARD 14)
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 
@@ -27,20 +75,7 @@ if(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
   set(CMAKE_INSTALL_PREFIX ${noh_SOURCE_DIR}/install CACHE PATH "Install path" FORCE)
 endif(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
 
-IF(CMAKE_BUILD_TYPE MATCHES Debug)
-#  set(COMMON_DEFS
-#    " DEBUG"
-#    " _DEBUG")
-  set(POSTFIX "_debug")
-  add_definitions(-DDEBUG -D_DEBUG)
-else()
-  set(POSTFIX "")
-  add_definitions(-DNDEBUG)
-#  set(COMMON_DEFS NDEBUG)
-endif()
-#MESSAGE( STATUS "COMMON_DEFS: " ${COMMON_DEFS} )
-
-if(!WIN32)
+if(NOT WIN32)
   add_definitions(-DK2_X64)
 endif()
 if(BUILD_STATIC)
@@ -156,6 +191,7 @@ macro(app_dll library sources)
     add_library (${library} SHARED ${sources})
     message(STATUS "Building shared ${library} library...")
   endif()
+  app_configure_lib(${library})
 endmacro()
 
 macro(app_module library sources)
@@ -166,22 +202,15 @@ macro(app_module library sources)
     add_library (${library} MODULE ${sources})
     message(STATUS "Building module ${library} library...")
   endif()
+  app_configure_lib(${library})
 endmacro()
 
 #========================================
 # k2
 #========================================
-set(K2_LIBRARY k2${POSTFIX})
-if(APPLE)
-  set(K2_LIBRARY_DLL "${CMAKE_BINARY_DIR}/lib${K2_LIBRARY}.dylib")
-  set(K2_LIBRARY_LIB "${CMAKE_BINARY_DIR}/lib${K2_LIBRARY}.dylib")
-elseif(UNIX)
-  set(K2_LIBRARY_DLL "${CMAKE_BINARY_DIR}/lib${K2_LIBRARY}.so")
-  set(K2_LIBRARY_LIB "${CMAKE_BINARY_DIR}/lib${K2_LIBRARY}.so")
-elseif(WIN32)
-  set(K2_LIBRARY_DLL "${CMAKE_BINARY_DIR}/${K2_LIBRARY}.dll")
-  set(K2_LIBRARY_LIB "${CMAKE_BINARY_DIR}/${K2_LIBRARY}.lib")
-endif()
+set(K2_LIBRARY k2)
+set(K2_LIBRARY_DLL "${BINARY_DIR}/${K2_LIBRARY}${DLL_EXT}")
+set(K2_LIBRARY_LIB "${BINARY_DIR}/${K2_LIBRARY}${LIB_EXT}")
 
 set(K2_LIBRARIES
     ${SPEEX_LIBRARIES}
@@ -951,19 +980,19 @@ set(K2_SOURCES
         src/k2/c_srp.cpp
         )
 
-if (WIN32)
+if(WIN32)
   set(K2_SOURCES ${K2_SOURCES}
           src/k2/MemoryTrackerDLL.cpp
           src/k2/c_system_win32.cpp
           src/k2/c_netdriver_win32.cpp
           )
-elseif (APPLE)
+elseif(APPLE)
   set(K2_SOURCES ${K2_SOURCES}
           src/k2/c_system_osx.mm
           src/k2/c_system_posix.cpp
           src/k2/c_netdriver_linux.cpp
           )
-elseif (UNIX)
+elseif(UNIX)
   set(K2_SOURCES ${K2_SOURCES}
           src/k2/c_system_linux.cpp
           src/k2/c_system_posix.cpp
@@ -979,16 +1008,9 @@ target_link_libraries(${K2_LIBRARY} ${K2_LIBRARIES})
 #========================================
 # vid_gl2
 #========================================
-set(VID_GL2_LIBRARY vid_gl2${POSTFIX})
-
-if(APPLE)
-#  set(VID_GL2_LIBRARY_DLL "${CMAKE_BINARY_DIR}/lib${VID_GL2_LIBRARY}.dylib")
-  set(VID_GL2_LIBRARY_DLL "${CMAKE_BINARY_DIR}/lib${VID_GL2_LIBRARY}.so")
-elseif(UNIX)
-  set(VID_GL2_LIBRARY_DLL "${CMAKE_BINARY_DIR}/lib${VID_GL2_LIBRARY}.so")
-elseif(WIN32)
-  set(VID_GL2_LIBRARY_DLL "${CMAKE_BINARY_DIR}/${VID_GL2_LIBRARY}.dll")
-endif()
+set(VID_GL2_LIBRARY vid_gl2)
+set(VID_GL2_LIBRARY_DLL "${BINARY_DIR}/${VID_GL2_LIBRARY}${DLL_EXT}")
+set(VID_GL2_LIBRARY_LIB "${BINARY_DIR}/${VID_GL2_LIBRARY}${LIB_EXT}")
 
 set(VID_GL2_C_SOURCES
   src/vid_gl2/SOIL/SOIL.c
@@ -1131,7 +1153,7 @@ if(WIN32)
           src/vid_gl2/gl2_win32.cpp
           )
   set(VID_GL2_LIBRARIES ${VID_GL2_LIBRARIES}
-          ${K2_LIBRARY_LIB}
+          "${K2_LIBRARY_LIB}"
           ${OPENGL_LIBRARIES}
           )
 elseif(APPLE)
@@ -1140,7 +1162,7 @@ elseif(APPLE)
           src/vid_gl2/gl2_osx.mm
           )
   set(VID_GL2_LIBRARIES ${VID_GL2_LIBRARIES}
-          ${K2_LIBRARY_LIB}
+          "${K2_LIBRARY_LIB}"
           "-framework OpenGL"
           "-framework Cocoa"
           )
@@ -1149,13 +1171,13 @@ elseif(UNIX)
           src/vid_gl2/gl2_linux.cpp
           )
   set(VID_GL2_LIBRARIES ${VID_GL2_LIBRARIES}
-          ${K2_LIBRARY_LIB}
+          "${K2_LIBRARY_LIB}"
           ${OPENGL_LIBRARIES}
           )
 endif()
 
 app_module(${VID_GL2_LIBRARY} "${VID_GL2_SOURCES}")
-if (NOT APPLE)
+if(NOT APPLE)
   set_target_properties( ${VID_GL2_LIBRARY} PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${CONTENT_DIR}/" )
   set_target_properties( ${VID_GL2_LIBRARY} PROPERTIES LIBRARY_OUTPUT_DIRECTORY "${CONTENT_DIR}/" )
 endif()
@@ -1168,18 +1190,9 @@ target_link_libraries(${VID_GL2_LIBRARY}
 #========================================
 # hon_shared
 #========================================
-set(HON_SHARED_LIBRARY hon_shared${POSTFIX})
-
-if(APPLE)
-  set(HON_SHARED_LIBRARY_DLL "${CMAKE_BINARY_DIR}/lib${HON_SHARED_LIBRARY}.dylib")
-  set(HON_SHARED_LIBRARY_LIB "${CMAKE_BINARY_DIR}/lib${HON_SHARED_LIBRARY}.dylib")
-elseif(UNIX)
-  set(HON_SHARED_LIBRARY_DLL "${CMAKE_BINARY_DIR}/lib${HON_SHARED_LIBRARY}.so")
-  set(HON_SHARED_LIBRARY_LIB "${CMAKE_BINARY_DIR}/lib${HON_SHARED_LIBRARY}.so")
-elseif(WIN32)
-  set(HON_SHARED_LIBRARY_DLL "${CMAKE_BINARY_DIR}/${HON_SHARED_LIBRARY}.dll")
-  set(HON_SHARED_LIBRARY_LIB "${CMAKE_BINARY_DIR}/${HON_SHARED_LIBRARY}.lib")
-endif()
+set(HON_SHARED_LIBRARY hon_shared)
+set(HON_SHARED_LIBRARY_DLL "${BINARY_DIR}/${HON_SHARED_LIBRARY}${DLL_EXT}")
+set(HON_SHARED_LIBRARY_LIB "${BINARY_DIR}/${HON_SHARED_LIBRARY}${LIB_EXT}")
 
 set(HON_SHARED_SOURCES
   src/hon_shared/c_abilityattributedefinition.h
@@ -1452,28 +1465,15 @@ target_compile_definitions(${HON_SHARED_LIBRARY} PUBLIC GAME_SHARED_EXPORTS)
 target_precompile_headers(${HON_SHARED_LIBRARY} PUBLIC src/hon_shared/game_shared_common.h)
 target_link_libraries(${HON_SHARED_LIBRARY}
   ${HON_SHARED_LIBRARIES}
-  ${K2_LIBRARY_LIB}
+  "${K2_LIBRARY_LIB}"
   )
 
 #========================================
 # hon_client
 #========================================
 set(HON_CLIENT_LIBRARY hon_client)
-if(CMAKE_BUILD_TYPE MATCHES Debug)
-  set(HON_CLIENT_LIBRARY ${HON_CLIENT_LIBRARY}_debug)
-endif()
-
-if(APPLE)
-  #  set(HON_CLIENT_LIBRARY_DLL "${CMAKE_BINARY_DIR}/lib${HON_CLIENT_LIBRARY}.dylib")
-  set(HON_CLIENT_LIBRARY_DLL "${CMAKE_BINARY_DIR}/lib${HON_CLIENT_LIBRARY}.so")
-  set(HON_CLIENT_LIBRARY_LIB "${CMAKE_BINARY_DIR}/lib${HON_CLIENT_LIBRARY}.so")
-elseif(UNIX)
-  set(HON_CLIENT_LIBRARY_DLL "${CMAKE_BINARY_DIR}/lib${HON_CLIENT_LIBRARY}.so")
-  set(HON_CLIENT_LIBRARY_LIB "${CMAKE_BINARY_DIR}/lib${HON_CLIENT_LIBRARY}.so")
-elseif(WIN32)
-  set(HON_CLIENT_LIBRARY_DLL "${CMAKE_BINARY_DIR}/${HON_CLIENT_LIBRARY}.dll")
-  set(HON_CLIENT_LIBRARY_LIB "${CMAKE_BINARY_DIR}/${HON_CLIENT_LIBRARY}.lib")
-endif()
+set(HON_CLIENT_LIBRARY_DLL "${BINARY_DIR}/${HON_CLIENT_LIBRARY}${DLL_EXT}")
+set(HON_CLIENT_LIBRARY_LIB "${BINARY_DIR}/${HON_CLIENT_LIBRARY}${LIB_EXT}")
 
 # hon_client sources
 include_directories(src/hon_client)
@@ -1496,10 +1496,8 @@ set(HON_CLIENT_SOURCES
         )
 
 app_module(${HON_CLIENT_LIBRARY} "${HON_CLIENT_SOURCES}")
-if (NOT APPLE)
-  set_target_properties( ${HON_CLIENT_LIBRARY} PROPERTIES LIBRARY_OUTPUT_DIRECTORY ${CONTENT_DIR}/game )
-  set_target_properties( ${HON_CLIENT_LIBRARY} PROPERTIES LIBRARY_OUTPUT_NAME cgame${POSTFIX} )
-endif()
+set_target_properties( ${HON_CLIENT_LIBRARY} PROPERTIES LIBRARY_OUTPUT_DIRECTORY "${CONTENT_DIR}/game" )
+set_target_properties( ${HON_CLIENT_LIBRARY} PROPERTIES LIBRARY_OUTPUT_NAME "cgame${SUFFIX}" )
 target_compile_definitions(${HON_CLIENT_LIBRARY} PUBLIC GAME_CLIENT_EXPORTS)
 target_precompile_headers(${HON_CLIENT_LIBRARY} PUBLIC src/hon_client/game_client_common.h)
 target_link_libraries(${HON_CLIENT_LIBRARY}
@@ -1511,21 +1509,8 @@ target_link_libraries(${HON_CLIENT_LIBRARY}
 # hon_server
 #========================================
 set(HON_SERVER_LIBRARY hon_server)
-if(CMAKE_BUILD_TYPE MATCHES Debug)
-  set(HON_SERVER_LIBRARY ${HON_SERVER_LIBRARY}_debug)
-endif()
-
-if(APPLE)
-  #  set(HON_SERVER_LIBRARY_DLL "${CMAKE_BINARY_DIR}/lib${HON_SERVER_LIBRARY}.dylib")
-  set(HON_SERVER_LIBRARY_DLL "${CMAKE_BINARY_DIR}/lib${HON_SERVER_LIBRARY}.so")
-  set(HON_SERVER_LIBRARY_LIB "${CMAKE_BINARY_DIR}/lib${HON_SERVER_LIBRARY}.so")
-elseif(UNIX)
-  set(HON_SERVER_LIBRARY_DLL "${CMAKE_BINARY_DIR}/lib${HON_SERVER_LIBRARY}.so")
-  set(HON_SERVER_LIBRARY_LIB "${CMAKE_BINARY_DIR}/lib${HON_SERVER_LIBRARY}.so")
-elseif(WIN32)
-  set(HON_SERVER_LIBRARY_DLL "${CMAKE_BINARY_DIR}/${HON_SERVER_LIBRARY}.dll")
-  set(HON_SERVER_LIBRARY_LIB "${CMAKE_BINARY_DIR}/${HON_SERVER_LIBRARY}.lib")
-endif()
+set(HON_SERVER_LIBRARY_DLL "${BINARY_DIR}/${HON_SERVER_LIBRARY}${DLL_EXT}")
+set(HON_SERVER_LIBRARY_LIB "${BINARY_DIR}/${HON_SERVER_LIBRARY}${LIB_EXT}")
 
 # hon_server sources
 include_directories(src/hon_server)
@@ -1553,37 +1538,21 @@ set(HON_SERVER_SOURCES
         )
 
 app_module(${HON_SERVER_LIBRARY} "${HON_SERVER_SOURCES}")
-if (NOT APPLE)
-  set_target_properties( ${HON_SERVER_LIBRARY} PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CONTENT_DIR}/game )
-  set_target_properties( ${HON_SERVER_LIBRARY} PROPERTIES LIBRARY_OUTPUT_DIRECTORY ${CONTENT_DIR}/game )
-  set_target_properties( ${HON_SERVER_LIBRARY} PROPERTIES LIBRARY_OUTPUT_NAME game${POSTFIX} )
-endif()
+set_target_properties( ${HON_SERVER_LIBRARY} PROPERTIES LIBRARY_OUTPUT_DIRECTORY "${CONTENT_DIR}/game" )
+set_target_properties( ${HON_SERVER_LIBRARY} PROPERTIES LIBRARY_OUTPUT_NAME game${SUFFIX} )
 target_compile_definitions(${HON_SERVER_LIBRARY} PUBLIC GAME_SERVER_EXPORTS)
 target_precompile_headers(${HON_SERVER_LIBRARY} PUBLIC src/hon_server/game_server_common.h)
 target_link_libraries(${HON_SERVER_LIBRARY}
-        ${K2_LIBRARY_LIB}
-        ${HON_SHARED_LIBRARY_LIB}
+        "${K2_LIBRARY_LIB}"
+        "${HON_SHARED_LIBRARY_LIB}"
         )
 
 #========================================
 # editor
 #========================================
 set(EDITOR_LIBRARY editor)
-if(CMAKE_BUILD_TYPE MATCHES Debug)
-  set(EDITOR_LIBRARY ${EDITOR_LIBRARY}_debug)
-endif()
-
-if(APPLE)
-#  set(EDITOR_LIBRARY_DLL "${CMAKE_BINARY_DIR}/lib${EDITOR_LIBRARY}.dylib")
-  set(EDITOR_LIBRARY_DLL "${CMAKE_BINARY_DIR}/lib${EDITOR_LIBRARY}.so")
-  set(EDITOR_LIBRARY_LIB "${CMAKE_BINARY_DIR}/lib${EDITOR_LIBRARY}.so")
-elseif(UNIX)
-  set(EDITOR_LIBRARY_DLL "${CMAKE_BINARY_DIR}/lib${EDITOR_LIBRARY}.so")
-  set(EDITOR_LIBRARY_LIB "${CMAKE_BINARY_DIR}/lib${EDITOR_LIBRARY}.so")
-elseif(WIN32)
-  set(EDITOR_LIBRARY_DLL "${CMAKE_BINARY_DIR}/${EDITOR_LIBRARY}.dll")
-  set(EDITOR_LIBRARY_LIB "${CMAKE_BINARY_DIR}/${EDITOR_LIBRARY}.lib")
-endif()
+set(EDITOR_LIBRARY_DLL "${BINARY_DIR}/${EDITOR_LIBRARY}${DLL_EXT}")
+set(EDITOR_LIBRARY_LIB "${BINARY_DIR}/${EDITOR_LIBRARY}${LIB_EXT}")
 
 # editor sources
 include_directories(src/editor)
@@ -1618,40 +1587,21 @@ app_module("${EDITOR_LIBRARY}" "${EDITOR_SOURCES}")
 target_compile_definitions(${EDITOR_LIBRARY} PUBLIC EDITOR_EXPORTS)
 target_precompile_headers(${EDITOR_LIBRARY} PUBLIC src/editor/editor_common.h)
 target_link_libraries(${EDITOR_LIBRARY}
-        ${K2_LIBRARY_LIB}
-        ${HON_SHARED_LIBRARY_LIB}
+        "${K2_LIBRARY_LIB}"
+        "${HON_SHARED_LIBRARY_LIB}"
         )
+set_target_properties( ${EDITOR_LIBRARY} PROPERTIES LIBRARY_OUTPUT_DIRECTORY "${CONTENT_DIR}/editor" )
+set_target_properties( ${EDITOR_LIBRARY} PROPERTIES LIBRARY_OUTPUT_NAME "cgame${SUFFIX}" )
 
 
 if(APPLE)
   message("https://cmake.org/cmake/help/latest/variable/APPLE.html?highlight=apple")
-
-  macro(finalize_bundle app_name)
-
-    target_compile_definitions(${app_name} PUBLIC ${COMMON_DEFS})
-    set_target_properties(${app_name} PROPERTIES
-            BUNDLE True
-            MACOSX_BUNDLE_GUI_IDENTIFIER shawwn.com.noh
-            MACOSX_BUNDLE_BUNDLE_NAME noh
-            MACOSX_BUNDLE_BUNDLE_VERSION "0.1"
-            MACOSX_BUNDLE_SHORT_VERSION_STRING "0.1"
-            )
-
-    message(STATUS "binary dir: " ${CMAKE_BINARY_DIR})
-    execute_process(COMMAND ${CMAKE_COMMAND} -E create_symlink "${K2_LIBRARY_DLL}" "${CMAKE_BINARY_DIR}/${app_name}.app/${K2_LIBRARY}.dylib")
-    execute_process(COMMAND ${CMAKE_COMMAND} -E create_symlink "${VID_GL2_LIBRARY_DLL}" "${CMAKE_BINARY_DIR}/${app_name}.app/${VID_GL2_LIBRARY}.dylib")
-    execute_process(COMMAND ${CMAKE_COMMAND} -E create_symlink "${CONTENT_DIR}/game" "${CMAKE_BINARY_DIR}/${app_name}.app/game")
-    execute_process(COMMAND ${CMAKE_COMMAND} -E create_symlink "${CONTENT_DIR}/base" "${CMAKE_BINARY_DIR}/${app_name}.app/base")
-    execute_process(COMMAND ${CMAKE_COMMAND} -E create_symlink "${CONTENT_DIR}/editor" "${CMAKE_BINARY_DIR}/${app_name}.app/editor")
-  endmacro()
-
-
   # NoH.app
   set(MACOSX_BUNDLE_ICON_FILE honicon.icns)
   set(noh_ICON "${CONTENT_DIR}/Contents/Resources/honicon.icns")
   set_source_files_properties(${noh_ICON} PROPERTIES MACOSX_PACKAGE_LOCATION "Resources")
-  add_executable (${APP_NAME}
-    MACOSX_BUNDLE ${noh_ICON}
+  add_executable(${APP_NAME}
+    MACOSX_BUNDLE "${noh_ICON}"
     src/shell/main_osx.mm
     src/shell/shell_common.cpp
     src/shell/misc_cmds.cpp
@@ -1660,25 +1610,25 @@ if(APPLE)
     )
   target_link_libraries(${APP_NAME} ${K2_LIBRARY} ${HON_SHARED_LIBRARY}) #${VID_GL2_LIBRARY})
   finalize_bundle("${APP_NAME}")
-  execute_process(COMMAND ${CMAKE_COMMAND} -E create_symlink "${HON_CLIENT_LIBRARY_DLL}" "${CMAKE_BINARY_DIR}/${APP_NAME}.app/cgame${POSTFIX}.dylib")
-  execute_process(COMMAND ${CMAKE_COMMAND} -E create_symlink "${HON_SERVER_LIBRARY_DLL}" "${CMAKE_BINARY_DIR}/${APP_NAME}.app/game${POSTFIX}.dylib")
+#  execute_process(COMMAND ${CMAKE_COMMAND} -E create_symlink "${HON_CLIENT_LIBRARY_DLL}" "${APP_DIR}/${APP_NAME}.app/cgame${SUFFIX}.dylib")
+#  execute_process(COMMAND ${CMAKE_COMMAND} -E create_symlink "${HON_SERVER_LIBRARY_DLL}" "${APP_DIR}/${APP_NAME}.app/game${SUFFIX}.dylib")
 
-  # NoH_Editor.app
-  set(MACOSX_BUNDLE_ICON_FILE honicon.icns)
-  set(noh_ICON "${CONTENT_DIR}/Contents/Resources/honicon.icns")
-  set_source_files_properties(${noh_ICON} PROPERTIES MACOSX_PACKAGE_LOCATION "Resources")
-  add_executable (${EDITOR_NAME}
-          MACOSX_BUNDLE ${noh_ICON}
-          src/shell/editor_osx.mm
-          src/shell/shell_common.cpp
-          src/shell/misc_cmds.cpp
-          #    "${K2_LIBRARY_DLL}"
-#          "${VID_GL2_LIBRARY_DLL}"
-#          "${EDITOR_LIBRARY_DLL}"
-          )
-  target_link_libraries(${EDITOR_NAME} ${K2_LIBRARY} ${HON_SHARED_LIBRARY}) #${VID_GL2_LIBRARY} ${EDITOR_LIBRARY})
-  finalize_bundle("${EDITOR_NAME}")
-  execute_process(COMMAND ${CMAKE_COMMAND} -E create_symlink "${EDITOR_LIBRARY_DLL}" "${CMAKE_BINARY_DIR}/${EDITOR_NAME}.app/cgame${POSTFIX}.dylib")
+#  # NoH_Editor.app
+#  set(MACOSX_BUNDLE_ICON_FILE honicon.icns)
+#  set(noh_ICON "${CONTENT_DIR}/Contents/Resources/honicon.icns")
+#  set_source_files_properties(${noh_ICON} PROPERTIES MACOSX_PACKAGE_LOCATION "Resources")
+#  add_executable (${EDITOR_NAME}
+#          MACOSX_BUNDLE ${noh_ICON}
+#          src/shell/editor_osx.mm
+#          src/shell/shell_common.cpp
+#          src/shell/misc_cmds.cpp
+#          #    "${K2_LIBRARY_DLL}"
+##          "${VID_GL2_LIBRARY_DLL}"
+##          "${EDITOR_LIBRARY_DLL}"
+#          )
+#  target_link_libraries(${EDITOR_NAME} ${K2_LIBRARY} ${HON_SHARED_LIBRARY}) #${VID_GL2_LIBRARY} ${EDITOR_LIBRARY})
+#  finalize_bundle("${EDITOR_NAME}")
+##  execute_process(COMMAND ${CMAKE_COMMAND} -E create_symlink "${EDITOR_LIBRARY_DLL}" "${APP_DIR}/${EDITOR_NAME}.app/cgame${SUFFIX}.dylib")
 
 elseif(UNIX)
   message("https://cmake.org/cmake/help/latest/variable/UNIX.html?highlight=unix")
@@ -1695,9 +1645,9 @@ elseif(WIN32)
           src/shell/shell_common.cpp
           src/shell/misc_cmds.cpp
           )
-  target_link_libraries(${APP_NAME} ${K2_LIBRARY_LIB} ${HON_SHARED_LIBRARY_LIB} #${VID_GL2_LIBRARY}
+  target_link_libraries(${APP_NAME} "${K2_LIBRARY_LIB}" "${HON_SHARED_LIBRARY_LIB}" #${VID_GL2_LIBRARY}
           )
-  execute_process(COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_SOURCE_DIR}/lib/fmodex/api/core/lib/x86/fmod.dll" "${CMAKE_BINARY_DIR}/fmod.dll")
+  execute_process(COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_SOURCE_DIR}/lib/fmodex/api/core/lib/x86/fmod.dll" "${BINARY_DIR}/fmod.dll")
 endif()
 
 
