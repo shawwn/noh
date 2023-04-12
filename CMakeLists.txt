@@ -12,11 +12,11 @@ IF(CMAKE_BUILD_TYPE MATCHES Debug)
 else()
   add_definitions(-DNDEBUG)
 endif()
+set(APP_DIR "${CONTENT_DIR}")
 if(APPLE)
   set(LIB_EXT "${SUFFIX}.dylib")
   set(DLL_EXT "${SUFFIX}.dylib")
   set(BINARY_DIR "${CMAKE_BINARY_DIR}")
-  set(APP_DIR "${CMAKE_BINARY_DIR}")
 elseif(WIN32)
   set(LIB_EXT "${SUFFIX}.lib")
   set(DLL_EXT "${SUFFIX}.dll")
@@ -1606,8 +1606,9 @@ if(APPLE)
     src/shell/shell_common.cpp
     src/shell/misc_cmds.cpp
 #    "${K2_LIBRARY_DLL}"
-#     "${VID_GL2_LIBRARY_DLL}"
+#    "${VID_GL2_LIBRARY_DLL}"
     )
+  set_target_properties( ${APP_NAME} PROPERTIES OUTPUT_DIRECTORY "${APP_DIR}" )
   target_link_libraries(${APP_NAME} ${K2_LIBRARY} ${HON_SHARED_LIBRARY}) #${VID_GL2_LIBRARY})
   finalize_bundle("${APP_NAME}")
 #  execute_process(COMMAND ${CMAKE_COMMAND} -E create_symlink "${HON_CLIENT_LIBRARY_DLL}" "${APP_DIR}/${APP_NAME}.app/cgame${SUFFIX}.dylib")
@@ -1637,6 +1638,7 @@ elseif(UNIX)
           src/shell/shell_common.cpp
           src/shell/misc_cmds.cpp
           )
+  set_target_properties(${APP_NAME} PROPERTIES OUTPUT_DIRECTORY "${APP_DIR}")
   target_link_libraries(${APP_NAME} ${K2_LIBRARY} ${HON_SHARED_LIBRARY}) #${VID_GL2_LIBRARY})
 elseif(WIN32)
   message("https://cmake.org/cmake/help/latest/variable/WIN32.html?highlight=win32")
@@ -1645,9 +1647,10 @@ elseif(WIN32)
           src/shell/shell_common.cpp
           src/shell/misc_cmds.cpp
           )
+  set_target_properties(${APP_NAME} PROPERTIES OUTPUT_DIRECTORY "${APP_DIR}")
   target_link_libraries(${APP_NAME} "${K2_LIBRARY_LIB}" "${HON_SHARED_LIBRARY_LIB}" #${VID_GL2_LIBRARY}
           )
-  execute_process(COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_SOURCE_DIR}/lib/fmodex/api/core/lib/x86/fmod.dll" "${BINARY_DIR}/fmod.dll")
+  execute_process(COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_SOURCE_DIR}/lib/fmodex/api/core/lib/x86/fmod.dll" "${APP_DIR}/fmod.dll")
 endif()
 
 
