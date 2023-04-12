@@ -16,15 +16,18 @@ set(APP_DIR "${CONTENT_DIR}")
 if(APPLE)
   set(LIB_EXT "${SUFFIX}.dylib")
   set(DLL_EXT "${SUFFIX}.dylib")
-  set(BINARY_DIR "${CMAKE_BINARY_DIR}")
+  set(BIN_DIR "${CMAKE_BINARY_DIR}")
+  set(LIB_DIR "${CONTENT_DIR}")
 elseif(WIN32)
   set(LIB_EXT "${SUFFIX}.lib")
   set(DLL_EXT "${SUFFIX}.dll")
-  set(BINARY_DIR "${CONTENT_DIR}")
+  set(BIN_DIR "${CONTENT_DIR}")
+  set(LIB_DIR "${CMAKE_BINARY_DIR}")
 else()
   set(LIB_EXT "${SUFFIX}.so")
+  set(LIB_DIR "${CMAKE_BINARY_DIR}")
   set(DLL_EXT "${SUFFIX}.so")
-  set(BINARY_DIR "${CONTENT_DIR}")
+  set(BIN_DIR "${CONTENT_DIR}")
 endif()
 
 macro(app_configure_lib library)
@@ -211,8 +214,8 @@ endmacro()
 # k2
 #========================================
 set(K2_LIBRARY k2)
-set(K2_LIBRARY_DLL "${BINARY_DIR}/${K2_LIBRARY}${DLL_EXT}")
-set(K2_LIBRARY_LIB "${BINARY_DIR}/${K2_LIBRARY}${LIB_EXT}")
+set(K2_LIBRARY_DLL "${BIN_DIR}/${K2_LIBRARY}${DLL_EXT}")
+set(K2_LIBRARY_LIB "${LIB_DIR}/${K2_LIBRARY}${LIB_EXT}")
 
 set(K2_LIBRARIES
     ${SPEEX_LIBRARIES}
@@ -1011,8 +1014,8 @@ target_link_libraries(${K2_LIBRARY} ${K2_LIBRARIES})
 # vid_gl2
 #========================================
 set(VID_GL2_LIBRARY vid_gl2)
-set(VID_GL2_LIBRARY_DLL "${BINARY_DIR}/${VID_GL2_LIBRARY}${DLL_EXT}")
-set(VID_GL2_LIBRARY_LIB "${BINARY_DIR}/${VID_GL2_LIBRARY}${LIB_EXT}")
+set(VID_GL2_LIBRARY_DLL "${BIN_DIR}/${VID_GL2_LIBRARY}${DLL_EXT}")
+set(VID_GL2_LIBRARY_LIB "${LIB_DIR}/${VID_GL2_LIBRARY}${LIB_EXT}")
 
 set(VID_GL2_C_SOURCES
   src/vid_gl2/SOIL/SOIL.c
@@ -1179,6 +1182,10 @@ elseif(UNIX)
 endif()
 
 app_module(${VID_GL2_LIBRARY} "${VID_GL2_SOURCES}")
+if(NOT APPLE)
+  set_target_properties( ${VID_GL2_LIBRARY} PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${CONTENT_DIR}/" )
+  set_target_properties( ${VID_GL2_LIBRARY} PROPERTIES LIBRARY_OUTPUT_DIRECTORY "${CONTENT_DIR}/" )
+endif()
 target_compile_definitions(${VID_GL2_LIBRARY} PUBLIC GLEW_STATIC GL_SILENCE_DEPRECATION)
 target_precompile_headers(${VID_GL2_LIBRARY} PUBLIC src/vid_gl2/vid_common.h)
 target_link_libraries(${VID_GL2_LIBRARY}
@@ -1189,8 +1196,8 @@ target_link_libraries(${VID_GL2_LIBRARY}
 # hon_shared
 #========================================
 set(HON_SHARED_LIBRARY hon_shared)
-set(HON_SHARED_LIBRARY_DLL "${BINARY_DIR}/${HON_SHARED_LIBRARY}${DLL_EXT}")
-set(HON_SHARED_LIBRARY_LIB "${BINARY_DIR}/${HON_SHARED_LIBRARY}${LIB_EXT}")
+set(HON_SHARED_LIBRARY_DLL "${BIN_DIR}/${HON_SHARED_LIBRARY}${DLL_EXT}")
+set(HON_SHARED_LIBRARY_LIB "${LIB_DIR}/${HON_SHARED_LIBRARY}${LIB_EXT}")
 
 set(HON_SHARED_SOURCES
   src/hon_shared/c_abilityattributedefinition.h
@@ -1470,8 +1477,8 @@ target_link_libraries(${HON_SHARED_LIBRARY}
 # hon_client
 #========================================
 set(HON_CLIENT_LIBRARY hon_client)
-set(HON_CLIENT_LIBRARY_DLL "${BINARY_DIR}/${HON_CLIENT_LIBRARY}${DLL_EXT}")
-set(HON_CLIENT_LIBRARY_LIB "${BINARY_DIR}/${HON_CLIENT_LIBRARY}${LIB_EXT}")
+set(HON_CLIENT_LIBRARY_DLL "${BIN_DIR}/${HON_CLIENT_LIBRARY}${DLL_EXT}")
+set(HON_CLIENT_LIBRARY_LIB "${LIB_DIR}/${HON_CLIENT_LIBRARY}${LIB_EXT}")
 
 # hon_client sources
 include_directories(src/hon_client)
@@ -1507,8 +1514,8 @@ target_link_libraries(${HON_CLIENT_LIBRARY}
 # hon_server
 #========================================
 set(HON_SERVER_LIBRARY hon_server)
-set(HON_SERVER_LIBRARY_DLL "${BINARY_DIR}/${HON_SERVER_LIBRARY}${DLL_EXT}")
-set(HON_SERVER_LIBRARY_LIB "${BINARY_DIR}/${HON_SERVER_LIBRARY}${LIB_EXT}")
+set(HON_SERVER_LIBRARY_DLL "${BIN_DIR}/${HON_SERVER_LIBRARY}${DLL_EXT}")
+set(HON_SERVER_LIBRARY_LIB "${LIB_DIR}/${HON_SERVER_LIBRARY}${LIB_EXT}")
 
 # hon_server sources
 include_directories(src/hon_server)
@@ -1549,8 +1556,8 @@ target_link_libraries(${HON_SERVER_LIBRARY}
 # editor
 #========================================
 set(EDITOR_LIBRARY editor)
-set(EDITOR_LIBRARY_DLL "${BINARY_DIR}/${EDITOR_LIBRARY}${DLL_EXT}")
-set(EDITOR_LIBRARY_LIB "${BINARY_DIR}/${EDITOR_LIBRARY}${LIB_EXT}")
+set(EDITOR_LIBRARY_DLL "${BIN_DIR}/${EDITOR_LIBRARY}${DLL_EXT}")
+set(EDITOR_LIBRARY_LIB "${LIB_DIR}/${EDITOR_LIBRARY}${LIB_EXT}")
 
 # editor sources
 include_directories(src/editor)
@@ -1644,7 +1651,7 @@ elseif(WIN32)
           src/shell/shell_common.cpp
           src/shell/misc_cmds.cpp
           )
-  set_target_properties(${APP_NAME} PROPERTIES OUTPUT_DIRECTORY "${APP_DIR}")
+  set_target_properties(${APP_NAME} PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${APP_DIR}")
   target_link_libraries(${APP_NAME} "${K2_LIBRARY_LIB}" "${HON_SHARED_LIBRARY_LIB}" #${VID_GL2_LIBRARY}
           )
   execute_process(COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_SOURCE_DIR}/lib/fmodex/api/core/lib/x86/fmod.dll" "${APP_DIR}/fmod.dll")
