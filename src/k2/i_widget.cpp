@@ -3719,6 +3719,30 @@ UI_VOID_CMD(SetRotation, 1)
     pThis->SetRotation(AtoF(vArgList[0]->Evaluate()));
 }
 
+/*--------------------
+  Sin
+  --------------------*/
+UI_CMD(Sin, 1)
+{
+    return XtoA(sin(AtoF(vArgList[0]->Evaluate())));
+}
+
+/*--------------------
+  Cos
+  --------------------*/
+UI_CMD(Cos, 1)
+{
+    return XtoA(cos(AtoF(vArgList[0]->Evaluate())));
+}
+
+/*--------------------
+  Tan
+  --------------------*/
+UI_CMD(Tan, 1)
+{
+    return XtoA(tan(AtoF(vArgList[0]->Evaluate())));
+}
+
 
 /*--------------------
   SetWatch
