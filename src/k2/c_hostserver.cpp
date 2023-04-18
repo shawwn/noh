@@ -32,7 +32,11 @@
 // Definitions
 //=============================================================================
 CVAR_BOOLF(     svr_broadcast,              false,                      CVAR_SAVECONFIG);
+#ifndef NDEBUG // TKTK: svr_debugHeartbeat in debug mode
+CVAR_BOOL(      svr_debugHeartbeat,         true);
+#else
 CVAR_BOOL(      svr_debugHeartbeat,         false);
+#endif
 CVAR_UINTF(     svr_heartbeatInterval,      60000,                      CVAR_SAVECONFIG);
 CVAR_STRINGF(   svr_adminPassword,          "",                         CVAR_SAVECONFIG);
 CVAR_STRINGF(   svr_userPassword,           "",                         CVAR_SAVECONFIG);
