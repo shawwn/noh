@@ -1353,7 +1353,7 @@ bool    CHostServer::RequestSessionCookie(bool bNew)
     pNewSessionRequest->SetTargetURL(m_sMasterServerURL);
     pNewSessionRequest->AddVariable(L"f", L"new_session");
     pNewSessionRequest->AddVariable(L"login", svr_login);
-    pNewSessionRequest->AddVariable(L"pass", MD5String(TStringToUTF8(svr_password)));
+    pNewSessionRequest->AddVariable(L"pass", TStringToUTF8(svr_password));
     pNewSessionRequest->AddVariable(L"port", svr_port.GetString());
     pNewSessionRequest->AddVariable(L"name", svr_name);
     pNewSessionRequest->AddVariable(L"desc", svr_desc);
@@ -1363,7 +1363,9 @@ bool    CHostServer::RequestSessionCookie(bool bNew)
     pNewSessionRequest->SendPostRequest();
     pNewSessionRequest->Wait();
 
-    if (!pNewSessionRequest->WasSuccessful())
+    const CPHPData phpResponse(pNewSessionRequest->GetResponse());
+
+    if (!pNewSessionRequest->WasSuccessful() || !phpResponse.IsValid())
     {
         Console << _T("Session cookie request failed!") << newl;
         Host.GetHTTPManager()->ReleaseRequest(pNewSessionRequest);
@@ -1371,7 +1373,16 @@ bool    CHostServer::RequestSessionCookie(bool bNew)
         return false;
     }
 
-    const CPHPData phpResponse(pNewSessionRequest->GetResponse());
+    const CPHPData *pError(phpResponse.GetVar(_T("error")));
+    if (pError != NULL)
+    {
+        const CPHPData *pErrorCode(pError->GetVar(0));
+        Console << _T("Session cookie request failed: ") << (pErrorCode == NULL ? _T("Unknown error") : pErrorCode->GetString()) << newl;
+        Host.GetHTTPManager()->ReleaseRequest(pNewSessionRequest);
+        m_sSessionCookie.clear();
+        return false;
+    }
+
     Host.GetHTTPManager()->ReleaseRequest(pNewSessionRequest);
 
     m_uiNextHeartbeat = 0;
