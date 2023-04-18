@@ -1076,6 +1076,7 @@ void    CSystem::DebugOutput(const tstring &sOut)
 #else
     printf("%s", sOut.c_str());
 #endif
+    fflush(stdout);
 }
 
 
@@ -1600,6 +1601,7 @@ void    CSystem::AddDedicatedConsoleText(const tstring &sText)
 #else
     printf("%s", sText.c_str());
 #endif
+    fflush(stdout);
 }
 
 
