@@ -2191,27 +2191,27 @@ void    CGameInterfaceManager::Update()
         break;
 
     case CG_INTERFACE_LOADING:
-        UIManager.SetActiveInterface(m_sMainInterface == _T("main") ? _T("game_loading") : m_sMainInterface);
+        UIManager.SetActiveInterface(_T("game_loading"));
         UpdateLogin();
         UpdateLobby();
         break;
 
     case CG_INTERFACE_LOBBY:
-        UIManager.SetActiveInterface(m_sMainInterface == _T("main") ? _T("game_lobby") : m_sMainInterface);
+        UIManager.SetActiveInterface(_T("game_lobby"));
         UpdateLogin();
         UpdateLobby();
         UpdateVoiceChat();
         break;
 
     case CG_INTERFACE_HERO_SELECT:
-        UIManager.SetActiveInterface(m_sMainInterface == _T("main") ? _T("game_hero_select") : m_sMainInterface);
+        UIManager.SetActiveInterface(_T("game_hero_select"));
         UpdateLogin();
         UpdateHeroSelect();
         UpdateLobby();
         break;
 
     case CG_INTERFACE_HERO_LOADING:
-        UIManager.SetActiveInterface(m_sMainInterface == _T("main") ? _T("game_hero_loading") : m_sMainInterface);
+        UIManager.SetActiveInterface(_T("game_hero_loading"));
         UpdateLogin();
         UpdateHeroSelect();
         break;
