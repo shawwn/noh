@@ -218,6 +218,9 @@ m_sGameCookie(_T(""))
         m_sGameCookie = pData->GetString(_CWS("game_cookie"), TSNULL);
 
         pData = pData->GetVar(_CWS("infos"));
+        if (!pData)
+            return;
+
         pData = pData->GetVar(0);
 
         if (!pData)
