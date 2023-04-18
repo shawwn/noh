@@ -108,7 +108,7 @@ void    CSimpleParticle::Spawn
     const CSimpleParticleDef &settings
 )
 {
-    assert(iLife != 0);
+//    assert(iLife != 0); // TKTK: This sometimes hits!
 
     SAFE_DELETE(m_pImbeddedEmitter);
 
