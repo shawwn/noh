@@ -3721,13 +3721,13 @@ bool    CServerList::ProcessServerResponse(const tstring &sAddress, CPacket &pkt
   ====================*/
 bool    CServerList::ProcessReconnectInfoResponse(const tstring &sAddress, CPacket &pkt)
 {
-    uint uiRemaingTime(pkt.ReadInt());
+    int iRemaingTime(pkt.ReadInt());
     if (pkt.HasFaults())
         return false;
 
-    m_uiReconnectExpireTime = Host.GetTime() + uiRemaingTime;
-    ReconnectShow.Trigger(uiRemaingTime > 0 ? _CWS("true"): _CWS("false"));
-    ReconnectTimer.Trigger(XtoA(uiRemaingTime));
+    m_uiReconnectExpireTime = Host.GetTime() + iRemaingTime;
+    ReconnectShow.Trigger(iRemaingTime > 0 ? _CWS("true"): _CWS("false"));
+    ReconnectTimer.Trigger(XtoA(iRemaingTime));
     ReconnectAddress.Trigger(sAddress);
     return true;
 }
