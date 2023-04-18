@@ -49,8 +49,8 @@ macro(finalize_bundle app_name)
           MACOSX_BUNDLE_BUNDLE_VERSION "0.1"
           MACOSX_BUNDLE_SHORT_VERSION_STRING "0.1"
           )
-  execute_process(COMMAND ${CMAKE_COMMAND} -E create_symlink "${K2_LIBRARY_DLL}" "${APP_DIR}/${app_name}.app/${K2_LIBRARY}.dylib")
-  execute_process(COMMAND ${CMAKE_COMMAND} -E create_symlink "${VID_GL2_LIBRARY_DLL}" "${APP_DIR}/${app_name}.app/${VID_GL2_LIBRARY}.dylib")
+  execute_process(COMMAND ${CMAKE_COMMAND} -E create_symlink "${K2_LIBRARY_DLL}" "${APP_DIR}/${app_name}.app/${K2_LIBRARY}${DLL_EXT}")
+  execute_process(COMMAND ${CMAKE_COMMAND} -E create_symlink "${VID_GL2_LIBRARY_DLL}" "${APP_DIR}/${app_name}.app/${VID_GL2_LIBRARY}${DLL_EXT}")
   execute_process(COMMAND ${CMAKE_COMMAND} -E create_symlink "${CONTENT_DIR}/game" "${APP_DIR}/${app_name}.app/game")
   execute_process(COMMAND ${CMAKE_COMMAND} -E create_symlink "${CONTENT_DIR}/base" "${APP_DIR}/${app_name}.app/base")
   execute_process(COMMAND ${CMAKE_COMMAND} -E create_symlink "${CONTENT_DIR}/editor" "${APP_DIR}/${app_name}.app/editor")
@@ -1502,7 +1502,7 @@ set(HON_CLIENT_SOURCES
 
 app_module(${HON_CLIENT_LIBRARY} "${HON_CLIENT_SOURCES}")
 set_target_properties( ${HON_CLIENT_LIBRARY} PROPERTIES LIBRARY_OUTPUT_DIRECTORY "${CONTENT_DIR}/game" )
-set_target_properties( ${HON_CLIENT_LIBRARY} PROPERTIES LIBRARY_OUTPUT_NAME "cgame${SUFFIX}" )
+set_target_properties( ${HON_CLIENT_LIBRARY} PROPERTIES LIBRARY_OUTPUT_NAME "cgame" )
 target_compile_definitions(${HON_CLIENT_LIBRARY} PUBLIC GAME_CLIENT_EXPORTS)
 target_precompile_headers(${HON_CLIENT_LIBRARY} PUBLIC src/hon_client/game_client_common.h)
 target_link_libraries(${HON_CLIENT_LIBRARY}
@@ -1544,7 +1544,7 @@ set(HON_SERVER_SOURCES
 
 app_module(${HON_SERVER_LIBRARY} "${HON_SERVER_SOURCES}")
 set_target_properties( ${HON_SERVER_LIBRARY} PROPERTIES LIBRARY_OUTPUT_DIRECTORY "${CONTENT_DIR}/game" )
-set_target_properties( ${HON_SERVER_LIBRARY} PROPERTIES LIBRARY_OUTPUT_NAME game${SUFFIX} )
+set_target_properties( ${HON_SERVER_LIBRARY} PROPERTIES LIBRARY_OUTPUT_NAME "game" )
 target_compile_definitions(${HON_SERVER_LIBRARY} PUBLIC GAME_SERVER_EXPORTS)
 target_precompile_headers(${HON_SERVER_LIBRARY} PUBLIC src/hon_server/game_server_common.h)
 target_link_libraries(${HON_SERVER_LIBRARY}
@@ -1596,7 +1596,7 @@ target_link_libraries(${EDITOR_LIBRARY}
         "${HON_SHARED_LIBRARY_LIB}"
         )
 set_target_properties( ${EDITOR_LIBRARY} PROPERTIES LIBRARY_OUTPUT_DIRECTORY "${CONTENT_DIR}/editor" )
-set_target_properties( ${EDITOR_LIBRARY} PROPERTIES LIBRARY_OUTPUT_NAME "cgame${SUFFIX}" )
+set_target_properties( ${EDITOR_LIBRARY} PROPERTIES LIBRARY_OUTPUT_NAME "cgame" )
 
 
 if(APPLE)
