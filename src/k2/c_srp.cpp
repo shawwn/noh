@@ -17,44 +17,9 @@
 //=============================================================================
 // Definitions
 //=============================================================================
-//CVAR_STRING(    login_name,             "");
-//CVAR_STRING(    login_password,         "");
-//CVAR_STRING(    login_temp_password,    "");    // used to store the temporary password for the change password functionality of the UI
-//CVAR_BOOL(      login_rememberName,     false);
-//CVAR_BOOL(      login_rememberPassword, false);
-//CVAR_BOOLF(     login_invisible,        false,  CVAR_SAVECONFIG);
-//
-//CVAR_BOOLF(     _testTrialAccount,      false,  CVAR_SAVECONFIG);
-//
-//EXTERN_CVAR_STRING(cl_reconnectAddress);
-//EXTERN_CVAR_UINT(cl_reconnectMatchID);
-//
-//UI_TRIGGER(ClientLoginError);
-//UI_TRIGGER(ClientLoginExpired);
-//UI_TRIGGER(ClientLoginMustPurchase);
-//UI_TRIGGER(GarenaClientLoginResponse);
-//UI_TRIGGER(SelectUpgradesStatus);
-//UI_TRIGGER(RefreshUpgradesStatus);
-//UI_TRIGGER(RefreshInfosStatus);
-
-//    SRP_HashAlgorithm alg     = SRP_SHA1;
-//    SRP_NGType        ng_type = SRP_NG_8192;
-//    SRP_HashAlgorithm alg     = SRP_SHA1;
-//    SRP_NGType        ng_type = SRP_NG_1024;
-//    SRP_HashAlgorithm alg     = SRP_SHA1;
-//    SRP_NGType        ng_type = SRP_NG_2048;
-//    SRP_HashAlgorithm alg     = SRP_SHA256;
-//    SRP_NGType        ng_type = SRP_NG_2048;
-//SRP_HashAlgorithm alg     = SRP_SHA256;
-//SRP_HashAlgorithm alg     = SRP_SHA1;
-
-//SRP_HashAlgorithm alg     = SRP_SHA256;
-//SRP_NGType        ng_type = SRP_NG_2048;
-
 // https://github.com/theli-ua/pyHoNBot/blob/master/hon/masterserver.py#L23
 SRP_HashAlgorithm alg     = SRP_SHA256;
 SRP_NGType        ng_type = SRP_NG_CUSTOM;
-//const char* n_hex = "DA950C6C97918CAE89E4F5ECB32461032A217D740064BC12FC0723CD204BD02A7AE29B53F3310C13BA998B7910F8B6A14112CBC67BDD2427EDF494CB8BCA68510C0AAEE5346BD320845981546873069B337C073B9A9369D500873D647D261CCED571826E54C6089E7D5085DC2AF01FD861AE44C8E64BCA3EA4DCE942C5F5B89E5496C2741A9E7E9F509C261D104D11DD4494577038B33016E28D118AE4FD2E85D9C3557A2346FAECED3EDBE0F4D694411686BA6E65FEE43A772DC84D394ADAE5A14AF33817351D29DE074740AA263187AB18E3A25665EACAA8267C16CDE064B1D5AF0588893C89C1556D6AEF644A3BA6BA3F7DEC2F3D6FDC30AE43FBD6D144BB";
 const char* n_hex = "DA950C6C97918CAE89E4F5ECB32461032A217D740064BC12FC0723CD204BD02A7AE29B53F3310C13BA998B7910F8B6A14112CBC67BDD2427EDF494CB8BCA68510C0AAEE5346BD320845981546873069B337C073B9A9369D500873D647D261CCED571826E54C6089E7D5085DC2AF01FD861AE44C8E64BCA3EA4DCE942C5F5B89E5496C2741A9E7E9F509C261D104D11DD4494577038B33016E28D118AE4FD2E85D9C3557A2346FAECED3EDBE0F4D694411686BA6E65FEE43A772DC84D394ADAE5A14AF33817351D29DE074740AA263187AB18E3A25665EACAA8267C16CDE064B1D5AF0588893C89C1556D6AEF644A3BA6BA3F7DEC2F3D6FDC30AE43FBD6D144BB";
 const char* g_hex = "2";
 //=============================================================================
