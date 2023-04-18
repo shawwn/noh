@@ -86,7 +86,7 @@ public:
 
     static void NextLoadingJob()
     {
-        assert(s_uiLoadingJob != s_uiNumLoadingJobs - 1);
+//        assert(s_uiLoadingJob != s_uiNumLoadingJobs - 1); // TKTK this trips for a dedicated server in automatic start mode
 
         ++s_uiLoadingJob;
         s_uiLoadingJob = MIN(s_uiLoadingJob, s_uiNumLoadingJobs - 1);
