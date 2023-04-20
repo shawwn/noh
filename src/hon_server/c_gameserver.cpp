@@ -2637,7 +2637,7 @@ bool    CGameServer::SetupFrame()
             bool bAllPlayersReady(AllPlayersReady());
 
             // If all players are ready, shorten the wait time
-            if (bAllPlayersReady && (GetPhaseEndTime() - GetGameTime() > sv_gameCountdownLength))
+            if (bAllPlayersReady && MAX(0, int(GetPhaseEndTime() - GetGameTime())) > sv_gameCountdownLength)
             {
                 SetFlags(GAME_FLAG_FINAL_HERO_SELECT);
                 SetGamePhaseEndTime(GetGameTime() + sv_gameCountdownLength);
