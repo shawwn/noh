@@ -32,6 +32,12 @@
 //=============================================================================
 
 //=============================================================================
+// Declarations
+//=============================================================================
+EXTERN_CMD(PrintGameInfo);
+//=============================================================================
+
+//=============================================================================
 // Globals
 //=============================================================================
 CReplayManager  *pReplayManager(CReplayManager::GetInstance());
@@ -2100,7 +2106,7 @@ void    CReplayManager::Profile(const tstring &sFilename, int iClient)
   ====================*/
 void    CReplayManager::Parse(const tstring &sFilename)
 {
-#if 0
+#if 1
     if (!StartPlayback(sFilename, false))
         return;
 
@@ -2108,7 +2114,7 @@ void    CReplayManager::Parse(const tstring &sFilename)
 
     //CFileHandle hKeyFrames(_T("~/") + Filename_StripExtension(sFilename) + _T(".tmp"), FILE_WRITE | FILE_BINARY | FILE_UTF16);
 
-    CBufferStatic cBuffer(0x4000);
+    CBufferBit cBuffer(0x4000);
     CSnapshot snapshot;
 
     while (!m_hReplayData.IsEOF())
@@ -2118,111 +2124,17 @@ void    CReplayManager::Parse(const tstring &sFilename)
 
         cBuffer.Reserve(uiLength);
         cBuffer.SetLength(uiLength);
+
+        if (uiLength == 0)
+        {
+            assert(m_hReplayData.IsEOF());
+            // TODO: Why isn't m_hReplayData.IsEOF() true before now?
+            break;
+        }
+
         m_hReplayData.Read((char *)cBuffer.Get(), uiLength);
 
-        snapshot.ReadBuffer(cBuffer);
-
-        m_cCurrentSnapshot.SetValid(true);
-        m_cCurrentSnapshot.SetFrameNumber(snapshot.GetFrameNumber());
-        m_cCurrentSnapshot.SetPrevFrameNumber(uint(-1));
-        m_cCurrentSnapshot.SetTimeStamp(snapshot.GetTimeStamp());
-        
-        // Clear events
-        m_cCurrentSnapshot.SetNumEvents(0);
-        m_cCurrentSnapshot.GetEventBuffer().Clear();
-
-        byte yNumEvents(snapshot.GetNumEvents());
-
-        // Translate events
-        for (int i(0); i < yNumEvents; ++i)
-            CGameEvent::AdvanceBuffer(snapshot.GetReceivedBuffer());
-
-        uivector &vBitEntityBuffer(m_cCurrentSnapshot.GetBitEntityBuffer());
-        vBitEntityBuffer.resize(m_uiNumBitEntityFields, uint(-1));
-
-        CTransmitFlags<8> cTransmitFlags(m_uiNumBitEntityFields);
-
-        cTransmitFlags.ReadTransmitFlags(snapshot.GetReceivedBuffer());
-
-        for (uint uiField(0); uiField < m_uiNumBitEntityFields; ++uiField)
-        {
-            if (cTransmitFlags.IsFieldSet(uiField))
-                vBitEntityBuffer[uiField] = snapshot.GetReceivedBuffer().ReadInt();
-        }
-
-        SnapshotVector &vBaseEntities(m_cCurrentSnapshot.GetEntities());
-        SnapshotVector_it citBase(vBaseEntities.begin());
-
-        static CEntitySnapshot entSnapshot;
-
-        // Translate entities
-        for (;;)
-        {
-            const TypeVector *pTypeVector(NULL);
-
-            // Grab a "shell" entity snapshot from the the frame snapshot.
-            // The data will be filled in once we know the type.
-            entSnapshot.Clear();
-            if (!snapshot.GetNextEntity(entSnapshot, -1))
-                break;
-
-            while (citBase != vBaseEntities.end() && citBase->first < entSnapshot.GetIndex())
-                ++citBase;
-
-            if (citBase == vBaseEntities.end() || citBase->first > entSnapshot.GetIndex())
-            {
-                //
-                // New entity, read from baseline
-                //
-
-                ushort unType(entSnapshot.GetType());
-
-                // If the type is NULL, the entity is dead and should be removed
-                if (unType == 0)
-                    continue;
-
-                pTypeVector = EntityRegistry.GetTypeVector(unType);
-                if (pTypeVector == NULL)
-                    EX_ERROR(_T("Unknown entity type, bad snapshot"));
-
-                entSnapshot.ReadBody(snapshot.GetReceivedBuffer(), *pTypeVector, EntityRegistry.GetBaseline(unType));
-                citBase = vBaseEntities.insert(citBase, SnapshotEntry(entSnapshot.GetIndex(), CEntitySnapshot::Allocate(entSnapshot)));
-                ++citBase;
-            }
-            else if (citBase->first == entSnapshot.GetIndex())
-            {
-                //
-                // Update existing entity
-                //
-
-                CEntitySnapshot *pBaseSnapshot(CEntitySnapshot::GetByHandle(citBase->second));
-                ushort unType(entSnapshot.GetTypeChange() ? entSnapshot.GetType() : pBaseSnapshot->GetType());
-
-                // If the type is NULL, the entity is dead and should be removed
-                if (unType == 0)
-                {
-                    CEntitySnapshot::DeleteByHandle(citBase->second);
-                    citBase = vBaseEntities.erase(citBase);
-                    continue;
-                }
-
-                pTypeVector = EntityRegistry.GetTypeVector(unType);
-                if (pTypeVector == NULL)
-                    EX_ERROR(_T("Unknown entity type, bad snapshot"));
-
-                if (entSnapshot.GetTypeChange())
-                {
-                    entSnapshot.ReadBody(snapshot.GetReceivedBuffer(), *pTypeVector, EntityRegistry.GetBaseline(unType));
-                    *pBaseSnapshot = entSnapshot;
-                }
-                else
-                {
-                    entSnapshot.ReadBody(snapshot.GetReceivedBuffer(), *pTypeVector);
-                    pBaseSnapshot->ApplyDiff(entSnapshot);
-                }
-                ++citBase;
-            }
-        }
+        ReadSnapshot(iFrame, cBuffer);
 
         uint uiNumClients;
 
@@ -2234,12 +2146,7 @@ void    CReplayManager::Parse(const tstring &sFilename)
             uint uiLength(m_hReplayData.ReadInt32());
 
             if (uiLength > 0)
-            {
-                CBufferStatic cBuffer(uiLength);
-
-                for (uint uiRead(0); uiRead < uiLength; ++uiRead)
-                    cBuffer << m_hReplayData.ReadByte();
-            }
+                m_hReplayData.Seek(uiLength, SEEK_ORIGIN_CURRENT);
         }
 
         // Read game data
@@ -2250,28 +2157,94 @@ void    CReplayManager::Parse(const tstring &sFilename)
             uint uiLength(m_hReplayData.ReadInt32());
 
             if (uiLength > 0)
-            {
-                CBufferStatic cBuffer(uiLength);
-
-                for (uint uiRead(0); uiRead < uiLength; ++uiRead)
-                    cBuffer << m_hReplayData.ReadByte();
-            }
-
+                m_hReplayData.Seek(uiLength, SEEK_ORIGIN_CURRENT);
         }
 
         // Read state strings
-        uint uiNumStateString(m_hReplayData.ReadInt32());
-        for (uint ui(0); ui < uiNumStateString; ++ui)
-        {
-            m_hReplayData.ReadInt32(); // uiID
-            tstring sStr;
+        uint uiNumStateStrings(m_hReplayData.ReadInt32());
 
-            wchar_t wChar(m_hReplayData.ReadInt16());
-            while (wChar)
+        if (uiNumStateStrings > 0)
+        {
+            if (m_vStateStringStore.size() > 0)
             {
-                sStr += TCHAR(wChar);
-                wChar = m_hReplayData.ReadInt16();
+                // Copy last element
+                m_vStateStringStore.push_back(svector());
+                m_vStateStringStore.back() = m_vStateStringStore[m_vStateStringStore.size() - 2];
+
             }
+            else
+            {
+                // Copy default
+                m_vStateStringStore.push_back(svector());
+            }
+
+            for (uint ui(0); ui < uiNumStateStrings; ++ui)
+            {
+                uint uiID(m_hReplayData.ReadInt32()); // uiID
+
+                string &sStr(m_vStateStringStore.back()[uiID]);
+
+                sStr.clear();
+
+                char cChar(m_hReplayData.ReadByte());
+                while (cChar)
+                {
+                    cChar = m_hReplayData.ReadByte();
+                    sStr += cChar;
+                }
+            }
+        }
+
+        // Read state blocks
+        if (m_uiReplayVersion > 3)
+        {
+            uint uiNumStateBlocks(m_hReplayData.ReadInt32());
+
+            if (uiNumStateBlocks > 0)
+            {
+                if (m_vStateBlockStore.size() > 0)
+                {
+                    // Copy last element
+                    m_vStateBlockStore.push_back(MapStateBlock());
+                    m_vStateBlockStore.back() = m_vStateBlockStore[m_vStateBlockStore.size() - 2];
+
+                }
+                else
+                {
+                    // Copy default
+                    m_vStateBlockStore.push_back(MapStateBlock());
+                }
+
+                for (uint ui(0); ui < uiNumStateBlocks; ++ui)
+                {
+                    uint uiID(m_hReplayData.ReadInt32());
+
+                    CBufferDynamic &buffer(m_vStateBlockStore.back()[uiID]);
+
+                    uint uiLength(m_hReplayData.ReadInt32());
+
+                    buffer.Clear();
+
+                    if (uiLength == 0)
+                        continue;
+
+                    buffer.Reserve(uiLength);
+                    m_hReplayData.Read(buffer.Lock(uiLength), uiLength);
+                }
+            }
+        }
+
+        float fProgress(float(m_hReplayData.Tell()) / m_hReplayData.GetLength());
+        if (iFrame % 100 == 0)
+        {
+//            IModalDialog::SetProgress(fProgress);
+//            IModalDialog::Update();
+
+            Console << _T("frame: ") << iFrame << SPACE;
+            Console << _T("progress: ") << fProgress << SPACE;
+            Console << newl;
+
+            cmdPrintGameInfo();
         }
 
         ++iFrame;
@@ -3502,4 +3475,32 @@ CMD(ReplayIncPlaybackSpeed)
 UI_VOID_CMD(ReplayIncPlaybackSpeed, 1)
 {
     cmdReplayIncPlaybackSpeed(vArgList[0]->Evaluate());
+}
+
+
+/*--------------------
+  PrintGameInfo
+  --------------------*/
+CMD(PrintGameInfo)
+{
+    const PlayerMap &mapPlayers(Game.GetPlayerMap());
+    for (PlayerMap_cit itPlayer(mapPlayers.begin()); itPlayer != mapPlayers.end(); ++itPlayer)
+    {
+        CPlayer *pPlayer(itPlayer->second);
+        if (pPlayer == nullptr)
+            continue;
+
+        IHeroEntity *pHero(pPlayer->GetHero());
+        Console << XtoA(pHero ? pHero->GetDisplayName() : _CWS("<none>") , FMT_NONE, 14) << SPACE;
+        Console << _T("gold: ") << pPlayer->GetGold() << SPACE;
+        if (pHero)
+        {
+            Console << _T("level: ") << pHero->GetLevel() << SPACE;
+            Console << _T("health: ") << pHero->GetHealth() << SPACE;
+            Console << _T("exp: ") << pHero->GetExperience() << SPACE;
+        }
+        Console << newl;
+    }
+    Console << newl;
+    return true;
 }
