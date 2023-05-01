@@ -342,7 +342,7 @@ void    CSystem::InitMore()
         hidMatchDictionary = IOServiceMatching(kIOHIDDeviceKey);
         
         io_iterator_t hidObjectIterator;
-        IOServiceGetMatchingServices(kIOMainPortDefault, hidMatchDictionary, &hidObjectIterator);
+        IOServiceGetMatchingServices(kIOMasterPortDefault, hidMatchDictionary, &hidObjectIterator);
         
         io_object_t hidDevice;
         int iJoystick(0);
@@ -1723,7 +1723,7 @@ SSysInfo    CSystem::GetSystemInfo()
                 CFDictionarySetValue(propertyMatchDict, CFSTR(kIOPrimaryInterface), kCFBooleanTrue);
                 CFDictionarySetValue(matchingDict, CFSTR(kIOPropertyMatchKey), propertyMatchDict);
                 CFRelease(propertyMatchDict);
-                if (IOServiceGetMatchingServices(kIOMainPortDefault, matchingDict, &matchingServices) == KERN_SUCCESS)
+                if (IOServiceGetMatchingServices(kIOMasterPortDefault, matchingDict, &matchingServices) == KERN_SUCCESS)
                 {
                     io_object_t intfService, controllerService;
                     while ((intfService = IOIteratorNext(matchingServices)))
