@@ -2686,6 +2686,11 @@ void    Bitmap_Init()
 {
     Console.Dev << _T("Using png library version ") << png_access_version_number() << newl;
 
-    if (png_access_version_number() != PNG_LIBPNG_VER)
+    if (png_access_version_number() != PNG_LIBPNG_VER) {
+#if TKTK // Make PNG library version mismatch a warning instead of a fatal error
         K2System.Error(_T("PNG header and library versions do not match"));
+#else
+        Console.Dev << _T("PNG header and library versions do not match") << newl;
+#endif
+    }
 }
