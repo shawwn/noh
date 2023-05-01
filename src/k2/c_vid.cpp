@@ -195,8 +195,17 @@ void    CVid::StartDriver()
             if (vid_resolution.GetSize() != 2)
                 vid_resolution.Resize(2, 0);
 
-            vid_resolution.SetValue(0, vm.iWidth);
-            vid_resolution.SetValue(1, vm.iHeight);
+            if (vid_fullscreen)
+            {
+                vid_resolution.SetValue(0, vm.iWidth);
+                vid_resolution.SetValue(1, vm.iHeight);
+            }
+            else
+            {
+                // Subtract a bit of resolution to account for title bar
+                vid_resolution.SetValue(0, MAX(720, vm.iWidth - 160));
+                vid_resolution.SetValue(1, MAX(480, vm.iHeight - 100));
+            }
             vid_bpp = vm.iBpp;
             vid_refreshRate = vm.iRefreshRate;
         }
