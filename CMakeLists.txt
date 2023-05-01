@@ -140,6 +140,12 @@ if(APPLE)
   include_directories(/opt/homebrew/opt/giflib/include)
   link_directories(/opt/homebrew/opt/giflib/lib)
   set(GIF_LIBRARIES gif)
+
+  # brew install fswatch
+  include_directories(lib/fswatch/include)
+  include_directories(/opt/homebrew/opt/fswatch/include)
+  link_directories(/opt/homebrew/opt/fswatch/lib)
+  set(FSWATCH_LIBRARIES fswatch)
 else()
   include(FindSpeex)
   include(FindSpeexDSP)
@@ -223,6 +229,7 @@ set(K2_LIBRARY_DLL "${BIN_DIR}/${K2_LIBRARY}${DLL_EXT}")
 set(K2_LIBRARY_LIB "${LIB_DIR}/${K2_LIBRARY}${LIB_EXT}")
 
 set(K2_LIBRARIES
+    ${FSWATCH_LIBRARIES}
     ${SPEEX_LIBRARIES}
     ${SPEEXDSP_LIBRARIES}
     ${FMOD_LIBRARIES}

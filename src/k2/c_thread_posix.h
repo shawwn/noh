@@ -201,7 +201,7 @@ template<> class CK2Thread<void>
 
 public:
     typedef pthread_t   Handle;
-    typedef void    (*Handler)();
+    typedef std::function<void ()> Handler;
 
 protected:
     // Inherited interface

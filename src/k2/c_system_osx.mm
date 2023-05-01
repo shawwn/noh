@@ -28,6 +28,15 @@
 #include <IOKit/network/IOEthernetController.h>
 #include <CoreAudio/CoreAudio.h>
 
+#include <libfswatch/libfswatch_config.h>
+#define HAVE_FSEVENTS_FSEVENTSTREAMSETDISPATCHQUEUE
+#include <libfswatch/c++/path_utils.hpp>
+#include <libfswatch/c++/monitor_factory.hpp>
+#ifdef HAVE_FSEVENTS_FSEVENTSTREAMSETDISPATCHQUEUE
+  #include <libfswatch/c++/fsevents_monitor.hpp>
+#endif
+
+
 #include "c_system.h"
 
 #include "c_filemanager.h"
@@ -36,6 +45,7 @@
 #include "c_vid.h"
 #include "c_soundmanager.h"
 #include "c_filehttp.h"
+#include "c_thread.h"
 //=============================================================================
 
 
@@ -104,8 +114,10 @@ CVAR_STRINGF(sys_joyName,               "", CVAR_SAVECONFIG);
 CVAR_BOOL   (sys_debugHID,              false);
 CVAR_BOOLF  (sys_warpCursor,            true,   CVAR_SAVECONFIG);
 
-keyboardMap     g_KeyboardMap;
-escSequenceMap  g_KeyboardEscSequenceMap;
+keyboardMap             g_KeyboardMap;
+escSequenceMap          g_KeyboardEscSequenceMap;
+CK2Mutex                g_FileMonitorMutex;
+CK2Thread<void>::Handle g_FileMonitorThread;
 //=============================================================================
 
 #ifndef wcscasecmp
@@ -124,6 +136,18 @@ int wcscasecmp(const wchar_t *s1, const wchar_t *s2)
     return (*s1-*s2);
 }
 #endif
+
+/*====================
+ GetModPaths
+ ====================*/
+vector<string> GetModPaths()
+{
+    vector<string> vPaths;
+    for (const auto& sMod : FileManager.GetModStack()) {
+        vPaths.emplace_back(fsw::fsw_realpath(TStringToNative(K2System.GetRootDir() + _T("/") + sMod).c_str(), nullptr));
+    }
+    return std::move(vPaths);
+}
 
 
 /*====================
@@ -1062,8 +1086,6 @@ void    CSystem::Exit(int iErrorLevel)
 }
 
 
-
-
 /*====================
  CSystem::DebugOutput
  ====================*/
@@ -1108,11 +1130,62 @@ tstring CSystem::GetLastErrorString()
 
 
 /*====================
+ ProcessFSEvents
+ ====================*/
+void ProcessFSEvents(const std::vector<fsw::event>& events, void *)
+{
+    CScopedLock cLock(g_FileMonitorMutex);
+    for (auto& event : events)
+    {
+        K2System.AddModifiedPath(NativeToTString(event.get_path()));
+    }
+}
+
+
+/*====================
+  CSystem::AddModifiedPath
+  ====================*/
+void    CSystem::AddModifiedPath(const tstring &sPath)
+{
+    m_setsModifiedFiles.insert(sPath);
+}
+
+
+/*====================
  CSystem::StartDirectoryMonitoring
  ====================*/
 void    CSystem::StartDirectoryMonitoring()
 {
-    // TODO
+    if (host_dynamicResReload && !m_pFileMonitor)
+    {
+        // Set up file monitoring
+        m_pFileMonitor = fsw::monitor_factory::create_monitor(
+                fsw_monitor_type::system_default_monitor_type,
+                GetModPaths(),
+                ProcessFSEvents);
+        m_pFileMonitor->set_latency(0.25);
+        m_pFileMonitor->set_recursive(true);
+        m_pFileMonitor->set_follow_symlinks(true);
+#if defined(HAVE_FSEVENTS_FSEVENTSTREAMSETDISPATCHQUEUE)
+        m_pFileMonitor->set_property(std::string(fsw::fsevents_monitor::DARWIN_EVENTSTREAM_NO_DEFER), "true");
+#endif
+        std::vector<fsw_event_type_filter> vEventFilters;
+        for (const auto& item : FSW_ALL_EVENT_FLAGS)
+        {
+            vEventFilters.push_back({item});
+        }
+        m_pFileMonitor->set_event_type_filters(vEventFilters);
+        if (g_FileMonitorThread)
+        {
+            CK2Thread<void>::Kill(g_FileMonitorThread);
+        }
+        int iError = CK2Thread<void>::Create(
+                [=]() {
+                    m_pFileMonitor->start();
+                },
+                &g_FileMonitorThread);
+        // TODO: Check iError?
+    }
 }
 
 
@@ -1121,7 +1194,23 @@ void    CSystem::StartDirectoryMonitoring()
  ====================*/
 void    CSystem::GetModifiedFileList(tsvector &vFileList)
 {
-    // TODO
+    CScopedLock cLock(g_FileMonitorMutex);
+
+    if (!m_setsModifiedFiles.empty()) {
+        auto vModPaths = GetModPaths();
+
+        for (auto& sFullPath : m_setsModifiedFiles)
+        {
+            for (const auto& sModPath : vModPaths) {
+                tstring tsModPath = NativeToTString(sModPath) + _T("/");
+                if (sFullPath.find(tsModPath) == 0) {
+                    auto sPath = sFullPath.substr(tsModPath.size() - 1);
+                    vFileList.push_back(sPath);
+                }
+            }
+        }
+        m_setsModifiedFiles.clear();
+    }
 }
 
 
@@ -1130,7 +1219,12 @@ void    CSystem::GetModifiedFileList(tsvector &vFileList)
  ====================*/
 void    CSystem::StopDirectoryMonitoring()
 {
-    // TODO
+    if (g_FileMonitorThread)
+    {
+        CK2Thread<void>::Kill(g_FileMonitorThread);
+        g_FileMonitorThread = nullptr;
+    }
+    SAFE_DELETE(m_pFileMonitor);
 }
 
 

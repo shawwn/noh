@@ -9,6 +9,10 @@
 // Declarations
 //=============================================================================
 extern K2_API class CSystem &K2System;
+
+namespace fsw {
+    class monitor;
+}
 //=============================================================================
 
 //=============================================================================
@@ -169,9 +173,12 @@ private:
 #ifdef linux
     int             m_iInotifyFd;
     map<int,tstring>    m_mapInotifyWdPaths;
-#else
+#elif defined(WIN32)
     bool            m_bMonitoringActive;
     void*           m_pFileMonitorInfo;
+    sset            m_setsModifiedFiles;
+#elif defined(__APPLE__)
+    fsw::monitor*   m_pFileMonitor = nullptr;
     sset            m_setsModifiedFiles;
 #endif
 
@@ -274,13 +281,17 @@ public:
     K2_API void             StopDirectoryMonitoring();
 #ifdef linux
     bool                    IsDirectoryMonitoring() const                   { return m_iInotifyFd >= 0; }
-#else
+#elif defined(WIN32)
     bool                    IsDirectoryMonitoring() const                   { return m_bMonitoringActive; }
+#elif defined(__APPLE__)
+    bool                    IsDirectoryMonitoring() const                   { return m_pFileMonitor != nullptr; }
 #endif
 
 #ifdef WIN32
     void*                   GetFileMonitorInfo() const                      { return m_pFileMonitorInfo; }
     void                    SetDirectoryChangeNotified(bool bValue)         { m_bDirectoryChangeNotified = bValue; }
+    void                    AddModifiedPath(const tstring &sPath);
+#elif defined(__APPLE__)
     void                    AddModifiedPath(const tstring &sPath);
 #endif
 #ifdef linux
