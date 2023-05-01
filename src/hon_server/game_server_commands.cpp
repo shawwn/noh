@@ -148,7 +148,10 @@ SERVER_CMD(LevelMax)
         if (pAbility == NULL)
             continue;
 
-        while (pAbility->CanLevelUp()) pAbility->LevelUp();
+        while (pAbility->CanLevelUp())
+        {
+            pAbility->LevelUp();
+        }
     }
 
     return true;
@@ -572,7 +575,10 @@ SERVER_CMD(ServerStatus)
 SERVER_CMD(ReplayRecordStart)
 {
     if (vArgList.size() < 1)
+    {
         Console << _T("syntax: ReplayRecordStart <filename>") << newl;
+        return false;
+    }
 
     ReplayManager.StartRecording(_TS("~/replays/") + vArgList[0]);
 
