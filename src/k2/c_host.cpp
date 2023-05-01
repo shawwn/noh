@@ -63,7 +63,7 @@ CVAR_INT        (host_sleepMS,                  1);
 #else
 CVAR_INT        (host_sleepMS,                  0);
 #endif
-CVAR_BOOLF      (host_dynamicResReload,         false,      CVAR_SAVECONFIG);
+CVAR_BOOLF      (host_dynamicResReload,         true,       CVAR_SAVECONFIG);
 CVAR_STRINGF    (host_date,                     "",         CVAR_READONLY);
 CVAR_STRINGF    (host_time,                     "",         CVAR_READONLY);
 CVAR_STRINGF    (host_version,                  "",         CVAR_READONLY);
