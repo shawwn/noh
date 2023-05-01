@@ -363,6 +363,8 @@ inline ETargetSelection&    AtoX(const tstring &s, ETargetSelection &e)
         return e = TARGET_SELECT_RANDOM_ANGLE_DISTANCE;
     else if (CompareNoCase(s, _T("all")) == 0)
         return e = TARGET_SELECT_ALL;
+    else if (CompareNoCase(s, _T("")) == 0)
+        return e = TARGET_SELECT_ALL;
 
     return e = TARGET_SELECT_NONE;
 }
