@@ -119,22 +119,25 @@ CVAR_BOOL(          sv_spawnCreeps,             true);
 CVAR_BOOL(          sv_spawnPowerups,           true);
 CVAR_BOOL(          sv_spawnCritters,           true);
 
+// https://dota2.fandom.com/wiki/Lane_Creeps
 CVAR_UINTF(         g_creepWaveInterval,            SecToMs(30u),               CVAR_GAMECONFIG);
-CVAR_UINTF(         g_creepSiegeInterval,           5,                          CVAR_GAMECONFIG);
-ARRAY_CVAR_UINTF(   g_creepFormationIndexes,        _T("0,31,65,87,97,115"),    CVAR_GAMECONFIG);
-ARRAY_CVAR_UINTF(   g_creepMeleeCount,              _T("3,4,5,5,6,7"),          CVAR_GAMECONFIG);
-ARRAY_CVAR_UINTF(   g_creepRangedCount,             _T("1,1,1,2,2,2"),          CVAR_GAMECONFIG);
-ARRAY_CVAR_UINTF(   g_creepSiegeCount,              _T("1,1,1,2,2,2"),          CVAR_GAMECONFIG);
+CVAR_UINTF(         g_creepSiegeInterval,           10,                         CVAR_GAMECONFIG);
+ARRAY_CVAR_UINTF(   g_creepFormationIndexes,        _T("0,31,61,71,81,91"),     CVAR_GAMECONFIG);
+ARRAY_CVAR_UINTF(   g_creepMeleeCount,              _T("3, 4, 5, 5, 5, 6"),     CVAR_GAMECONFIG);
+ARRAY_CVAR_UINTF(   g_creepRangedCount,             _T("1, 1, 1, 1, 2, 2"),     CVAR_GAMECONFIG);
+ARRAY_CVAR_UINTF(   g_creepSiegeCount,              _T("1, 1, 1, 2, 2, 2"),     CVAR_GAMECONFIG);
 
-CVAR_UINTF(         g_treeSpawnInterval,            MinToMs(5u),                CVAR_GAMECONFIG);
+// https://dota2.fandom.com/wiki/Trees#Respawn_Time
+CVAR_UINTF(         g_treeSpawnInterval,            MinToMs(3u),                CVAR_GAMECONFIG);
 CVAR_UINTF(         g_powerupSpawnInterval,         MinToMs(2u),                CVAR_GAMECONFIG);
-CVAR_UINTF(         g_critterSpawnInterval,         MinToMs(2u),                CVAR_GAMECONFIG);
+// https://dota2.fandom.com/wiki/Neutral_creeps#Spawning
+CVAR_UINTF(         g_critterSpawnInterval,         MinToMs(1u),                CVAR_GAMECONFIG);
 
 CVAR_FLOATF(        g_critterNoRespawnProximity,    500.0f,                     CVAR_GAMECONFIG);
 
 CVAR_FLOATF(        g_voiceLaneChatRange,           2000.0f,                    CVAR_GAMECONFIG);
 
-CVAR_UINTF(         g_creepUpgradeInterval,         MinToMs(7u),                CVAR_GAMECONFIG);
+CVAR_UINTF(         g_creepUpgradeInterval,         MinToMs(7u) + SecToMs(30u), CVAR_GAMECONFIG);
 CVAR_UINTF(         g_creepMaxUpgrades,             30,                         CVAR_GAMECONFIG);
 
 CVAR_UINTF(         g_voteDuration,                 SecToMs(20u),               CVAR_GAMECONFIG);
