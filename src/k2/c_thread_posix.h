@@ -30,10 +30,10 @@ class CK2Thread
     typedef struct Instance;
 
 public:
-    typedef pthread_t                   Handle;
-    typedef typename ThreadParam&       ThreadParamRef;
-    typedef typename const ThreadParam& ThreadParamCRef;
-    typedef typename void (*Handler)(ThreadParamRef);
+    typedef pthread_t          Handle;
+    typedef ThreadParam&       ThreadParamRef;
+    typedef const ThreadParam& ThreadParamCRef;
+    typedef void (*Handler)(ThreadParamRef);
 
 protected:
     // Inherited interface
@@ -47,10 +47,10 @@ public:
     // Create
     static int      Create(
         const Handler&      pFunc,
-        const ThreadParam&  cFuncParam,
-        Handle* const&      pOutHandle = NULL,
+        ThreadParam&        cFuncParam,
+        Handle*             pOutHandle = NULL,
         const bool          bCreateDetached = false,
-        const uint          uiStackSize = 0,
+        const size_t        uiStackSize = 0,
         const bool          bCancelEnable = false,
         const bool          bCancelAsync = false)
     {
@@ -61,10 +61,10 @@ public:
         if (bCreateDetached)
             pthread_attr_setdetachstate(&attr, PTHREAD_CREATE_DETACHED);
 
-        if (bStackSize)
-            pthread_attr_setstacksize(&attr, bStackSize);
+        if (uiStackSize > 0)
+            pthread_attr_setstacksize(&attr, uiStackSize);
 
-        Instance I(cFuncParam, 0, pFunc, bCancelEnable, bCancelAsync);
+        static Instance I(cFuncParam, nullptr, pFunc, bCancelEnable, bCancelAsync);
 
         int R = pthread_create((pthread_t *)pOutHandle, &attr, ThreadMainHandler, (void *)&I);
         pthread_attr_destroy(&attr);
@@ -72,7 +72,7 @@ public:
         if (!R)
             S_Create().Wait();
         else if (pOutHandle)
-            *pOutHandle = K2_INVALID_THREAD;
+            *pOutHandle = (Handle)K2_INVALID_THREAD;
 
         M_Create().Unlock();
         return errno;
@@ -82,9 +82,9 @@ public:
     // Create
     int             Create(
         const ThreadParam&  cFuncParam,
-        Handle* const&      pOutHandle = NULL,
+        Handle*             pOutHandle = NULL,
         const bool          bCreateDetached = false,
-        const uint          uiStackSize = 0,
+        const size_t        uiStackSize = 0,
         const bool          bCancelEnable = false,
         const bool          bCancelAsync = false) const
     {
@@ -95,10 +95,10 @@ public:
         if (bCreateDetached)
             pthread_attr_setdetachstate(&attr, PTHREAD_CREATE_DETACHED);
 
-        if (bStackSize)
-            pthread_attr_setstacksize(&attr, bStackSize);
+        if (uiStackSize > 0)
+            pthread_attr_setstacksize(&attr, uiStackSize);
 
-        Instance I(cFuncParam, const_cast<CK2Thread *>(this), 0, bCancelEnable, bCancelAsync);
+        static Instance I(cFuncParam, const_cast<CK2Thread *>(this), 0, bCancelEnable, bCancelAsync);
 
         int R = pthread_create((pthread_t *)pOutHandle,&attr,ThreadMainHandler,(void *)&I);
         pthread_attr_destroy(&attr);
@@ -106,7 +106,7 @@ public:
         if (!R)
             S_Create().Wait();
         else if (pOutHandle)
-            *pOutHandle = K2_INVALID_THREAD;
+            *pOutHandle = (Handle)K2_INVALID_THREAD;
 
         M_Create().Unlock();
         return errno;
@@ -139,17 +139,16 @@ private:
     static const CK2Semaphore&  S_Create()  { static CK2Semaphore S; return S; }
 
 
-    static void*    ThreadMainHandler(Instance *Param)
+    static void*    ThreadMainHandler(void* Param)
     {
-        Instance  I(*Param);
-        ThreadParam  Data(I.Data);
+        Instance*  I((Instance*)Param);
         S_Create().Post();
 
-        if (I.Flags & 1 /*bCancelEnable*/)
+        if (I->Flags & 1 /*bCancelEnable*/)
         {
             pthread_setcancelstate(PTHREAD_CANCEL_ENABLE,NULL);
 
-            if (I.Flags & 2 /*bCancelAsync*/)
+            if (I->Flags & 2 /*bCancelAsync*/)
                 pthread_setcanceltype(PTHREAD_CANCEL_ASYNCHRONOUS,NULL);
             else
                 pthread_setcanceltype(PTHREAD_CANCEL_DEFERRED,NULL);
@@ -159,10 +158,10 @@ private:
             pthread_setcancelstate(PTHREAD_CANCEL_DISABLE,NULL);
         }
 
-        if (I.Owner)
-            I.Owner->ThreadMain(Data);
+        if (I->Owner)
+            I->Owner->ThreadMain(I->Data);
         else
-            I.pFN(Data);
+            I->pFN(I->Data);
 
         return 0;
     }
@@ -171,8 +170,8 @@ private:
     struct Instance
     {
         Instance(
-            ThreadParamCRef P,
-            CK2Thread<ThreadParam>* const& O,
+            ThreadParamRef P,
+            CK2Thread<ThreadParam>* O,
             const Handler& pH = 0,
             bool CE = false,
             bool CA = false) :
@@ -184,7 +183,7 @@ private:
                 Flags|=2;
         }
 
-        ThreadParamCRef         Data;
+        ThreadParamRef          Data;
         CK2Thread<ThreadParam>* Owner;
         Handler                 pFN;
         unsigned char           Flags;
@@ -196,7 +195,7 @@ private:
 // CK2Thread<void>
 //  Explicit Specialization of void
 //=============================================================================
-class CK2Thread<void>
+template<> class CK2Thread<void>
 {
     typedef struct Instance;
 
@@ -216,9 +215,9 @@ public:
     // Create
     static int  Create(
         const Handler&      pFunc,
-        Handle* const&      pOutHandle = NULL,
+        Handle*             pOutHandle = NULL,
         const bool          bCreateDetached = false,
-        const uint          uiStackSize = 0,
+        const size_t        uiStackSize = 0,
         const bool          bCancelEnable = false,
         const bool          bCancelAsync = false)
     {
@@ -229,10 +228,10 @@ public:
         if (bCreateDetached)
             pthread_attr_setdetachstate(&attr, PTHREAD_CREATE_DETACHED);
 
-        if (bStackSize)
-            pthread_attr_setstacksize(&attr, bStackSize);
+        if (uiStackSize > 0)
+            pthread_attr_setstacksize(&attr, uiStackSize);
 
-        Instance I(0, pFunc, bCancelEnable, bCancelAsync);
+        static Instance I(0, pFunc, bCancelEnable, bCancelAsync);
 
         int R = pthread_create((pthread_t *)pOutHandle, &attr, ThreadMainHandler, (void *)&I);
         pthread_attr_destroy(&attr);
@@ -240,7 +239,7 @@ public:
         if (!R)
             S_Create().Wait();
         else if (pOutHandle)
-            *pOutHandle = K2_INVALID_THREAD;
+            *pOutHandle = (Handle)K2_INVALID_THREAD;
 
         M_Create().Unlock();
         return errno;
@@ -249,9 +248,9 @@ public:
 
     // Create
     int             Create(
-        Handle* const&  pOutHandle = NULL,
+        Handle*         pOutHandle = NULL,
         const bool      bCreateDetached = false,
-        const uint      uiStackSize = 0,
+        const size_t    uiStackSize = 0,
         const bool      bCancelEnable = false,
         const bool      bCancelAsync = false) const
     {
@@ -262,10 +261,10 @@ public:
         if (bCreateDetached)
             pthread_attr_setdetachstate(&attr, PTHREAD_CREATE_DETACHED);
 
-        if (bStackSize)
-            pthread_attr_setstacksize(&attr, bStackSize);
+        if (uiStackSize > 0)
+            pthread_attr_setstacksize(&attr, uiStackSize);
 
-        Instance I(const_cast<CK2Thread *>(this), 0, bCancelEnable, bCancelAsync);
+        Instance I(const_cast<CK2Thread<void>*>(this), 0, bCancelEnable, bCancelAsync);
 
         int R = pthread_create((pthread_t *)pOutHandle, &attr, ThreadMainHandler, (void *)&I);
         pthread_attr_destroy(&attr);
@@ -273,7 +272,7 @@ public:
         if (!R)
             S_Create().Wait();
         else if (pOutHandle)
-            *pOutHandle = K2_INVALID_THREAD;
+            *pOutHandle = (Handle)K2_INVALID_THREAD;
 
         M_Create().Unlock();
         return errno;
@@ -306,9 +305,9 @@ private:
     static const CK2Semaphore&  S_Create()  { static CK2Semaphore S; return S; }
 
 
-    static void*    ThreadMainHandler(Instance *Param)
+    static void*    ThreadMainHandler(void *Param)
     {
-        Instance  I(*Param);
+        Instance  I(*(Instance*)Param);
         S_Create().Post();
 
         if (I.Flags & 1 /*bCancelEnable*/)
@@ -337,7 +336,7 @@ private:
     struct Instance
     {
         Instance(
-            CK2Thread<void>* const& O,
+            CK2Thread<void>* O,
             const Handler& pH = 0,
             bool CE = false,
             bool CA = false) :
