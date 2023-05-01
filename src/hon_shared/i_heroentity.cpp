@@ -37,11 +37,11 @@ ResHandle   IHeroEntity::s_hMinimapTalkingIcon(INVALID_RESOURCE);
 ResHandle   IHeroEntity::s_hLevelupEffect(INVALID_RESOURCE);
 ResHandle   IHeroEntity::s_hHeroIndicator(INVALID_RESOURCE);
 
-CVAR_FLOATF(    hero_hpPerStr,                  19.0f,                                  CVAR_TRANSMIT | CVAR_GAMECONFIG);
-CVAR_FLOATF(    hero_hpRegenPerStr,             0.05f,                                  CVAR_TRANSMIT | CVAR_GAMECONFIG);
-CVAR_FLOATF(    hero_mpPerInt,                  13.0f,                                  CVAR_TRANSMIT | CVAR_GAMECONFIG);
-CVAR_FLOATF(    hero_mpRegenPerInt,             0.04f,                                  CVAR_TRANSMIT | CVAR_GAMECONFIG);
-CVAR_FLOATF(    hero_armorPerAgi,               0.14f,                                  CVAR_TRANSMIT | CVAR_GAMECONFIG);
+CVAR_FLOATF(    hero_hpPerStr,                  22.0f,                                  CVAR_TRANSMIT | CVAR_GAMECONFIG);
+CVAR_FLOATF(    hero_hpRegenPerStr,             0.1f,                                   CVAR_TRANSMIT | CVAR_GAMECONFIG);
+CVAR_FLOATF(    hero_mpPerInt,                  12.0f,                                  CVAR_TRANSMIT | CVAR_GAMECONFIG);
+CVAR_FLOATF(    hero_mpRegenPerInt,             0.05f,                                  CVAR_TRANSMIT | CVAR_GAMECONFIG);
+CVAR_FLOATF(    hero_armorPerAgi,               0.17f,                                  CVAR_TRANSMIT | CVAR_GAMECONFIG);
 CVAR_FLOATF(    hero_attackSpeedPerAgi,         0.01f,                                  CVAR_TRANSMIT | CVAR_GAMECONFIG);
 
 CVAR_UINTF(     hero_blockRepathTime,           100,                                    CVAR_GAMECONFIG);
