@@ -128,14 +128,18 @@ elseif(APPLE)
 endif()
 
 if(APPLE)
+  # brew install speex
   include_directories(/opt/homebrew/opt/speex/include)
-  include_directories(/opt/homebrew/opt/speexdsp/include)
   link_directories(/opt/homebrew/opt/speex/lib)
+  # brew install speexdsp
+  include_directories(/opt/homebrew/opt/speexdsp/include)
   link_directories(/opt/homebrew/opt/speexdsp/lib)
+  set(SPEEX_LIBRARIES speex speexdsp)
+
+  # brew install giflib
   include_directories(/opt/homebrew/opt/giflib/include)
   link_directories(/opt/homebrew/opt/giflib/lib)
   set(GIF_LIBRARIES gif)
-  set(SPEEX_LIBRARIES speex speexdsp)
 else()
   include(FindSpeex)
   include(FindSpeexDSP)
@@ -153,6 +157,7 @@ include(FindJPEG)
 include_directories(${JPEG_INCLUDE_DIR})
 
 if(APPLE)
+  # brew install openssl
   set(OPENSSL_ROOT_DIR "/opt/homebrew/opt/openssl")
 endif()
 include(FindOpenSSL)
