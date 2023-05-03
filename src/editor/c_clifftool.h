@@ -33,6 +33,7 @@ enum ECliffMode
     CLIFF_WC3
 };
 
+#if TKTK // These seem to be unused
 enum EBlockerFlags
 {
     BLOCKER_REMOVE = 0x01,
@@ -41,6 +42,7 @@ enum EBlockerFlags
     BLOCKER_BOT = 0x08,
     BLOCKER_TOP = 0x10
 };
+#endif
 
     // Ramp Flags per tile.
 const uint RAMP_FLAG_SET                    (BIT(0)); // If true this Ramp tile is in use.
