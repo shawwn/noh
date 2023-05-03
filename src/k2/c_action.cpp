@@ -538,7 +538,7 @@ UI_CMD(GetKeybindButton, 3)
     const tstring &sParam(vArgList[2]->Evaluate());
     int iSkip(vArgList.size() > 3 ? AtoI(vArgList[3]->Evaluate()) : 0);
 
-    if (eBindTable == -1)
+    if (eBindTable == EBindTable(-1))
         return _T("<INVALID TABLE>");
 
     const ButtonActionMap &lButton(ActionRegistry.GetButtonActionMap(eBindTable)); 
@@ -573,7 +573,7 @@ UI_CMD(GetJoystickAxisBind, 3)
     const tstring &sParam(vArgList[2]->Evaluate());
     int iSkip(vArgList.size() > 3 ? AtoI(vArgList[3]->Evaluate()) : 0);
 
-    if (eBindTable == -1)
+    if (eBindTable == EBindTable(-1))
         return _T("<INVALID TABLE>");
 
     const AxisActionMap &mapAxis(ActionRegistry.GetAxisActionMap(eBindTable)); 
@@ -608,7 +608,7 @@ UI_VOID_CMD(ClearJoystickAxisBinds, 3)
     const tstring &sParam(vArgList[2]->Evaluate());
     int iSkip(vArgList.size() > 3 ? AtoI(vArgList[3]->Evaluate()) : 0);
 
-    if (eBindTable == -1)
+    if (eBindTable == EBindTable(-1))
         return;
 
     const AxisActionMap &mapAxis(ActionRegistry.GetAxisActionMap(eBindTable)); 
