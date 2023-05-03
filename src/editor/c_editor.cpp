@@ -1355,6 +1355,7 @@ void    CEditor::DebugRender()
             case SD_EAST: v2Dir = CVec2f(0.0f, 1.0f); break;
             case SD_SOUTH: v2Dir = CVec2f(1.0f, 0.0f); break;
             case SD_WEST: v2Dir = CVec2f(0.0f, -1.0f); break;
+            case SD_INVALID: break;
             }
 
             v2PosGate = v2Dir * vecInfoPath[i].GetRadiusPositive();

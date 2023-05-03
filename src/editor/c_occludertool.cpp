@@ -613,6 +613,8 @@ void    COccluderTool::TranslateXY()
         {
             switch (m_eOccluderSelectMode)
             {
+            case SELECT_EDGE:
+                break;
             case SELECT_VERTEX:
                 {
                     CVec3f vSnap;
@@ -778,6 +780,8 @@ void    COccluderTool::Create()
 {
     switch (m_eOccluderSelectMode)
     {
+    case SELECT_EDGE:
+        break;
     case SELECT_VERTEX:
         if (m_uiHoverOccluder != INVALID_INDEX && m_uiHoverOccluder != m_uiWorkingOccluder)
         {
@@ -926,6 +930,8 @@ void    COccluderTool::StartSelect()
 {
     switch (m_eOccluderSelectMode)
     {
+    case SELECT_EDGE:
+        break;
     case SELECT_VERTEX:
         if (m_uiHoverOccluder != INVALID_INDEX && m_uiHoverOccluder != m_uiWorkingOccluder)
         {
@@ -1010,6 +1016,8 @@ void    COccluderTool::StartTranslateXY()
 {
     switch (m_eOccluderSelectMode)
     {
+    case SELECT_EDGE:
+        break;
     case SELECT_VERTEX:
         if (m_uiHoverOccluder != INVALID_INDEX && m_uiHoverOccluder != m_uiWorkingOccluder)
         {
@@ -1139,6 +1147,8 @@ void    COccluderTool::StartTransform(int iState)
 {
     switch (m_eOccluderSelectMode)
     {
+    case SELECT_EDGE:
+        break;
     case SELECT_VERTEX:
         if (m_uiHoverOccluder != INVALID_INDEX && m_uiHoverOccluder != m_uiWorkingOccluder)
         {
@@ -1247,6 +1257,8 @@ void    COccluderTool::ApplySelect()
 
         switch (m_eOccluderSelectMode)
         {
+        case SELECT_EDGE:
+            break;
         case SELECT_VERTEX:
             if (m_uiWorkingOccluder != INVALID_INDEX)
             {
@@ -1300,6 +1312,8 @@ void    COccluderTool::ApplyTransform()
     {
         switch(m_eOccluderSelectMode)
         {
+        case SELECT_EDGE:
+            break;
         case SELECT_VERTEX:
             if (m_uiWorkingOccluder != INVALID_INDEX)
             {
@@ -1435,6 +1449,8 @@ void    COccluderTool::UpdateHoverSelection()
 
             switch (m_eOccluderSelectMode)
             {
+            case SELECT_EDGE:
+                break;
             case SELECT_VERTEX:
                 if (m_uiWorkingOccluder != INVALID_INDEX)
                 {
@@ -1675,6 +1691,8 @@ void    COccluderTool::DrawOccluderPoly(uint uiIndex)
         // occluder vertex positions
         switch (m_eOccluderSelectMode)
         {
+        case SELECT_EDGE:
+            break;
         case SELECT_VERTEX:
             for (uint uiPoint(0); uiPoint < pOccluder->GetNumPoints(); ++uiPoint)
             {
@@ -1705,6 +1723,8 @@ void    COccluderTool::DrawOccluderPoly(uint uiIndex)
         // vertex colors
         switch (m_eOccluderSelectMode)
         {
+        case SELECT_EDGE:
+            break;
         case SELECT_VERTEX:
             // Point Vertices
             for (uint z(0); z < pOccluder->GetNumPoints(); ++z)
@@ -1947,6 +1967,9 @@ void    COccluderTool::CloneSelection()
     {
         switch (m_eOccluderSelectMode)
         {
+        case SELECT_VERTEX:
+        case SELECT_EDGE:
+            break;
         case SELECT_FACE:
             {
                 uiset setNew;
