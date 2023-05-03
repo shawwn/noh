@@ -5021,17 +5021,17 @@ bool    CGameClient::ProcessGameData(CPacket &pkt)
             if (yCmd == GAME_CMD_KILL_COURIER_MESSAGE2)
             {
                 // It was the team that killed the courier, not a hero, so display the appropriate message
-                if (yKiller == TEAM_1)
+                if (yKiller == byte(TEAM_1))
                 {
                     sKillerName = _T("The Legion");
                     v4KillerColor = CVec4f(LEGION_RED);
                 }
-                else if (yKiller == TEAM_2)
+                else if (yKiller == byte(TEAM_2))
                 {
                     sKillerName = _T("The Hellbourne");
                     v4KillerColor = CVec4f(HELLBOURNE_GREEN);
                 }
-                else if (yKiller == TEAM_NEUTRAL)
+                else if (yKiller == byte(TEAM_NEUTRAL))
                 {
                     sKillerName = _T("Neutral Creeps");
                     v4KillerColor = CVec4f(WHITE);
@@ -6833,7 +6833,7 @@ bool    CGameClient::ProcessGameData(CPacket &pkt)
             if (pPlayer == NULL)
                 break;
 
-            if (yIsReferee != -1)
+            if (yIsReferee != byte(-1))
             {
                 pPlayer->SetReferee(yIsReferee != 0);
                 if (yIsReferee == 0)
