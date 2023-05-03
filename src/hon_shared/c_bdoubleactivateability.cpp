@@ -138,6 +138,7 @@ void    CBDoubleActivateAbility::ThinkFrame()
             // otherwise, execute default doubleactivate behavior.
             switch (m_pAbility->GetActionType())
             {
+            default: break;
             case TOOL_ACTION_TARGET_POSITION:
                 {
                     uint uiAllySpawnScheme(Game.LookupTargetScheme(_T("ally_well")));
