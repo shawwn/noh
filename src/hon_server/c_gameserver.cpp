@@ -6682,7 +6682,7 @@ bool    CGameServer::ProcessGameData(int iClientNum, CPacket &pkt)
                 break;
             
 
-            if (yPingType != -1 && (pPlayer->GetLastUnitPingTime() == INVALID_TIME || GetGameTime() - pPlayer->GetLastUnitPingTime() > sv_unitPingDelay))
+            if (yPingType != byte(-1) && (pPlayer->GetLastUnitPingTime() == INVALID_TIME || GetGameTime() - pPlayer->GetLastUnitPingTime() > sv_unitPingDelay))
             {
                 SendUnitPing(yPingType, pPlayer->GetHero(), pUnit);
                 pPlayer->SetLastUnitPingTime(GetGameTime());
