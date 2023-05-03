@@ -4367,7 +4367,7 @@ ushort  CCliffTool::CanPlaceRamp(int iX, int iY)
         return ushort(RAMP_FLAG_EX_FLAT);
     }
 
-    return NULL;
+    return 0;
 }
 
 
