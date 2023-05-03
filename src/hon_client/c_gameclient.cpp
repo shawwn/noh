@@ -9096,7 +9096,7 @@ int     CGameClient::StartClientGameEffect(ResHandle hEffect, int iChannel, int 
 
     CEffect* pEffect(g_ResourceManager.GetEffect(hEffect));
     assert(pEffect != NULL);
-    if (hEffect == NULL)
+    if (pEffect == NULL)
         return -1;
 
     // Search from an unused effect slot
