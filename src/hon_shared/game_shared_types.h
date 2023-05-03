@@ -64,30 +64,28 @@ typedef HeroList::const_iterator    HeroList_cit;
 enum EGameResourceType
 {
     RES_ENTITY_DEF = NUM_RESOURCE_TYPES,
-    RES_GAME_MECHANICS,
-    
-    NUM_GAME_RESOURCE_TYPES
+    RES_GAME_MECHANICS
 };
+static const int NUM_GAME_RESOURCE_TYPES(RES_GAME_MECHANICS + 1);
 
 enum EAttribute
 {
     ATTRIBUTE_STRENGTH,
     ATTRIBUTE_AGILITY,
     ATTRIBUTE_INTELLIGENCE,
-
-    ATTRIBUTE_INVALID
 };
+static const EAttribute ATTRIBUTE_INVALID(EAttribute(ATTRIBUTE_INTELLIGENCE + 1));
 
 enum ETargetSelection
 {
-    TARGET_SELECT_NONE,
-    TARGET_SELECT_CLOSEST,
+    TARGET_SELECT_CLOSEST = 1,
     TARGET_SELECT_FURTHEST,
     TARGET_SELECT_RANDOM,
     TARGET_SELECT_RANDOM_POSITION,
     TARGET_SELECT_RANDOM_ANGLE_DISTANCE,
     TARGET_SELECT_ALL
 };
+static const ETargetSelection TARGET_SELECT_NONE(ETargetSelection(0));
 
 enum ESuperType
 {
@@ -117,6 +115,8 @@ enum EEntityToolAction
     TOOL_ACTION_TARGET_VECTOR,
     TOOL_ACTION_TARGET_CURSOR,
 };
+static const EEntityToolAction TOOL_ACTION_INVALID(EEntityToolAction(0));
+
 
 enum EActionTarget
 {

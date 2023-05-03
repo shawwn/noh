@@ -26,9 +26,8 @@ enum EGlobalCondition
 {
     GLOBAL_CONDITION_DAY,
     GLOBAL_CONDITION_NIGHT,
-
-    INVALID_GLOBAL_CONDITION
 };
+static const EGlobalCondition INVALID_GLOBAL_CONDITION(EGlobalCondition(GLOBAL_CONDITION_NIGHT + 1));
 
 enum ETargetTrait
 {
@@ -90,9 +89,8 @@ enum ETargetTrait
     TARGET_TRAIT_MANAPOOL,
 
     TARGET_TRAIT_DELETED,
-
-    INVALID_TARGET_TYPE
 };
+static const ETargetTrait INVALID_TARGET_TYPE(ETargetTrait(TARGET_TRAIT_DELETED + 1));
 
 enum EPopup
 {
@@ -104,9 +102,8 @@ enum EPopup
     POPUP_MISS,
     POPUP_TOOFAR,
     POPUP_CREEP_KILL,
-
-    NUM_RESERVED_POPUPS
 };
+static const int NUM_RESERVED_POPUPS(POPUP_CREEP_KILL + 1);
 
 enum EPing
 {
@@ -118,18 +115,16 @@ enum EPing
     PING_ATTACK_BUILDING,
     PING_ATTACK_HERO,
     PING_PROTECT_BUILDING,
-
-    NUM_RESERVED_PINGS
 };
+static const int NUM_RESERVED_PINGS(PING_PROTECT_BUILDING + 1);
 
 enum EStateStackType
 {
     STATE_STACK_NONE = 0,
     STATE_STACK_NOSELF,
     STATE_STACK_FULL,
-
-    INVALID_STATE_STACK_TYPE
 };
+static const EStateStackType INVALID_STATE_STACK_TYPE(EStateStackType(STATE_STACK_FULL + 1));
 
 EGlobalCondition    GetGlobalConditionFromString(const tstring &sName);
 ETargetTrait        GetTargetTraitFromString(const tstring &sName);

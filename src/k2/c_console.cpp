@@ -1604,6 +1604,13 @@ void    CConsole::Frame()
                 }
                 break;
             default:
+                if (ev.iFlags & IEVENT_CTRL)
+                {
+                    if (ev.uID.btn == EButton('A'))
+                        m_zInputPos = 0;
+                    if (ev.uID.btn == EButton('E'))
+                        m_zInputPos = m_sInputLine.size();
+                }
                 break;
             }
             break;
