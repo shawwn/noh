@@ -3134,6 +3134,7 @@ void    CGameServer::ParseGameLog(const tstring &sPath)
 
         switch (ev.GetEventType())
         {
+        default: break;
         case GAME_LOG_PLAYER_CONNECT:
             {
                 // Get player number

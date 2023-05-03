@@ -93,6 +93,7 @@ void    CGameLog::WritePlayer(EGameLogEvent eEvent, CPlayer *pPlayer, const tstr
     WRITE_STAT(player, pPlayer->GetClientNumber());
     switch (eEvent)
     {
+    default: break;
     case GAME_LOG_PLAYER_CONNECT:
         WRITE_STAT(name, QuoteStr(pPlayer->GetTrueName()));
         if (pPlayer->GetAccountID() >= 0)
@@ -525,6 +526,7 @@ void    CGameLog::WriteHero(EGameLogEvent eEvent, IHeroEntity *pHero, const tstr
     WRITE_STAT(team, pHero->GetTeam());
     switch (eEvent)
     {
+    default: break;
     case GAME_LOG_HERO_RESPAWN:
         m_hLogFile << SPACE << _T("duration:") << (Game.GetGameTime() - pHero->GetDeathTimeStamp());
         break;
