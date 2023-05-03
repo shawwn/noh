@@ -114,7 +114,6 @@ CVAR_BOOL   (cg_debugGameData,                  false);
 
 CVAR_UINTF  (cam_endGameLerpTime,               3000,                           CVAR_GAMECONFIG);
 CVAR_FLOATF (cam_endGameMinHeight,              10.0f,                          CVAR_GAMECONFIG);
-CVAR_UINTF  (cam_endGameTerrainAngleAmount,     0.5f,                           CVAR_GAMECONFIG);
 CVAR_VEC3F  (cam_endGameOffset,                 CVec3f(0.0f, 2000.0f, 1000.0f), CVAR_GAMECONFIG);
 
 CCvarb *sound_voiceDisabled(IMPORT_CVAR_BOOL("sound_voiceDisabled", false));
