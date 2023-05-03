@@ -969,6 +969,14 @@ void    CGameClient::PrecacheNextWorldEntity()
             }
         }
         break;
+    case WORLD_THING_LIGHT:
+        {
+        }
+        break;
+    case WORLD_THING_BIT_ENTITY:
+        {
+        }
+        break;
     }
 
     m_deqWorldThings.pop_front();
@@ -2490,6 +2498,7 @@ void    CGameClient::ActiveFrame()
     {
     case CG_INTERFACE_LOBBY:
         bMuteSFX = true;
+        /* fallthrough */
 
     case CG_INTERFACE_GAME:
     case CG_INTERFACE_GAME_SPECTATOR:
@@ -2515,6 +2524,8 @@ void    CGameClient::ActiveFrame()
                 }
             }
         }
+        break;
+    default:
         break;
     }
 
