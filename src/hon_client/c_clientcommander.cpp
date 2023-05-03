@@ -1816,6 +1816,7 @@ void    CClientCommander::Cast(const CVec2f &v2Pos, const CVec2f &v2Delta, bool 
 
     switch (pItem->GetActionType())
     {
+    case TOOL_ACTION_GLOBAL:
     case TOOL_ACTION_PASSIVE:
     case TOOL_ACTION_TOGGLE:
     case TOOL_ACTION_NO_TARGET:
@@ -2017,6 +2018,10 @@ void    CClientCommander::Cast(const CVec2f &v2Pos, const CVec2f &v2Delta, bool 
             }
         }
         break;
+
+    case TOOL_ACTION_INVALID:
+        Console.Warn << _T("Invalid tool action type") << newl;
+        return;
     }
 
     SetCommanderState(COMSTATE_HOVER);
@@ -2060,6 +2065,7 @@ void    CClientCommander::DoubleActivate()
 
     switch (pItem->GetActionType())
     {
+    default: break;
     case TOOL_ACTION_TARGET_POSITION:
     case TOOL_ACTION_TARGET_CURSOR:
     case TOOL_ACTION_TARGET_ENTITY:
