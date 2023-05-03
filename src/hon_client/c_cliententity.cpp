@@ -79,7 +79,7 @@ m_iIllusionEffectChannel(-1),
 m_iTeamTargetChannel(-1),
 
 m_v3PositionLinked(FAR_AWAY, FAR_AWAY, FAR_AWAY),
-m_yStatusLinked(EEntityStatus(-1)),
+m_yStatusLinked(byte(EEntityStatus(-1))),
 m_fScaleLinked(0.0f),
 m_hModelLinked(INVALID_RESOURCE),
 
@@ -305,7 +305,7 @@ void    CClientEntity::Initialize(IVisualEntity *pEntity)
         m_hModel = INVALID_RESOURCE;
 
         m_v3PositionLinked = CVec3f(FAR_AWAY, FAR_AWAY, FAR_AWAY);
-        m_yStatusLinked = EEntityStatus(-1);
+        m_yStatusLinked = byte(EEntityStatus(-1));
         m_fScaleLinked = 0.0f;
         m_hModelLinked = INVALID_RESOURCE;
 
