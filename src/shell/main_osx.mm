@@ -191,8 +191,11 @@ int main(int argc, char *argv[])
     // transform it to a gui application & bring it to the front
     ProcessSerialNumber psn = { 0, kCurrentProcess };
     TransformProcessType(&psn, kProcessTransformToForegroundApplication);
-#if 1
-    SetFrontProcess(&psn); // TKTK: This is deprecated
+#if TKTK || 1 // This is deprecated
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+    SetFrontProcess(&psn);
+#pragma clang diagnostic pop
 #else
     NSProcessInfo *processInfo = [NSProcessInfo processInfo];
 //    NSString *processName = [processInfo processName];
