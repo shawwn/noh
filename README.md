@@ -1,12 +1,19 @@
 # Newerth of Heroes
 
-## Compilation
+## Compiling NoH
 
 ### MacOS
 
+Install dependencies:
 ```
 brew install speex speexdsp giflib openssl fswatch
-git clone https://github.com/shawwn/noh --recursive
+```
+Clone the repository (`--recursive` is important!)
+```
+git clone --recursive https://github.com/shawwn/noh
+```
+Open the repo in [CLion](https://www.jetbrains.com/clion/download/#section=mac):
+```
 cd noh
 clion .
 ```
