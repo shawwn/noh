@@ -5296,7 +5296,9 @@ bool    IUnitEntity::IsTargetType(ETargetTrait eTrait, const IUnitEntity *pIniti
     case TARGET_TRAIT_POWERUP:
         return IsPowerup();
     case TARGET_TRAIT_CHEST:
-        return GetType() == Entity_Chest;
+        return IsType(Entity_Chest);
+    case TARGET_TRAIT_TREE:
+        return IsType(Prop_Tree);
     case TARGET_TRAIT_MINE:
         return GetOwnerClientNumber() == pInitiator->GetOwnerClientNumber();
     case TARGET_TRAIT_PLAYER_CONTROLLED:
