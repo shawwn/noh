@@ -505,6 +505,14 @@ bool    CGfxMaterials::SelectMaterial(const CMaterial &material, EMaterialPhase 
                     {
                         switch (pParam->GetType())
                         {
+                        case MPT_OTHER:
+                            break;
+                        case MPT_BOOL:
+                            glUniform1iARB(cUniform.iLocation, pParam->GetBool(fTime));
+                            break;
+                        case MPT_INT:
+                            glUniform1iARB(cUniform.iLocation, pParam->GetInt(fTime));
+                            break;
                         case MPT_FLOAT:
                             glUniform1fARB(cUniform.iLocation, pParam->GetFloat(fTime));
                             break;
@@ -901,6 +909,14 @@ bool    CGfxMaterials::UpdateShaderParams(const CMaterial &material, float fTime
                     {
                         switch (pParam->GetType())
                         {
+                        case MPT_OTHER:
+                            break;
+                        case MPT_BOOL:
+                            glUniform1iARB(cUniform.iLocation, pParam->GetBool(fTime));
+                            break;
+                        case MPT_INT:
+                            glUniform1iARB(cUniform.iLocation, pParam->GetInt(fTime));
+                            break;
                         case MPT_FLOAT:
                             glUniform1fARB(cUniform.iLocation, pParam->GetFloat(fTime));
                             break;
