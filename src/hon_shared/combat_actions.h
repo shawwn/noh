@@ -7350,6 +7350,7 @@ public:
             }
             break;
 
+        case TARGET_SELECT_RANDOM_ANGLE_DISTANCE:
         case TARGET_SELECT_RANDOM_POSITION:
             {
                 if (uiRemainingImpacts == UINT_MAX)
