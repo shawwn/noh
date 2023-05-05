@@ -464,9 +464,11 @@ void    GL_Notify(EVidNotifyMessage eMsg, int iParam1, int iParam2, int iParam3,
         else
             GL_InvalidateFoliageVertex(iParam1, iParam2, FOLIAGE_REBUILD_VERTICES);
         break;
-#ifdef linux
     case VID_NOTIFY_X11_EVENT:
+#ifdef linux
         GL_X11_Event(static_cast<XEvent*>(pData));
+#else
+        break;
 #endif
     }
 }
