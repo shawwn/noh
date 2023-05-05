@@ -384,6 +384,13 @@ void    GL_Notify(EVidNotifyMessage eMsg, int iParam1, int iParam2, int iParam3,
 
     switch (eMsg)
     {
+    case VID_NOTIFY_UPDATE_SHADERS:
+    case VID_NOTIFY_RELOAD_SHADER_CACHE:
+    case VID_NOTIFY_ADD_CLIFF:
+    case VID_NOTIFY_REMOVE_CLIFF:
+    case VID_NOTIFY_REBUILD_CLIFFS:
+    case VID_NOTIFY_FOG_OF_WAR:
+        break;
     case VID_NOTIFY_NEW_WORLD:
         GfxTerrain->Rebuild(terrain_chunkSize, static_cast<CWorld*>(pData));
         GL_RebuildFoliage(foliage_chunkSize, static_cast<CWorld*>(pData));
