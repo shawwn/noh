@@ -1786,7 +1786,10 @@ SSysInfo    CSystem::GetSystemInfo()
         }
         
         // Video Card
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         io_registry_entry_t displayport = CGDisplayIOServicePort(kCGDirectMainDisplay);
+#pragma clang diagnostic pop
         CFDataRef model = (CFDataRef)IORegistryEntrySearchCFProperty(displayport, kIOServicePlane, CFSTR("model"), kCFAllocatorDefault, kIORegistryIterateRecursively | kIORegistryIterateParents);
         if (model)
         {
