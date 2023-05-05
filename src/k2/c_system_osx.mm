@@ -1337,9 +1337,12 @@ void    CSystem::SetMousePos(int x, int y)
         newCursorPosition.y = displayBounds.size.height - newCursorPosition.y;
     }*/
 
-#if TKTK || 1
+#if TKTK || 1 // This is deprecated
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
     CGSetLocalEventsSuppressionInterval(0.0);
     CGWarpMouseCursorPosition(*(CGPoint*)&newCursorPosition);
+#pragma clang diagnostic pop
 #else
     // https://stackoverflow.com/questions/10196603/using-cgeventsourcesetlocaleventssuppressioninterval-instead-of-the-deprecated
     CGWarpMouseCursorPosition(*(CGPoint*)&newCursorPosition);
