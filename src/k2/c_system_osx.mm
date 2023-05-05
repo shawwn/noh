@@ -1722,9 +1722,12 @@ SSysInfo    CSystem::GetSystemInfo()
     {
         // OS
         SInt32 version[3] = { 0, 0, 0 };
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         Gestalt(gestaltSystemVersionMajor, &version[0]);
         Gestalt(gestaltSystemVersionMinor, &version[1]);
         Gestalt(gestaltSystemVersionBugFix, &version[2]);
+#pragma clang diagnostic pop
         structInfo.sOS = _T("Mac OS X ") + XtoA(version[0]) + _T(".") + XtoA(version[1]) + _T(".") + XtoA(version[2]);
         
         // Memory
@@ -1783,7 +1786,10 @@ SSysInfo    CSystem::GetSystemInfo()
         }
         
         // Video Card
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         io_registry_entry_t displayport = CGDisplayIOServicePort(kCGDirectMainDisplay);
+#pragma clang diagnostic pop
         CFDataRef model = (CFDataRef)IORegistryEntrySearchCFProperty(displayport, kIOServicePlane, CFSTR("model"), kCFAllocatorDefault, kIORegistryIterateRecursively | kIORegistryIterateParents);
         if (model)
         {
@@ -2018,7 +2024,10 @@ tstring CSystem::GetProcessFilename()
 {
     ProcessSerialNumber psn = { 0, kCurrentProcess };
     ProcessInfoRec pir;
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
     CFDictionaryRef pProcessInfo(ProcessInformationCopyDictionary(&psn, kProcessDictionaryIncludeAllInformationMask));
+#pragma clang diagnostic pop
     tstring sReturn(TSNULL);
     if (CFDictionaryContainsKey(pProcessInfo, kCFBundleExecutableKey))
     {
