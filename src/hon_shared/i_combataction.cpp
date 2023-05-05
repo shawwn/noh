@@ -777,6 +777,8 @@ void    ICombatAction::SetDynamicValue(EDynamicActionValue eMultiplier, float fV
     case DYNAMIC_DAMAGE_DEFLECTION: if (m_pEnv->pDamageEvent != NULL) m_pEnv->pDamageEvent->SetDeflection(fValue); break;
     case DYNAMIC_DAMAGE_ARMORPIERCE: if (m_pEnv->pDamageEvent != NULL) m_pEnv->pDamageEvent->SetArmorPierce(fValue); break;
     case DYNAMIC_DAMAGE_MAGICARMORPIERCE: if (m_pEnv->pDamageEvent != NULL) m_pEnv->pDamageEvent->SetMagicArmorPierce(fValue); break;
+
+    default: break;
     }
 }
 
@@ -792,6 +794,8 @@ void    ICombatAction::SetDynamicEffectType(EDynamicActionValue eMultiplier, uin
     case DYNAMIC_COMBAT_DAMAGETYPE: if (m_pEnv->pCombatEvent != NULL) m_pEnv->pCombatEvent->SetDamageType(uiEffectType); break;
 
     case DYNAMIC_DAMAGE_EFFECTTYPE: if (m_pEnv->pDamageEvent != NULL) m_pEnv->pDamageEvent->SetEffectType(uiEffectType); break;
+
+    default: break;
     }
 }
 
