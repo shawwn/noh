@@ -76,9 +76,7 @@ typedef deque<SActiveUpload>            ReplayUploadDeque;
 
 enum EManLogEvent
 {
-    MAN_LOG_INVALID,
-
-    MAN_LOG_INFO_DATE,
+    MAN_LOG_INFO_DATE = 1,
     MAN_LOG_INFO_GAME,
 
     MAN_LOG_SLAVE_START,
@@ -101,6 +99,8 @@ enum EManLogEvent
     MAN_LOG_UPDATE,
     MAN_LOG_SHUTDOWN_SLAVES,
 };
+static const EManLogEvent MAN_LOG_INVALID(EManLogEvent(0));
+
 
 inline EManLogEvent GetManLogEventFromString(const tstring &sEvent)
 {
