@@ -10,7 +10,9 @@ Cross platform; multiplayer; lobby system; map editor; replay system; semicolon.
 
 Intended to be the game engine that my 13yo self wished he'd had. Think of it as a baseline "here's a fully working game engine, along with an actual game" reference that you can use for whatever you want. It's small enough that you can understand it, build it yourself, and customize whatever you want.
 
-It also makes my heart ache that your only real choice nowadays for becoming a gamedev is to build everything from scratch yourself (Celeste) or to spend years learning Unreal Engine or Unity. Good luck understanding the inner workings of those.
+It also makes my heart ache that your only real choice nowadays for becoming a gamedev is to build everything from scratch yourself (Celeste) or to spend years learning Unreal Engine or Unity. And good luck understanding the inner workings of those behemoths.
+
+So hopefully this will give you a leg up as a lone wolf gamedev.
 
 ## Media
 
