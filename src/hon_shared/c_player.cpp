@@ -2833,6 +2833,8 @@ void    CPlayer::UpdateUpgrades()
 
         switch (eType)
         {
+        case UPGRADE_VALUE_INVALID:
+            break;
         case UPGRADE_CHAT_SYMBOL:
             m_uiChatSymbol = Host.LookupChatSymbol(sName);
             break;

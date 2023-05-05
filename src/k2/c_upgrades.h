@@ -18,7 +18,7 @@ class CXMLNode;
 enum EUpgradeType
 {
     UPGRADE_VALUE_INVALID = 0,
-    
+
     UPGRADE_CHAT_SYMBOL,
     UPGRADE_CHAT_NAME_COLOR,
     UPGRADE_ACCOUNT_ICON,
