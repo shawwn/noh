@@ -720,11 +720,11 @@ bool    CGfxShaders::LinkShaderProgram(int iVertexShader, int iPixelShader, int 
             continue;
 
         // Strip brackets (because ATI is retarded)
-        for (GLchar *psz(szName); *psz != NULL; ++psz)
+        for (GLchar *psz(szName); *psz != '\0'; ++psz)
         {
             if (*psz == _T('['))
             {
-                *psz = NULL;
+                *psz = '\0';
                 break;
             }
         }
