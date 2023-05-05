@@ -739,10 +739,10 @@ void    CChatManager::ProcessFailedRequest(SChatDBRequest *pRequest)
 {
     switch (pRequest->eType)
     {
-    //case REQUEST_ADD_BUDDY_NICK2ID:
-    //case REQUEST_ADD_BUDDY:
-        //AddIRCChatMessage(CHAT_MESSAGE_ADD, Translate(_T("chat_failed_buddy_add"), _T("target"), pRequest->sTarget));
-        //break;
+    case REQUEST_ADD_BUDDY_NICK2ID:
+    case REQUEST_ADD_BUDDY:
+        AddIRCChatMessage(CHAT_MESSAGE_ADD, Translate(_T("chat_failed_buddy_add"), _T("target"), pRequest->sTarget));
+        break;
 
     case REQUEST_DELETE_BUDDY:
         AddIRCChatMessage(CHAT_MESSAGE_ADD, Translate(_T("chat_failed_buddy_remove"), _T("target"), pRequest->sTarget));
@@ -760,6 +760,10 @@ void    CChatManager::ProcessFailedRequest(SChatDBRequest *pRequest)
         AddIRCChatMessage(CHAT_MESSAGE_ADD, Translate(_T("chat_failed_clan_remove"), _T("target"), pRequest->sTarget));
         break;
 
+    case REQUEST_UPDATE_CLAN:
+        AddIRCChatMessage(CHAT_MESSAGE_ADD, Translate(_T("chat_failed_clan_update"), _T("target"), pRequest->sTarget));
+        break;
+
     case REQUEST_ADD_BANNED_NICK2ID:
     case REQUEST_ADD_BANNED:
         AddIRCChatMessage(CHAT_MESSAGE_ADD, Translate(_T("chat_failed_banlist_add"), _T("target"), pRequest->sTarget));
@@ -769,6 +773,10 @@ void    CChatManager::ProcessFailedRequest(SChatDBRequest *pRequest)
         AddIRCChatMessage(CHAT_MESSAGE_ADD, Translate(_T("chat_failed_banlist_remove"), _T("target"), pRequest->sTarget));
         break;
 
+    case REQUEST_GET_BANNED:
+        AddIRCChatMessage(CHAT_MESSAGE_ADD, Translate(_T("chat_failed_banlist_get"), _T("target"), pRequest->sTarget));
+        break;
+
     case REQUEST_ADD_IGNORED_NICK2ID:
     case REQUEST_ADD_IGNORED:
         AddIRCChatMessage(CHAT_MESSAGE_ADD, Translate(_T("chat_failed_ignore_add"), _T("target"), pRequest->sTarget));
@@ -776,6 +784,30 @@ void    CChatManager::ProcessFailedRequest(SChatDBRequest *pRequest)
 
     case REQUEST_REMOVE_IGNORED:
         AddIRCChatMessage(CHAT_MESSAGE_ADD, Translate(_T("chat_failed_ignore_remove"), _T("target"), pRequest->sTarget));
+        break;
+
+    case REQUEST_SAVE_CHANNEL:
+        AddIRCChatMessage(CHAT_MESSAGE_ADD, Translate(_T("chat_failed_channel_save"), _T("target"), pRequest->sTarget));
+        break;
+
+    case REQUEST_REMOVE_CHANNEL:
+        AddIRCChatMessage(CHAT_MESSAGE_ADD, Translate(_T("chat_failed_channel_remove"), _T("target"), pRequest->sTarget));
+        break;
+
+    case REQUEST_SAVE_NOTIFICATION:
+        AddIRCChatMessage(CHAT_MESSAGE_ADD, Translate(_T("chat_failed_notification_save"), _T("target"), pRequest->sTarget));
+        break;
+
+    case REQUEST_REMOVE_NOTIFICATION:
+        AddIRCChatMessage(CHAT_MESSAGE_ADD, Translate(_T("chat_failed_notification_remove"), _T("target"), pRequest->sTarget));
+        break;
+
+    case REQUEST_REMOVE_ALL_NOTIFICATIONS:
+        AddIRCChatMessage(CHAT_MESSAGE_ADD, Translate(_T("chat_failed_notification_remove_all")));
+        break;
+
+    case REQUEST_COMPLETE_NICK:
+        AddIRCChatMessage(CHAT_MESSAGE_ADD, Translate(_T("chat_failed_complete_nick"), _T("target"), pRequest->sTarget));
         break;
 
     case REQUEST_CHECK_CLAN_NAME:
