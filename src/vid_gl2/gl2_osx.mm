@@ -248,10 +248,14 @@ struct
     }
     if (!screen)
         screen = [NSScreen mainScreen];
+#if TKTK // warning: 'NSScreen' may not respond to 'setFrame:display:animate:'
+    // I think this code meant to call setFrame on the window that the screen is attached to, but I can't figure out how to get the window
     NSNumber *width = (NSNumber*)CFDictionaryGetValue(mode, kCGDisplayWidth);
     NSNumber *height = (NSNumber*)CFDictionaryGetValue(mode, kCGDisplayHeight);
-    [screen setFrame:NSMakeRect(0, 0, [width intValue], [height intValue])];
-    
+    NSRect screenRect = NSMakeRect(0, 0, [width intValue], [height intValue]);
+    [screen setFrame:screenRect display:YES animate:NO];
+#endif
+
     // wait for appkit/system events (so we don't do stuff like setup a new window before system is aware of the updated geometry)
     NSEvent *event;
     while((event = [NSApp nextEventMatchingMask:(NSEventMaskAppKitDefined|NSEventMaskSystemDefined) untilDate:[NSDate dateWithTimeIntervalSinceNow:0.1] inMode:NSDefaultRunLoopMode dequeue:YES]))
