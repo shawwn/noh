@@ -14,7 +14,7 @@ My long term goal is to implement a custom game system reminiscent of the StarCr
 
 <img width="595" alt="image" src="https://user-images.githubusercontent.com/59632/236426949-89ac5d63-f391-4701-978c-63f93e31cb5d.png">
 
-It also makes my heart ache that your only realistic choices for becoming a professional gamedev circa 2023 is to build everything from scratch yourself (Celeste) or to spend years learning Unreal Engine or Unity. Good luck understanding the inner workings of those behemoths, much less building it yourself and changing the engine. I remember it feeling like a miracle seeing "Build Success" after waiting literally four hours for UE to finish compiling, and that was like 8 years ago; it's only grown since then.
+It also makes my heart ache that your only realistic choices for becoming a professional gamedev circa 2023 is to build everything from scratch yourself (Celeste) or to spend years learning Unreal Engine or Unity. Good luck understanding the inner workings of those behemoths, much less getting UE to build.
 
 So hopefully this will give you a leg up as a lone wolf gamedev.
 
@@ -49,16 +49,6 @@ All code and assets are MIT licensed, to the extent that I'm authorized to do so
 ### Building NoH on Windows
 
 Coming soon. Building on Windows should be roughly similar to the MacOS steps below, but you'll need to install Visual Studio and a few other things that I'll need to document.
-
-As of a few weeks ago, the engine was building and running fine, and (thanks to vcpkg) it felt more or less effortless to set up. But I suspect I've broken the CMakeLists.txt since then, and it's just one of those chores that you push off as long as possible because you're thinking about more interesting things. Like how to hook up V8 to the engine, or what the custom games API should look like.
-
-Writing that paragraph actually annoyed me enough that I might just fix the Windows build sooner than later, just for the satisfaction of being able to cut this from the README. But for now, if you're a Windows user, welcome to what all of us MacOS gamers feel every single time we see "Not supported" on the Steam page of a new game we're excited about.
-
-If you become a gamedev, remember this feeling of frustration. There's no commercial incentive to support MacOS (it's <2% of the market) so you'll need to do it out of principle, not reward. But the best devs I've worked with operate on 90% principle and 10% reward – which ironically tends to yield 90% of the rewards over the long term.
-
-You could try to build it yourself, and if you fix it, submit a pull request. But that seems about as likely as Jesus himself coming down from heaven to assist me in my years-long quest. (Streaming on Twitch and seeing 0 viewers after [an hour of hacking](https://www.twitch.tv/videos/1808525535) was a nice reminder that the "lone" in "lone wolf gamedev" is especially accurate.)
-
-I'm not doing this for popularity, or for support. I'm doing this because I can't not. I'm not sure why. And for better or for worse, I work on MacOS, so that's the only pipeline guaranteed to work right now.
 
 ### Building NoH on MacOS
 
