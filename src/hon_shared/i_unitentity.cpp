@@ -5223,6 +5223,8 @@ bool    IUnitEntity::IsTargetType(const CTargetScheme::STestRecord &test, const 
     {
     case CTargetScheme::TARGET_SCHEME_TEST_GLOBAL:
         return IsGlobalCondition(test.m_eGlobal);
+    case CTargetScheme::TARGET_SCHEME_TEST_NOT_GLOBAL:
+        return !IsGlobalCondition(test.m_eGlobal);
     case CTargetScheme::TARGET_SCHEME_TEST_TRAIT:
         return IsTargetType(test.m_eTrait, pInitiator);
     case CTargetScheme::TARGET_SCHEME_TEST_NOT_TRAIT:
