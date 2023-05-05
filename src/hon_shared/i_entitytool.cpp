@@ -1156,9 +1156,10 @@ bool    IEntityTool::Update()
 {
     switch (GetActionType())
     {
+    case TOOL_ACTION_GLOBAL:
+    case TOOL_ACTION_ATTACK:
+    case TOOL_ACTION_ATTACK_TOGGLE:
     case TOOL_ACTION_PASSIVE:
-        break;
-
     case TOOL_ACTION_TOGGLE:
         break;
 
@@ -1295,9 +1296,10 @@ void    IEntityTool::Finish(bool bCancel)
 
     switch (GetActionType())
     {
+    case TOOL_ACTION_GLOBAL:
+    case TOOL_ACTION_ATTACK:
+    case TOOL_ACTION_ATTACK_TOGGLE:
     case TOOL_ACTION_PASSIVE:
-        break;
-
     case TOOL_ACTION_TOGGLE:
         break;
 
@@ -1658,6 +1660,8 @@ IUnitEntity*    IEntityTool::SelectProxy() const
 
     switch (GetProxySelectionMethod())
     {
+    case TARGET_SELECT_RANDOM_POSITION:
+    case TARGET_SELECT_RANDOM_ANGLE_DISTANCE:
     case TARGET_SELECT_ALL:
     case TARGET_SELECT_RANDOM:
         return vUnits[M_Randnum(0u, INT_SIZE(vUnits.size() - 1))];
