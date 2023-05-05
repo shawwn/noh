@@ -1,6 +1,6 @@
 # Newerth of Heroes
 
-<img width="320" alt="image" src="https://user-images.githubusercontent.com/59632/236402360-549155ac-e95f-4676-af08-c9d0689c8311.png">
+<img width="320" alt="image" src="https://user-images.githubusercontent.com/59632/236418122-c052ff68-467a-470f-9f90-fc53d51de862.png">
 
 An open source implementation of [dota](https://www.youtube.com/watch?v=qTsaS1Tm-Ic&ab_channel=BASSHUNTER). 
 
