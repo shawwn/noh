@@ -2021,10 +2021,7 @@ tstring CSystem::GetProcessFilename()
 {
     ProcessSerialNumber psn = { 0, kCurrentProcess };
     ProcessInfoRec pir;
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
     CFDictionaryRef pProcessInfo(ProcessInformationCopyDictionary(&psn, kProcessDictionaryIncludeAllInformationMask));
-#pragma clang diagnostic pop
     tstring sReturn(TSNULL);
     if (CFDictionaryContainsKey(pProcessInfo, kCFBundleExecutableKey))
     {
