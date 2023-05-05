@@ -3,6 +3,8 @@
 //
 //  Written by Phillip Sitbon (http://www.codeproject.com/KB/threads/thread_class.aspx)
 //=============================================================================
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 #ifndef __C_SEMAPHORE_POSIX_H__
 #define __C_SEMAPHORE_POSIX_H__
 #ifndef _WIN32
@@ -88,3 +90,5 @@ public:
 
 #endif // !_WIN32
 #endif // __C_SEMAPHORE_POSIX_H__
+
+#pragma clang diagnostic pop
