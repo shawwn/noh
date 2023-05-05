@@ -19,8 +19,8 @@ enum EShadowmapType
 {
     SHADOWMAP_R32F = 0,
     SHADOWMAP_DEPTH,
-    NUM_SHADOWMAP_TYPES
 };
+static const int NUM_SHADOWMAP_TYPES(SHADOWMAP_DEPTH + 1);
 
 const char * const ShadowmapTypeName[] =
 {
