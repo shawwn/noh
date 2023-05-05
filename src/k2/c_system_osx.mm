@@ -1156,6 +1156,8 @@ void    CSystem::AddModifiedPath(const tstring &sPath)
  ====================*/
 void    CSystem::StartDirectoryMonitoring()
 {
+    if (!host_dynamicResReload && m_pFileMonitor)
+        StopDirectoryMonitoring();
     if (host_dynamicResReload && !m_pFileMonitor)
     {
         // Set up file monitoring
@@ -1179,6 +1181,7 @@ void    CSystem::StartDirectoryMonitoring()
         g_pFileMonitorThread = K2_NEW(ctx_System, std::thread)([=](){
             m_pFileMonitor->start();
         });
+        Console << _T("Directory monitoring started") << newl;
     }
 }
 
