@@ -10,7 +10,7 @@ Cross platform; multiplayer; lobby system; map editor; replay system; semicolon.
 
 Intended to be the game engine that my 13yo self wished he'd had. Think of it as a baseline "here's a fully working game engine, along with an actual game" reference that you can use for whatever you want. It's small enough that you can understand it, build it yourself, and customize.
 
-My long term goal is to implement a custom game system reminiscent of the StarCraft 1 "Use Map Settings" era. There was [something magical about it](https://www.youtube.com/watch?v=hu_ekZfW6wE&t=76s&ab_channel=RedDevouringOne) that modern "custom game" attempts don't really capture. If you remember it, you know what I mean -- point to any modern equivalent that makes you feel the same spark of joy of joining a random lobby and discovering that it's actually a weirdly-detailed esoteric RPG that some 14yo crafted in StarEdit, or an intense tower defense experience that you didn't expect, or a any of the other joys that seem to have been lost with time.
+My long term goal is to implement a custom game system reminiscent of the StarCraft 1 "Use Map Settings" era. There was [something magical about it](https://www.youtube.com/watch?v=hu_ekZfW6wE&t=76s&ab_channel=RedDevouringOne) that modern "custom game" attempts don't really capture. If you remember it, you know what I mean -- point to any modern equivalent that makes you feel the same spark of joy of joining a random lobby and discovering that it's actually a weirdly-detailed esoteric RPG that some 14yo crafted in StarEdit, or an intense tower defense experience that you didn't expect.
 
 <img width="595" alt="image" src="https://user-images.githubusercontent.com/59632/236426949-89ac5d63-f391-4701-978c-63f93e31cb5d.png">
 
@@ -69,9 +69,9 @@ Once CLion is open:
 - Open Project view (press `Cmd-1`)
 - Open `CMakeLists.txt`
 - Click "Load CMake project" in the upper right
-  <img width="1512" alt="image" src="https://user-images.githubusercontent.com/59632/236375944-0f028a9f-79b9-4939-b063-a9657fafe59b.png">
+<img width="1512" alt="image" src="https://user-images.githubusercontent.com/59632/236375944-0f028a9f-79b9-4939-b063-a9657fafe59b.png">
 - Ignore the scary-looking errors and just click the play button (`Run -> Run 'NoH'`):
-  <img width="1398" alt="image" src="https://user-images.githubusercontent.com/59632/236376120-22f8d300-5b8c-4615-bf48-f3c2b03256cb.png">
+<img width="1398" alt="image" src="https://user-images.githubusercontent.com/59632/236376120-22f8d300-5b8c-4615-bf48-f3c2b03256cb.png">
 
 If things go well, NoH will launch. Congratulations!
 <img width="1440" alt="image" src="https://user-images.githubusercontent.com/59632/236376813-77395c90-89e6-4713-9a6b-09859caf33f9.png">
