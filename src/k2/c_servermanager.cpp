@@ -103,6 +103,10 @@ void    CManagerLog::WriteSlave(EManLogEvent eEvent, SServerStatus &cSlave, cons
         WRITE_STAT(affinity, cSlave.uiAffinity);
         break;
 
+    case MAN_LOG_INFO_DATE:
+    case MAN_LOG_INFO_GAME:
+    case MAN_LOG_UPDATE:
+    case MAN_LOG_SHUTDOWN_SLAVES:
     case MAN_LOG_SLAVE_INITIALIZED:
     case MAN_LOG_SLAVE_SHUTDOWN:
     case MAN_LOG_SLAVE_WAKE:
