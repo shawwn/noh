@@ -230,8 +230,11 @@ struct
 
 - (void)switchMode:(CFDictionaryRef)mode display:(CGDirectDisplayID)display
 {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
     CGDisplaySwitchToMode(display, mode);
-    
+#pragma clang diagnostic pop
+
     // update screen with new width/height
     NSArray *screens = [NSScreen screens];
     NSScreen *screen = nil;
@@ -278,17 +281,23 @@ struct
     
     if (!m_bDisplayCaptured)
     {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         m_pDisplayMode = CGDisplayCurrentMode(m_Display);
         if (!m_pDisplayMode)
         {
             m_Display = kCGDirectMainDisplay;
             m_pDisplayMode = CGDisplayCurrentMode(m_Display);
         }
+#pragma clang diagnostic pop
     }
-    
+
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
     boolean_t bExactMatch;
     m_pMode = CGDisplayBestModeForParametersAndRefreshRate(m_Display, pMode->iBpp, pMode->iWidth, pMode->iHeight, pMode->iRefreshRate, &bExactMatch);
-    
+#pragma clang diagnostic pop
+
     if (bExactMatch)
     {
         #define DIFFER(key) (CFNumberCompare((CFNumberRef)CFDictionaryGetValue(m_pMode, key), (CFNumberRef)CFDictionaryGetValue(m_pDisplayMode, key), NULL) != 0)
@@ -462,7 +471,10 @@ int     GL_Init()
     
     NSOpenGLPixelFormatAttribute attrs[] = {
         //NSOpenGLPFAWindow,
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         NSOpenGLPFAFullScreen,
+#pragma clang diagnostic pop
         NSOpenGLPFAScreenMask, (NSOpenGLPixelFormatAttribute)CGDisplayIDToOpenGLDisplayMask(kCGDirectMainDisplay),
         //NSOpenGLPFAColorSize, (NSOpenGLPixelFormatAttribute)24,
         NSOpenGLPFADepthSize, (NSOpenGLPixelFormatAttribute)24,
@@ -480,12 +492,15 @@ int     GL_Init()
     int rendererID;
     [pPixelFormat getValues:&rendererID forAttribute:NSOpenGLPFARendererID forVirtualScreen:0];
     rendererID &= kCGLRendererIDMatchingMask;
-    
+
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
     SInt32 version[3] = { 0, 0, 0 };
     Gestalt(gestaltSystemVersionMajor, &version[0]);
     Gestalt(gestaltSystemVersionMinor, &version[1]);
     Gestalt(gestaltSystemVersionBugFix, &version[2]);
-    
+#pragma clang diagnostic pop
+
     for (int i(0); g_RendererSettings[i].rendid; ++i)
     {
         if (rendererID == g_RendererSettings[i].rendid)
@@ -520,8 +535,11 @@ int     GL_Init()
     g_iNumVidModes = 1; // mode 0 = desktop mode
     for (int i(0); i < numDisplays; ++i)
     {
-    
+
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         NSArray* pAvailableModes = (NSArray*)CGDisplayAvailableModes(aDisplays[i]);
+#pragma clang diagnostic pop
         NSEnumerator *pModeEnumerator = [pAvailableModes objectEnumerator];
         
         while ((pMode = (NSDictionary*)[pModeEnumerator nextObject]))
@@ -542,8 +560,11 @@ int     GL_Init()
             ++g_iNumVidModes;
         }
     }
-    
+
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
     pMode = (NSDictionary*)CGDisplayCurrentMode(kCGDirectMainDisplay);
+#pragma clang diagnostic pop
     g_VidModes[0].iWidth = [(NSNumber*)[pMode valueForKey:(NSString*)kCGDisplayWidth] intValue];
     g_VidModes[0].iHeight = [(NSNumber*)[pMode valueForKey:(NSString*)kCGDisplayHeight] intValue];
     g_VidModes[0].iBpp = [(NSNumber*)[pMode valueForKey:(NSString*)kCGDisplayBitsPerPixel] intValue];
@@ -753,7 +774,10 @@ int     GL_SetMode()
             g_Display = kCGDirectMainDisplay;       
         
         NSOpenGLPixelFormatAttribute attrs[] = {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
             NSOpenGLPFAFullScreen,
+#pragma clang diagnostic pop
             NSOpenGLPFAScreenMask, (NSOpenGLPixelFormatAttribute)CGDisplayIDToOpenGLDisplayMask(g_Display),
             NSOpenGLPFADepthSize, (NSOpenGLPixelFormatAttribute)24,
             NSOpenGLPFADoubleBuffer,
@@ -788,7 +812,10 @@ int     GL_SetMode()
     if (!g_pActiveContext)
     {
         NSOpenGLPixelFormatAttribute attrs[] = {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
             NSOpenGLPFAWindow,
+#pragma clang diagnostic pop
             NSOpenGLPFADepthSize, (NSOpenGLPixelFormatAttribute)24,
             NSOpenGLPFADoubleBuffer,
             NSOpenGLPFAAccelerated,
@@ -816,7 +843,10 @@ int     GL_SetMode()
     
     if (g_bExclusive)
     {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         [g_pActiveContext setFullScreen];
+#pragma clang diagnostic pop
     }
     else
     {
@@ -829,7 +859,10 @@ int     GL_SetMode()
         [[g_pActiveWindow contentView] setBoundsSize: contentRectOrig.size];
         
         [[g_pActiveWindow contentView] setOpenGLContext:g_pActiveContext];
+#pragma clang diagnostic push // warning: 'setView:' is deprecated: first deprecated in macOS 10.14 - Use NSOpenGLView to provide OpenGL content in a Cocoa app. [-Wdeprecated-declarations]
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         [g_pActiveContext setView:[g_pActiveWindow contentView]];
+#pragma clang diagnostic pop
         [g_pActiveWindow center];
         [g_pActiveWindow makeKeyAndOrderFront:nil];
         [g_pActiveWindow resetCursorRects];
@@ -891,10 +924,13 @@ void    GL_SetGamma(float fGamma)
  ====================*/
 void    GL_ShowCursor(bool bShow)
 {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
     if (bShow && !CGCursorIsVisible())
         [NSCursor unhide];
     else if (!bShow && CGCursorIsVisible())
         [NSCursor hide];
+#pragma clang diagnostic pop
 }
 
 
