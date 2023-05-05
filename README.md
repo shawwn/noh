@@ -67,11 +67,11 @@ clion .
 ```
 Once CLion is open:
 
-- Open Project view (press `Cmd-1`)
+Open Project view (press `Cmd-1`)
 
-- Open `CMakeLists.txt`
+Open `CMakeLists.txt`
 
-- Click "Load CMake project" in the upper right
+Click "Load CMake project" in the upper right
 
 <img width="1512" alt="image" src="https://user-images.githubusercontent.com/59632/236375944-0f028a9f-79b9-4939-b063-a9657fafe59b.png">
 
