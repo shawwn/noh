@@ -4,7 +4,7 @@
 
 An open source implementation of [dota](https://www.youtube.com/watch?v=qTsaS1Tm-Ic&ab_channel=BASSHUNTER). 
 
-Cross platform; multiplayer; lobby system; map editor; replay system; semicolon.
+Cross platform; multiplayer; lobby system; map editor; replay system; semicolon. Builds in 3 minutes flat on an M1 Air.
 
 ## About
 
