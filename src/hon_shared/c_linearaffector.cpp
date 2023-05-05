@@ -365,6 +365,7 @@ void    CLinearAffector::Impact(vector<IUnitEntity*> &vTargets)
         }
         break;
 
+    case TARGET_SELECT_RANDOM_ANGLE_DISTANCE:
     case TARGET_SELECT_RANDOM_POSITION:
         {
             CLinearAffectorDefinition *pDefinition(GetDefinition<CLinearAffectorDefinition>(GetModifierBits()));
