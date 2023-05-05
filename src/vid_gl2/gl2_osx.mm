@@ -655,13 +655,13 @@ void    GL_Start()
     
     CGLDestroyRendererInfo(rend);   
     
-    g_pWindow = [[Window alloc] initWithContentRect:rect styleMask:(NSTitledWindowMask | NSClosableWindowMask | NSMiniaturizableWindowMask) backing:NSBackingStoreBuffered defer:NO];
+    g_pWindow = [[Window alloc] initWithContentRect:rect styleMask:(NSWindowStyleMaskTitled | NSWindowStyleMaskClosable | NSWindowStyleMaskMiniaturizable) backing:NSBackingStoreBuffered defer:NO];
     [g_pWindow setTitle:@"Heroes of Newerth"];
     [g_pWindow setDelegate:static_cast<id<NSWindowDelegate>>(g_pWindow)];
     g_pActiveWindow = g_pWindow;
     K2System.SetWindowHandle(g_pActiveWindow);
     
-    g_pFullscreenWindow = [[FullscreenWindow alloc] initWithContentRect:rect styleMask:NSBorderlessWindowMask backing:NSBackingStoreBuffered defer:NO];
+    g_pFullscreenWindow = [[FullscreenWindow alloc] initWithContentRect:rect styleMask:NSWindowStyleMaskBorderless backing:NSBackingStoreBuffered defer:NO];
     [g_pFullscreenWindow setTitle:@"Heroes of Newerth"];
     [g_pFullscreenWindow setDelegate:static_cast<id<NSWindowDelegate>>(g_pFullscreenWindow)];
 
