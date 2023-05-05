@@ -27,6 +27,7 @@
 #include <IOKit/network/IONetworkInterface.h>
 #include <IOKit/network/IOEthernetController.h>
 #include <CoreAudio/CoreAudio.h>
+#include <thread>
 
 #include <libfswatch/libfswatch_config.h>
 #define HAVE_FSEVENTS_FSEVENTSTREAMSETDISPATCHQUEUE
@@ -43,9 +44,8 @@
 #include "c_input.h"
 #include "c_cmd.h"
 #include "c_vid.h"
-#include "c_soundmanager.h"
 #include "c_filehttp.h"
-#include "c_thread.h"
+#include "c_mutex.h"
 //=============================================================================
 
 
@@ -117,7 +117,7 @@ CVAR_BOOLF  (sys_warpCursor,            true,   CVAR_SAVECONFIG);
 keyboardMap             g_KeyboardMap;
 escSequenceMap          g_KeyboardEscSequenceMap;
 CK2Mutex                g_FileMonitorMutex;
-CK2Thread<void>::Handle g_FileMonitorThread;
+std::thread*            g_pFileMonitorThread;
 //=============================================================================
 
 #ifndef wcscasecmp
@@ -1175,16 +1175,10 @@ void    CSystem::StartDirectoryMonitoring()
             vEventFilters.push_back({item});
         }
         m_pFileMonitor->set_event_type_filters(vEventFilters);
-        if (g_FileMonitorThread)
-        {
-            CK2Thread<void>::Kill(g_FileMonitorThread);
-        }
-        int iError = CK2Thread<void>::Create(
-                [=]() {
-                    m_pFileMonitor->start();
-                },
-                &g_FileMonitorThread);
-        // TODO: Check iError?
+        assert(g_pFileMonitorThread == nullptr);
+        g_pFileMonitorThread = K2_NEW(ctx_System, std::thread)([=](){
+            m_pFileMonitor->start();
+        });
     }
 }
 
@@ -1219,11 +1213,13 @@ void    CSystem::GetModifiedFileList(tsvector &vFileList)
  ====================*/
 void    CSystem::StopDirectoryMonitoring()
 {
-    if (g_FileMonitorThread)
-    {
-        CK2Thread<void>::Kill(g_FileMonitorThread);
-        g_FileMonitorThread = nullptr;
-    }
+    if (m_pFileMonitor)
+        m_pFileMonitor->stop();
+    if (g_pFileMonitorThread)
+        g_pFileMonitorThread->join();
+    if (m_pFileMonitor)
+        Console << _T("Directory monitoring stopped") << newl;
+    SAFE_DELETE(g_pFileMonitorThread);
     SAFE_DELETE(m_pFileMonitor);
 }
 
