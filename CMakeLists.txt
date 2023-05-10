@@ -174,7 +174,7 @@ else()
 endif()
 
 include(FindLibXml2)
-#include_directories(${LIBXML2_INCLUDE_DIRS})
+include_directories(${LIBXML2_INCLUDE_DIRS})
 
 include(FindFreetype)
 include_directories(${FREETYPE_INCLUDE_DIRS})
@@ -1039,7 +1039,7 @@ add_library(vid_gl2_c STATIC ${VID_GL2_C_SOURCES})
 set(VID_GL2_LIBRARIES vid_gl2_c)
 
 # vid_gl2 sources
-#include_directories(src/vid_gl2)
+include_directories(src/vid_gl2)
 set(VID_GL2_SOURCES
   src/vid_gl2/GLEW/glew.cpp
   src/vid_gl2/GLEW/glew.h
