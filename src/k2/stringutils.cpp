@@ -1691,7 +1691,7 @@ string  UTF8ToString(const string &sIn)
   ====================*/
 wstring UTF8ToWString(const string &sIn)
 {
-#if 1
+#if defined(__APPLE__) || defined(WIN32)
     std::wstring_convert< std::codecvt_utf8_utf16<wchar_t> > myconv;
     return myconv.from_bytes(sIn);
 #else // TKTK
@@ -1752,7 +1752,7 @@ wstring UTF8ToWString(const string &sIn)
 
 string  WStringToUTF8(const wstring &in)
 {
-#if 1
+#if defined(__APPLE__) || defined(WIN32)
     std::wstring_convert< std::codecvt_utf8_utf16<wchar_t> > myconv;
     return myconv.to_bytes(in);
 #else // TKTK
