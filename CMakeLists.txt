@@ -254,6 +254,9 @@ if(APPLE)
           "-framework AppKit"
           "-framework CoreAudio"
           "-framework IOKit")
+elseif(UNIX)
+  set(K2_LIBRARIES ${K2_LIBRARIES}
+          X11)
 elseif(WIN32)
   set(K2_LIBRARIES ${K2_LIBRARIES}
           wsock32
