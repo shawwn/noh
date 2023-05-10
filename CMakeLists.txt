@@ -38,6 +38,8 @@ macro(app_configure_lib library)
     set_target_properties( ${library} PROPERTIES LIBRARY_OUTPUT_DIRECTORY "${CONTENT_DIR}/" )
     set_target_properties( ${library} PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${CONTENT_DIR}/" )
   endif()
+  # https://cmake.org/cmake/help/latest/manual/cmake-buildsystem.7.html#compatible-interface-properties
+  set_property(TARGET ${library} PROPERTY POSITION_INDEPENDENT_CODE ON)
 endmacro()
 
 macro(finalize_bundle app_name)
