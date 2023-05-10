@@ -229,8 +229,11 @@ endmacro()
 # k2
 #========================================
 set(K2_LIBRARY k2)
+set(K2_LIBRARY_LIB "${K2_LIBRARY}")
 set(K2_LIBRARY_DLL "${BIN_DIR}/${K2_LIBRARY}${DLL_EXT}")
-set(K2_LIBRARY_LIB "${LIB_DIR}/${K2_LIBRARY}${LIB_EXT}")
+if (WIN32)
+  set(K2_LIBRARY_LIB "${LIB_DIR}/${K2_LIBRARY}${LIB_EXT}")
+endif()
 
 set(K2_LIBRARIES
     ${FSWATCH_LIBRARIES}
@@ -1033,8 +1036,11 @@ target_link_libraries(${K2_LIBRARY} ${K2_LIBRARIES})
 # vid_gl2
 #========================================
 set(VID_GL2_LIBRARY vid_gl2)
+set(VID_GL2_LIBRARY_LIB "${VID_GL2_LIBRARY}")
 set(VID_GL2_LIBRARY_DLL "${BIN_DIR}/${VID_GL2_LIBRARY}${DLL_EXT}")
-set(VID_GL2_LIBRARY_LIB "${LIB_DIR}/${VID_GL2_LIBRARY}${LIB_EXT}")
+if (WIN32)
+  set(VID_GL2_LIBRARY_LIB "${LIB_DIR}/${VID_GL2_LIBRARY}${LIB_EXT}")
+endif()
 
 set(VID_GL2_C_SOURCES
   src/vid_gl2/SOIL/SOIL.c
@@ -1215,8 +1221,11 @@ target_link_libraries(${VID_GL2_LIBRARY}
 # hon_shared
 #========================================
 set(HON_SHARED_LIBRARY hon_shared)
+set(HON_SHARED_LIBRARY_LIB "${HON_SHARED_LIBRARY}")
 set(HON_SHARED_LIBRARY_DLL "${BIN_DIR}/${HON_SHARED_LIBRARY}${DLL_EXT}")
-set(HON_SHARED_LIBRARY_LIB "${LIB_DIR}/${HON_SHARED_LIBRARY}${LIB_EXT}")
+if (WIN32)
+  set(HON_SHARED_LIBRARY_LIB "${LIB_DIR}/${HON_SHARED_LIBRARY}${LIB_EXT}")
+endif()
 
 set(HON_SHARED_SOURCES
   src/hon_shared/c_abilityattributedefinition.h
@@ -1496,8 +1505,11 @@ target_link_libraries(${HON_SHARED_LIBRARY}
 # hon_client
 #========================================
 set(HON_CLIENT_LIBRARY hon_client)
+set(HON_CLIENT_LIBRARY_LIB "${HON_CLIENT_LIBRARY}")
 set(HON_CLIENT_LIBRARY_DLL "${BIN_DIR}/${HON_CLIENT_LIBRARY}${DLL_EXT}")
-set(HON_CLIENT_LIBRARY_LIB "${LIB_DIR}/${HON_CLIENT_LIBRARY}${LIB_EXT}")
+if (WIN32)
+  set(HON_CLIENT_LIBRARY_LIB "${LIB_DIR}/${HON_CLIENT_LIBRARY}${LIB_EXT}")
+endif()
 
 # hon_client sources
 include_directories(src/hon_client)
@@ -1533,8 +1545,11 @@ target_link_libraries(${HON_CLIENT_LIBRARY}
 # hon_server
 #========================================
 set(HON_SERVER_LIBRARY hon_server)
+set(HON_SERVER_LIBRARY_LIB "${HON_SERVER_LIBRARY}")
 set(HON_SERVER_LIBRARY_DLL "${BIN_DIR}/${HON_SERVER_LIBRARY}${DLL_EXT}")
-set(HON_SERVER_LIBRARY_LIB "${LIB_DIR}/${HON_SERVER_LIBRARY}${LIB_EXT}")
+if (WIN32)
+  set(HON_SERVER_LIBRARY_LIB "${LIB_DIR}/${HON_SERVER_LIBRARY}${LIB_EXT}")
+endif()
 
 # hon_server sources
 include_directories(src/hon_server)
@@ -1575,8 +1590,11 @@ target_link_libraries(${HON_SERVER_LIBRARY}
 # editor
 #========================================
 set(EDITOR_LIBRARY editor)
+set(EDITOR_LIBRARY_LIB "${EDITOR_LIBRARY}")
 set(EDITOR_LIBRARY_DLL "${BIN_DIR}/${EDITOR_LIBRARY}${DLL_EXT}")
-set(EDITOR_LIBRARY_LIB "${LIB_DIR}/${EDITOR_LIBRARY}${LIB_EXT}")
+if (WIN32)
+  set(EDITOR_LIBRARY_LIB "${LIB_DIR}/${EDITOR_LIBRARY}${LIB_EXT}")
+endif()
 
 # editor sources
 include_directories(src/editor)
