@@ -48,9 +48,9 @@ All code and assets are MIT licensed, to the extent that I'm authorized to do so
 
 ### Building NoH on Windows
 
-Coming soon. Building on Windows should be roughly similar to the MacOS steps below, but you'll need to install Visual Studio and a few other things that I'll need to document.
+Coming soon. Building on Windows should be roughly similar to the macOS steps below, but you'll need to install Visual Studio and a few other things that I'll need to document.
 
-### Building NoH on MacOS
+### Building NoH on macOS
 
 ##### Install dependencies
 ```
