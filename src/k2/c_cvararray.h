@@ -52,8 +52,8 @@ private:
 public:
     ~CCvarArray();
 
-    CCvarArray(const tstring &sName, int iNumElements, T _Default, int iFlags = 0, ConsoleElementFn_t pfnCmd = NULL);
-    CCvarArray(const tstring &sName, int iNumElements, T _Default, int iFlags, T _Min, T _Max, ConsoleElementFn_t pfnCmd = NULL);
+    CCvarArray(const tstring &sName, int iNumElements, T _Default, int iFlags = 0, ConsoleElementFn_t pfnCmd = nullptr);
+    CCvarArray(const tstring &sName, int iNumElements, T _Default, int iFlags, T _Min, T _Max, ConsoleElementFn_t pfnCmd = nullptr);
 
     CCvar<T, T2>&       operator[](int n)       { return *(m_pCvars[n]); }
 };

@@ -60,7 +60,7 @@ IEmitter::~IEmitter()
   IEmitter::IEmitter
   ====================*/
 IEmitter::IEmitter() :
-m_pvParticleDefinitions(NULL),
+m_pvParticleDefinitions(nullptr),
 m_uiPauseBegin(0)
 {
 }
@@ -107,7 +107,7 @@ m_uiStartTime(uiStartTime),
 m_uiExpireTime(INVALID_TIME),
 m_uiLastUpdateTime(uiStartTime),
 m_uiPauseBegin(0),
-m_pNextEmitter(NULL),
+m_pNextEmitter(nullptr),
 m_v3CustomPos(pParticleSystem->GetCustomPos()),
 m_aCustomAxis(pParticleSystem->GetCustomAxis()),
 m_fCustomScale(pParticleSystem->GetCustomScale()),
@@ -115,7 +115,7 @@ m_bCustomVisibility(pParticleSystem->GetCustomVisibility())
 {
     PROFILE("IEmitter::IEmitter");
 
-    if (pOwner != NULL)
+    if (pOwner != nullptr)
         m_pOwner = pOwner;
     else
         m_pOwner = GetOwnerPointer(sOwner);
@@ -163,7 +163,7 @@ bool    IEmitter::GetVisibility()
     {
         IEmitter *pEmitter(m_pOwner);
 
-        if (pEmitter == NULL || !pEmitter->IsActive())
+        if (pEmitter == nullptr || !pEmitter->IsActive())
             return false;
 
         if (!pEmitter->GetVisibility())
@@ -171,7 +171,7 @@ bool    IEmitter::GetVisibility()
 
         CSkeleton *pSkeleton(pEmitter->GetCustomSkeleton());
 
-        if (pSkeleton != NULL && !m_sBone.empty())
+        if (pSkeleton != nullptr && !m_sBone.empty())
             return m_pParticleSystem->GetCustomVisibility(pSkeleton, m_sBone);
 
         return true;
@@ -206,7 +206,7 @@ bool    IEmitter::GetVisibility(const tstring &sBone)
     {
         IEmitter *pEmitter(m_pOwner);
 
-        if (pEmitter == NULL || !pEmitter->IsActive())
+        if (pEmitter == nullptr || !pEmitter->IsActive())
             return false;
 
         if (!pEmitter->GetVisibility())
@@ -214,7 +214,7 @@ bool    IEmitter::GetVisibility(const tstring &sBone)
 
         CSkeleton *pSkeleton(pEmitter->GetCustomSkeleton());
 
-        if (pSkeleton != NULL && !sBone.empty())
+        if (pSkeleton != nullptr && !sBone.empty())
             return m_pParticleSystem->GetCustomVisibility(pSkeleton, sBone);
 
         return true;
@@ -249,7 +249,7 @@ bool    IEmitter::GetVisibility(const tstring &sBone, IEmitter *pOwner)
     {
         IEmitter *pEmitter(pOwner);
 
-        if (pEmitter == NULL || !pEmitter->IsActive())
+        if (pEmitter == nullptr || !pEmitter->IsActive())
             return false;
 
         if (!pEmitter->GetVisibility())
@@ -257,7 +257,7 @@ bool    IEmitter::GetVisibility(const tstring &sBone, IEmitter *pOwner)
 
         CSkeleton *pSkeleton(pEmitter->GetCustomSkeleton());
 
-        if (pSkeleton != NULL && !sBone.empty())
+        if (pSkeleton != nullptr && !sBone.empty())
             return m_pParticleSystem->GetCustomVisibility(pSkeleton, sBone);
 
         return true;
@@ -301,7 +301,7 @@ CVec3f  IEmitter::GetPosition()
     {
         IEmitter *pEmitter(m_pOwner);
 
-        if (pEmitter == NULL || !pEmitter->IsActive())
+        if (pEmitter == nullptr || !pEmitter->IsActive())
             return TransformPoint(m_v3Pos, GetAxis(), V3_ZERO, GetScale()) + m_v3Offset;
 
         return TransformPoint(m_v3Pos, pEmitter->GetLastAxis(), pEmitter->GetLastPos(), pEmitter->GetLastScale()) + m_v3Offset;
@@ -337,7 +337,7 @@ CAxis   IEmitter::GetAxis()
     {
         IEmitter *pEmitter(m_pOwner);
 
-        if (pEmitter == NULL || !pEmitter->IsActive())
+        if (pEmitter == nullptr || !pEmitter->IsActive())
             return CAxis(0.0f, 0.0f, 0.0f);
 
         return pEmitter->GetLastAxis();
@@ -372,7 +372,7 @@ float   IEmitter::GetScale()
     {
         IEmitter *pEmitter(m_pOwner);
 
-        if (pEmitter == NULL || !pEmitter->IsActive())
+        if (pEmitter == nullptr || !pEmitter->IsActive())
             return m_pParticleSystem->GetScale();
 
         return pEmitter->GetLastScale();
@@ -413,7 +413,7 @@ CVec3f  IEmitter::GetPosition(const CVec3f &v3Pos, IEmitter *pOwner)
     {
         IEmitter *pEmitter(pOwner);
 
-        if (pEmitter == NULL || !pEmitter->IsActive())
+        if (pEmitter == nullptr || !pEmitter->IsActive())
             return TransformPoint(v3Pos, GetAxis(), V3_ZERO, GetScale());
 
         return TransformPoint(v3Pos, pEmitter->GetLastAxis(), pEmitter->GetLastPos(), pEmitter->GetLastScale());
@@ -449,7 +449,7 @@ CAxis   IEmitter::GetAxis(IEmitter *pOwner)
     {
         IEmitter *pEmitter(pOwner);
 
-        if (pEmitter == NULL || !pEmitter->IsActive())
+        if (pEmitter == nullptr || !pEmitter->IsActive())
             return CAxis(0.0f, 0.0f, 0.0f);
 
         return pEmitter->GetLastAxis();
@@ -484,7 +484,7 @@ float   IEmitter::GetScale(IEmitter *pOwner)
     {
         IEmitter *pEmitter(pOwner);
 
-        if (pEmitter == NULL || !pEmitter->IsActive())
+        if (pEmitter == nullptr || !pEmitter->IsActive())
             return m_pParticleSystem->GetScale();
 
         return pEmitter->GetLastScale();
@@ -516,12 +516,12 @@ CVec3f  IEmitter::GetBonePosition(uint uiTime, IEmitter *pOwner, const tstring &
     {
         IEmitter *pEmitter(pOwner);
 
-        if (pEmitter == NULL || !pEmitter->IsActive())
+        if (pEmitter == nullptr || !pEmitter->IsActive())
             return V3_ZERO;
         
         CSkeleton *pSkeleton(pEmitter->GetCustomSkeleton());
 
-        if (pSkeleton != NULL)
+        if (pSkeleton != nullptr)
             return m_pParticleSystem->GetCustomBonePosition(pSkeleton, sBone, uiTime);
         else
             return V3_ZERO;
@@ -559,7 +559,7 @@ void    IEmitter::GetBoneAxisPos(uint uiTime, IEmitter *pOwner, const tstring &s
     {
         IEmitter *pEmitter(pOwner);
 
-        if (pEmitter == NULL || !pEmitter->IsActive())
+        if (pEmitter == nullptr || !pEmitter->IsActive())
         {
             aOutAxis = CAxis(0.0f, 0.0f, 0.0f);
             v3OutPos = CVec3f(0.0f, 0.0f, 0.0f);
@@ -568,7 +568,7 @@ void    IEmitter::GetBoneAxisPos(uint uiTime, IEmitter *pOwner, const tstring &s
         
         CSkeleton *pSkeleton(pEmitter->GetCustomSkeleton());
 
-        if (pSkeleton != NULL)
+        if (pSkeleton != nullptr)
         {
             m_pParticleSystem->GetCustomBoneAxisPos(pSkeleton, sBone, uiTime, aOutAxis, v3OutPos);
         }
@@ -592,7 +592,7 @@ CSkeleton*  IEmitter::GetSkeleton()
     else if (m_pOwner == OWNER_TARGET)
         return m_pParticleSystem->GetTargetSkeleton();
     else
-        return NULL;
+        return nullptr;
 }
 
 
@@ -606,7 +606,7 @@ CModel* IEmitter::GetModel()
     else if (m_pOwner == OWNER_TARGET)
         return m_pParticleSystem->GetTargetModel();
     else
-        return NULL;
+        return nullptr;
 }
 
 
@@ -638,7 +638,7 @@ void    IEmitter::UpdatePaused(uint uiMilliseconds)
 void    IEmitter::OnDelete(IEmitter *pEmitter)
 {
     if (m_pOwner == pEmitter)
-        m_pOwner = NULL;
+        m_pOwner = nullptr;
 }
 
 
@@ -647,7 +647,7 @@ void    IEmitter::OnDelete(IEmitter *pEmitter)
   ====================*/
 void    IEmitter::UpdateNextEmitter(uint uiMilliseconds, ParticleTraceFn_t pfnTrace)
 {
-    if (m_pNextEmitter == NULL)
+    if (m_pNextEmitter == nullptr)
         return;
 
     m_pNextEmitter->SetCustomPos(m_v3CustomPos);
@@ -658,7 +658,7 @@ void    IEmitter::UpdateNextEmitter(uint uiMilliseconds, ParticleTraceFn_t pfnTr
     if (!m_pNextEmitter->Update(uiMilliseconds, pfnTrace))
     {
         IEmitter *pNextEmitter(m_pNextEmitter->GetNextEmitter());
-        m_pNextEmitter->SetNextEmitter(NULL);
+        m_pNextEmitter->SetNextEmitter(nullptr);
         K2_DELETE(m_pNextEmitter);
         m_pNextEmitter = pNextEmitter;
     }

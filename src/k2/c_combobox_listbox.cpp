@@ -67,7 +67,7 @@ void    CComboBoxListBox::DoEvent(EWidgetEvent eEvent, const tstring &sParam)
     if (eEvent == WEVENT_SELECT)
     {
         if (m_iSelectedListItem == -1)
-            static_cast<CComboBox *>(m_pParent)->SetActiveListItem(NULL, true);
+            static_cast<CComboBox *>(m_pParent)->SetActiveListItem(nullptr, true);
         else
             static_cast<CComboBox *>(m_pParent)->SetActiveListItem(m_vItems[m_iSelectedListItem], true);
     }

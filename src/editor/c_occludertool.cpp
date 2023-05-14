@@ -1830,7 +1830,7 @@ CVec3f  COccluderTool::SelectionCenter()
   ====================*/
 CVec3f  COccluderTool::GetOccluderOrigin(uint uiIndex)
 {
-    COccluder *pOccluder(NULL);
+    COccluder *pOccluder(nullptr);
 
     try
     {

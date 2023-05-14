@@ -58,14 +58,14 @@ void    CSkeletonBonePool::Allocate(uint uiNumBones, SSkeletonBoneData &cBoneDat
     if (uiNumBones == 0)
     {
         cBoneData.uiNumBones = 0;
-        cBoneData.pBoneStates = NULL;
-        cBoneData.pTempBoneStates = NULL;
+        cBoneData.pBoneStates = nullptr;
+        cBoneData.pTempBoneStates = nullptr;
 
         for (int i(0); i < NUM_ANIM_CHANNELS; ++i)
         {
-            cBoneData.pCurrentPose[i] = NULL;
-            cBoneData.pSavedPose[i] = NULL;
-            cBoneData.pTempPose[i] = NULL;
+            cBoneData.pCurrentPose[i] = nullptr;
+            cBoneData.pSavedPose[i] = nullptr;
+            cBoneData.pTempPose[i] = nullptr;
         }
 
         return;

@@ -540,7 +540,7 @@ void    CSceneManager::AddPoly(uint zNumVerts, SSceneFaceVert *verts, ResHandle 
     SSceneFaceEntry newFaceEntry;
 
     newFaceEntry.verts = K2_NEW_ARRAY(ctx_Renderer, SSceneFaceVert, zNumVerts);
-    if (newFaceEntry.verts == NULL)
+    if (newFaceEntry.verts == nullptr)
     {
         Console.Warn << _T("Failed to allocate memmory in CSceneManager::AddPoly()") << newl;
         return;
@@ -652,7 +652,7 @@ SSceneModifierEntry*    CSceneManager::GetModifiers(uint uiEntityIndex)
     if (itFind != m_mapModifiers.end())
         return itFind->second;
     else
-        return NULL;
+        return nullptr;
 }
 
 

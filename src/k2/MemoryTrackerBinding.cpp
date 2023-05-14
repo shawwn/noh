@@ -29,7 +29,7 @@ namespace physx
 
         MemoryTracker * createMemoryTracker(const char *memoryTrackerDLL)
         {
-            MemoryTracker *ret = NULL;
+            MemoryTracker *ret = nullptr;
 #ifdef WIN32
             if ( gMemoryTracker == 0 && memoryTrackerDLL )
             {

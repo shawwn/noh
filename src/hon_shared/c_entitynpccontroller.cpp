@@ -98,7 +98,7 @@ void    CEntityNpcController::SpawnChildren()
     {
         // Spawn a npc
         IGameEntity *pNewEnt(Game.AllocateEntity(it->unType));
-        if (pNewEnt == NULL || !pNewEnt->IsNpc())
+        if (pNewEnt == nullptr || !pNewEnt->IsNpc())
         {
             Console.Warn << _T("Failed to spawn npc: ") << EntityRegistry.LookupName(it->unType) << newl;
             continue;

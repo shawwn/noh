@@ -95,7 +95,7 @@ void    CBMove::Update()
   ====================*/
 void    CBMove::BeginBehavior()
 {
-    if (m_pSelf == NULL || m_v2UpdatedGoal == V2_ZERO)
+    if (m_pSelf == nullptr || m_v2UpdatedGoal == V2_ZERO)
     {
         Console << _T("CBMove: Behavior started without valid information") << newl;
         return;

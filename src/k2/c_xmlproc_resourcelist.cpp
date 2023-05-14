@@ -24,7 +24,7 @@ namespace XMLResourceList
         REGISTER_XML_PROCESSOR(root)
     END_XML_REGISTRATION
     BEGIN_XML_PROCESSOR(resourcelist, void)
-    END_XML_PROCESSOR(NULL)
+    END_XML_PROCESSOR(nullptr)
 
     // <texture>
     DECLARE_XML_PROCESSOR(texture)
@@ -36,7 +36,7 @@ namespace XMLResourceList
         const tstring &sName(node.GetProperty(_T("name")));
 
         CTexture *pTexture(K2_NEW(ctx_Resources,  CTexture)(sPath, TEXTURE_2D, TEX_FULL_QUALITY | TEX_NO_COMPRESS, TEXFMT_A8R8G8B8));
-        if (pTexture != NULL)
+        if (pTexture != nullptr)
             pTexture->SetName(sName);
         g_ResourceManager.Register(pTexture, RES_TEXTURE);
     END_XML_PROCESSOR_NO_CHILDREN
@@ -52,7 +52,7 @@ namespace XMLResourceList
 
         uint uiFlags(SND_2D);
         CSample *pSample(K2_NEW(ctx_Resources,  CSample)(sPath, uiFlags));
-        if (pSample != NULL)
+        if (pSample != nullptr)
             pSample->SetName(sName);
         g_ResourceManager.Register(pSample, RES_SAMPLE);
     END_XML_PROCESSOR_NO_CHILDREN
@@ -88,7 +88,7 @@ namespace XMLResourceList
         const tstring &sName(node.GetProperty(_T("name")));
 
         CCursor *pCursor(K2_NEW(ctx_Resources,  CCursor)(sPath));
-        if (pCursor != NULL)
+        if (pCursor != nullptr)
             pCursor->SetName(sName);
         g_ResourceManager.Register(pCursor, RES_K2CURSOR);
     END_XML_PROCESSOR_NO_CHILDREN

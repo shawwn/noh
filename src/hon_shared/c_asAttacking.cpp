@@ -49,7 +49,7 @@ bool    CASAttacking::BeginState()
     IUnitEntity *pUnit(m_cBrain.GetUnit());
     IUnitEntity *pTarget(Game.GetUnitEntity(m_uiBeginTargetIndex));
 
-    if (pUnit == NULL || pTarget == NULL)
+    if (pUnit == nullptr || pTarget == nullptr)
         return false;
     if (pUnit->IsDisarmed())
         return false;
@@ -84,7 +84,7 @@ bool    CASAttacking::ContinueStateMovement()
     IUnitEntity *pUnit(m_cBrain.GetUnit());
     IUnitEntity *pTarget(Game.GetUnitEntity(m_uiTargetIndex));
     
-    if (pUnit == NULL)
+    if (pUnit == nullptr)
         return false;
     if (pUnit->IsDisarmed())
         return false;
@@ -93,13 +93,13 @@ bool    CASAttacking::ContinueStateMovement()
 
     if (~GetFlags() & ASR_COMPLETED)
     {
-        if (pTarget == NULL)
+        if (pTarget == nullptr)
             return false;
         if (pTarget->GetStatus() != ENTITY_STATUS_ACTIVE)
             return false;
         if (!Game.IsValidTarget(pUnit->GetAttackTargetScheme(), pUnit->GetAttackEffectType(), pUnit, pTarget, false))
             return false;
-        if (pTarget != NULL && m_uiTargetOrderDisjointSequence != pTarget->GetOrderDisjointSequence())
+        if (pTarget != nullptr && m_uiTargetOrderDisjointSequence != pTarget->GetOrderDisjointSequence())
             return false;
 #if 0 // Whether or not to interrupt on-going attacks if sight is lost
         if (!pUnit->CanSee(pTarget))
@@ -112,7 +112,7 @@ bool    CASAttacking::ContinueStateMovement()
     float fYaw(v3Angles.z);
     float fAngleToTarget;
     
-    if (pTarget != NULL)
+    if (pTarget != nullptr)
     {
         CVec3f v3VecToTarget(pTarget->GetPosition() - pUnit->GetPosition());
         fAngleToTarget = M_GetYawFromForwardVec2(v3VecToTarget.xy());
@@ -199,7 +199,7 @@ bool    CASAttacking::ContinueStateAction()
     IUnitEntity *pUnit(m_cBrain.GetUnit());
     IUnitEntity *pTarget(Game.GetUnitEntity(m_uiTargetIndex));
     
-    if (pUnit == NULL)
+    if (pUnit == nullptr)
         return false;
     if (pUnit->IsDisarmed())
         return false;
@@ -208,13 +208,13 @@ bool    CASAttacking::ContinueStateAction()
 
     if (~GetFlags() & ASR_COMPLETED)
     {
-        if (pTarget == NULL)
+        if (pTarget == nullptr)
             return false;
         if (pTarget->GetStatus() != ENTITY_STATUS_ACTIVE)
             return false;
         if (!Game.IsValidTarget(pUnit->GetAttackTargetScheme(), pUnit->GetAttackEffectType(), pUnit, pTarget, false))
             return false;
-        if (pTarget != NULL && m_uiTargetOrderDisjointSequence != pTarget->GetOrderDisjointSequence())
+        if (pTarget != nullptr && m_uiTargetOrderDisjointSequence != pTarget->GetOrderDisjointSequence())
             return false;
 #if 0 // Whether or not to interrupt on-going attacks if sight is lost
         if (!pUnit->CanSee(pTarget))
@@ -226,7 +226,7 @@ bool    CASAttacking::ContinueStateAction()
     float fYaw(v3Angles.z);
     float fAngleToTarget;
     
-    if (pTarget != NULL)
+    if (pTarget != nullptr)
     {
         CVec3f v3VecToTarget(pTarget->GetPosition() - pUnit->GetPosition());
         fAngleToTarget = M_GetYawFromForwardVec2(v3VecToTarget.xy());
@@ -264,7 +264,7 @@ bool    CASAttacking::ContinueStateAction()
         uint uiElapsedTime(Game.GetGameTime() - m_uiInitTime);
 
         // Flag as attacking a hero
-        if (pTarget != NULL && pTarget->IsHero())
+        if (pTarget != nullptr && pTarget->IsHero())
             pUnit->SetLastHeroAttackTime(Game.GetGameTime());
 
         // Waiting for action
@@ -273,7 +273,7 @@ bool    CASAttacking::ContinueStateAction()
             if (~GetFlags() & ASR_COMPLETED)
             {
                 // Attack range buffer check
-                if (pTarget != NULL)
+                if (pTarget != nullptr)
                 {
                     float fRange(pUnit->GetBounds().GetDim(X) * DIAG + pUnit->GetAttackRange() + pUnit->GetAttackRangeBuffer() + pTarget->GetBounds().GetDim(X) * DIAG);
 
@@ -288,7 +288,7 @@ bool    CASAttacking::ContinueStateAction()
                     pUnit->SetAttackCooldownTime(m_uiInitTime + int(pUnit->GetAdjustedAttackCooldown()));
 
                 // Perform the swing/projectile launch
-                if (pTarget != NULL)
+                if (pTarget != nullptr)
                     pUnit->Attack(pTarget, false);
 
                 pUnit->SetLastAttackTarget(pTarget->GetUniqueID(), m_uiInitTime + int(pUnit->GetAdjustedAttackDuration()));

@@ -95,10 +95,10 @@ void    CUITrigger::Trigger(const tstring &sParam, bool bForce)
     for (WatcherList::iterator it(m_lWatchers.begin()), itEnd(m_lWatchers.end()); it != itEnd; ++it)
     {
         IWidget *pWidget(*it);
-        if (pWidget == NULL)
+        if (pWidget == nullptr)
             continue;
         if (!bForce &&
-            pWidget->GetInterface() != NULL &&
+            pWidget->GetInterface() != nullptr &&
             pWidget->GetInterface() != pSavedInterface &&
             pWidget->GetInterface() != pActiveInterface &&
             !pWidget->GetInterface()->AlwaysUpdate())
@@ -112,10 +112,10 @@ void    CUITrigger::Trigger(const tstring &sParam, bool bForce)
         for (WatcherList::iterator it(m_vlWatchers[i].begin()), itEnd(m_vlWatchers[i].end()); it != itEnd; ++it)
         {
             IWidget *pWidget(*it);
-            if (pWidget == NULL)
+            if (pWidget == nullptr)
                 continue;
             if (!bForce &&
-                pWidget->GetInterface() != NULL &&
+                pWidget->GetInterface() != nullptr &&
                 pWidget->GetInterface() != pSavedInterface &&
                 pWidget->GetInterface() != pActiveInterface &&
                 !pWidget->GetInterface()->AlwaysUpdate())
@@ -136,10 +136,10 @@ void    CUITrigger::Trigger(const tsvector &vParams, bool bForce)
     for (WatcherList::iterator it(m_lWatchers.begin()), itEnd(m_lWatchers.end()); it != itEnd; ++it)
     {
         IWidget *pWidget(*it);
-        if (pWidget == NULL)
+        if (pWidget == nullptr)
             continue;
         if (!bForce &&
-            pWidget->GetInterface() != NULL &&
+            pWidget->GetInterface() != nullptr &&
             pWidget->GetInterface() != pSavedInterface &&
             pWidget->GetInterface() != pActiveInterface &&
             !pWidget->GetInterface()->AlwaysUpdate())
@@ -153,10 +153,10 @@ void    CUITrigger::Trigger(const tsvector &vParams, bool bForce)
         for (WatcherList::iterator it(m_vlWatchers[i].begin()), itEnd(m_vlWatchers[i].end()); it != itEnd; ++it)
         {
             IWidget *pWidget(*it);
-            if (pWidget == NULL)
+            if (pWidget == nullptr)
                 continue;
             if (!bForce &&
-                pWidget->GetInterface() != NULL &&
+                pWidget->GetInterface() != nullptr &&
                 pWidget->GetInterface() != pSavedInterface  &&
                 pWidget->GetInterface() != pActiveInterface  &&
                 !pWidget->GetInterface()->AlwaysUpdate())
@@ -174,13 +174,13 @@ void    CUITrigger::Trigger(const tsvector &vParams, bool bForce)
 void    CUITrigger::Hide()
 {
     for (WatcherList::iterator it = m_lWatchers.begin(); it != m_lWatchers.end(); ++it)
-        if (*it != NULL)
+        if (*it != nullptr)
             (*it)->Hide();
 
     for (int i(0); i <= 9; ++i)
     {
         for (WatcherList::iterator it = m_vlWatchers[i].begin(); it != m_vlWatchers[i].end(); ++it)
-            if (*it != NULL)
+            if (*it != nullptr)
                 (*it)->Hide();
     }
 }
@@ -192,13 +192,13 @@ void    CUITrigger::Hide()
 void    CUITrigger::Show()
 {
     for (WatcherList::iterator it = m_lWatchers.begin(); it != m_lWatchers.end(); ++it)
-        if (*it != NULL)
+        if (*it != nullptr)
             (*it)->Show();
 
     for (int i(0); i <= 9; ++i)
     {
         for (WatcherList::iterator it = m_vlWatchers[i].begin(); it != m_vlWatchers[i].end(); ++it)
-            if (*it != NULL)
+            if (*it != nullptr)
                 (*it)->Show();
     }
 }
@@ -211,7 +211,7 @@ bool    CUITrigger::IsVisible()
 {
     for (WatcherList::iterator it = m_lWatchers.begin(); it != m_lWatchers.end(); ++it)
     {
-        if (*it == NULL || !(*it)->IsAbsoluteVisible() )
+        if (*it == nullptr || !(*it)->IsAbsoluteVisible() )
             return false;
     }
     return true;
@@ -224,13 +224,13 @@ bool    CUITrigger::IsVisible()
 void    CUITrigger::Execute(const tstring &sCmd)
 {
     for (WatcherList::iterator it(m_lWatchers.begin()), itEnd(m_lWatchers.end()); it != itEnd; ++it)
-        if (*it != NULL)
+        if (*it != nullptr)
             (*it)->Execute(sCmd);
 
     for (int i(0); i <= 9; ++i)
     {
         for (WatcherList::iterator it(m_vlWatchers[i].begin()), itEnd(m_vlWatchers[i].end()); it != itEnd; ++it)
-            if (*it != NULL)
+            if (*it != nullptr)
                 (*it)->Execute(sCmd);
     }
 }
@@ -238,13 +238,13 @@ void    CUITrigger::Execute(const tstring &sCmd)
 void    CUITrigger::Execute(const tstring &sCmd, IBuffer &buffer)
 {
     for (WatcherList::iterator it(m_lWatchers.begin()), itEnd(m_lWatchers.end()); it != itEnd; ++it)
-        if (*it != NULL)
+        if (*it != nullptr)
             (*it)->Execute(sCmd, buffer);
 
     for (int i(0); i <= 9; ++i)
     {
         for (WatcherList::iterator it(m_vlWatchers[i].begin()), itEnd(m_vlWatchers[i].end()); it != itEnd; ++it)
-            if (*it != NULL)
+            if (*it != nullptr)
                 (*it)->Execute(sCmd, buffer);
     }
 }
@@ -255,7 +255,7 @@ void    CUITrigger::Execute(const tstring &sCmd, IBuffer &buffer)
   ====================*/
 CUIWatcher::~CUIWatcher()
 {
-    if (m_pTrigger != NULL)
+    if (m_pTrigger != nullptr)
         m_pTrigger->RemoveWatcher(m_pWidget, m_iIndex);
 
     UITriggerRegistry.Unregister(this);
@@ -271,7 +271,7 @@ m_pTrigger(UITriggerRegistry.GetUITrigger(m_sTriggerName)),
 m_pWidget(pWidget),
 m_iIndex(iIndex)
 {
-    if (m_pTrigger != NULL && m_pWidget != NULL)
+    if (m_pTrigger != nullptr && m_pWidget != nullptr)
         m_pTrigger->AddWatcher(m_pWidget, iIndex);
 
     UITriggerRegistry.Register(this);
@@ -286,12 +286,12 @@ void    CUIWatcher::SetTrigger(CUITrigger *pTrigger)
     if (m_pTrigger == pTrigger)
         return;
 
-    if (m_pTrigger != NULL)
+    if (m_pTrigger != nullptr)
         m_pTrigger->RemoveWatcher(m_pWidget, m_iIndex);
 
     m_pTrigger = pTrigger;
     
-    if (m_pTrigger != NULL)
+    if (m_pTrigger != nullptr)
         pTrigger->AddWatcher(m_pWidget, m_iIndex);
 }
 
@@ -334,7 +334,7 @@ CMD(Trigger)
     }
 
     CUITrigger *pTrigger(UITriggerRegistry.GetUITrigger(vArgList[0]));
-    if (pTrigger == NULL)
+    if (pTrigger == nullptr)
     {
         Console << _T("Trigger not found") << newl;
         return false;
@@ -353,7 +353,7 @@ CMD(Trigger)
 UI_VOID_CMD(Trigger, 1)
 {
     CUITrigger *pTrigger(UITriggerRegistry.GetUITrigger(vArgList[0]->Evaluate()));
-    if (pTrigger == NULL)
+    if (pTrigger == nullptr)
     {
         Console << _T("Trigger not found") << newl;
         return;
@@ -398,7 +398,7 @@ UI_VOID_CMD(ExplodeTrigger, 2)
 {
 
     CUITrigger *pTrigger(UITriggerRegistry.GetUITrigger(vArgList[0]->Evaluate()));
-    if (pTrigger == NULL)
+    if (pTrigger == nullptr)
     {
         Console << _T("Trigger not found") << newl;
         return;

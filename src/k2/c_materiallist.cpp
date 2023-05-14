@@ -44,7 +44,7 @@ bool    CMaterialList::Load(CArchive &archive, const CWorld *pWorld)
     try
     {
         m_pWorld = pWorld;
-        if (m_pWorld == NULL)
+        if (m_pWorld == nullptr)
             EX_ERROR(_T("Invalid CWorld"));
 
         CFileHandle hMaterialList(m_sName, FILE_READ | FILE_BINARY, archive);
@@ -73,7 +73,7 @@ bool    CMaterialList::Generate(const CWorld *pWorld)
         Release();
 
         m_pWorld = pWorld;
-        if (m_pWorld == NULL)
+        if (m_pWorld == nullptr)
             EX_ERROR(_T("Invalid CWorld"));
 
         return true;
@@ -116,7 +116,7 @@ bool    CMaterialList::Serialize(IBuffer *pBuffer)
   ====================*/
 void    CMaterialList::Release()
 {
-    m_pWorld = NULL;
+    m_pWorld = nullptr;
 
     m_mapMaterials.clear();
     m_mapResHandles.clear();
@@ -130,7 +130,7 @@ uint    CMaterialList::AddMaterial(ResHandle hMaterial)
 {
     try
     {
-        if (g_ResourceManager.Get(hMaterial) == NULL)
+        if (g_ResourceManager.Get(hMaterial) == nullptr)
             EX_ERROR(_T("Invalid resource"));
 
         MaterialHandleMap::iterator findit(m_mapResHandles.find(hMaterial));

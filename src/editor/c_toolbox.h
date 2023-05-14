@@ -66,7 +66,7 @@ public:
     ITool*              GetTool(EToolID eTool, bool bThrow = false);
     bool                IsToolSelected(EToolID eTool);
 
-    void                Clear()                             { m_mapTools.clear(); m_pCurrentTool = NULL; }
+    void                Clear()                             { m_mapTools.clear(); m_pCurrentTool = nullptr; }
 };
 //=============================================================================
 

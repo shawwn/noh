@@ -127,16 +127,16 @@ extern char** environ;
   CSystem::CSystem
   ====================*/
 CSystem::CSystem() :
-m_hInstance(NULL),
-m_ConsoleWindowHandle(NULL),
-m_WindowHandle(NULL),
+m_hInstance(nullptr),
+m_ConsoleWindowHandle(nullptr),
+m_WindowHandle(nullptr),
 m_bRestartProcess(false),
 m_iInotifyFd(-2),
 m_bDedicatedServer(false),
 m_bServerManager(false),
 m_bHasFocus(false),
 m_bMouseClip(false),
-m_pfnMainWndProc(NULL),
+m_pfnMainWndProc(nullptr),
 m_hJoystick(-1),
 m_ullVirtualMemoryLimit(0)
 {
@@ -202,7 +202,7 @@ void    CSystem::Init(const tstring &sGameName, const tstring &sVersion, const t
 
     // Change to the working directory to the location of hon.bin
     // check for it in the user's path if argv[0] is not a relative/absolute path & then cd to that dir
-    if (strchr(argv[0], '/') == NULL)
+    if (strchr(argv[0], '/') == nullptr)
     {
         char *p, **paths, *path = strdup(getenv("PATH"));
         int i, n = 1;
@@ -268,7 +268,7 @@ void CSystem::InitMore()
     // Connect to the X server if we are a client
     if (!IsDedicatedServer() && !IsServerManager())
     {
-        if (!(g_X11Info.dpy = XOpenDisplay(NULL)))
+        if (!(g_X11Info.dpy = XOpenDisplay(nullptr)))
             EX_ERROR(_T("Unable to connect to the X server."));
 
 #define INIT_ATOM(x) XA_##x = XInternAtom(g_X11Info.dpy, #x, False)
@@ -307,11 +307,11 @@ void CSystem::InitMore()
         
 #ifdef UNICODE
         XSetLocaleModifiers("");
-        if (!(g_X11Info.im = XOpenIM(g_X11Info.dpy, NULL, g_X11Info.res_class, g_X11Info.res_name)))
+        if (!(g_X11Info.im = XOpenIM(g_X11Info.dpy, nullptr, g_X11Info.res_class, g_X11Info.res_name)))
         {
             Console.Warn << _T("CSystem::Init() - Unable to open X11 input method.  Retrying using @im=none") << newl;
             XSetLocaleModifiers("@im=none");
-            if (!(g_X11Info.im = XOpenIM(g_X11Info.dpy, NULL, g_X11Info.res_class, g_X11Info.res_name)))
+            if (!(g_X11Info.im = XOpenIM(g_X11Info.dpy, nullptr, g_X11Info.res_class, g_X11Info.res_name)))
                 Console.Warn << _T("CSystem::Init() - Unable to open X11 input method") << newl;
         }
         // the IC is created in the renderer whenever a window is created
@@ -811,7 +811,7 @@ void    CSystem::HandleOSMessages()
                 {
                     wchar_t wc[32] = { 0 };
                     int status;
-                    if ((chars_count = XwcLookupString(g_X11Info.ic, &e.xkey, wc, 32, NULL, &status)) > 0
+                    if ((chars_count = XwcLookupString(g_X11Info.ic, &e.xkey, wc, 32, nullptr, &status)) > 0
                             && (status == XLookupChars || status == XLookupBoth))
                     {
                         if (key_debugEvents)
@@ -830,7 +830,7 @@ void    CSystem::HandleOSMessages()
                 if (e.type == KeyPress)
                 {
                     char c[32];
-                    if ((chars_count = XLookupString(&e.xkey, c, 32, NULL, NULL)) > 0)
+                    if ((chars_count = XLookupString(&e.xkey, c, 32, nullptr, nullptr)) > 0)
                     {
                         if (key_debugEvents)
                             Console << _T("Characters: ") << c << newl;
@@ -1076,7 +1076,7 @@ void    CSystem::Exit(int iErrorLevel)
         vArgs.push_back(_T("~/startup.cfg"));
 
         CConsoleElement *pElem = ConsoleRegistry.GetElement(_T("WriteConfigScript"));
-        if (pElem != NULL)
+        if (pElem != nullptr)
             pElem->Execute(vArgs);
     }
 
@@ -1093,7 +1093,7 @@ void    CSystem::Exit(int iErrorLevel)
     if (g_X11Info.dpy)
     {
         XCloseDisplay(g_X11Info.dpy);
-        g_X11Info.dpy = NULL;
+        g_X11Info.dpy = nullptr;
     }
 
     Host.Shutdown();
@@ -1290,7 +1290,7 @@ void    CSystem::AddDirectoryWatch(const tstring &sPath)
     char *pName;
     tstring sSearch(m_mapInotifyWdPaths[wd] + _T("*"));
 
-    glob(TStringToNative(sSearch).c_str(), GLOB_ONLYDIR, NULL, &globbuf);
+    glob(TStringToNative(sSearch).c_str(), GLOB_ONLYDIR, nullptr, &globbuf);
 
     for (uint i(0); i < globbuf.gl_pathc; i++)
     {
@@ -1637,7 +1637,7 @@ bool    CSystem::IsClipboardString()
             int ReturnedFormat;
             unsigned long ulNumItems;
             unsigned long ulBytesUnread = 0;
-            unsigned char* pProp = NULL;
+            unsigned char* pProp = nullptr;
             unsigned long ulReadLength = 1024; // in 32 bit multiples
 
             do {
@@ -1710,7 +1710,7 @@ tstring CSystem::GetClipboardString()
             int ReturnedFormat;
             unsigned long ulNumItems;
             unsigned long ulBytesUnread = 0;
-            unsigned char* pProp = NULL;
+            unsigned char* pProp = nullptr;
             unsigned long ulReadLength = 1024; // in 32 bit multiples
 
             do {
@@ -1958,7 +1958,7 @@ SSysInfo    CSystem::GetSystemInfo()
                 sLine = pPciIds->ReadLine();
                 if (sLine[0] == _T('#') || sLine.length() < 7 || sLine[0] == _T('\t'))
                     continue;
-                ushort unId(strtoul(TStringToNative(sLine).c_str(), NULL, 16));
+                ushort unId(strtoul(TStringToNative(sLine).c_str(), nullptr, 16));
                 if (unId == 0xffff)
                 {
                     break; // end of list
@@ -1975,7 +1975,7 @@ SSysInfo    CSystem::GetSystemInfo()
                             continue;
                         if (sLine[0] == _T('\t'))
                         {
-                            unId = strtoul(TStringToNative(sLine.substr(1)).c_str(), NULL, 16);
+                            unId = strtoul(TStringToNative(sLine.substr(1)).c_str(), nullptr, 16);
                             if (unId == unDevice)
                             {
                                 bFoundDevice = true;
@@ -1991,8 +1991,8 @@ SSysInfo    CSystem::GetSystemInfo()
                                         continue;
                                     if (sLine[0] == _T('\t') && sLine[1] == _T('\t'))
                                     {
-                                        unId = strtoul(TStringToNative(sLine.substr(2)).c_str(), NULL, 16);
-                                        ushort unId2 = strtoul(TStringToNative(sLine.substr(7)).c_str(), NULL, 16);
+                                        unId = strtoul(TStringToNative(sLine.substr(2)).c_str(), nullptr, 16);
+                                        ushort unId2 = strtoul(TStringToNative(sLine.substr(7)).c_str(), nullptr, 16);
                                         if (unId == unSubsystemVendor && unId2 == unSubsystemDevice)
                                         {
                                             tstring sSubsystem(sLine.substr(13));

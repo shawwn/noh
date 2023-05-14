@@ -144,7 +144,7 @@ VOID CALLBACK   DirectoryChangeNotify(DWORD dwErrorCode, DWORD dwNumberOfBytesTr
         if (pInfo->NextEntryOffset)
             pInfo = reinterpret_cast<FILE_NOTIFY_INFORMATION *>(reinterpret_cast<byte *>(pInfo) + pInfo->NextEntryOffset);
         else
-            pInfo = NULL;
+            pInfo = nullptr;
     }
 }
 
@@ -159,7 +159,7 @@ LONG WINAPI System_ExceptionFilter(EXCEPTION_POINTERS *pExceptionInfo)
 
     if (!sys_autoSaveDump)
     {
-        if (MessageBox(NULL,
+        if (MessageBox(nullptr,
             _T("Would you like to save a crash report?"),
             _T("K2 Exception"),
             MB_YESNO | MB_ICONEXCLAMATION) == IDNO)
@@ -167,44 +167,44 @@ LONG WINAPI System_ExceptionFilter(EXCEPTION_POINTERS *pExceptionInfo)
     }
 
     HMODULE hDebugLib(LoadLibrary(_T("dbghelp.dll")));
-    if (hDebugLib == NULL)
+    if (hDebugLib == nullptr)
     {
-        MessageBox(NULL, _T("System_ExceptionFilter() - Could not load dbghelp.dll"), _T("K2 Exception"), MB_OK | MB_ICONEXCLAMATION);
+        MessageBox(nullptr, _T("System_ExceptionFilter() - Could not load dbghelp.dll"), _T("K2 Exception"), MB_OK | MB_ICONEXCLAMATION);
         return EXCEPTION_EXECUTE_HANDLER;
     }
 
     MINIDUMPWRITEDUMP fnDump((MINIDUMPWRITEDUMP)GetProcAddress(hDebugLib, "MiniDumpWriteDump"));
-    if (fnDump == NULL)
+    if (fnDump == nullptr)
     {
-        MessageBox(NULL, _T("System_ExceptionFilter() - Could not find function MiniDumpWriteDump"), _T("K2 Exception"), MB_OK | MB_ICONEXCLAMATION);
+        MessageBox(nullptr, _T("System_ExceptionFilter() - Could not find function MiniDumpWriteDump"), _T("K2 Exception"), MB_OK | MB_ICONEXCLAMATION);
         return EXCEPTION_EXECUTE_HANDLER;
     }
 
     tstring sDumpPath(FileManager.GetNextFileIncrement(4, _T("~/crash_") + K2System.GetVersionString() + _T("_"), _T("dmp")));
     sDumpPath = FileManager.GetSystemPath(sDumpPath, _T(""), true, true);
-    HANDLE hFile(CreateFile(sDumpPath.c_str(), GENERIC_WRITE, FILE_SHARE_WRITE, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL));
-    if (hFile == NULL)
+    HANDLE hFile(CreateFile(sDumpPath.c_str(), GENERIC_WRITE, FILE_SHARE_WRITE, nullptr, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, nullptr));
+    if (hFile == nullptr)
     {
-        MessageBox(NULL, _T("System_ExceptionFilter() - Failed to create dump file"), _T("K2 Exception"), MB_OK | MB_ICONEXCLAMATION);
+        MessageBox(nullptr, _T("System_ExceptionFilter() - Failed to create dump file"), _T("K2 Exception"), MB_OK | MB_ICONEXCLAMATION);
         return EXCEPTION_EXECUTE_HANDLER;
     }
 
     MINIDUMP_EXCEPTION_INFORMATION ExInfo;
     ExInfo.ThreadId = GetCurrentThreadId();
     ExInfo.ExceptionPointers = pExceptionInfo;
-    ExInfo.ClientPointers = NULL;
+    ExInfo.ClientPointers = nullptr;
 
-    if (fnDump(GetCurrentProcess(), GetCurrentProcessId(), hFile, MINIDUMP_TYPE(MiniDumpWithDataSegs | MiniDumpWithIndirectlyReferencedMemory), &ExInfo, NULL, NULL) == FALSE)
+    if (fnDump(GetCurrentProcess(), GetCurrentProcessId(), hFile, MINIDUMP_TYPE(MiniDumpWithDataSegs | MiniDumpWithIndirectlyReferencedMemory), &ExInfo, nullptr, nullptr) == FALSE)
     {
         CloseHandle(hFile);
-        MessageBox(NULL, _T("System_ExceptionFilter() - Failed to write dump file"), _T("K2 Exception"), MB_OK | MB_ICONEXCLAMATION);
+        MessageBox(nullptr, _T("System_ExceptionFilter() - Failed to write dump file"), _T("K2 Exception"), MB_OK | MB_ICONEXCLAMATION);
         return EXCEPTION_EXECUTE_HANDLER;
     }
 
     if (!sys_autoSaveDump)
     {
         tstring sMsg(_T("Successfully wrote file: ") + sDumpPath);
-        MessageBox(NULL, sMsg.c_str(), _T("K2 Exception"), MB_OK);
+        MessageBox(nullptr, sMsg.c_str(), _T("K2 Exception"), MB_OK);
     }
 
     CloseHandle(hFile);
@@ -217,7 +217,7 @@ LONG WINAPI System_ExceptionFilter(EXCEPTION_POINTERS *pExceptionInfo)
   ====================*/
 LPTOP_LEVEL_EXCEPTION_FILTER WINAPI System_DummySetUnhandledExceptionFilter(LPTOP_LEVEL_EXCEPTION_FILTER lpTopLevelExceptionFilter)
 {
-    return NULL;
+    return nullptr;
 }
 
 
@@ -233,11 +233,11 @@ bool    CSystem::PreventSetUnhandledExceptionFilter()
 {
 #ifdef _M_IX86
     HMODULE hKernel32(::LoadLibrary(_T("kernel32.dll")));
-    if (hKernel32 == NULL)
+    if (hKernel32 == nullptr)
         return false;
 
     void *pOrgEntry(::GetProcAddress(hKernel32, "SetUnhandledExceptionFilter"));
-    if (pOrgEntry == NULL)
+    if (pOrgEntry == nullptr)
         return false;
 
     unsigned char newJump[100];
@@ -262,15 +262,15 @@ bool    CSystem::PreventSetUnhandledExceptionFilter()
   CSystem::CSystem
   ====================*/
 CSystem::CSystem() :
-m_WindowHandle(NULL),
+m_WindowHandle(nullptr),
 m_sCommandLine(::GetCommandLine()),
-m_hInstance(NULL),
+m_hInstance(nullptr),
 m_bMonitoringActive(false),
 m_bRestartProcess(false),
-m_pFileMonitorInfo(NULL),
+m_pFileMonitorInfo(nullptr),
 m_bDedicatedServer(false),
 m_bServerManager(false),
-m_ConsoleWindowHandle(NULL),
+m_ConsoleWindowHandle(nullptr),
 m_ullVirtualMemoryLimit(0)
 {
     // Set system start time so K2System.Milliseconds counts from 0
@@ -417,7 +417,7 @@ void    CSystem::HandleOSMessages()
                         if (irInBuf[ui].Event.KeyEvent.bKeyDown == TRUE)
                         {
                             Input.AddEvent(irInBuf[ui].Event.KeyEvent.uChar.AsciiChar);
-                            //WriteConsole((HANDLE)m_ConsoleWindowHandle, &irInBuf[ui].Event.KeyEvent.uChar.AsciiChar, 1, NULL, NULL);
+                            //WriteConsole((HANDLE)m_ConsoleWindowHandle, &irInBuf[ui].Event.KeyEvent.uChar.AsciiChar, 1, nullptr, nullptr);
                         }
                         break;
 
@@ -439,10 +439,10 @@ void    CSystem::HandleOSMessages()
 
     MSG msg;
 
-    while (PeekMessage(&msg, NULL, 0, 0, PM_NOREMOVE))
+    while (PeekMessage(&msg, nullptr, 0, 0, PM_NOREMOVE))
     {
         // Check for a WM_QUIT message
-        if (GetMessage(&msg, NULL, 0, 0) == 0)
+        if (GetMessage(&msg, nullptr, 0, 0) == 0)
             Exit(0);
 
         if (m_ConsoleWindowHandle && IsDialogMessage((HWND)m_ConsoleWindowHandle, &msg))
@@ -466,7 +466,7 @@ void    CSystem::Exit(int iErrorLevel)
         tsvector vArgs;
         vArgs.push_back(host_startupCfg);
         CConsoleElement *pElem(ConsoleRegistry.GetElement(_T("WriteConfigScript")));
-        if (pElem != NULL)
+        if (pElem != nullptr)
             pElem->Execute(vArgs);
     }
 
@@ -493,7 +493,7 @@ void    CSystem::Exit(int iErrorLevel)
         MemManager.Set(&startInfo, 0, sizeof(STARTUPINFO));
         PROCESS_INFORMATION procInfo;
         MemManager.Set(&procInfo, 0, sizeof(PROCESS_INFORMATION));
-        CreateProcess(szFilename, szCmdLine, NULL, NULL, FALSE, 0, NULL, NULL, &startInfo, &procInfo);
+        CreateProcess(szFilename, szCmdLine, nullptr, nullptr, FALSE, 0, nullptr, nullptr, &startInfo, &procInfo);
 
         Console << _T("CMD LINE: ") << szCmdLine << newl;
     }
@@ -555,7 +555,7 @@ tstring CSystem::GetErrorString(uint err)
     TCHAR szError[1024];
     _tcscpy(szError, _T("Unknown error."));
 
-    FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS, NULL,
+    FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS, nullptr,
         err, MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), szError, 1024, 0);
 
     // Remove the CR/LF that FormatMessage() tacks on
@@ -620,7 +620,7 @@ void    CSystem::StartDirectoryMonitoring()
     {
         // Set up file monitoring
         SFileMonitorInfo *pFileMonitorInfo(K2_NEW(ctx_System,  SFileMonitorInfo));
-        if (pFileMonitorInfo == NULL)
+        if (pFileMonitorInfo == nullptr)
         {
             Console.Err << _T("Failed to allocate FileMonitorInfo") << newl;
             return;
@@ -630,10 +630,10 @@ void    CSystem::StartDirectoryMonitoring()
         m_pFileMonitorInfo = pFileMonitorInfo;
 
         pFileMonitorInfo->hDirectory = CreateFile(m_sRootDir.c_str(), FILE_LIST_DIRECTORY, FILE_SHARE_READ,
-            NULL, OPEN_EXISTING, FILE_FLAG_BACKUP_SEMANTICS | FILE_FLAG_OVERLAPPED, NULL);
+            nullptr, OPEN_EXISTING, FILE_FLAG_BACKUP_SEMANTICS | FILE_FLAG_OVERLAPPED, nullptr);
 
         if (!ReadDirectoryChangesW(pFileMonitorInfo->hDirectory, pFileMonitorInfo->FileNotifyInfoBuffer, sizeof(pFileMonitorInfo->FileNotifyInfoBuffer),
-            TRUE, FILE_NOTIFY_CHANGE_LAST_WRITE | FILE_NOTIFY_CHANGE_CREATION | FILE_NOTIFY_CHANGE_FILE_NAME | FILE_NOTIFY_CHANGE_SIZE, NULL, &pFileMonitorInfo->Overlapped, DirectoryChangeNotify))
+            TRUE, FILE_NOTIFY_CHANGE_LAST_WRITE | FILE_NOTIFY_CHANGE_CREATION | FILE_NOTIFY_CHANGE_FILE_NAME | FILE_NOTIFY_CHANGE_SIZE, nullptr, &pFileMonitorInfo->Overlapped, DirectoryChangeNotify))
             Console.Err << _T("ReadDirectoryChangesW: ") << GetLastErrorString() << newl;
 
         m_bMonitoringActive = true;
@@ -663,11 +663,11 @@ void    CSystem::GetModifiedFileList(tsvector &vFileList)
             // By catching it in the same frame, we avoid multiple reloads because the modified files are stored in a set
             SFileMonitorInfo *pFileMonitorInfo(reinterpret_cast<SFileMonitorInfo*>(m_pFileMonitorInfo));
             if (!ReadDirectoryChangesW(pFileMonitorInfo->hDirectory, pFileMonitorInfo->FileNotifyInfoBuffer, sizeof(pFileMonitorInfo->FileNotifyInfoBuffer),
-                TRUE, FILE_NOTIFY_CHANGE_LAST_WRITE | FILE_NOTIFY_CHANGE_CREATION | FILE_NOTIFY_CHANGE_FILE_NAME | FILE_NOTIFY_CHANGE_SIZE, NULL, &pFileMonitorInfo->Overlapped, DirectoryChangeNotify))
+                TRUE, FILE_NOTIFY_CHANGE_LAST_WRITE | FILE_NOTIFY_CHANGE_CREATION | FILE_NOTIFY_CHANGE_FILE_NAME | FILE_NOTIFY_CHANGE_SIZE, nullptr, &pFileMonitorInfo->Overlapped, DirectoryChangeNotify))
                 Console.Err << _T("ReadDirectoryChangesW: ") << GetLastErrorString() << newl;
             ::SleepEx(0, TRUE);
             if (!ReadDirectoryChangesW(pFileMonitorInfo->hDirectory, pFileMonitorInfo->FileNotifyInfoBuffer, sizeof(pFileMonitorInfo->FileNotifyInfoBuffer),
-                TRUE, FILE_NOTIFY_CHANGE_LAST_WRITE | FILE_NOTIFY_CHANGE_CREATION | FILE_NOTIFY_CHANGE_FILE_NAME | FILE_NOTIFY_CHANGE_SIZE, NULL, &pFileMonitorInfo->Overlapped, DirectoryChangeNotify))
+                TRUE, FILE_NOTIFY_CHANGE_LAST_WRITE | FILE_NOTIFY_CHANGE_CREATION | FILE_NOTIFY_CHANGE_FILE_NAME | FILE_NOTIFY_CHANGE_SIZE, nullptr, &pFileMonitorInfo->Overlapped, DirectoryChangeNotify))
                 Console.Err << _T("ReadDirectoryChangesW: ") << GetLastErrorString() << newl;
 
             for (sset::iterator it(m_setsModifiedFiles.begin()); it != m_setsModifiedFiles.end(); ++it)
@@ -694,7 +694,7 @@ void    CSystem::FlushDirectoryMonitoring()
     ::SleepEx(0, TRUE);
     SFileMonitorInfo *pFileMonitorInfo(reinterpret_cast<SFileMonitorInfo*>(m_pFileMonitorInfo));
     if (!ReadDirectoryChangesW(pFileMonitorInfo->hDirectory, pFileMonitorInfo->FileNotifyInfoBuffer, sizeof(pFileMonitorInfo->FileNotifyInfoBuffer),
-        TRUE, FILE_NOTIFY_CHANGE_LAST_WRITE | FILE_NOTIFY_CHANGE_CREATION | FILE_NOTIFY_CHANGE_FILE_NAME | FILE_NOTIFY_CHANGE_SIZE, NULL, &pFileMonitorInfo->Overlapped, DirectoryChangeNotify))
+        TRUE, FILE_NOTIFY_CHANGE_LAST_WRITE | FILE_NOTIFY_CHANGE_CREATION | FILE_NOTIFY_CHANGE_FILE_NAME | FILE_NOTIFY_CHANGE_SIZE, nullptr, &pFileMonitorInfo->Overlapped, DirectoryChangeNotify))
         Console.Err << _T("ReadDirectoryChangesW: ") << GetLastErrorString() << newl;
 
     sys_fileChangeNotify = bNotify;
@@ -707,7 +707,7 @@ void    CSystem::FlushDirectoryMonitoring()
 void    CSystem::StopDirectoryMonitoring()
 {
     m_bMonitoringActive = false;
-    if (m_pFileMonitorInfo != NULL)
+    if (m_pFileMonitorInfo != nullptr)
     {
         SFileMonitorInfo *pFileMonitorInfo(reinterpret_cast<SFileMonitorInfo*>(m_pFileMonitorInfo));
         CloseHandle(pFileMonitorInfo->hDirectory);
@@ -908,7 +908,7 @@ void    CSystem::Error(const tstring &sMsg)
     else
     {
         Vid.Shutdown();
-        MessageBox(NULL, sMsg.c_str(), _T("K2 - Fatal Error"), MB_OK);
+        MessageBox(nullptr, sMsg.c_str(), _T("K2 - Fatal Error"), MB_OK);
     }
 
     Exit(-1);
@@ -978,7 +978,7 @@ void*   CSystem::LoadLibrary(const tstring &sLibFilename)
     void* pLib(::LoadLibrary(sFullPah.c_str()));
     _tchdir(m_sRootDir.c_str());
 
-    if (pLib == NULL)
+    if (pLib == nullptr)
         Console.Err << _T("CSystem::LoadLibrary() - ") << GetLastErrorString() << newl;
     return pLib;
 }
@@ -1002,7 +1002,7 @@ void*   CSystem::GetProcAddress(void *pDll, const tstring &sProcName)
   ====================*/
 bool    CSystem::FreeLibrary(void *pDll)
 {
-    if (pDll == NULL)
+    if (pDll == nullptr)
         return true;
 
     return ::FreeLibrary(static_cast<HMODULE>(pDll)) != FALSE;
@@ -1095,7 +1095,7 @@ void    CSystem::SetMouseClipping(const CRecti &recClip)
   ====================*/
 void    CSystem::UnsetMouseClipping()
 {
-    ::ClipCursor(NULL);
+    ::ClipCursor(nullptr);
 }
 
 
@@ -1502,7 +1502,7 @@ uiset   CSystem::GetRunningProcesses()
             HANDLE hProcess = OpenProcess(PROCESS_QUERY_INFORMATION | PROCESS_VM_READ, false, dwProcesses[i]);
 
             // Get the process name.
-            if (hProcess != NULL)
+            if (hProcess != nullptr)
             {
                 HMODULE hMod;
                 DWORD dwTotalModules;
@@ -1567,7 +1567,7 @@ void    CSystem::AddDedicatedConsoleText(const tstring &sText)
 
     SetConsoleCursorPosition((HANDLE)m_ConsoleWindowHandle, coord);
     
-    WriteConsole((HANDLE)m_ConsoleWindowHandle, sText.c_str(), DWORD(sText.length()), &dwNumberOfCharsWritten, NULL);
+    WriteConsole((HANDLE)m_ConsoleWindowHandle, sText.c_str(), DWORD(sText.length()), &dwNumberOfCharsWritten, nullptr);
 }
 
 
@@ -1593,7 +1593,7 @@ void    CSystem::UpdateDedicatedConsoleText()
 
         SetConsoleCursorPosition((HANDLE)m_ConsoleWindowHandle, coord);
 
-        WriteConsole((HANDLE)m_ConsoleWindowHandle, sInputLine.c_str(), DWORD(sInputLine.length()), &dwNumberOfCharsWritten, NULL);
+        WriteConsole((HANDLE)m_ConsoleWindowHandle, sInputLine.c_str(), DWORD(sInputLine.length()), &dwNumberOfCharsWritten, nullptr);
 
         m_sConsoleInputLine = sInputLine;
     }
@@ -1622,16 +1622,16 @@ SSysInfo    CSystem::GetSystemInfo()
 
     try
     {
-        IWbemLocator *pLoc = NULL;
+        IWbemLocator *pLoc = nullptr;
 
         hres = CoCreateInstance(CLSID_WbemLocator, 0, CLSCTX_INPROC_SERVER, IID_IWbemLocator, (LPVOID *)&pLoc);
      
         if (hres < 0)
             EX_ERROR(_T("Failed to initialize IWbemLocator object, error code ") + INT_HEX_TSTR(hres));
 
-        IWbemServices *pSvc = NULL;
+        IWbemServices *pSvc = nullptr;
         
-        hres = pLoc->ConnectServer(_bstr_t(L"ROOT\\CIMV2"), NULL, NULL, NULL, NULL, NULL, NULL, &pSvc);
+        hres = pLoc->ConnectServer(_bstr_t(L"ROOT\\CIMV2"), nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, &pSvc);
         
         if (hres < 0)
         {
@@ -1639,7 +1639,7 @@ SSysInfo    CSystem::GetSystemInfo()
             EX_ERROR(_T("Failed to initialize IWbemServices object, error code ") + INT_HEX_TSTR(hres));
         }
 
-        hres = CoSetProxyBlanket(pSvc, RPC_C_AUTHN_WINNT, RPC_C_AUTHZ_NONE, NULL, RPC_C_AUTHN_LEVEL_CALL, RPC_C_IMP_LEVEL_IMPERSONATE, NULL, EOAC_NONE);
+        hres = CoSetProxyBlanket(pSvc, RPC_C_AUTHN_WINNT, RPC_C_AUTHZ_NONE, nullptr, RPC_C_AUTHN_LEVEL_CALL, RPC_C_IMP_LEVEL_IMPERSONATE, nullptr, EOAC_NONE);
 
         if (hres < 0)
         {
@@ -1648,12 +1648,12 @@ SSysInfo    CSystem::GetSystemInfo()
             EX_ERROR(_T("Failed to set proxy blanket, error code ") + INT_HEX_TSTR(hres));
         }
 
-        IEnumWbemClassObject* pEnumerator = NULL;
-        IWbemClassObject *pclsObj = NULL;
+        IEnumWbemClassObject* pEnumerator = nullptr;
+        IWbemClassObject *pclsObj = nullptr;
         ULONG uReturn = 0;
 
         // Grab the name and version of the operating system
-        hres = pSvc->ExecQuery(bstr_t("WQL"), bstr_t("SELECT Name, Version FROM Win32_OperatingSystem"), WBEM_FLAG_FORWARD_ONLY | WBEM_FLAG_RETURN_IMMEDIATELY, NULL, &pEnumerator);
+        hres = pSvc->ExecQuery(bstr_t("WQL"), bstr_t("SELECT Name, Version FROM Win32_OperatingSystem"), WBEM_FLAG_FORWARD_ONLY | WBEM_FLAG_RETURN_IMMEDIATELY, nullptr, &pEnumerator);
         
         if (hres < 0)
         {
@@ -1696,7 +1696,7 @@ SSysInfo    CSystem::GetSystemInfo()
         pEnumerator->Release();
 
         // Grab the total physical memory from the computer system info
-        hres = pSvc->ExecQuery(bstr_t("WQL"), bstr_t("SELECT TotalPhysicalMemory FROM Win32_ComputerSystem"), WBEM_FLAG_FORWARD_ONLY | WBEM_FLAG_RETURN_IMMEDIATELY, NULL, &pEnumerator);
+        hres = pSvc->ExecQuery(bstr_t("WQL"), bstr_t("SELECT TotalPhysicalMemory FROM Win32_ComputerSystem"), WBEM_FLAG_FORWARD_ONLY | WBEM_FLAG_RETURN_IMMEDIATELY, nullptr, &pEnumerator);
         
         if (hres < 0)
         {
@@ -1729,7 +1729,7 @@ SSysInfo    CSystem::GetSystemInfo()
         pEnumerator->Release();
 
         // Grab video card availability, name and RAM
-        hres = pSvc->ExecQuery(bstr_t("WQL"), bstr_t("SELECT Availability, Name, AdapterRAM FROM Win32_VideoController"), WBEM_FLAG_FORWARD_ONLY | WBEM_FLAG_RETURN_IMMEDIATELY, NULL, &pEnumerator);
+        hres = pSvc->ExecQuery(bstr_t("WQL"), bstr_t("SELECT Availability, Name, AdapterRAM FROM Win32_VideoController"), WBEM_FLAG_FORWARD_ONLY | WBEM_FLAG_RETURN_IMMEDIATELY, nullptr, &pEnumerator);
         
         if (hres < 0)
         {
@@ -1777,17 +1777,17 @@ SSysInfo    CSystem::GetSystemInfo()
         pEnumerator->Release();
 
         // Get network adapter connection status and MAC address
-        IP_ADAPTER_INFO *pAdapterInfo(NULL);
+        IP_ADAPTER_INFO *pAdapterInfo(nullptr);
         ULONG ulSize(0);
         if (GetAdaptersInfo(pAdapterInfo, &ulSize) == ERROR_BUFFER_OVERFLOW)
         {
             pAdapterInfo = reinterpret_cast<IP_ADAPTER_INFO*>(K2_NEW_ARRAY(ctx_System, byte, ulSize));
         }
 
-        if (pAdapterInfo != NULL && GetAdaptersInfo(pAdapterInfo, &ulSize) == ERROR_SUCCESS)
+        if (pAdapterInfo != nullptr && GetAdaptersInfo(pAdapterInfo, &ulSize) == ERROR_SUCCESS)
         {
             IP_ADAPTER_INFO *pCurrentAdapter(pAdapterInfo);
-            while (pCurrentAdapter != NULL)
+            while (pCurrentAdapter != nullptr)
             {
                 structInfo.sMAC.clear();
                 for (uint ui(0); ui < pCurrentAdapter->AddressLength; ++ui)
@@ -1802,7 +1802,7 @@ SSysInfo    CSystem::GetSystemInfo()
         SAFE_DELETE_ARRAY(pAdapterInfo)
 
         // Get processor availability, status, type and speed
-        hres = pSvc->ExecQuery(bstr_t("WQL"), bstr_t("SELECT Availability, CpuStatus, StatusInfo, ProcessorType, CurrentClockSpeed, Name FROM Win32_Processor"), WBEM_FLAG_FORWARD_ONLY | WBEM_FLAG_RETURN_IMMEDIATELY, NULL, &pEnumerator);
+        hres = pSvc->ExecQuery(bstr_t("WQL"), bstr_t("SELECT Availability, CpuStatus, StatusInfo, ProcessorType, CurrentClockSpeed, Name FROM Win32_Processor"), WBEM_FLAG_FORWARD_ONLY | WBEM_FLAG_RETURN_IMMEDIATELY, nullptr, &pEnumerator);
         
         if (hres < 0)
         {
@@ -2142,7 +2142,7 @@ void    CSystem::SetConfig(const tstring &sConfig)
 {
     TCHAR szDir[_MAX_PATH + 1];
 
-    SHGetFolderPath(NULL, CSIDL_PERSONAL, NULL, SHGFP_TYPE_CURRENT, szDir);
+    SHGetFolderPath(nullptr, CSIDL_PERSONAL, nullptr, SHGFP_TYPE_CURRENT, szDir);
     m_sUserDir = szDir;
 
     m_sUserDir += _T("/") + m_sGameName + _T("/");
@@ -2220,7 +2220,7 @@ int     CSystem::GetPriority() const
   ====================*/
 tstring CSystem::GetProcessFilename()
 {
-    HMODULE hModule(GetModuleHandle(NULL));
+    HMODULE hModule(GetModuleHandle(nullptr));
     TCHAR szFilename[MAX_PATH];
 
     GetModuleFileName(hModule, szFilename, sizeof(szFilename));
@@ -2235,7 +2235,7 @@ tstring CSystem::GetProcessFilename()
 tstring CSystem::GetProcessBaseName()
 {
     HANDLE hProcess(GetCurrentProcess());
-    HMODULE hModule(GetModuleHandle(NULL));
+    HMODULE hModule(GetModuleHandle(nullptr));
     TCHAR szFilename[MAX_PATH];
 
     GetModuleBaseName(hProcess, hModule, szFilename, sizeof(szFilename));
@@ -2257,14 +2257,14 @@ bool    CSystem::Shell(const tstring &sCommand, bool bWait)
     SI.cb = sizeof(STARTUPINFO);
 
     if (!CreateProcess(
-        NULL,
+        nullptr,
         (LPTSTR)sCommand.c_str(),
-        NULL,
-        NULL,
+        nullptr,
+        nullptr,
         FALSE,
         CREATE_SUSPENDED,
-        NULL,
-        NULL,
+        nullptr,
+        nullptr,
         &SI,
         &PI))
     {
@@ -2294,12 +2294,12 @@ uint    CSystem::GetUniqueID() const
     uint uiReturn(GetTicks() & UINT_MAX);
 
     // Get network adapter connection status and MAC address
-    IP_ADAPTER_INFO *pAdapterInfo(NULL);
+    IP_ADAPTER_INFO *pAdapterInfo(nullptr);
     ULONG ulSize(0);
     if (GetAdaptersInfo(pAdapterInfo, &ulSize) == ERROR_BUFFER_OVERFLOW)
         pAdapterInfo = reinterpret_cast<IP_ADAPTER_INFO*>(K2_NEW_ARRAY(ctx_System, byte, ulSize));
 
-    if (pAdapterInfo != NULL && GetAdaptersInfo(pAdapterInfo, &ulSize) == ERROR_SUCCESS)
+    if (pAdapterInfo != nullptr && GetAdaptersInfo(pAdapterInfo, &ulSize) == ERROR_SUCCESS)
     {
         for (uint ui(0); ui < MIN(pAdapterInfo->AddressLength, 4u); ++ui)
             uiReturn |= pAdapterInfo->Address[ui] << (8 * ui);
@@ -2328,7 +2328,7 @@ void    CSystem::InitDedicatedConsole()
         EX_ERROR(_T("CreateDialog Failed: ") + GetLastErrorString());
 
     // Set Dedicated console font
-    HDC hDisplayDC(GetDC(NULL));
+    HDC hDisplayDC(GetDC(nullptr));
     if (!hDisplayDC)
         return;
 
@@ -2348,7 +2348,7 @@ void    CSystem::InitDedicatedConsole()
         SendMessage(hConsoleText, WM_SETFONT, (WPARAM)hFont, MAKELPARAM(FALSE, 0));
     }
 
-    ReleaseDC(NULL, hDisplayDC);
+    ReleaseDC(nullptr, hDisplayDC);
 }
 #else
 /*====================
@@ -2609,7 +2609,7 @@ void    CSystem::SetupKeystates()
   ====================*/
 void    CSystem::SetMicVolume(float fValue)
 {
-    HMIXER hMixer(NULL);                    // Mixer handle for current device
+    HMIXER hMixer(nullptr);                    // Mixer handle for current device
     MMRESULT result;                        // Return code.
     MIXERLINE mixerLine;                    // Holds the mixer line data.
     MIXERLINECONTROLS mixerLineControl;     // Obtains the mixer control.
@@ -2737,7 +2737,7 @@ void    CSystem::SetMicVolume(float fValue)
   ====================*/
 float   CSystem::GetMicVolume()
 {
-    HMIXER hMixer(NULL);                    // Mixer handle for current device
+    HMIXER hMixer(nullptr);                    // Mixer handle for current device
     MMRESULT result;                        // Return code.
     MIXERLINE mixerLine;                    // Holds the mixer line data.
     MIXERLINECONTROLS mixerLineControl;     // Obtains the mixer control.
@@ -2882,7 +2882,7 @@ float   CSystem::GetMicVolume()
   ====================*/
 void    CSystem::SetMicBoost(bool bValue)
 {
-    HMIXER hMixer(NULL);                    // Mixer handle for current device
+    HMIXER hMixer(nullptr);                    // Mixer handle for current device
     MMRESULT result;                        // Return code.
     MIXERLINE mixerLine;                    // Holds the mixer line data.
     MIXERLINECONTROLS mixerLineControl;     // Obtains the mixer control.
@@ -3010,7 +3010,7 @@ void    CSystem::SetMicBoost(bool bValue)
   ====================*/
 bool    CSystem::GetMicBoost()
 {
-    HMIXER hMixer(NULL);                    // Mixer handle for current device
+    HMIXER hMixer(nullptr);                    // Mixer handle for current device
     MMRESULT result;                        // Return code.
     MIXERLINE mixerLine;                    // Holds the mixer line data.
     MIXERLINECONTROLS mixerLineControl;     // Obtains the mixer control.

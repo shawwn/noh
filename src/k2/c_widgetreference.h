@@ -31,7 +31,7 @@ public:
     CWidgetReference(IWidget *pOwner);
     CWidgetReference(const CWidgetReference &B);
 
-    bool        IsValid() const                                     { return m_pTarget != NULL; }
+    bool        IsValid() const                                     { return m_pTarget != nullptr; }
     IWidget*    GetTarget() const                                   { return m_pTarget; }
 
     CWidgetReference&   operator=(IWidget *pWidget);

@@ -71,7 +71,7 @@ CMeshRenderer::CMeshRenderer(ResHandle hMaterial, const CSceneEntity &cEntity, C
 m_hMaterial(hMaterial),
 m_cEntity(cEntity),
 m_pMesh(pMesh),
-m_pMapping(NULL),
+m_pMapping(nullptr),
 m_iCurrentSkelbone(-1),
 m_mWorldEntity(mWorldEntity),
 m_mWorldEntityRotation(mWorldEntityRotation)
@@ -367,7 +367,7 @@ bool    CMeshRenderer::SetRenderStates(EMaterialPhase ePhase)
 
     const CMaterial &material(*m_pMaterial);
 
-    if (m_cEntity.flags & SCENEENT_TERRAIN_TEXTURES && (ePhase == PHASE_COLOR || ePhase == PHASE_FADE || ePhase == PHASE_REFRACT) && GfxTerrain->pWorld != NULL)
+    if (m_cEntity.flags & SCENEENT_TERRAIN_TEXTURES && (ePhase == PHASE_COLOR || ePhase == PHASE_FADE || ePhase == PHASE_REFRACT) && GfxTerrain->pWorld != nullptr)
     {
         float fWorldScale(GfxTerrain->pWorld->GetScale());
 
@@ -466,7 +466,7 @@ bool    CMeshRenderer::DrawStaticMesh()
     GfxMaterials->BindAttributes(m_pMesh->mapAttributes, iStride);
     
     glBindBufferARB(GL_ELEMENT_ARRAY_BUFFER, GfxModels->IBMeshes[m_pMesh->ibuffer]);
-    glDrawElements(GL_TRIANGLES, m_pMesh->numFaces * 3, GL_UNSIGNED_SHORT, NULL);
+    glDrawElements(GL_TRIANGLES, m_pMesh->numFaces * 3, GL_UNSIGNED_SHORT, nullptr);
 
     glPopMatrix();
 
@@ -550,7 +550,7 @@ bool    CMeshRenderer::DrawSkinnedMesh()
         glGenBuffersARB(1, &GfxModels->DBMeshes[m_pMesh->dbuffer]);
 
     glBindBufferARB(GL_ARRAY_BUFFER_ARB, GfxModels->DBMeshes[m_pMesh->dbuffer]);
-    glBufferDataARB(GL_ARRAY_BUFFER_ARB, m_pMesh->num_verts * iVertexStride, NULL, GL_STREAM_DRAW_ARB);
+    glBufferDataARB(GL_ARRAY_BUFFER_ARB, m_pMesh->num_verts * iVertexStride, nullptr, GL_STREAM_DRAW_ARB);
     byte* pVertices = (byte*)glMapBufferARB(GL_ARRAY_BUFFER_ARB, GL_WRITE_ONLY);
     if (vid_meshSkipCPUDeform)
     {
@@ -571,7 +571,7 @@ bool    CMeshRenderer::DrawSkinnedMesh()
             {
                 vec3_t  *p_t = (vec3_t *)(&pVertices[v * iVertexStride + tan_offset + (m * sizeof(vec3_t))]);
 
-                if (m_pMesh->tangents[m] != NULL)
+                if (m_pMesh->tangents[m] != nullptr)
                     M_CopyVec3(m_pMesh->tangents[m][v], *p_t);
                 else
                     M_SetVec3(*p_t, 0.0f, 0.0f, 0.0f);
@@ -620,7 +620,7 @@ bool    CMeshRenderer::DrawSkinnedMesh()
             {
                 vec3_t  *p_t = (vec3_t *)(&pVertices[v * iVertexStride + tan_offset + (m * sizeof(vec3_t))]);
 
-                if (m_pMesh->tangents[m] != NULL)
+                if (m_pMesh->tangents[m] != nullptr)
                     M_RotatePoint(m_pMesh->tangents[m][v], (const vec3_t *)tm_blended.axis, *p_t);
                 else
                     M_SetVec3(*p_t, 0.0f, 0.0f, 0.0f);
@@ -653,7 +653,7 @@ bool    CMeshRenderer::DrawSkinnedMesh()
                 {
                     vec3_t  *p_t = (vec3_t *)(&pVertices[v * iVertexStride + tan_offset + (m * sizeof(vec3_t))]);
 
-                    if (m_pMesh->tangents[m] != NULL)
+                    if (m_pMesh->tangents[m] != nullptr)
                         M_CopyVec3(m_pMesh->tangents[m][v], *p_t);
                     else
                         M_SetVec3(*p_t, 0.0f, 0.0f, 0.0f);
@@ -678,7 +678,7 @@ bool    CMeshRenderer::DrawSkinnedMesh()
             {
                 vec3_t  *p_t = (vec3_t *)(&pVertices[v * iVertexStride + tan_offset + (m * sizeof(vec3_t))]);
 
-                if (m_pMesh->tangents[m] != NULL)
+                if (m_pMesh->tangents[m] != nullptr)
                     M_RotatePoint(m_pMesh->tangents[m][v], (const vec3_t *)tm_world->axis, *p_t);
                 else
                     M_SetVec3(*p_t, 0.0f, 0.0f, 0.0f);
@@ -747,7 +747,7 @@ bool    CMeshRenderer::DrawSkinnedMesh()
     }
 
     glBindBufferARB(GL_ELEMENT_ARRAY_BUFFER, GfxModels->IBMeshes[m_pMesh->ibuffer]);
-    glDrawElements(GL_TRIANGLES, m_pMesh->numFaces * 3, GL_UNSIGNED_SHORT, NULL);
+    glDrawElements(GL_TRIANGLES, m_pMesh->numFaces * 3, GL_UNSIGNED_SHORT, nullptr);
 
     glPopMatrix();
 

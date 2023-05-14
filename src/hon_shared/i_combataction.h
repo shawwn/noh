@@ -834,7 +834,7 @@ protected:
 public:
     virtual ~ICombatAction()    {}
     ICombatAction() :
-    m_pEnv(NULL)
+    m_pEnv(nullptr)
     {}
 
     void            SetEnv(SCombatActionEnv *pEnv)                      { m_pEnv = pEnv; }
@@ -856,8 +856,8 @@ public:
     template <class T> T*   GetEntityFromActionTargetAs(EActionTarget eTarget) const
     {
         IGameEntity *pEntity(GetEntityFromActionTarget(eTarget));
-        if (pEntity == NULL)
-            return NULL;
+        if (pEntity == nullptr)
+            return nullptr;
         else
             return pEntity->GetAs<T>();
     }

@@ -159,7 +159,7 @@ private:
 
 public:
     ~CSimpleParticle();
-    CSimpleParticle() : m_bActive(false), m_pImbeddedEmitter(NULL) {};
+    CSimpleParticle() : m_bActive(false), m_pImbeddedEmitter(nullptr) {};
 
     void    Spawn
     (
@@ -177,11 +177,11 @@ public:
 
     bool    IsDead(uint uiLastUpdateTime, bool bExpired)    { return m_iLife == -1 ? bExpired : uiLastUpdateTime > m_uiStartTime + m_iLife; }
 
-    void    Update(float fDeltaTime, const CVec3f &v3Acceleration, float fDrag, float fFriction, ParticleTraceFn_t pfnTrace = NULL);
+    void    Update(float fDeltaTime, const CVec3f &v3Acceleration, float fDrag, float fFriction, ParticleTraceFn_t pfnTrace = nullptr);
     void    Update(float fDeltaTime, const CVec3f &v3Acceleration, const CVec3f &v3AccelTime, const CVec3f &v3AccelTimeSq);
     void    Update(float fDeltaTime);
 
-    void    GetBillboard(uint uiMilliseconds, SBillboard &outBillboard, float *pfStickiness = NULL, float *pfAnchor = NULL);
+    void    GetBillboard(uint uiMilliseconds, SBillboard &outBillboard, float *pfStickiness = nullptr, float *pfAnchor = nullptr);
 
     bool    IsActive()              { return m_bActive; }
     void    SetActive(bool bActive) { m_bActive = bActive; }

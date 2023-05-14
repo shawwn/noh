@@ -66,7 +66,7 @@ bool    xmlproc_skylistitems(CInterface *pInterface, IWidget *pParent, const CWi
     {
         // Create new listitem
         styleItem.SetProperty(_T("value"), pModel->GetSkin(n)->GetName());
-        CListItem *pNewListItem(K2_NEW(ctx_Widgets,   CListItem)(pInterface, NULL, styleItem));
+        CListItem *pNewListItem(K2_NEW(ctx_Widgets,   CListItem)(pInterface, nullptr, styleItem));
 
         // Fill new listitem
         styleItem.SetProperty(_T("content"), pModel->GetSkin(n)->GetName());
@@ -93,14 +93,14 @@ BEGIN_XML_REGISTRATION(skylistitems)
 END_XML_REGISTRATION
 BEGIN_XML_PROCESSOR(skylistitems, IWidget)
     CInterface *pInterface(pObject->GetInterface());
-    if (pInterface == NULL)
+    if (pInterface == nullptr)
     {
         Console.Err << _T("Invalid interface for <skylistitems>") << m_sElementName << newl;
         return false;
     }
 
     CWidgetTemplate *pTemplate(pInterface->GetCurrentTemplate());
-    if (pTemplate != NULL)
+    if (pTemplate != nullptr)
     {
         pTemplate->AddChild(m_sElementName, node);
         pTemplate->EndChild();

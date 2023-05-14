@@ -73,7 +73,7 @@
 #define WStringToTString(in)        WideToSingle(in)
 #define TStringToWString(in)        SingleToWide(in)
 
-#define StrToTString(out, in)       { if ((in) != NULL) (out) = (in); }
+#define StrToTString(out, in)       { if ((in) != nullptr) (out) = (in); }
 
 #define NativeToTString(in) (in)
 #define TStringToNative(in) (in)

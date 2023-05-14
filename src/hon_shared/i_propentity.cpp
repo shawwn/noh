@@ -134,7 +134,7 @@ void    IPropEntity::Spawn()
         m_uiWorldIndex = Game.AllocateNewWorldEntity();
 
     CModel* pModel(g_ResourceManager.GetModel(GetModel()));
-    if (pModel != NULL &&
+    if (pModel != nullptr &&
         pModel->GetModelFile()->GetType() == MODEL_K2)
     {
         CK2Model* pK2Model(static_cast<CK2Model*>(pModel->GetModelFile()));
@@ -187,7 +187,7 @@ void    IPropEntity::Die(IVisualEntity *pAttacker, ushort unKillingObjectID)
     {
         ICvar *pCvar(EntityRegistry.GetGameSetting(unKillingObjectID, _T("Name")));
 
-        if (pCvar != NULL)
+        if (pCvar != nullptr)
             sMethod = pCvar->GetString();
     }
 }
@@ -202,7 +202,7 @@ void    IPropEntity::Link()
     {
         CWorldEntity *pWorldEnt(Game.GetWorldEntity(m_uiWorldIndex));
 
-        if (pWorldEnt != NULL)
+        if (pWorldEnt != nullptr)
         {
             pWorldEnt->SetPosition(GetPosition());
             pWorldEnt->SetScale(GetBaseScale() * GetScale());
@@ -239,7 +239,7 @@ void    IPropEntity::Unlink()
     {
         CWorldEntity *pWorldEnt(Game.GetWorldEntity(m_uiWorldIndex));
 
-        if (pWorldEnt != NULL)
+        if (pWorldEnt != nullptr)
         {
             vector<PoolHandle>::const_iterator citEnd(m_vPathBlockers.end());
             for (vector<PoolHandle>::const_iterator cit(m_vPathBlockers.begin()); cit != citEnd; ++cit)
@@ -301,7 +301,7 @@ CVec3f  IPropEntity::GetApproachPosition(const CVec3f &v3Start, const CBBoxf &bb
 {
     CWorldEntity *pWorldEnt(Game.GetWorldEntity(m_uiWorldIndex));
         
-    if (pWorldEnt != NULL)
+    if (pWorldEnt != nullptr)
     {
         CBBoxf bbBoundsWorld(bbBounds);
         bbBoundsWorld.Offset(v3Start);

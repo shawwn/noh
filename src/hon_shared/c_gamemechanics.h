@@ -540,12 +540,12 @@ public:
 
     uint                RegisterAttackType(const CXMLNode &node);
     uint                LookupAttackType(const tstring &sName) const;
-    const CAttackType*  GetAttackType(uint uiIndex) const                   { return uiIndex < m_vAttackTypes.size() ? &m_vAttackTypes[uiIndex] : NULL; }
+    const CAttackType*  GetAttackType(uint uiIndex) const                   { return uiIndex < m_vAttackTypes.size() ? &m_vAttackTypes[uiIndex] : nullptr; }
     const tstring&      GetAttackTypeDisplayName(uint uiIndex) const        { return uiIndex < m_vAttackTypes.size() ? m_vAttackTypes[uiIndex].GetDisplayName() : TSNULL; }
 
     uint                    RegisterCombatType(const tstring &sName, uint uiNumCombatTypes);
     uint                    LookupCombatType(const tstring &sName) const    { map<tstring, uint>::const_iterator it(m_mapCombatTypes.find(sName)); return (it == m_mapCombatTypes.end()) ? INVALID_COMBAT_TYPE : it->second; }
-    CCombatTable*           GetCombatTable(uint uiIndex)                    { return (uiIndex >= m_vCombatTables.size()) ? NULL : &m_vCombatTables[uiIndex]; }
+    CCombatTable*           GetCombatTable(uint uiIndex)                    { return (uiIndex >= m_vCombatTables.size()) ? nullptr : &m_vCombatTables[uiIndex]; }
     CCombatTable*           GetCombatTable(const tstring &sName)            { return GetCombatTable(LookupCombatType(sName)); }
     float                   GetAttackMultiplier(uint uiCombatTypeA, uint uiCombatTypeB);
     float                   GetSpellMultiplier(uint uiCombatTypeA, uint uiCombatTypeB);
@@ -568,7 +568,7 @@ public:
     uint                    LookupArmorType(const tstring &sName) const;
     bool                    IsArmorEffective(uint uiArmorType, uint uiEffectType) const;
     GAME_SHARED_API float   GetArmorDamageAdjustment(uint uiArmorType, float fArmor) const;
-    const CArmorType*       GetArmorType(uint uiArmorType) const            { return uiArmorType < m_vArmorTypes.size() ? &m_vArmorTypes[uiArmorType] : NULL; }
+    const CArmorType*       GetArmorType(uint uiArmorType) const            { return uiArmorType < m_vArmorTypes.size() ? &m_vArmorTypes[uiArmorType] : nullptr; }
 
     uint    RegisterStealthType(const tstring &sName);
     uint    LookupStealthType(const tstring &sName) const;
@@ -578,16 +578,16 @@ public:
     uint                    RegisterTargetScheme(const tstring &sName, const tstring &sAllow, const tstring &sRestrict, const tstring &sAllow2, const tstring &sRestrict2);
     GAME_SHARED_API uint    LookupTargetScheme(const tstring &sName) const;
     const tstring&          GetTargetSchemeDisplayName(uint uiIndex) const  { return uiIndex < m_vTargetSchemes.size() ? m_vTargetSchemes[uiIndex].GetDisplayName() : TSNULL; }
-    const CTargetScheme*    GetTargetScheme(uint uiIndex) const             { return uiIndex < m_vTargetSchemes.size() ? &m_vTargetSchemes[uiIndex] : NULL; }
+    const CTargetScheme*    GetTargetScheme(uint uiIndex) const             { return uiIndex < m_vTargetSchemes.size() ? &m_vTargetSchemes[uiIndex] : nullptr; }
 
     byte                    RegisterPopup(const CXMLNode &node);
     GAME_SHARED_API byte    LookupPopup(const tstring &sName) const;
-    const CPopup*           GetPopup(byte yIndex) const                     { return yIndex < m_vPopups.size() ? &m_vPopups[yIndex] : NULL; }
+    const CPopup*           GetPopup(byte yIndex) const                     { return yIndex < m_vPopups.size() ? &m_vPopups[yIndex] : nullptr; }
     const CPopup*           GetPopup(EPopup eType) const                    { return m_apPopups[eType]; }
 
     byte                    RegisterPing(const CXMLNode &node);
     GAME_SHARED_API byte    LookupPing(const tstring &sName) const;
-    const CPing*            GetPing(byte yIndex) const                      { return yIndex < m_vPings.size() ? &m_vPings[yIndex] : NULL; }
+    const CPing*            GetPing(byte yIndex) const                      { return yIndex < m_vPings.size() ? &m_vPings[yIndex] : nullptr; }
     const CPing*            GetPing(EPing eType) const                      { return m_apPings[eType]; }
 
     GAME_SHARED_API void    WriteStringTable(CFileHandle &hFile, size_t zTabStop, size_t zColumnOffset);

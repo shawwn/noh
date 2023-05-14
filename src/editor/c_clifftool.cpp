@@ -427,12 +427,12 @@ void    CCliffTool::CliffModify(byte *pRegion, const CRecti &recArea, const CBru
   ====================*/
 void    CCliffTool::PaintCliff(float fFrameTime)
 {
-    byte *pRegion(NULL);
+    byte *pRegion(nullptr);
 
     try
     {
         CBrush *pBrush(CBrush::GetCurrentBrush());
-        if (pBrush == NULL)
+        if (pBrush == nullptr)
             EX_ERROR(_T("No brush selected"));
 
         int iX = m_iXPaint;
@@ -451,7 +451,7 @@ void    CCliffTool::PaintCliff(float fFrameTime)
         // Get the region
         pRegion = K2_NEW_ARRAY(ctx_Editor, byte, recClippedBrush.GetArea());//m_tmpByteMap;//
 
-        if (pRegion == NULL)
+        if (pRegion == nullptr)
         {
             EX_ERROR(_T("Failed to allocate region"));
         }
@@ -1959,7 +1959,7 @@ void    CCliffTool::CalculateTile(int iXC, int iYC)
         float WTdr(0.0f);
         float WSdr(0.0f);
 
-        if (CliffDefinition && CliffDefinition->GetInnerCorner().GetVariation(uiVariation) != NULL) // TKTK: This null check was added because it seems to be null sometimes
+        if (CliffDefinition && CliffDefinition->GetInnerCorner().GetVariation(uiVariation) != nullptr) // TKTK: This null check was added because it seems to be null sometimes
         {
             //Cliff Paths
             InnerCornerPathPerm = CliffDefinition->GetInnerCorner().GetVariation(uiVariation)->GetPiecePath();
@@ -2535,7 +2535,7 @@ void CCliffTool::RampPlaceModel(int iX, int iY, ushort unRampType)
     float                       fRampRotationLeft(0.0f);
     CCliffDefinitionResource*   CliffDef(static_cast<CCliffDefinitionResource*>(g_ResourceManager.Get(m_CliffDefinitionHandle)));
     bool                        bRampsLoaded(false);
-    CRampResource*              CRampDefinition(NULL);
+    CRampResource*              CRampDefinition(nullptr);
     tstring                     sTopModelPath(TSNULL);
     int                         iTopRotationVertex(0);
     float                       fTopRotationAdjustment(0.0f);

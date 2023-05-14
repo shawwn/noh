@@ -40,7 +40,7 @@ public:
     bool    IsFinished()    { return m_bFinished; }
 
     void    Frame();
-    void    ExecuteScript(const tstring &sData, bool bFile = true, tsmapts *mapParams = NULL);
+    void    ExecuteScript(const tstring &sData, bool bFile = true, tsmapts *mapParams = nullptr);
 
     void    GotoScriptLabel(const tstring &sLabel);
     void    PauseScript(dword dwMilliseconds);

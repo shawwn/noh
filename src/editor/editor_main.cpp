@@ -350,7 +350,7 @@ ACTION_BUTTON(ToolPrimary)
     try
     {
         ITool *pTool(ToolBox.GetCurrentTool());
-        if (pTool == NULL)
+        if (pTool == nullptr)
             return;
 
         if (fValue)
@@ -379,7 +379,7 @@ ACTION_BUTTON(ToolSecondary)
         }
 
         ITool *pTool(ToolBox.GetCurrentTool());
-        if (pTool == NULL)
+        if (pTool == nullptr)
             return;
 
         if (fValue)
@@ -402,7 +402,7 @@ ACTION_BUTTON(ToolTertiary)
     try
     {
         ITool *pTool(ToolBox.GetCurrentTool());
-        if (pTool == NULL)
+        if (pTool == nullptr)
             return;
 
         if (fValue)
@@ -425,7 +425,7 @@ ACTION_BUTTON(ToolQuaternary)
     try
     {
         ITool *pTool(ToolBox.GetCurrentTool());
-        if (pTool == NULL)
+        if (pTool == nullptr)
             return;
 
         if (fValue)
@@ -446,7 +446,7 @@ ACTION_BUTTON(ToolQuaternary)
 ACTION_IMPULSE(Cancel)
 {
     ITool *pTool(ToolBox.GetCurrentTool());
-    if (pTool != NULL)
+    if (pTool != nullptr)
         pTool->Cancel();
 }
 
@@ -457,7 +457,7 @@ ACTION_IMPULSE(Cancel)
 ACTION_IMPULSE(Delete)
 {
     ITool *pTool(ToolBox.GetCurrentTool());
-    if (pTool != NULL)
+    if (pTool != nullptr)
         pTool->Delete();
 }
 
@@ -468,7 +468,7 @@ ACTION_IMPULSE(Delete)
 ACTION_BUTTON(ToolModifier1)
 {
     ITool *pTool(ToolBox.GetCurrentTool());
-    if (pTool != NULL)
+    if (pTool != nullptr)
     {
         if (fValue)
             pTool->SetModifier1(true);
@@ -484,7 +484,7 @@ ACTION_BUTTON(ToolModifier1)
 ACTION_BUTTON(ToolModifier2)
 {
     ITool *pTool(ToolBox.GetCurrentTool());
-    if (pTool != NULL)
+    if (pTool != nullptr)
     {
         if (fValue)
             pTool->SetModifier2(true);
@@ -500,7 +500,7 @@ ACTION_BUTTON(ToolModifier2)
 ACTION_BUTTON(ToolModifier3)
 {
     ITool *pTool(ToolBox.GetCurrentTool());
-    if (pTool != NULL)
+    if (pTool != nullptr)
     {
         if (fValue)
             pTool->SetModifier3(true);
@@ -909,7 +909,7 @@ CMD(FixTrees)
     for (WorldEntList_cit cit(vEntities.begin()); cit != citEnd; ++cit)
     {
         CWorldEntity *pWorldEnt(cWorld.GetEntityByHandle(*cit));
-        if (pWorldEnt == NULL)
+        if (pWorldEnt == nullptr)
             continue;
 
         if (pWorldEnt->GetType() != _T("Prop_Tree"))
@@ -955,7 +955,7 @@ CMD(FixTrees)
     for (WorldEntList_cit citA(vEntities.begin()); citA != citEnd; ++citA)
     {
         CWorldEntity *pWorldEntA(cWorld.GetEntityByHandle(*citA));
-        if (pWorldEntA == NULL)
+        if (pWorldEntA == nullptr)
             continue;
 
         if (pWorldEntA->GetType() != _T("Prop_Tree"))
@@ -967,7 +967,7 @@ CMD(FixTrees)
         for (; citB != citEnd; ++citB)
         {
             CWorldEntity *pWorldEntB(cWorld.GetEntityByHandle(*citB));
-            if (pWorldEntB == NULL)
+            if (pWorldEntB == nullptr)
                 continue;
 
             if (pWorldEntB->GetType() != _T("Prop_Tree"))
@@ -1023,7 +1023,7 @@ CMD(CloneTrees)
     for (WorldEntList_cit cit(vEntities.begin()); cit != citEnd; ++cit)
     {
         CWorldEntity *pWorldEnt(cWorld.GetEntityByHandle(*cit));
-        if (pWorldEnt == NULL)
+        if (pWorldEnt == nullptr)
             continue;
 
         if (pWorldEnt->GetType() != _T("Prop_Tree") || pWorldEnt->GetModelHandle() != hBadTree)
@@ -1063,7 +1063,7 @@ CMD(CloneTrees)
     for (WorldEntList_cit cit(vEntities.begin()); cit != citEnd; ++cit)
     {
         CWorldEntity *pWorldEnt(cWorld.GetEntityByHandle(*cit));
-        if (pWorldEnt == NULL)
+        if (pWorldEnt == nullptr)
             continue;
 
         if (pWorldEnt->GetType() != _T("Prop_Tree"))
@@ -1129,7 +1129,7 @@ CMD(RotateTrees)
     for (WorldEntList_cit cit(vEntities.begin()); cit != citEnd; ++cit)
     {
         CWorldEntity *pWorldEnt(cWorld.GetEntityByHandle(*cit));
-        if (pWorldEnt == NULL)
+        if (pWorldEnt == nullptr)
             continue;
 
         if (pWorldEnt->GetType() != _T("Prop_Tree"))
@@ -1185,7 +1185,7 @@ CMD(ScaleTrees)
     for (WorldEntList_cit cit(vEntities.begin()); cit != citEnd; ++cit)
     {
         CWorldEntity *pWorldEnt(cWorld.GetEntityByHandle(*cit));
-        if (pWorldEnt == NULL)
+        if (pWorldEnt == nullptr)
             continue;
 
         if (pWorldEnt->GetType() != _T("Prop_Tree"))
@@ -1857,7 +1857,7 @@ CMD(SnapCliffs)
     for (WorldEntList_cit cit(vEntities.begin()); cit != citEnd; ++cit)
     {
         CWorldEntity *pWorldEnt(cWorld.GetEntityByHandle(*cit));
-        if (pWorldEnt == NULL)
+        if (pWorldEnt == nullptr)
             continue;
 
         if (pWorldEnt->GetType() != _T("Prop_Cliff") && pWorldEnt->GetType() != _T("Prop_Cliff2"))
@@ -1899,7 +1899,7 @@ CMD(CompressIndexes)
         vEntities.push_back(*cit);
 
         CWorldEntity *pWorldEnt(cWorld.GetEntityByHandle(vEntities.back()));
-        if (pWorldEnt == NULL)
+        if (pWorldEnt == nullptr)
             continue; // !!!
 
         pWorldEnt->SetIndex(uint(vEntities.size() - 1));
@@ -1918,7 +1918,7 @@ UI_VOID_CMD(AddEntityTypes, 1)
         return;
 
     IListWidget *pList(static_cast<IListWidget *>(pThis));
-    if (pList == NULL)
+    if (pList == nullptr)
         return;
 
     CXMLNode::PropertyMap mapParams;
@@ -1940,7 +1940,7 @@ UI_VOID_CMD(AddEntityTypes, 1)
             continue;
 
         const CDynamicEntityAllocator *pAllocator(EntityRegistry.GetDynamicAllocator(it->first));
-        if (pAllocator != NULL && GET_ENTITY_BASE_TYPE1(pAllocator->GetBaseType()) != ENTITY_BASE_TYPE1_UNIT &&
+        if (pAllocator != nullptr && GET_ENTITY_BASE_TYPE1(pAllocator->GetBaseType()) != ENTITY_BASE_TYPE1_UNIT &&
             GET_ENTITY_BASE_TYPE1(pAllocator->GetBaseType()) != ENTITY_BASE_TYPE1_AFFECTOR)
             continue;
 

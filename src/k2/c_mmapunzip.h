@@ -128,7 +128,7 @@ private:
     int             m_iFile;
     #endif
 
-    const char*     m_pData; // NULL for "small mapped" resource archived
+    const char*     m_pData; // nullptr for "small mapped" resource archived
     uint            m_uiSize;
 
     bool            m_bMemory;

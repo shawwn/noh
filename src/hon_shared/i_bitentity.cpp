@@ -93,12 +93,12 @@ void    IBitEntity::Die(IUnitEntity *pAttacker, ushort unKillingObjectID)
         return;
 
     CWorldEntity *pWorldEnt(Game.GetWorldEntity(m_uiWorldIndex));
-    if (pWorldEnt == NULL)
+    if (pWorldEnt == nullptr)
         return;
 
     // Spawn a dynamic prop to display the death animation
     CPropDynamic *pProp(static_cast<CPropDynamic*>(Game.AllocateEntity(Prop_Dynamic)));
-    if (pProp == NULL)
+    if (pProp == nullptr)
         return;
 
     pProp->SetModel(pWorldEnt->GetModelHandle());
@@ -125,7 +125,7 @@ ResHandle   IBitEntity::GetModel() const
         return INVALID_RESOURCE;
     
     CWorldEntity *pWorldEnt(Game.GetWorldEntity(m_uiWorldIndex));
-    if (pWorldEnt == NULL)
+    if (pWorldEnt == nullptr)
         return INVALID_RESOURCE;
 
     return pWorldEnt->GetModelHandle();

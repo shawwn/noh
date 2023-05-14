@@ -149,7 +149,7 @@ void    CGfxTextures::SetDefaultTexParametersVolume(int iTextureFlags)
   ====================*/
 void    CGfxTextures::UploadBitmap2D(const CBitmap &bitmap, int iTextureFlags, ETextureFormat eFormat, GLuint texLevel, bool genMipmaps)
 {
-    const CBitmap *pImage(NULL);
+    const CBitmap *pImage(nullptr);
     CBitmap bmpResized;
 
     if (ResizeBitmap(bitmap, bmpResized, iTextureFlags))
@@ -1073,7 +1073,7 @@ uint    CGfxTextures::RegisterRenderTargetTexture(const tstring &sName, int iSiz
         glTexParameteri(GL_TEXTURE_2D, GL_GENERATE_MIPMAP, GL_FALSE);
     }
 
-    glTexImage2D(GL_TEXTURE_2D, 0, iInternalFormat, iSizeX, iSizeY, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
+    glTexImage2D(GL_TEXTURE_2D, 0, iInternalFormat, iSizeX, iSizeY, 0, GL_RGBA, GL_UNSIGNED_BYTE, nullptr);
 
     PRINT_GLERROR_BREAK();
 
@@ -1120,7 +1120,7 @@ uint    CGfxTextures::RegisterDynamicTexture(const tstring &sName, int iSizeX, i
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, g_textureMinFilter);
     }
 
-    glTexImage2D(GL_TEXTURE_2D, 0, iInternalFormat, iSizeX, iSizeY, 0, GL_ALPHA, GL_UNSIGNED_BYTE, NULL);
+    glTexImage2D(GL_TEXTURE_2D, 0, iInternalFormat, iSizeX, iSizeY, 0, GL_ALPHA, GL_UNSIGNED_BYTE, nullptr);
 
     PRINT_GLERROR_BREAK();
 

@@ -61,10 +61,10 @@ void    CBAssist::UpdateAggro()
     bool bOwnerHasTarget(false);
 
     IUnitEntity *pOwner(m_pSelf->GetOwner());
-    if (pOwner != NULL)
+    if (pOwner != nullptr)
     {
         IUnitEntity *pTarget(Game.GetUnitEntity(pOwner->GetTargetIndex()));
-        if (pTarget != NULL)
+        if (pTarget != nullptr)
         {
             uiCurrentTargetIndex = pTarget->GetIndex();
             bOwnerHasTarget = true;
@@ -77,7 +77,7 @@ void    CBAssist::UpdateAggro()
     if (m_bAttacking && uiCurrentTargetIndex != INVALID_INDEX)
     {
         IUnitEntity *pAttackTarget(Game.GetUnitEntity(uiCurrentTargetIndex));
-        if (pAttackTarget != NULL)
+        if (pAttackTarget != nullptr)
         {
             float fRange(Distance(m_pSelf->GetPosition().xy(), pAttackTarget->GetPosition().xy()) - pAttackTarget->GetBounds().GetDim(X) * DIAG);
             float fAssistRange(m_fAssistRange + m_pSelf->GetBounds().GetDim(X) * DIAG);
@@ -135,7 +135,7 @@ void    CBAssist::Update()
   ====================*/
 void    CBAssist::BeginBehavior()
 {
-    if (m_pSelf == NULL)
+    if (m_pSelf == nullptr)
     {
         Console << _T("CBAssist: Behavior started without valid information") << newl;
         return;
@@ -287,7 +287,7 @@ void    CBAssist::Aggro(IUnitEntity *pAttacker, uint uiChaseTime)
 void    CBAssist::Damaged(IUnitEntity *pAttacker)
 {
 #if 0
-    if (pAttacker == NULL)
+    if (pAttacker == nullptr)
         return;
 
     m_pSelf->CallForHelp(500.0f, pAttacker);
@@ -303,7 +303,7 @@ void    CBAssist::Damaged(IUnitEntity *pAttacker)
 void    CBAssist::Assist(IUnitEntity *pAlly, IUnitEntity *pAttacker)
 {
 #if 0
-    if (pAttacker == NULL)
+    if (pAttacker == nullptr)
         return;
 
     Aggro(pAttacker, m_pSelf->GetGuardChaseTime());

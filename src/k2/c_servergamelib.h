@@ -152,7 +152,7 @@ public:
     void            StateStringChanged(uint uiID, const CStateString &ss) const             { if (m_bValid) m_fnStateStringChanged(uiID, ss); }
     void            StateBlockChanged(uint uiID, const IBuffer &buffer) const               { if (m_bValid) m_fnStateBlockChanged(uiID, buffer); }
     void            UnloadWorld() const                                                     { if (m_bValid) m_fnUnloadWorld(); }
-    void*           GetEntity(uint uiIndex) const                                           { if (m_bValid) return m_fnGetEntity(uiIndex); return NULL; }
+    void*           GetEntity(uint uiIndex) const                                           { if (m_bValid) return m_fnGetEntity(uiIndex); return nullptr; }
     void            GetServerInfo(CPacket &pkt)                                             { if (m_bValid) m_fnGetServerInfo(pkt); }
     void            GetReconnectInfo(CPacket &pkt, uint uiMatchID, uint uiAccountID, ushort unConnectionID) { if (m_bValid) m_fnGetReconnectInfo(pkt, uiMatchID, uiAccountID, unConnectionID); }
     bool            IsPlayerReconnecting(int iAccountID)                                    { if (m_bValid) return m_fnIsPlayerReconnecting(iAccountID); return false; }

@@ -150,9 +150,9 @@ m_bStarted(false)
         if (m_iSoundFlags & SND_2D)
             m_hSoundHandle = K2SoundManager.Play2DSFXSound(m_hSample, m_rfVolume, -1, 128, (m_iSoundFlags & SND_LOOP) == SND_LOOP, m_iFadeIn, m_iFadeOutStartTime, m_iFadeOut, m_iSpeedUpTime, m_rfSpeed1, m_rfSpeed2, m_iSlowDownTime);
         else if (m_iSoundFlags & (SND_LINEARFALLOFF | SND_SQUAREDFALLOFF))
-            m_hSoundHandle = K2SoundManager.PlaySFXSound(m_hSample, &m_v3LastPos, NULL, m_rfVolume, m_rfFalloffStart, -1, 128, m_iSoundFlags, m_iFadeIn, m_iFadeOutStartTime, m_iFadeOut, m_iSpeedUpTime, m_rfSpeed1, m_rfSpeed2, m_iSlowDownTime, m_rfFalloffEnd);
+            m_hSoundHandle = K2SoundManager.PlaySFXSound(m_hSample, &m_v3LastPos, nullptr, m_rfVolume, m_rfFalloffStart, -1, 128, m_iSoundFlags, m_iFadeIn, m_iFadeOutStartTime, m_iFadeOut, m_iSpeedUpTime, m_rfSpeed1, m_rfSpeed2, m_iSlowDownTime, m_rfFalloffEnd);
         else
-            m_hSoundHandle = K2SoundManager.PlaySFXSound(m_hSample, &m_v3LastPos, NULL, m_rfVolume, m_rfFalloff, -1, 128, m_iSoundFlags, m_iFadeIn, m_iFadeOutStartTime, m_iFadeOut, m_iSpeedUpTime, m_rfSpeed1, m_rfSpeed2, m_iSlowDownTime, m_rfFalloffEnd);
+            m_hSoundHandle = K2SoundManager.PlaySFXSound(m_hSample, &m_v3LastPos, nullptr, m_rfVolume, m_rfFalloff, -1, 128, m_iSoundFlags, m_iFadeIn, m_iFadeOutStartTime, m_iFadeOut, m_iSpeedUpTime, m_rfSpeed1, m_rfSpeed2, m_iSlowDownTime, m_rfFalloffEnd);
         m_bStarted = true;
     }*/
 
@@ -186,9 +186,9 @@ bool    CSoundEmitter::Update(uint uiMilliseconds, ParticleTraceFn_t pfnTrace)
         if (m_iSoundFlags & SND_2D)
             m_hSoundHandle = K2SoundManager.Play2DSFXSound(m_hSample, m_rfVolume, -1, 128, (m_iSoundFlags & SND_LOOP) == SND_LOOP, m_iFadeIn, m_iFadeOutStartTime, m_iFadeOut, m_iSpeedUpTime, m_rfSpeed1, m_rfSpeed2, m_iSlowDownTime);
         else if (m_iSoundFlags & (SND_LINEARFALLOFF | SND_SQUAREDFALLOFF))
-            m_hSoundHandle = K2SoundManager.PlaySFXSound(m_hSample, &m_v3LastPos, NULL, m_rfVolume, m_rfFalloffStart, -1, 128, m_iSoundFlags, m_iFadeIn, m_iFadeOutStartTime, m_iFadeOut, m_iSpeedUpTime, m_rfSpeed1, m_rfSpeed2, m_iSlowDownTime, m_rfFalloffEnd);
+            m_hSoundHandle = K2SoundManager.PlaySFXSound(m_hSample, &m_v3LastPos, nullptr, m_rfVolume, m_rfFalloffStart, -1, 128, m_iSoundFlags, m_iFadeIn, m_iFadeOutStartTime, m_iFadeOut, m_iSpeedUpTime, m_rfSpeed1, m_rfSpeed2, m_iSlowDownTime, m_rfFalloffEnd);
         else
-            m_hSoundHandle = K2SoundManager.PlaySFXSound(m_hSample, &m_v3LastPos, NULL, m_rfVolume, m_rfFalloff, -1, 128, m_iSoundFlags, m_iFadeIn, m_iFadeOutStartTime, m_iFadeOut, m_iSpeedUpTime, m_rfSpeed1, m_rfSpeed2, m_iSlowDownTime, m_rfFalloffEnd);
+            m_hSoundHandle = K2SoundManager.PlaySFXSound(m_hSample, &m_v3LastPos, nullptr, m_rfVolume, m_rfFalloff, -1, 128, m_iSoundFlags, m_iFadeIn, m_iFadeOutStartTime, m_iFadeOut, m_iSpeedUpTime, m_rfSpeed1, m_rfSpeed2, m_iSlowDownTime, m_rfFalloffEnd);
         m_bStarted = true;
     }
 

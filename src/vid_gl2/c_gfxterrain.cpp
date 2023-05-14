@@ -66,7 +66,7 @@ hTerrainNormalmap2Reference(INVALID_RESOURCE),
 iNumChunksX(0),
 iNumChunksY(0),
 iChunkSize(0),
-pWorld(NULL),
+pWorld(nullptr),
 m_iCliffVertexStride(0)
 {
 }
@@ -121,7 +121,7 @@ void    CGfxTerrain::Destroy()
         for (int iX(0); iX < iNumChunksX; ++iX)
             DestroyTerrainChunk(iX, iY);
 
-    pWorld = NULL;
+    pWorld = nullptr;
     iChunkSize = 0;
     iNumChunksX = 0;
     iNumChunksY = 0;
@@ -338,11 +338,11 @@ void    CGfxTerrain::AllocateTerrainChunk(int iX, int iY)
 
     glGenBuffersARB(1, &chunk->uiVB);
     glBindBufferARB(GL_ARRAY_BUFFER_ARB, chunk->uiVB);
-    glBufferDataARB(GL_ARRAY_BUFFER_ARB, (iChunkSize + 1) * (iChunkSize + 1) * 16, NULL, GL_STATIC_DRAW_ARB);
+    glBufferDataARB(GL_ARRAY_BUFFER_ARB, (iChunkSize + 1) * (iChunkSize + 1) * 16, nullptr, GL_STATIC_DRAW_ARB);
 
     glGenBuffersARB(1, &chunk->uiIB);
     glBindBufferARB(GL_ELEMENT_ARRAY_BUFFER, chunk->uiIB);
-    glBufferDataARB(GL_ELEMENT_ARRAY_BUFFER, iChunkSize * iChunkSize * 6 * sizeof(GLushort), NULL, GL_STATIC_DRAW_ARB);
+    glBufferDataARB(GL_ELEMENT_ARRAY_BUFFER, iChunkSize * iChunkSize * 6 * sizeof(GLushort), nullptr, GL_STATIC_DRAW_ARB);
 
     glGenBuffersARB(1, &chunk->uiVBCliff);
     glGenBuffersARB(1, &chunk->uiIBCliff);
@@ -363,7 +363,7 @@ void    CGfxTerrain::DestroyTerrainChunk(int iX, int iY)
     {
         K2_DELETE_ARRAY(chunk->pArrays[i]->pElemList);
         K2_DELETE(chunk->pArrays[i]);
-        chunk->pArrays[i] = NULL;
+        chunk->pArrays[i] = nullptr;
     }
     chunk->iNumArrays = 0;
     
@@ -447,7 +447,7 @@ void    CGfxTerrain::RebuildTerrainChunk(int iX, int iY)
         {
             K2_DELETE_ARRAY(chunk->pArrays[i]->pElemList);
             K2_DELETE(chunk->pArrays[i]);
-            chunk->pArrays[i] = NULL;
+            chunk->pArrays[i] = nullptr;
         }
 
         chunk->iNumArrays = 0;
@@ -497,7 +497,7 @@ void    CGfxTerrain::RebuildTerrainChunk(int iX, int iY)
             CVec3f(pWorld->ScaleGridCoord(iStartX + iChunkSize), pWorld->ScaleGridCoord(iStartY + iChunkSize), fMaxZ+0.01f)
         );
 
-        STerrainArray   *pCurrentArray(NULL);
+        STerrainArray   *pCurrentArray(nullptr);
 
         for (int iTileY = iStartY; iTileY < iStartY + iChunkSize; iTileY += 4)
         {
@@ -728,7 +728,7 @@ void    CGfxTerrain::RebuildCliffs()
             continue;
 
         CWorldEntity *pWorldEnt(pWorld->GetEntityByHandle(*it));
-        if (pWorldEnt == NULL || TStringCompare(pWorldEnt->GetType(), _T("Prop_Cliff")))
+        if (pWorldEnt == nullptr || TStringCompare(pWorldEnt->GetType(), _T("Prop_Cliff")))
             continue;
 
         int iTileX(INT_FLOOR(pWorldEnt->GetPosition().x / fWorldScale));
@@ -751,11 +751,11 @@ void    CGfxTerrain::RebuildCliffs()
         g_ResourceManager.PrecacheSkin(hModel, uint(-1));
         
         CModel* pModelResource(g_ResourceManager.GetModel(hModel));
-        if (pModelResource == NULL)
+        if (pModelResource == nullptr)
             continue;
 
         IModel *pModel(pModelResource->GetModelFile());
-        if (pModel == NULL || pModel->GetType() != MODEL_K2)
+        if (pModel == nullptr || pModel->GetType() != MODEL_K2)
             continue;
 
         CK2Model *pK2Model(static_cast<CK2Model *>(pModel));
@@ -790,7 +790,7 @@ void    CGfxTerrain::RebuildCliffs()
 
             ResHandle hMaterial(pModel->GetSkin(pWorldEnt->GetSkin())->GetMaterial(uiMesh));
 
-            STerrainCliffArray *pArray(NULL);
+            STerrainCliffArray *pArray(nullptr);
 
             for (int i(0); i < cChunk.iNumCliffArrays; ++i)
             {
@@ -805,7 +805,7 @@ void    CGfxTerrain::RebuildCliffs()
                 }
             }
 
-            if (pArray == NULL && cChunk.iNumCliffArrays < 256)
+            if (pArray == nullptr && cChunk.iNumCliffArrays < 256)
             {
                 // We've encountered a new shader
                 pArray = cChunk.pCliffArrays[cChunk.iNumCliffArrays] = AllocTerrainCliffArray();
@@ -817,7 +817,7 @@ void    CGfxTerrain::RebuildCliffs()
                 cChunk.iNumCliffArrays++;
             }
 
-            if (pArray == NULL)
+            if (pArray == nullptr)
                 continue;
 
             pArray->vCliffs.push_back(pair<CWorldEntity *, uint>(pWorldEnt, uiMesh));
@@ -845,11 +845,11 @@ void    CGfxTerrain::RebuildCliffs()
                 continue;
 
             glBindBufferARB(GL_ARRAY_BUFFER_ARB, cChunk.uiVBCliff);
-            glBufferDataARB(GL_ARRAY_BUFFER_ARB, cChunk.iNumCliffVerts * m_iCliffVertexStride, NULL, GL_STATIC_DRAW_ARB);
+            glBufferDataARB(GL_ARRAY_BUFFER_ARB, cChunk.iNumCliffVerts * m_iCliffVertexStride, nullptr, GL_STATIC_DRAW_ARB);
             byte *pVertices((byte *)glMapBufferARB(GL_ARRAY_BUFFER_ARB, GL_WRITE_ONLY));
 
             glBindBufferARB(GL_ELEMENT_ARRAY_BUFFER, cChunk.uiIBCliff);
-            glBufferDataARB(GL_ELEMENT_ARRAY_BUFFER, cChunk.iNumCliffFaces * 3 * sizeof(GLushort), NULL, GL_STATIC_DRAW_ARB);
+            glBufferDataARB(GL_ELEMENT_ARRAY_BUFFER, cChunk.iNumCliffFaces * 3 * sizeof(GLushort), nullptr, GL_STATIC_DRAW_ARB);
             GLushort *pIndices((GLushort *)glMapBufferARB(GL_ELEMENT_ARRAY_BUFFER, GL_WRITE_ONLY));
 
             int iStartVert(0);
@@ -872,11 +872,11 @@ void    CGfxTerrain::RebuildCliffs()
                         continue;
 
                     CModel* pModelResource(g_ResourceManager.GetModel(pWorldEnt->GetModelHandle()));
-                    if (pModelResource == NULL)
+                    if (pModelResource == nullptr)
                         continue;
 
                     IModel *pModel(pModelResource->GetModelFile());
-                    if (pModel == NULL || pModel->GetType() != MODEL_K2)
+                    if (pModel == nullptr || pModel->GetType() != MODEL_K2)
                         continue;
 
                     CK2Model *pK2Model(static_cast<CK2Model *>(pModel));
@@ -927,7 +927,7 @@ void    CGfxTerrain::RebuildCliffs()
                         {
                             CVec3f  *p_t = (CVec3f *)(&pVertices[(iStartVert + v) * m_iCliffVertexStride + tan_offset + (m * sizeof(CVec3f))]);
 
-                            if (pMesh->tangents[m] != NULL)
+                            if (pMesh->tangents[m] != nullptr)
                                 *p_t = GfxUtils->TransformNormal(pMesh->tangents[m][v], mWorldRotation);
                             else
                                 *p_t = CVec3f(0.0f, 0.0f, 0.0f);
@@ -991,6 +991,6 @@ void    CGfxTerrain::Shutdown()
 extern CCvar<int> terrain_chunkSize;
 CMD(RebuildTerrain)
 {
-    GfxTerrain->Rebuild(terrain_chunkSize, NULL);
+    GfxTerrain->Rebuild(terrain_chunkSize, nullptr);
     return true;
 }

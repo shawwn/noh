@@ -257,7 +257,7 @@ BEGIN_XML_PROCESSOR(name, void) \
 END_XML_PROCESSOR_NO_CHILDREN \
 BEGIN_XML_SUBPROCESSOR(name, CEffect) \
     C##type##Def *pEmitter(Process##type(node)); \
-    if (pEmitter != NULL) \
+    if (pEmitter != nullptr) \
     { \
         ProcessChildren(node, pEmitter); \
         pObject->AddEmitterDef(node.GetProperty(_T("name")), pEmitter); \
@@ -265,7 +265,7 @@ BEGIN_XML_SUBPROCESSOR(name, CEffect) \
 END_XML_PROCESSOR_NO_CHILDREN \
 BEGIN_XML_SUBPROCESSOR(name, CParticleSystemDef) \
     C##type##Def *pEmitter(Process##type(node)); \
-    if (pEmitter != NULL) \
+    if (pEmitter != nullptr) \
     { \
         ProcessChildren(node, pEmitter); \
         pObject->AddEmitterDef(pEmitter); \
@@ -273,7 +273,7 @@ BEGIN_XML_SUBPROCESSOR(name, CParticleSystemDef) \
 END_XML_PROCESSOR_NO_CHILDREN \
 BEGIN_XML_SUBPROCESSOR(name, CSimpleParticleDef) \
     C##type##Def *pEmitter(Process##type(node)); \
-    if (pEmitter != NULL) \
+    if (pEmitter != nullptr) \
     { \
         ProcessChildren(node, pEmitter); \
         pObject->AddEmitterDef(pEmitter); \
@@ -281,7 +281,7 @@ BEGIN_XML_SUBPROCESSOR(name, CSimpleParticleDef) \
 END_XML_PROCESSOR_NO_CHILDREN \
 BEGIN_XML_SUBPROCESSOR(name, CControllerEmitterDef) \
     C##type##Def *pEmitter(Process##type(node)); \
-    if (pEmitter != NULL) \
+    if (pEmitter != nullptr) \
     { \
         ProcessChildren(node, pEmitter); \
         pObject->AddEmitterDef(pEmitter); \
@@ -289,7 +289,7 @@ BEGIN_XML_SUBPROCESSOR(name, CControllerEmitterDef) \
 END_XML_PROCESSOR_NO_CHILDREN \
 BEGIN_XML_SUBPROCESSOR(name, CModelEmitterDef) \
     C##type##Def *pEmitter(Process##type(node)); \
-    if (pEmitter != NULL) \
+    if (pEmitter != nullptr) \
     { \
         ProcessChildren(node, pEmitter); \
         pObject->AddEmitterDef(pEmitter); \
@@ -297,7 +297,7 @@ BEGIN_XML_SUBPROCESSOR(name, CModelEmitterDef) \
 END_XML_PROCESSOR_NO_CHILDREN \
 BEGIN_XML_SUBPROCESSOR(name, CDebrisEmitterDef) \
     C##type##Def *pEmitter(Process##type(node)); \
-    if (pEmitter != NULL) \
+    if (pEmitter != nullptr) \
     { \
         ProcessChildren(node, pEmitter); \
         pObject->AddEmitterDef(pEmitter); \
@@ -2640,7 +2640,7 @@ CSoundEmitterDef*   ProcessSoundEmitter(const CXMLNode &node)
 {
     const tstring &sSample(node.GetProperty(_T("sample")));
     if (sSample.empty())
-        return NULL;
+        return nullptr;
 
     // Life
     int iLife(node.GetPropertyInt(_T("life"), -1));
@@ -2712,7 +2712,7 @@ CSoundEmitterDef*   ProcessSoundEmitter(const CXMLNode &node)
 
     ResHandle hSample(g_ResourceManager.Register(K2_NEW(ctx_Effects,  CSample)(sSample, uiFlags), RES_SAMPLE));
     if (sSample.empty() || hSample == INVALID_RESOURCE)
-        return NULL;
+        return nullptr;
 
     return K2_NEW(ctx_Effects,  CSoundEmitterDef)(
         CRangei(iMinLife, iMaxLife),
@@ -3029,7 +3029,7 @@ public:
     {
         PROFILE("SpawnParticleSystem");
 
-        if (pEffectThread == NULL)
+        if (pEffectThread == nullptr)
             return true;
 
         CParticleSystemDef *pParticleSystemDef = pEffectThread->GetEffect()->GetParticleSystemDef(m_sParticleSystem);
@@ -3130,7 +3130,7 @@ public:
         if (m_hSample == INVALID_RESOURCE)
             return true;
 
-        K2SoundManager.PlaySFXSound(m_hSample, &pEffectThread->GetSourcePosition(), NULL, m_fVolume, m_fFalloff, m_iChannel);
+        K2SoundManager.PlaySFXSound(m_hSample, &pEffectThread->GetSourcePosition(), nullptr, m_fVolume, m_fFalloff, m_iChannel);
         return true;
     }
 };

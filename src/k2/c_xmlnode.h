@@ -52,7 +52,7 @@ public:
     K2_API int              GetPropertyInt(const tstring &sName, int iDefaultValue = 0) const;
     K2_API float            GetPropertyFloat(const tstring &sName, float fDefaultValue = 0.0f) const;
     K2_API bool             GetPropertyBool(const tstring &sName, bool bDefaultValue = false) const;
-    K2_API ICvar*           GetPropertyCvar(const tstring &sName, ICvar *pDefaultValue = NULL) const;
+    K2_API ICvar*           GetPropertyCvar(const tstring &sName, ICvar *pDefaultValue = nullptr) const;
     K2_API CVec2f           GetPropertyV2(const tstring &sName, const CVec2f &v2Default = V2_ZERO) const;
     K2_API CVec3f           GetPropertyV3(const tstring &sName, const CVec3f &v3Default = V_ZERO) const;
     K2_API CVec4f           GetPropertyV4(const tstring &sName, const CVec4f &v4Default = V4_ZERO) const;

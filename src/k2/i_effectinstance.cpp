@@ -31,7 +31,7 @@ IEffectInstance::~IEffectInstance()
   IEffectInstance::IEffectInstance
   ====================*/
 IEffectInstance::IEffectInstance() :
-m_pEffectThread(NULL)
+m_pEffectThread(nullptr)
 {
 }
 
@@ -50,7 +50,7 @@ m_pEffectThread(pEffectThread)
   ====================*/
 bool    IEffectInstance::GetActive() const
 {
-    if (m_pEffectThread != NULL)
+    if (m_pEffectThread != nullptr)
         return m_pEffectThread->GetActive();
     else
         return false;
@@ -62,7 +62,7 @@ bool    IEffectInstance::GetActive() const
   ====================*/
 bool    IEffectInstance::GetExpire() const
 {
-    if (m_pEffectThread != NULL)
+    if (m_pEffectThread != nullptr)
         return m_pEffectThread->GetExpire();
     else
         return false;
@@ -74,10 +74,10 @@ bool    IEffectInstance::GetExpire() const
   ====================*/
 CEffect*    IEffectInstance::GetEffect()
 {
-    if (m_pEffectThread != NULL)
+    if (m_pEffectThread != nullptr)
         return m_pEffectThread->GetEffect();
     else
-        return NULL;
+        return nullptr;
 }
 
 

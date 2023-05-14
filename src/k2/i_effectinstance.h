@@ -35,7 +35,7 @@ public:
     virtual bool    IsParticleSystem() const        { return false; }
     virtual bool    IsModifier() const              { return false; }
 
-    virtual bool    Update(uint uiMilliseconds, ParticleTraceFn_t pfnTrace = NULL) = 0;
+    virtual bool    Update(uint uiMilliseconds, ParticleTraceFn_t pfnTrace = nullptr) = 0;
     virtual bool    IsDead() = 0;
 
     bool                    GetActive() const;

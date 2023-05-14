@@ -22,8 +22,8 @@ CShaderSampler::CShaderSampler(const tstring &sName, ShaderSamplerFn_t pfnShader
 m_sName(sName),
 m_pfnShaderSampler(pfnShaderSamplerCmd)
 {
-    if (m_pfnShaderSampler == NULL)
-        K2System.Error(_T("Tried to register a ShaderSampler with a NULL function."));
+    if (m_pfnShaderSampler == nullptr)
+        K2System.Error(_T("Tried to register a ShaderSampler with a nullptr function."));
 
     CShaderSamplerRegistry::GetInstance()->Register(this);
 }

@@ -33,7 +33,7 @@ IResource*  AllocFontFace(const tstring &sPath)
   ====================*/
 CFontFace::CFontFace(const tstring &sPath) :
 IFreeTypeResource(sPath, TSNULL),
-m_FTFace(NULL)
+m_FTFace(nullptr)
 {
 }
 
@@ -58,7 +58,7 @@ int     CFontFace::Load(uint uiIgnoreFlags, const char *pData, uint uiSize)
         else
             Console.Res << "Loading Unknown FontFace" << newl;
 
-        if (pData != NULL)
+        if (pData != nullptr)
         {
             SAFE_DELETE_ARRAY(m_pData);
 

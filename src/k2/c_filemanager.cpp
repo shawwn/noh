@@ -61,10 +61,10 @@ SINGLETON_INIT(CFileManager)
 CFileManager::CFileManager() :
 m_sCurrentDir(_T("/")),
 m_sEditPath(_T("game")),
-m_pWorldArchive(NULL),
-m_pCompatArchive(NULL),
+m_pWorldArchive(nullptr),
+m_pCompatArchive(nullptr),
 m_bCompatDisabled(false),
-m_uiCRC32(NULL),
+m_uiCRC32(nullptr),
 m_uiCompatVersion(0),
 m_bUsingCustomFiles(false),
 m_bCoreFilesModified(false)
@@ -324,10 +324,10 @@ tstring CFileManager::GetSystemPath(const tstring &sPath, const tstring &sMod, b
         {
             --it;
 
-            const tstring &sReturn(GetSystemPath(sPath, *it, bWrite, false, bFileOnly, NULL));
+            const tstring &sReturn(GetSystemPath(sPath, *it, bWrite, false, bFileOnly, nullptr));
             if (!sReturn.empty())
             {
-                if (psBasePathOut != NULL)
+                if (psBasePathOut != nullptr)
                 {
                     if (sPath[0] == _T(':'))
                         *psBasePathOut = IsCleanPath(sPath) ? sPath : SanitizePath(sPath);
@@ -340,7 +340,7 @@ tstring CFileManager::GetSystemPath(const tstring &sPath, const tstring &sMod, b
         }
 
         if (bWrite)
-            return GetSystemPath(sPath, m_vModPathStack.back(), bWrite, true, bFileOnly, NULL);
+            return GetSystemPath(sPath, m_vModPathStack.back(), bWrite, true, bFileOnly, nullptr);
     }
 
     // Determine the absolute system path
@@ -434,7 +434,7 @@ bool    CFileManager::Exists(const tstring &sPath, int iMode, const tstring &sMo
     if (!(iMode & FILE_NOARCHIVES))
     {
         // World archive
-        if (m_pWorldArchive != NULL)
+        if (m_pWorldArchive != nullptr)
         {
             tsvector vArchive;
 
@@ -892,7 +892,7 @@ CArchive*   CFileManager::GetArchive(const tstring &sPath, const tstring &sMod)
     for (vector<CArchive *>::iterator it(m_vArchiveList.begin()), itEnd(m_vArchiveList.end()); it != itEnd; ++it)
     {
         CArchive *pArchive(*it);
-        if (pArchive != NULL)
+        if (pArchive != nullptr)
         {
             if (CompareNoCase(pArchive->GetPath(), sLowerPath) == 0)
             {
@@ -902,7 +902,7 @@ CArchive*   CFileManager::GetArchive(const tstring &sPath, const tstring &sMod)
         }
     }
 
-    return NULL;
+    return nullptr;
 }
 
 
@@ -910,7 +910,7 @@ CArchive*   CFileManager::GetArchive(const tstring &sPath, const tstring &sMod)
   CFileManager::FindInArchives
 
   Returns a pointer to the first archive in the list of registered
-  archives that the file appears in, or NULL if it cannot be found
+  archives that the file appears in, or nullptr if it cannot be found
   ====================*/
 CArchive*   CFileManager::FindInArchives(const tstring &sPath, const tstring &sMod)
 {
@@ -933,7 +933,7 @@ CArchive*   CFileManager::FindInArchives(const tstring &sPath, const tstring &sM
         }
     }
 
-    return NULL;
+    return nullptr;
 }
 
 
@@ -949,7 +949,7 @@ tstring CFileManager::FindFilePath(const tstring &sFilename, int iMode, const ts
     try
     {
         if (sPath.empty())
-            return NULL;
+            return nullptr;
 
         EFileType eType(FILE_INVALID);
 
@@ -964,7 +964,7 @@ tstring CFileManager::FindFilePath(const tstring &sFilename, int iMode, const ts
                 EX_ERROR(_T("The protocol ") + QuoteStr(sProtocol) + _T(" is not supported"));
         }
 
-        CArchive *pArchive(NULL);
+        CArchive *pArchive(nullptr);
         for (tsvector::reverse_iterator it(m_vModPathStack.rbegin()); it != m_vModPathStack.rend(); ++it)
         {
             const tstring &sModName(sMod.empty() ? *it : sMod);
@@ -1011,7 +1011,7 @@ tstring CFileManager::FindFilePath(const tstring &sFilename, int iMode, const ts
                     if (sPath[0] != _T('~') && sPath[0] != _T('#') && sPath[0] != _T('@') && sPath[0] != _T(':'))
                     {
                         // Let files in the current world archive override files in the game directory
-                        if (m_pWorldArchive != NULL && !(iMode & FILE_NOWORLDARCHIVE)) 
+                        if (m_pWorldArchive != nullptr && !(iMode & FILE_NOWORLDARCHIVE))
                         {
                             const tstring &sTestPath(LowerString(Filename_GetPath(m_pWorldArchive->GetPath()) + _T("resources") + sPath));
                             if (m_pWorldArchive->ContainsFile(sTestPath))
@@ -1060,7 +1060,7 @@ tstring CFileManager::FindFilePath(const tstring &sFilename, int iMode, const ts
                 }
 
                 pArchive = FindInArchives(sPath, *it);
-                if (pArchive != NULL)
+                if (pArchive != nullptr)
                     return sPath + _T("<") + pArchive->GetCompleteDiskPath();
             }
 
@@ -1115,7 +1115,7 @@ bool    CFileManager::GetFileList(const tstring &sPath, const tstring &sFile, bo
     tstring sAbsolutePath(IsCleanPath(sPath) ? sPath : SanitizePath(sPath));
     
     // World archive
-    if (m_pWorldArchive != NULL)
+    if (m_pWorldArchive != nullptr)
     {
         tsvector vArchive;
 
@@ -1241,7 +1241,7 @@ bool    CFileManager::GetFileListCompat(const tstring &sPath, const tstring &sFi
     tstring sAbsolutePath(IsCleanPath(sPath) ? sPath : SanitizePath(sPath));
     
     // World archive
-    if (m_pWorldArchive != NULL)
+    if (m_pWorldArchive != nullptr)
     {
         tsvector vArchive;
 
@@ -1433,13 +1433,13 @@ CFile*  CFileManager::GetFile(const tstring &sFilename, int iMode, const tstring
 {
     PROFILE("CFileManager::GetFile");
 
-    CFile *pFile(NULL);
+    CFile *pFile(nullptr);
     tstring sPath(sFilename);
 
     try
     {
         if (sPath.empty())
-            return NULL;
+            return nullptr;
 
         EFileType eType(FILE_INVALID);
 
@@ -1454,7 +1454,7 @@ CFile*  CFileManager::GetFile(const tstring &sFilename, int iMode, const tstring
                 EX_ERROR(_T("The protocol ") + QuoteStr(sProtocol) + _T(" is not supported"));
         }
 
-        CArchive *pArchive(NULL);
+        CArchive *pArchive(nullptr);
         for (tsvector::reverse_iterator it(m_vModPathStack.rbegin()); it != m_vModPathStack.rend(); ++it)
         {
             const tstring &sModName(sMod.empty() ? *it : sMod);
@@ -1493,7 +1493,7 @@ CFile*  CFileManager::GetFile(const tstring &sFilename, int iMode, const tstring
                         {
                             SAFE_DELETE(pFile);
                         }
-                        else if (pFile != NULL)
+                        else if (pFile != nullptr)
                         {
                             eType = FILE_COMPAT;
                             break;
@@ -1502,7 +1502,7 @@ CFile*  CFileManager::GetFile(const tstring &sFilename, int iMode, const tstring
 
                     if (sPath[0] != _T('~') && sPath[0] != _T('#') && sPath[0] != _T('@') && sPath[0] != _T(':'))
                     {
-                        if (m_pWorldArchive != NULL && !(iMode & FILE_NOWORLDARCHIVE)) // Let files in the current world archive override files in the game directory
+                        if (m_pWorldArchive != nullptr && !(iMode & FILE_NOWORLDARCHIVE)) // Let files in the current world archive override files in the game directory
                         {
                             const tstring &sTestPath(LowerString(Filename_GetPath(m_pWorldArchive->GetPath()) + _T("resources") + sPath));
                             if (m_pWorldArchive->ContainsFile(sTestPath))
@@ -1562,7 +1562,7 @@ CFile*  CFileManager::GetFile(const tstring &sFilename, int iMode, const tstring
                         {
                             SAFE_DELETE(pFile);
                         }
-                        else if (pFile != NULL)
+                        else if (pFile != nullptr)
                         {
                             eType = FILE_COMPAT;
                             break;
@@ -1571,7 +1571,7 @@ CFile*  CFileManager::GetFile(const tstring &sFilename, int iMode, const tstring
                 }
 
                 pArchive = FindInArchives(sPath, *it);
-                if (pArchive != NULL)
+                if (pArchive != nullptr)
                 {
                     eType = FILE_ARCHIVE;
                     break;
@@ -1583,7 +1583,7 @@ CFile*  CFileManager::GetFile(const tstring &sFilename, int iMode, const tstring
         }
 
         if (eType == FILE_INVALID && iMode & FILE_TEST)
-            return NULL;
+            return nullptr;
 
         if (eType == FILE_COMPAT)
             return pFile;
@@ -1608,7 +1608,7 @@ CFile*  CFileManager::GetFile(const tstring &sFilename, int iMode, const tstring
                 EX_ERROR(_T("Invalid file type"));
                 break;
         }
-        if (pFile == NULL)
+        if (pFile == nullptr)
             EX_ERROR(_T("Failed to allocate CFile"));
 
         // Try to open the file
@@ -1628,7 +1628,7 @@ CFile*  CFileManager::GetFile(const tstring &sFilename, int iMode, const tstring
     {
         SAFE_DELETE(pFile);
         ex.Process(_T("CFileManager::GetFile() [") + sPath + _T("] - "), NO_THROW);
-        return NULL;
+        return nullptr;
     }
 }
 
@@ -1754,12 +1754,12 @@ uint    CFileManager::GetCRC32ForArchive(const tstring &sFile)
 
     for (tsvector_it it(vsFileList.begin()); it != vsFileList.end(); it++)
     {
-        char *pBuffer(NULL);
+        char *pBuffer(nullptr);
         uint uiSize;
 
         uiSize = archive.ReadFile(Filename_GetPath(sFile) + (*it).substr(1), pBuffer);
 
-        if (pBuffer == NULL)
+        if (pBuffer == nullptr)
             continue;
 
         uiFinalCRC += GetCRC32(pBuffer, uiSize);
@@ -1780,7 +1780,7 @@ uint    CFileManager::GetCRC32(const tstring &sFile)
 {
     CFile *pFile = GetFile(sFile, FILE_NOUSERDIR | FILE_NOARCHIVES | FILE_NOWORLDARCHIVE | FILE_TOPMODONLY | FILE_READ | FILE_BINARY);
 
-    if (pFile == NULL)
+    if (pFile == nullptr)
         return 0;
     
     uint uiSize;
@@ -1808,7 +1808,7 @@ uint    CFileManager::GetCRC32(const tstring &sFile)
 {
     CFile *pFile = GetFile(sFile, FILE_NOUSERDIR | FILE_NOARCHIVES | FILE_NOWORLDARCHIVE | FILE_TOPMODONLY | FILE_READ | FILE_BINARY);
 
-    if (pFile == NULL)
+    if (pFile == nullptr)
         return 0;
     
     uint uiSize;
@@ -1841,9 +1841,9 @@ bool    CFileManager::IsCompatVersionSupported(const tstring &sVersion)
 
     if (m_bCompatDisabled)
         return false;
-    if (m_pCompatArchive == NULL)
+    if (m_pCompatArchive == nullptr)
         OpenCompatArchive();
-    if (m_pCompatArchive == NULL)
+    if (m_pCompatArchive == nullptr)
         return false;
 
     tstring sShortVersion(K2_Version3(sVersion));
@@ -1860,7 +1860,7 @@ bool    CFileManager::OpenCompatArchive()
     if (m_bCompatDisabled)
         return false;
 
-    if (m_pCompatArchive == NULL)
+    if (m_pCompatArchive == nullptr)
         m_pCompatArchive = K2_NEW(ctx_FileSystem,  CArchive)(_T(":/compat/compat.s2z"), ARCHIVE_READ);
     else if (!m_pCompatArchive->IsOpen())
         m_pCompatArchive->Open(_T(":/compat/compat.s2z"), ARCHIVE_READ);
@@ -1893,15 +1893,15 @@ bool    CFileManager::CloseCompatArchive()
     if (m_bCompatDisabled)
         return false;
 
-    if (m_pCompatArchive != NULL)
+    if (m_pCompatArchive != nullptr)
     {
         m_pCompatArchive->Close();
 
         K2_DELETE(m_pCompatArchive);
-        m_pCompatArchive = NULL;
+        m_pCompatArchive = nullptr;
     }
 
-    return m_pCompatArchive == NULL || !m_pCompatArchive->IsOpen();
+    return m_pCompatArchive == nullptr || !m_pCompatArchive->IsOpen();
 }
 
 
@@ -2219,27 +2219,27 @@ bool    CFileManager::SetCompatVersion(const tstring &sVersion)
 CFile*  CFileManager::GetCompatFile(const tstring &sPath, int iMode, bool &bDeleted)
 {
     if (sPath.empty())
-        return NULL;
+        return nullptr;
 
     tstring sLowerPath(LowerString(sPath));
 
     if (m_setDeletedCompatFiles.find(sLowerPath) != m_setDeletedCompatFiles.end())
     {
         bDeleted = true;
-        return NULL;
+        return nullptr;
     }
 
     bDeleted = false;
 
     CompatMap::iterator it(m_mapCompatFiles.find(sLowerPath));
     if (it == m_mapCompatFiles.end())
-        return NULL;
+        return nullptr;
 
     CFile *pFile(K2_NEW(ctx_FileSystem,  CFileArchive)(m_pCompatArchive));
     if (!pFile->Open(it->second, iMode))
     {
         pFile->Close();
-        return NULL;
+        return nullptr;
     }
 
     return pFile;
@@ -2299,7 +2299,7 @@ CMD(ForEachFile)
   --------------------*/
 UI_VOID_CMD(ForEachFile, 5)
 {
-    if (pThis == NULL)
+    if (pThis == nullptr)
         return;
 
     if (vArgList.size() < 5)
@@ -2464,13 +2464,13 @@ CMD(ValidateResources0)
     CArchive *pBaseResources0(pFileManager->GetArchive(_T("/resources0.s2z"), _T("base")));
     CArchive *pGameResources0(pFileManager->GetArchive(_T("/resources0.s2z"), _T("game")));
 
-    if (pBaseResources0 == NULL)
+    if (pBaseResources0 == nullptr)
     {
         Console << _T("Could not find /base/resources0.s2z!") << newl;
         return true;
     }
 
-    if (pGameResources0 == NULL)
+    if (pGameResources0 == nullptr)
     {
         Console << _T("Could not find /game/resources0.s2z!") << newl;
         return true;

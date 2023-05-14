@@ -86,7 +86,7 @@ CMD(Purchase2)
     }
 
     CClientCommander *pCommander(GameClient.GetClientCommander());
-    if (pCommander == NULL)
+    if (pCommander == nullptr)
         return false;
 
     uint uiUnitIndex(pCommander->GetSelectedControlEntityIndex());
@@ -112,7 +112,7 @@ UI_VOID_CMD(Purchase2, 1)
 CMD(PurchaseRecipe)
 {
     CClientCommander *pCommander(GameClient.GetClientCommander());
-    if (pCommander == NULL)
+    if (pCommander == nullptr)
         return false;
 
     uint uiUnitIndex(pCommander->GetSelectedControlEntityIndex());
@@ -558,7 +558,7 @@ UI_VOID_CMD(Cancel, 0)
 UI_VOID_CMD(OrderMove, 0)
 {
     CClientCommander *pCommander(GameClient.GetClientCommander());
-    if (pCommander == NULL)
+    if (pCommander == nullptr)
         return;
     pCommander->SetCommanderState(COMSTATE_MOVE);
 }
@@ -583,7 +583,7 @@ UI_VOID_CMD(OrderHold, 0)
     byte yQueue(QUEUE_NONE);
 
     CClientCommander *pCommander(GameClient.GetClientCommander());
-    if (pCommander != NULL)
+    if (pCommander != nullptr)
         yQueue = (pCommander->GetModifier1() ? (pCommander->GetFrontQueueModifier() ? QUEUE_FRONT : QUEUE_BACK) : QUEUE_NONE);
 
     CBufferFixed<2> buffer;
@@ -599,7 +599,7 @@ UI_VOID_CMD(OrderCancelAndHold, 0)
     byte yQueue(QUEUE_NONE);
 
     CClientCommander *pCommander(GameClient.GetClientCommander());
-    if (pCommander != NULL)
+    if (pCommander != nullptr)
         yQueue = (pCommander->GetModifier1() ? (pCommander->GetFrontQueueModifier() ? QUEUE_FRONT : QUEUE_BACK) : QUEUE_NONE);
 
     CBufferFixed<2> buffer;
@@ -614,7 +614,7 @@ UI_VOID_CMD(OrderCancelAndHold, 0)
 UI_VOID_CMD(OrderAttack, 0)
 {
     CClientCommander *pCommander(GameClient.GetClientCommander());
-    if (pCommander == NULL)
+    if (pCommander == nullptr)
         return;
     pCommander->SetCommanderState(COMSTATE_ATTACK);
 }
@@ -626,7 +626,7 @@ UI_VOID_CMD(OrderAttack, 0)
 UI_VOID_CMD(OrderPatrol, 0)
 {
     CClientCommander *pCommander(GameClient.GetClientCommander());
-    if (pCommander == NULL)
+    if (pCommander == nullptr)
         return;
     pCommander->SetCommanderState(COMSTATE_PATROL);
 }
@@ -1023,7 +1023,7 @@ bool    HandleGameSlashCommands(const tstring sText)
                                 
                 CHeroDefinition *pHeroDef(EntityRegistry.GetDefinition<CHeroDefinition>(it->second->GetSelectedHero()));
                 
-                if (pHeroDef == NULL)
+                if (pHeroDef == nullptr)
                     continue;
                             
                 if (it->second->GetTeam() == TEAM_1)
@@ -1061,13 +1061,13 @@ bool    HandleGameSlashCommands(const tstring sText)
         
         CGameInfo *pGameInfo(Game.GetGameInfo());
                 
-        if (pGameInfo == NULL)
+        if (pGameInfo == nullptr)
             return false;
     
         ChatManager.AddGameChatMessage(CHAT_MESSAGE_ADD, _T("Current Game Info:"));
         ChatManager.AddGameChatMessage(CHAT_MESSAGE_ADD, _T("----------------------------"));
         ChatManager.AddGameChatMessage(CHAT_MESSAGE_ADD, _T("Match Name: ") + pGameInfo->GetGameName());
-        ChatManager.AddGameChatMessage(CHAT_MESSAGE_ADD, _T("Match ID: ") + XtoA(pGameInfo == NULL ? -1 : int(pGameInfo->GetMatchID())));
+        ChatManager.AddGameChatMessage(CHAT_MESSAGE_ADD, _T("Match ID: ") + XtoA(pGameInfo == nullptr ? -1 : int(pGameInfo->GetMatchID())));
         
         const PlayerMap &mapPlayers(GameClient.GetPlayerMap());
         tstring sHost(_T(""));
@@ -1086,7 +1086,7 @@ bool    HandleGameSlashCommands(const tstring sText)
         ChatManager.AddGameChatMessage(CHAT_MESSAGE_ADD, _T("Server Version: ") + GameClient.GetStateString(STATE_STRING_SERVER_INFO).GetString(_T("svr_version")));
         ChatManager.AddGameChatMessage(CHAT_MESSAGE_ADD, _T("Min/Max PSR: ") + XtoA(pGameInfo->GetMinPSR()) + _T(" / ") + XtoA(pGameInfo->GetMaxPSR()));
         ChatManager.AddGameChatMessage(CHAT_MESSAGE_ADD, _T("Current Players: " ) + XtoA(GameClient.GetConnectedClientCount()) + _T(" / ") + (pGameInfo->HasFlags(GAME_FLAG_SOLO) ? XtoA(1) : XtoA(pGameInfo->GetTeamSize() * 2)));
-        ChatManager.AddGameChatMessage(CHAT_MESSAGE_ADD, _T("Map: ") + (GameClient.GetWorldPointer() == NULL ? TSNULL : GameClient.GetWorldPointer()->GetFancyName()));
+        ChatManager.AddGameChatMessage(CHAT_MESSAGE_ADD, _T("Map: ") + (GameClient.GetWorldPointer() == nullptr ? TSNULL : GameClient.GetWorldPointer()->GetFancyName()));
         ChatManager.AddGameChatMessage(CHAT_MESSAGE_ADD, _T("Game Mode: ") + CGameInfo::GetGameModeString(pGameInfo->GetGameMode()));
         ChatManager.AddGameChatMessage(CHAT_MESSAGE_ADD, _T("Game Options: ") + CGameInfo::GetGameOptionsString(pGameInfo->GetGameOptions()));
         
@@ -1132,7 +1132,7 @@ bool    HandleGameSlashCommands(const tstring sText)
         
         CPlayer *pLocalPlayer(GameClient.GetLocalPlayer());
 
-        if (pLocalPlayer == NULL)
+        if (pLocalPlayer == nullptr)
             return false;
             
         ChatManager.AddGameChatMessage(CHAT_MESSAGE_ADD, ChatManager.Translate(_T("chat_current_ping"), _T("ping"), XtoA(pLocalPlayer->GetPing())));
@@ -1252,12 +1252,12 @@ CMD(TeamChat)
 
     CPlayer *pPlayer(Game.GetLocalPlayer());
 
-    if (pPlayer == NULL)
+    if (pPlayer == nullptr)
         return false;
 
     CTeamInfo *pTeam(Game.GetTeam(pPlayer->GetTeam()));
 
-    if (pTeam == NULL || pTeam->GetTeamID() == TEAM_INVALID)
+    if (pTeam == nullptr || pTeam->GetTeamID() == TEAM_INVALID)
     {
         ChatManager.AddGameChatMessage(CHAT_MESSAGE_ADD, _T("^900* You cannot team chat, you are not currently on a team!"));
         return true;
@@ -1308,11 +1308,11 @@ UI_VOID_CMD(LocalChat, 1)
 UI_VOID_CMD(SelectHero, 0)
 {
     CPlayer *pPlayer(GameClient.GetLocalPlayer());
-    if (pPlayer == NULL)
+    if (pPlayer == nullptr)
         return;
 
     CClientCommander *pCommander(GameClient.GetClientCommander());
-    if (pCommander == NULL)
+    if (pCommander == nullptr)
         return;
 
     pCommander->SelectEntity(pPlayer->GetHeroIndex());
@@ -1543,7 +1543,7 @@ CMD(MinimapLeftClick)
 
     CClientCommander *pCommander(GameClient.GetClientCommander());
 
-    if (pCommander == NULL)
+    if (pCommander == nullptr)
         return false;
 
     CVec2f v2Pos(AtoF(vArgList[0]) * GameClient.GetWorldWidth(), AtoF(vArgList[1]) * GameClient.GetWorldHeight());
@@ -1625,7 +1625,7 @@ CMD(MinimapPing)
   --------------------*/
 UI_VOID_CMD(ActivateTool, 1)
 {
-    if (GameClient.GetClientCommander() == NULL)
+    if (GameClient.GetClientCommander() == nullptr)
         return;
     GameClient.GetClientCommander()->ActivateTool(AtoI(vArgList[0]->Evaluate()), false, GameClient.GetClientCommander()->GetSelectedControlEntity(), true);
 }
@@ -1636,7 +1636,7 @@ UI_VOID_CMD(ActivateTool, 1)
   --------------------*/
 UI_VOID_CMD(ActivateSharedTool, 1)
 {
-    if (GameClient.GetClientCommander() == NULL)
+    if (GameClient.GetClientCommander() == nullptr)
         return;
     GameClient.GetClientCommander()->ActivateTool(AtoI(vArgList[0]->Evaluate()), false, GameClient.GetClientCommander()->GetSelectedInfoEntity(), true);
 }
@@ -1647,7 +1647,7 @@ UI_VOID_CMD(ActivateSharedTool, 1)
   --------------------*/
 UI_VOID_CMD(ActivateToolSecondary, 1)
 {
-    if (GameClient.GetClientCommander() == NULL)
+    if (GameClient.GetClientCommander() == nullptr)
         return;
     GameClient.GetClientCommander()->ActivateTool(AtoI(vArgList[0]->Evaluate()), true, GameClient.GetClientCommander()->GetSelectedControlEntity(), true);
 }
@@ -1658,7 +1658,7 @@ UI_VOID_CMD(ActivateToolSecondary, 1)
   --------------------*/
 UI_VOID_CMD(ActivateSharedToolSecondary, 1)
 {
-    if (GameClient.GetClientCommander() == NULL)
+    if (GameClient.GetClientCommander() == nullptr)
         return;
     GameClient.GetClientCommander()->ActivateTool(AtoI(vArgList[0]->Evaluate()), true, GameClient.GetClientCommander()->GetSelectedInfoEntity(), true);
 }
@@ -1704,9 +1704,9 @@ CMD(CallVote)
         if (vArgList.size() > 1)
         {
             CPlayer *pPlayer(GameClient.GetPlayerByName(vArgList[1]));
-            if (pPlayer == NULL)
+            if (pPlayer == nullptr)
                 pPlayer = GameClient.GetPlayer(AtoI(vArgList[1]));
-            if (pPlayer != NULL)
+            if (pPlayer != nullptr)
                 iParam = pPlayer->GetClientNumber();
         }
 
@@ -1823,7 +1823,7 @@ CMD(RequestMatchStart)
 {
     CPlayer *pPlayer(Game.GetLocalPlayer());
     
-    if (pPlayer != NULL && pPlayer->HasFlags(PLAYER_FLAG_HOST))
+    if (pPlayer != nullptr && pPlayer->HasFlags(PLAYER_FLAG_HOST))
     {       
         CBufferFixed<1> buffer;
         buffer << GAME_CMD_REQUEST_MATCH_START;
@@ -1847,7 +1847,7 @@ CMD(RequestMatchCancel)
 {
     CPlayer *pPlayer(Game.GetLocalPlayer());
     
-    if (pPlayer != NULL && pPlayer->HasFlags(PLAYER_FLAG_HOST))
+    if (pPlayer != nullptr && pPlayer->HasFlags(PLAYER_FLAG_HOST))
     {       
         CBufferFixed<1> buffer;
         buffer << GAME_CMD_REQUEST_MATCH_CANCEL;
@@ -1979,7 +1979,7 @@ CMD(UpdateInterface)
 UI_VOID_CMD(SelectUnit, 1)
 {
     CClientCommander *pCommander(GameClient.GetClientCommander());
-    if (pCommander == NULL)
+    if (pCommander == nullptr)
         return;
 
     pCommander->SelectEntity(vArgList[0]->EvaluateInteger());
@@ -2151,7 +2151,7 @@ CMD(SetClientAngles)
 UI_CMD(MinimapClick, 2)
 {
     CClientCommander *pCommander(GameClient.GetClientCommander());
-    if (pCommander == NULL)
+    if (pCommander == nullptr)
         return XtoA(false);
 
     CVec2f v2Pos(AtoF(vArgList[0]->Evaluate()) * GameClient.GetWorldWidth(), AtoF(vArgList[1]->Evaluate()) * GameClient.GetWorldHeight());
@@ -2200,7 +2200,7 @@ UI_CMD(MinimapClick, 2)
 UI_CMD(MinimapRightClick, 2)
 {
     CClientCommander *pCommander(GameClient.GetClientCommander());
-    if (pCommander == NULL)
+    if (pCommander == nullptr)
         return XtoA(false);
 
     CVec2f v2Pos(AtoF(vArgList[0]->Evaluate()) * GameClient.GetWorldWidth(), AtoF(vArgList[1]->Evaluate()) * GameClient.GetWorldHeight());
@@ -2275,7 +2275,7 @@ FUNCTION(GetLocalClientNum)
   --------------------*/
 UI_CMD(GetLocalTeam, 0)
 {
-    if (GameClient.GetLocalPlayer() == NULL)
+    if (GameClient.GetLocalPlayer() == nullptr)
         return _T("0");
 
     return XtoA(GameClient.GetLocalPlayer()->GetTeam());
@@ -2299,7 +2299,7 @@ UI_CMD(GetNumClients, 0)
   --------------------*/
 UI_CMD(GetSelectedEntity, 0)
 {
-    if (GameClient.GetClientCommander() == NULL)
+    if (GameClient.GetClientCommander() == nullptr)
         return XtoA(INVALID_INDEX);
 
     if (GameClient.GetClientCommander()->GetSelectedInfoEntityIndex() == INVALID_INDEX)
@@ -2314,7 +2314,7 @@ UI_CMD(GetSelectedEntity, 0)
   --------------------*/
 FUNCTION(GetSelectedEntity)
 {
-    if (GameClient.GetClientCommander() == NULL)
+    if (GameClient.GetClientCommander() == nullptr)
         return XtoA(INVALID_INDEX);
 
     if (GameClient.GetClientCommander()->GetSelectedInfoEntityIndex() == INVALID_INDEX)
@@ -2437,7 +2437,7 @@ CMD(SetControlUnit)
         return false;
 
     CClientCommander *pCommander(GameClient.GetClientCommander());
-    if (pCommander == NULL)
+    if (pCommander == nullptr)
         return false;
 
     pCommander->SetControlUnit(AtoI(vArgList[0]));
@@ -2462,7 +2462,7 @@ CMD(DeselectUnit)
         return false;
 
     CClientCommander *pCommander(GameClient.GetClientCommander());
-    if (pCommander == NULL)
+    if (pCommander == nullptr)
         return false;
 
     pCommander->DeselectUnit(AtoI(vArgList[0]));
@@ -2484,7 +2484,7 @@ UI_VOID_CMD(DeselectUnit, 1)
 CMD(BuyBack)
 {
     CPlayer *pPlayer(Game.GetLocalPlayer());
-    if (pPlayer == NULL)
+    if (pPlayer == nullptr)
         return false;
 
     uint uiUnitIndex(pPlayer->GetHeroIndex());
@@ -2794,7 +2794,7 @@ CMD(ToggleNoHelp)
         return false;
 
     CPlayer *pLocalPlayer(GameClient.GetLocalPlayer());
-    if (pLocalPlayer == NULL)
+    if (pLocalPlayer == nullptr)
         return false;
 
     int iClientNumber(AtoI(vArgList[0]));
@@ -2818,7 +2818,7 @@ UI_VOID_CMD(ToggleNoHelp, 1)
 UI_CMD(GetCurrentControlUnit, 0)
 {
     CClientCommander *pCommander(GameClient.GetClientCommander());
-    if (pCommander == NULL)
+    if (pCommander == nullptr)
         return TSNULL;
 
     return XtoA(pCommander->GetSelectedControlEntityIndex());
@@ -2922,7 +2922,7 @@ UI_VOID_CMD(ToggleAllies, 0)
   --------------------*/
 CMD(StartCmdClickPos)
 {
-    if (GameClient.GetClientCommander() == NULL)
+    if (GameClient.GetClientCommander() == nullptr)
         return false;
 
     GameClient.GetClientCommander()->StartClickCmdPos(ConcatinateArgs(vArgList));
@@ -2940,7 +2940,7 @@ UI_VOID_CMD(AddUnitTypes, 1)
         return;
 
     IListWidget *pList(static_cast<IListWidget *>(pThis));
-    if (pList == NULL)
+    if (pList == nullptr)
         return;
 
     CXMLNode::PropertyMap mapParams;
@@ -2962,15 +2962,15 @@ UI_VOID_CMD(AddUnitTypes, 1)
             continue;
 
         const CDynamicEntityAllocator *pAllocator(EntityRegistry.GetDynamicAllocator(it->first));
-        if (pAllocator == NULL || GET_ENTITY_BASE_TYPE1(pAllocator->GetBaseType()) != ENTITY_BASE_TYPE1_UNIT)
+        if (pAllocator == nullptr || GET_ENTITY_BASE_TYPE1(pAllocator->GetBaseType()) != ENTITY_BASE_TYPE1_UNIT)
             continue;
 
         vEntities.push_back(it->second);
 
         ResHandle hDefinition(pAllocator->GetDefinitionHandle());
         CEntityDefinitionResource *pDefRes(g_ResourceManager.Get<CEntityDefinitionResource>(hDefinition));
-        IEntityDefinition *pDefinition(pDefRes != NULL ? pDefRes->GetDefinition<IEntityDefinition>() : NULL);
-        if (pDefinition != NULL)
+        IEntityDefinition *pDefinition(pDefRes != nullptr ? pDefRes->GetDefinition<IEntityDefinition>() : nullptr);
+        if (pDefinition != nullptr)
         {
             const EntityModifierMap &mapModifiers(pDefinition->GetModifiers());
             for (EntityModifierMap::const_iterator cit(mapModifiers.begin()), citEnd(mapModifiers.end()); cit != citEnd; ++cit)
@@ -3002,7 +3002,7 @@ UI_VOID_CMD(AddItemTypes, 1)
         return;
 
     IListWidget *pList(static_cast<IListWidget *>(pThis));
-    if (pList == NULL)
+    if (pList == nullptr)
         return;
 
     CXMLNode::PropertyMap mapParams;
@@ -3024,7 +3024,7 @@ UI_VOID_CMD(AddItemTypes, 1)
             continue;
 
         const CDynamicEntityAllocator *pAllocator(EntityRegistry.GetDynamicAllocator(it->first));
-        if (pAllocator == NULL || GET_ENTITY_BASE_TYPE3(pAllocator->GetBaseType()) != ENTITY_BASE_TYPE3_ITEM)
+        if (pAllocator == nullptr || GET_ENTITY_BASE_TYPE3(pAllocator->GetBaseType()) != ENTITY_BASE_TYPE3_ITEM)
             continue;
 
         vEntities.push_back(it->second);
@@ -3041,11 +3041,11 @@ UI_VOID_CMD(AddItemTypes, 1)
 
 
 #define WRITE_STRING(def, name, tag) \
-if (def != NULL && (bWriteEmpty || def->Get##name##Index() != INVALID_INDEX)) \
+if (def != nullptr && (bWriteEmpty || def->Get##name##Index() != INVALID_INDEX)) \
     hFile << TabPad(sName + _CTS(#tag), zTabStop, zColumnOffset) << EscapeWhiteSpace(def->Get##name()) << newl;
 
 #define WRITE_STRING_MOD(basedef, def, name, tag) \
-if (def != NULL && (bWriteEmpty || def->Get##name##Index() != INVALID_INDEX) && def->Get##name() != basedef->Get##name()) \
+if (def != nullptr && (bWriteEmpty || def->Get##name##Index() != INVALID_INDEX) && def->Get##name() != basedef->Get##name()) \
     hFile << TabPad(sName + _CTS(#tag _T(":")) + sModifierName, zTabStop, zColumnOffset) << EscapeWhiteSpace(def->Get##name()) << newl;
 
 #define WRITE_SCRIPT_STRING_NO_MOD \
@@ -3059,11 +3059,11 @@ for (int iScript(0); iScript < NUM_ACTION_SCRIPTS; ++iScript) \
 { \
     CCombatActionScript *pBaseScript(basedef->GetActionScript(EEntityActionScript(iScript))); \
     CCombatActionScript *pScript(def->GetActionScript(EEntityActionScript(iScript))); \
-    if (pScript == NULL) \
+    if (pScript == nullptr) \
         continue; \
     if (!bWriteEmpty && pScript->GetEffectDescription().empty()) \
         continue; \
-    if (basedef != def && pBaseScript != NULL && pScript->GetEffectDescription() == pBaseScript->GetEffectDescription()) \
+    if (basedef != def && pBaseScript != nullptr && pScript->GetEffectDescription() == pBaseScript->GetEffectDescription()) \
         continue; \
 \
     WRITE_SCRIPT_STRING_##mod \
@@ -3093,7 +3093,7 @@ CMD(GenerateEntityStringTable)
     GameClient.RegisterGameMechanics(_CTS("/base.gamemechanics"));
     GameClient.FetchGameMechanics();
     CGameMechanics *pGameMechanics(GameClient.GetGameMechanics());
-    if (pGameMechanics == NULL)
+    if (pGameMechanics == nullptr)
         Console.Err << _CTS("Missing game mechanics!") << newl;
     else
         pGameMechanics->WriteStringTable(hFile, zTabStop, zColumnOffset);
@@ -3113,7 +3113,7 @@ CMD(GenerateEntityStringTable)
     {
         // Shops
         CShopDefinition *pShopDefinition(EntityRegistry.GetDefinition<CShopDefinition>(itEntity->first));
-        if (pShopDefinition != NULL)
+        if (pShopDefinition != nullptr)
         {
             const tstring &sName(pShopDefinition->GetName());
 
@@ -3129,7 +3129,7 @@ CMD(GenerateEntityStringTable)
 
         // Units
         IUnitDefinition *pUnitDefinition(EntityRegistry.GetDefinition<IUnitDefinition>(itEntity->first));
-        if (pUnitDefinition != NULL)
+        if (pUnitDefinition != nullptr)
         {
             const tstring &sName(pUnitDefinition->GetName());
 
@@ -3146,7 +3146,7 @@ CMD(GenerateEntityStringTable)
             for (map<uint, ushort>::const_iterator itMod(mapModifiers.begin()); itMod != mapModifiers.end(); ++itMod)
             {
                 IUnitDefinition *pModifiedDefinition(static_cast<IUnitDefinition*>(pUnitDefinition->GetModifiedDefinition(pUnitDefinition->GetModifierBit(itMod->first))));
-                if (pModifiedDefinition == NULL)
+                if (pModifiedDefinition == nullptr)
                     continue;
 
                 tstring sModifierName(EntityRegistry.LookupModifierKey(pModifiedDefinition->GetModifierID()));
@@ -3165,7 +3165,7 @@ CMD(GenerateEntityStringTable)
         ISlaveDefinition *pSlaveDefinition(EntityRegistry.GetDefinition<ISlaveDefinition>(itEntity->first));
         IToolDefinition *pToolDefinition(EntityRegistry.GetDefinition<IToolDefinition>(itEntity->first));
         CItemDefinition *pItemDefinition(EntityRegistry.GetDefinition<CItemDefinition>(itEntity->first));
-        if (pSlaveDefinition != NULL)
+        if (pSlaveDefinition != nullptr)
         {
             const tstring &sName(pSlaveDefinition->GetName());
 
@@ -3186,15 +3186,15 @@ CMD(GenerateEntityStringTable)
             for (map<uint, ushort>::const_iterator itMod(mapModifiers.begin()); itMod != mapModifiers.end(); ++itMod)
             {
                 ISlaveDefinition *pModifiedDefinition(static_cast<ISlaveDefinition*>(pSlaveDefinition->GetModifiedDefinition(pSlaveDefinition->GetModifierBit(itMod->first))));
-                if (pModifiedDefinition == NULL)
+                if (pModifiedDefinition == nullptr)
                     continue;
 
-                IToolDefinition *pModifiedToolDefinition(NULL);
-                if (pToolDefinition != NULL)
+                IToolDefinition *pModifiedToolDefinition(nullptr);
+                if (pToolDefinition != nullptr)
                     pModifiedToolDefinition = static_cast<IToolDefinition*>(pToolDefinition->GetModifiedDefinition(pToolDefinition->GetModifierBit(itMod->first)));
 
-                CItemDefinition *pModifiedItemDefinition(NULL);
-                if (pItemDefinition != NULL)
+                CItemDefinition *pModifiedItemDefinition(nullptr);
+                if (pItemDefinition != nullptr)
                     pModifiedItemDefinition = static_cast<CItemDefinition*>(pItemDefinition->GetModifiedDefinition(pItemDefinition->GetModifierBit(itMod->first)));
 
                 tstring sModifierName(EntityRegistry.LookupModifierKey(pModifiedDefinition->GetModifierID()));
@@ -3236,7 +3236,7 @@ CMD(RequestBalanceTeams)
 {
     CPlayer *pPlayer(Game.GetLocalPlayer());
     
-    if (pPlayer != NULL && pPlayer->HasFlags(PLAYER_FLAG_HOST))
+    if (pPlayer != nullptr && pPlayer->HasFlags(PLAYER_FLAG_HOST))
     {       
         CBufferFixed<1> buffer;
         buffer << GAME_CMD_BALANCE_TEAMS;
@@ -3263,7 +3263,7 @@ CMD(RequestSwapPlayerSlots)
         
     CPlayer *pPlayer(Game.GetLocalPlayer());
     
-    if (pPlayer != NULL && pPlayer->HasFlags(PLAYER_FLAG_HOST))
+    if (pPlayer != nullptr && pPlayer->HasFlags(PLAYER_FLAG_HOST))
     {           
         int iTeam1(AtoI(vArgList[0]));
         uint uiSlot1(AtoI(vArgList[1]));
@@ -3298,7 +3298,7 @@ CMD(RequestAssignHost)
     
     CPlayer *pPlayer(Game.GetLocalPlayer());
     
-    if (pPlayer != NULL && pPlayer->HasFlags(PLAYER_FLAG_HOST))
+    if (pPlayer != nullptr && pPlayer->HasFlags(PLAYER_FLAG_HOST))
     {       
         uint uiClientNum(AtoI(vArgList[0]));
             
@@ -3331,7 +3331,7 @@ CMD(RequestAssignSpectator)
     
     CPlayer *pPlayer(Game.GetLocalPlayer());
     
-    if (pPlayer != NULL && pPlayer->HasFlags(PLAYER_FLAG_HOST))
+    if (pPlayer != nullptr && pPlayer->HasFlags(PLAYER_FLAG_HOST))
     {       
         uint uiClientNum(AtoI(vArgList[0]));
             
@@ -3361,7 +3361,7 @@ CMD(RequestLockSlot)
         
     CPlayer *pPlayer(Game.GetLocalPlayer());
     
-    if (pPlayer != NULL && pPlayer->HasFlags(PLAYER_FLAG_HOST))
+    if (pPlayer != nullptr && pPlayer->HasFlags(PLAYER_FLAG_HOST))
     {           
         int iTeam(AtoI(vArgList[0]));
         uint uiSlot(AtoI(vArgList[1]));
@@ -3391,7 +3391,7 @@ CMD(RequestUnlockSlot)
 
     CPlayer *pPlayer(Game.GetLocalPlayer());
     
-    if (pPlayer != NULL && pPlayer->HasFlags(PLAYER_FLAG_HOST))
+    if (pPlayer != nullptr && pPlayer->HasFlags(PLAYER_FLAG_HOST))
     {   
         int iTeam(AtoI(vArgList[0]));
         uint uiSlot(AtoI(vArgList[1]));
@@ -3421,7 +3421,7 @@ CMD(RequestToggleSlotLock)
 
     CPlayer *pPlayer(Game.GetLocalPlayer());
     
-    if (pPlayer != NULL && pPlayer->HasFlags(PLAYER_FLAG_HOST))
+    if (pPlayer != nullptr && pPlayer->HasFlags(PLAYER_FLAG_HOST))
     {   
         int iTeam(AtoI(vArgList[0]));
         uint uiSlot(AtoI(vArgList[1]));
@@ -3455,7 +3455,7 @@ CMD(TriggerTest)
 UI_CMD(GetModifier1, 0)
 {
     CClientCommander *pCommander(GameClient.GetClientCommander());
-    if (pCommander == NULL)
+    if (pCommander == nullptr)
         return _CTS("false");
     else
         return XtoA(pCommander->GetModifier1());
@@ -3468,7 +3468,7 @@ UI_CMD(GetModifier1, 0)
 UI_CMD(GetModifier2, 0)
 {
     CClientCommander *pCommander(GameClient.GetClientCommander());
-    if (pCommander == NULL)
+    if (pCommander == nullptr)
         return _CTS("false");
     else
         return XtoA(pCommander->GetModifier2());
@@ -3481,7 +3481,7 @@ UI_CMD(GetModifier2, 0)
 UI_CMD(GetModifier3, 0)
 {
     CClientCommander *pCommander(GameClient.GetClientCommander());
-    if (pCommander == NULL)
+    if (pCommander == nullptr)
         return _CTS("false");
     else
         return XtoA(pCommander->GetModifier3());
@@ -3553,21 +3553,21 @@ UI_VOID_CMD(AddPlayers, 1)
     for (uint uiTeam(0); uiTeam < MAX_DISPLAY_TEAMS; ++uiTeam)
     {
         CTeamInfo *pTeam(GameClient.GetTeam(uiTeam + 1));
-        if (pTeam == NULL)
+        if (pTeam == nullptr)
             continue;
 
         for (uint uiPlayer(0); uiPlayer < MAX_DISPLAY_PLAYERSPERTEAM; ++uiPlayer)
         {
             CPlayer *pClient(GameClient.GetPlayer(pTeam->GetClientIDFromTeamIndex(uiPlayer)));
 
-            if (pClient == NULL)
+            if (pClient == nullptr)
                 continue;
 
             IHeroEntity *pHero(pClient->GetHero());
             mapParams[_T("name")] = pClient->GetName();
             mapParams[_T("color")] = XtoA(pClient->GetColor());
-            mapParams[_T("hero")] = pHero != NULL ? pHero->GetDisplayName() : TSNULL;
-            mapParams[_T("icon")] = pHero != NULL ? pHero->GetIconPath() : _T("$black");
+            mapParams[_T("hero")] = pHero != nullptr ? pHero->GetDisplayName() : TSNULL;
+            mapParams[_T("icon")] = pHero != nullptr ? pHero->GetIconPath() : _T("$black");
 
             pList->CreateNewListItemFromTemplate(vArgList[0]->Evaluate(), XtoA(pClient->GetClientNumber()), mapParams);
         }
@@ -3666,7 +3666,7 @@ UI_CMD(CanKick, 1)
         return TSNULL;
 
     CPlayer *pPlayer(GameClient.GetPlayer(iClientNumber));
-    if (pPlayer == NULL)
+    if (pPlayer == nullptr)
         return TSNULL;
 
     return XtoA(pPlayer->CanKick());
@@ -3681,7 +3681,7 @@ UI_CMD(GetClientNameFromClientNumber, 1)
     int iClientNumber(vArgList[0]->EvaluateInteger());
 
     CPlayer *pPlayer(GameClient.GetPlayer(iClientNumber));
-    if (pPlayer == NULL)
+    if (pPlayer == nullptr)
         return TSNULL;
 
     return pPlayer->GetName();
@@ -3716,7 +3716,7 @@ UI_CMD(IsInGame, 0)
 UI_VOID_CMD(SetScoreState, 1)
 {
     CGameInterfaceManager *pInterfaceManager(GameClient.GetInterfaceManager());
-    if (pInterfaceManager == NULL)
+    if (pInterfaceManager == nullptr)
         return;
     
     pInterfaceManager->SetScoreState(vArgList[0]->EvaluateInteger());
@@ -3731,7 +3731,7 @@ CMD(TestAltAnnouncement)
     if (vArgList.size() == 2)
     {
         CGameInterfaceManager *pInterfaceManager(GameClient.GetInterfaceManager());
-        if (pInterfaceManager == NULL)
+        if (pInterfaceManager == nullptr)
             return false;
         
         pInterfaceManager->Trigger(AtoI(vArgList[0]), AtoI(vArgList[1]));
@@ -3743,7 +3743,7 @@ CMD(TestAltAnnouncement)
         vMiniParams[1] = vArgList[2];
         
         CGameInterfaceManager *pInterfaceManager(GameClient.GetInterfaceManager());
-        if (pInterfaceManager == NULL)
+        if (pInterfaceManager == nullptr)
             return false;
         
         pInterfaceManager->Trigger(AtoI(vArgList[0]), vMiniParams);
@@ -3760,7 +3760,7 @@ UI_CMD(GetPing, 0)
 {
     CPlayer *pPlayer(Game.GetLocalPlayer());
     
-    if (pPlayer == NULL)
+    if (pPlayer == nullptr)
         return TSNULL;
     else
         return XtoA(pPlayer->GetPing());
@@ -3773,7 +3773,7 @@ CMD(TestFirstKill)
         return false;
 
     CGameInterfaceManager *pInterfaceManager(GameClient.GetInterfaceManager());
-    if (pInterfaceManager == NULL)
+    if (pInterfaceManager == nullptr)
         return false;
 
     tsvector vParams(2);

@@ -109,7 +109,7 @@ class CStringPool
 
     bool    DoEraseEntry(SStringEntry* pEntry)
     {
-        assert(pEntry != NULL);
+        assert(pEntry != nullptr);
 
         // if a different thread modified the refcount, then don't erase it.
         if (K2_Atomic_LoadWithAcquire(pEntry->uiRefCount) != 0)
@@ -127,7 +127,7 @@ class CStringPool
 
     void    DoAddRef(SStringEntry* pEntry)
     {
-        assert(pEntry != NULL);
+        assert(pEntry != nullptr);
 
         // Increment refcount
         K2_Atomic_FetchAdd4(&(pEntry->uiRefCount), 1);
@@ -175,7 +175,7 @@ class CStringPool
 
     void    DoReleaseString(SStringEntry* pEntry)
     {
-        assert(pEntry != NULL);
+        assert(pEntry != nullptr);
 
         // Decrement refcount
         __int32 iResult = K2_Atomic_FetchAdd4(&(pEntry->uiRefCount), -1);
@@ -221,9 +221,9 @@ private:
     void    Reset()
     {
         // release the existing string.
-        assert(m_pShared != NULL);
+        assert(m_pShared != nullptr);
         StringPool.DoReleaseString(m_pShared);
-        m_pShared = NULL;
+        m_pShared = nullptr;
     }
 
 
@@ -233,7 +233,7 @@ public:
       ====================*/
     ~CPooledString()
     {
-        if (m_pShared != NULL)
+        if (m_pShared != nullptr)
             Reset();
     }
 
@@ -242,7 +242,7 @@ public:
       CPooledString::CPooledString
       ====================*/
     CPooledString()
-        : m_pShared(NULL)
+        : m_pShared(nullptr)
     {
     }
 
@@ -251,12 +251,12 @@ public:
       CPooledString::CPooledString
       ====================*/
     CPooledString(const value_type* pLookup)
-        : m_pShared(NULL)
+        : m_pShared(nullptr)
     {
-        if (pLookup != NULL && *pLookup)
+        if (pLookup != nullptr && *pLookup)
         {
             StringPool.DoAcquireString(m_pShared, pLookup);
-            assert(m_pShared != NULL);
+            assert(m_pShared != nullptr);
         }
     }
 
@@ -265,12 +265,12 @@ public:
       CPooledString::CPooledString
       ====================*/
     CPooledString(const tstring &sLookup)
-        : m_pShared(NULL)
+        : m_pShared(nullptr)
     {
         if (!sLookup.empty())
         {
             StringPool.DoAcquireString(m_pShared, sLookup);
-            assert(m_pShared != NULL);
+            assert(m_pShared != nullptr);
         }
     }
 
@@ -279,9 +279,9 @@ public:
       CPooledString::CPooledString
       ====================*/
     CPooledString(const CPooledString& sExisting)
-        : m_pShared(NULL)
+        : m_pShared(nullptr)
     {
-        if (sExisting.m_pShared != NULL)
+        if (sExisting.m_pShared != nullptr)
         {
             StringPool.DoAddRef(sExisting.m_pShared);
             m_pShared = sExisting.m_pShared;
@@ -307,15 +307,15 @@ public:
         if (m_pShared == pShared)
             return;
 
-        if (pShared == NULL)
+        if (pShared == nullptr)
         {
-            if (m_pShared != NULL)
+            if (m_pShared != nullptr)
                 Reset();
         }
         else
         {
             StringPool.DoAddRef(pShared);
-            if (m_pShared != NULL)
+            if (m_pShared != nullptr)
                 StringPool.DoReleaseString(m_pShared);
             m_pShared = pShared;
         }
@@ -323,7 +323,7 @@ public:
 
     const tstring&  tstr() const
     {
-        if (m_pShared == NULL)
+        if (m_pShared == nullptr)
             return TSNULL;
         else
             return m_pShared->itString->first;

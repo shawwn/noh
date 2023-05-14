@@ -51,9 +51,9 @@ int     CEntityDefinitionResource::Load(uint uiIgnoreFlags, const char *pData, u
   ====================*/
 void    CEntityDefinitionResource::Free()
 {
-    if (m_pDefinition != NULL)
+    if (m_pDefinition != nullptr)
     {
-        m_unTypeID = EntityRegistry.RegisterDynamicEntity(GetName(), INVALID_RESOURCE, NULL);
+        m_unTypeID = EntityRegistry.RegisterDynamicEntity(GetName(), INVALID_RESOURCE, nullptr);
         m_pDefinition->SetName(GetName());
         m_pDefinition->SetTypeID(m_unTypeID);
     }
@@ -65,7 +65,7 @@ void    CEntityDefinitionResource::Free()
   ====================*/
 void    CEntityDefinitionResource::PostLoad()
 {
-    if (m_pDefinition != NULL)
+    if (m_pDefinition != nullptr)
     {
         m_unTypeID = EntityRegistry.RegisterDynamicEntity(GetName(), GetHandle(), m_pDefinition->GetAllocator());
         m_pDefinition->SetName(GetName());
@@ -81,6 +81,6 @@ void    CEntityDefinitionResource::Reloaded()
 {
     PostProcess();
 
-    if (m_pDefinition != NULL)
+    if (m_pDefinition != nullptr)
         Game.UpdateDefinitions(m_unTypeID);
 }

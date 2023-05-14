@@ -18,7 +18,7 @@
   ====================*/
 CTexelAlphaMap::CTexelAlphaMap(EWorldComponent eComponent) :
 IWorldComponent(eComponent, _T("TexelAlphaMap")),
-m_pTexelAlpha(NULL)
+m_pTexelAlpha(nullptr)
 {
 }
 
@@ -37,11 +37,11 @@ CTexelAlphaMap::~CTexelAlphaMap()
   ====================*/
 void    CTexelAlphaMap::Release()
 {
-    m_pWorld = NULL;
+    m_pWorld = nullptr;
 
-    if (m_pTexelAlpha != NULL)
+    if (m_pTexelAlpha != nullptr)
         K2_DELETE_ARRAY(m_pTexelAlpha);
-    m_pTexelAlpha = NULL;
+    m_pTexelAlpha = nullptr;
 }
 
 
@@ -80,9 +80,9 @@ bool    CTexelAlphaMap::Load(CArchive &archive, const CWorld *pWorld)
     }
     catch (CException &ex)
     {
-        if (m_pTexelAlpha != NULL)
+        if (m_pTexelAlpha != nullptr)
             K2_DELETE_ARRAY(m_pTexelAlpha);
-        m_pTexelAlpha = NULL;
+        m_pTexelAlpha = nullptr;
 
         ex.Process(_T("CTexelAlphaMap::Load() - "), NO_THROW);
         return false;
@@ -105,11 +105,11 @@ bool    CTexelAlphaMap::Generate(const CWorld *pWorld)
 
         m_bChanged = true;
         m_pWorld = pWorld;
-        if (m_pWorld == NULL)
+        if (m_pWorld == nullptr)
             EX_ERROR(_T("CTexelAlphaMap needs a valid CWorld"));
 
         m_pTexelAlpha = K2_NEW_ARRAY(ctx_World, byte, m_pWorld->GetTexelArea());
-        if (m_pTexelAlpha == NULL)
+        if (m_pTexelAlpha == nullptr)
             EX_ERROR(_T("Failed to allocate memory for ColorMap"));
 
         for (int i(0); i < m_pWorld->GetTexelArea(); ++i)

@@ -101,7 +101,7 @@ public:
 
     void    CopyData(const char *pData, uint uiSize)    { ReleaseData(); m_pData = K2_NEW_ARRAY(ctx_FileSystem, char, uiSize); MemManager.Copy(m_pData, pData, uiSize); }
     void    GetFileData(fstream &file);
-    void    ReleaseData()                               { if (!m_bRemoteData) { SAFE_DELETE_ARRAY(m_pData); } else m_pData = NULL; }
+    void    ReleaseData()                               { if (!m_bRemoteData) { SAFE_DELETE_ARRAY(m_pData); } else m_pData = nullptr; }
 
     bool    WriteLocalData(fstream &file) const;
     bool    WriteCentralHeader(fstream &file) const;
@@ -205,7 +205,7 @@ m_uiLocalHeaderOffset(0),
 
 m_sFileName(sFilename),
 m_sComment(sComment),
-m_pData(NULL),
+m_pData(nullptr),
 m_bIsValid(true),
 m_iLevel(iLevel),
 m_bRemoteData(false)
@@ -216,7 +216,7 @@ m_bRemoteData(false)
 }
 
 CZipCentralFileHeader::CZipCentralFileHeader(fstream &file) :
-m_pData(NULL),
+m_pData(nullptr),
 m_bIsValid(true),
 m_bRemoteData(false)
 {
@@ -278,10 +278,10 @@ m_bRemoteData(false)
   ====================*/
 void    CZipCentralFileHeader::GetFileData(fstream &file)
 {
-    if (m_pData != NULL)
+    if (m_pData != nullptr)
         return;
     m_pData = K2_NEW_ARRAY(ctx_FileSystem, char, m_uiStoredSize);
-    if (m_pData == NULL)
+    if (m_pData == nullptr)
     {
         Console.Err << _T("CZipCentralFileHeader::GetFileData() - Failed to allocate buffer") << newl;
         return;
@@ -546,7 +546,7 @@ CZip::~CZip()
   ====================*/
 CZip::CZip(const tstring &sFilename, bool bAppend) :
 m_sPathName(sFilename),
-m_pCentralDirectory(NULL),
+m_pCentralDirectory(nullptr),
 m_bWriting(false),
 m_fWriteProgress(0.0f)
 {
@@ -766,7 +766,7 @@ int     CZip::AddFile(const tstring &sFileName, const char *pSourceBuffer, size_
 
         // Create a new entry for this file
         CZipCentralFileHeader *pNewFileHeader(K2_NEW(ctx_FileSystem,  CZipCentralFileHeader)(sCleanFileName, iLevel, sComment));
-        if (pNewFileHeader == NULL)
+        if (pNewFileHeader == nullptr)
             EX_ERROR(_T("Failed to allocate new file entry"));
 
         if (t != 0)
@@ -775,7 +775,7 @@ int     CZip::AddFile(const tstring &sFileName, const char *pSourceBuffer, size_
         // Compress
         uLong ulStoredSize = INT_SIZE(zLength);
         const char *pCopyBuffer(pSourceBuffer);
-        byte *pTempBuffer(NULL);
+        byte *pTempBuffer(nullptr);
         if (pNewFileHeader->GetMethod() == ZIP_METHOD_DEFLATE)
         {
             ulStoredSize = INT_CEIL(ulStoredSize * 1.001f) + 12;
@@ -839,7 +839,7 @@ int     CZip::AddCompressedFile(const tstring &sFileName, const CCompressedFile 
 
         // Create a new entry for this file
         CZipCentralFileHeader *pNewFileHeader(K2_NEW(ctx_FileSystem,  CZipCentralFileHeader)(sCleanFileName, cFile.GetLevel(), sComment));
-        if (pNewFileHeader == NULL)
+        if (pNewFileHeader == nullptr)
             EX_ERROR(_T("Failed to allocate new file entry"));
 
         if (t != 0)

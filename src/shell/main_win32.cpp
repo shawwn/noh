@@ -84,8 +84,8 @@ LRESULT CALLBACK    System_MainWndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPAR
                 tsvector vsFiles;
                 for (int i(0); i < iCount; ++i)
                 {
-                    TCHAR *szFile(NULL);
-                    uint uiLen(DragQueryFile(hDrop, i, NULL, 0) + 1);
+                    TCHAR *szFile(nullptr);
+                    uint uiLen(DragQueryFile(hDrop, i, nullptr, 0) + 1);
                     szFile = new TCHAR[uiLen];
                     DragQueryFile(hDrop, i, szFile, uiLen);
                     vsFiles.push_back(szFile);
@@ -379,8 +379,8 @@ Misc
 
 CMD(WAStart)
 {
-    HWND hWndWinamp(FindWindow(_T("Winamp v1.x"), NULL));
-    if (hWndWinamp == NULL)
+    HWND hWndWinamp(FindWindow(_T("Winamp v1.x"), nullptr));
+    if (hWndWinamp == nullptr)
     {
         Console << _T("Winamp window not found") << newl;
         return false;
@@ -408,8 +408,8 @@ CMD(WAStart)
 
 CMD(WAStop)
 {
-    HWND hWndWinamp(FindWindow(_T("Winamp v1.x"), NULL));
-    if (hWndWinamp == NULL)
+    HWND hWndWinamp(FindWindow(_T("Winamp v1.x"), nullptr));
+    if (hWndWinamp == nullptr)
     {
         Console << _T("Winamp window not found") << newl;
         return false;
@@ -421,8 +421,8 @@ CMD(WAStop)
 
 CMD(WAPrev)
 {
-    HWND hWndWinamp(FindWindow(_T("Winamp v1.x"), NULL));
-    if (hWndWinamp == NULL)
+    HWND hWndWinamp(FindWindow(_T("Winamp v1.x"), nullptr));
+    if (hWndWinamp == nullptr)
     {
         Console << _T("Winamp window not found") << newl;
         return false;
@@ -434,8 +434,8 @@ CMD(WAPrev)
 
 CMD(WANext)
 {
-    HWND hWndWinamp(FindWindow(_T("Winamp v1.x"), NULL));
-    if (hWndWinamp == NULL)
+    HWND hWndWinamp(FindWindow(_T("Winamp v1.x"), nullptr));
+    if (hWndWinamp == nullptr)
     {
         Console << _T("Winamp window not found") << newl;
         return false;
@@ -461,7 +461,7 @@ uint __stdcall ThreadTest(void *pParam)
 CMD(SpawnThread)
 {
     uint uiThreadID;
-    uint uiThread(_beginthreadex(NULL, 0, ThreadTest, NULL, 0, &uiThreadID));
+    uint uiThread(_beginthreadex(nullptr, 0, ThreadTest, nullptr, 0, &uiThreadID));
 
     return true;
 }

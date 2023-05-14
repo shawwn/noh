@@ -127,7 +127,7 @@ void    CEffectPanel::UpdateEffect(CEffectThread *&pEffectThread, const CVec3f &
         {
             IEffectInstance *pParticleSystem(psit->second);
 
-            pParticleSystem->Update(Host.GetTime(), NULL);
+            pParticleSystem->Update(Host.GetTime(), nullptr);
 
             if (!pParticleSystem->IsDead() && pParticleSystem->IsParticleSystem())
                 SceneManager.AddParticleSystem(static_cast<CParticleSystem *>(pParticleSystem), false);
@@ -162,7 +162,7 @@ void    CEffectPanel::RenderWidget(const CVec2f &vOrigin, float fFade)
         // Update attached effect
         UpdateEffect(cEffect.pEffectThread, cEffect.v3EffectPos, cEffect.v3EffectAngles, cEffect.fEffectScale);
 
-        if (cEffect.pEffectThread == NULL)
+        if (cEffect.pEffectThread == nullptr)
             STL_ERASE(m_mapEffects, it);
         else
         {
@@ -253,7 +253,7 @@ void    CEffectPanel::StartEffect(int iChannel, const tstring &sEffect, const CV
     ResHandle hEffect(g_ResourceManager.Register(sEffect, RES_EFFECT));
 
     CEffect *pEffect(g_ResourceManager.GetEffect(hEffect));
-    if (pEffect != NULL)
+    if (pEffect != nullptr)
     {
         cEffect.pEffectThread = pEffect->SpawnThread(Host.GetTime());
         cEffect.v3EffectPos = v3EffectPos;
@@ -261,12 +261,12 @@ void    CEffectPanel::StartEffect(int iChannel, const tstring &sEffect, const CV
         cEffect.v3EffectPos.x *= m_v2SceneSize.x;
         cEffect.v3EffectPos.y *= m_v2SceneSize.y;
 
-        if (cEffect.pEffectThread != NULL)
+        if (cEffect.pEffectThread != nullptr)
         {
             cEffect.pEffectThread->SetCamera(&m_Camera);
-            cEffect.pEffectThread->SetWorld(NULL);
-            cEffect.pEffectThread->SetTargetSkeleton(NULL);
-            cEffect.pEffectThread->SetTargetModel(NULL);
+            cEffect.pEffectThread->SetWorld(nullptr);
+            cEffect.pEffectThread->SetTargetSkeleton(nullptr);
+            cEffect.pEffectThread->SetTargetModel(nullptr);
             cEffect.pEffectThread->SetColor(v3Color);
         }
     }
@@ -374,7 +374,7 @@ UI_VOID_CMD(SetAnim, 1)
   --------------------*/
 UI_VOID_CMD(MoveModel, 1)
 {
-    if (pThis == NULL || pThis->GetType() != WIDGET_MODELPANEL)
+    if (pThis == nullptr || pThis->GetType() != WIDGET_MODELPANEL)
         return;
 
     CEffectPanel *pModelPanel(static_cast<CEffectPanel*>(pThis));

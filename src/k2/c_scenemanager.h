@@ -59,7 +59,7 @@ struct SOccluderVolume
 struct SSceneEntityEntry
 {
     static CPool<SSceneEntityEntry>     s_Pool;
-    void*   operator new(size_t z, const char *szContext = NULL, const char *szType = NULL, const char *szFile = NULL, short nLine = 0); // Uses CPool of preallocated instances
+    void*   operator new(size_t z, const char *szContext = nullptr, const char *szType = nullptr, const char *szFile = nullptr, short nLine = 0); // Uses CPool of preallocated instances
     void    operator delete(void *p, const char *szContext, const char *szType, const char *szFile, short nLine) { }
 
     SSceneEntityEntry();
@@ -74,7 +74,7 @@ struct SSceneEntityEntry
 struct SSceneParticleSystemEntry
 {
     static CPool<SSceneParticleSystemEntry>     s_Pool;
-    void*   operator new(size_t z, const char *szContext = NULL, const char *szType = NULL, const char *szFile = NULL, short nLine = 0); // Uses CPool of preallocated instances
+    void*   operator new(size_t z, const char *szContext = nullptr, const char *szType = nullptr, const char *szFile = nullptr, short nLine = 0); // Uses CPool of preallocated instances
     void    operator delete(void *p, const char *szContext, const char *szType, const char *szFile, short nLine) { }
 
     SSceneParticleSystemEntry();
@@ -89,7 +89,7 @@ struct SSceneParticleSystemEntry
 struct SSceneLightEntry
 {
     static CPool<SSceneLightEntry>      s_Pool;
-    void*   operator new(size_t z, const char *szContext = NULL, const char *szType = NULL, const char *szFile = NULL, short nLine = 0); // Uses CPool of preallocated instances
+    void*   operator new(size_t z, const char *szContext = nullptr, const char *szType = nullptr, const char *szFile = nullptr, short nLine = 0); // Uses CPool of preallocated instances
     void    operator delete(void *p, const char *szContext, const char *szType, const char *szFile, short nLine) { }
 
     SSceneLightEntry();
@@ -104,11 +104,11 @@ struct SSceneLightEntry
 struct SSceneModifierEntry
 {
     static CPool<SSceneModifierEntry>   s_Pool;
-    void*   operator new(size_t z, const char *szContext = NULL, const char *szType = NULL, const char *szFile = NULL, short nLine = 0); // Uses CPool of preallocated instances
+    void*   operator new(size_t z, const char *szContext = nullptr, const char *szType = nullptr, const char *szFile = nullptr, short nLine = 0); // Uses CPool of preallocated instances
     void    operator delete(void *p, const char *szContext, const char *szType, const char *szFile, short nLine) { }
 
     SSceneModifierEntry();
-    SSceneModifierEntry(const CSceneEntityModifier *pSystem) : pModifier(pSystem), pNext(NULL) {}
+    SSceneModifierEntry(const CSceneEntityModifier *pSystem) : pModifier(pSystem), pNext(nullptr) {}
 
     const CSceneEntityModifier  *pModifier;
     SSceneModifierEntry         *pNext;

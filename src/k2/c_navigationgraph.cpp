@@ -48,10 +48,10 @@ const uint H_WEIGHT_DENOMINATOR(1);
   ====================*/
 CNavigationGraph::CNavigationGraph(EWorldComponent eComponent) :
 IWorldComponent(eComponent, _T("NavigationGraph")),
-m_pOpenNodesFromDst(NULL),
-m_pOpenNodesFromSrc(NULL),
-m_pNodeBucket(NULL),
-m_pGateBucket(NULL),
+m_pOpenNodesFromDst(nullptr),
+m_pOpenNodesFromSrc(nullptr),
+m_pNodeBucket(nullptr),
+m_pGateBucket(nullptr),
 m_uiHighestSmoothCost(0),
 m_uiMaxQueueSize(0),
 m_uiGoalRange(0)
@@ -475,7 +475,7 @@ void    CNavigationGraph::MarkDestinationArea(vector<PoolHandle> &vBlockers)
     CNavigationMap &cNavMap(m_pWorld->GetNavigationMap());
     
     SBlocker *pBlocker(cNavMap.GetBlocker(vBlockers[0]));
-    if (pBlocker == NULL)
+    if (pBlocker == nullptr)
         return;
 
     // Close each blocker
@@ -483,7 +483,7 @@ void    CNavigationGraph::MarkDestinationArea(vector<PoolHandle> &vBlockers)
     for (vector<PoolHandle>::iterator it(vBlockers.begin()), itEnd(vBlockers.end()); it != itEnd; ++it)
     {
         SBlocker *pBlocker(cNavMap.GetBlocker(*it));
-        if (pBlocker == NULL)
+        if (pBlocker == nullptr)
             continue;
 
         for (int y(pBlocker->iBeginY >> m_uiDownSize); y <= pBlocker->iEndY >> m_uiDownSize; ++y)
@@ -506,7 +506,7 @@ void    CNavigationGraph::MarkDestinationArea(vector<PoolHandle> &vBlockers)
     for (vector<PoolHandle>::iterator it(vBlockers.begin()), itEnd(vBlockers.end()); it != itEnd; ++it)
     {
         SBlocker *pBlocker(cNavMap.GetBlocker(*it));
-        if (pBlocker == NULL)
+        if (pBlocker == nullptr)
             continue;
 
         for (int i(pBlocker->iBeginY >> m_uiDownSize); i <= pBlocker->iEndY >> m_uiDownSize; ++i)
@@ -2056,7 +2056,7 @@ void    CNavigationGraph::ConstructPath(CSearchNode *pContactNode, int iSrcDirec
 {
     PROFILE("CNavigationGraph::ConstructPath");
 
-    CSearchNode *pCurrent(NULL);
+    CSearchNode *pCurrent(nullptr);
 
     assert (m_uiPathFound == 0);
     m_uiPathFound = 1;
@@ -2215,7 +2215,7 @@ PoolHandle  CNavigationGraph::FindPath(float fSrcX, float fSrcY, float fEntityRa
     m_fSrcY = CLAMP<float>(fSrcY, 0.0f, m_pWorld->GetWorldHeight() - 0.001f);
     m_fGoalY = CLAMP<float>(fGoalY, 0.0f, m_pWorld->GetWorldHeight() - 0.001f);
 
-    if (m_pNodeBucket == NULL)
+    if (m_pNodeBucket == nullptr)
         return INVALID_POOL_HANDLE;
 
     if (g_PathDelayReset)
@@ -2273,7 +2273,7 @@ PoolHandle  CNavigationGraph::FindPath(float fSrcX, float fSrcY, float fEntityRa
     // Set per-search vars
     m_pCurrentGrid = cNavMap.PrepForSearch(uiNavigationFlags, m_uiDownSize);
 
-    if (m_pSrcNode == m_pDstNode || m_pCurrentGrid == NULL)
+    if (m_pSrcNode == m_pDstNode || m_pCurrentGrid == nullptr)
     {
         m_pPathResult->GetSmoothResult().push_back(CResultGate());
         m_pPathResult->GetSmoothResult().push_back(CResultGate());
@@ -2306,7 +2306,7 @@ PoolHandle  CNavigationGraph::FindPath(float fSrcX, float fSrcY, float fEntityRa
         {
             MarkDestinationArea(iDstX, iDstY, m_uiGoalRange);
         }
-        else if (pBlockers != NULL && !pBlockers->empty())
+        else if (pBlockers != nullptr && !pBlockers->empty())
         {
             MarkDestinationArea(*pBlockers);
         }
@@ -2342,7 +2342,7 @@ PoolHandle  CNavigationGraph::FindPath(float fSrcX, float fSrcY, float fEntityRa
         if (m_uiPathFound == ABORT_PATHING)
         {
             //Console << _T("Search aborted after ") << (K2System.Microseconds() - m_uiSearchStart) << _T("us") << newl;
-            m_pPathResult = NULL;
+            m_pPathResult = nullptr;
             m_pWorld->FreePath(hRet);
             hRet = INVALID_POOL_HANDLE;
         }
@@ -2356,7 +2356,7 @@ PoolHandle  CNavigationGraph::FindPath(float fSrcX, float fSrcY, float fEntityRa
         ResetForNextSearch();
 
 #if 0
-    if (m_pPathResult != NULL)
+    if (m_pPathResult != nullptr)
         Console << _T("Goal Range(") << fGoalRange << _T(") Path Range(") << Distance(m_pPathResult->GetGoal(), CVec2f(m_fGoalX, m_fGoalY)) << _T(")") << newl;
 #endif
 

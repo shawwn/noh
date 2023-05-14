@@ -47,7 +47,7 @@ void    SFoliage::AllocateChunks(int iNewChunkSize)
 
 void    SFoliage::ClearChunks()
 {
-    if (ppChunks != NULL)
+    if (ppChunks != nullptr)
     {
         for (int i(0); i < iNumChunksY; ++i)
             K2_DELETE_ARRAY(ppChunks[i]);
@@ -255,7 +255,7 @@ void    GL_RebuildFoliageArray(int iStartX, int iStartY, SFoliageArray &oArray)
     // Create foliage vertex buffer
     glGenBuffersARB(1, &oArray.uiVB);
     glBindBufferARB(GL_ARRAY_BUFFER_ARB, oArray.uiVB);
-    glBufferDataARB(GL_ARRAY_BUFFER_ARB, oArray.iNumFoliageQuads * 4 * sizeof(SFoliageVertex), NULL, GL_STATIC_DRAW_ARB);
+    glBufferDataARB(GL_ARRAY_BUFFER_ARB, oArray.iNumFoliageQuads * 4 * sizeof(SFoliageVertex), nullptr, GL_STATIC_DRAW_ARB);
 
     pVertices = (SFoliageVertex *)glMapBufferARB(GL_ARRAY_BUFFER_ARB, GL_WRITE_ONLY);
 
@@ -573,7 +573,7 @@ void    GL_RebuildFoliageArray(int iStartX, int iStartY, SFoliageArray &oArray)
 
         glGenBuffersARB(1, &oArray.uiIB[iDir]);
         glBindBufferARB(GL_ELEMENT_ARRAY_BUFFER, oArray.uiIB[iDir]);
-        glBufferDataARB(GL_ELEMENT_ARRAY_BUFFER, oArray.iNumFoliageQuads * 6 * sizeof(GLushort), NULL, GL_STATIC_DRAW_ARB);
+        glBufferDataARB(GL_ELEMENT_ARRAY_BUFFER, oArray.iNumFoliageQuads * 6 * sizeof(GLushort), nullptr, GL_STATIC_DRAW_ARB);
 
         GLushort *pIndices((GLushort*)glMapBufferARB(GL_ELEMENT_ARRAY_BUFFER, GL_WRITE_ONLY));
 
@@ -666,7 +666,7 @@ void    GL_RebuildFoliageChunk(int iChunkX, int iChunkY)
             };
 
             SFoliageBatch       sCurrentBatch;
-            SFoliageArray       *pCurrentArray(NULL);
+            SFoliageArray       *pCurrentArray(nullptr);
             SFoliageBatch       asBatchList[256];
             int                 iTextureListSize(0);
             SFoliageBatch       sLastBatch(INVALID_RESOURCE, false);
@@ -712,7 +712,7 @@ void    GL_RebuildFoliageChunk(int iChunkX, int iChunkY)
                         sLastBatch = sCurrentBatch;
                     }
 
-                    if (pCurrentArray != NULL)
+                    if (pCurrentArray != nullptr)
                     {
                         pCurrentArray->vTiles[pCurrentArray->iNumTiles] = CVec2s(iTileX, iTileY);
                         ++pCurrentArray->iNumTiles;

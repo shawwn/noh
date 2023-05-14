@@ -67,7 +67,7 @@ INPUT_STATE_BOOL(TurboPing);
   CClientCommander::CClientCommander
   ====================*/
 CClientCommander::CClientCommander() :
-m_pCamera(NULL),
+m_pCamera(nullptr),
 m_bModifier1(false),
 m_bModifier2(false),
 m_bModifier3(false),
@@ -128,7 +128,7 @@ m_hShop(INVALID_RESOURCE),
 
 m_bVectorTargeting(false),
 m_uiLastDoubleActivateTime(INVALID_TIME),
-m_pLastDoubleActivateTool(NULL)
+m_pLastDoubleActivateTool(nullptr)
 {
 }
 
@@ -165,7 +165,7 @@ void    CClientCommander::LoadResources(ResHandle hClientSoundsStringTable)
     m_hShop = g_ResourceManager.LookUpName(_T("shop"), RES_K2CURSOR);
 
     CStringTable *pClientSounds(g_ResourceManager.GetStringTable(hClientSoundsStringTable));
-    if (pClientSounds == NULL)
+    if (pClientSounds == nullptr)
         return;
 
     GameClient.AddResourceToLoadingQueue(CLIENT_RESOURCE_SELECTED_SAMPLE, pClientSounds->Get(_T("select_unit")), RES_SAMPLE);
@@ -271,7 +271,7 @@ bool    CClientCommander::CanDoubleActivate()
 void    CClientCommander::CancelDoubleActivate()
 {
     m_uiLastDoubleActivateTime = INVALID_TIME;
-    m_pLastDoubleActivateTool = NULL;
+    m_pLastDoubleActivateTool = nullptr;
 }
 
 
@@ -289,7 +289,7 @@ void    CClientCommander::UpdateDoubleActivate()
   ====================*/
 void    CClientCommander::ValidateSelections()
 {
-    if (m_pPlayer == NULL)
+    if (m_pPlayer == nullptr)
         return;
 
     // Remove invalid selections
@@ -297,7 +297,7 @@ void    CClientCommander::ValidateSelections()
     while (itInfo != m_setInfoSelection.end())
     {
         IUnitEntity *pUnit(Game.GetUnitEntity(*itInfo));
-        if (pUnit == NULL ||
+        if (pUnit == nullptr ||
             (pUnit->GetStatus() != ENTITY_STATUS_ACTIVE && !(pUnit->IsHero() && m_pPlayer->GetTeam() == TEAM_SPECTATOR)) ||
             !m_pPlayer->CanSee(pUnit))
             STL_ERASE(m_setInfoSelection, itInfo);
@@ -310,7 +310,7 @@ void    CClientCommander::ValidateSelections()
     while (itControl != m_setControlSelection.end())
     {
         IUnitEntity *pUnit(Game.GetUnitEntity(*itControl));
-        if (pUnit == NULL ||
+        if (pUnit == nullptr ||
             ((!m_pPlayer->CanSee(pUnit) ||
             !pUnit->CanActOnOrdersFrom(GameClient.GetLocalClientNum())) &&
             pUnit->GetIndex() != m_pPlayer->GetHeroIndex()))
@@ -370,7 +370,7 @@ void    CClientCommander::Frame()
     {
         // Get current selected unit
         IUnitEntity *pUnit(GetSelectedControlEntity());
-        if (pUnit == NULL || !pUnit->CanActOnOrdersFrom(GameClient.GetLocalClientNum()))
+        if (pUnit == nullptr || !pUnit->CanActOnOrdersFrom(GameClient.GetLocalClientNum()))
         {
             SetCommanderState(COMSTATE_HOVER);
             m_iActiveSlot = -1;
@@ -379,7 +379,7 @@ void    CClientCommander::Frame()
         {
             // Get the units item
             IEntityTool *pItem(pUnit->GetTool(m_iActiveSlot));
-            if (pItem == NULL || !pItem->CanOrder())
+            if (pItem == nullptr || !pItem->CanOrder())
             {
                 SetCommanderState(COMSTATE_HOVER);
                 m_iActiveSlot = -1;
@@ -396,11 +396,11 @@ void    CClientCommander::Frame()
         {
             // Get current selected unit
             IUnitEntity *pUnit(GetSelectedControlEntity());
-            if (pUnit != NULL)
+            if (pUnit != nullptr)
             {
                 // Get the units item
                 IEntityTool *pItem(pUnit->GetTool(m_iActiveSlot));
-                if (pItem != NULL)
+                if (pItem != nullptr)
                 {
                     if (!Game.CanTargetTrait(pItem->GetTargetScheme(), TARGET_TRAIT_TREE))
                         uiIgnoreSurfaces |= SURF_TREE;
@@ -420,11 +420,11 @@ void    CClientCommander::Frame()
     CClientSnapshot &cSnapshot(GameClient.GetCurrentClientSnapshot());
     IUnitEntity *pHover(GameClient.GetUnitEntity(m_uiHoverEnt));
     IUnitEntity *pUnit(GetSelectedControlEntity());
-    IEntityTool *pTool(pUnit ? pUnit->GetTool(m_iActiveSlot) : NULL);
+    IEntityTool *pTool(pUnit ? pUnit->GetTool(m_iActiveSlot) : nullptr);
     CPlayer* pLocalPlayer(Game.GetLocalPlayer());
     CInterface *pInterface(UIManager.GetActiveInterface());
     int WType(WIDGET_INVALID);
-    IWidget *pWidget(NULL);
+    IWidget *pWidget(nullptr);
 
     if (pInterface)
     {
@@ -455,7 +455,7 @@ void    CClientCommander::Frame()
         hCurrentCursor = m_hScrollUp;
     else if (GetCommanderState() == COMSTATE_MOVE || GetCommanderState() == COMSTATE_PATROL)
     {
-        if (pHover == NULL)
+        if (pHover == nullptr)
             hCurrentCursor = m_hActionValid;
         else if (pHover->IsTargetType(TARGET_TRAIT_ENEMY, pUnit))
             hCurrentCursor = m_hActionEnemyValid;
@@ -464,7 +464,7 @@ void    CClientCommander::Frame()
     }
     else if (GetCommanderState() == COMSTATE_TARGET_AREA || GetCommanderState() == COMSTATE_TARGET_VECTOR)
     {
-        if (pHover == NULL)
+        if (pHover == nullptr)
             hCurrentCursor = m_hActionValid;
         else if (pHover->IsTargetType(TARGET_TRAIT_ENEMY, pUnit))
             hCurrentCursor = m_hActionEnemyValid;
@@ -473,7 +473,7 @@ void    CClientCommander::Frame()
     }
     else if (GetCommanderState() == COMSTATE_ATTACK)
     {
-        if (pUnit == NULL || pHover == NULL)
+        if (pUnit == nullptr || pHover == nullptr)
             hCurrentCursor = m_hActionInvalid;
         else if (Game.IsValidTarget(pUnit->GetAttackTargetScheme(), 0, pUnit, pHover, false))
         {
@@ -492,7 +492,7 @@ void    CClientCommander::Frame()
     }
     else if (GetCommanderState() == COMSTATE_TARGET_ENTITY)
     {
-        if (pHover != NULL && pTool != NULL && pTool->IsValidTarget(pHover))
+        if (pHover != nullptr && pTool != nullptr && pTool->IsValidTarget(pHover))
         {
             if (pHover->IsTargetType(TARGET_TRAIT_ENEMY, pUnit))
                 hCurrentCursor = m_hActionEnemyValid;
@@ -501,7 +501,7 @@ void    CClientCommander::Frame()
         }
         else
         {
-            if (pHover == NULL)
+            if (pHover == nullptr)
                 hCurrentCursor = m_hActionInvalid;
             else if (pHover->IsTargetType(TARGET_TRAIT_ENEMY, pUnit))
                 hCurrentCursor = m_hActionEnemyInvalid;
@@ -511,7 +511,7 @@ void    CClientCommander::Frame()
     }
     else if (GetCommanderState() == COMSTATE_TARGET_DUAL || GetCommanderState() == COMSTATE_TARGET_DUAL_POSITION)
     {       
-        if (pHover != NULL && pTool != NULL)
+        if (pHover != nullptr && pTool != nullptr)
         {
             if (pTool->IsValidTarget(pHover))
             {
@@ -522,7 +522,7 @@ void    CClientCommander::Frame()
             }
             else
             {
-                if (pHover == NULL)
+                if (pHover == nullptr)
                     hCurrentCursor = m_hActionInvalid;
                 else if (pHover->IsTargetType(TARGET_TRAIT_ENEMY, pUnit))
                     hCurrentCursor = m_hActionEnemyInvalid;
@@ -532,7 +532,7 @@ void    CClientCommander::Frame()
         }
         else
         {
-            if (pHover == NULL)
+            if (pHover == nullptr)
                 hCurrentCursor = m_hActionValid;
             else if (pHover->IsTargetType(TARGET_TRAIT_ENEMY, pUnit))
                 hCurrentCursor = m_hActionEnemyValid;
@@ -540,7 +540,7 @@ void    CClientCommander::Frame()
                 hCurrentCursor = m_hActionAllyValid;
         }
     }
-    else if (pHover != NULL && pHover->IsBuilding() && pHover->GetAsBuilding()->GetIsShop() && WType != WIDGET_MAP)
+    else if (pHover != nullptr && pHover->IsBuilding() && pHover->GetAsBuilding()->GetIsShop() && WType != WIDGET_MAP)
     {
         hCurrentCursor = m_hShop;
     }
@@ -568,7 +568,7 @@ void    CClientCommander::Frame()
     }
     else
     {
-        if (GetCommanderState() == COMSTATE_SELECT || pHover == NULL || WType == WIDGET_MAP)
+        if (GetCommanderState() == COMSTATE_SELECT || pHover == nullptr || WType == WIDGET_MAP)
             hCurrentCursor = m_hArrow;
         else if (pHover->IsTargetType(TARGET_TRAIT_ENEMY, pUnit))
             hCurrentCursor = m_hArrowEnemy;
@@ -577,7 +577,7 @@ void    CClientCommander::Frame()
     }
 
     // if the item cursor is over an ally, change it to the "action ally valid" cursor.
-    if (GameClient.GetItemCursorIndex() != INVALID_INDEX && pHover != NULL && !pHover->IsBuilding())
+    if (GameClient.GetItemCursorIndex() != INVALID_INDEX && pHover != nullptr && !pHover->IsBuilding())
     {
         if (pHover->IsTargetType(TARGET_TRAIT_ALLY, pUnit))
             hCurrentCursor = m_hActionAllyValid;
@@ -589,7 +589,7 @@ void    CClientCommander::Frame()
         GetCommanderState() == COMSTATE_TARGET_DUAL ||
         GetCommanderState() == COMSTATE_TARGET_DUAL_POSITION)
     {
-        if (pTool != NULL && pTool->GetUseProxy() && pTool->GetProxySelectionRadius() > 0.0f)
+        if (pTool != nullptr && pTool->GetUseProxy() && pTool->GetProxySelectionRadius() > 0.0f)
         {
             ResHandle hMaterial(pTool->GetProxyTargetMaterial());
             if (hMaterial != INVALID_RESOURCE)
@@ -613,12 +613,12 @@ void    CClientCommander::Frame()
         GetCommanderState() == COMSTATE_TARGET_DUAL_POSITION)
     {
         ResHandle hMaterial(pTool ? pTool->GetTargetMaterial() : INVALID_RESOURCE);
-        if (pTool != NULL &&
+        if (pTool != nullptr &&
             pTool->GetTargetRadius() > 0.0f &&
             hMaterial != INVALID_RESOURCE &&
             (pTool->GetActionType() == TOOL_ACTION_TARGET_POSITION ||
             pTool->GetActionType() == TOOL_ACTION_TARGET_CURSOR ||
-            pHover != NULL))
+            pHover != nullptr))
         {
             if (pTool->GetActionType() == TOOL_ACTION_TARGET_POSITION ||
                 pTool->GetActionType() == TOOL_ACTION_TARGET_CURSOR)
@@ -629,7 +629,7 @@ void    CClientCommander::Frame()
             scTargetSprite.objtype = OBJTYPE_GROUNDSPRITE;
             scTargetSprite.angle = 0.0f;
             scTargetSprite.hRes = hMaterial;
-            if (pTool->GetActionType() == TOOL_ACTION_TARGET_ENTITY && pHover != NULL)
+            if (pTool->GetActionType() == TOOL_ACTION_TARGET_ENTITY && pHover != nullptr)
                 scTargetSprite.SetPosition(pHover->GetPosition());
             else
                 scTargetSprite.SetPosition(m_v3TraceEndPos);
@@ -642,10 +642,10 @@ void    CClientCommander::Frame()
     if (GetCommanderState() == COMSTATE_TARGET_VECTOR)
     {
         ResHandle hMaterial(pTool ? pTool->GetTargetMaterial() : INVALID_RESOURCE);
-        if (pTool != NULL &&
+        if (pTool != nullptr &&
             pTool->GetTargetRadius() > 0.0f &&
             hMaterial != INVALID_RESOURCE &&
-            (pTool->GetActionType() == TOOL_ACTION_TARGET_VECTOR || pHover != NULL))
+            (pTool->GetActionType() == TOOL_ACTION_TARGET_VECTOR || pHover != nullptr))
         {
             if (m_bVectorTargeting && DistanceSq(m_v3VectorTargetPos.xy(), m_v3TraceEndPos.xy()) > SQR<float>(cg_cmdrVectorTargetMinDistance))
             {
@@ -669,7 +669,7 @@ void    CClientCommander::Frame()
 
         // if the client hasn't created the pet yet, wait for it.
         IUnitEntity* pPet(GameClient.GetUnitEntity(uiPetIndex));
-        if (pPet == NULL)
+        if (pPet == nullptr)
         {
             ++it;
             continue;
@@ -717,7 +717,7 @@ void    CClientCommander::UpdateHoverSelection()
 {
     m_setHoverSelection.clear();
 
-    if (m_pPlayer == NULL)
+    if (m_pPlayer == nullptr)
         return;
 
     if (m_uiHoverEnt != INVALID_INDEX)
@@ -735,7 +735,7 @@ void    CClientCommander::UpdateHoverSelection()
     // First just get a potential set
     set<IUnitEntity*> setPotential;
     
-    if (m_uiHoverEnt != INVALID_INDEX && Game.GetEntity(m_uiHoverEnt) != NULL)
+    if (m_uiHoverEnt != INVALID_INDEX && Game.GetEntity(m_uiHoverEnt) != nullptr)
         setPotential.insert(Game.GetUnitEntity(m_uiHoverEnt));
 
     for (WorldEntList::iterator it(vEntities.begin()), itEnd(vEntities.end()); it != itEnd; ++it)
@@ -746,7 +746,7 @@ void    CClientCommander::UpdateHoverSelection()
         uint uiIndex(it - vEntities.begin());
 
         IUnitEntity *pEntity(GameClient.GetUnitEntity(GameClient.GetGameIndexFromWorldIndex(uiIndex)));
-        if (pEntity == NULL)
+        if (pEntity == nullptr)
             continue;
         if (!pEntity->GetIsSelectable())
             continue;
@@ -773,7 +773,7 @@ void    CClientCommander::UpdateHoverSelection()
         {
             IUnitEntity *pEntity(*it);
             
-            if (pEntity == NULL)
+            if (pEntity == nullptr)
                 continue;
             
             if (!pEntity->GetIsControllable())
@@ -825,9 +825,9 @@ void     CClientCommander::ProximitySearch(const CVec3f &v3Pos)
         return;
 
     IUnitEntity *pUnit(GetSelectedControlEntity());
-    IEntityTool *pTool(pUnit ? pUnit->GetTool(m_iActiveSlot) : NULL);
+    IEntityTool *pTool(pUnit ? pUnit->GetTool(m_iActiveSlot) : nullptr);
 
-    if (m_uiHoverEnt == INVALID_INDEX && pTool != NULL && pTool->GetSearchRadius() > 0.0f)
+    if (m_uiHoverEnt == INVALID_INDEX && pTool != nullptr && pTool->GetSearchRadius() > 0.0f)
     {
         float fShortestDistanceSq(FAR_AWAY);
         uint uiClosestIndex(INVALID_INDEX);
@@ -857,11 +857,11 @@ void     CClientCommander::ProximitySearch(const CVec3f &v3Pos)
             for (uivector_it it(vEntities.begin()), itEnd(vEntities.end()); it != itEnd; ++it)
             {
                 IVisualEntity *pSearchEntity(Game.GetEntityFromWorldIndex(*it));
-                if (pSearchEntity == NULL)
+                if (pSearchEntity == nullptr)
                     continue;
 
                 IUnitEntity *pSearchUnit(pSearchEntity->GetAsUnit());
-                if (pSearchUnit == NULL || !pTool->IsValidTarget(pSearchUnit))
+                if (pSearchUnit == nullptr || !pTool->IsValidTarget(pSearchUnit))
                     continue;
 
                 float fDistanceSq(DistanceSq(pSearchUnit->GetPosition().xy(), v3Pos.xy()));
@@ -884,7 +884,7 @@ void     CClientCommander::ProximitySearch(const CVec3f &v3Pos)
   ====================*/
 void     CClientCommander::UpdateCursorTrace(const CVec2f &v2Cursor, uint uiIgnoreSurface, uint uiIgnoreEntity)
 {
-    if (m_pPlayer == NULL)
+    if (m_pPlayer == nullptr)
         return;
 
     bool bFullTrace(GetCommanderState() != COMSTATE_SELECT &&
@@ -940,7 +940,7 @@ void     CClientCommander::UpdateCursorTrace(const CVec2f &v2Cursor, uint uiIgno
         // if an item is being transferred (held by the cursor) then don't hover over any buildings.
         // (this fixes a bug where you can't click on an inventory slot when a building is behind it.)
         IUnitEntity *pHoverTarget(Game.GetUnitEntity(uiHoverEnt));
-        if (GameClient.GetItemCursorIndex() != INVALID_INDEX && pHoverTarget != NULL && pHoverTarget->IsBuilding() && !pHoverTarget->GetAsBuilding()->GetIsShop())
+        if (GameClient.GetItemCursorIndex() != INVALID_INDEX && pHoverTarget != nullptr && pHoverTarget->IsBuilding() && !pHoverTarget->GetAsBuilding()->GetIsShop())
         {
             m_uiHoverEnt = INVALID_INDEX;
         }
@@ -950,14 +950,14 @@ void     CClientCommander::UpdateCursorTrace(const CVec2f &v2Cursor, uint uiIgno
         m_uiHoverEnt = INVALID_INDEX;
 
     IUnitEntity *pTarget(GameClient.GetUnitEntity(m_uiHoverEnt));
-    if (pTarget == NULL || (!m_pPlayer->CanSee(pTarget) && !pTarget->GetAlwaysTargetable()))
+    if (pTarget == nullptr || (!m_pPlayer->CanSee(pTarget) && !pTarget->GetAlwaysTargetable()))
         m_uiHoverEnt = INVALID_INDEX;
 
-    if ((GetCommanderState() == COMSTATE_TARGET_ENTITY || GetCommanderState() == COMSTATE_TARGET_DUAL || GetCommanderState() == COMSTATE_TARGET_DUAL_POSITION) && pTarget != NULL && pTarget->IsType(Prop_Tree))
+    if ((GetCommanderState() == COMSTATE_TARGET_ENTITY || GetCommanderState() == COMSTATE_TARGET_DUAL || GetCommanderState() == COMSTATE_TARGET_DUAL_POSITION) && pTarget != nullptr && pTarget->IsType(Prop_Tree))
     {
         IUnitEntity *pUnit(GetSelectedControlEntity());
-        IEntityTool *pTool(pUnit ? pUnit->GetTool(m_iActiveSlot) : NULL);
-        if (pTool == NULL || !pTool->IsValidTarget(pTarget))
+        IEntityTool *pTool(pUnit ? pUnit->GetTool(m_iActiveSlot) : nullptr);
+        if (pTool == nullptr || !pTool->IsValidTarget(pTarget))
             m_uiHoverEnt = INVALID_INDEX;
     }
 
@@ -979,22 +979,22 @@ void    CClientCommander::PrimaryDown(const CVec2f &v2Cursor)
 
     // Ignore a single controlled unit when attacking, moving, or dropping items
     if (GetCommanderState() == COMSTATE_ATTACK || GetCommanderState() == COMSTATE_MOVE || GameClient.GetItemCursorIndex() != INVALID_INDEX)
-        UpdateCursorTrace(v2Cursor, HOVER_TRACE, pControl != NULL ? pControl->GetWorldIndex() : INVALID_INDEX);
+        UpdateCursorTrace(v2Cursor, HOVER_TRACE, pControl != nullptr ? pControl->GetWorldIndex() : INVALID_INDEX);
     else
         UpdateCursorTrace(v2Cursor, HOVER_TRACE);
 
     if (GameClient.GetItemCursorIndex() != INVALID_INDEX)
     {
-        UpdateCursorTrace(Input.GetCursorPos(), HOVER_TRACE | SURF_ITEM, pControl != NULL ? pControl->GetWorldIndex() : INVALID_INDEX);
+        UpdateCursorTrace(Input.GetCursorPos(), HOVER_TRACE | SURF_ITEM, pControl != nullptr ? pControl->GetWorldIndex() : INVALID_INDEX);
 
         if (m_uiHoverEnt != INVALID_INDEX)
         {
             IUnitEntity *pEnt(GameClient.GetUnitEntity(m_uiHoverEnt));
 
-            if (pEnt != NULL && pEnt->IsBuilding() && pEnt->GetAsBuilding()->GetIsShop())
+            if (pEnt != nullptr && pEnt->IsBuilding() && pEnt->GetAsBuilding()->GetIsShop())
             {
                 IGameEntity *pItem(Game.GetEntity(GameClient.GetItemCursorIndex()));
-                if (pItem == NULL)
+                if (pItem == nullptr)
                 {
                     GameClient.SetItemCursorIndex(INVALID_INDEX);
                     return;
@@ -1094,12 +1094,12 @@ void    CClientCommander::PrimaryUp(const CVec2f &v2Cursor)
         if (SelectionContainsHeroes())
         {
             IUnitEntity *pActive(GameClient.GetUnitEntity(m_uiActiveControlEntity));
-            if (pActive == NULL || !pActive->IsHero())
+            if (pActive == nullptr || !pActive->IsHero())
             {
                 for (uiset::iterator it(m_setControlSelection.begin()); it != m_setControlSelection.end(); ++it)
                 {
                     IUnitEntity *pUnit(GameClient.GetUnitEntity(*it));
-                    if (pUnit != NULL && pUnit->IsHero())
+                    if (pUnit != nullptr && pUnit->IsHero())
                     {
                         m_uiActiveControlEntity = *it;
                         break;
@@ -1150,7 +1150,7 @@ bool    CClientCommander::SelectionContainsHeroes() const
     for (uiset::const_iterator it(m_setControlSelection.begin()); it != m_setControlSelection.end(); ++it)
     {
         IUnitEntity *pUnit(GameClient.GetUnitEntity(*it));
-        if (pUnit == NULL)
+        if (pUnit == nullptr)
             continue;
         if (pUnit->IsHero())
         {
@@ -1169,7 +1169,7 @@ void    CClientCommander::SecondaryDown(const CVec2f &v2Cursor)
     IUnitEntity *pControl(GetSelectedControlEntity());
 
     // Ignore a single controlled unit when right-clicking
-    UpdateCursorTrace(v2Cursor, HOVER_TRACE, pControl != NULL ? pControl->GetWorldIndex() : INVALID_INDEX);
+    UpdateCursorTrace(v2Cursor, HOVER_TRACE, pControl != nullptr ? pControl->GetWorldIndex() : INVALID_INDEX);
 
     if (GameClient.GetItemCursorIndex() != INVALID_INDEX)
     {
@@ -1318,7 +1318,7 @@ void    CClientCommander::ApplySelect(const CVec2f &v2Cursor)
         m_uiLastPrimaryTime = 0;
 
         IUnitEntity *pUnit(Game.GetUnitEntity(m_uiFirstEntityIndex));
-        if (pUnit != NULL)
+        if (pUnit != nullptr)
         {
             int iLocalClientNumber(GameClient.GetLocalClientNum());
             bool bControlSelection(pUnit->CanActOnOrdersFrom(iLocalClientNumber));
@@ -1330,7 +1330,7 @@ void    CClientCommander::ApplySelect(const CVec2f &v2Cursor)
             {
                 uint uiIndex(GameClient.GetGameIndexFromWorldIndex(*it));
                 IUnitEntity *pOther(GameClient.GetUnitEntity(uiIndex));
-                if (pOther == NULL)
+                if (pOther == nullptr)
                     continue;
                 if (pOther->GetType() != pUnit->GetType())
                     continue;
@@ -1377,7 +1377,7 @@ void    CClientCommander::ApplySelect(const CVec2f &v2Cursor)
     if (!m_bControlSelection && m_setInfoSelection.size() == 1)
     {
         IUnitEntity *pUnit(Game.GetUnitEntity(*m_setInfoSelection.begin()));
-        if (pUnit != NULL && pUnit->IsBuilding() && pUnit->GetAsBuilding()->GetIsShop())
+        if (pUnit != nullptr && pUnit->IsBuilding() && pUnit->GetAsBuilding()->GetIsShop())
         {
             GameClient.GetInterfaceManager()->SetShopVisible(true);
             GameClient.SetActiveShop(pUnit->GetAsBuilding()->GetDefaultShop());
@@ -1407,7 +1407,7 @@ void    CClientCommander::GiveOrder(ECommanderOrder eOrder, uint uiTargetIndex, 
         return;
 
     IUnitEntity *pTarget(GameClient.GetUnitEntity(uiTargetIndex));
-    if (pTarget == NULL)
+    if (pTarget == nullptr)
         return;
 
 #if 0
@@ -1415,8 +1415,8 @@ void    CClientCommander::GiveOrder(ECommanderOrder eOrder, uint uiTargetIndex, 
 
     if (eOrder == CMDR_ORDER_ATTACK)
     {
-        if ((pControl != NULL && !Game.IsValidTarget(pControl->GetAttackTargetScheme(), pControl->GetAttackEffectType(), pControl, pTarget)) ||
-            (pControl == NULL && pTarget->HasUnitFlags(UNIT_FLAG_INVULNERABLE)))
+        if ((pControl != nullptr && !Game.IsValidTarget(pControl->GetAttackTargetScheme(), pControl->GetAttackEffectType(), pControl, pTarget)) ||
+            (pControl == nullptr && pTarget->HasUnitFlags(UNIT_FLAG_INVULNERABLE)))
         {
             if (GameClient.GetResource(CLIENT_RESOURCE_ABILITY_TARGET_ERROR_SAMPLE) != INVALID_RESOURCE)
                 K2SoundManager.Play2DSound(GameClient.GetResource(CLIENT_RESOURCE_ABILITY_TARGET_ERROR_SAMPLE));
@@ -1450,7 +1450,7 @@ void    CClientCommander::GiveOrder(ECommanderOrder eOrder, const CVec2f &v2Pos,
         for (uiset::iterator it(m_setControlSelection.begin()); it != m_setControlSelection.end(); ++it)
         {
             IUnitEntity *pUnit(GameClient.GetUnitEntity(*it));
-            if (pUnit == NULL)
+            if (pUnit == nullptr)
                 continue;
             if (pUnit->GetIsMobile())
             {
@@ -1513,14 +1513,14 @@ void    CClientCommander::StartCommand(const CVec2f &v2Pos, byte yQueue, EComman
         {
             IUnitEntity *pTarget(GameClient.GetUnitEntity(m_uiHoverEnt));
 
-            if (pTarget != NULL &&
+            if (pTarget != nullptr &&
                 (pTarget->GetType() == Entity_Chest ||
                 pTarget->IsPowerup() ||
                 (pTarget->IsBuilding() && pTarget->GetAsBuilding()->GetIsShop()) ||
                 pTarget->GetPreferTouch())
             )
                 eOrder = CMDR_ORDER_TOUCH;
-            else if (pTarget != NULL && m_pPlayer->IsEnemy(pTarget))
+            else if (pTarget != nullptr && m_pPlayer->IsEnemy(pTarget))
                 eOrder = CMDR_ORDER_ATTACK;
             else
                 eOrder = CMDR_ORDER_FOLLOW;
@@ -1555,21 +1555,21 @@ void    CClientCommander::ActivateTool(int iSlot, bool bSecondary, IUnitEntity *
 
     CPlayer *pLocal(Game.GetLocalPlayer());
 
-    if (pUnit == NULL)
+    if (pUnit == nullptr)
         return;
 
     if (!pUnit->CanActOnOrdersFrom(GameClient.GetLocalClientNum()) && 
-        (pLocal == NULL || iSlot < INVENTORY_START_SHARED_ABILITIES || iSlot > INVENTORY_END_SHARED_ABILITIES || pUnit->GetTeam() != pLocal->GetTeam()))
+        (pLocal == nullptr || iSlot < INVENTORY_START_SHARED_ABILITIES || iSlot > INVENTORY_END_SHARED_ABILITIES || pUnit->GetTeam() != pLocal->GetTeam()))
         return;
 
     IUnitEntity *pOwnerUnit(pUnit);
     if (iSlot >= INVENTORY_START_SHARED_ABILITIES && iSlot <= INVENTORY_END_SHARED_ABILITIES)
     {
         CTeamInfo *pTeam(Game.GetTeam(pUnit->GetTeam()));
-        if (pTeam != NULL)
+        if (pTeam != nullptr)
         {
             IUnitEntity *pBase(Game.GetUnitEntity(pTeam->GetBaseBuildingIndex()));
-            if (pBase != NULL)
+            if (pBase != nullptr)
             {
                 pOwnerUnit = pBase;
             }
@@ -1581,7 +1581,7 @@ void    CClientCommander::ActivateTool(int iSlot, bool bSecondary, IUnitEntity *
     for (int i(INVENTORY_START_ABILITIES); i <= INVENTORY_END_ABILITIES; ++i)
     {
         IEntityAbility *pAbility(pOwnerUnit->GetAbility(i));
-        if (pAbility == NULL || pAbility->GetKeySlot() == -1)
+        if (pAbility == nullptr || pAbility->GetKeySlot() == -1)
             continue;
         if (pAbility->GetKeySlot() == iSlot)
             iAbilitySlot = i;
@@ -1590,14 +1590,14 @@ void    CClientCommander::ActivateTool(int iSlot, bool bSecondary, IUnitEntity *
         iAbilitySlot = iSlot;
 
     IEntityTool *pTool(pOwnerUnit->GetTool(iAbilitySlot));
-    if (pTool == NULL)
+    if (pTool == nullptr)
         return;
 
     if (pTool->IsItem() && !pTool->HasFlag(ENTITY_TOOL_FLAG_ASSEMBLED))
     {
         ushort unShop(GameClient.GetShop(pTool->GetTypeName()));
         CShopDefinition *pShop(EntityRegistry.GetDefinition<CShopDefinition>(unShop));
-        if (pShop != NULL)
+        if (pShop != nullptr)
         {
             if (GameClient.GetInterfaceManager()->IsShopVisible() &&
                 GameClient.GetActiveShop() == EntityRegistry.LookupName(unShop) &&
@@ -1622,7 +1622,7 @@ void    CClientCommander::ActivateTool(int iSlot, bool bSecondary, IUnitEntity *
         iAbilitySlot = pTool->GetAsAbility()->GetSubSlot();
         pTool = pOwnerUnit->GetTool(iAbilitySlot);
 
-        if (pTool == NULL)
+        if (pTool == nullptr)
             return;
     }
 
@@ -1653,7 +1653,7 @@ void    CClientCommander::ActivateTool(int iSlot, bool bSecondary, IUnitEntity *
     if (!pTool->CanOrder())
     {
         CClientEntity *pClEntity(GameClient.GetClientEntity(pUnit->GetIndex()));
-        if (cg_unitVoiceResponses && pClEntity != NULL)
+        if (cg_unitVoiceResponses && pClEntity != nullptr)
         {
             ResHandle hSample(!pTool->IsReady() ? pUnit->GetCooldownSound() : pOwnerUnit->GetMana() < pTool->GetCurrentManaCost() ? pUnit->GetNoManaSound() : INVALID_RESOURCE);
             if (hSample != INVALID_RESOURCE)
@@ -1669,7 +1669,7 @@ void    CClientCommander::ActivateTool(int iSlot, bool bSecondary, IUnitEntity *
             ErrorMessage.Trigger(_T("Add ") + GameClient.GetGameMessage(_T("error_not_ready"), mapTokens));
         else if (pUnit->GetMana() < pTool->GetCurrentManaCost())
             ErrorMessage.Trigger(_T("Add ") + GameClient.GetGameMessage(_T("error_low_mana"), mapTokens));
-        else if (pTool->GetUseProxy() && pTool->SelectProxy() == NULL)
+        else if (pTool->GetUseProxy() && pTool->SelectProxy() == nullptr)
             ErrorMessage.Trigger(_T("Add ") + GameClient.GetGameMessage(_T("error_no_proxy"), mapTokens));
 
         if (GameClient.GetResource(CLIENT_RESOURCE_ABILITY_ACTIVATE_ERROR_SAMPLE) != INVALID_RESOURCE)
@@ -1792,7 +1792,7 @@ void    CClientCommander::Cast(const CVec2f &v2Pos, const CVec2f &v2Delta, bool 
 
     // Get current selected unit
     IUnitEntity *pUnit(GetSelectedControlEntity());
-    if (pUnit == NULL || !pUnit->CanActOnOrdersFrom(GameClient.GetLocalClientNum()))
+    if (pUnit == nullptr || !pUnit->CanActOnOrdersFrom(GameClient.GetLocalClientNum()))
     {
         SetCommanderState(COMSTATE_HOVER);
         m_iActiveSlot = -1;
@@ -1801,7 +1801,7 @@ void    CClientCommander::Cast(const CVec2f &v2Pos, const CVec2f &v2Delta, bool 
 
     // Get the units item
     IEntityTool *pItem(pUnit->GetTool(m_iActiveSlot));
-    if (pItem == NULL)
+    if (pItem == nullptr)
     {
         SetCommanderState(COMSTATE_HOVER);
         m_iActiveSlot = -1;
@@ -1837,7 +1837,7 @@ void    CClientCommander::Cast(const CVec2f &v2Pos, const CVec2f &v2Delta, bool 
                 UpdateCursorTrace(Input.GetCursorPos(), uiIgnoreSurface);
 
             IUnitEntity *pTarget(GameClient.GetUnitEntity(m_uiHoverEnt));
-            if (pTarget == NULL)
+            if (pTarget == nullptr)
             {
                 if (GameClient.GetResource(CLIENT_RESOURCE_ABILITY_TARGET_ERROR_SAMPLE) != INVALID_RESOURCE)
                     K2SoundManager.Play2DSound(GameClient.GetResource(CLIENT_RESOURCE_ABILITY_TARGET_ERROR_SAMPLE));
@@ -1920,11 +1920,11 @@ void    CClientCommander::Cast(const CVec2f &v2Pos, const CVec2f &v2Delta, bool 
 
             // Get current selected unit
             IUnitEntity *pUnit(GetSelectedControlEntity());
-            if (pUnit != NULL)
+            if (pUnit != nullptr)
             {
                 // Get the units item
                 IEntityTool *pItem(pUnit->GetTool(m_iActiveSlot));
-                if (pItem != NULL)
+                if (pItem != nullptr)
                 {
                     if (!Game.CanTargetTrait(pItem->GetTargetScheme(), TARGET_TRAIT_TREE))
                         uiIgnoreSurfaces2 |= SURF_TREE;
@@ -1935,7 +1935,7 @@ void    CClientCommander::Cast(const CVec2f &v2Pos, const CVec2f &v2Delta, bool 
                 UpdateCursorTrace(Input.GetCursorPos(), uiIgnoreSurfaces2);
 
             IUnitEntity *pTarget(GameClient.GetUnitEntity(m_uiHoverEnt));
-            if (pTarget == NULL)
+            if (pTarget == nullptr)
             {
                 if (Distance(pUnit->GetPosition().xy(), v2Pos) < pItem->GetMinRange() || !Game.IsInBounds(v2Pos.x, v2Pos.y))
                     return;
@@ -2036,7 +2036,7 @@ void    CClientCommander::DoubleActivate()
 {
     // Get current selected unit
     IUnitEntity *pUnit(GetSelectedControlEntity());
-    if (pUnit == NULL || !pUnit->CanActOnOrdersFrom(GameClient.GetLocalClientNum()))
+    if (pUnit == nullptr || !pUnit->CanActOnOrdersFrom(GameClient.GetLocalClientNum()))
     {
         SetCommanderState(COMSTATE_HOVER);
         m_iActiveSlot = -1;
@@ -2045,7 +2045,7 @@ void    CClientCommander::DoubleActivate()
 
     // Get the units item
     IEntityTool *pItem(pUnit->GetTool(m_iActiveSlot));
-    if (pItem == NULL)
+    if (pItem == nullptr)
     {
         SetCommanderState(COMSTATE_HOVER);
         m_iActiveSlot = -1;
@@ -2106,7 +2106,7 @@ void    CClientCommander::Ping()
 
     CInterface *pInterface(UIManager.GetActiveInterface());
     int WType(WIDGET_INVALID);
-    IWidget *pWidget(NULL);
+    IWidget *pWidget(nullptr);
 
     if (pInterface)
     {
@@ -2203,14 +2203,14 @@ void    CClientCommander::SelectEntity(uint uiIndex)
         return;
 
     IUnitEntity *pUnit(Game.GetUnitEntity(uiIndex));
-    if (pUnit == NULL)
+    if (pUnit == nullptr)
         return;
 
     // Selecting a unit while in target mode uses that unit
     if (GetCommanderState() == COMSTATE_MOVE)
     {
         IUnitEntity *pTarget(GameClient.GetUnitEntity(uiIndex));
-        if (pTarget != NULL)
+        if (pTarget != nullptr)
         {
             GiveOrder(CMDR_ORDER_MOVE, uiIndex, GetModifier1() ? GetFrontQueueModifier() ? QUEUE_FRONT : QUEUE_BACK : QUEUE_NONE);
             return;
@@ -2219,7 +2219,7 @@ void    CClientCommander::SelectEntity(uint uiIndex)
     else if (GetCommanderState() == COMSTATE_PATROL)
     {
         IUnitEntity *pTarget(GameClient.GetUnitEntity(uiIndex));
-        if (pTarget != NULL)
+        if (pTarget != nullptr)
         {
             GiveOrder(CMDR_ORDER_PATROL, uiIndex, GetModifier1() ? GetFrontQueueModifier() ? QUEUE_FRONT : QUEUE_BACK : QUEUE_NONE);
             return;
@@ -2229,7 +2229,7 @@ void    CClientCommander::SelectEntity(uint uiIndex)
     else if (GetCommanderState() == COMSTATE_ATTACK)
     {
         IUnitEntity *pTarget(GameClient.GetUnitEntity(uiIndex));
-        if (pTarget != NULL)
+        if (pTarget != nullptr)
         {
             GiveOrder(CMDR_ORDER_ATTACK, uiIndex, GetModifier1() ? GetFrontQueueModifier() ? QUEUE_FRONT : QUEUE_BACK : QUEUE_NONE);
             return;
@@ -2242,13 +2242,13 @@ void    CClientCommander::SelectEntity(uint uiIndex)
         
         // Get current selected unit
         IUnitEntity *pUnit(GetSelectedControlEntity());
-        if (pUnit != NULL && pUnit->CanActOnOrdersFrom(GameClient.GetLocalClientNum()))
+        if (pUnit != nullptr && pUnit->CanActOnOrdersFrom(GameClient.GetLocalClientNum()))
         {
             // Get the units item
             IEntityTool *pItem(pUnit->GetTool(m_iActiveSlot));
-            if (pItem != NULL && pItem->CanOrder())
+            if (pItem != nullptr && pItem->CanOrder())
             {
-                if (pTarget != NULL)
+                if (pTarget != nullptr)
                 {
                     if (pItem->IsValidTarget(pTarget))
                     {
@@ -2332,8 +2332,8 @@ void    CClientCommander::SaveSelectionSet(uint uiSetIndex)
         uint uiIndex(*it);
 
         IUnitEntity* pUnit(GameClient.GetUnitEntity(uiIndex));
-        assert(pUnit != NULL);
-        if (pUnit != NULL)
+        assert(pUnit != nullptr);
+        if (pUnit != nullptr)
         {
             uint uiType(pUnit->GetType());
             m_aSavedSelection[uiSetIndex].setEntries.insert(SSelectionEntry(uiIndex, uiType));
@@ -2360,8 +2360,8 @@ void    CClientCommander::AddToSelectionSet(uint uiSetIndex)
         uint uiIndex(*it);
 
         IUnitEntity* pUnit(GameClient.GetUnitEntity(uiIndex));
-        assert(pUnit != NULL);
-        if (pUnit != NULL)
+        assert(pUnit != nullptr);
+        if (pUnit != nullptr)
         {
             uint uiType(pUnit->GetType());
             m_aSavedSelection[uiSetIndex].setEntries.insert(SSelectionEntry(uiIndex, uiType));
@@ -2409,7 +2409,7 @@ void    CClientCommander::RecallSelectionSet(uint uiSetIndex)
     {
         const SSelectionEntry& entry(*it);
         IUnitEntity *pUnit(Game.GetUnitEntity(entry.index));
-        if (pUnit == NULL)
+        if (pUnit == nullptr)
             continue;
         
         if (pUnit->CanActOnOrdersFrom(GameClient.GetLocalClientNum()) || entry.index == m_pPlayer->GetHeroIndex())
@@ -2442,7 +2442,7 @@ void    CClientCommander::RecallSelectionSet(uint uiSetIndex)
         if (pSelectionSet == &m_setControlSelection)
         {
             IUnitEntity *pUnit(Game.GetUnitEntity(m_uiActiveControlEntity));
-            if (pUnit != NULL)
+            if (pUnit != nullptr)
             {
                 CVec3f v3CenterPos(pUnit->GetPosition());
 
@@ -2468,9 +2468,9 @@ uint    CClientCommander::ReplaceUnitInSelectionSets(uint uiUnitIndex, uint uiUn
 {
     // sanity check parameters.
     IUnitEntity *pReplacingUnit(GameClient.GetUnitEntity(uiUnitIndex));
-    assert(pReplacingUnit != NULL);
+    assert(pReplacingUnit != nullptr);
     assert(pReplacingUnit->GetType() == uiUnitType);
-    if (pReplacingUnit == NULL || pReplacingUnit->GetType() != uiUnitType)
+    if (pReplacingUnit == nullptr || pReplacingUnit->GetType() != uiUnitType)
         return false;
 
     // index of the unit we're currently replacing.
@@ -2491,7 +2491,7 @@ uint    CClientCommander::ReplaceUnitInSelectionSets(uint uiUnitIndex, uint uiUn
             {
                 // if the unit is invalid or dead, then replace it.
                 IUnitEntity *pUnit(Game.GetUnitEntity(entry.index));
-                if (pUnit == NULL || !pUnit->CanActOnOrdersFrom(GameClient.GetLocalClientNum()))
+                if (pUnit == nullptr || !pUnit->CanActOnOrdersFrom(GameClient.GetLocalClientNum()))
                 {
                     // if we're in the procses of replacing a unit, and this is not it,
                     // then skip it.
@@ -2528,7 +2528,7 @@ void    CClientCommander::UpdateSelectedPlayerWaypoints()
     for (uiset::iterator it(m_setControlSelection.begin()); it != m_setControlSelection.end(); ++it)
     {
         IUnitEntity *pUnit(GameClient.GetUnitEntity(*it));
-        if (pUnit == NULL)
+        if (pUnit == nullptr)
             continue;
         if (pUnit->GetTeam() != m_pPlayer->GetTeam())
             continue;
@@ -2629,7 +2629,7 @@ float   CClientCommander::GetCameraDistance() const
   ====================*/
 void    CClientCommander::NextUnit(bool bCentered)
 {
-    if (m_pPlayer == NULL)
+    if (m_pPlayer == nullptr)
         return;
 
     if (m_pPlayer->GetTeam() == TEAM_SPECTATOR)
@@ -2640,15 +2640,15 @@ void    CClientCommander::NextUnit(bool bCentered)
 
             IGameEntity *pNext(Game.GetNextEntity(pInfo));
 
-            if (pNext == NULL)
+            if (pNext == nullptr)
                 pNext = Game.GetFirstEntity();
 
             while (pNext != pInfo)
             {
-                if (pNext == NULL)
+                if (pNext == nullptr)
                     pNext = Game.GetFirstEntity();
 
-                if (pNext == NULL)
+                if (pNext == nullptr)
                     break;
 
                 if (pNext->IsHero() && !pNext->GetAsUnit()->GetNoGlobalSelect())
@@ -2657,7 +2657,7 @@ void    CClientCommander::NextUnit(bool bCentered)
                 pNext = Game.GetNextEntity(pNext);
             }
 
-            if (pNext != NULL && pNext != pInfo)
+            if (pNext != nullptr && pNext != pInfo)
             {
                 m_setInfoSelection.clear();
                 m_setInfoSelection.insert(pNext->GetIndex());
@@ -2669,7 +2669,7 @@ void    CClientCommander::NextUnit(bool bCentered)
         if (bCentered)
         {
             IUnitEntity *pUnit(GetSelectedInfoEntity());
-            if (pUnit != NULL)
+            if (pUnit != nullptr)
             {
                 CVec3f v3CenterPos(pUnit->GetPosition());
 
@@ -2688,10 +2688,10 @@ void    CClientCommander::NextUnit(bool bCentered)
         IGameEntity *pNext(Game.GetNextEntity(pControl));
         while (pNext != pControl)
         {
-            if (pNext == NULL)
+            if (pNext == nullptr)
                 pNext = Game.GetFirstEntity();
 
-            if (pNext == NULL)
+            if (pNext == nullptr)
                 break;
 
             if (pNext->IsUnit() &&
@@ -2703,7 +2703,7 @@ void    CClientCommander::NextUnit(bool bCentered)
             pNext = Game.GetNextEntity(pNext);
         }
 
-        if (pNext != NULL && pNext != pControl)
+        if (pNext != nullptr && pNext != pControl)
         {
             m_uiActiveControlEntity = pNext->GetIndex();
             m_setControlSelection.clear();
@@ -2734,7 +2734,7 @@ void    CClientCommander::NextUnit(bool bCentered)
     if (bCentered)
     {
         IUnitEntity *pUnit(Game.GetUnitEntity(m_uiActiveControlEntity));
-        if (pUnit != NULL)
+        if (pUnit != nullptr)
         {
             CVec3f v3CenterPos(pUnit->GetPosition());
 
@@ -2750,12 +2750,12 @@ void    CClientCommander::NextUnit(bool bCentered)
   ====================*/
 void    CClientCommander::PrevUnit(bool bCentered)
 {
-    if (m_pPlayer == NULL)
+    if (m_pPlayer == nullptr)
         return;
 
     if (m_pPlayer->GetTeam() == TEAM_SPECTATOR)
     {
-        if (GetSelectedInfoEntity() == NULL)
+        if (GetSelectedInfoEntity() == nullptr)
         {
             NextUnit(bCentered);
             return;
@@ -2768,10 +2768,10 @@ void    CClientCommander::PrevUnit(bool bCentered)
             IGameEntity *pPrev(pInfo);
             while (pNext != pInfo)
             {
-                if (pNext == NULL)
+                if (pNext == nullptr)
                     pNext = Game.GetFirstEntity();
 
-                if (pNext == NULL)
+                if (pNext == nullptr)
                     break;
 
                 if (pNext->IsHero() && !pNext->GetAsUnit()->GetNoGlobalSelect())
@@ -2780,7 +2780,7 @@ void    CClientCommander::PrevUnit(bool bCentered)
                 pNext = Game.GetNextEntity(pNext);
             }
 
-            if (pPrev != NULL && pPrev != pInfo)
+            if (pPrev != nullptr && pPrev != pInfo)
             {
                 m_setInfoSelection.clear();
                 m_setInfoSelection.insert(pPrev->GetIndex());
@@ -2792,7 +2792,7 @@ void    CClientCommander::PrevUnit(bool bCentered)
         if (bCentered)
         {
             IUnitEntity *pUnit(GetSelectedInfoEntity());
-            if (pUnit != NULL)
+            if (pUnit != nullptr)
             {
                 CVec3f v3CenterPos(pUnit->GetPosition());
 
@@ -2812,10 +2812,10 @@ void    CClientCommander::PrevUnit(bool bCentered)
         IGameEntity *pPrev(pControl);
         while (pNext != pControl)
         {
-            if (pNext == NULL)
+            if (pNext == nullptr)
                 pNext = Game.GetFirstEntity();
 
-            if (pNext == NULL)
+            if (pNext == nullptr)
                 break;
 
             if (pNext->IsUnit() &&
@@ -2827,7 +2827,7 @@ void    CClientCommander::PrevUnit(bool bCentered)
             pNext = Game.GetNextEntity(pNext);
         }
 
-        if (pPrev != NULL && pPrev != pControl)
+        if (pPrev != nullptr && pPrev != pControl)
         {
             m_uiActiveControlEntity = pPrev->GetIndex();
             m_setControlSelection.clear();
@@ -2857,7 +2857,7 @@ void    CClientCommander::PrevUnit(bool bCentered)
     if (bCentered)
     {
         IUnitEntity *pUnit(Game.GetUnitEntity(m_uiActiveControlEntity));
-        if (pUnit != NULL)
+        if (pUnit != nullptr)
         {
             CVec3f v3CenterPos(pUnit->GetPosition());
 
@@ -2878,10 +2878,10 @@ void    CClientCommander::NextInventoryUnit(bool bCentered)
     IGameEntity *pNext(Game.GetNextEntity(pControl));
     while (pNext != pControl)
     {
-        if (pNext == NULL)
+        if (pNext == nullptr)
             pNext = Game.GetFirstEntity();
 
-        if (pNext == NULL)
+        if (pNext == nullptr)
             break;
 
         if (pNext->IsUnit() &&
@@ -2892,7 +2892,7 @@ void    CClientCommander::NextInventoryUnit(bool bCentered)
         pNext = Game.GetNextEntity(pNext);
     }
 
-    if (pNext != NULL && pNext != pControl)
+    if (pNext != nullptr && pNext != pControl)
     {
         m_uiActiveControlEntity = pNext->GetIndex();
         m_setControlSelection.clear();
@@ -2904,7 +2904,7 @@ void    CClientCommander::NextInventoryUnit(bool bCentered)
     if (bCentered)
     {
         IUnitEntity *pUnit(Game.GetUnitEntity(m_uiActiveControlEntity));
-        if (pUnit != NULL)
+        if (pUnit != nullptr)
         {
             CVec3f v3CenterPos(pUnit->GetPosition());
 
@@ -2926,10 +2926,10 @@ void    CClientCommander::PrevInventoryUnit(bool bCentered)
     IGameEntity *pPrev(pControl);
     while (pNext != pControl)
     {
-        if (pNext == NULL)
+        if (pNext == nullptr)
             pNext = Game.GetFirstEntity();
 
-        if (pNext == NULL)
+        if (pNext == nullptr)
             break;
 
         if (pNext->IsUnit() &&
@@ -2940,7 +2940,7 @@ void    CClientCommander::PrevInventoryUnit(bool bCentered)
         pNext = Game.GetNextEntity(pNext);
     }
 
-    if (pPrev != NULL && pPrev != pControl)
+    if (pPrev != nullptr && pPrev != pControl)
     {
         m_uiActiveControlEntity = pPrev->GetIndex();
         m_setControlSelection.clear();
@@ -2952,7 +2952,7 @@ void    CClientCommander::PrevInventoryUnit(bool bCentered)
     if (bCentered)
     {
         IUnitEntity *pUnit(Game.GetUnitEntity(m_uiActiveControlEntity));
-        if (pUnit != NULL)
+        if (pUnit != nullptr)
         {
             CVec3f v3CenterPos(pUnit->GetPosition());
 
@@ -3018,7 +3018,7 @@ void    CClientCommander::SetControlUnit(int iSlot, bool bCentered)
         if (bCentered)
         {
             IUnitEntity *pUnit(Game.GetUnitEntity(m_uiActiveControlEntity));
-            if (pUnit != NULL)
+            if (pUnit != nullptr)
             {
                 CVec3f v3CenterPos(pUnit->GetPosition());
 
@@ -3075,11 +3075,11 @@ void    CClientCommander::DeselectUnit(int iSlot)
 void    CClientCommander::PlaySelectSound(uint uiIndex)
 {
     CClientEntity *pClEntity(GameClient.GetClientEntity(uiIndex));
-    if (pClEntity == NULL)
+    if (pClEntity == nullptr)
         return;
 
     IUnitEntity *pUnit(GameClient.GetUnitEntity(uiIndex));
-    if (pUnit == NULL)
+    if (pUnit == nullptr)
         return;
 
     if (!cg_unitVoiceResponses)
@@ -3102,7 +3102,7 @@ void    CClientCommander::PlaySelectSound(uint uiIndex)
             uint uiSequence(m_uiVoiceSequence - 3);
 
             CSample *pSample(g_ResourceManager.GetSample(hUnitFlavorSound));
-            if (pSample != NULL && uiSequence < pSample->GetNumSamples())
+            if (pSample != nullptr && uiSequence < pSample->GetNumSamples())
             {
                 hUnitSelectedSound = pSample->GetSample(uiSequence);
             }
@@ -3147,10 +3147,10 @@ void    CClientCommander::PlaySelectSound(uint uiIndex)
 void    CClientCommander::PrepareClientSnapshot(CClientSnapshot &snapshot)
 {
     CPlayer *pPlayer(GameClient.GetLocalPlayer());
-    if (pPlayer != NULL)
+    if (pPlayer != nullptr)
     {
         IHeroEntity *pHero(pPlayer->GetHero());
-        if (pHero != NULL)
+        if (pHero != nullptr)
         {
             uint uiHeroIndex(pHero->GetIndex());
             if (pHero->GetStatus() != ENTITY_STATUS_ACTIVE)
@@ -3246,7 +3246,7 @@ bool    CClientCommander::MinimapSecondaryClick(const CVec2f &v2Pos)
     IUnitEntity *pControl(GetSelectedControlEntity());
 
     // Ignore a single controlled unit when right-clicking
-    UpdateCursorTrace(Input.GetCursorPos(), HOVER_TRACE, pControl != NULL ? pControl->GetWorldIndex() : INVALID_INDEX);
+    UpdateCursorTrace(Input.GetCursorPos(), HOVER_TRACE, pControl != nullptr ? pControl->GetWorldIndex() : INVALID_INDEX);
 
     if (GameClient.GetItemCursorIndex() != INVALID_INDEX)
     {
@@ -3320,7 +3320,7 @@ void    CClientCommander::PrintErrorMessage(const tstring &sMessage)
 void    CClientCommander::SetDefaultActiveShop()
 {
     IUnitEntity *pControl(GetSelectedControlEntity());
-    if (pControl != NULL)
+    if (pControl != nullptr)
     {
         const tstring &sActiveShop(GameClient.GetActiveShop());
         if (sActiveShop.empty() && GameClient.GetInterfaceManager()->IsShopVisible())
@@ -3350,7 +3350,7 @@ bool    CClientCommander::GetActiveUnits() const
     for (uiset_cit it(m_setControlSelection.begin()); it != m_setControlSelection.end(); ++it)
     {
         IUnitEntity *pUnit(Game.GetUnitEntity(*it));
-        if (pUnit == NULL)
+        if (pUnit == nullptr)
             continue;
         if (pUnit->CanActOnOrdersFrom(GameClient.GetLocalClientNum()))
             return true;

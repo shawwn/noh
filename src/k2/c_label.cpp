@@ -111,7 +111,7 @@ m_bLineRet(false)
 void    CLabel::RecalculateText()
 {
     CFontMap *pFontMap(g_ResourceManager.GetFontMap(m_hFontMap));
-    if(pFontMap == NULL)
+    if(pFontMap == nullptr)
         return; 
 
     bool bResize(false);
@@ -187,7 +187,7 @@ void    CLabel::RecalculateSize()
     if (GetWidth() != fOldWidth || GetHeight() != fOldHeight)
         RecalculateChildSize();
 
-    if (m_pParent != NULL && m_pParent->HasFlags(WFLAG_GROW_WITH_CHILDREN))
+    if (m_pParent != nullptr && m_pParent->HasFlags(WFLAG_GROW_WITH_CHILDREN))
         m_pParent->RecalculateSize();
 }
 
@@ -298,7 +298,7 @@ void    CLabel::SetText(const tstring &sStr)
         m_vLineWrap.clear();
 
         CFontMap *pFontMap(g_ResourceManager.GetFontMap(m_hFontMap));
-        if(pFontMap == NULL)
+        if(pFontMap == nullptr)
             return; 
 
         float fBiggestWidth(pFontMap->GetStringWidth(m_sRenderText));
@@ -328,7 +328,7 @@ void    CLabel::SetFont(const tstring &sFont)
   --------------------*/
 UI_VOID_CMD(SetText, 1)
 {
-    if (pThis == NULL ||
+    if (pThis == nullptr ||
         pThis->GetType() != WIDGET_LABEL)
         return;
 
@@ -341,7 +341,7 @@ UI_VOID_CMD(SetText, 1)
   --------------------*/
 UI_VOID_CMD(ClearText, 0)
 {
-    if (pThis == NULL || pThis->GetType() != WIDGET_LABEL)
+    if (pThis == nullptr || pThis->GetType() != WIDGET_LABEL)
         return;
 
     static_cast<CLabel*>(pThis)->SetText(_T(""));
@@ -353,7 +353,7 @@ UI_VOID_CMD(ClearText, 0)
   --------------------*/
 UI_CMD(GetTextWidth, 0)
 {
-    if (pThis == NULL ||
+    if (pThis == nullptr ||
         pThis->GetType() != WIDGET_LABEL)
         return TSNULL;
 
@@ -361,7 +361,7 @@ UI_CMD(GetTextWidth, 0)
 
     // Retrieve the font map
     CFontMap *pFontMap(g_ResourceManager.GetFontMap(pLabel->GetFont()));
-    if (pFontMap == NULL)
+    if (pFontMap == nullptr)
         return TSNULL;
 
     return XtoA(pFontMap->GetStringWidth(pLabel->GetText()));
@@ -373,7 +373,7 @@ UI_CMD(GetTextWidth, 0)
   --------------------*/
 UI_VOID_CMD(SetFont, 1)
 {
-    if (pThis == NULL ||
+    if (pThis == nullptr ||
         pThis->GetType() != WIDGET_LABEL)
         return;
 

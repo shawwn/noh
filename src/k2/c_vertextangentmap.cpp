@@ -18,7 +18,7 @@
   ====================*/
 CVertexTangentMap::CVertexTangentMap(EWorldComponent eComponent) :
 IWorldComponent(eComponent, _T("VertexTangentMap")),
-m_pVertexTangents(NULL)
+m_pVertexTangents(nullptr)
 {
 }
 
@@ -37,11 +37,11 @@ CVertexTangentMap::~CVertexTangentMap()
   ====================*/
 void    CVertexTangentMap::Release()
 {
-    m_pWorld = NULL;
+    m_pWorld = nullptr;
 
-    if (m_pVertexTangents != NULL)
+    if (m_pVertexTangents != nullptr)
         K2_DELETE_ARRAY(m_pVertexTangents);
-    m_pVertexTangents = NULL;
+    m_pVertexTangents = nullptr;
 }
 
 
@@ -66,11 +66,11 @@ bool    CVertexTangentMap::Generate(const CWorld *pWorld)
         Release();
         m_bChanged = true;
         m_pWorld = pWorld;
-        if (m_pWorld == NULL)
+        if (m_pWorld == nullptr)
             EX_ERROR(_T("CVertexTangentMap needs a valid CWorld"));
 
         m_pVertexTangents = K2_NEW_ARRAY(ctx_World, CVec3f, m_pWorld->GetGridArea());
-        if (m_pVertexTangents == NULL)
+        if (m_pVertexTangents == nullptr)
             EX_ERROR(_T("Failed to allocate memory for map data"));
 
         for (int iY(0); iY < m_pWorld->GetGridHeight(); ++iY)
@@ -183,7 +183,7 @@ void    CVertexTangentMap::CalculateVertexTangent(int iX, int iY)
     assert(iX < m_pWorld->GetGridWidth());
     assert(iY >= 0);
     assert(iY < m_pWorld->GetGridHeight());
-    assert(m_pWorld != NULL);
+    assert(m_pWorld != nullptr);
 
     CVec3f &v3Tangent(m_pVertexTangents[m_pWorld->GetGridIndex(iX, iY)]);
     v3Tangent.Clear();

@@ -67,8 +67,8 @@ IGameEntity::CEntityConfig::CEntityConfig(const tstring &sName)
 void    IGameEntity::UpdateDefinition()
 {
     CEntityDefinitionResource *pResource(g_ResourceManager.Get<CEntityDefinitionResource>(m_hDefinition));
-    if (pResource == NULL)
-        m_pDefinition = NULL;
+    if (pResource == nullptr)
+        m_pDefinition = nullptr;
     else
         m_pDefinition = pResource->GetDefinition<IEntityDefinition>(GetModifierBits());
 }
@@ -88,7 +88,7 @@ CEntityDefinitionResource*  IGameEntity::GetEntityDef(ResHandle hEntDef) const
   ====================*/
 IGameEntity::IGameEntity(CEntityConfig *pConfig) :
 m_pEntityConfig(pConfig),
-m_pDefinition(NULL),
+m_pDefinition(nullptr),
 m_hDefinition(INVALID_RESOURCE),
 
 m_unType(0),
@@ -158,8 +158,8 @@ void    IGameEntity::Copy(const IGameEntity &B)
   ====================*/
 IUnitEntity*    IGameEntity::GetMasterOwner() const
 {
-    if (GetOwner() == NULL)
-        return NULL;
+    if (GetOwner() == nullptr)
+        return nullptr;
 
     return GetOwner()->GetMasterOwner();
 }
@@ -171,12 +171,12 @@ IUnitEntity*    IGameEntity::GetMasterOwner() const
 uint    IGameEntity::GetModifierBit(uint uiModifierID)
 {
     CEntityDefinitionResource *pResource(g_ResourceManager.Get<CEntityDefinitionResource>(m_hDefinition));
-    if (pResource == NULL)
+    if (pResource == nullptr)
         return 0;
 
     // Access root definition
     IEntityDefinition *pDefinition(pResource->GetDefinition<IEntityDefinition>());
-    if (pDefinition == NULL)
+    if (pDefinition == nullptr)
         return 0;
 
     return pDefinition->GetModifierBit(uiModifierID);
@@ -189,12 +189,12 @@ uint    IGameEntity::GetModifierBit(uint uiModifierID)
 uint    IGameEntity::GetModifierBits(const uivector &vModifiers)
 {
     CEntityDefinitionResource *pResource(g_ResourceManager.Get<CEntityDefinitionResource>(m_hDefinition));
-    if (pResource == NULL)
+    if (pResource == nullptr)
         return 0;
 
     // Access root definition
     IEntityDefinition *pDefinition(pResource->GetDefinition<IEntityDefinition>());
-    if (pDefinition == NULL)
+    if (pDefinition == nullptr)
         return 0;
 
     return pDefinition->GetModifierBits(vModifiers);
@@ -210,11 +210,11 @@ uint    IGameEntity::GetModifierBits(const uivector &vModifiers)
 bool    IGameEntity::MorphDynamicType(ushort unType)
 {
     const CDynamicEntityAllocator *pOldAllocator(EntityRegistry.GetDynamicAllocator(m_unType));
-    if (pOldAllocator == NULL)
+    if (pOldAllocator == nullptr)
         return false;
 
     const CDynamicEntityAllocator *pNewAllocator(EntityRegistry.GetDynamicAllocator(unType));
-    if (pNewAllocator == NULL)
+    if (pNewAllocator == nullptr)
         return false;
 
     m_sTypeName = pNewAllocator->GetName();
@@ -263,7 +263,7 @@ bool    IGameEntity::HasModifier(const tstring &sModifier) const
 void    IGameEntity::GetActiveExclusiveModifiers(IUnitEntity *pUnit, map<uint, SModifierEntry> &mapActiveModifiers, int iPriorityAdjust)
 {
     IEntityDefinition *pDefinition(GetBaseDefinition<IEntityDefinition>());
-    if (pDefinition == NULL)
+    if (pDefinition == nullptr)
         return;
 
     const EntityModifierMap &mapModifiers(pDefinition->GetModifiers());
@@ -276,7 +276,7 @@ void    IGameEntity::GetActiveExclusiveModifiers(IUnitEntity *pUnit, map<uint, S
 
         // Check conditions
         const tstring &sCondition(pModifier->GetCondition());
-        if (pUnit != NULL && !sCondition.empty())
+        if (pUnit != nullptr && !sCondition.empty())
         {
             tsvector vsTypes(TokenizeString(sCondition, _T(' ')));
 

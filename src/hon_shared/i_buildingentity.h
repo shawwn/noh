@@ -62,7 +62,7 @@ public:
     virtual void            ApplyWorldEntity(const CWorldEntity &ent);
 
     virtual void            Spawn();
-    virtual void            Die(IUnitEntity *pAttacker = NULL, ushort unKillingObjectID = INVALID_ENT_TYPE);
+    virtual void            Die(IUnitEntity *pAttacker = nullptr, ushort unKillingObjectID = INVALID_ENT_TYPE);
 
     virtual void            GameStart();
 

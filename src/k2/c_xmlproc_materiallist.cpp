@@ -33,4 +33,4 @@ BEGIN_XML_PROCESSOR(material, CMaterialList)
 
     if (uiID != uint(-1))
         pObject->AddMaterial(uiID, sName);
-END_XML_PROCESSOR(NULL)
+END_XML_PROCESSOR(nullptr)

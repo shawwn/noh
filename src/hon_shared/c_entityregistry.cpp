@@ -46,7 +46,7 @@ IEntityAllocator::~IEntityAllocator()
 IEntityAllocator::IEntityAllocator(const tstring &sName, ushort unID) :
 m_sName(sName),
 m_unID(unID),
-m_pBaseline(NULL)
+m_pBaseline(nullptr)
 {
     EntityRegistry.Register(this);
 }
@@ -158,7 +158,7 @@ ushort  CEntityRegistry::RegisterDynamicEntity(const tstring &sName, ResHandle h
         {
             // Clear by inserting a dummy entry
             ushort unTypeID(itFind->second.GetTypeID());
-            CDynamicEntityAllocator entry(sName, unTypeID, INVALID_RESOURCE, NULL);
+            CDynamicEntityAllocator entry(sName, unTypeID, INVALID_RESOURCE, nullptr);
 
             m_mapDynamicNames.erase(itFind);
             m_mapDynamicTypeIDs.erase(m_mapDynamicTypeIDs.find(unTypeID));
@@ -200,10 +200,10 @@ ushort  CEntityRegistry::RegisterDynamicEntity(const tstring &sName, ResHandle h
 void    CEntityRegistry::RegisterDynamicEntity(ushort unTypeID, ResHandle hDefinition)
 {
     CEntityDefinitionResource *pResource(g_ResourceManager.Get<CEntityDefinitionResource>(hDefinition));
-    if (pResource == NULL)
+    if (pResource == nullptr)
         return;
     IEntityDefinition *pDefinition(pResource->GetDefinition<IEntityDefinition>());
-    if (pDefinition == NULL)
+    if (pDefinition == nullptr)
         return;
 
     const tstring &sName(pResource->GetName());
@@ -242,7 +242,7 @@ IGameEntity*    CEntityRegistry::Allocate(ushort unType)
     catch (CException &ex)
     {
         ex.Process(_T("CEntityRegistry::Allocate() - "), NO_THROW);
-        return NULL;
+        return nullptr;
     }
 }
 
@@ -260,7 +260,7 @@ IGameEntity*    CEntityRegistry::Allocate(const tstring &sName)
     catch (CException &ex)
     {
         ex.Process(_T("CEntityRegistry::Allocate() - "), NO_THROW);
-        return NULL;
+        return nullptr;
     }
 }
 
@@ -274,7 +274,7 @@ IGameEntity*    CEntityRegistry::AllocateDynamicEntity(const tstring &sName, uin
 
     DynamicEntityNameMap::iterator itFind(m_mapDynamicNames.find(sName));
     if (itFind == m_mapDynamicNames.end())
-        return NULL;
+        return nullptr;
 
     // Allocator type must fully contain the desired base type
     uint uiType(itFind->second.GetBaseType());
@@ -286,7 +286,7 @@ IGameEntity*    CEntityRegistry::AllocateDynamicEntity(const tstring &sName, uin
         (GET_ENTITY_BASE_TYPE4(uiBaseType) != 0 && GET_ENTITY_BASE_TYPE4(uiType) != GET_ENTITY_BASE_TYPE4(uiBaseType)))
     {
         Console << _T("Type mismatch for entity: ") << sName << newl;
-        return NULL;
+        return nullptr;
     }
 
     return itFind->second.Allocate();
@@ -298,7 +298,7 @@ IGameEntity*    CEntityRegistry::AllocateDynamicEntity(ushort unTypeID, uint uiB
 
     DynamicEntityTypeIDMap::iterator itFind(m_mapDynamicTypeIDs.find(unTypeID));
     if (itFind == m_mapDynamicTypeIDs.end())
-        return NULL;
+        return nullptr;
 
     // Allocator type must fully contain the desired base type
     uint uiType(itFind->second.GetBaseType());
@@ -310,7 +310,7 @@ IGameEntity*    CEntityRegistry::AllocateDynamicEntity(ushort unTypeID, uint uiB
         (GET_ENTITY_BASE_TYPE4(uiBaseType) != 0 && GET_ENTITY_BASE_TYPE4(uiType) != GET_ENTITY_BASE_TYPE4(uiBaseType)))
     {
         Console << _T("Type mismatch for entity type: ") << unTypeID << newl;
-        return NULL;
+        return nullptr;
     }
 
     return itFind->second.Allocate();
@@ -344,7 +344,7 @@ const TypeVector*   CEntityRegistry::GetTypeVector(ushort unType) const
     catch (CException &ex)
     {
         ex.Process(_T("CEntityRegistry::GetTypeVector() - "), NO_THROW);
-        return NULL;
+        return nullptr;
     }
 }
 
@@ -376,7 +376,7 @@ const SEntityDesc*  CEntityRegistry::GetTypeDesc(ushort unType) const
     catch (CException &ex)
     {
         ex.Process(_T("CEntityRegistry::GetTypeDesc() - "), NO_THROW);
-        return NULL;
+        return nullptr;
     }
 }
 
@@ -400,7 +400,7 @@ void    CEntityRegistry::ServerPrecache(ushort unType, EPrecacheScheme eScheme, 
         {
             ResHandle hDefinition(citDynamic->second.GetDefinitionHandle());
             CEntityDefinitionResource *pDefRes(g_ResourceManager.Get<CEntityDefinitionResource>(hDefinition));
-            if (pDefRes == NULL || pDefRes->GetDefinition<IEntityDefinition>() == NULL)
+            if (pDefRes == nullptr || pDefRes->GetDefinition<IEntityDefinition>() == nullptr)
                 return;
             pDefRes->GetDefinition<IEntityDefinition>()->Precache(eScheme, sModifier);
             citDynamic->second.ServerPrecache(eScheme, sModifier);
@@ -437,7 +437,7 @@ void    CEntityRegistry::ClientPrecache(ushort unType, EPrecacheScheme eScheme, 
     {
         ResHandle hDefinition(citDynamic->second.GetDefinitionHandle());
         CEntityDefinitionResource *pDefRes(g_ResourceManager.Get<CEntityDefinitionResource>(hDefinition));
-        if (pDefRes == NULL || pDefRes->GetDefinition<IEntityDefinition>() == NULL)
+        if (pDefRes == nullptr || pDefRes->GetDefinition<IEntityDefinition>() == nullptr)
             return;
 
         pDefRes->GetDefinition<IEntityDefinition>()->Precache(eScheme, sModifier);
@@ -466,7 +466,7 @@ void    CEntityRegistry::PostProcess(ushort unType) const
     {
         ResHandle hDefinition(citDynamic->second.GetDefinitionHandle());
         CEntityDefinitionResource *pDefRes(g_ResourceManager.Get<CEntityDefinitionResource>(hDefinition));
-        if (pDefRes == NULL || pDefRes->GetDefinition<IEntityDefinition>() == NULL)
+        if (pDefRes == nullptr || pDefRes->GetDefinition<IEntityDefinition>() == nullptr)
             return;
         pDefRes->GetDefinition<IEntityDefinition>()->PostProcess();
         citDynamic->second.PostProcess();
@@ -570,7 +570,7 @@ const IEntityAllocator* CEntityRegistry::GetAllocator(ushort unTypeID)
 {
     EntAllocatorIDMap_it itFind(m_mapAllocatorIDs.find(unTypeID));
     if (itFind == m_mapAllocatorIDs.end())
-        return NULL;
+        return nullptr;
 
     return itFind->second;
 }
@@ -583,7 +583,7 @@ const CDynamicEntityAllocator*  CEntityRegistry::GetDynamicAllocator(ushort unTy
 {
     DynamicEntityTypeIDMap::iterator itFind(m_mapDynamicTypeIDs.find(unTypeID));
     if (itFind == m_mapDynamicTypeIDs.end())
-        return NULL;
+        return nullptr;
     
     return &(itFind->second);
 }
@@ -605,7 +605,7 @@ ICvar*  CEntityRegistry::GetGameSetting(ushort unType, const tstring &sSetting) 
     catch (CException &ex)
     {
         ex.Process(_T("CEntityRegistry::GetGameSetting() - "), NO_THROW);
-        return NULL;
+        return nullptr;
     }
 }
 
@@ -644,10 +644,10 @@ void    CEntityRegistry::GetHeroList(const tstring &sTeamName, vector<ushort> &v
         if (it->second.GetBaseType() != ENTITY_BASE_TYPE_HERO)
             continue;
         CEntityDefinitionResource *pResource(g_ResourceManager.Get<CEntityDefinitionResource>(it->second.GetDefinitionHandle()));
-        if (pResource == NULL)
+        if (pResource == nullptr)
             continue;
         CHeroDefinition *pDefinition(pResource->GetDefinition<CHeroDefinition>());
-        if (pDefinition == NULL)
+        if (pDefinition == nullptr)
             continue;
         if (pDefinition->GetTeam().empty())
             continue;
@@ -682,10 +682,10 @@ void    CEntityRegistry::GetAutoRecipeList(vector<ushort> &vRecipes)
         if (it->second.GetBaseType() != ENTITY_BASE_TYPE_ITEM)
             continue;
         CEntityDefinitionResource *pResource(g_ResourceManager.Get<CEntityDefinitionResource>(it->second.GetDefinitionHandle()));
-        if (pResource == NULL)
+        if (pResource == nullptr)
             continue;
         CItemDefinition *pDefinition(pResource->GetDefinition<CItemDefinition>());
-        if (pDefinition == NULL)
+        if (pDefinition == nullptr)
             continue;
         if (!pDefinition->GetAutoAssemble())
             continue;
@@ -760,7 +760,7 @@ CScriptThread*  CEntityRegistry::GetScriptDefinition(const tstring &sName)
     if (itFind != m_mapDefinitions.end())
         return itFind->second;
     else
-        return NULL;
+        return nullptr;
 }
 
 

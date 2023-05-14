@@ -159,14 +159,14 @@ public:
         IModalDialog*   m_pJob;
 
     public:
-        IFunctions() : m_pList(NULL), m_pJob(NULL)  {}
+        IFunctions() : m_pList(nullptr), m_pJob(nullptr)  {}
         virtual ~IFunctions() {}
 
         void    SetJob(IModalDialog *pJob)  { m_pJob = pJob; }
         void    SetList(C *pList)           { m_pList = pList; }
 
-        void    SetTitle(const tstring &sTitle) const               { if (m_pJob != NULL) m_pJob->SetTitle(sTitle); }
-        void    SetProgress(float fProgress) const                  { if (m_pJob != NULL) m_pJob->SetProgress(fProgress); }
+        void    SetTitle(const tstring &sTitle) const               { if (m_pJob != nullptr) m_pJob->SetTitle(sTitle); }
+        void    SetProgress(float fProgress) const                  { if (m_pJob != nullptr) m_pJob->SetProgress(fProgress); }
 
         virtual float   PreFrame(typename C::iterator&, float f) const  { return 0.0f; }
         virtual float   Frame(typename C::iterator&, float f) const     { return 0.0f; }

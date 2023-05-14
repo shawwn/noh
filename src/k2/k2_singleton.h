@@ -22,7 +22,7 @@ public: \
     { \
         assert(!s_bReleased); \
         \
-        if (s_pInstance == NULL) \
+        if (s_pInstance == nullptr) \
         { \
             assert(!s_bRequested); \
             s_bRequested = true; \
@@ -33,7 +33,7 @@ public: \
     } \
 \
     static inline bool  IsReleased()    { return s_bReleased; } \
-    static inline bool  IsAllocated()   { return s_pInstance != NULL; } \
+    static inline bool  IsAllocated()   { return s_pInstance != nullptr; } \
 \
     static void     Release();
 //=============================================================================
@@ -50,7 +50,7 @@ void    name::Release() \
 { \
     assert(!s_bReleased); \
     \
-    if (s_pInstance != NULL) \
+    if (s_pInstance != nullptr) \
         K2_DELETE(s_pInstance); \
     \
     s_bReleased = true; \

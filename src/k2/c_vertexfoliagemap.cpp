@@ -29,7 +29,7 @@ CVertexFoliageMap::CVertexFoliageMap(EWorldComponent eComponent) :
 IWorldComponent(eComponent, _T("VertexFoliageMap"))
 {
     for (int iLayer(0); iLayer < NUM_FOLIAGE_LAYERS; ++iLayer)
-        m_pFoliageVertices[iLayer] = NULL;
+        m_pFoliageVertices[iLayer] = nullptr;
 }
 
 
@@ -44,7 +44,7 @@ bool    CVertexFoliageMap::Load(CArchive &archive, const CWorld *pWorld)
         Release();
 
         m_pWorld = pWorld;
-        if (m_pWorld == NULL)
+        if (m_pWorld == nullptr)
             EX_ERROR(_T("Invalid CWorld pointer"));
 
         CFileHandle hVertexFoliageMap(m_sName, FILE_READ | FILE_BINARY, archive);
@@ -142,13 +142,13 @@ bool    CVertexFoliageMap::Generate(const CWorld *pWorld)
         Release();
 
         m_pWorld = pWorld;
-        if (m_pWorld == NULL)
+        if (m_pWorld == nullptr)
             EX_ERROR(_T("Invalid CWorld pointer"));
 
         for (int iLayer(0); iLayer < NUM_FOLIAGE_LAYERS; ++iLayer)
         {
             m_pFoliageVertices[iLayer] = K2_NEW_ARRAY(ctx_World, SFoliageVertexEntry, m_pWorld->GetGridArea());
-            if (m_pFoliageVertices[iLayer] == NULL)
+            if (m_pFoliageVertices[iLayer] == nullptr)
                 EX_ERROR(_T("Failed to allocate foliage vert map for layer") + XtoA(iLayer));
             MemManager.Set(m_pFoliageVertices[iLayer], 0, m_pWorld->GetGridArea() * sizeof(SFoliageVertexEntry));
 
@@ -210,13 +210,13 @@ bool    CVertexFoliageMap::Serialize(IBuffer *pBuffer)
   ====================*/
 void    CVertexFoliageMap::Release()
 {
-    m_pWorld = NULL;
+    m_pWorld = nullptr;
 
     for (int iLayer(0); iLayer < NUM_FOLIAGE_LAYERS; ++iLayer)
     {
-        if (m_pFoliageVertices[iLayer] != NULL)
+        if (m_pFoliageVertices[iLayer] != nullptr)
             K2_DELETE_ARRAY(m_pFoliageVertices[iLayer]);
-        m_pFoliageVertices[iLayer] = NULL;
+        m_pFoliageVertices[iLayer] = nullptr;
     }
 }
 
@@ -282,7 +282,7 @@ bool    CVertexFoliageMap::SetRegion(const CRecti &recArea, void *pSource, int i
   ====================*/
 float   CVertexFoliageMap::GetFoliageDensity(int iX, int iY, int iLayer)
 {
-    assert(m_pFoliageVertices != NULL);
+    assert(m_pFoliageVertices != nullptr);
     assert(iLayer >= 0 && iLayer < NUM_FOLIAGE_LAYERS);
     assert(m_pWorld->IsInBounds(iX, iY, GRID_SPACE));
 
@@ -295,7 +295,7 @@ float   CVertexFoliageMap::GetFoliageDensity(int iX, int iY, int iLayer)
   ====================*/
 const CVec3f&   CVertexFoliageMap::GetFoliageSize(int iX, int iY, int iLayer)
 {
-    assert(m_pFoliageVertices != NULL);
+    assert(m_pFoliageVertices != nullptr);
     assert(iLayer >= 0 && iLayer < NUM_FOLIAGE_LAYERS);
     assert(m_pWorld->IsInBounds(iX, iY, GRID_SPACE));
 
@@ -308,7 +308,7 @@ const CVec3f&   CVertexFoliageMap::GetFoliageSize(int iX, int iY, int iLayer)
   ====================*/
 const CVec3f&   CVertexFoliageMap::GetFoliageVariance(int iX, int iY, int iLayer)
 {
-    assert(m_pFoliageVertices != NULL);
+    assert(m_pFoliageVertices != nullptr);
     assert(iLayer >= 0 && iLayer < NUM_FOLIAGE_LAYERS);
     assert(m_pWorld->IsInBounds(iX, iY, GRID_SPACE));
 
@@ -321,7 +321,7 @@ const CVec3f&   CVertexFoliageMap::GetFoliageVariance(int iX, int iY, int iLayer
   ====================*/
 const CVec3f&   CVertexFoliageMap::GetFoliageColor(int iX, int iY, int iLayer)
 {
-    assert(m_pFoliageVertices != NULL);
+    assert(m_pFoliageVertices != nullptr);
     assert(iLayer >= 0 && iLayer < NUM_FOLIAGE_LAYERS);
     assert(m_pWorld->IsInBounds(iX, iY, GRID_SPACE));
 

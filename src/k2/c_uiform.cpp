@@ -33,11 +33,11 @@ CUIForm::~CUIForm()
   ====================*/
 CUIForm::CUIForm(CHTTPManager *pHTTPManager, const tstring &sName) :
 m_pHTTPManager(pHTTPManager),
-m_pRequest(NULL),
+m_pRequest(nullptr),
 
 m_sName(sName),
-m_pStatusTrigger(NULL),
-m_pResultTrigger(NULL),
+m_pStatusTrigger(nullptr),
+m_pResultTrigger(nullptr),
 m_eMethod(FORM_METHOD_POST),
 m_bUseSSL(false)
 {
@@ -53,7 +53,7 @@ void    CUIForm::SetStatusTrigger(const tstring &sName)
         return;
 
     CUITrigger *pTrigger(UITriggerRegistry.GetUITrigger(sName));
-    if (pTrigger == NULL)
+    if (pTrigger == nullptr)
     {
         Console.Warn << _T("Could not find trigger ") << QuoteStr(sName) << _T(" for form ") << QuoteStr(m_sName) << newl;
         return;
@@ -72,7 +72,7 @@ void    CUIForm::SetResultTrigger(const tstring &sName)
         return;
 
     CUITrigger *pTrigger(UITriggerRegistry.GetUITrigger(sName));
-    if (pTrigger == NULL)
+    if (pTrigger == nullptr)
     {
         Console.Warn << _T("Could not find trigger ") << QuoteStr(sName) << _T(" for form ") << QuoteStr(m_sName) << newl;
         return;
@@ -89,7 +89,7 @@ void    CUIForm::Submit(const tsvector &vParams)
 {
     m_pHTTPManager->ReleaseRequest(m_pRequest);
     m_pRequest = m_pHTTPManager->SpawnRequest();
-    if (m_pRequest == NULL)
+    if (m_pRequest == nullptr)
         return;
 
     m_pRequest->SetTargetURL(m_sTargetHost + m_sTargetURI);
@@ -134,10 +134,10 @@ void    CUIForm::Submit(const tsvector &vParams)
   ====================*/
 void    CUIForm::Frame()
 {
-    if (m_pRequest == NULL)
+    if (m_pRequest == nullptr)
         return;
 
-    if (m_pStatusTrigger != NULL)
+    if (m_pStatusTrigger != nullptr)
         m_pStatusTrigger->Trigger(XtoA(m_pRequest->GetStatus()));
 
     if (m_pRequest->IsActive())
@@ -147,7 +147,7 @@ void    CUIForm::Frame()
         ProcessResponse();
 
     m_pHTTPManager->ReleaseRequest(m_pRequest);
-    m_pRequest = NULL;
+    m_pRequest = nullptr;
 }
 
 
@@ -156,7 +156,7 @@ void    CUIForm::Frame()
   ====================*/
 void    CUIForm::ProcessResponse()
 {
-    if (m_pResultTrigger == NULL)
+    if (m_pResultTrigger == nullptr)
         return;
 
     //Console.UI << m_pRequest->GetResponse() << newl;
@@ -180,7 +180,7 @@ void    CUIForm::ProcessResponse()
             size_t zOldPos(zPos);
             zPos = sName.find(_T("."), zPos);
             pVar = pVar->GetVar(sName.substr(zOldPos, zPos));
-            if (pVar == NULL || zPos == tstring::npos)
+            if (pVar == nullptr || zPos == tstring::npos)
                 break;
 
             ++zPos;
@@ -199,14 +199,14 @@ void    CUIForm::ProcessResponse()
 UI_VOID_CMD(SubmitForm, 1)
 {
     CInterface *pInterface(pThis->GetInterface());
-    if (pInterface == NULL)
+    if (pInterface == nullptr)
     {
         Console.Warn << _T("SubmitForm: No active interface") << newl;
         return;
     }
 
     CUIForm *pForm(pInterface->GetForm(vArgList[0]->Evaluate()));
-    if (pForm == NULL)
+    if (pForm == nullptr)
         return;
 
     tsvector vParams;

@@ -4,7 +4,7 @@
 #include "c_camera.h"
 #include "c_vid.h"
 
-CDebugRenderer *CDebugRenderer::s_pDebugRenderer(NULL);
+CDebugRenderer *CDebugRenderer::s_pDebugRenderer(nullptr);
 CDebugRenderer &g_DebugRenderer(*CDebugRenderer::GetInstance());
 
 void CDebugRenderer::AddLine(CVec3f v3Src, CVec3f v3Dst, CVec4f v4Color)

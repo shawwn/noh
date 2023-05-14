@@ -109,8 +109,8 @@ CMD(ProcessChallenge)
   CSRP::CSRP
   ====================*/
 CSRP::CSRP()
-: m_pUser(NULL)
-, m_pVerifier(NULL)
+: m_pUser(nullptr)
+, m_pVerifier(nullptr)
 {
 }
 
@@ -157,9 +157,9 @@ CSRP::Start(const tstring &sUsername, const tstring &sPassword)
 tstring
 CSRP::ProcessChallenge(const tstring &sSalt, const tstring &sSalt2, const tstring &sB)
 {
-    if (m_pUser == NULL)
+    if (m_pUser == nullptr)
     {
-        Console.Err << _T("CSRP::ProcessChallenge(): m_pUser is NULL. Did you forget to call Start()?") << newl;
+        Console.Err << _T("CSRP::ProcessChallenge(): m_pUser is nullptr. Did you forget to call Start()?") << newl;
         Cleanup();
         return TSNULL;
     }
@@ -311,9 +311,9 @@ void
 CSRP::Cleanup()
 {
     srp_verifier_delete( m_pVerifier );
-    m_pVerifier = NULL;
+    m_pVerifier = nullptr;
 
     srp_user_delete( m_pUser );
-    m_pUser = NULL;
+    m_pUser = nullptr;
 }
 

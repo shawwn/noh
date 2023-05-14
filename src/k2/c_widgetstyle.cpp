@@ -33,11 +33,11 @@ m_mapProperties(node.GetPropertyMap())
     if (!node.HasProperty(_T("content")))
         m_mapProperties[_T("content")] = node.GetContents();
 
-    if (m_pInterface != NULL && HasProperty(_T("style")))
+    if (m_pInterface != nullptr && HasProperty(_T("style")))
     {
         CWidgetStyle* pStyle(m_pInterface->GetStyle(GetProperty(_T("style"))));
         RemoveProperty(_T("style"));
-        if (pStyle != NULL)
+        if (pStyle != nullptr)
         {
             for (CXMLNode::PropertyMap_it it(pStyle->m_mapProperties.begin()); it != pStyle->m_mapProperties.end(); ++it)
             {

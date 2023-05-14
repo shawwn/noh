@@ -20,7 +20,7 @@
   CFileHandle::CFileHandle
   ====================*/
 CFileHandle::CFileHandle() :
-m_pFile(NULL)
+m_pFile(nullptr)
 {
 }
 
@@ -29,7 +29,7 @@ m_pFile(NULL)
   CFileHandle::CFileHandle
   ====================*/
 CFileHandle::CFileHandle(const tstring &sPath, int iMode, const tstring &sMod) :
-m_pFile(NULL)
+m_pFile(nullptr)
 {
     Open(sPath, iMode, sMod);
 }
@@ -39,7 +39,7 @@ m_pFile(NULL)
   CFileHandle::CFileHandle
   ====================*/
 CFileHandle::CFileHandle(const tstring &sPath, int iMode, CArchive& archive) :
-m_pFile(NULL)
+m_pFile(nullptr)
 {
     Open(sPath, iMode, archive);
 }
@@ -179,7 +179,7 @@ bool    CFileHandle::Open(const tstring &sFilePath, int iMode, CArchive &hArchiv
             }
         }
 
-        if (m_pFile == NULL)
+        if (m_pFile == nullptr)
         {
             m_pFile = K2_NEW(ctx_FileSystem,  CFileArchive)(&hArchive);
 
@@ -203,7 +203,7 @@ bool    CFileHandle::Open(const tstring &sFilePath, int iMode, CArchive &hArchiv
   ====================*/
 void    CFileHandle::Close()
 {
-    if (m_pFile != NULL)
+    if (m_pFile != nullptr)
         m_pFile->Close();
     SAFE_DELETE(m_pFile);
 }
@@ -214,7 +214,7 @@ void    CFileHandle::Close()
   ====================*/
 bool    CFileHandle::IsOpen() const
 {
-    if (m_pFile == NULL)
+    if (m_pFile == nullptr)
         return false;
     return m_pFile->IsOpen();
 }
@@ -225,7 +225,7 @@ bool    CFileHandle::IsOpen() const
   ====================*/
 bool    CFileHandle::IsEOF() const
 {
-    if (m_pFile == NULL)
+    if (m_pFile == nullptr)
         return true;
     return m_pFile->IsEOF();
 }
@@ -236,7 +236,7 @@ bool    CFileHandle::IsEOF() const
   ====================*/
 tstring CFileHandle::ReadLine()
 {
-    if (m_pFile == NULL)
+    if (m_pFile == nullptr)
         return 0;
     return m_pFile->ReadLine();
 }
@@ -294,7 +294,7 @@ const char* CFileHandle::GetBuffer(uint &uiSize)
     if (m_pFile)
         return m_pFile->GetBuffer(uiSize);
     else
-        return NULL;
+        return nullptr;
 }
 
 
@@ -339,7 +339,7 @@ short   CFileHandle::ReadInt16(bool bUseBigEndian)
   ====================*/
 int     CFileHandle::ReadInt32(bool bUseBigEndian)
 {
-    if (m_pFile == NULL)
+    if (m_pFile == nullptr)
         return 0;
     return m_pFile->ReadInt32(bUseBigEndian);
 }
@@ -350,7 +350,7 @@ int     CFileHandle::ReadInt32(bool bUseBigEndian)
   ====================*/
 LONGLONG    CFileHandle::ReadInt64(bool bUseBigEndian)
 {
-    if (m_pFile == NULL)
+    if (m_pFile == nullptr)
         return 0;
     return m_pFile->ReadInt64(bUseBigEndian);
 }
@@ -386,7 +386,7 @@ size_t  CFileHandle::Tell()
   ====================*/
 bool    CFileHandle::Seek(int iOffset, ESeekOrigin eOrigin)
 {
-    if (m_pFile == NULL)
+    if (m_pFile == nullptr)
         return false;
     return m_pFile->Seek(iOffset, eOrigin);
 }
@@ -409,7 +409,7 @@ size_t  CFileHandle::GetLength()
   ====================*/
 bool    CFileHandle::WriteByte(char c)
 {
-    if (m_pFile == NULL)
+    if (m_pFile == nullptr)
         return false;
     return m_pFile->WriteByte(c);
 }
@@ -420,7 +420,7 @@ bool    CFileHandle::WriteByte(char c)
   ====================*/
 bool    CFileHandle::WriteInt16(short c, bool bUseBigEndian)
 {
-    if (m_pFile == NULL)
+    if (m_pFile == nullptr)
         return false;
     return m_pFile->WriteInt16(c, bUseBigEndian);
 }
@@ -431,7 +431,7 @@ bool    CFileHandle::WriteInt16(short c, bool bUseBigEndian)
   ====================*/
 bool    CFileHandle::WriteInt32(int c, bool bUseBigEndian)
 {
-    if (m_pFile == NULL)
+    if (m_pFile == nullptr)
         return false;
     return m_pFile->WriteInt32(c, bUseBigEndian);
 }
@@ -442,7 +442,7 @@ bool    CFileHandle::WriteInt32(int c, bool bUseBigEndian)
   ====================*/
 bool    CFileHandle::WriteInt64(LONGLONG ll, bool bUseBigEndian)
 {
-    if (m_pFile == NULL)
+    if (m_pFile == nullptr)
         return false;
     return m_pFile->WriteInt64(ll, bUseBigEndian);
 }
@@ -453,7 +453,7 @@ bool    CFileHandle::WriteInt64(LONGLONG ll, bool bUseBigEndian)
   ====================*/
 void    CFileHandle::Flush()
 {
-    if (m_pFile == NULL)
+    if (m_pFile == nullptr)
         return;
     m_pFile->Flush();
 }
@@ -464,7 +464,7 @@ void    CFileHandle::Flush()
   ====================*/
 wstring CFileHandle::ReadWString()
 {
-    if (m_pFile == NULL)
+    if (m_pFile == nullptr)
         return wstring();
 
     wstring sStr;
@@ -485,7 +485,7 @@ wstring CFileHandle::ReadWString()
   ====================*/
 void    CFileHandle::SetModificationTime(time_t tModTime)
 {
-    if (m_pFile == NULL)
+    if (m_pFile == nullptr)
         return;
     m_pFile->SetModificationTime(tModTime);
 }

@@ -174,7 +174,7 @@ m_v4OutlineColor(GetColorFromString(style.GetProperty(_T("outlinecolor"), _T("#0
 m_iOutlineOffset(style.GetPropertyFloat(_T("outlineoffset"), 1)),
 m_bUseScrollbar(style.GetPropertyBool(_T("usescrollbar"), false)),
 m_fScrollbarSize(GetSizeFromString(style.GetProperty(_T("scrollbarsize"), _T("16")), pParent->GetWidth(), pParent->GetHeight())),
-m_pScrollbar(NULL),
+m_pScrollbar(nullptr),
 m_bAutoSort(style.GetPropertyBool(_T("autosort"), true))
 {
 
@@ -349,7 +349,7 @@ m_bAutoSort(style.GetPropertyBool(_T("autosort"), true))
   ====================*/
 void    CTable::UpdateScrollbar()
 {
-    if (m_pScrollbar == NULL || !m_bUseScrollbar)
+    if (m_pScrollbar == nullptr || !m_bUseScrollbar)
         return;
 
     uint uiMaxValue(INT_SIZE(m_vsRowSize.size()) + 1);
@@ -470,7 +470,7 @@ void    CTable::RenderWidget(const CVec2f &vOrigin, float fFade)
     float fOrigWidth;
     float fOrigHeight;
     
-    if (m_pParent != NULL)
+    if (m_pParent != nullptr)
     {
         fOrigWidth = GetSizeFromString(m_sOrigWidth, m_pParent->GetWidth(), m_pParent->GetHeight());
         fOrigHeight = GetSizeFromString(m_sOrigHeight, m_pParent->GetHeight(), m_pParent->GetWidth());
@@ -649,7 +649,7 @@ CVec2ui CTable::GetCellFromCoord(const CVec2f &v2Pos)
     float fParentWidth;
     float fParentHeight;
 
-    if (m_pParent != NULL)
+    if (m_pParent != nullptr)
     {
         fParentWidth = m_pParent->GetWidth();
         fParentHeight = m_pParent->GetHeight();
@@ -710,7 +710,7 @@ CVec2f  CTable::GetCoordFromCell(const CVec2ui &v2Pos)
     float fParentWidth;
     float fParentHeight;
 
-    if (m_pParent != NULL)
+    if (m_pParent != nullptr)
     {
         fParentWidth = m_pParent->GetWidth();
         fParentHeight = m_pParent->GetHeight();
@@ -761,9 +761,9 @@ CVec2f  CTable::GetCoordFromCell(const CVec2ui &v2Pos)
   ====================*/
 void    CTable::MouseDown(EButton button, const CVec2f &v2CursorPos)
 {
-    if (button == BUTTON_WHEELUP && m_pScrollbar != NULL)
+    if (button == BUTTON_WHEELUP && m_pScrollbar != nullptr)
         m_pScrollbar->MinButtonCommand();
-    else if (button == BUTTON_WHEELDOWN && m_pScrollbar != NULL)
+    else if (button == BUTTON_WHEELDOWN && m_pScrollbar != nullptr)
         m_pScrollbar->MaxButtonCommand();
     
     if (button == BUTTON_WHEELUP || button == BUTTON_WHEELDOWN || !Contains(v2CursorPos))
@@ -1051,7 +1051,7 @@ bool    CTable::ProcessInputMouseButton(const CVec2f &v2CursorPos, EButton butto
         float fParentWidth;
         float fParentHeight;
 
-        if (m_pParent != NULL)
+        if (m_pParent != nullptr)
         {
             fParentWidth = m_pParent->GetWidth();
             fParentHeight = m_pParent->GetHeight();

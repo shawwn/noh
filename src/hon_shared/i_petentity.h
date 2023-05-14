@@ -32,7 +32,7 @@ public:
     virtual void    UpdateModifiers();
     virtual bool    ServerFrameThink();
     virtual bool    ServerFrameCleanup();
-    virtual void    Die(IUnitEntity *pAttacker = NULL, ushort unKillingObject = INVALID_ENT_TYPE);
+    virtual void    Die(IUnitEntity *pAttacker = nullptr, ushort unKillingObject = INVALID_ENT_TYPE);
 
     virtual void    SetLevel(uint uiLevel);
 

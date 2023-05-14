@@ -168,7 +168,7 @@ CServerManager::~CServerManager()
   CServerManager::CServerManager
   ====================*/
 CServerManager::CServerManager() :
-m_pHTTPManager(NULL),
+m_pHTTPManager(nullptr),
 m_cSocket(_T("SERVER_MANAGER")),
 m_uiNumAffinities(0),
 m_uiLastUpdateCheck(INVALID_TIME),
@@ -242,7 +242,7 @@ bool    CServerManager::SendManagerAuth()
     return true;
 #else
     CHTTPRequest *pAuthRequest(m_pHTTPManager->SpawnRequest());
-    if (pAuthRequest == NULL)
+    if (pAuthRequest == nullptr)
         return false;
 
     pAuthRequest->SetTargetURL(m_sMasterServerURL);

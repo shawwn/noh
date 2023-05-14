@@ -181,10 +181,10 @@ int main(int argc, char *argv[])
     sigemptyset(&act.sa_mask);
     act.sa_flags = SA_SIGINFO;
     act.sa_sigaction = signal_handler_quit;
-    sigaction(SIGHUP, &act, NULL);
-    sigaction(SIGINT, &act, NULL);
-    sigaction(SIGQUIT, &act, NULL);
-    sigaction(SIGTERM, &act, NULL);
+    sigaction(SIGHUP, &act, nullptr);
+    sigaction(SIGINT, &act, nullptr);
+    sigaction(SIGQUIT, &act, nullptr);
+    sigaction(SIGTERM, &act, nullptr);
     signal(SIGPIPE, SIG_IGN);
     // not handling fatal signals, as apple's default crash logging is sufficient
     

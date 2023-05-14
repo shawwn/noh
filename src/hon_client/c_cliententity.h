@@ -119,8 +119,8 @@ public:
 
     CEffectThread*  GetEffectThread(uint uiIndex)           { return m_apEffectThread[uiIndex]; }
 
-    void            SetNextClientEntity(CClientEntity *pNext)   { if (pNext == NULL) m_hNextClientEntity = INVALID_POOL_OFFSET; else m_hNextClientEntity = pNext - this; }
-    CClientEntity*  GetNextClientEntity()                       { if (m_hNextClientEntity == INVALID_POOL_OFFSET) return NULL; else return this + m_hNextClientEntity; }
+    void            SetNextClientEntity(CClientEntity *pNext)   { if (pNext == nullptr) m_hNextClientEntity = INVALID_POOL_OFFSET; else m_hNextClientEntity = pNext - this; }
+    CClientEntity*  GetNextClientEntity()                       { if (m_hNextClientEntity == INVALID_POOL_OFFSET) return nullptr; else return this + m_hNextClientEntity; }
 
     void            Rewind();
 };
@@ -136,8 +136,8 @@ public:
 inline
 bool    CClientEntity::IsValid() const
 {
-    if (m_pPrevState == NULL ||
-        m_pNextState == NULL ||
+    if (m_pPrevState == nullptr ||
+        m_pNextState == nullptr ||
         !m_pPrevState->IsValid() ||
         !m_pNextState->IsValid())
         return false;

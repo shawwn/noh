@@ -143,8 +143,8 @@ public:
     ResHandle                   GetFlatTexture() const          { return m_hFlatTexture; }
     ResHandle                   GetTeapotModel() const          { return m_hTeapotModel; }
 
-    K2_API void                 PrintResource(CConsoleStream& cStream, ResHandle hResource, bool bCompact = false, const TCHAR* pOverrideColor = NULL);
-    K2_API void                 PrintResource(CConsoleStream& cStream, IResource* pResource, bool bCompact = false, const TCHAR* pOverrideColor = NULL);
+    K2_API void                 PrintResource(CConsoleStream& cStream, ResHandle hResource, bool bCompact = false, const TCHAR* pOverrideColor = nullptr);
+    K2_API void                 PrintResource(CConsoleStream& cStream, IResource* pResource, bool bCompact = false, const TCHAR* pOverrideColor = nullptr);
 
     void                        ListResources();
     void                        ListResourceUsage() const;

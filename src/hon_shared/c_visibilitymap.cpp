@@ -31,7 +31,7 @@ CVisibilityMap::~CVisibilityMap()
   CVisibilityMap::CVisibilityMap
   ====================*/
 CVisibilityMap::CVisibilityMap() :
-m_pCells(NULL)
+m_pCells(nullptr)
 {
 }
 
@@ -57,7 +57,7 @@ void    CVisibilityMap::Initialize(uint uiWidth, uint uiHeight)
   ====================*/
 void    CVisibilityMap::Clear(byte yValue)
 {
-    if (m_pCells != NULL)
+    if (m_pCells != nullptr)
         MemManager.Set(m_pCells, yValue, m_uiWidth * m_uiHeight);
 }
 

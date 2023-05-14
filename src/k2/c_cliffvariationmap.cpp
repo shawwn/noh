@@ -18,8 +18,8 @@
   ====================*/
 CCliffVariationMap::CCliffVariationMap(EWorldComponent eComponent) :
 IWorldComponent(eComponent, _T("VariationCliffMap")),
-m_pTileCliffDefinition(NULL),
-m_pTileCliffVariation(NULL)
+m_pTileCliffDefinition(nullptr),
+m_pTileCliffVariation(nullptr)
 {
 }
 
@@ -38,15 +38,15 @@ CCliffVariationMap::~CCliffVariationMap()
   ====================*/
 void    CCliffVariationMap::Release()
 {
-    m_pWorld = NULL;
+    m_pWorld = nullptr;
 
-    if (m_pTileCliffDefinition != NULL)
+    if (m_pTileCliffDefinition != nullptr)
         K2_DELETE_ARRAY(m_pTileCliffDefinition);
-    m_pTileCliffDefinition = NULL;
+    m_pTileCliffDefinition = nullptr;
 
-    if (m_pTileCliffVariation != NULL)
+    if (m_pTileCliffVariation != nullptr)
         K2_DELETE_ARRAY(m_pTileCliffVariation);
-    m_pTileCliffVariation = NULL;
+    m_pTileCliffVariation = nullptr;
 }
 
 
@@ -91,13 +91,13 @@ bool    CCliffVariationMap::Load(CArchive &archive, const CWorld *pWorld)
     }
     catch (CException &ex)
     {
-        if (m_pTileCliffVariation != NULL)
+        if (m_pTileCliffVariation != nullptr)
             K2_DELETE_ARRAY(m_pTileCliffVariation);
-        m_pTileCliffVariation = NULL;
+        m_pTileCliffVariation = nullptr;
 
-        if (m_pTileCliffDefinition != NULL)
+        if (m_pTileCliffDefinition != nullptr)
             K2_DELETE_ARRAY(m_pTileCliffDefinition);
-        m_pTileCliffDefinition = NULL;
+        m_pTileCliffDefinition = nullptr;
 
         ex.Process(_T("CVertexCliff::Load() - "), NO_THROW);
         return false;
@@ -134,7 +134,7 @@ bool    CCliffVariationMap::Generate(const CWorld *pWorld)
         Release();
         m_bChanged = true;
         m_pWorld = pWorld;
-        if (m_pWorld == NULL)
+        if (m_pWorld == nullptr)
             EX_ERROR(_T("CCliffVariationMap needs a valid CWorld"));
 
         int iWorldSize = pow((float)2, (float)m_pWorld->GetSize());
@@ -143,9 +143,9 @@ bool    CCliffVariationMap::Generate(const CWorld *pWorld)
         m_pTileCliffDefinition = K2_NEW_ARRAY(ctx_World, uint, m_iCliffMapWidth*m_iCliffMapWidth);
         m_pTileCliffVariation = K2_NEW_ARRAY(ctx_World, uint, m_iCliffMapWidth*m_iCliffMapWidth);
 
-        if (m_pTileCliffDefinition == NULL)
+        if (m_pTileCliffDefinition == nullptr)
             EX_ERROR(_T("Failed to allocate memory for map data"));
-        if (m_pTileCliffVariation == NULL)
+        if (m_pTileCliffVariation == nullptr)
             EX_ERROR(_T("Failed to allocate memory for map data"));
 
         MemManager.Set(m_pTileCliffDefinition, 0, sizeof(uint) * (m_iCliffMapWidth * m_iCliffMapWidth));

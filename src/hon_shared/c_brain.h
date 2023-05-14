@@ -157,7 +157,7 @@ public:
     bool            IsEmpty() const             { return m_Brain.size() == 0; }
     uint            GetBehaviorsPending() const { if (m_Brain.size() > 0) return uint(m_Brain.size() - 1); else return 0; }
     uint            GetCommandsPending() const  { return uint(m_Commands.size()); }
-    IBehavior*      GetCurrentBehavior() const  { if (m_Brain.size() > 0) return m_Brain.front(); else return NULL; }
+    IBehavior*      GetCurrentBehavior() const  { if (m_Brain.size() > 0) return m_Brain.front(); else return nullptr; }
 
     uint            GetCurrentAttackStateTarget() const;
     uint            GetCurrentAttackBehaviorTarget() const;

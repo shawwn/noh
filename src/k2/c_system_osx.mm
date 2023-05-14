@@ -154,16 +154,16 @@ vector<string> GetModPaths()
  CSystem::CSystem
  ====================*/
 CSystem::CSystem() :
-m_hInstance(NULL),
-m_ConsoleWindowHandle(NULL),
-m_WindowHandle(NULL),
+m_hInstance(nullptr),
+m_ConsoleWindowHandle(nullptr),
+m_WindowHandle(nullptr),
 m_bRestartProcess(false),
 m_bDedicatedServer(false),
 m_bServerManager(false),
 m_bHasFocus(false),
 m_bMouseClip(false),
 m_recMouseClip(0, 0, 0, 0),
-m_pfnMainWndProc(NULL),
+m_pfnMainWndProc(nullptr),
 m_ullVirtualMemoryLimit(4294967296ull) // 4GB address space per process on 32 bit Mac OS X (18 exabytes on 64 bit MaC OS X)
 {
     // Set system start time so K2System.Milliseconds counts from 0
@@ -375,8 +375,8 @@ void    CSystem::InitMore()
         
         while ((hidDevice = IOIteratorNext(hidObjectIterator)))
         {
-            IOHIDDeviceInterface122 **hidDeviceInterface(NULL);
-            IOCFPlugInInterface **plugInInterface(NULL);
+            IOHIDDeviceInterface122 **hidDeviceInterface(nullptr);
+            IOCFPlugInInterface **plugInInterface(nullptr);
             SInt32 score(0);
             CFTypeRef object;
             CFArrayRef usagePairs;
@@ -441,7 +441,7 @@ void    CSystem::InitMore()
             int minValue, maxValue;
             IOHIDElementCookie cookie;
             
-            if (((*hidDeviceInterface)->copyMatchingElements(hidDeviceInterface, NULL, &elements)) == kIOReturnSuccess)
+            if (((*hidDeviceInterface)->copyMatchingElements(hidDeviceInterface, nullptr, &elements)) == kIOReturnSuccess)
             {
                 for (CFIndex i(0); i < CFArrayGetCount(elements); ++i)
                 {
@@ -1057,7 +1057,7 @@ void    CSystem::Exit(int iErrorLevel)
         vArgs.push_back(_T("~/startup.cfg"));
         
         CConsoleElement *pElem = ConsoleRegistry.GetElement(_T("WriteConfigScript"));
-        if (pElem != NULL)
+        if (pElem != nullptr)
             pElem->Execute(vArgs);
     }
     
@@ -1075,7 +1075,7 @@ void    CSystem::Exit(int iErrorLevel)
     if (m_bRestartProcess)
     {
         // Restart the game via the updater
-        const char *argv[] = { "HoN_Update", NULL };
+        const char *argv[] = { "HoN_Update", nullptr };
         // need to fork() first since under OS X can't exec in an app that has multiple threads...
         if (fork() == 0)
             execv(argv[0], (char**)argv);
@@ -1472,7 +1472,7 @@ void    CSystem::PollJoysticks(uint uiID)
         if (pInfo->axis[i].eAxis != AXIS_INVALID)
         {
             IOHIDEventStruct event;
-            (*(pInfo->hidDeviceInterface))->queryElementValue(pInfo->hidDeviceInterface, pInfo->axis[i].cookie, &event, 0, NULL, NULL, NULL);
+            (*(pInfo->hidDeviceInterface))->queryElementValue(pInfo->hidDeviceInterface, pInfo->axis[i].cookie, &event, 0, nullptr, nullptr, nullptr);
             
             float fAxisValue(CLAMP(event.value / (float)pInfo->axis[i].iMax, -1.0f, 1.0f));
             float fAxisDelta;
@@ -1493,7 +1493,7 @@ void    CSystem::PollJoysticks(uint uiID)
         if (pInfo->button[i].eButton != BUTTON_INVALID)
         {
             IOHIDEventStruct event;
-            (*(pInfo->hidDeviceInterface))->queryElementValue(pInfo->hidDeviceInterface, pInfo->button[i].cookie, &event, 0, NULL, NULL, NULL);
+            (*(pInfo->hidDeviceInterface))->queryElementValue(pInfo->hidDeviceInterface, pInfo->button[i].cookie, &event, 0, nullptr, nullptr, nullptr);
             
             if (event.value != 0)
                 uiButtonStates |= BIT(i);
@@ -1513,7 +1513,7 @@ void    CSystem::PollJoysticks(uint uiID)
 #define POV_LEFT(pov)   (((pov) <= pInfo->hat.iMax || (pov) >= pInfo->hat.iMin) && ((pov) > pInfo->hat.iDown))
         
         IOHIDEventStruct event;
-        (*(pInfo->hidDeviceInterface))->queryElementValue(pInfo->hidDeviceInterface, pInfo->hat.cookie, &event, 0, NULL, NULL, NULL);
+        (*(pInfo->hidDeviceInterface))->queryElementValue(pInfo->hidDeviceInterface, pInfo->hat.cookie, &event, 0, nullptr, nullptr, nullptr);
         if (POV_UP(event.value) && !POV_UP(m_JoystickState.uiPOV))
             Input.AddEvent(BUTTON_JOY_POV_UP, true);
         else if (!POV_UP(event.value) && POV_UP(m_JoystickState.uiPOV))
@@ -1657,7 +1657,7 @@ bool    CSystem::IsDebuggerPresent()
     
     info.kp_proc.p_flag = 0;
 
-    sysctl(mib, 4, &info, &size, NULL, 0);
+    sysctl(mib, 4, &info, &size, nullptr, 0);
     
     return (info.kp_proc.p_flag & P_TRACED) != 0;
 }
@@ -1737,23 +1737,23 @@ SSysInfo    CSystem::GetSystemInfo()
         int64_t mem;
         int mib[4] = { CTL_HW, HW_MEMSIZE, 0, 0 };
         size_t size = sizeof(int64_t);
-        sysctl(mib, 2, &mem, &size, NULL, 0);
+        sysctl(mib, 2, &mem, &size, nullptr, 0);
         structInfo.sRAM = XtoA(mem/(1024*1024)) + _T(" MB");
         
         // Processor
         char cpu[1024];
         int cputype;
         size = sizeof(char) * 1024;
-        if (sysctlbyname("machdep.cpu.brand_string", cpu, &size, NULL, 0) == 0)
+        if (sysctlbyname("machdep.cpu.brand_string", cpu, &size, nullptr, 0) == 0)
         {
             structInfo.sProcessor = UTF8ToTString(cpu);
         }
-        else if (size = sizeof(int), sysctlbyname("hw.cputype", &cputype, &size, NULL, 0) == 0)
+        else if (size = sizeof(int), sysctlbyname("hw.cputype", &cputype, &size, nullptr, 0) == 0)
         {
             if (cputype == 18)
             {
                 structInfo.sProcessor = _T("Power PC");
-                if (size = sizeof(int), sysctlbyname("hw.cpusubtype", &cputype, &size, NULL, 0) == 0)
+                if (size = sizeof(int), sysctlbyname("hw.cpusubtype", &cputype, &size, nullptr, 0) == 0)
                 {
                     if (cputype == 100)
                     {
@@ -1775,7 +1775,7 @@ SSysInfo    CSystem::GetSystemInfo()
             }
             uint64_t cpufreq;
             size = sizeof(uint64_t);
-            if (sysctlbyname("hw.cpufrequency", &cpufreq, &size, NULL, 0) == 0)
+            if (sysctlbyname("hw.cpufrequency", &cpufreq, &size, nullptr, 0) == 0)
             {
                 structInfo.sProcessor = XtoA(float(cpufreq) / 1000000000u, 0, 0, 2) + _T(" GHz ") + structInfo.sProcessor;
             }
@@ -1784,7 +1784,7 @@ SSysInfo    CSystem::GetSystemInfo()
         {
             mib[1] = HW_MACHINE;
             size = sizeof(char) * 1024;
-            sysctl(mib, 2, cpu, &size, NULL, 0);
+            sysctl(mib, 2, cpu, &size, nullptr, 0);
             structInfo.sProcessor = UTF8ToTString(cpu);
         }
         

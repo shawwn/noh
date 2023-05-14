@@ -147,7 +147,7 @@ IWidget*    AllocateWidget(const tstring &sName, CInterface *pInterface, IWidget
     else if (TStringCompare(sName, _T("anchor")) == 0)
     {
         xmlproc_anchor(pInterface, pParent, style);
-        return NULL;
+        return nullptr;
     }
     else if (TStringCompare(sName, _T("widgetstate")) == 0)
     {
@@ -156,11 +156,11 @@ IWidget*    AllocateWidget(const tstring &sName, CInterface *pInterface, IWidget
     else if (TStringCompare(sName, _T("dirlistitems")) == 0)
     {
         xmlproc_dirlistitems(pInterface, pParent, style);
-        return NULL;
+        return nullptr;
     }
 
     Console << _T("CWidgetDefinition::Instantiate() - Failed creating ") << sName << newl;
-    return NULL;
+    return nullptr;
 }
 
 
@@ -178,17 +178,17 @@ void    CWidgetDefinition::Instantiate(CInterface *pInterface, IWidget *pParent,
 
     style.ApplySubstitutions(styleInstance);
 
-    IWidget *pNewWidget(NULL);
+    IWidget *pNewWidget(nullptr);
     if (TStringCompare(sType, _T("instance")) == 0)
     {
         CWidgetTemplate *pTemplate(pInterface->GetTemplate(style.GetProperty(_CTS("name"))));
-        if (pTemplate != NULL)
+        if (pTemplate != nullptr)
             pTemplate->Instantiate(pParent, style);
     }
     else
     {
         pNewWidget = AllocateWidget(sType, pInterface, pParent, style);
-        if (pNewWidget == NULL)
+        if (pNewWidget == nullptr)
             return;
 
         if (pParent->HasFlags(WFLAG_LIST) && TStringCompare(sType, _T("listitem")) == 0)
@@ -209,7 +209,7 @@ void    CWidgetDefinition::Instantiate(CInterface *pInterface, IWidget *pParent,
     }
 
     for (WidgetDefinitionVector_it it(m_vChildren.begin()); it != m_vChildren.end(); ++it)
-        it->Instantiate(pInterface, (pNewWidget == NULL) ? pParent : pNewWidget, styleInstance);
+        it->Instantiate(pInterface, (pNewWidget == nullptr) ? pParent : pNewWidget, styleInstance);
 }
 
 
@@ -231,12 +231,12 @@ void    CWidgetTemplate::Instantiate(IWidget *pParent, const CWidgetStyle &style
 UI_VOID_CMD(Instantiate, 1)
 {
     CInterface *pInterface(pThis->GetInterface());
-    if (pInterface == NULL)
+    if (pInterface == nullptr)
         return;
 
     const tstring &sTemplateName(vArgList[0]->Evaluate());
     CWidgetTemplate *pTemplate(pInterface->GetTemplate(sTemplateName));
-    if (pTemplate == NULL)
+    if (pTemplate == nullptr)
     {
         Console.Err << _T("Template ") << QuoteStr(sTemplateName) << _T(" not found for interface: ") << pInterface->GetFilename() << newl;
         return;

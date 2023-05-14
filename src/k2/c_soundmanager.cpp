@@ -87,7 +87,7 @@ const unsigned int sound_musicFadeTime(2000);
 
 #if TKTK // This seems removed as of 2023
 #if defined(linux)
-SpeexResamplerState *g_VoiceResampler(NULL); // For OSS since we need to resample :(
+SpeexResamplerState *g_VoiceResampler(nullptr); // For OSS since we need to resample :(
 #endif
 #endif
 
@@ -278,7 +278,7 @@ FMOD_RESULT F_CALLBACK Sound_CallbackFileOpen(const char* name, unsigned int *fi
     {
         CFileHandle *pFile = K2_NEW(ctx_Sound,  CFileHandle)(sPath, FILE_READ | FILE_BINARY | FILE_TEST);
 
-        if (pFile == NULL || !pFile->IsOpen())
+        if (pFile == nullptr || !pFile->IsOpen())
         {
             K2_DELETE(pFile);
 
@@ -290,7 +290,7 @@ FMOD_RESULT F_CALLBACK Sound_CallbackFileOpen(const char* name, unsigned int *fi
 
             pFile = K2_NEW(ctx_Sound,  CFileHandle)(sPath, FILE_READ | FILE_BINARY | FILE_TEST);
 
-            if (pFile == NULL || !pFile->IsOpen())
+            if (pFile == nullptr || !pFile->IsOpen())
             {
                 K2_DELETE(pFile);
                 return FMOD_ERR_FILE_NOTFOUND;
@@ -456,7 +456,7 @@ FMOD_RESULT F_CALLBACK Sound_CallbackStopActiveSound(FMOD_CHANNELCONTROL *pContr
             int iNumChannels = 0;
             pGroup->getNumChannels(&iNumChannels);
             for (int i = 0; i < iNumChannels; i++) {
-                FMOD::Channel *pChannel = NULL;
+                FMOD::Channel *pChannel = nullptr;
                 pGroup->getChannel(0, &pChannel);
                 if (pChannel) {
                     K2SoundManager.StopActiveSound(pChannel);
@@ -477,7 +477,7 @@ FMOD_RESULT F_CALLBACK Sound_CallbackStopActiveStream(FMOD_CHANNELCONTROL *pCont
     if (type == FMOD_CHANNELCONTROL_CALLBACK_END)
     {
         if (controltype == FMOD_CHANNELCONTROL_CHANNEL) {
-            FMOD::Sound *pStream = NULL;
+            FMOD::Sound *pStream = nullptr;
             ((FMOD::Channel *)pControl)->getCurrentSound(&pStream);
             K2SoundManager.StopActiveSound((FMOD::Channel *)pControl);
             pStream->release();
@@ -486,10 +486,10 @@ FMOD_RESULT F_CALLBACK Sound_CallbackStopActiveStream(FMOD_CHANNELCONTROL *pCont
             int iNumChannels = 0;
             pGroup->getNumChannels(&iNumChannels);
             for (int i = 0; i < iNumChannels; i++) {
-                FMOD::Channel *pChannel = NULL;
+                FMOD::Channel *pChannel = nullptr;
                 pGroup->getChannel(0, &pChannel);
                 if (pChannel) {
-                    FMOD::Sound *pStream = NULL;
+                    FMOD::Sound *pStream = nullptr;
                     pChannel->getCurrentSound(&pStream);
                     K2SoundManager.StopActiveSound(pChannel);
                     pStream->release();
@@ -516,7 +516,7 @@ FMOD_RESULT F_CALLBACK Sound_CallbackStopActiveMusicSample(FMOD_CHANNELCONTROL *
             int iNumChannels = 0;
             pGroup->getNumChannels(&iNumChannels);
             for (int i = 0; i < iNumChannels; i++) {
-                FMOD::Channel *pChannel = NULL;
+                FMOD::Channel *pChannel = nullptr;
                 pGroup->getChannel(0, &pChannel);
                 if (pChannel) {
                     K2SoundManager.MusicStopped(pChannel);
@@ -550,7 +550,7 @@ float F_CALLBACK Sound_Callback3dRolloff(FMOD_CHANNELCONTROL *Channel, float fFm
     pChannel->get3DMinMaxDistance(&fMinDistance, &fMaxDistance);
 
     CVec3f v3Pos;
-    pChannel->get3DAttributes((FMOD_VECTOR *)&v3Pos, NULL);
+    pChannel->get3DAttributes((FMOD_VECTOR *)&v3Pos, nullptr);
 
     // Read previous rolloff from userdata
     void *pUserData;
@@ -606,10 +606,10 @@ CSoundManager::~CSoundManager()
   CSoundManager::CSoundManager
   ====================*/
 CSoundManager::CSoundManager() :
-m_pFMODSystem(NULL),
+m_pFMODSystem(nullptr),
 
-m_pResamplerMono(NULL),
-m_pResamplerStereo(NULL),
+m_pResamplerMono(nullptr),
+m_pResamplerStereo(nullptr),
 
 m_bInitialized(false),
 m_uiFailureCount(0),
@@ -622,11 +622,11 @@ m_iLoopFrame(0),
 m_uiHandleCounter(0),
 m_iNumLoopingSounds(0),
 
-m_pMusicChannel(NULL),
+m_pMusicChannel(nullptr),
 m_bPlaylistActive(false),
-m_pRecordTarget(NULL),
+m_pRecordTarget(nullptr),
 
-m_pWorldGeometry(NULL),
+m_pWorldGeometry(nullptr),
 
 m_fFalloffBias(0.0f),
 m_v3Center(V3_ZERO),
@@ -667,9 +667,9 @@ void    CSoundManager::Start()
         
 #ifdef K2_TRACK_MEM
         // Tell FMOD to use our custom memory management
-        result = FMOD::Memory_Initialize(NULL, 0, Sound_FMODAlloc, Sound_FMODRealloc, Sound_FMODFree);
+        result = FMOD::Memory_Initialize(nullptr, 0, Sound_FMODAlloc, Sound_FMODRealloc, Sound_FMODFree);
 #else
-        result = FMOD::Memory_Initialize(NULL, 0, NULL, NULL, NULL);
+        result = FMOD::Memory_Initialize(nullptr, 0, nullptr, nullptr, nullptr);
 #endif
         StrToTString(sError, FMOD_ErrorString(result));
         if (result != FMOD_OK)
@@ -678,7 +678,7 @@ void    CSoundManager::Start()
         // Create and initialize the main FMOD object
         result = FMOD::System_Create(&m_pFMODSystem);
         StrToTString(sError, FMOD_ErrorString(result));
-        if (result != FMOD_OK || m_pFMODSystem == NULL)
+        if (result != FMOD_OK || m_pFMODSystem == nullptr)
             EX_ERROR(_T("FMOD::System_Create() failed: ") + sError);
 
         // Set sound output
@@ -776,7 +776,7 @@ void    CSoundManager::Start()
         Console << _T("FMOD found ") << m_iNumDrivers << _T(" sound drivers: ") << newl;
         for (int i(0); i < m_iNumDrivers; ++i)
         {
-            m_pFMODSystem->getDriverInfo(i, szDriverName, 1024, NULL, NULL, NULL, NULL);
+            m_pFMODSystem->getDriverInfo(i, szDriverName, 1024, nullptr, nullptr, nullptr, nullptr);
             StrToTString(sDriverName, szDriverName);
             Console << XtoA(i, 0, 2) << _T(": ") << sDriverName << newl;
             ICvar::CreateString(_T("sound_driver") + XtoA(i, FMT_PADZERO, 2), sDriverName);
@@ -789,7 +789,7 @@ void    CSoundManager::Start()
             EX_ERROR(_T("Couldn't set driver: ") + sError);
         
         FMOD_SPEAKERMODE speakermode = FMOD_SPEAKERMODE_DEFAULT;
-        m_pFMODSystem->getDriverInfo(sound_driver, szDriverName, 1024, NULL, NULL, &speakermode, NULL);
+        m_pFMODSystem->getDriverInfo(sound_driver, szDriverName, 1024, nullptr, nullptr, &speakermode, nullptr);
         StrToTString(sDriverName, szDriverName);
         Console << _T("Using driver ") << XtoA(sound_driver) << ": " << sDriverName << newl;
         
@@ -816,14 +816,14 @@ void    CSoundManager::Start()
             EX_ERROR(_T("FMOD::System::setSoftwareChannels failed: ") + sError);
         }
         
-        result = m_pFMODSystem->init(768, FMOD_INIT_3D_RIGHTHANDED | FMOD_INIT_VOL0_BECOMES_VIRTUAL, NULL);
+        result = m_pFMODSystem->init(768, FMOD_INIT_3D_RIGHTHANDED | FMOD_INIT_VOL0_BECOMES_VIRTUAL, nullptr);
         if (result == FMOD_ERR_OUTPUT_CREATEBUFFER)
         {
             // selected speaker mode not supported, fall back to stereo
 #if TKTK // Seems removed as of 2023
             m_pFMODSystem->setSpeakerMode(FMOD_SPEAKERMODE_STEREO);
 #endif
-            result = m_pFMODSystem->init(768, FMOD_INIT_3D_RIGHTHANDED | FMOD_INIT_VOL0_BECOMES_VIRTUAL, NULL);
+            result = m_pFMODSystem->init(768, FMOD_INIT_3D_RIGHTHANDED | FMOD_INIT_VOL0_BECOMES_VIRTUAL, nullptr);
         }
         StrToTString(sError, FMOD_ErrorString(result));
         if (result != FMOD_OK)
@@ -845,7 +845,7 @@ void    CSoundManager::Start()
             Console << _T("FMOD found ") << m_iNumRecordingDrivers << _T(" sound recording drivers: ") << newl;
             for (int i(0); i < m_iNumRecordingDrivers; ++i)
             {
-                m_pFMODSystem->getRecordDriverInfo(i, szDriverName, 1024, NULL, NULL, NULL, NULL, NULL);
+                m_pFMODSystem->getRecordDriverInfo(i, szDriverName, 1024, nullptr, nullptr, nullptr, nullptr, nullptr);
                 StrToTString(sDriverName, szDriverName);
                 Console << XtoA(i, 0, 2) << _T(": ") << sDriverName << newl;
                 ICvar::CreateString(_T("sound_recording_driver") + XtoA(i, FMT_PADZERO, 2), sDriverName);
@@ -853,7 +853,7 @@ void    CSoundManager::Start()
 
             if (sound_recording_driver >= m_iNumRecordingDrivers) sound_recording_driver = 0;
             m_iRecordingDriver = sound_recording_driver;
-            m_pFMODSystem->getRecordDriverInfo(sound_recording_driver, szDriverName, 1024, NULL, NULL, NULL, NULL, NULL);
+            m_pFMODSystem->getRecordDriverInfo(sound_recording_driver, szDriverName, 1024, nullptr, nullptr, nullptr, nullptr, nullptr);
             StrToTString(sDriverName, szDriverName);
             Console << _T("Using recording driver ") << XtoA(sound_recording_driver) << ": " << sDriverName << newl;
 
@@ -864,7 +864,7 @@ void    CSoundManager::Start()
         // Set speakermode based on what's set in the control panel
         FMOD_SPEAKERMODE speakermode;
         FMOD_CAPS caps;
-        result = m_pFMODSystem->getDriverCaps(sound_driver, &caps, NULL, NULL, &speakermode);
+        result = m_pFMODSystem->getDriverCaps(sound_driver, &caps, nullptr, nullptr, &speakermode);
         if (sound_prologic)
             speakermode = FMOD_SPEAKERMODE_PROLOGIC;
         if (result == FMOD_OK || speakermode == FMOD_SPEAKERMODE_PROLOGIC)
@@ -953,7 +953,7 @@ void    CSoundManager::Start()
 #if TKTK // TODO: read async?
                                               Sound_CallbackFileReadAsync, Sound_CallbackFileCancelAsync,
 #else
-                                              NULL, NULL,
+                                              nullptr, nullptr,
 #endif
                                               -1);
         if (result != FMOD_OK)
@@ -989,7 +989,7 @@ void    CSoundManager::Start()
         FMOD_ADVANCEDSETTINGS settings = {
             sizeof(FMOD_ADVANCEDSETTINGS),
             sound_useCompressedSamples ? sound_numChannels - 1 : 0, // number of mpeg compressed channels. Each one takes 29,424 bytes memory
-            0, 0, 0, NULL };
+            0, 0, 0, nullptr };
         result = m_pFMODSystem->setAdvancedSettings(&settings);
         if (result != FMOD_OK)
         {
@@ -1029,8 +1029,8 @@ void    CSoundManager::Start()
 
         m_pFMODSystem->set3DRolloffCallback(Sound_Callback3dRolloff);
 
-        m_pResamplerMono = speex_resampler_init(1, 44100, sound_mixrate, sound_downsampleQuality, NULL);
-        m_pResamplerStereo = speex_resampler_init(2, 44100, sound_mixrate, sound_downsampleQuality, NULL);
+        m_pResamplerMono = speex_resampler_init(1, 44100, sound_mixrate, sound_downsampleQuality, nullptr);
+        m_pResamplerStereo = speex_resampler_init(2, 44100, sound_mixrate, sound_downsampleQuality, nullptr);
         if (!m_pResamplerMono || !m_pResamplerStereo)
         {
             Console.Warn << _T("Sound downsampling disabled.") << newl;
@@ -1043,8 +1043,8 @@ void    CSoundManager::Start()
         {
             // Set up the resampler used to convert from output/input rate -> voice sample rate
             int iRate, iChannels;
-            m_pFMODSystem->getSoftwareFormat(&iRate, NULL, &iChannels, NULL, NULL, NULL);
-            g_VoiceResampler = speex_resampler_init(1, iRate, VOICE_SAMPLE_RATE, 3, NULL);
+            m_pFMODSystem->getSoftwareFormat(&iRate, nullptr, &iChannels, nullptr, nullptr, nullptr);
+            g_VoiceResampler = speex_resampler_init(1, iRate, VOICE_SAMPLE_RATE, 3, nullptr);
             speex_resampler_set_input_stride(g_VoiceResampler, iChannels);
         }
 #endif
@@ -1058,7 +1058,7 @@ void    CSoundManager::Start()
     catch (CException &ex)
     {
         ex.Process(_T("SoundManager::Start() - "), NO_THROW);
-        if (m_pFMODSystem != NULL)
+        if (m_pFMODSystem != nullptr)
             m_pFMODSystem->release();
     }
 }
@@ -1068,11 +1068,11 @@ void    CSoundManager::Start()
   ====================*/
 void    CSoundManager::Restart()
 {
-    void *pWorldGeometry(NULL);
+    void *pWorldGeometry(nullptr);
     int size(0);
 
     // save current world geometry
-    if (!sound_disable && m_pWorldGeometry && m_pWorldGeometry->save(NULL, &size) == FMOD_OK)
+    if (!sound_disable && m_pWorldGeometry && m_pWorldGeometry->save(nullptr, &size) == FMOD_OK)
     {
         pWorldGeometry = K2_NEW_ARRAY(ctx_Sound, byte, size);
         m_pWorldGeometry->save(pWorldGeometry, &size);
@@ -1202,7 +1202,7 @@ void    CSoundManager::Stop()
     m_pFMODSystem->getMasterSoundGroup(&pSounds);
     for (map<SoundHandle, FMOD::Channel *>::iterator it(m_mapActiveSounds.begin()); it != m_mapActiveSounds.end(); it++)
     {
-        it->second->setCallback(NULL);
+        it->second->setCallback(nullptr);
     }
     pSounds->stop();
     m_mapActiveSounds.clear();
@@ -1221,7 +1221,7 @@ void    CSoundManager::Stop()
         pSounds->getNumSounds(&numsounds);
     }
 
-    m_pMusicChannel = NULL;
+    m_pMusicChannel = nullptr;
 
     // and free channel groups
     m_pSFXChannelGroup->release();
@@ -1240,19 +1240,19 @@ void    CSoundManager::Stop()
     if (m_pWorldGeometry)
     {
         m_pWorldGeometry->release();
-        m_pWorldGeometry = NULL;
+        m_pWorldGeometry = nullptr;
     }
 
     if (m_pResamplerMono)
     {
         speex_resampler_destroy(m_pResamplerMono);
-        m_pResamplerMono = NULL;
+        m_pResamplerMono = nullptr;
     }
 
     if (m_pResamplerStereo)
     {
         speex_resampler_destroy(m_pResamplerStereo);
-        m_pResamplerStereo = NULL;
+        m_pResamplerStereo = nullptr;
     }
 
 #if TKTK // This seems removed as of 2023
@@ -1260,15 +1260,15 @@ void    CSoundManager::Stop()
     if (g_VoiceResampler)
     {
         speex_resampler_destroy(g_VoiceResampler);
-        g_VoiceResampler = NULL;
+        g_VoiceResampler = nullptr;
     }
 #endif
 #endif
 
-    if (m_pFMODSystem != NULL)
+    if (m_pFMODSystem != nullptr)
     {
         m_pFMODSystem->release();
-        m_pFMODSystem = NULL;
+        m_pFMODSystem = nullptr;
     }
 
     m_bInitialized = false;
@@ -1283,11 +1283,11 @@ void    CSoundManager::StopStreamingImmediately()
 {
     Console << _T("CSoundManager stopping any active music streaming...") << newl;
 
-    if (m_pMusicChannel != NULL)
+    if (m_pMusicChannel != nullptr)
     {
         m_pMusicChannel->stop();
-        assert(m_pMusicChannel == NULL);
-        m_pMusicChannel = NULL;
+        assert(m_pMusicChannel == nullptr);
+        m_pMusicChannel = nullptr;
     }
 
     ReleasePendingSounds();
@@ -1352,7 +1352,7 @@ void    CSoundManager::RefreshDrivers()
     {
         for (int i(0); i < m_iNumDrivers; ++i)
         {
-            if (pSystem->getDriverInfo(i, szDriverName, 1024, NULL, NULL, NULL, NULL) != FMOD_OK)
+            if (pSystem->getDriverInfo(i, szDriverName, 1024, nullptr, nullptr, nullptr, nullptr) != FMOD_OK)
                 continue;
             StrToTString(sDriverName, szDriverName);
             ICvar::CreateString(_T("sound_driver") + XtoA(i, FMT_PADZERO, 2), sDriverName);
@@ -1368,7 +1368,7 @@ void    CSoundManager::RefreshDrivers()
     {
         for (int i(0); i < m_iNumRecordingDrivers; ++i)
         {
-            if (pSystem->getRecordDriverInfo(i, szDriverName, 1024, NULL, NULL, NULL, NULL, NULL) != FMOD_OK)
+            if (pSystem->getRecordDriverInfo(i, szDriverName, 1024, nullptr, nullptr, nullptr, nullptr, nullptr) != FMOD_OK)
                 continue;
             StrToTString(sDriverName, szDriverName);
             ICvar::CreateString(_T("sound_recording_driver") + XtoA(i, FMT_PADZERO, 2), sDriverName);
@@ -1417,18 +1417,18 @@ CSample *CSoundManager::StartRecording(int iFrequency, uint uiBufferSize)
     CSample *pNewSample;
     
     if (sound_disableRecording)
-        return NULL;
+        return nullptr;
 
     if (!m_bInitialized)
     {
         Console.Warn << _T("CSoundManager::StartRecording() - CSoundManager has not been initialized") << newl;
-        return NULL;
+        return nullptr;
     }
 
     if (m_iNumRecordingDrivers == 0)
     {
         Console.Warn << _T("CSoundManager::StartRecording() - No recording device present") << newl;
-        return NULL;
+        return nullptr;
     }
 
     result = m_pFMODSystem->isRecording(m_iRecordingDriver, &bRecording);
@@ -1437,7 +1437,7 @@ CSample *CSoundManager::StartRecording(int iFrequency, uint uiBufferSize)
     {
         StrToTString(sError, FMOD_ErrorString(result));
         Console.Err << _T("CSoundManager::StartRecording() - FMOD::System::isRecording failed: ") << sError << newl;
-        return NULL;
+        return nullptr;
     }
 
     if (bRecording)
@@ -1450,7 +1450,7 @@ CSample *CSoundManager::StartRecording(int iFrequency, uint uiBufferSize)
     {
         // OSS shares input and output settings so we need to use them and then do some resampling and stuff later...
         int iRate, iChannels;
-        m_pFMODSystem->getSoftwareFormat(&iRate, NULL, &iChannels, NULL, NULL, NULL);
+        m_pFMODSystem->getSoftwareFormat(&iRate, nullptr, &iChannels, nullptr, nullptr, nullptr);
         uiBufferSize = static_cast<uint>(static_cast<unsigned long long>(uiBufferSize) * iRate * iChannels / iFrequency);
         pNewSound = K2SoundManager.CreateSound(iRate, iChannels, SOUND_SAMPLE_RATE, uiBufferSize, SND_LOOP | SND_2D);
     }
@@ -1467,7 +1467,7 @@ CSample *CSoundManager::StartRecording(int iFrequency, uint uiBufferSize)
         StrToTString(sError, FMOD_ErrorString(result));
         Console.Err << _T("CSoundManager::StartRecording() - FMOD::System::recordStart failed: ") << sError << newl;
         Console.Err << XtoA(m_iRecordingDriver) << _T(",") << XtoA(pNewSound) << newl;
-        return NULL;
+        return nullptr;
     }
 
     m_pRecordTarget = pNewSample;
@@ -1513,7 +1513,7 @@ void    CSoundManager::StopRecording()
         return;
 
     result = m_pFMODSystem->recordStop(m_iRecordingDriver);
-    m_pRecordTarget = NULL;
+    m_pRecordTarget = nullptr;
     
     if (result != FMOD_OK)
     {
@@ -1548,7 +1548,7 @@ uint    CSoundManager::GetRecordingPos()
     {
         // OSS shares input and output settings so we need to use them and then do some resampling and stuff later...
         int iRate;
-        m_pFMODSystem->getSoftwareFormat(&iRate, NULL, NULL, NULL, NULL, NULL);
+        m_pFMODSystem->getSoftwareFormat(&iRate, nullptr, nullptr, nullptr, nullptr, nullptr);
         uPos = static_cast<uint>(static_cast<unsigned long long>(uPos) * VOICE_SAMPLE_RATE / iRate);
     }
 #endif
@@ -1577,7 +1577,7 @@ uint    CSoundManager::GetSampleLength(CSample *pSample)
     {
         // OSS shares input and output settings so we need to use them and then do some resampling and stuff later...
         int iRate, iChannels;
-        m_pFMODSystem->getSoftwareFormat(&iRate, NULL, &iChannels, NULL, NULL, NULL);
+        m_pFMODSystem->getSoftwareFormat(&iRate, nullptr, &iChannels, nullptr, nullptr, nullptr);
         uLength = static_cast<uint>(static_cast<unsigned long long>(uLength) * VOICE_SAMPLE_RATE / (iRate * iChannels));
     }
 #endif
@@ -1618,7 +1618,7 @@ byte    *CSoundManager::GetSampleData(CSample *pSample, uint uLength, uint uOffs
         Console.Err << _T("CSoundManager::GetSampleData() - FMOD::Sound::lock failed: ") << sError << newl;
 
         K2_DELETE_ARRAY(sReadData);
-        return NULL;
+        return nullptr;
     }
 
     MemManager.Copy(sReadData, ptr1, len1);
@@ -1634,7 +1634,7 @@ byte    *CSoundManager::GetSampleData(CSample *pSample, uint uLength, uint uOffs
         Console.Err << _T("CSoundManager::GetSampleData() - FMOD::Sound::unlock failed: ") << sError << newl;
 
         K2_DELETE_ARRAY(sReadData);
-        return NULL;
+        return nullptr;
     }
 
     return sReadData;
@@ -1661,7 +1661,7 @@ bool    CSoundManager::GetSampleData(CSample *pSample, byte *pTarget, uint uLeng
     {
         // OSS shares input and output settings so we need to use them and then do some resampling and stuff later...
         uOriginalLength = uLength;
-        m_pFMODSystem->getSoftwareFormat(&iRate, NULL, &iChannels, NULL, NULL, NULL);
+        m_pFMODSystem->getSoftwareFormat(&iRate, nullptr, &iChannels, nullptr, nullptr, nullptr);
         uOffset = static_cast<uint>(static_cast<unsigned long long>(uOffset) * iRate * iChannels / VOICE_SAMPLE_RATE);
         uLength = static_cast<uint>(static_cast<unsigned long long>(uLength) * iRate * iChannels / VOICE_SAMPLE_RATE);
     }
@@ -1741,16 +1741,16 @@ uint    CSoundManager::ResetSampleAtPos(CSample *pSample, uint uPos, uint uLengt
   ====================*/
 uint    CSoundManager::ModifySampleAtPos(CSample *pSample, uint uPos, uint uLength, byte *pData)
 {
-    if (pData == NULL || uLength == uint(-1))
+    if (pData == nullptr || uLength == uint(-1))
     {
         Console.Err << _T("CSoundManager::ModifySampleAtPos() - Invalid sound data passed to function") << newl;
         return 0;
     }
 
     FMOD::Sound *pSound(pSample->GetSampleData());
-    if (pSound == NULL)
+    if (pSound == nullptr)
     {
-        Console.Err << _T("CSoundManager::ModifySampleAtPos() - NULL sound data passed to function") << newl;
+        Console.Err << _T("CSoundManager::ModifySampleAtPos() - nullptr sound data passed to function") << newl;
         return 0;
     }
 
@@ -1792,7 +1792,7 @@ FMOD::Sound*    CSoundManager::CreateSound(int iFrequency, int iNumChannels, int
     if (!m_bInitialized)
     {
         Console.Warn << _T("CSoundManager::CreateSample() - CSoundManager has not been initialized") << newl;
-        return NULL;
+        return nullptr;
     }
 
     FMOD_CREATESOUNDEXINFO  exInfo;
@@ -1826,7 +1826,7 @@ FMOD::Sound*    CSoundManager::CreateSound(int iFrequency, int iNumChannels, int
 
     FMOD::Sound *pNewSound;
 
-    pNewSound = NULL;
+    pNewSound = nullptr;
 
     uint uiFlags(FMOD_OPENUSER | FMOD_LOWMEM);
     if (iSoundFlags & SND_2D)
@@ -1834,13 +1834,13 @@ FMOD::Sound*    CSoundManager::CreateSound(int iFrequency, int iNumChannels, int
     else
         uiFlags |= FMOD_3D;
 
-    FMOD_RESULT result(m_pFMODSystem->createSound(NULL, uiFlags, &exInfo, &pNewSound));
+    FMOD_RESULT result(m_pFMODSystem->createSound(nullptr, uiFlags, &exInfo, &pNewSound));
     if (result != FMOD_OK)
     {
         tstring sError;
         StrToTString(sError, FMOD_ErrorString(result));
         Console.Err << _T("CSoundManager::CreateSample() - FMOD::System::createSound failed: ") << sError << newl;
-        return NULL;
+        return nullptr;
     }
 
     return pNewSound;
@@ -1854,12 +1854,12 @@ FMOD::Sound*    CSoundManager::CreateExtendedSound(FMOD_CREATESOUNDEXINFO &exInf
     if (!m_bInitialized)
     {
         Console.Warn << _T("CSoundManager::CreateSample() - CSoundManager has not been initialized") << newl;
-        return NULL;
+        return nullptr;
     }
 
     FMOD::Sound *pNewSound;
 
-    pNewSound = NULL;
+    pNewSound = nullptr;
 
     uint uiFlags(FMOD_OPENUSER | FMOD_LOWMEM);
     if (iSoundFlags & SND_2D)
@@ -1867,13 +1867,13 @@ FMOD::Sound*    CSoundManager::CreateExtendedSound(FMOD_CREATESOUNDEXINFO &exInf
     else
         uiFlags |= FMOD_3D;
 
-    FMOD_RESULT result(m_pFMODSystem->createSound(NULL, uiFlags, &exInfo, &pNewSound));
+    FMOD_RESULT result(m_pFMODSystem->createSound(nullptr, uiFlags, &exInfo, &pNewSound));
     if (result != FMOD_OK)
     {
         tstring sError;
         StrToTString(sError, FMOD_ErrorString(result));
         Console.Err << _T("CSoundManager::CreateSample() - FMOD::System::createSound failed: ") << sError << newl;
-        return NULL;
+        return nullptr;
     }
 
     return pNewSound;
@@ -1889,7 +1889,7 @@ FMOD::Sound*    CSoundManager::LoadSample(const tstring &sInPath, int iSoundFlag
     if (!m_bInitialized)
     {
         Console.Warn << _T("CSoundManager::LoadSample() - CSoundManager has not been initialized") << newl;
-        return NULL;
+        return nullptr;
     }
 
     uint uiFlags(FMOD_LOWMEM);
@@ -1913,7 +1913,7 @@ FMOD::Sound*    CSoundManager::LoadSample(const tstring &sInPath, int iSoundFlag
         return (FMOD::Sound*)(-1);
 #endif
 
-    FMOD::Sound *pNewSound(NULL);
+    FMOD::Sound *pNewSound(nullptr);
 
     FMOD_RESULT result;
 
@@ -1941,12 +1941,12 @@ FMOD::Sound*    CSoundManager::LoadSample(const tstring &sInPath, int iSoundFlag
             // decompressing the entire file)
             uiFlags |= FMOD_IGNORETAGS;
 
-            result = m_pFMODSystem->createStream((const char*)sFinalPath.c_str(), uiFlags, NULL, &pNewSound);
+            result = m_pFMODSystem->createStream((const char*)sFinalPath.c_str(), uiFlags, nullptr, &pNewSound);
         }
     }
     else
     {
-        result = m_pFMODSystem->createSound((const char*)sPath.c_str(), uiFlags, NULL, &pNewSound);
+        result = m_pFMODSystem->createSound((const char*)sPath.c_str(), uiFlags, nullptr, &pNewSound);
     }
 
     if (result != FMOD_OK)
@@ -1957,7 +1957,7 @@ FMOD::Sound*    CSoundManager::LoadSample(const tstring &sInPath, int iSoundFlag
             StrToTString(sError, FMOD_ErrorString(result));
             Console.Err << _T("CSoundManager::LoadSample() - FMOD::System::createSound failed: ") << sError << newl;
         }
-        return NULL;
+        return nullptr;
     }
     
     FMOD_TAG Tag;
@@ -1976,11 +1976,11 @@ FMOD::Sound*    CSoundManager::LoadSample(const tstring &sInPath, int iSoundFlag
         unsigned int length, len1, len2;
         float fRate;
         void *ptr1, *ptr2;
-        SpeexResamplerState* pResampler(NULL);
-        FMOD::Sound *pDownsampledSound(NULL);
+        SpeexResamplerState* pResampler(nullptr);
+        FMOD::Sound *pDownsampledSound(nullptr);
 
         pNewSound->getFormat(&type, &format, &iChannels, &iBits);
-        pNewSound->getDefaults(&fRate, NULL);
+        pNewSound->getDefaults(&fRate, nullptr);
         pNewSound->getLength(&length, FMOD_TIMEUNIT_PCMBYTES);
         pNewSound->lock(0, length, &ptr1, &ptr2, &len1, &len2);
 
@@ -2104,7 +2104,7 @@ void    CSoundManager::AddWorldGeometry(CVec3f &a, CVec3f &b, CVec3f &c)
                                 { b.x, b.y, b.z },
                                 { c.x, c.y, c.z } };
 
-    m_pWorldGeometry->addPolygon(1.0, 1.0, false, 3, vertices, NULL);
+    m_pWorldGeometry->addPolygon(1.0, 1.0, false, 3, vertices, nullptr);
 }
 
 
@@ -2135,7 +2135,7 @@ void    CSoundManager::SetListenerPosition(const CVec3f &v3Pos, const CVec3f &v3
     }*/
     CVec3f v3Pos2 = v3Pos + m_v3Jitter;
     m_pFMODSystem->set3DListenerAttributes(0,
-        FMOD_VECTOR_CAST(&v3Pos2), NULL/*FMOD_VECTOR_CAST(&v3Velocity)*/, // Velocity set to NULL to disable doppler
+        FMOD_VECTOR_CAST(&v3Pos2), nullptr/*FMOD_VECTOR_CAST(&v3Velocity)*/, // Velocity set to nullptr to disable doppler
         FMOD_VECTOR_CAST(&v3Forward), FMOD_VECTOR_CAST(&v3Up));
 
     m_v3Center = v3Pos;
@@ -2221,12 +2221,12 @@ bool    CSoundManager::UpdateHandle(SoundHandle hHandle, const CVec3f &v3Pos, co
     if (itFind == m_mapActiveSounds.end())
         return false;
     
-    if (b3D) // Velocity set to NULL to disable doppler
+    if (b3D) // Velocity set to nullptr to disable doppler
     {
         /*if (!v3Pos.IsValid())
             Console.Warn << _T("CSoundManager::UpdateHandle() - Invalid position") << newl;
         //else*/
-            itFind->second->set3DAttributes(FMOD_VECTOR_CAST(&v3Pos), NULL/*FMOD_VECTOR_CAST(&v3Vel)*/);
+            itFind->second->set3DAttributes(FMOD_VECTOR_CAST(&v3Pos), nullptr/*FMOD_VECTOR_CAST(&v3Vel)*/);
     }
 
     return true;
@@ -2282,7 +2282,7 @@ void    CSoundManager::FreeSample(FMOD::Sound* pSample)
     if (!m_bInitialized)
         return;
 
-    if (pSample != NULL)
+    if (pSample != nullptr)
         pSample->release();
 }
 
@@ -2394,7 +2394,7 @@ SoundHandle CSoundManager::PlaySound
     float fDampen
 )
 {
-    if (!m_bInitialized || pSample == NULL)
+    if (!m_bInitialized || pSample == nullptr)
         return INVALID_INDEX;
 
     PROFILE("CSoundManager::PlaySound");
@@ -2427,10 +2427,10 @@ SoundHandle CSoundManager::PlaySound
         PROFILE("Stream playSound");
 
         FMOD::Sound *pSound;
-        result = m_pFMODSystem->createStream(TStringToString(pSample->GetPath()).c_str(), FMOD_LOWMEM, NULL, &pSound);
+        result = m_pFMODSystem->createStream(TStringToString(pSample->GetPath()).c_str(), FMOD_LOWMEM, nullptr, &pSound);
         if (result != FMOD_OK)
             return INVALID_INDEX;
-        result = m_pFMODSystem->playSound(pSound, NULL, true, &pChannel);
+        result = m_pFMODSystem->playSound(pSound, nullptr, true, &pChannel);
     }
     else
     {
@@ -2441,7 +2441,7 @@ SoundHandle CSoundManager::PlaySound
         if (!pSampleData)
             return INVALID_INDEX;
 
-        result = m_pFMODSystem->playSound(pSampleData, NULL, true, &pChannel);
+        result = m_pFMODSystem->playSound(pSampleData, nullptr, true, &pChannel);
     }
     if (result != FMOD_OK)
     {
@@ -2488,11 +2488,11 @@ SoundHandle CSoundManager::PlaySound
         pChannel->setCallback(Sound_CallbackStopActiveSound);
 
     if (pv3Pos)
-    {   // Velocity set to NULL to disable doppler
+    {   // Velocity set to nullptr to disable doppler
         /*if (!pv3Pos->IsValid())
             Console.Warn << _T("CSoundManager::PlaySound() - Invalid position") << newl;
         //else*/
-            pChannel->set3DAttributes(FMOD_VECTOR_CAST(pv3Pos), NULL/*FMOD_VECTOR_CAST(pv3Vel)*/);
+            pChannel->set3DAttributes(FMOD_VECTOR_CAST(pv3Pos), nullptr/*FMOD_VECTOR_CAST(pv3Vel)*/);
     }
 
     result = pChannel->setChannelGroup(pGroup);
@@ -2720,12 +2720,12 @@ SoundHandle CSoundManager::PlaySound
   ==========================*/
 SoundHandle CSoundManager::Play2DSFXSound(ResHandle hSample, float fVolume, int iChannel, int iPriority, bool bLoop, int iFadeIn, int iFadeOutStartTime, int iFadeOut, int iSpeedUpTime, float fSpeed1, float fSpeed2, int iSlowDownTime)
 {
-    return PlaySound(m_pSFXChannelGroup, hSample, NULL, NULL, fVolume, 0, iChannel, iPriority, SND_2D | (bLoop ? SND_LOOP : 0), iFadeIn, iFadeOutStartTime, iFadeOut, iSpeedUpTime, fSpeed1, fSpeed2, iSlowDownTime, sound_stereoSpread, 0.0f);
+    return PlaySound(m_pSFXChannelGroup, hSample, nullptr, nullptr, fVolume, 0, iChannel, iPriority, SND_2D | (bLoop ? SND_LOOP : 0), iFadeIn, iFadeOutStartTime, iFadeOut, iSpeedUpTime, fSpeed1, fSpeed2, iSlowDownTime, sound_stereoSpread, 0.0f);
 }
 
 SoundHandle CSoundManager::Play2DSFXSound(CSample *pSample, float fVolume, int iChannel, int iPriority, bool bLoop, int iFadeIn, int iFadeOutStartTime, int iFadeOut, int iSpeedUpTime, float fSpeed1, float fSpeed2, int iSlowDownTime)
 {
-    return PlaySound(m_pSFXChannelGroup, pSample, NULL, NULL, fVolume, 0, iChannel, iPriority, SND_2D | (bLoop ? SND_LOOP : 0), iFadeIn, iFadeOutStartTime, iFadeOut, iSpeedUpTime, fSpeed1, fSpeed2, iSlowDownTime, sound_stereoSpread, 0.0f);
+    return PlaySound(m_pSFXChannelGroup, pSample, nullptr, nullptr, fVolume, 0, iChannel, iPriority, SND_2D | (bLoop ? SND_LOOP : 0), iFadeIn, iFadeOutStartTime, iFadeOut, iSpeedUpTime, fSpeed1, fSpeed2, iSlowDownTime, sound_stereoSpread, 0.0f);
 }
 
 
@@ -2748,12 +2748,12 @@ SoundHandle CSoundManager::PlaySFXSound(CSample *pSample, const CVec3f *pv3Pos, 
   ==========================*/
 SoundHandle CSoundManager::PlayVoiceSound(ResHandle hSample, float fVolume, int iChannel, int iPriority)
 {
-    return PlaySound(m_pVoiceChannelGroup, hSample, NULL, NULL, fVolume, 0, iChannel, iPriority, SND_2D | SND_LOOP, 0, 0, 0, 0, 1, 1, 0);
+    return PlaySound(m_pVoiceChannelGroup, hSample, nullptr, nullptr, fVolume, 0, iChannel, iPriority, SND_2D | SND_LOOP, 0, 0, 0, 0, 1, 1, 0);
 }
 
 SoundHandle CSoundManager::PlayVoiceSound(CSample *pSample, float fVolume, int iChannel, int iPriority)
 {
-    return PlaySound(m_pVoiceChannelGroup, pSample, NULL, NULL, fVolume, 0, iChannel, iPriority, SND_2D | SND_LOOP, 0, 0, 0, 0, 1, 1, 0);
+    return PlaySound(m_pVoiceChannelGroup, pSample, nullptr, nullptr, fVolume, 0, iChannel, iPriority, SND_2D | SND_LOOP, 0, 0, 0, 0, 1, 1, 0);
 }
 
 
@@ -2762,12 +2762,12 @@ SoundHandle CSoundManager::PlayVoiceSound(CSample *pSample, float fVolume, int i
   ==========================*/
 SoundHandle CSoundManager::Play2DSound(ResHandle hSample, float fVolume, int iChannel, int iPriority, float fDampen)
 {
-    return PlaySound(m_pInterfaceChannelGroup, hSample, NULL, NULL, fVolume, 0, iChannel, iPriority, SND_2D, 0, 0, 0, 0, 1, 1, 0, 0.0f, 0.0f, fDampen);
+    return PlaySound(m_pInterfaceChannelGroup, hSample, nullptr, nullptr, fVolume, 0, iChannel, iPriority, SND_2D, 0, 0, 0, 0, 1, 1, 0, 0.0f, 0.0f, fDampen);
 }
 
 SoundHandle CSoundManager::Play2DSound(CSample *pSample, float fVolume, int iChannel, int iPriority, float fDampen)
 {
-    return PlaySound(m_pInterfaceChannelGroup, pSample, NULL, NULL, fVolume, 0, iChannel, iPriority, SND_2D, 0, 0, 0, 0, 1, 1, 0, 0.0f, 0.0f, fDampen);
+    return PlaySound(m_pInterfaceChannelGroup, pSample, nullptr, nullptr, fVolume, 0, iChannel, iPriority, SND_2D, 0, 0, 0, 0, 1, 1, 0, 0.0f, 0.0f, fDampen);
 }
 
 
@@ -2778,14 +2778,14 @@ SoundHandle CSoundManager::PlayWorldSFXSound(ResHandle hSample, const CVec3f *pv
 {
     // TODO: start falloff is set to 0.0 for now, configurable later.
     float fStartFalloff(0.0f);
-    return PlaySound(m_pSFXChannelGroup, hSample, pv3Pos, NULL, fVolume, fStartFalloff, iChannel, iPriority, bLoop ? SND_LOOP : 0, 0, 0, 0, 0, 1, 1, 0, 180.0f, fFalloff);
+    return PlaySound(m_pSFXChannelGroup, hSample, pv3Pos, nullptr, fVolume, fStartFalloff, iChannel, iPriority, bLoop ? SND_LOOP : 0, 0, 0, 0, 0, 1, 1, 0, 180.0f, fFalloff);
 }
 
 SoundHandle CSoundManager::PlayWorldSFXSound(CSample *pSample, const CVec3f *pv3Pos, float fVolume, float fFalloff, int iChannel, int iPriority, bool bLoop)
 {
     // TODO: start falloff is set to 0.0 for now, configurable later.
     float fStartFalloff(0.0f);
-    return PlaySound(m_pSFXChannelGroup, pSample, pv3Pos, NULL, fVolume, fStartFalloff, iChannel, iPriority, bLoop ? SND_LOOP : 0, 0, 0, 0, 0, 1, 1, 0, 180.0f, fFalloff);
+    return PlaySound(m_pSFXChannelGroup, pSample, pv3Pos, nullptr, fVolume, fStartFalloff, iChannel, iPriority, bLoop ? SND_LOOP : 0, 0, 0, 0, 0, 1, 1, 0, 180.0f, fFalloff);
 }
 
 
@@ -2807,8 +2807,8 @@ void    CSoundManager::StartNextMusic()
         return;
 
     // Sanity check: the system thinks no music is playing, so if the music channel is valid, abort
-    assert(m_pMusicChannel == NULL);
-    if (m_pMusicChannel != NULL)
+    assert(m_pMusicChannel == nullptr);
+    if (m_pMusicChannel != nullptr)
         return;
 
     // If the next music track hasn't been specified yet, then abort
@@ -2832,13 +2832,13 @@ void    CSoundManager::StartNextMusic()
     FMOD::Sound* pSampleData(LoadSample(sFilename, iSoundFlags));
 
     // Attempt to play the music
-    FMOD_RESULT result(m_pFMODSystem->playSound(pSampleData, NULL, true, &m_pMusicChannel));
+    FMOD_RESULT result(m_pFMODSystem->playSound(pSampleData, nullptr, true, &m_pMusicChannel));
 
     // If the music could not be played for some reason, then abort
     if (result != FMOD_OK)
     {
         assert(!m_cCurrentMusic.IsValid());
-        m_pMusicChannel = NULL;
+        m_pMusicChannel = nullptr;
         pSampleData->release();
 
         tstring sError;
@@ -2898,7 +2898,7 @@ void    CSoundManager::PlayMusic(const tstring &sFilename, bool bLoop, bool bCro
 
     // If no music was playing, then don't fade in the music
     bool bFadeIn(bCrossFade);
-    if (m_pMusicChannel == NULL)
+    if (m_pMusicChannel == nullptr)
         bFadeIn = false;
 
     // Indicate that a new track should start after the current track is stopped
@@ -2939,7 +2939,7 @@ void    CSoundManager::StopMusic(bool bFadeOut, bool bClearPlaylist, uint uiDela
     if (uiDelayFrames > 0)
         return;
 
-    if (m_pMusicChannel != NULL)
+    if (m_pMusicChannel != nullptr)
     {
         // get the previously assigned handle
         SoundHandle hHandle(INVALID_INDEX);
@@ -3021,20 +3021,20 @@ void    CSoundManager::UpdateMusic()
             if (m_cCurrentMusic.IsValid() && m_cCurrentMusic.bLoop && !m_cNextMusic.IsValid())
                 m_cNextMusic = SPlayMusic(m_cCurrentMusic.sFilename, true, false);
             m_pMusicChannel->stop();
-            assert(m_pMusicChannel == NULL);
-            m_pMusicChannel = NULL;
+            assert(m_pMusicChannel == nullptr);
+            m_pMusicChannel = nullptr;
         }
     }
 
 #if TKTK // Skip music due to multithreading crash
     // If the music channel is null, attempt to start the next specified track
-    if (m_pMusicChannel == NULL)
+    if (m_pMusicChannel == nullptr)
         StartNextMusic();
 #endif
 
     // If the music channel is still null, it means that no next track has been specified or it failed
     // to start.
-    if (m_pMusicChannel == NULL)
+    if (m_pMusicChannel == nullptr)
     {
         // So since no music is playing at this point, then queue up the next track in the playlist.
         if (m_bPlaylistActive)
@@ -3163,11 +3163,11 @@ void    CSoundManager::MusicStopped(FMOD::Channel *pChannel)
 
         // Abort + cleanup
         if (pChannel == m_pMusicChannel)
-            m_pMusicChannel = NULL;
+            m_pMusicChannel = nullptr;
 
-        FMOD::Sound *pSound(NULL);
+        FMOD::Sound *pSound(nullptr);
         pChannel->getCurrentSound(&pSound);
-        if (pSound != NULL)
+        if (pSound != nullptr)
             pSound->release();
         return;
     }
@@ -3175,17 +3175,17 @@ void    CSoundManager::MusicStopped(FMOD::Channel *pChannel)
     // Deactivate the music track
     SPlayMusic sCurMusicMetadata(m_cCurrentMusic);
     m_cCurrentMusic = SPlayMusic();
-    m_pMusicChannel = NULL;
+    m_pMusicChannel = nullptr;
 
     // Sanity check: we stored the music track's metadata
     assert(sCurMusicMetadata.IsValid());
     if (sCurMusicMetadata.IsValid())
     {
         // Now that we're finished with the music track, unregister it to save memory
-        if (sCurMusicMetadata.pSound != NULL)
+        if (sCurMusicMetadata.pSound != nullptr)
         {
             m_setReleaseSounds.insert(sCurMusicMetadata.pSound);
-            sCurMusicMetadata.pSound = NULL;
+            sCurMusicMetadata.pSound = nullptr;
         }
     }
 }
@@ -3319,7 +3319,7 @@ const tstring&  CSoundManager::GetCurrentMusicName()
   ====================*/
 uint    CSoundManager::GetCurrentMusicTime()
 {
-    if (m_pMusicChannel == NULL)
+    if (m_pMusicChannel == nullptr)
         return INVALID_TIME;
 
     uint uiPos(INVALID_TIME);
@@ -3333,13 +3333,13 @@ uint    CSoundManager::GetCurrentMusicTime()
   ====================*/
 uint    CSoundManager::GetCurrentMusicDuration()
 {
-    if (m_pMusicChannel == NULL)
+    if (m_pMusicChannel == nullptr)
         return INVALID_TIME;
 
-    FMOD::Sound *pSound(NULL);
+    FMOD::Sound *pSound(nullptr);
     m_pMusicChannel->getCurrentSound(&pSound);
-    assert(pSound != NULL);
-    if (pSound == NULL)
+    assert(pSound != nullptr);
+    if (pSound == nullptr)
         return INVALID_TIME;
 
     uint uiLength(INVALID_TIME);
@@ -3353,7 +3353,7 @@ uint    CSoundManager::GetCurrentMusicDuration()
   ====================*/
 void    CSoundManager::SetCurrentMusicTime(int iMillisec)
 {
-    if (m_pMusicChannel == NULL)
+    if (m_pMusicChannel == nullptr)
         return;
 
     uint uiDuration(GetCurrentMusicDuration());

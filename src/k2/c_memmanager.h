@@ -65,8 +65,8 @@ const uint MEM_MICRO_CHUNK_SIZE     (262144); // 0.25MB chunks
 #endif
 
 #ifndef SAFE_DELETE
-#define SAFE_DELETE(p)          { if ((p) != NULL) { K2_DELETE(p); (p) = NULL; } }
-#define SAFE_DELETE_ARRAY(p)    { if ((p) != NULL) { K2_DELETE_ARRAY(p); (p) = NULL; } }
+#define SAFE_DELETE(p)          do { if ((p) != nullptr) { K2_DELETE(p); (p) = nullptr; } } while (0)
+#define SAFE_DELETE_ARRAY(p)    do { if ((p) != nullptr) { K2_DELETE_ARRAY(p); (p) = nullptr; } } while (0)
 #endif
 
 #ifndef errno_t
@@ -208,8 +208,8 @@ public:
 #ifdef K2_DEBUG_MEM
     void    PrintStats();
     void    PrintTrackingStats();
-    void    PrintAllocations(const char *szHeapName = NULL, uint uiTime = -1);
-    void    PrintAllocationsNoDuplicates(const char *szHeapName = NULL, uint uiTime = -1);
+    void    PrintAllocations(const char *szHeapName = nullptr, uint uiTime = -1);
+    void    PrintAllocationsNoDuplicates(const char *szHeapName = nullptr, uint uiTime = -1);
     void    ResetTracking();
     void    PrintSequenceAllocations(uint uiSequence);
 
@@ -230,8 +230,8 @@ template<class T>
 T*  CMemManager::Reallocate(T *&p, size_t z)
 {
 #ifdef K2_DEBUG_MEM
-    // Just allocate if p is NULL
-    if (p == NULL)
+    // Just allocate if p is nullptr
+    if (p == nullptr)
         return p = static_cast<T*>(Allocate(z));
 
     SMemHeader *pe = (SMemHeader*)((char*)p - sizeof(SMemHeader));
@@ -261,7 +261,7 @@ void    CMemManager::TrackExternalAlloc(void *p, size_t z, const char *szContext
 {
     if (s_bTrackAllocs)
     {
-        if (szContext != NULL)
+        if (szContext != nullptr)
             TRACK_ALLOC(p, (uint)z, eMemType, GetStr(szContext), GetStr(szType), GetStr(szFile), nLine);
     }
 }
@@ -276,7 +276,7 @@ void    CMemManager::TrackExternalFree(void *p, const char *szContext, MemoryTyp
 {
     if (s_bTrackAllocs)
     {
-        if (szContext != NULL)
+        if (szContext != nullptr)
             TRACK_FREE(p, eMemType, GetStr(szContext), GetStr(szFile), nLine);
     }
 }

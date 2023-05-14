@@ -70,7 +70,7 @@ m_bReloading(false)
   ====================*/
 ResHandle   IResourceLibrary::Register(const tstring &sDirtyPath, uint uiIgnoreFlags)
 {
-    IResource *pNewResource(NULL);
+    IResource *pNewResource(nullptr);
     ResHandle hReservedHandle(INVALID_RESOURCE);
 
     tstring sPath(FileManager.SanitizePath(sDirtyPath));
@@ -101,7 +101,7 @@ ResHandle   IResourceLibrary::Register(const tstring &sDirtyPath, uint uiIgnoreF
     CGraphResource cGraphResource;
     cGraphResource.SetDebugPath(sPath);
 
-    const char *pData(NULL);
+    const char *pData(nullptr);
     uint uiSize(0);
     CFileHandle hFile;
 
@@ -130,11 +130,11 @@ ResHandle   IResourceLibrary::Register(const tstring &sDirtyPath, uint uiIgnoreF
     try
     {
         // Allocate a new resource object
-        if (m_fnAlloc == NULL)
+        if (m_fnAlloc == nullptr)
             EX_ERROR(_CTS("No allocator provided for this resource type"));
 
         pNewResource = m_fnAlloc(sPath);
-        if (pNewResource == NULL)
+        if (pNewResource == nullptr)
             EX_WARN(_CTS("Failed to allocate resource"));
 
         if (!sPath.empty() && sPath[0] != _T('$') && sPath[0] != _T('!') && sPath[0] != _T('*'))
@@ -201,7 +201,7 @@ ResHandle   IResourceLibrary::Register(const tstring &sDirtyPath, uint uiIgnoreF
         {
             // if no handles are available, then allocate a new one.
             hReservedHandle = (ResHandle)m_vEntries.size();
-            m_vEntries.push_back(NULL);
+            m_vEntries.push_back(nullptr);
         }
     }
     assert(hReservedHandle != INVALID_RESOURCE);
@@ -339,7 +339,7 @@ ResHandle   IResourceLibrary::Register(IResource *pResource, uint uiIgnoreFlags)
         {
             // if no handles are available, then allocate a new one.
             hReservedHandle = (ResHandle)m_vEntries.size();
-            m_vEntries.push_back(NULL);
+            m_vEntries.push_back(nullptr);
         }
     }
     assert(hReservedHandle != INVALID_RESOURCE);
@@ -386,8 +386,8 @@ void    IResourceLibrary::Unregister(ResHandle hResource, EUnregisterResource eU
     g_ResourceInfo.OnResourceUnregistered(hResource);
 
     IResource* pResource(m_vEntries[hIdx]);
-    assert(pResource != NULL);
-    if (pResource == NULL)
+    assert(pResource != nullptr);
+    if (pResource == nullptr)
         return;
 
     ResNameMap::iterator findit;
@@ -457,7 +457,7 @@ bool    IResourceLibrary::Reload(ResHandle hResource, uint uiIgnoreFlags)
     MaskType(hIdx);
 
     // Validate handle
-    if (pResource == NULL)
+    if (pResource == nullptr)
     {
         Console.Warn << _T("Invalid resource handle") << newl;
         return false;
@@ -518,7 +518,7 @@ bool    IResourceLibrary::Reload(ResHandle hResource, uint uiIgnoreFlags)
     for (set<ResHandle>::iterator it(setDependents.begin()); it != setDependents.end(); ++it)
     {
         IResource *pChildResource(g_ResourceManager.Get(*it));
-        if (pChildResource == NULL)
+        if (pChildResource == nullptr)
         {
             Console.Warn << _T("Couldn't retrieve a dependant resource") << newl;
             continue;
@@ -593,18 +593,18 @@ IResource*  IResourceLibrary::LookUpHandle(ResHandle hResource)
 
         assert(hResource < m_vEntries.size());
         if (hResource >= m_vEntries.size())
-            return NULL;
+            return nullptr;
 
         // resource has been unregistered.
         if (!m_vEntries[hResource])
-            return NULL;
+            return nullptr;
 
         return m_vEntries[hResource];
     }
     catch (CException &ex)
     {
         ex.Process(_TS("IResourceLibrary(") + XtoA(m_uiType) + _T(")::LookUpHandle(") + XtoA(hResource, 0, 0, 16) + _T(") - "), NO_THROW);
-        return NULL;
+        return nullptr;
     }
 }
 
@@ -632,7 +632,7 @@ IResource*  IResourceLibrary::Get(ResHandle hResource)
     catch (CException &ex)
     {
         ex.Process(_TS("IResourceLibrary(") + XtoA(m_uiType) + _T(")::Get(") + XtoA(hResource, 0, 0, 16) + _T(") - "), NO_THROW);
-        return NULL;
+        return nullptr;
     }
 }
 
@@ -666,7 +666,7 @@ void    IResourceLibrary::ReloadAll()
             
             float   Frame(ResPtrVec::iterator &it, float f) const
             {
-                if (m_pLib == NULL)
+                if (m_pLib == nullptr)
                     return 0.0f;
                 SetTitle(_T("Reloading ") + m_pLib->GetName());
                 SetProgress(f);
@@ -675,7 +675,7 @@ void    IResourceLibrary::ReloadAll()
             
             float   PostFrame(ResPtrVec::iterator &it, float f) const
             {
-                if (m_pLib != NULL && *it != NULL)
+                if (m_pLib != nullptr && *it != nullptr)
                 {
                     m_pLib->Reload((*it)->GetHandle(), 0xffffffff);
 
@@ -702,7 +702,7 @@ void    IResourceLibrary::ReloadAll()
             
             float   Frame(ResPtrVec::iterator &it, float f) const
             {
-                if (m_pLib == NULL)
+                if (m_pLib == nullptr)
                     return 0.0f;
                 SetTitle(_T("Reloading ") + m_pLib->GetName());
                 SetProgress(f);
@@ -711,7 +711,7 @@ void    IResourceLibrary::ReloadAll()
             
             float   PostFrame(ResPtrVec::iterator &it, float f) const
             {
-                if (m_pLib != NULL && *it != NULL)
+                if (m_pLib != nullptr && *it != nullptr)
                     m_pLib->Reload((*it)->GetHandle(), 0xffffffff);
                 ++it;
                 return 1.0f;
@@ -746,7 +746,7 @@ uint    IResourceLibrary::FindResources(ResPtrVec &vResults, const tstring &sWil
     for (ResPtrVec::const_iterator it(m_vEntries.begin()); it != m_vEntries.end(); ++it)
     {
         IResource* pResource(*it);
-        if (pResource == NULL)
+        if (pResource == nullptr)
             continue;
 
         // skip invalid resources.
@@ -777,7 +777,7 @@ uint    IResourceLibrary::FindResources(ResPtrVec &vResults, const tstring &sWil
   ====================*/
 void    IResourceLibrary::RemoveResourceWatcher(IResourceWatcher* pWatcher, ResHandle hUnregisterFrom)
 {
-    if (pWatcher == NULL || hUnregisterFrom == INVALID_RESOURCE)
+    if (pWatcher == nullptr || hUnregisterFrom == INVALID_RESOURCE)
         return;
 
     ResHandle hIdx(hUnregisterFrom);
@@ -822,7 +822,7 @@ void    IResourceLibrary::RemoveResourceWatcher(IResourceWatcher* pWatcher, ResH
   ====================*/
 void    IResourceLibrary::AddResourceWatcher(IResourceWatcher* pWatcher, ResHandle hRegisterWith)
 {
-    if (pWatcher == NULL || hRegisterWith == INVALID_RESOURCE)
+    if (pWatcher == nullptr || hRegisterWith == INVALID_RESOURCE)
         return;
 
     ResHandle hIdx(hRegisterWith);

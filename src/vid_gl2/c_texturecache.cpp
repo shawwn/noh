@@ -66,7 +66,7 @@ void    CTextureCacheNode::CacheTexture(const tstring &sPath, uint uiTextureID, 
     FileManager.MakeDir(Filename_GetPath(sFilePath));
     
     tstring sSystemPath(FileManager.GetSystemPath(sFilePath, TSNULL, true));
-    D3DXSaveTextureToFile(sSystemPath.c_str(), D3DXIFF_DDS, pTexture, NULL);
+    D3DXSaveTextureToFile(sSystemPath.c_str(), D3DXIFF_DDS, pTexture, nullptr);
 
     _utimbuf cTime;
     cTime.actime = tModTime;
@@ -124,7 +124,7 @@ m_bInitialized(false)
 void    CTextureCache::Initialize()
 {
     if (FileManager.Exists(TEXTURECACHE_FILENAME, FILE_NOARCHIVES))
-        XMLManager.Process(TEXTURECACHE_FILENAME, _T("texturecache"), NULL, FILE_ALLOW_CUSTOM);
+        XMLManager.Process(TEXTURECACHE_FILENAME, _T("texturecache"), nullptr, FILE_ALLOW_CUSTOM);
     else
         FileManager.DeleteTree(_T("#/texturecache"));
 

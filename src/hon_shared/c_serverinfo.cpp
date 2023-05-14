@@ -46,7 +46,7 @@ CServerInfo::~CServerInfo()
   CServerInfo::CServerInfo
   ====================*/
 CServerInfo::CServerInfo() :
-IGameEntity(NULL)
+IGameEntity(nullptr)
 {
 }
 

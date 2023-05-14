@@ -36,7 +36,7 @@ BEGIN_XML_PROCESSOR(entity, CWorldEntityList)
     }
 
     CWorldEntity* pEntity(pObject->GetEntity(uiIndex));
-    if (pEntity == NULL)
+    if (pEntity == nullptr)
     {
         Console.Warn << _T("Entity allocation failed for entity #") << uiIndex << newl;
         return false;
@@ -61,4 +61,4 @@ BEGIN_XML_PROCESSOR(entity, CWorldEntityList)
     if (node.GetPropertyBool(_CTS("notsolid")))
         pEntity->AddFlags(WE_NOT_SOLID);
 
-END_XML_PROCESSOR(NULL)
+END_XML_PROCESSOR(nullptr)

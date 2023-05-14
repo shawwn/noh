@@ -22,7 +22,7 @@
 //=============================================================================
 // Definitions
 //=============================================================================
-IGame*  IGame::s_pGame(NULL);
+IGame*  IGame::s_pGame(nullptr);
 
 CVAR_INTF(  g_dayStartTime,             MinToMs(3.75f), CVAR_GAMECONFIG | CVAR_TRANSMIT);
 CVAR_INTF(  g_dayLength,                MinToMs(15u),   CVAR_GAMECONFIG | CVAR_TRANSMIT);
@@ -41,7 +41,7 @@ CVAR_UINTF( g_voteConcedeUnanimousTime, MinToMs(30u),   CVAR_GAMECONFIG | CVAR_T
 void    IGame::SetCurrentGamePointer(IGame *pGame)
 {
     s_pGame = pGame;
-    if (s_pGame == NULL)
+    if (s_pGame == nullptr)
     {
         g_ResourceInfo.SetGameContextEnabled(false);
     }
@@ -97,7 +97,7 @@ bool    IGame::IsValidTarget(uint uiTargetScheme, uint uiEffectType, const IUnit
 {
     PROFILE("IGame::IsValidTarget");
 
-    if (pTarget == NULL)
+    if (pTarget == nullptr)
         return false;
     if (!bIgnoreInvulnerable && (pTarget->HasUnitFlags(UNIT_FLAG_INVULNERABLE) || pTarget->GetInvulnerable()))
         return false;
@@ -107,7 +107,7 @@ bool    IGame::IsValidTarget(uint uiTargetScheme, uint uiEffectType, const IUnit
         return false;
 
     const CTargetScheme *pTargetScheme(GetTargetScheme(uiTargetScheme));
-    if (pTargetScheme == NULL)
+    if (pTargetScheme == nullptr)
         return false;
 
     bool bValid(true);
@@ -171,7 +171,7 @@ bool    IGame::IsValidTarget(uint uiTargetScheme, uint uiEffectType, const IUnit
 bool    IGame::CanTargetTrait(uint uiTargetScheme, ETargetTrait eTrait)
 {
     const CTargetScheme *pTargetScheme(GetTargetScheme(uiTargetScheme));
-    if (pTargetScheme == NULL)
+    if (pTargetScheme == nullptr)
         return false;
 
     bool bValid(true);
@@ -293,7 +293,7 @@ void    IGame::SpawnStaticProp(CWorldEntity *pWorldEnt)
 void    IGame::Precache(ResHandle hDefinition, EPrecacheScheme eScheme, const tstring &sModifier)
 {
     CEntityDefinitionResource *pDefRes(g_ResourceManager.Get<CEntityDefinitionResource>(hDefinition));
-    if (pDefRes != NULL)
+    if (pDefRes != nullptr)
         pDefRes->Precache(eScheme, sModifier);
 }
 
@@ -364,7 +364,7 @@ bool    IGame::IsGameOver() const
         return true;
 
     CGameInfo *pGameInfo(GetGameInfo());
-    if (pGameInfo != NULL)
+    if (pGameInfo != nullptr)
         if (pGameInfo->HasFlags(GAME_FLAG_CONCEDED))
             return true;
 
@@ -379,11 +379,11 @@ bool    IGame::IsGameOver() const
   ====================*/
 void    IGame::SwapItem(int iClientNum, IEntityItem *pItem0, IEntityItem *pItem1)
 {
-    if (pItem0 == NULL || pItem1 == NULL || IsClient())
+    if (pItem0 == nullptr || pItem1 == nullptr || IsClient())
         return;
 
     IUnitEntity *pOldOwner0(pItem0->GetOwner());
-    if (pOldOwner0 == NULL)
+    if (pOldOwner0 == nullptr)
         return;
 
     if (pOldOwner0->GetOwnerClientNumber() != -1 &&
@@ -393,7 +393,7 @@ void    IGame::SwapItem(int iClientNum, IEntityItem *pItem0, IEntityItem *pItem1
         return;
 
     IUnitEntity *pOldOwner1(pItem1->GetOwner());
-    if (pOldOwner1 == NULL)
+    if (pOldOwner1 == nullptr)
         return;
 
     if (pOldOwner1->GetOwnerClientNumber() != -1 &&
@@ -403,7 +403,7 @@ void    IGame::SwapItem(int iClientNum, IEntityItem *pItem0, IEntityItem *pItem1
         return;
 
     IGameEntity *pNewEntity0(Game.AllocateEntity(pItem0->GetType(), pOldOwner1->GetIndex()));
-    if (pNewEntity0 == NULL || !pNewEntity0->IsItem())
+    if (pNewEntity0 == nullptr || !pNewEntity0->IsItem())
     {
         Game.DeleteEntity(pNewEntity0);
         return;
@@ -449,7 +449,7 @@ void    IGame::SwapItem(int iClientNum, IEntityItem *pItem0, IEntityItem *pItem1
     pNewItem0->SetTimer(pNewItem0->GetTimer());
 
     IGameEntity *pNewEntity1(Game.AllocateEntity(pItem1->GetType(), pOldOwner0->GetIndex()));
-    if (pNewEntity1 == NULL || !pNewEntity1->IsItem())
+    if (pNewEntity1 == nullptr || !pNewEntity1->IsItem())
     {
         Game.DeleteEntity(pNewEntity0);
         Game.DeleteEntity(pNewEntity1);
@@ -535,8 +535,8 @@ ResHandle   IGame::RegisterGameMechanics(const tstring &sPath)
 bool    IGame::FetchGameMechanics()
 {
     IResource* pResource(g_ResourceManager.LookUpHandle(m_hGameMechanics, RES_GAME_MECHANICS));
-    m_pGameMechanics = pResource ? ((CGameMechanicsResource*)pResource)->GetMechanics() : NULL;
-    return m_pGameMechanics != NULL;
+    m_pGameMechanics = pResource ? ((CGameMechanicsResource*)pResource)->GetMechanics() : nullptr;
+    return m_pGameMechanics != nullptr;
 }
 
 

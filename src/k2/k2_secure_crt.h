@@ -51,22 +51,22 @@
 typedef int errno_t;
 #endif
 
-#define DECLARE_TIME_STRUCT_S(name)             struct tm   *name(NULL);
-#define LOCALTIME_S(time, time_struct)          ((time_struct = localtime(time)) != NULL)
+#define DECLARE_TIME_STRUCT_S(name)             struct tm   *name(nullptr);
+#define LOCALTIME_S(time, time_struct)          ((time_struct = localtime(time)) != nullptr)
 
-#define STRCPY_S(dest, size, src)               (strncpy(dest, src, size) != NULL)
+#define STRCPY_S(dest, size, src)               (strncpy(dest, src, size) != nullptr)
 
 #define _TRUNCATE
-#define _TCSNCPY_S(dest, size, src, count)      (_tcsncpy(dest, src, size) != NULL)
-#define STRNCPY_S(dest, size, src, count)       (strncpy(dest, src, size) != NULL)
-#define WCSNCPY_S(dest, size, src, count)       (wcsncpy(dest, src, size) != NULL)
+#define _TCSNCPY_S(dest, size, src, count)      (_tcsncpy(dest, src, size) != nullptr)
+#define STRNCPY_S(dest, size, src, count)       (strncpy(dest, src, size) != nullptr)
+#define WCSNCPY_S(dest, size, src, count)       (wcsncpy(dest, src, size) != nullptr)
 
 #define MEMCPY_S(dest, size, src, count)        (memcpy(dest, src, count) != dest)
 
-#define DECLARE_TCSERROR_S_BUFFER(name, size)   TCHAR *name(NULL);
-#define _TCSERROR_S(buffer, size, errno)        ((buffer = _tcserror(errno)) != NULL)
+#define DECLARE_TCSERROR_S_BUFFER(name, size)   TCHAR *name(nullptr);
+#define _TCSERROR_S(buffer, size, errno)        ((buffer = _tcserror(errno)) != nullptr)
 
-#define _TFOPEN_S(file, filename, mode)         ((file = _tfopen(filename, mode)) != NULL)
+#define _TFOPEN_S(file, filename, mode)         ((file = _tfopen(filename, mode)) != nullptr)
 
 #define _STSCANF_S_BEGIN(buffer, fmt)           _stscanf(buffer, fmt,
 #define _STSCANF_S_END                          )

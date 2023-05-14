@@ -52,64 +52,64 @@ private:
 public:
     ~CUIScriptToken();
     CUIScriptToken() :
-    m_pCaller(NULL),
+    m_pCaller(nullptr),
     m_eType(TOKEN_NULL),
-    m_pCmd(NULL),
-    m_pCvar(NULL),
-    m_pTrigger(NULL),
-    m_pWidget(NULL),
-    m_pLink(NULL)
+    m_pCmd(nullptr),
+    m_pCvar(nullptr),
+    m_pTrigger(nullptr),
+    m_pWidget(nullptr),
+    m_pLink(nullptr)
     {}
 
     CUIScriptToken(IWidget *pCaller, ETokenType eType) :
     m_pCaller(pCaller),
     m_eType(eType),
-    m_pCmd(NULL),
-    m_pCvar(NULL),
-    m_pTrigger(NULL),
-    m_pWidget(NULL),
-    m_pLink(NULL)
+    m_pCmd(nullptr),
+    m_pCvar(nullptr),
+    m_pTrigger(nullptr),
+    m_pWidget(nullptr),
+    m_pLink(nullptr)
     {}
 
     CUIScriptToken(IWidget *pCaller, CUICmd *pCmd) :
     m_pCaller(pCaller),
     m_eType(TOKEN_CMD),
     m_pCmd(pCmd),
-    m_pCvar(NULL),
-    m_pTrigger(NULL),
-    m_pWidget(NULL),
-    m_pLink(NULL)
+    m_pCvar(nullptr),
+    m_pTrigger(nullptr),
+    m_pWidget(nullptr),
+    m_pLink(nullptr)
     {}
 
     CUIScriptToken(IWidget *pCaller, ICvar *pCvar) :
     m_pCaller(pCaller),
     m_eType(TOKEN_CVAR),
-    m_pCmd(NULL),
+    m_pCmd(nullptr),
     m_pCvar(pCvar),
-    m_pTrigger(NULL),
-    m_pWidget(NULL),
-    m_pLink(NULL)
+    m_pTrigger(nullptr),
+    m_pWidget(nullptr),
+    m_pLink(nullptr)
     {}
 
     CUIScriptToken(IWidget *pCaller, CUITrigger *pTrigger) :
     m_pCaller(pCaller),
     m_eType(TOKEN_TRIGGER),
-    m_pCmd(NULL),
-    m_pCvar(NULL),
+    m_pCmd(nullptr),
+    m_pCvar(nullptr),
     m_pTrigger(pTrigger),
-    m_pWidget(NULL),
-    m_pLink(NULL)
+    m_pWidget(nullptr),
+    m_pLink(nullptr)
     {}
 
     CUIScriptToken(IWidget *pCaller, const tstring &sLiteral) :
     m_pCaller(pCaller),
     m_eType(TOKEN_LITERAL),
-    m_pCmd(NULL),
-    m_pCvar(NULL),
-    m_pTrigger(NULL),
-    m_pWidget(NULL),
+    m_pCmd(nullptr),
+    m_pCvar(nullptr),
+    m_pTrigger(nullptr),
+    m_pWidget(nullptr),
     m_sLiteral(sLiteral),
-    m_pLink(NULL)
+    m_pLink(nullptr)
     {}
 
     ETokenType  GetType() const { return m_eType; }
@@ -123,12 +123,12 @@ public:
 
     void            SetValue(const tstring &sValue) { m_eType = TOKEN_LITERAL; m_sLiteral = sValue; }
 
-    void            LinkArgument(CUIScriptToken *pToken)    { CUIScriptToken *pLink(this); while (pLink->m_pLink != NULL) pLink = pLink->m_pLink; pLink->m_pLink = pToken; }
+    void            LinkArgument(CUIScriptToken *pToken)    { CUIScriptToken *pLink(this); while (pLink->m_pLink != nullptr) pLink = pLink->m_pLink; pLink->m_pLink = pToken; }
     CUIScriptToken* GetNextLink()                           { return m_pLink; }
     void            AddArgument(CUIScriptToken *pToken)     { m_vArgList.push_back(pToken); }
     void            AddArgument(const tstring &sValue)      { m_vArgList.push_back(K2_NEW(ctx_Console,  CUIScriptToken)(m_pCaller, sValue)); }
 
-    CUIScriptToken* GetArg(uint uiIndex) const              { if (uiIndex < m_vArgList.size()) return m_vArgList[uiIndex]; return NULL; }
+    CUIScriptToken* GetArg(uint uiIndex) const              { if (uiIndex < m_vArgList.size()) return m_vArgList[uiIndex]; return nullptr; }
 };
 //=============================================================================
 

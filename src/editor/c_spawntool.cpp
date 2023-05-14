@@ -113,7 +113,7 @@ m_hFont(g_ResourceManager.LookUpName(_T("system_medium"), RES_FONTMAP))
             continue;
 
         const CDynamicEntityAllocator *pAllocator(EntityRegistry.GetDynamicAllocator(it->first));
-        if (pAllocator != NULL && GET_ENTITY_BASE_TYPE1(pAllocator->GetBaseType()) != ENTITY_BASE_TYPE1_UNIT &&
+        if (pAllocator != nullptr && GET_ENTITY_BASE_TYPE1(pAllocator->GetBaseType()) != ENTITY_BASE_TYPE1_UNIT &&
             GET_ENTITY_BASE_TYPE1(pAllocator->GetBaseType()) != ENTITY_BASE_TYPE1_AFFECTOR)
             continue;
 
@@ -579,7 +579,7 @@ CVec3f  CSpawnTool::SelectionCenter()
     for (uiset::iterator it = m_setSelection.begin(); it != m_setSelection.end(); ++it)
     {
         CWorldEntity *pSpawn(Editor.GetWorld().GetEntity(*it));
-        if (pSpawn == NULL)
+        if (pSpawn == nullptr)
             continue;
 
         v3Center += pSpawn->GetPosition();
@@ -679,7 +679,7 @@ void    CSpawnTool::Draw()
     {
         CFontMap *pFontMap(g_ResourceManager.GetFontMap(m_hFont));
 
-        if (m_uiHoverEnt != INVALID_INDEX && Editor.GetWorld().GetEntity(m_uiHoverEnt) != NULL)
+        if (m_uiHoverEnt != INVALID_INDEX && Editor.GetWorld().GetEntity(m_uiHoverEnt) != nullptr)
         {
             CWorldEntity *pWorldEnt(Editor.GetWorld().GetEntity(m_uiHoverEnt));
 
@@ -721,7 +721,7 @@ void    CSpawnTool::GroundSelection()
     for (uiset::iterator it(m_setSelection.begin()); it != m_setSelection.end(); ++it)
     {
         CWorldEntity *pSpawn(Editor.GetWorld().GetEntity(*it));
-        if (pSpawn == NULL)
+        if (pSpawn == nullptr)
             continue;
 
         Editor.GetWorld().UnlinkEntity(*it);
@@ -741,7 +741,7 @@ void    CSpawnTool::StraightenSelection()
     for (uiset::iterator it(m_setSelection.begin()); it != m_setSelection.end(); ++it)
     {
         CWorldEntity *pSpawn(Editor.GetWorld().GetEntity(*it));
-        if (pSpawn == NULL)
+        if (pSpawn == nullptr)
             continue;
 
         Editor.GetWorld().UnlinkEntity(*it);
@@ -763,7 +763,7 @@ tstring CSpawnTool::GetSelectionName()
     for (uiset::iterator it(m_setSelection.begin()); it != m_setSelection.end(); ++it)
     {
         CWorldEntity *pSpawn(Editor.GetWorld().GetEntity(*it));
-        if (pSpawn == NULL)
+        if (pSpawn == nullptr)
             continue;
 
         if (pSpawn->GetName() != sName)
@@ -786,7 +786,7 @@ int     CSpawnTool::GetSelectionTeam()
     for (uiset::iterator it(m_setSelection.begin()); it != m_setSelection.end(); ++it)
     {
         CWorldEntity *pSpawn(Editor.GetWorld().GetEntity(*it));
-        if (pSpawn == NULL)
+        if (pSpawn == nullptr)
             continue;
 
         if (pSpawn->GetTeam() != iTeam)
@@ -809,7 +809,7 @@ tstring CSpawnTool::GetSelectionType()
     for (uiset::iterator it(m_setSelection.begin()); it != m_setSelection.end(); ++it)
     {
         CWorldEntity *pSpawn(Editor.GetWorld().GetEntity(*it));
-        if (pSpawn == NULL)
+        if (pSpawn == nullptr)
             continue;
 
         if (pSpawn->GetType() != sType)
@@ -848,7 +848,7 @@ bool    CSpawnTool::IsSelectionType(const tstring &sType)
     for (uiset::iterator it(m_setSelection.begin()); it != m_setSelection.end(); ++it)
     {
         CWorldEntity *pSpawn(Editor.GetWorld().GetEntity(*it));
-        if (pSpawn == NULL)
+        if (pSpawn == nullptr)
             continue;
 
         uint uiBaseType(EntityRegistry.GetBaseType(pSpawn->GetType()));
@@ -882,7 +882,7 @@ tstring CSpawnTool::GetSelectionProperty(const tstring &sName)
     for (uiset::iterator it(m_setSelection.begin()); it != m_setSelection.end(); ++it)
     {
         CWorldEntity *pSpawn(Editor.GetWorld().GetEntity(*it));
-        if (pSpawn == NULL)
+        if (pSpawn == nullptr)
             continue;
 
         if (pSpawn->GetProperty(sName) != sValue)
@@ -905,7 +905,7 @@ int     CSpawnTool::GetWorldIndexFromName(const tstring &sName)
     {
         CWorldEntity *pSpawn(Editor.GetWorld().GetEntityByHandle(*it));
 
-        if (pSpawn != NULL && pSpawn->GetName() == sName)
+        if (pSpawn != nullptr && pSpawn->GetName() == sName)
             return pSpawn->GetIndex();
     }
 
@@ -920,7 +920,7 @@ void    CSpawnTool::SetSelectionName(const tstring &sName)
     for (uiset::iterator it(m_setSelection.begin()); it != m_setSelection.end(); ++it)
     {
         CWorldEntity *pSpawn(Editor.GetWorld().GetEntity(*it));
-        if (pSpawn == NULL)
+        if (pSpawn == nullptr)
             continue;
 
         pSpawn->SetName(sName);
@@ -935,7 +935,7 @@ void    CSpawnTool::SetSelectionTeam(int iTeam)
     for (uiset::iterator it(m_setSelection.begin()); it != m_setSelection.end(); ++it)
     {
         CWorldEntity *pSpawn(Editor.GetWorld().GetEntity(*it));
-        if (pSpawn == NULL)
+        if (pSpawn == nullptr)
             continue;
 
         pSpawn->SetTeam(iTeam);
@@ -953,13 +953,13 @@ void    CSpawnTool::SetSelectionType(const tstring &sType)
     for (uiset::iterator it(m_setSelection.begin()); it != m_setSelection.end(); ++it)
     {
         CWorldEntity *pSpawn(Editor.GetWorld().GetEntity(*it));
-        if (pSpawn == NULL)
+        if (pSpawn == nullptr)
             continue;
 
         pSpawn->SetType(sType);
 
         IUnitDefinition *pDefinition(EntityRegistry.GetDefinition<IUnitDefinition>(sType));
-        if (pDefinition != NULL)
+        if (pDefinition != nullptr)
         {
             Editor.GetWorld().UnlinkEntity(pSpawn->GetIndex());
             pSpawn->SetScale(pDefinition->GetPreGlobalScale(0) * pDefinition->GetModelScale(0));
@@ -980,7 +980,7 @@ void    CSpawnTool::SetSelectionProperty(const tstring &sName, const tstring &sV
     for (uiset::iterator it(m_setSelection.begin()); it != m_setSelection.end(); ++it)
     {
         CWorldEntity *pSpawn(Editor.GetWorld().GetEntity(*it));
-        if (pSpawn == NULL)
+        if (pSpawn == nullptr)
             continue;
 
         pSpawn->SetProperty(sName, NormalizeLineBreaks(sValue, _T("\n")));

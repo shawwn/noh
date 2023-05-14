@@ -41,14 +41,14 @@ public:
     virtual void            Clear() = 0;
 
     virtual IGameEntity*    GetEntity(uint uiIndex) = 0;
-    virtual IGameEntity*    GetEntityFromUniqueID(uint uiUniqueID)                              { return NULL; }
+    virtual IGameEntity*    GetEntityFromUniqueID(uint uiUniqueID)                              { return nullptr; }
     virtual uint            GetGameIndexFromUniqueID(uint uiUniqueID)                           { return INVALID_INDEX; }
     virtual IGameEntity*    GetFirstEntity() = 0;
     virtual IGameEntity*    GetNextEntity(IGameEntity *pEntity) = 0;
-    virtual IGameEntity*    Allocate(ushort unType, uint uiMinIndex = INVALID_INDEX)            { return NULL; }
-    virtual IGameEntity*    Allocate(const tstring &sName, uint uiMinIndex = INVALID_INDEX)     { return NULL; }
-    virtual IVisualEntity*  GetEntityFromName(const tstring &sName)                             { return NULL; }
-    virtual IVisualEntity*  GetNextEntityFromName(IVisualEntity *pEntity)                       { return NULL; }
+    virtual IGameEntity*    Allocate(ushort unType, uint uiMinIndex = INVALID_INDEX)            { return nullptr; }
+    virtual IGameEntity*    Allocate(const tstring &sName, uint uiMinIndex = INVALID_INDEX)     { return nullptr; }
+    virtual IVisualEntity*  GetEntityFromName(const tstring &sName)                             { return nullptr; }
+    virtual IVisualEntity*  GetNextEntityFromName(IVisualEntity *pEntity)                       { return nullptr; }
     virtual const UnitList& GetUnitList() = 0;
     virtual void            GetEntities(uivector &vResult, ushort unType) = 0;
     virtual void            ActivateBitEntity(uint uiIndex)                                     {}

@@ -43,7 +43,7 @@ bool    CFileBuffer::Open(const tstring &sPath, int iMode)
     {
         //m_uiSize = m_pArchive->ReadFile(sPath, m_pBuffer);
         m_uiSize = 0;
-        m_pBuffer = NULL;
+        m_pBuffer = nullptr;
 
         if (iMode & FILE_WRITE)
             m_bufferWrite.Write(m_pBuffer, m_uiSize);
@@ -52,7 +52,7 @@ bool    CFileBuffer::Open(const tstring &sPath, int iMode)
     m_uiPos = 0;
     m_bEOF = false;
 
-    if (m_pBuffer != NULL || iMode & FILE_WRITE)
+    if (m_pBuffer != nullptr || iMode & FILE_WRITE)
         return true;
     else
         return false;
@@ -271,13 +271,13 @@ const char  *CFileBuffer::GetBuffer(uint &uiSize)
     if (m_iMode & FILE_WRITE)
     {
         uiSize = 0;
-        return NULL;
+        return nullptr;
     }
 
-    if (m_pBuffer == NULL)
+    if (m_pBuffer == nullptr)
     {
         uiSize = 0;
-        return NULL;
+        return nullptr;
     }
     else
     {

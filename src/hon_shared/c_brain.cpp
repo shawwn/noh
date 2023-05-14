@@ -438,7 +438,7 @@ bool    CBrain::ProcessCommand(const SUnitCommand &cmd)
             eCmd = UNITCMD_MOVE;
     }
 
-    IBehavior *pBehavior(NULL);
+    IBehavior *pBehavior(nullptr);
 
     if (cmd.yQueue == QUEUE_NONE)
         ClearBrainDeque();
@@ -581,7 +581,7 @@ bool    CBrain::ProcessCommand(const SUnitCommand &cmd)
         pBehavior->SetOrderSequence(cmd.uiOrderSequence);
         
         IUnitEntity *pTargetUnit = Game.GetUnitEntity(cmd.uiIndex);
-        if (pTargetUnit != NULL)
+        if (pTargetUnit != nullptr)
             pBehavior->SetTargetOrderDisjointSequence(pTargetUnit->GetOrderDisjointSequence());
 
         if (cmd.uiDuration != INVALID_TIME)
@@ -593,7 +593,7 @@ bool    CBrain::ProcessCommand(const SUnitCommand &cmd)
         {
             IWaypoint *pWaypoint(Game.AllocateDynamicEntity<IWaypoint>(g_waypoint));
 
-            if (pWaypoint != NULL)
+            if (pWaypoint != nullptr)
             {
                 pWaypoint->SetOwnerIndex(m_pUnit->GetIndex());
                 pWaypoint->SetPosition(Game.GetTerrainPosition(cmd.v2Dest));
@@ -607,7 +607,7 @@ bool    CBrain::ProcessCommand(const SUnitCommand &cmd)
             if (!m_Brain.empty())
             {
                 IBehavior *pFront(m_Brain.front());
-                if (pFront != NULL && pFront->IsRestricted())
+                if (pFront != nullptr && pFront->IsRestricted())
                 {
                     pFront->EndBehavior();
 
@@ -703,7 +703,7 @@ void    CBrain::AddBehavior(IBehavior *pBehavior, byte yQueue)
 IActionState*   CBrain::AttemptActionState(uint uiStateID, uint uiPriority)
 {
     if (!(m_uiFlags & BS_READY))
-        return NULL;
+        return nullptr;
 
     for (int i(0); i < ASID_COUNT; ++i)
     {
@@ -723,7 +723,7 @@ IActionState*   CBrain::AttemptActionState(uint uiStateID, uint uiPriority)
     if (~m_pActionStates[uiStateID]->GetFlags() & ASR_ACTIVE)
     {
         if (!m_pActionStates[uiStateID]->BeginState())
-            return NULL;
+            return nullptr;
     }
 
     return m_pActionStates[uiStateID];
@@ -785,7 +785,7 @@ void    CBrain::Damaged(IUnitEntity *pAttacker)
         return;
 
     IBehavior *pBehavior(m_Brain.front());
-    if (pBehavior != NULL)
+    if (pBehavior != nullptr)
         pBehavior->Damaged(pAttacker);
 }
 
@@ -802,7 +802,7 @@ void    CBrain::Assist(IUnitEntity *pAlly, IUnitEntity *pAttacker)
         return;
 
     IBehavior *pBehavior(m_Brain.front());
-    if (pBehavior != NULL)
+    if (pBehavior != nullptr)
         pBehavior->Assist(pAlly, pAttacker);
 }
 
@@ -819,7 +819,7 @@ void    CBrain::Moved()
         return;
 
     IBehavior *pBehavior(m_Brain.front());
-    if (pBehavior != NULL)
+    if (pBehavior != nullptr)
         pBehavior->Moved();
 }
 
@@ -836,7 +836,7 @@ void    CBrain::Aggro(IUnitEntity *pTarget, uint uiDuration, uint uiDelay, bool 
         return;
 
     IBehavior *pBehavior(m_Brain.front());
-    if (pBehavior != NULL)
+    if (pBehavior != nullptr)
         pBehavior->Aggro(pTarget, uiDuration, uiDelay, bReaggroBlock);
 }
 
@@ -870,7 +870,7 @@ uint    CBrain::GetCurrentAttackBehaviorTarget() const
         return INVALID_INDEX;
 
     IBehavior *pBehavior(m_Brain.front());
-    if (pBehavior != NULL)
+    if (pBehavior != nullptr)
         return pBehavior->GetAttackTarget();
     else
         return INVALID_INDEX;
@@ -905,7 +905,7 @@ bool    CBrain::IsCurrentBehaviorChanneling() const
     if (!m_Brain.empty())
     {
         IBehavior *pBehavior(m_Brain.front());
-        if (pBehavior != NULL)
+        if (pBehavior != nullptr)
             return pBehavior->IsChanneling();
     }
 

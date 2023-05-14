@@ -267,12 +267,12 @@ void    CBlockerTool::BlockerModify(byte *pRegion, const CRecti &recArea, const 
   ====================*/
 void    CBlockerTool::PaintVisBlocker(float fFrameTime)
 {
-    byte *pRegion(NULL);
+    byte *pRegion(nullptr);
 
     try
     {
         CBrush *pBrush(CBrush::GetCurrentBrush());
-        if (pBrush == NULL)
+        if (pBrush == nullptr)
             EX_ERROR(_T("No brush selected"));
 
         //if (!Editor.GetWorld().IsInBounds(m_iX, m_iY, TILE_SPACE))
@@ -290,7 +290,7 @@ void    CBlockerTool::PaintVisBlocker(float fFrameTime)
 
         // Get the region
         pRegion = K2_NEW_ARRAY(ctx_Editor, byte, recClippedBrush.GetArea());
-        if (pRegion == NULL)
+        if (pRegion == nullptr)
             EX_ERROR(_T("Failed to allocate region"));
 
         if (!Editor.GetWorld().GetRegion(WORLD_TILE_VISBLOCKER_MAP, recClippedBrush, pRegion))
@@ -310,7 +310,7 @@ void    CBlockerTool::PaintVisBlocker(float fFrameTime)
     }
     catch (CException &ex)
     {
-        if (pRegion != NULL)
+        if (pRegion != nullptr)
             K2_DELETE_ARRAY(pRegion);
 
         ex.Process(_T("CVisBlockerTool::PaintVisBlocker() - "), NO_THROW);
@@ -324,12 +324,12 @@ void    CBlockerTool::PaintVisBlocker(float fFrameTime)
   ====================*/
 void    CBlockerTool::BlockerTerrain(float fFrameTime)
 {
-    byte *pRegion(NULL);
+    byte *pRegion(nullptr);
 
     try
     {
         CBrush *pBrush(CBrush::GetCurrentBrush());
-        if (pBrush == NULL)
+        if (pBrush == nullptr)
             EX_ERROR(_T("No brush selected"));
 
         //if (!Editor.GetWorld().IsInBounds(m_iX, m_iY, GRID_SPACE))
@@ -347,7 +347,7 @@ void    CBlockerTool::BlockerTerrain(float fFrameTime)
 
         // Get the region
         pRegion = K2_NEW_ARRAY(ctx_Editor, byte, recClippedBrush.GetArea());
-        if (pRegion == NULL)
+        if (pRegion == nullptr)
             EX_ERROR(_T("Failed to allocate region"));
 
         if (!Editor.GetWorld().GetRegion(WORLD_VERT_BLOCKER_MAP, recClippedBrush, pRegion))
@@ -367,7 +367,7 @@ void    CBlockerTool::BlockerTerrain(float fFrameTime)
     }
     catch (CException &ex)
     {
-        if (pRegion != NULL)
+        if (pRegion != nullptr)
             K2_DELETE_ARRAY(pRegion);
 
         ex.Process(_T("CBlockerTool::BlockerTerrain() - "), NO_THROW);

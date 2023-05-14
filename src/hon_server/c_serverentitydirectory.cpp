@@ -90,8 +90,8 @@ void    CServerEntityDirectory::Clear()
         else if (it->second->IsSlave())
         {
             IUnitEntity *pOwner(it->second->GetAsSlave()->GetOwner());
-            if (pOwner != NULL)
-                pOwner->SetInventorySlot(it->second->GetAsSlave()->GetSlot(), NULL);
+            if (pOwner != nullptr)
+                pOwner->SetInventorySlot(it->second->GetAsSlave()->GetSlot(), nullptr);
         }
         
         SAFE_DELETE(it->second);
@@ -129,7 +129,7 @@ IGameEntity*    CServerEntityDirectory::Allocate(ushort unType, uint uiMinIndex)
             EX_ERROR(_T("Entity #") + XtoA(uiIndex) + _T(" is already allocated"));
 
         IGameEntity *pNewEntity(EntityRegistry.Allocate(unType));
-        if (pNewEntity == NULL)
+        if (pNewEntity == nullptr)
             EX_ERROR(_T("Allocation failed"));
 
         //Console << _T("Allocated new entity #") << uiIndex << newl;
@@ -152,7 +152,7 @@ IGameEntity*    CServerEntityDirectory::Allocate(ushort unType, uint uiMinIndex)
         if (pNewEntity->IsBit())
         {
             IBitEntity *pBit(pNewEntity->GetAsBit());
-            if (pBit != NULL)
+            if (pBit != nullptr)
             {
                 m_vBitEntities.push_back(pBit);
                 m_vBitEntities.back()->SetBitIndex(uint(m_vBitEntities.size() - 1));
@@ -171,7 +171,7 @@ IGameEntity*    CServerEntityDirectory::Allocate(ushort unType, uint uiMinIndex)
     catch (CException &ex)
     {
         ex.Process(_T("CEntityDirectory::Allocate() - "), NO_THROW);
-        return NULL;
+        return nullptr;
     }
 }
 
@@ -219,11 +219,11 @@ IGameEntity*    CServerEntityDirectory::AllocateDynamicEntity(const tstring &sNa
 {
     PROFILE("CServerEntityDirectory::AllocateDynamicEntity");
 
-    IGameEntity *pNewEntity(NULL);
+    IGameEntity *pNewEntity(nullptr);
     try
     {
         pNewEntity = EntityRegistry.AllocateDynamicEntity(sName, uiBaseType);
-        if (pNewEntity == NULL)
+        if (pNewEntity == nullptr)
             EX_ERROR(_T("Allocation failed for ") + SingleQuoteStr(sName));
 
         uint uiIndex(GetNewEntIndex(uiMinIndex));
@@ -256,7 +256,7 @@ IGameEntity*    CServerEntityDirectory::AllocateDynamicEntity(const tstring &sNa
     {
         ex.Process(_T("CEntityDirectory::AllocateDynamicEntity() - "), NO_THROW);
         SAFE_DELETE(pNewEntity);
-        return NULL;
+        return nullptr;
     }
 }
 
@@ -264,11 +264,11 @@ IGameEntity*    CServerEntityDirectory::AllocateDynamicEntity(ushort unTypeID, u
 {
     PROFILE("CServerEntityDirectory::AllocateDynamicEntity");
 
-    IGameEntity *pNewEntity(NULL);
+    IGameEntity *pNewEntity(nullptr);
     try
     {
         pNewEntity = EntityRegistry.AllocateDynamicEntity(unTypeID, uiBaseType);
-        if (pNewEntity == NULL)
+        if (pNewEntity == nullptr)
             EX_ERROR(_T("Allocation failed for ") + SingleQuoteStr(EntityRegistry.LookupName(unTypeID)));
 
         uint uiIndex(GetNewEntIndex(uiMinIndex));
@@ -300,7 +300,7 @@ IGameEntity*    CServerEntityDirectory::AllocateDynamicEntity(ushort unTypeID, u
     catch (CException &ex)
     {
         ex.Process(_T("CEntityDirectory::AllocateDynamicEntity() - "), NO_THROW);
-        return NULL;
+        return nullptr;
     }
 }
 
@@ -311,11 +311,11 @@ IGameEntity*    CServerEntityDirectory::AllocateDynamicEntity(ushort unTypeID, u
 IGameEntity*    CServerEntityDirectory::GetEntity(uint uiIndex)
 {
     if (uiIndex == INVALID_INDEX)
-        return NULL;
+        return nullptr;
 
     EntMap_it itFind(m_mapEntities.find(uiIndex));
     if (itFind == m_mapEntities.end())
-        return NULL;
+        return nullptr;
 
     return itFind->second;
 }
@@ -327,11 +327,11 @@ IGameEntity*    CServerEntityDirectory::GetEntity(uint uiIndex)
 IGameEntity*    CServerEntityDirectory::GetEntityFromUniqueID(uint uiUniqueID)
 {
     if (uiUniqueID == INVALID_INDEX)
-        return NULL;
+        return nullptr;
 
     EntUIDMap_it itFind(m_mapUniqueIDs.find(uiUniqueID));
     if (itFind == m_mapUniqueIDs.end())
-        return NULL;
+        return nullptr;
 
     return itFind->second;
 }
@@ -361,7 +361,7 @@ IGameEntity*    CServerEntityDirectory::GetFirstEntity()
     if (m_mapEntities.empty())
     {
         m_itLastEntity = m_mapEntities.end();
-        return NULL;
+        return nullptr;
     }
     else
     {
@@ -377,26 +377,26 @@ IGameEntity*    CServerEntityDirectory::GetFirstEntity()
 IGameEntity*    CServerEntityDirectory::GetNextEntity(IGameEntity *pEntity)
 {
     if (!pEntity)
-        return NULL;
+        return nullptr;
 
     if (m_itLastEntity != m_mapEntities.end() && m_itLastEntity->second == pEntity)
     {
         ++m_itLastEntity;
 
         if (m_itLastEntity == m_mapEntities.end())
-            return NULL;
+            return nullptr;
         else
             return m_itLastEntity->second;
     }
 
     EntMap_it itFind(m_mapEntities.find(pEntity->GetIndex()));
     if (itFind == m_mapEntities.end())
-        return NULL;
+        return nullptr;
 
     ++itFind;
 
     if (itFind == m_mapEntities.end())
-        return NULL;
+        return nullptr;
     else
         return itFind->second;
 }
@@ -413,7 +413,7 @@ IVisualEntity*  CServerEntityDirectory::GetEntityFromName(const tstring &sName)
             return it->second->GetAsVisual();
     }
 
-    return NULL;
+    return nullptr;
 }
 
 
@@ -423,11 +423,11 @@ IVisualEntity*  CServerEntityDirectory::GetEntityFromName(const tstring &sName)
 IVisualEntity*  CServerEntityDirectory::GetNextEntityFromName(IVisualEntity *pEntity)
 {
     if (!pEntity)
-        return NULL;
+        return nullptr;
 
     EntMap_it itStart(m_mapEntities.find(pEntity->GetIndex()));
     if (itStart == m_mapEntities.end())
-        return NULL;
+        return nullptr;
 
     ++itStart;
 
@@ -437,7 +437,7 @@ IVisualEntity*  CServerEntityDirectory::GetNextEntityFromName(IVisualEntity *pEn
             return it->second->GetAsVisual();
     }
 
-    return NULL;
+    return nullptr;
 }
 
 
@@ -483,7 +483,7 @@ void    CServerEntityDirectory::GetSnapshot(CSnapshot &snapshot)
         if (pEntity->IsVisual())
         {
             IVisualEntity *pVisual(pEntity->GetAsVisual());
-            if (pVisual != NULL)
+            if (pVisual != nullptr)
             {
                 bTeam1 = pTeam[0]->CanSee(pVisual);
                 bTeam2 = pTeam[1]->CanSee(pVisual);
@@ -492,7 +492,7 @@ void    CServerEntityDirectory::GetSnapshot(CSnapshot &snapshot)
         else if (pEntity->IsTeamInfo())
         {
             CTeamInfo *pTeamInfo(pEntity->GetAsTeamInfo());
-            if (pTeamInfo != NULL)
+            if (pTeamInfo != nullptr)
             {
                 if (Game.GetGamePhase() < GAME_PHASE_PRE_MATCH)
                 {
@@ -522,10 +522,10 @@ void    CServerEntityDirectory::GetSnapshot(CSnapshot &snapshot)
         else if (pEntity->IsTool())
         {
             IEntityTool *pTool(pEntity->GetAsTool());
-            if (pTool != NULL)
+            if (pTool != nullptr)
             {
                 IUnitEntity *pOwner(pTool->GetOwner());
-                if (pOwner != NULL)
+                if (pOwner != nullptr)
                 {
                     if (pOwner->GetTeam() == 1)
                     {
@@ -548,11 +548,11 @@ void    CServerEntityDirectory::GetSnapshot(CSnapshot &snapshot)
         else if (pEntity->IsPlayer())
         {
             const CPlayer *pPlayer(pEntity->GetAsPlayer());
-            if (pPlayer != NULL)
+            if (pPlayer != nullptr)
             {
                 // Single draft is blind pick, so we don't want to show enemy info in hero selection
                 const CGameInfo *pGameInfo(Game.GetGameInfo());
-                if (pGameInfo != NULL && pGameInfo->GetGameMode() == GAME_MODE_SINGLE_DRAFT && Game.GetGamePhase() == GAME_PHASE_HERO_SELECT)
+                if (pGameInfo != nullptr && pGameInfo->GetGameMode() == GAME_MODE_SINGLE_DRAFT && Game.GetGamePhase() == GAME_PHASE_HERO_SELECT)
                 {
                     if (pPlayer->GetTeam() == 1)
                         bTeam2 = false;
@@ -627,7 +627,7 @@ void    CServerEntityDirectory::GetSnapshot(CSnapshot &snapshot)
         for (BitEntSet_it it(m_vTestBitEntVisible[i].begin()); it != m_vTestBitEntVisible[i].end();)
         {
             IBitEntity* pBit(*it);
-            if (pBit == NULL)
+            if (pBit == nullptr)
             {
                 STL_ERASE(m_vTestBitEntVisible[i], it);
                 continue;
@@ -641,7 +641,7 @@ void    CServerEntityDirectory::GetSnapshot(CSnapshot &snapshot)
             if (pBit->IsVisual())
             {
                 IVisualEntity *pVisual(pBit->GetAsVisual());
-                if (pVisual != NULL)
+                if (pVisual != nullptr)
                 {
                     pBit->SetVisibilityFlags(Game.GetVision(pBit->GetPosition().x,pBit->GetPosition().y));
                     if (pTeam[i]->CanSee(pVisual))
@@ -790,11 +790,11 @@ void    CServerEntityDirectory::WriteBitEntityMap(CStateBlock &block)
 void    CServerEntityDirectory::ActivateBitEntity(uint uiIndex)
 {
     IGameEntity *pEntity(GetEntity(uiIndex));
-    if (pEntity == NULL)
+    if (pEntity == nullptr)
         return;
 
     IBitEntity *pBit(pEntity->GetAsBit());
-    if (pBit == NULL)
+    if (pBit == nullptr)
         return;
 
     uint uiBitIndex(pBit->GetBitIndex());
@@ -820,15 +820,15 @@ void    CServerEntityDirectory::ActivateBitEntity(uint uiIndex)
 void    CServerEntityDirectory::DeactivateBitEntity(uint uiIndex)
 {
     IGameEntity *pEntity(GetEntity(uiIndex));
-    if (pEntity == NULL)
+    if (pEntity == nullptr)
         return;
 
     IBitEntity *pBit(pEntity->GetAsBit());
-    if (pBit == NULL)
+    if (pBit == nullptr)
         return;
 
     uint uiBitIndex(pBit->GetBitIndex());
-    if (m_vBitEntities[uiBitIndex] == NULL)
+    if (m_vBitEntities[uiBitIndex] == nullptr)
         return;
 
     uint uiGroup(uiBitIndex >> 5);

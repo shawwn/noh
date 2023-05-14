@@ -40,7 +40,7 @@ UI_CMD(Set, 2)
 
     tstring sName(vArgList[0]->Evaluate());
     ICvar *pCvar(ConsoleRegistry.GetCvar(sName));
-    if (pCvar != NULL)
+    if (pCvar != nullptr)
     {
         pCvar->Set(vArgList[1]->Evaluate());
         return pCvar->GetString();
@@ -70,7 +70,7 @@ UI_CMD(SetSave, 1)
 
     tstring sName(vArgList[0]->Evaluate());
     ICvar *pCvar(ConsoleRegistry.GetCvar(sName));
-    if (pCvar != NULL)
+    if (pCvar != nullptr)
     {
         if (vArgList.size() > 1)
             pCvar->Set(vArgList[1]->Evaluate());
@@ -97,7 +97,7 @@ UI_CMD(Toggle, 1)
 
     tstring sName(vArgList[0]->Evaluate());
     ICvar *pCvar(ConsoleRegistry.GetCvar(sName));
-    if (pCvar != NULL)
+    if (pCvar != nullptr)
     {
         pCvar->Toggle();
         return pCvar->GetString();
@@ -466,7 +466,7 @@ UI_CMD(CreateBool, 1)
   --------------------*/
 UI_CMD(VarExists, 1)
 {
-    return XtoA(ICvar::GetCvar(vArgList[0]->Evaluate()) != NULL);
+    return XtoA(ICvar::GetCvar(vArgList[0]->Evaluate()) != nullptr);
 }
 
 
@@ -906,7 +906,7 @@ UI_CMD(GetStringWidth, 2)
         return _T("0");
 
     CFontMap *pFontMap(g_ResourceManager.GetFontMap(hFont));
-    if (pFontMap == NULL)
+    if (pFontMap == nullptr)
         return _T("0");
 
     return XtoA(pFontMap->GetStringWidth(vArgList[1]->Evaluate()));
@@ -924,7 +924,7 @@ UI_CMD(GetFontHeight, 1)
         return _T("0");
 
     CFontMap *pFontMap(g_ResourceManager.GetFontMap(hFont));
-    if (pFontMap == NULL)
+    if (pFontMap == nullptr)
         return _T("0");
 
     return XtoA(pFontMap->GetMaxHeight());
@@ -942,7 +942,7 @@ UI_CMD(GetStringWrapHeight, 3)
     
     ResHandle hFont(g_ResourceManager.LookUpName(vArgList[0]->Evaluate(), RES_FONTMAP));
     CFontMap *pFontMap(g_ResourceManager.GetFontMap(hFont));
-    if (pFontMap == NULL)
+    if (pFontMap == nullptr)
         return _T("0");
 
     tsvector vsStr(WrapString(sStr, pFontMap, fWidth, true));//TokenizeString(sStr, _T('\n')));
@@ -980,7 +980,7 @@ UI_VOID_CMD(Echo, 0)
   --------------------*/
 UI_VOID_CMD(ShowWidget, 0)
 {
-    if (pThis == NULL)
+    if (pThis == nullptr)
         return;
 
     if (vArgList.empty())
@@ -989,12 +989,12 @@ UI_VOID_CMD(ShowWidget, 0)
         return;
     }
 
-    if (pThis->GetInterface() == NULL)
+    if (pThis->GetInterface() == nullptr)
         return;
 
     tstring sWidgetName(vArgList[0]->Evaluate());
     IWidget *pWidget(pThis->GetInterface()->GetWidget(sWidgetName));
-    if (pWidget == NULL)
+    if (pWidget == nullptr)
     {
         Console << _T("Widget ") << SingleQuoteStr(sWidgetName) << _T(" not found") << newl;
         return;
@@ -1009,7 +1009,7 @@ UI_VOID_CMD(ShowWidget, 0)
   --------------------*/
 UI_VOID_CMD(HideWidget, 0)
 {
-    if (pThis == NULL)
+    if (pThis == nullptr)
         return;
 
     if (vArgList.empty())
@@ -1018,12 +1018,12 @@ UI_VOID_CMD(HideWidget, 0)
         return;
     }
 
-    if (pThis->GetInterface() == NULL)
+    if (pThis->GetInterface() == nullptr)
         return;
 
     tstring sWidgetName(vArgList[0]->Evaluate());
     IWidget *pWidget(pThis->GetInterface()->GetWidget(sWidgetName));
-    if (pWidget == NULL)
+    if (pWidget == nullptr)
     {
         Console << _T("Widget ") << SingleQuoteStr(sWidgetName) << _T(" not found") << newl;
         return;
@@ -1038,7 +1038,7 @@ UI_VOID_CMD(HideWidget, 0)
   --------------------*/
 UI_VOID_CMD(ToggleWidget, 0)
 {
-    if (pThis == NULL)
+    if (pThis == nullptr)
         return;
 
     if (vArgList.empty())
@@ -1050,12 +1050,12 @@ UI_VOID_CMD(ToggleWidget, 0)
         return;
     }
 
-    if (pThis->GetInterface() == NULL)
+    if (pThis->GetInterface() == nullptr)
         return;
 
     tstring sWidgetName(vArgList[0]->Evaluate());
     IWidget *pWidget(pThis->GetInterface()->GetWidget(sWidgetName));
-    if (pWidget == NULL)
+    if (pWidget == nullptr)
     {
         Console << _T("Widget ") << SingleQuoteStr(sWidgetName) << _T(" not found") << newl;
         return;
@@ -1073,7 +1073,7 @@ UI_VOID_CMD(ToggleWidget, 0)
   --------------------*/
 UI_VOID_CMD(RefreshWidget, 0)
 {
-    if (pThis == NULL)
+    if (pThis == nullptr)
         return;
 
     if (vArgList.empty())
@@ -1082,12 +1082,12 @@ UI_VOID_CMD(RefreshWidget, 0)
         return;
     }
 
-    if (pThis->GetInterface() == NULL)
+    if (pThis->GetInterface() == nullptr)
         return;
 
     tstring sWidgetName(vArgList[0]->Evaluate());
     IWidget *pWidget(pThis->GetInterface()->GetWidget(sWidgetName));
-    if (pWidget == NULL)
+    if (pWidget == nullptr)
     {
         Console << _T("Widget ") << SingleQuoteStr(sWidgetName) << _T(" not found") << newl;
         return;
@@ -1136,12 +1136,12 @@ UI_CMD(FilenameGetName, 1)
   --------------------*/
 UI_CMD(GetWidgetAbsoluteFractionX, 2)
 {
-    if (pThis == NULL || pThis->GetInterface() == NULL)
+    if (pThis == nullptr || pThis->GetInterface() == nullptr)
         return _CTS("0");
 
     tstring sWidgetName(vArgList[0]->Evaluate());
     IWidget *pWidget(pThis->GetInterface()->GetWidget(sWidgetName));
-    if (pWidget == NULL)
+    if (pWidget == nullptr)
     {
         Console << _T("Widget ") << SingleQuoteStr(sWidgetName) << _T(" not found") << newl;
         return _CTS("0");
@@ -1156,12 +1156,12 @@ UI_CMD(GetWidgetAbsoluteFractionX, 2)
   --------------------*/
 UI_CMD(GetWidgetAbsoluteFractionY, 2)
 {
-    if (pThis == NULL || pThis->GetInterface() == NULL)
+    if (pThis == nullptr || pThis->GetInterface() == nullptr)
         return _CTS("0");
 
     tstring sWidgetName(vArgList[0]->Evaluate());
     IWidget *pWidget(pThis->GetInterface()->GetWidget(sWidgetName));
-    if (pWidget == NULL)
+    if (pWidget == nullptr)
     {
         Console << _T("Widget ") << SingleQuoteStr(sWidgetName) << _T(" not found") << newl;
         return _CTS("0");
@@ -1176,15 +1176,15 @@ UI_CMD(GetWidgetAbsoluteFractionY, 2)
   --------------------*/
 UI_VOID_CMD(SleepWidget2, 1)
 {
-    if (pThis == NULL)
+    if (pThis == nullptr)
         return;
 
-    if (pThis->GetInterface() == NULL)
+    if (pThis->GetInterface() == nullptr)
         return;
 
     tstring sWidgetName(vArgList[0]->Evaluate());
     IWidget *pWidget(pThis->GetInterface()->GetWidget(sWidgetName));
-    if (pWidget == NULL)
+    if (pWidget == nullptr)
     {
         Console << _T("Widget ") << SingleQuoteStr(sWidgetName) << _T(" not found") << newl;
         return;
@@ -1211,15 +1211,15 @@ UI_VOID_CMD(SleepWidget2, 1)
   --------------------*/
 UI_VOID_CMD(CallEvent, 1)
 {
-    if (pThis == NULL)
+    if (pThis == nullptr)
         return;
 
-    if (pThis->GetInterface() == NULL)
+    if (pThis->GetInterface() == nullptr)
         return;
 
     tstring sWidgetName(vArgList[0]->Evaluate());
     IWidget *pWidget(pThis->GetInterface()->GetWidget(sWidgetName));
-    if (pWidget == NULL)
+    if (pWidget == nullptr)
     {
         Console << _T("Widget ") << SingleQuoteStr(sWidgetName) << _T(" not found") << newl;
         return;
@@ -1237,15 +1237,15 @@ UI_VOID_CMD(CallEvent, 1)
   --------------------*/
 UI_VOID_CMD(CallEventParams, 1)
 {
-    if (pThis == NULL)
+    if (pThis == nullptr)
         return;
 
-    if (pThis->GetInterface() == NULL)
+    if (pThis->GetInterface() == nullptr)
         return;
 
     tstring sWidgetName(vArgList[0]->Evaluate());
     IWidget *pWidget(pThis->GetInterface()->GetWidget(sWidgetName));
-    if (pWidget == NULL)
+    if (pWidget == nullptr)
     {
         Console << _T("Widget ") << SingleQuoteStr(sWidgetName) << _T(" not found") << newl;
         return;
@@ -1268,15 +1268,15 @@ UI_VOID_CMD(CallEventParams, 1)
   --------------------*/
 UI_VOID_CMD(CallEventParamsX, 2)
 {
-    if (pThis == NULL)
+    if (pThis == nullptr)
         return;
 
-    if (pThis->GetInterface() == NULL)
+    if (pThis->GetInterface() == nullptr)
         return;
 
     tstring sWidgetName(vArgList[0]->Evaluate());
     IWidget *pWidget(pThis->GetInterface()->GetWidget(sWidgetName));
-    if (pWidget == NULL)
+    if (pWidget == nullptr)
     {
         Console << _T("Widget ") << SingleQuoteStr(sWidgetName) << _T(" not found") << newl;
         return;
@@ -1369,10 +1369,10 @@ UI_CMD(GetLeaverThreshold, 1)
   --------------------*/
 UI_VOID_CMD(ClearChildren, 0)
 {
-    if (pThis == NULL)
+    if (pThis == nullptr)
         return;
 
-    if (pThis->GetInterface() == NULL)
+    if (pThis->GetInterface() == nullptr)
         return;
 
     switch (pThis->GetType())

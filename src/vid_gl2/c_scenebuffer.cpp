@@ -95,7 +95,7 @@ void    CSceneBuffer::Initialize(int iWidth, int iHeight)
 
     // Update reference texture
     CTexture *pSceneBufferTexture(g_ResourceManager.GetTexture(m_hSceneBufferTexture));
-    if (pSceneBufferTexture != NULL)
+    if (pSceneBufferTexture != nullptr)
         pSceneBufferTexture->SetIndex(m_uiSceneBuffer);
 
     m_bActive = true;
@@ -112,7 +112,7 @@ void    CSceneBuffer::Release()
 
     // Update reference texture
     CTexture *pSceneBufferTexture(g_ResourceManager.GetTexture(m_hSceneBufferTexture));
-    if (pSceneBufferTexture != NULL)
+    if (pSceneBufferTexture != nullptr)
         pSceneBufferTexture->SetIndex(m_uiSceneBuffer);
     
     m_bActive = false;

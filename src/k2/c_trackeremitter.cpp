@@ -432,20 +432,20 @@ bool    CTrackerEmitter::Update(uint uiMilliseconds, ParticleTraceFn_t pfnTrace)
             }
         }
 
-        if (it->GetImbeddedEmitter() != NULL)
+        if (it->GetImbeddedEmitter() != nullptr)
         {
             IEmitter *pEmitter(it->GetImbeddedEmitter());
 
             if (!UpdateEmbeddedEmitter(uiMilliseconds, pfnTrace, pEmitter, *it))
             {
-                if (pEmitter->GetNextEmitter() != NULL)
+                if (pEmitter->GetNextEmitter() != nullptr)
                 {
                     it->SetImbeddedEmitter(pEmitter->GetNextEmitter());
-                    pEmitter->SetNextEmitter(NULL);
+                    pEmitter->SetNextEmitter(nullptr);
                 }
                 else
                 {
-                    it->SetImbeddedEmitter(NULL);
+                    it->SetImbeddedEmitter(nullptr);
                 }
 
                 K2_DELETE(pEmitter);
@@ -457,7 +457,7 @@ bool    CTrackerEmitter::Update(uint uiMilliseconds, ParticleTraceFn_t pfnTrace)
         }
     }
 
-    while ((!m_vParticles[m_uiFrontSlot].IsActive() && m_vParticles[m_uiFrontSlot].GetImbeddedEmitter() == NULL) && m_uiFrontSlot != m_uiBackSlot)
+    while ((!m_vParticles[m_uiFrontSlot].IsActive() && m_vParticles[m_uiFrontSlot].GetImbeddedEmitter() == nullptr) && m_uiFrontSlot != m_uiBackSlot)
         m_uiFrontSlot = (m_uiFrontSlot + 1) % m_vParticles.size();
 
     bool bActive(m_bActive && m_pParticleSystem->GetActive());
@@ -727,8 +727,8 @@ bool    CTrackerEmitter::Update(uint uiMilliseconds, ParticleTraceFn_t pfnTrace)
             continue;
 
         // Spawn embedded emitters
-        IEmitter *pImbeddedEmitter(NULL);
-        IEmitter *pCurrentEmitter(NULL);
+        IEmitter *pImbeddedEmitter(nullptr);
+        IEmitter *pCurrentEmitter(nullptr);
         const tsvector &vEmitters((*itDef)->GetEmitters());
         if (!vEmitters.empty())
         {
@@ -759,10 +759,10 @@ bool    CTrackerEmitter::Update(uint uiMilliseconds, ParticleTraceFn_t pfnTrace)
             m_pParticleSystem->SetCustomAxis(aAxis);
             m_pParticleSystem->SetCustomScale(fLerpedScale * m_fParticleScale);
 
-            if (pEmitterDef != NULL)
+            if (pEmitterDef != nullptr)
                 pImbeddedEmitter = pEmitterDef->Spawn(uiMilliseconds - uiMillisecondNudge, m_pParticleSystem, OWNER_CUSTOM);
 
-            if (pImbeddedEmitter != NULL)
+            if (pImbeddedEmitter != nullptr)
             {
                 m_bChildEmitters = true;
 
@@ -772,9 +772,9 @@ bool    CTrackerEmitter::Update(uint uiMilliseconds, ParticleTraceFn_t pfnTrace)
                 for (; cit != vEmitters.end(); ++cit)
                 {
                     IEmitterDef *pEmitterDef(pEffect->GetEmitterDef(*cit));
-                    IEmitter *pNewEmitter(NULL);
+                    IEmitter *pNewEmitter(nullptr);
 
-                    if (pEmitterDef != NULL)
+                    if (pEmitterDef != nullptr)
                         pNewEmitter = pEmitterDef->Spawn(uiMilliseconds - uiMillisecondNudge, m_pParticleSystem, OWNER_CUSTOM);
 
                     pCurrentEmitter->SetNextEmitter(pNewEmitter);
@@ -810,11 +810,11 @@ bool    CTrackerEmitter::Update(uint uiMilliseconds, ParticleTraceFn_t pfnTrace)
             for (int i(0); i < (*it)->GetCount(); ++i)
             {
                 IEmitter *pNewEmitter((*it)->Spawn(uiMilliseconds - uiMillisecondNudge, m_pParticleSystem, OWNER_CUSTOM));
-                if (pNewEmitter != NULL)
+                if (pNewEmitter != nullptr)
                 {
                     m_bChildEmitters = true;
 
-                    if (pCurrentEmitter == NULL)
+                    if (pCurrentEmitter == nullptr)
                     {
                         pImbeddedEmitter = pNewEmitter;
                         pCurrentEmitter = pImbeddedEmitter;
@@ -856,20 +856,20 @@ bool    CTrackerEmitter::Update(uint uiMilliseconds, ParticleTraceFn_t pfnTrace)
             m_bbBounds.AddPoint(m_vParticles[uiSlot].GetPos());
         }
 
-        if (m_vParticles[uiSlot].GetImbeddedEmitter() != NULL)
+        if (m_vParticles[uiSlot].GetImbeddedEmitter() != nullptr)
         {
             IEmitter *pEmitter(m_vParticles[uiSlot].GetImbeddedEmitter());
 
             if (!UpdateEmbeddedEmitter(uiMilliseconds, pfnTrace, pEmitter, m_vParticles[uiSlot]))
             {
-                if (pEmitter->GetNextEmitter() != NULL)
+                if (pEmitter->GetNextEmitter() != nullptr)
                 {
                     m_vParticles[uiSlot].SetImbeddedEmitter(pEmitter->GetNextEmitter());
-                    pEmitter->SetNextEmitter(NULL);
+                    pEmitter->SetNextEmitter(nullptr);
                 }
                 else
                 {
-                    m_vParticles[uiSlot].SetImbeddedEmitter(NULL);
+                    m_vParticles[uiSlot].SetImbeddedEmitter(nullptr);
                 }
 
                 K2_DELETE(pEmitter);
@@ -884,13 +884,13 @@ bool    CTrackerEmitter::Update(uint uiMilliseconds, ParticleTraceFn_t pfnTrace)
             if (m_vParticles[m_uiFrontSlot].GetImbeddedEmitter())
             {
                 K2_DELETE(m_vParticles[m_uiFrontSlot].GetImbeddedEmitter());
-                m_vParticles[m_uiFrontSlot].SetImbeddedEmitter(NULL);
+                m_vParticles[m_uiFrontSlot].SetImbeddedEmitter(nullptr);
             }
 
             m_uiFrontSlot = (m_uiFrontSlot + 1) % m_vParticles.size();
         }
 
-        while ((!m_vParticles[m_uiFrontSlot].IsActive() && m_vParticles[m_uiFrontSlot].GetImbeddedEmitter() == NULL) && m_uiFrontSlot != m_uiBackSlot)
+        while ((!m_vParticles[m_uiFrontSlot].IsActive() && m_vParticles[m_uiFrontSlot].GetImbeddedEmitter() == nullptr) && m_uiFrontSlot != m_uiBackSlot)
             m_uiFrontSlot = (m_uiFrontSlot + 1) % m_vParticles.size();
 
         ++m_iSpawnCount;

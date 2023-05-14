@@ -396,7 +396,7 @@ public:
     K2_API void             SetPriority(int iPriority);
     K2_API int              GetPriority() const;
 
-    static bool             IsInitialized()                         { return s_pInstance != NULL; }
+    static bool             IsInitialized()                         { return s_pInstance != nullptr; }
 
     K2_API tstring          GetProcessFilename();
     K2_API tstring          GetProcessBaseName();

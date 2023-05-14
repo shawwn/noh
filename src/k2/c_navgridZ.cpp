@@ -47,15 +47,15 @@ CNavGridZ::CNavGridZ() :
 m_uiCnxnWidth(0),
 m_uiCnxnHeight(0),
 m_uiDownSize(0),
-m_pHorizontal(NULL),
-m_pVertical(NULL),
+m_pHorizontal(nullptr),
+m_pVertical(nullptr),
 m_uiIntsPerColumn(0),
 m_uiIntsPerRow(0)
 {
 }
 
 CNavGridZ::CNavGridZ(uint uiWidth, uint uiHeight, uint uiDownSize)
-: m_uiCnxnWidth(uiWidth), m_uiCnxnHeight(uiHeight), m_uiDownSize(uiDownSize), m_pHorizontal(NULL), m_pVertical(NULL)
+: m_uiCnxnWidth(uiWidth), m_uiCnxnHeight(uiHeight), m_uiDownSize(uiDownSize), m_pHorizontal(nullptr), m_pVertical(nullptr)
 {
     m_uiIntsPerRow = m_uiCnxnWidth >> BSHIFT_BITS_PER_INT << uiDownSize;
     m_uiIntsPerColumn = m_uiCnxnHeight >> BSHIFT_BITS_PER_INT << uiDownSize;
@@ -79,7 +79,7 @@ void    CNavGridZ::Init(uint uiPermanentGrid)
         m_pVertical = s_cMemPool.NewShortTerm<uint *>((1 << DOWNSIZE_LIMIT) >> m_uiDownSize);
     }
 
-    if (m_pHorizontal == NULL || m_pVertical == NULL)
+    if (m_pHorizontal == nullptr || m_pVertical == nullptr)
         K2System.Error(_T("CNavGridZ::Init: Insufficient pool"));
 }
 
@@ -89,16 +89,16 @@ void    CNavGridZ::Init(uint uiPermanentGrid)
   ====================*/
 void    CNavGridZ::Done()
 {
-    if (m_pHorizontal != NULL)
+    if (m_pHorizontal != nullptr)
     {
         s_cMemPool.Free(m_pHorizontal, ((1 << DOWNSIZE_LIMIT) >> m_uiDownSize));
-        m_pHorizontal = NULL;
+        m_pHorizontal = nullptr;
     }
 
-    if (m_pVertical != NULL)
+    if (m_pVertical != nullptr)
     {
         s_cMemPool.Free(m_pVertical, ((1 << DOWNSIZE_LIMIT) >> m_uiDownSize));
-        m_pVertical = NULL;
+        m_pVertical = nullptr;
     }
 }
 

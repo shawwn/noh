@@ -60,11 +60,11 @@ bool    CArchive::ValidateFileChecksum(const tstring &sPath)
         return false;
 
     // read the file.
-    char* pBuffer(NULL);
+    char* pBuffer(nullptr);
     int iSize(m_pUnzipFile->OpenUnzipFile(sFullPath.substr(m_sPathToArchive.length()), pBuffer));
 
     // if it's invalid, abort.
-    if (iSize <= 0 || pBuffer == NULL)
+    if (iSize <= 0 || pBuffer == nullptr)
         goto invalid;
 
     if (m_pChecksums)
@@ -159,7 +159,7 @@ bool    CArchive::Open(const tstring &sPath, int iMode, const tstring &sMod)
                     byte *pChecksumsFileBuf = K2_NEW_ARRAY(ctx_FileSystem, byte, uiChecksumsFileSize);
                     if (cChecksumsFile.Read((char*)pChecksumsFileBuf, uiChecksumsFileSize) == uiChecksumsFileSize)
                     {
-                        assert(m_pChecksums == NULL);
+                        assert(m_pChecksums == nullptr);
                         m_pChecksums = K2_NEW(ctx_FileSystem,  CChecksumTable)();
                         if (m_pChecksums->Load(pChecksumsFileBuf, uiChecksumsFileSize))
                         {
@@ -195,7 +195,7 @@ bool    CArchive::Open(const tstring &sPath, int iMode, const tstring &sMod)
 
         m_pZipFile = K2_NEW(ctx_FileSystem,  CZip)(sPath, (iMode & ARCHIVE_APPEND) != 0);
 
-        if (m_pZipFile == NULL)
+        if (m_pZipFile == nullptr)
             return false;
 
         if (!m_pZipFile->IsOpen())
@@ -214,7 +214,7 @@ bool    CArchive::Open(const tstring &sPath, int iMode, const tstring &sMod)
   ====================*/
 bool    CArchive::Close(uint uiMaxTime)
 {
-    if (m_pZipFile != NULL)
+    if (m_pZipFile != nullptr)
     {
         if (!m_pZipFile->Close(uiMaxTime))
             return false;
@@ -237,7 +237,7 @@ bool    CArchive::Close(uint uiMaxTime)
   ====================*/
 bool    CArchive::CancelWrite()
 {
-    if (m_pZipFile != NULL)
+    if (m_pZipFile != nullptr)
     {
         if (!m_pZipFile->CancelWrite())
             return false;
@@ -256,9 +256,9 @@ bool    CArchive::CancelWrite()
 bool    CArchive::IsOpen() const
 {
     if (m_iMode & ARCHIVE_READ)
-        return m_pUnzipFile != NULL;
+        return m_pUnzipFile != nullptr;
     else if (m_iMode & ARCHIVE_WRITE)
-        return m_pZipFile != NULL;
+        return m_pZipFile != nullptr;
     else
         return false;
 }
@@ -282,12 +282,12 @@ int     CArchive::ReadFile(const tstring &sPath, char *&pBuffer)
     int iSize(m_pUnzipFile->OpenUnzipFile(sFullPath.substr(m_sPathToArchive.length()), pBuffer));
 
     // if it's invalid, abort.
-    if (iSize <= 0 || pBuffer == NULL)
+    if (iSize <= 0 || pBuffer == nullptr)
         return iSize;
 
     if (!FileManager.GetCoreFilesModified())
     {
-        if (m_bRequireChecksums && m_pChecksums == NULL)
+        if (m_bRequireChecksums && m_pChecksums == nullptr)
         {
             if (ExamineChecksums && sPath != _T("checksums"))
             {
@@ -332,7 +332,7 @@ int     CArchive::ReadFile(const tstring &sPath, char *&pBuffer)
   ====================*/
 void    CArchive::StopFilePreload(const tstring &sFilename)
 {
-    if (m_pUnzipFile == NULL)
+    if (m_pUnzipFile == nullptr)
         return;
 #if 0
     m_pUnzipFile->StopFilePreload(sFilename);
@@ -355,9 +355,9 @@ bool    CArchive::ContainsFile(const tstring &sPath)
     if (sFullPath.compare(0, m_sPathToArchive.length(), m_sPathToArchive) != 0)
         return false;
 
-    if (m_pUnzipFile != NULL)
+    if (m_pUnzipFile != nullptr)
         return m_pUnzipFile->FileExists(sFullPath.substr(m_sPathToArchive.length()));
-    if (m_pZipFile != NULL)
+    if (m_pZipFile != nullptr)
         return m_pZipFile->FileExists(sFullPath.substr(m_sPathToArchive.length()));
 
     return false;
@@ -369,7 +369,7 @@ bool    CArchive::ContainsFile(const tstring &sPath)
   ====================*/
 void    CArchive::GetFileList(tsvector &vFileList) const
 {
-    if (m_pUnzipFile == NULL)
+    if (m_pUnzipFile == nullptr)
         return;
 
     const tsvector &vArchiveFiles(m_pUnzipFile->GetFileList());
@@ -398,14 +398,14 @@ void    CArchive::GetFileList(tsvector &vFileList) const
 bool    CArchive::GetModifiedFilesList(tsvector &vFileList)
 {
     // if we're not open for reading, abort.
-    assert(m_pUnzipFile != NULL);
-    if (m_pUnzipFile == NULL)
+    assert(m_pUnzipFile != nullptr);
+    if (m_pUnzipFile == nullptr)
         return false;
 
     // if we don't have a checksum table, then we have no way of determining
     // whether files have been modified, so abort.
-    assert(m_pChecksums != NULL);
-    if (m_pChecksums == NULL)
+    assert(m_pChecksums != nullptr);
+    if (m_pChecksums == nullptr)
         return false;
 
     // iterate over each file and determine whether it's been modified.
@@ -414,7 +414,7 @@ bool    CArchive::GetModifiedFilesList(tsvector &vFileList)
     for (tsvector_cit it(vFiles.begin()), itEnd(vFiles.end()); it != itEnd; ++it)
     {
         const tstring &sFile(*it);
-        char* pFile(NULL);
+        char* pFile(nullptr);
 
         // skip the checksums file.
         if (sFile == _T("checksums"))
@@ -444,7 +444,7 @@ bool    CArchive::GetModifiedFilesList(tsvector &vFileList)
   ====================*/
 bool    CArchive::WriteFile(const tstring &sPath, const char *pBuffer, size_t size, int iMode, time_t t)
 {
-    if (m_pZipFile == NULL)
+    if (m_pZipFile == nullptr)
         return false;
 
     try
@@ -508,7 +508,7 @@ int     CArchive::GetCompressedFile(const tstring &sPath, CCompressedFile &cFile
   ====================*/
 bool    CArchive::WriteCompressedFile(const tstring &sPath, const CCompressedFile &cFile, time_t t)
 {
-    if (m_pZipFile == NULL)
+    if (m_pZipFile == nullptr)
         return false;
 
     try
@@ -536,7 +536,7 @@ bool    CArchive::WriteCompressedFile(const tstring &sPath, const CCompressedFil
   ====================*/
 bool    CArchive::DeleteCompressedFile(const tstring &sPath)
 {
-    if (m_pZipFile == NULL)
+    if (m_pZipFile == nullptr)
         return false;
 
     try
@@ -577,7 +577,7 @@ float   CArchive::GetWriteProgress() const
 const tsvector& CArchive::GetFileList() const
 {
     static tsvector vEmpty;
-    if (m_pUnzipFile == NULL)
+    if (m_pUnzipFile == nullptr)
         return vEmpty;
 
     return m_pUnzipFile->GetFileList();
@@ -592,7 +592,7 @@ bool    CArchive::ComputeChecksums(CChecksumTable &cChecksums, const tsvector &v
     cChecksums.Clear();
 
     // if we are not open for reading, abort.
-    if (m_pUnzipFile == NULL)
+    if (m_pUnzipFile == nullptr)
         return false;
 
     // loop through each file in the archive and compute its checksum.
@@ -600,11 +600,11 @@ bool    CArchive::ComputeChecksums(CChecksumTable &cChecksums, const tsvector &v
     for (tsvector::const_iterator it(vFileList.begin()), itEnd(vFileList.end()); it != itEnd; ++it, ++i)
     {
         const tstring &sFile(*it);
-        char* pFile(NULL);
+        char* pFile(nullptr);
 
         // read the file.
         int iFileSize(ReadFile(sFile, pFile));
-        if (iFileSize < 0 || pFile == NULL)
+        if (iFileSize < 0 || pFile == nullptr)
         {
             Console << _T("Failed to compute checksum for file '") << sFile << _T("': could not read file!") << newl;
             SAFE_DELETE_ARRAY(pFile);
@@ -640,7 +640,7 @@ bool    CArchive::HashChecksums(byte* pOutChecksum)
     if (!(m_iMode & ARCHIVE_READ))
         return false;
 
-    if (m_pChecksums == NULL)
+    if (m_pChecksums == nullptr)
         return false;
 
     if (!m_pChecksums->HashChecksums(pOutChecksum))
@@ -689,7 +689,7 @@ CMD(WriteChecksums)
 
     cArchive.Close();
 
-    byte* yChecksumsFile(NULL);
+    byte* yChecksumsFile(nullptr);
     uint uiChecksumsFileSize(0);
     if (!cChecksums.Serialize(yChecksumsFile, uiChecksumsFileSize, vFileList))
     {
@@ -730,7 +730,7 @@ CMD(VerifyChecksums)
     sArchive = _T("/") + sArchive;
 
     CArchive* pArchive(pFileManager->GetArchive(sArchive,sMod));
-    if (pArchive == NULL)
+    if (pArchive == nullptr)
     {
         Console << _T("Invalid archive << ") << sArchive << newl;
         return true;
@@ -770,7 +770,7 @@ CMD(WriteArchiveList)
     sArchive = _T("/") + sArchive;
 
     CArchive* pArchive(pFileManager->GetArchive(sArchive,sMod));
-    if (pArchive == NULL)
+    if (pArchive == nullptr)
     {
         Console << _T("Invalid archive ") << sArchive << newl;
         return true;

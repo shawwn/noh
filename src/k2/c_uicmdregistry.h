@@ -70,7 +70,7 @@ CUICmd  *CUICmdRegistry::GetUICmd(const tstring &sUICmd)
     UICmdMap::iterator find = m_mapUICmds.find(LowerString(sUICmd));
 
     if (find == m_mapUICmds.end())
-        return NULL;
+        return nullptr;
     else
         return find->second;
 }

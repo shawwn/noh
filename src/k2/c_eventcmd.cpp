@@ -22,8 +22,8 @@ m_sName(sName),
 m_pfnEventCmd(pfnEventCmd),
 m_iFlags(iFlags)
 {
-    if (m_pfnEventCmd == NULL)
-        K2System.Error(_T("Tried to register an EventCmd with a NULL function."));
+    if (m_pfnEventCmd == nullptr)
+        K2System.Error(_T("Tried to register an EventCmd with a nullptr function."));
 
     CEventCmdRegistry::GetInstance()->Register(this);
 }

@@ -50,7 +50,7 @@ private:
 public:
     ~const_string()
     {
-        _Bx._Ptr = NULL;
+        _Bx._Ptr = nullptr;
     }
 
     const_string(const _Elem * const _Ptr) :

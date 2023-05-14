@@ -47,7 +47,7 @@ void    CEntityNeutralCampSpawner::Trigger(IGameEntity *pActivator)
     assert(pGameEnt->IsUnit() == true);
 
     IUnitEntity *pUnit = pGameEnt->GetAsUnit();
-    if (pUnit == NULL)
+    if (pUnit == nullptr)
         return;
 
     m_pSpawnedUnit = pUnit;
@@ -61,6 +61,6 @@ void    CEntityNeutralCampSpawner::Trigger(IGameEntity *pActivator)
 
     pUnit->GetBrain().AddCommand(UNITCMD_GUARD, false, GetPosition().xy(), INVALID_INDEX, uint(-1), true);
 
-    if (pUnit->IsNeutral() && pActivator != NULL && pActivator->IsType<CEntityNeutralCampController>())
+    if (pUnit->IsNeutral() && pActivator != nullptr && pActivator->IsType<CEntityNeutralCampController>())
         pUnit->GetAsNeutral()->SetSpawnControllerUID(pActivator->GetUniqueID());
 }

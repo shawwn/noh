@@ -34,7 +34,7 @@ public:
 template <class T>
 inline
 CReferenceCounter<T>::CReferenceCounter() :
-m_pObject(NULL),
+m_pObject(nullptr),
 m_iCount(1)
 {
 }
@@ -60,7 +60,7 @@ inline
 CReferenceCounter<T>::~CReferenceCounter()
 {
     assert(m_iCount == 0);
-    if (m_pObject != NULL)
+    if (m_pObject != nullptr)
         K2_DELETE(m_pObject);
 }
 

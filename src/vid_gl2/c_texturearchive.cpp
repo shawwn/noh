@@ -61,8 +61,8 @@ void    CTextureArchiveNode::WriteTexture(const tstring &sPath, uint uiTextureID
     if (!bOverwrite && cArchive.ContainsFile(cArchive.GetPathToArchive() + sFilePath))
         return;
 
-    ID3DXBuffer *pD3DBuffer(NULL);
-    D3DXSaveTextureToFileInMemory(&pD3DBuffer, D3DXIFF_DDS, pTexture, NULL);
+    ID3DXBuffer *pD3DBuffer(nullptr);
+    D3DXSaveTextureToFileInMemory(&pD3DBuffer, D3DXIFF_DDS, pTexture, nullptr);
 
     CFileHandle hDestFile(sFilePath, FILE_WRITE | FILE_TRUNCATE | FILE_BINARY | FILE_COMPRESS, cArchive);
     if (!hDestFile.IsOpen())

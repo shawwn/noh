@@ -60,7 +60,7 @@ bool    CBFollow::Validate()
         return false;
     }
 
-    if (Game.GetUnitEntity(m_uiTargetIndex) == NULL)
+    if (Game.GetUnitEntity(m_uiTargetIndex) == nullptr)
     {
         SetFlag(BSR_END);
         return false;
@@ -90,7 +90,7 @@ void    CBFollow::Update()
   ====================*/
 void    CBFollow::BeginBehavior()
 {
-    if (m_pSelf == NULL)
+    if (m_pSelf == nullptr)
     {
         Console << _T("CBFollow: Behavior started without valid information") << newl;
         return;
@@ -116,7 +116,7 @@ void    CBFollow::ThinkFrame()
         return;
 
     IUnitEntity *pTarget(Game.GetUnitEntity(m_uiTargetIndex));
-    if (pTarget == NULL)
+    if (pTarget == nullptr)
         return;
 
     // Check for a target that has become invalid
@@ -160,7 +160,7 @@ void    CBFollow::MovementFrame()
         return;
 
     IUnitEntity *pTarget(Game.GetUnitEntity(m_uiTargetIndex));
-    if (pTarget == NULL)
+    if (pTarget == nullptr)
         return;
 
     // Check for a target that has become invalid
@@ -218,7 +218,7 @@ void    CBFollow::ActionFrame()
         return;
 
     IUnitEntity *pTarget(Game.GetUnitEntity(m_uiTargetIndex));
-    if (pTarget == NULL)
+    if (pTarget == nullptr)
         return;
 
     // Check for a target that has become invalid

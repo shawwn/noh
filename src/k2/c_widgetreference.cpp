@@ -17,7 +17,7 @@
   ====================*/
 CWidgetReference::~CWidgetReference()
 {
-    if (m_pTarget != NULL)
+    if (m_pTarget != nullptr)
         m_pTarget->RemoveReference(this);
 }
 
@@ -26,7 +26,7 @@ CWidgetReference::~CWidgetReference()
   CWidgetReference::CWidgetReference
   ====================*/
 CWidgetReference::CWidgetReference(IWidget *pWidget) :
-m_pTarget(NULL),
+m_pTarget(nullptr),
 m_pOwner(pWidget)
 {
 }
@@ -35,7 +35,7 @@ CWidgetReference::CWidgetReference(const CWidgetReference &B) :
 m_pTarget(B.m_pTarget),
 m_pOwner(B.m_pOwner)
 {
-    if (m_pTarget != NULL)
+    if (m_pTarget != nullptr)
         m_pTarget->AddReference(this);
 }
 
@@ -47,11 +47,11 @@ void    CWidgetReference::Invalidate()
 {
     IWidget *pOldTarget(m_pTarget);
 
-    if (m_pOwner != NULL)
+    if (m_pOwner != nullptr)
         m_pOwner->LostReference(m_pTarget);
 
     if (pOldTarget == m_pTarget)
-        m_pTarget = NULL;
+        m_pTarget = nullptr;
 }
 
 
@@ -60,11 +60,11 @@ void    CWidgetReference::Invalidate()
   ====================*/
 CWidgetReference&   CWidgetReference::operator=(const CWidgetReference &B)
 {
-    if (m_pTarget != NULL)
+    if (m_pTarget != nullptr)
         m_pTarget->RemoveReference(this);
     
     m_pTarget = B.m_pTarget;
-    if (m_pTarget != NULL)
+    if (m_pTarget != nullptr)
         m_pTarget->AddReference(this);
 
     return *this;
@@ -72,11 +72,11 @@ CWidgetReference&   CWidgetReference::operator=(const CWidgetReference &B)
 
 CWidgetReference&   CWidgetReference::operator=(IWidget *pWidget)
 {
-    if (m_pTarget != NULL)
+    if (m_pTarget != nullptr)
         m_pTarget->RemoveReference(this);
     
     m_pTarget = pWidget;
-    if (m_pTarget != NULL)
+    if (m_pTarget != nullptr)
         m_pTarget->AddReference(this);
 
     return *this;

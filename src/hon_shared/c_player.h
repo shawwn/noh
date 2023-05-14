@@ -386,7 +386,7 @@ public:
     IHeroEntity*            GetHero() const                     { return Game.GetHeroEntity(GetHeroIndex()); }
     void                    SetHeroIndex(uint uiHeroIndex)      { m_uiHeroIndex = uiHeroIndex; }
     uint                    GetHeroIndex() const                { return m_uiHeroIndex; }
-    bool                    HasSpawnedHero() const              { return GetHero() != NULL; }
+    bool                    HasSpawnedHero() const              { return GetHero() != nullptr; }
     GAME_SHARED_API void    AssignHero(IHeroEntity *pHero);
     bool                    IsHeroLocked() const                { return HasSelectedHero() && !CanSwap() && !CanRepick(); }
 
@@ -521,7 +521,7 @@ public:
     void                    SetGold(ushort unGold)              { m_unGold = unGold; }
     ushort                  GetGold() const                     { return m_unGold; }
     uint                    GetGoldEarned() const               { return m_unGold + m_aStatTotals[PLAYER_STAT_GOLD_SPENT]; }
-    GAME_SHARED_API void    GiveGold(ushort unGold, IUnitEntity *pSource, IUnitEntity *pTarget = NULL);
+    GAME_SHARED_API void    GiveGold(ushort unGold, IUnitEntity *pSource, IUnitEntity *pTarget = nullptr);
     GAME_SHARED_API void    TakeGold(ushort unGold);
     GAME_SHARED_API bool    SpendGold(ushort unCost);
 

@@ -130,10 +130,10 @@ bool    CWorldEntityList::Serialize(IBuffer *pBuffer)
         mapProperties[_T("model")] = XtoA(g_ResourceManager.GetPath(pWorldEnt->GetModelHandle()));
         
         CModel *pModel(g_ResourceManager.GetModel(pWorldEnt->GetModelHandle()));
-        if (pModel != NULL)
+        if (pModel != nullptr)
         {
             IModel *pIModel(pModel->GetModelFile());
-            if (pIModel != NULL)
+            if (pIModel != nullptr)
                 mapProperties[_T("skin")] = XtoA(pIModel->GetSkin(pWorldEnt->GetSkin())->GetName());
         }
         
@@ -238,7 +238,7 @@ void    CWorldEntityList::FreeEntity(PoolHandle hHandle)
 {
     CWorldEntity *pWorldEnt(m_poolWorldEntities.GetReferenceByHandle(hHandle));
 
-    if (pWorldEnt == NULL)
+    if (pWorldEnt == nullptr)
         return;
 
     uint uiIndex(pWorldEnt->GetIndex());

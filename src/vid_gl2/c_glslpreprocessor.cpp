@@ -389,7 +389,7 @@ bool CGLSLPreprocessor::Evaluate(const string &sExpression)
                 
                 if (IsDigit(sToken[0]))
                 {
-                    m_viValue.push_back(strtol(sToken.c_str(), NULL, 0));
+                    m_viValue.push_back(strtol(sToken.c_str(), nullptr, 0));
                 }
             }
         }

@@ -107,14 +107,14 @@ void    IPowerupEntity::Spawn()
   ====================*/
 void    IPowerupEntity::Touch(IGameEntity *pActivator, int iIssuedClientNumber)
 {
-    if (!Game.IsServer() || pActivator == NULL)
+    if (!Game.IsServer() || pActivator == nullptr)
         return;
 
     if (m_yStatus != ENTITY_STATUS_ACTIVE)
         return;
 
     IHeroEntity *pHero(pActivator->GetAsHero());
-    if (pHero == NULL)
+    if (pHero == nullptr)
         return;
 
     uint uiTargetScheme(GetTouchTargetScheme());
@@ -132,7 +132,7 @@ void    IPowerupEntity::Touch(IGameEntity *pActivator, int iIssuedClientNumber)
     for (uivector_it itEntity(vEntities.begin()); itEntity != vEntities.end(); ++itEntity)
     {
         IUnitEntity *pOther(Game.GetUnitEntity(Game.GetGameIndexFromWorldIndex(*itEntity)));
-        if (pOther == NULL)
+        if (pOther == nullptr)
             continue;
         if (pOther->GetTeam() != pHero->GetTeam())
             continue;

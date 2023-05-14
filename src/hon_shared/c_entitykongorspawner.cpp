@@ -44,13 +44,13 @@ void    CEntityBossSpawner::Trigger(IGameEntity *pActivator)
     assert(pGameEnt->IsUnit() == true);
 
     IUnitEntity *pUnit = pGameEnt->GetAsUnit();
-    if (pUnit == NULL)
+    if (pUnit == nullptr)
         return;
 
-    if (pActivator != NULL && pActivator->IsType<CEntityBossController>())
+    if (pActivator != nullptr && pActivator->IsType<CEntityBossController>())
     {
         CEntityBossController *pController(pActivator->GetAs<CEntityBossController>());
-        if (pController != NULL)
+        if (pController != nullptr)
         {
             pController->AddActiveBossUID(pUnit->GetUniqueID());
             pUnit->SetLevel(pController->GetLevel());

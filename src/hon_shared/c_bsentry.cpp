@@ -66,10 +66,10 @@ void    CBSentry::Update()
 {
     // If our current target disjointed, re-target
     IUnitEntity *pTarget(Game.GetUnitEntity(m_uiCurrentTargetIndex));
-    if (pTarget != NULL && m_uiCurrentTargetOrderDisjointSequence != pTarget->GetOrderDisjointSequence())
+    if (pTarget != nullptr && m_uiCurrentTargetOrderDisjointSequence != pTarget->GetOrderDisjointSequence())
     {
         m_uiCurrentTargetIndex = INVALID_INDEX;
-        pTarget = NULL;
+        pTarget = nullptr;
     }
 
     static uivector vEntities;
@@ -92,7 +92,7 @@ void    CBSentry::Update()
 
         IUnitEntity *pTarget(Game.GetUnitEntity(Game.GetGameIndexFromWorldIndex(*cit)));
 
-        if (pTarget == NULL)
+        if (pTarget == nullptr)
             continue;
         if (pTarget->IsCritter())
             continue;
@@ -123,7 +123,7 @@ void    CBSentry::Update()
   ====================*/
 void    CBSentry::BeginBehavior()
 {
-    if (m_pSelf == NULL)
+    if (m_pSelf == nullptr)
     {
         Console << _T("CBSentry: Behavior started without valid information") << newl;
         return;
@@ -170,7 +170,7 @@ void    CBSentry::ActionFrame()
         Update();
 
     IUnitEntity *pTarget(Game.GetUnitEntity(m_uiCurrentTargetIndex));
-    if (pTarget == NULL)
+    if (pTarget == nullptr)
         return;
 
     // Check for a target that has become invalid

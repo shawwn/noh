@@ -17,7 +17,7 @@
 //=============================================================================
 K2_API HTTPRequestMap   g_mapHTTPRequests;
 
-K2_API CURLM*           g_pcURLMulti = NULL;
+K2_API CURLM*           g_pcURLMulti = nullptr;
 
 CVAR_UINT(net_httpConnectTimeout, 15);
 //=============================================================================
@@ -47,19 +47,19 @@ void    cURL_Shutdown()
 {
     HTTPRequestMap_it it;
 
-    if (g_pcURLMulti == NULL)
+    if (g_pcURLMulti == nullptr)
         return;
 
     for (it = g_mapHTTPRequests.begin(); it != g_mapHTTPRequests.end(); it++)
-        if ((*it).second.handle != NULL && g_pcURLMulti != NULL)
+        if ((*it).second.handle != nullptr && g_pcURLMulti != nullptr)
             curl_multi_remove_handle(g_pcURLMulti, (*it).second.handle);
 
     curl_multi_cleanup(g_pcURLMulti);
-    g_pcURLMulti = NULL;
+    g_pcURLMulti = nullptr;
 
     for (it = g_mapHTTPRequests.begin(); it != g_mapHTTPRequests.end(); it++)
     {
-        if ((*it).second.handle != NULL)
+        if ((*it).second.handle != nullptr)
             curl_easy_cleanup((*it).second.handle);
     
         SAFE_DELETE((*it).second.buf.buf);
@@ -79,11 +79,11 @@ int     cURL_Frame()
 {
     int iNumHandles(0);
     int iNumMsgs(0);
-    CURLMsg *pMsg(NULL);
+    CURLMsg *pMsg(nullptr);
     httpResult_e result;
     CURLMcode multResult;
 
-    if (g_pcURLMulti == NULL)
+    if (g_pcURLMulti == nullptr)
         return -1;
 
     multResult = curl_multi_perform(g_pcURLMulti, &iNumHandles);
@@ -93,7 +93,7 @@ int     cURL_Frame()
 
     pMsg = curl_multi_info_read(g_pcURLMulti, &iNumMsgs);
 
-    while (pMsg != NULL)
+    while (pMsg != nullptr)
     {
         if (pMsg->msg == CURLMSG_DONE)
         {
@@ -104,7 +104,7 @@ int     cURL_Frame()
 
             for (HTTPRequestMap_it it(g_mapHTTPRequests.begin()); it != g_mapHTTPRequests.end(); it++)
             {
-                if ((*it).second.handle != NULL && (*it).second.handle == pMsg->easy_handle)
+                if ((*it).second.handle != nullptr && (*it).second.handle == pMsg->easy_handle)
                 {
                     if (result == HTTP_SUCCESS)
                     {
@@ -130,7 +130,7 @@ int     cURL_Frame()
                     }
 
                     (*it).second.eResult = result;
-                    (*it).second.handle = NULL;
+                    (*it).second.handle = nullptr;
 
                     CURL *pHandle = pMsg->easy_handle;
                     curl_multi_remove_handle(g_pcURLMulti, pHandle);
@@ -157,7 +157,7 @@ size_t  HTTP_WriteFileCallback(void *ptr, size_t size, size_t nmemb, void *data)
     size_t realsize = size * nmemb;
     CFile *pFile = static_cast<CFile *>(data);
 
-    if (pFile != NULL && pFile->IsOpen())
+    if (pFile != nullptr && pFile->IsOpen())
         written = pFile->Write(ptr, realsize);
 
     return written;
@@ -210,7 +210,7 @@ size_t  HTTP_WriteMemoryCallback(void *ptr, size_t size, size_t nmemb, void *dat
   ====================*/
 int HTTP_ProgressCallback(void *clientp, double dltotal, double dlnow, double ultotal, double ulnow)
 {
-    if (clientp != NULL)
+    if (clientp != nullptr)
     {
         SHTTPProgress *dComplete = (SHTTPProgress *)(clientp);
 
@@ -242,12 +242,12 @@ int HTTP_ProgressCallback(void *clientp, double dltotal, double dlnow, double ul
   CFileHTTP::CFileHTTP
   ====================*/
 CFileHTTP::CFileHTTP() :
-m_pFile(NULL),
+m_pFile(nullptr),
 m_bOpen(false),
 m_bUploaded(false),
 m_bError(false),
 m_zResumePos(0),
-m_szPostData(NULL)
+m_szPostData(nullptr)
 {
 }
 
@@ -270,7 +270,7 @@ double  CFileHTTP::GetHTTPSize(const string &sPath)
     double dSize(0);
     CURL *curl = curl_easy_init();
 
-    if (curl == NULL)
+    if (curl == nullptr)
         return 0;
     
     // use IPv4
@@ -343,7 +343,7 @@ bool    CFileHTTP::Open(const tstring &sPath, int iMode)
     {
         CURLcode res;
         SByteBuffer buf;
-        CURL *curl = NULL;
+        CURL *curl = nullptr;
         int start = K2System.Milliseconds();
 
         if (m_iMode & FILE_HTTP_GETSIZE)
@@ -353,10 +353,10 @@ bool    CFileHTTP::Open(const tstring &sPath, int iMode)
             return true;
         }
 
-        if ((m_iMode & FILE_HTTP_UPLOAD || m_iMode & FILE_HTTP_WRITETOFILE) && m_pFile == NULL)
+        if ((m_iMode & FILE_HTTP_UPLOAD || m_iMode & FILE_HTTP_WRITETOFILE) && m_pFile == nullptr)
             return false;
 
-        buf.buf = NULL;
+        buf.buf = nullptr;
         buf.max_size = 0;
         buf.size = 0;
 
@@ -415,7 +415,7 @@ bool    CFileHTTP::Open(const tstring &sPath, int iMode)
             if (m_iMode & FILE_FTP_ACTIVE)
                 curl_easy_setopt(curl, CURLOPT_FTPPORT, "-");
             else
-                curl_easy_setopt(curl, CURLOPT_FTPPORT, NULL);
+                curl_easy_setopt(curl, CURLOPT_FTPPORT, nullptr);
             
             m_bUploaded = true;
         }
@@ -468,9 +468,9 @@ bool    CFileHTTP::Open(const tstring &sPath, int iMode)
         Console.Dev << "HTTP request took " << K2System.Milliseconds() - start << "ms" << newl;
         return true;
     }
-    else if (g_pcURLMulti != NULL)
+    else if (g_pcURLMulti != nullptr)
     {
-        CURL *curl = NULL;
+        CURL *curl = nullptr;
         SHTTPRequest sRequest;
 
         HTTPRequestMap_it it(g_mapHTTPRequests.find(sPathSingle));
@@ -494,7 +494,7 @@ bool    CFileHTTP::Open(const tstring &sPath, int iMode)
             else if ((*it).second.eResult == HTTP_REQUESTED) // still getting it
                 return true; // not here yet
 
-            if (!(*it).second.bBufIsFileHandle && (*it).second.buf.buf != NULL && (*it).second.buf.size > 0)
+            if (!(*it).second.bBufIsFileHandle && (*it).second.buf.buf != nullptr && (*it).second.buf.size > 0)
             {
                 m_pBuffer = K2_NEW_ARRAY(ctx_Net, char, (*it).second.buf.size);
                 MemManager.Copy(m_pBuffer, (*it).second.buf.buf, (*it).second.buf.size);
@@ -509,15 +509,15 @@ bool    CFileHTTP::Open(const tstring &sPath, int iMode)
             return true;
         }
 
-        if ((m_iMode & FILE_HTTP_UPLOAD || m_iMode & FILE_HTTP_WRITETOFILE) && m_pFile == NULL)
+        if ((m_iMode & FILE_HTTP_UPLOAD || m_iMode & FILE_HTTP_WRITETOFILE) && m_pFile == nullptr)
             return false;
 
-        sRequest.buf.buf = NULL;
+        sRequest.buf.buf = nullptr;
         sRequest.buf.max_size = 0;
         sRequest.buf.size = 0;
         sRequest.uiTotalSize = 0;
         sRequest.iMode = m_iMode;
-        sRequest.pFile = NULL;
+        sRequest.pFile = nullptr;
 
         curl = curl_easy_init();
         if (!curl)
@@ -638,17 +638,17 @@ void    CFileHTTP::StopTransfer(const tstring &sURL)
 
     if (it != g_mapHTTPRequests.end())
     {
-        if (it->second.pFile != NULL)
+        if (it->second.pFile != nullptr)
             it->second.pFile->Close();
 
-        if ((*it).second.handle != NULL && g_pcURLMulti != NULL)
+        if ((*it).second.handle != nullptr && g_pcURLMulti != nullptr)
             result = curl_multi_remove_handle(g_pcURLMulti, (*it).second.handle);
 
         curl_easy_cleanup((*it).second.handle);
 
         SAFE_DELETE((*it).second.pURL);
 
-        if (!(*it).second.bBufIsFileHandle && (*it).second.buf.buf != NULL)
+        if (!(*it).second.bBufIsFileHandle && (*it).second.buf.buf != nullptr)
             SAFE_DELETE((*it).second.buf.buf);
 
         STL_ERASE(g_mapHTTPRequests, it);

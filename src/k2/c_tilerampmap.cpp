@@ -18,7 +18,7 @@
   ====================*/
 CTileRampMap::CTileRampMap(EWorldComponent eComponent) :
 IWorldComponent(eComponent, _T("TileRampMap")),
-m_pTileRamps(NULL)
+m_pTileRamps(nullptr)
 {
 }
 
@@ -37,11 +37,11 @@ CTileRampMap::~CTileRampMap()
   ====================*/
 void    CTileRampMap::Release()
 {
-    m_pWorld = NULL;
+    m_pWorld = nullptr;
 
-    if (m_pTileRamps != NULL)
+    if (m_pTileRamps != nullptr)
         K2_DELETE_ARRAY(m_pTileRamps);
-    m_pTileRamps = NULL;
+    m_pTileRamps = nullptr;
 }
 
 
@@ -80,9 +80,9 @@ bool    CTileRampMap::Load(CArchive &archive, const CWorld *pWorld)
     }
     catch (CException &ex)
     {
-        if (m_pTileRamps != NULL)
+        if (m_pTileRamps != nullptr)
             K2_DELETE_ARRAY(m_pTileRamps);
-        m_pTileRamps = NULL;
+        m_pTileRamps = nullptr;
 
         ex.Process(_T("CTileCliffMap::Load() - "), NO_THROW);
         return false;
@@ -105,11 +105,11 @@ bool    CTileRampMap::Generate(const CWorld *pWorld)
 
         m_bChanged = true;
         m_pWorld = pWorld;
-        if (m_pWorld == NULL)
+        if (m_pWorld == nullptr)
             EX_ERROR(_T("CTileRampMap needs a valid CWorld"));
 
         m_pTileRamps = K2_NEW_ARRAY(ctx_World, byte, m_pWorld->GetCliffTileArea());
-        if (m_pTileRamps == NULL)
+        if (m_pTileRamps == nullptr)
             EX_ERROR(_T("Failed to allocate memory for RampMap"));
 
         for (int i(0); i < m_pWorld->GetCliffTileArea(); ++i)

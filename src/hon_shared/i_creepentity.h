@@ -49,7 +49,7 @@ public:
     virtual bool        ServerFrameThink();
 
     virtual void        Spawn();
-    virtual void        Die(IUnitEntity *pAttacker = NULL, ushort unKillingObject = INVALID_ENT_TYPE);
+    virtual void        Die(IUnitEntity *pAttacker = nullptr, ushort unKillingObject = INVALID_ENT_TYPE);
 
     virtual uint        GetInitialCharges() const       { return 0; }
     virtual byte        GetCharges() const              { return m_uiCharges; }

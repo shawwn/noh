@@ -37,7 +37,7 @@ struct SVoiceClient
 
     SVoiceClient() :
     socket(_T("VoiceClient")),
-    pClient(NULL)
+    pClient(nullptr)
     {
     }
 };

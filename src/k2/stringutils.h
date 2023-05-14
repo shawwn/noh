@@ -188,8 +188,8 @@ inline bool         IsNotIdentifier(int c)  { return !IsIdentifier(c); }
 K2_API bool         IsEmailAddress(const tstring &sAddress);
 K2_API bool         IsValidCCNumber(const tstring &sInputNumber);
 
-K2_API void         WrapString(const tstring &sStr, CFontMap *pFontMap, float fWidth, tsvector &vsOut, const CVec4f *pColor = NULL, ColorVector *pColors = NULL);
-K2_API tsvector     WrapString(const tstring &sStr, CFontMap *pFontMap, float fWidth, bool bWrap, const CVec4f *pColor = NULL, ColorVector *pColors = NULL);
+K2_API void         WrapString(const tstring &sStr, CFontMap *pFontMap, float fWidth, tsvector &vsOut, const CVec4f *pColor = nullptr, ColorVector *pColors = nullptr);
+K2_API tsvector     WrapString(const tstring &sStr, CFontMap *pFontMap, float fWidth, bool bWrap, const CVec4f *pColor = nullptr, ColorVector *pColors = nullptr);
 K2_API float        WrapStringCount(const tstring &sStr, CFontMap *pFontMap, float fWidth, bool bWrap, uivector *vWrappingBreakListOut, int m_iDrawFlags, fvector *vCentering);
 K2_API float        BiggestStringWidth(const tstring &sStr, CFontMap *pFontMap, float fWidth);
 

@@ -78,7 +78,7 @@ uint    CMMapUnzip::SearchCentralDir(SArchiveCentralInfo *pCentralInfo)
     size_t length(0);
 #endif
 
-    if (m_pData == NULL)
+    if (m_pData == nullptr)
     {
         bReleaseData = true;
         dwStartOffset = (iEnd / K2System.GetPageSize()) * K2System.GetPageSize();
@@ -87,18 +87,18 @@ uint    CMMapUnzip::SearchCentralDir(SArchiveCentralInfo *pCentralInfo)
 #ifdef _WIN32
         m_pData = static_cast<const char *>(MapViewOfFile(m_hMappedFile, FILE_MAP_READ, 0, dwStartOffset, dwOffset + (m_uiSize - iEnd)));
 
-        if (m_pData == NULL)
+        if (m_pData == nullptr)
         {
             Console.Warn << _T("CMMapUnzip::SearchCentralDir - Error mapping file to memory: ") << K2System.GetLastErrorString() << newl;
             return 0;
         }
 #else
         length = dwOffset + (m_uiSize - iEnd);
-        m_pData = static_cast<const char *>(mmap(NULL, length, PROT_READ, MAP_PRIVATE, m_iFile, dwStartOffset));
+        m_pData = static_cast<const char *>(mmap(nullptr, length, PROT_READ, MAP_PRIVATE, m_iFile, dwStartOffset));
 
         if (m_pData == static_cast<const char *>(MAP_FAILED))
         {
-            m_pData = NULL;
+            m_pData = nullptr;
             Console.Warn << _T("CMMapUnzip::SearchCentralDir - Error mapping file to memory: ") << K2System.GetLastErrorString() << newl;
             return 0;
         }
@@ -125,7 +125,7 @@ uint    CMMapUnzip::SearchCentralDir(SArchiveCentralInfo *pCentralInfo)
 #else
                     munmap((void*)m_pData, length);
 #endif
-                    m_pData = NULL;
+                    m_pData = nullptr;
                 }
 
                 return 0;
@@ -141,7 +141,7 @@ uint    CMMapUnzip::SearchCentralDir(SArchiveCentralInfo *pCentralInfo)
 #else
                 munmap((void*)m_pData, length);
 #endif
-                m_pData = NULL;
+                m_pData = nullptr;
             }
 
             return i - 3;
@@ -155,7 +155,7 @@ uint    CMMapUnzip::SearchCentralDir(SArchiveCentralInfo *pCentralInfo)
 #else
         munmap((void*)m_pData, length);
 #endif
-        m_pData = NULL;
+        m_pData = nullptr;
     }
 
     return 0;
@@ -170,24 +170,24 @@ m_bMemory(false),
 m_bInitialized(false)
 {
     // Initialize required members incase we bail early
-    m_pData = NULL;
+    m_pData = nullptr;
 
     // Setup memory mapping
 #ifdef _WIN32
     // Windows version
     m_hFile = INVALID_HANDLE_VALUE;
     m_hMappedFile = INVALID_HANDLE_VALUE;
-    m_hFile = CreateFile(sPath.c_str(), GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_READONLY, NULL);
+    m_hFile = CreateFile(sPath.c_str(), GENERIC_READ, FILE_SHARE_READ, nullptr, OPEN_EXISTING, FILE_ATTRIBUTE_READONLY, nullptr);
     if  (m_hFile == INVALID_HANDLE_VALUE)
         return;
 
     // Determine the archive's filesize
-    m_uiSize = GetFileSize(m_hFile, NULL);
+    m_uiSize = GetFileSize(m_hFile, nullptr);
 
     if (m_uiSize == 0)
         return;
 
-    m_hMappedFile = CreateFileMapping(m_hFile, NULL, PAGE_READONLY, 0, 0, NULL);
+    m_hMappedFile = CreateFileMapping(m_hFile, nullptr, PAGE_READONLY, 0, 0, nullptr);
     if (m_hMappedFile == INVALID_HANDLE_VALUE)
         return;
 
@@ -219,10 +219,10 @@ m_bInitialized(false)
     if (m_uiSize == 0)
         return;
     
-    m_pData = static_cast<const char *>(mmap(NULL, m_uiSize, PROT_READ, MAP_PRIVATE, m_iFile, 0));
+    m_pData = static_cast<const char *>(mmap(nullptr, m_uiSize, PROT_READ, MAP_PRIVATE, m_iFile, 0));
     if (m_pData == static_cast<const char *>(MAP_FAILED))
     {
-        m_pData = NULL;
+        m_pData = nullptr;
         return;
     }
 #endif
@@ -236,7 +236,7 @@ m_bMemory(true)
     m_pData = pBuffer;
     m_uiSize = uiSize;
 
-    if (m_pData == NULL || m_uiSize == 0)
+    if (m_pData == nullptr || m_uiSize == 0)
         return;
 
     Initialize();
@@ -260,7 +260,7 @@ void    CMMapUnzip::Initialize()
 
     // Prepare the various temporary variables for the loop...
     uint uiPos(LittleInt(centralInfo.centralDirOffset));
-    SArchiveFileInfo *pInfo(NULL);
+    SArchiveFileInfo *pInfo(nullptr);
     char szFilename[1024];
     uint uiMaxLength(m_uiSize);
 #ifndef _WIN32
@@ -269,7 +269,7 @@ void    CMMapUnzip::Initialize()
 
     bool bReleaseData(false);
 
-    if (m_pData == NULL)
+    if (m_pData == nullptr)
     {
         bReleaseData = true;
         
@@ -279,18 +279,18 @@ void    CMMapUnzip::Initialize()
 #ifdef _WIN32
         m_pData = static_cast<const char *>(MapViewOfFile(m_hMappedFile, FILE_MAP_READ, 0, dwStartOffset, dwOffset + (centralInfo.centralDirSize)));
 
-        if (m_pData == NULL)
+        if (m_pData == nullptr)
         {
             Console.Warn << _T("CMMapUnzip::SearchCentralDir - Error mapping file to memory: ") << K2System.GetLastErrorString() << newl;
             return;
         }
 #else
         length = dwOffset + (centralInfo.centralDirSize);
-        m_pData = static_cast<const char *>(mmap(NULL, length, PROT_READ, MAP_PRIVATE, m_iFile, dwStartOffset));
+        m_pData = static_cast<const char *>(mmap(nullptr, length, PROT_READ, MAP_PRIVATE, m_iFile, dwStartOffset));
 
         if (m_pData == static_cast<const char *>(MAP_FAILED))
         {
-            m_pData = NULL;
+            m_pData = nullptr;
             Console.Warn << _T("CMMapUnzip::CMMapUnzip - Error mapping file to memory: ") << K2System.GetLastErrorString() << newl;
             return;
         }
@@ -338,7 +338,7 @@ void    CMMapUnzip::Initialize()
 #else
         munmap((void*)m_pData, length);
 #endif
-        m_pData = NULL;
+        m_pData = nullptr;
     }
 
     m_bInitialized = true;
@@ -358,14 +358,14 @@ CMMapUnzip::~CMMapUnzip()
 
     // Cleanup file mapping and handles
 #ifdef _WIN32
-    if (m_pData != NULL)
+    if (m_pData != nullptr)
         UnmapViewOfFile(m_pData);
     if (m_hMappedFile != INVALID_HANDLE_VALUE)
         CloseHandle(m_hMappedFile);
     if (m_hFile != INVALID_HANDLE_VALUE)
         CloseHandle(m_hFile);
 #else
-    if(m_pData != NULL)
+    if(m_pData != nullptr)
         munmap((void*)m_pData, m_uiSize);
     if (m_iFile != -1)
         close(m_iFile);
@@ -380,7 +380,7 @@ uint    CMMapUnzip::OpenUnzipFile(const tstring &sFilename, char *&pBuffer)
 {
     try
     {
-        pBuffer = NULL;
+        pBuffer = nullptr;
 
         if (sFilename.empty())
             return 0;
@@ -405,7 +405,7 @@ uint    CMMapUnzip::OpenUnzipFile(const tstring &sFilename, char *&pBuffer)
         // Allocate the buffer based on the uncompressed file size
         pBuffer = K2_NEW_ARRAY(ctx_FileSystem, char, file_entry->second->uiRawSize);
 
-        const char *pFileEntryBuffer(NULL);
+        const char *pFileEntryBuffer(nullptr);
 
         bool bReleaseData(false);
         
@@ -413,7 +413,7 @@ uint    CMMapUnzip::OpenUnzipFile(const tstring &sFilename, char *&pBuffer)
         size_t length(0);
 #endif
 
-        if (m_pData == NULL)
+        if (m_pData == nullptr)
         {
             bReleaseData = true;
 
@@ -423,18 +423,18 @@ uint    CMMapUnzip::OpenUnzipFile(const tstring &sFilename, char *&pBuffer)
 #ifdef _WIN32
             m_pData = static_cast<const char *>(MapViewOfFile(m_hMappedFile, FILE_MAP_READ, 0, dwStartOffset, file_entry->second->uiSize + dwOffset));
 
-            if (m_pData == NULL)
+            if (m_pData == nullptr)
             {
                 SAFE_DELETE_ARRAY(pBuffer);
                 return 0;
             }
 #else
             size_t length(file_entry->second->uiSize + dwOffset);
-            m_pData = static_cast<const char *>(mmap(NULL, length, PROT_READ, MAP_PRIVATE, m_iFile, dwStartOffset));
+            m_pData = static_cast<const char *>(mmap(nullptr, length, PROT_READ, MAP_PRIVATE, m_iFile, dwStartOffset));
             if (m_pData == static_cast<const char *>(MAP_FAILED))
             {
                 SAFE_DELETE_ARRAY(pBuffer);
-                m_pData = NULL;
+                m_pData = nullptr;
                 return 0;
             }
 #endif
@@ -498,7 +498,7 @@ uint    CMMapUnzip::OpenUnzipFile(const tstring &sFilename, char *&pBuffer)
 #else
             munmap((void*)m_pData, length);
 #endif
-            m_pData = NULL;
+            m_pData = nullptr;
         }
 
         // And finally, return the file's rawsize for the data in pBuffer
@@ -527,11 +527,11 @@ uint    CMMapUnzip::GetCompressedFile(const tstring &sFilename, CCompressedFile 
             return 0;
 
         // Force the full file to map if we're currently using a small mapping
-        if (m_pData == NULL)
+        if (m_pData == nullptr)
 #ifdef _WIN32
             m_pData = static_cast<const char *>(MapViewOfFile(m_hMappedFile, FILE_MAP_READ, 0, 0, 0));
 #else
-            m_pData = static_cast<const char *>(mmap(NULL, m_uiSize, PROT_READ, MAP_PRIVATE, m_iFile, 0));
+            m_pData = static_cast<const char *>(mmap(nullptr, m_uiSize, PROT_READ, MAP_PRIVATE, m_iFile, 0));
 #endif
 
         // Convert the filename to lowercase and look it up in our hashmap

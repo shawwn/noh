@@ -43,7 +43,7 @@ IResource*  AllocInterfaceResource(const tstring &sPath)
   ====================*/
 CInterfaceResource::CInterfaceResource(const tstring &sPath) :
 IResource(sPath, TSNULL),
-m_pInterface(NULL)
+m_pInterface(nullptr)
 {
 }
 
@@ -71,7 +71,7 @@ int     CInterfaceResource::Load(uint uiIgnoreFlags, const char *pData, uint uiS
     if (!XMLManager.ReadBuffer(pData, uiSize, _T("interface"), this))
         iResult = RES_LOAD_FAILED;
 
-    if (m_pInterface != NULL)
+    if (m_pInterface != nullptr)
     {
         m_pInterface->SetFilename(m_sPath);
         m_pInterface->DoEvent(WEVENT_LOAD);
@@ -98,7 +98,7 @@ bool    CInterfaceResource::Allocate(const CWidgetStyle& style)
 {
     m_pInterface = K2_NEW(ctx_Resources,  CInterface)(style);
 
-    return m_pInterface != NULL;
+    return m_pInterface != nullptr;
 }
 
 
@@ -107,7 +107,7 @@ bool    CInterfaceResource::Allocate(const CWidgetStyle& style)
   ====================*/
 void    CInterfaceResource::Reloaded()
 {
-    if (m_pInterface != NULL)
+    if (m_pInterface != nullptr)
         m_pInterface->DoEvent(WEVENT_RELOAD);
 
     IResource::Reloaded();

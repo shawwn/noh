@@ -77,7 +77,7 @@ CProcedural *CProceduralRegistry::GetProcedural(const tstring &sProcedural)
     ProceduralMap::iterator find = m_mapProcedurals.find(sProcedural);
 
     if (find == m_mapProcedurals.end())
-        return NULL;
+        return nullptr;
     else
         return find->second;
 }

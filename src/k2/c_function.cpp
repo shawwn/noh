@@ -23,10 +23,10 @@
   CFunction::CFunction
   ====================*/
 CFunction::CFunction(const tstring &sName, FunctionFn_t pfnFunction) :
-CConsoleElement(sName, 0, ELEMENT_FUNCTION, NULL),
+CConsoleElement(sName, 0, ELEMENT_FUNCTION, nullptr),
 m_pfnFunction(pfnFunction)
 {
-    assert(m_pfnFunction != NULL);
+    assert(m_pfnFunction != nullptr);
     ConsoleRegistry.Register(sName, this);
     ConsoleRegistry.AddFunction(this);
 }

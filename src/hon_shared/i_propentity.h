@@ -60,7 +60,7 @@ public:
     virtual CSkeleton*      AllocateSkeleton();
 
     virtual void            ApplyWorldEntity(const CWorldEntity &ent);
-    virtual void            Die(IVisualEntity *pAttacker = NULL, ushort unKillingObjectID = INVALID_ENT_TYPE);
+    virtual void            Die(IVisualEntity *pAttacker = nullptr, ushort unKillingObjectID = INVALID_ENT_TYPE);
 
     virtual void            Link();
     virtual void            Unlink();

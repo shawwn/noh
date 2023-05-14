@@ -54,7 +54,7 @@ m_wRecvPort(0),
 m_uiReliableSendLastSeq(0),
 m_wSendPort(0),
 
-m_pSendAddr(NULL),
+m_pSendAddr(nullptr),
 
 m_bIsLocalConnection(false),
 m_bIsLANConnection(false),

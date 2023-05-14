@@ -23,10 +23,10 @@ CVAR_BOOL(world_noFree, false);
   ====================*/
 CWorldBlock::CWorldBlock() :
 m_bActive(false),
-m_pHeightmap(NULL),
-m_pColormap(NULL),
-m_pNormalmap(NULL),
-m_pEntList(NULL)
+m_pHeightmap(nullptr),
+m_pColormap(nullptr),
+m_pNormalmap(nullptr),
+m_pEntList(nullptr)
 {
 }
 
@@ -82,7 +82,7 @@ void    CWorldBlock::PostProcess()
     m_pNormalmap = BLOCK_COMPONENT(this, Normalmap);
     m_pEntList = BLOCK_COMPONENT(this, EntList);
 
-    if (m_pHeightmap == NULL)
+    if (m_pHeightmap == nullptr)
         throw _TS("Failed to load heightmap. Unabled to build WorldTree");
 
     // Calculate tile normals

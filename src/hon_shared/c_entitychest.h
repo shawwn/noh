@@ -65,7 +65,7 @@ public:
 
     virtual void    Spawn();
     virtual void    Touch(IGameEntity *pActivator, int iIssuedClientNumber = -1);
-    virtual void    Die(IUnitEntity *pAttacker = NULL, ushort unKillingObjectID = INVALID_ENT_TYPE);
+    virtual void    Die(IUnitEntity *pAttacker = nullptr, ushort unKillingObjectID = INVALID_ENT_TYPE);
 
     const tstring&  GetDisplayName() const;
 

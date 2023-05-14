@@ -374,7 +374,7 @@ BIGNUM * H( SRP_HashAlgorithm alg, const BIGNUM * n1, const BIGNUM * n2 )
     hash_add(alg, &ctx, n2);
 
     hash_final( alg, &ctx, buff );
-    BIGNUM* out = BN_bin2bn(buff, hash_length(alg), NULL);
+    BIGNUM* out = BN_bin2bn(buff, hash_length(alg), nullptr);
     srp_log(n1, "H[n1]");
     srp_log(n2, "H[n2]");
     srp_log(out, "H[out]");
@@ -392,7 +392,7 @@ BIGNUM * H2( SRP_HashAlgorithm alg, const BIGNUM * n1, const BIGNUM * n2 )
     hash_add_padded(alg, &ctx, n2, 256);
 
     hash_final( alg, &ctx, buff );
-    BIGNUM* out = BN_bin2bn(buff, hash_length(alg), NULL);
+    BIGNUM* out = BN_bin2bn(buff, hash_length(alg), nullptr);
     srp_log(n1, "H2[n1]");
     srp_log(n2, "H2[n2]");
     srp_log(out, "H2[out]");
@@ -412,7 +412,7 @@ static BIGNUM * H_nn( SRP_HashAlgorithm alg, const BIGNUM * n1, const BIGNUM * n
     BN_bn2bin(n2, bin + len_n1);
     hash( alg, bin, nbytes, buff );
     free(bin);
-    BIGNUM * out = BN_bin2bn(buff, hash_length(alg), NULL);
+    BIGNUM * out = BN_bin2bn(buff, hash_length(alg), nullptr);
     srp_log(n1, "H_nn[n1]");
     srp_log(n2, "H_nn[n2]");
     srp_log(out, "H_nn[out]");
@@ -431,7 +431,7 @@ static BIGNUM * H_ns( SRP_HashAlgorithm alg, const BIGNUM * n, const unsigned ch
     memcpy( bin + len_n, bytes, len_bytes );
     hash( alg, bin, nbytes, buff );
     free(bin);
-    return BN_bin2bn(buff, hash_length(alg), NULL);
+    return BN_bin2bn(buff, hash_length(alg), nullptr);
 }
 
 static BIGNUM * calculate_x( SRP_HashAlgorithm alg, const BIGNUM * salt, const char * username, const unsigned char * password, size_t password_len )
@@ -553,7 +553,7 @@ static void init_random()
 
 #ifdef WIN32
 
-        CryptAcquireContext(&wctx, NULL, NULL, PROV_RSA_FULL, CRYPT_VERIFYCONTEXT);
+        CryptAcquireContext(&wctx, nullptr, nullptr, PROV_RSA_FULL, CRYPT_VERIFYCONTEXT);
 
         CryptGenRandom(wctx, sizeof(buff), (BYTE*) buff);
 
@@ -598,7 +598,7 @@ void srp_create_verification_key_from_salt( SRP_HashAlgorithm alg,
                                             const unsigned char ** bytes_v, size_t * len_v,
                                             const char * n_hex, const char * g_hex )
 {
-    BIGNUM     * s   = BN_bin2bn(bytes_s, len_s, NULL);
+    BIGNUM     * s   = BN_bin2bn(bytes_s, len_s, nullptr);
     BIGNUM     * v   = BN_new();
     BIGNUM     * x   = 0;
     BN_CTX     * ctx = BN_CTX_new();
@@ -684,7 +684,7 @@ void srp_create_salted_verification_key( SRP_HashAlgorithm alg,
 
 /* Out: bytes_B, len_B.
  *
- * On failure, bytes_B will be set to NULL and len_B will be set to 0
+ * On failure, bytes_B will be set to nullptr and len_B will be set to 0
  */
 struct SRPVerifier *  srp_verifier_new( SRP_HashAlgorithm alg, SRP_NGType ng_type, const char * username,
                                         const unsigned char * bytes_s, size_t len_s,
@@ -693,9 +693,9 @@ struct SRPVerifier *  srp_verifier_new( SRP_HashAlgorithm alg, SRP_NGType ng_typ
                                         const unsigned char ** bytes_B, size_t * len_B,
                                         const char * n_hex, const char * g_hex )
 {
-    BIGNUM             *s    = BN_bin2bn(bytes_s, len_s, NULL);
-    BIGNUM             *v    = BN_bin2bn(bytes_v, len_v, NULL);
-    BIGNUM             *A    = BN_bin2bn(bytes_A, len_A, NULL);
+    BIGNUM             *s    = BN_bin2bn(bytes_s, len_s, nullptr);
+    BIGNUM             *v    = BN_bin2bn(bytes_v, len_v, nullptr);
+    BIGNUM             *A    = BN_bin2bn(bytes_A, len_A, nullptr);
     BIGNUM             *u    = 0;
     BIGNUM             *B    = BN_new();
     BIGNUM             *S    = BN_new();
@@ -841,7 +841,7 @@ void srp_verifier_verify_session( struct SRPVerifier * ver, const unsigned char 
         *len_HAMK = hash_length(ver->hash_alg);
     }
     else {
-        *bytes_HAMK = NULL;
+        *bytes_HAMK = nullptr;
         *len_HAMK = 0;
     }
 }
@@ -973,8 +973,8 @@ void  srp_user_process_challenge( struct SRPUser * usr,
                                   const unsigned char * bytes_B, size_t len_B,
                                   const unsigned char ** bytes_M, size_t * len_M )
 {
-    BIGNUM *s    = BN_bin2bn(bytes_s, len_s, NULL);
-    BIGNUM *B    = BN_bin2bn(bytes_B, len_B, NULL);
+    BIGNUM *s    = BN_bin2bn(bytes_s, len_s, nullptr);
+    BIGNUM *B    = BN_bin2bn(bytes_B, len_B, nullptr);
     BIGNUM *u    = 0;
     BIGNUM *x    = 0;
     BIGNUM *k    = 0;
@@ -1040,7 +1040,7 @@ void  srp_user_process_challenge( struct SRPUser * usr,
     }
     else
     {
-        *bytes_M = NULL;
+        *bytes_M = nullptr;
         if (len_M)
             *len_M   = 0;
     }
@@ -1071,7 +1071,7 @@ void srp_user_get_a( struct SRPUser * usr, const unsigned char ** bytes_a, size_
     else
     {
         if (bytes_a)
-            *bytes_a = NULL;
+            *bytes_a = nullptr;
         if (len_a)
             *len_a   = 0;
     }
@@ -1089,7 +1089,7 @@ void srp_user_get_A( struct SRPUser * usr, const unsigned char ** bytes_A, size_
     else
     {
         if (bytes_A)
-            *bytes_A = NULL;
+            *bytes_A = nullptr;
         if (len_A)
             *len_A   = 0;
     }
@@ -1106,7 +1106,7 @@ void srp_user_get_proof( struct SRPUser * usr, const unsigned char ** bytes_HAMK
     }
     else
     {
-        *bytes_HAMK = NULL;
+        *bytes_HAMK = nullptr;
         if (len_HAMK)
             *len_HAMK   = 0;
     }

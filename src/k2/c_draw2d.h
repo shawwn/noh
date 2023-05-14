@@ -84,7 +84,7 @@ public:
                         { String(rect.left, rect.top, rect.GetWidth(), rect.GetHeight(), sStr, hFont, iFlags, zSelectionStart, zSelectionEnd, fStartingXOffset); }
 
     K2_API void     String(float x, float y, float w, float h, const tsvector &vStr, ResHandle hFont,
-                                int iFlags = 0, const ColorVector *pColors = NULL);
+                                int iFlags = 0, const ColorVector *pColors = nullptr);
     void                String(const CRectf &rect, const tsvector &vStr, ResHandle hFont, int iFlags = 0)
                         { String(rect.left, rect.top, rect.GetWidth(), rect.GetHeight(), vStr, hFont, iFlags); }
     K2_API void     String(float x, float y, float w, float h, const tsvector &vStr, const ColorVector &vColors,

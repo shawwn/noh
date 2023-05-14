@@ -679,33 +679,33 @@ private:
 
     CReplayInfo     m_cReplayInfo;
 
-    bool            m_bCursorHidden;
+    bool            m_bCursorHidden = false;
 
     SmartUITriggerVector    m_vTriggers;
 
     tstring         m_sMainInterface;
 
-    uint            m_uiUpdateSequence;
-    uint            m_uiLastUpdateSequence;
+    uint            m_uiUpdateSequence = 0;
+    uint            m_uiLastUpdateSequence = 0;
 
-    bool            m_bDisplayShop;
-    bool            m_bLockShop;
+    bool            m_bDisplayShop = false;
+    bool            m_bLockShop = false;
 
-    uint            m_uiScoreState;
+    uint            m_uiScoreState = 0;
 
     // Cached values
-    EGamePhase      m_eGamePhase;
-    EGameInterface  m_eCurrentInterface;
+    EGamePhase      m_eGamePhase = GAME_PHASE_IDLE;
+    EGameInterface  m_eCurrentInterface = CG_INTERFACE_MAIN;
     tstring         m_sReplayPreview;
     CXMLNode        m_cGameInfoProperties;
     CXMLNode        m_cPlayerInfoProperties[MAX_DISPLAY_PLAYERS];
-    bool            m_bIsLoggedIn;
+    bool            m_bIsLoggedIn = false;
 
-    uint            m_uiLastBuildingAttackAlertTime;
-    uint            m_uiLastUpdateTime;
+    uint            m_uiLastBuildingAttackAlertTime = 0;
+    uint            m_uiLastUpdateTime = 0;
 
     tstring         m_sPreviewMapName;
-    int             m_iPreviewMapSize;
+    int             m_iPreviewMapSize{} = 0;
 
     tsvector        m_vLastGameStatsSummary;
     tsvector        m_vLastGameStatsPlayers[MAX_DISPLAY_TEAMS][MAX_DISPLAY_PLAYERSPERTEAM];
@@ -714,26 +714,26 @@ private:
 
     tsvector        m_vSavedPlayer[MAX_DISPLAY_PLAYERS];
 
-    bool            m_bEntitiesLoaded;
+    bool            m_bEntitiesLoaded = false;
     tsvector        m_vLoadQueue;
-    uint            m_uiLoadPos;
+    uint            m_uiLoadPos = 0;
 
     tstring         m_sTestReplayURL;
-    int             m_iReplayURLTesting;
-    bool            m_bReplayURLValid;
+    int             m_iReplayURLTesting = 0;
+    bool            m_bReplayURLValid{} = false;
     CFileHTTP       m_fileTestReplayURL;
-    uint            m_uiTestReplayURLSize;
+    uint            m_uiTestReplayURLSize{} = 0;
     
-    int             m_iRequestedStatsAccountID;
-    CHTTPRequest*   m_pStatsRequest;
-    CHTTPRequest*   m_pMatchInfoRequest;
-    CHTTPRequest*   m_pTournamentRequest;
-    CHTTPRequest*   m_pRecentMatchesRequest;
+    int             m_iRequestedStatsAccountID{} = 0;
+    CHTTPRequest*   m_pStatsRequest = nullptr;
+    CHTTPRequest*   m_pMatchInfoRequest = nullptr;
+    CHTTPRequest*   m_pTournamentRequest = nullptr;
+    CHTTPRequest*   m_pRecentMatchesRequest = nullptr;
 
-    uint            m_uiPrevPhase;
-    uint            m_uiPrevPhaseTime;
+    uint            m_uiPrevPhase = 0;
+    uint            m_uiPrevPhaseTime = 0;
 
-    uint            m_uiQueuedMatchInfoRequest;
+    uint            m_uiQueuedMatchInfoRequest = 0;
 
     void    UpdateLogin();
     void    UpdateChangePassword();
@@ -818,7 +818,7 @@ public:
     {
         PROFILE("CGameInterfaceManager::Execute");
         assert(uiTriggerID < NUM_UITRIGGERS);
-        assert(m_vTriggers[uiTriggerID] != NULL);
+        assert(m_vTriggers[uiTriggerID] != nullptr);
         m_vTriggers[uiTriggerID]->Execute(sScript, uiIndex);
     }
 
@@ -827,7 +827,7 @@ public:
     {
         PROFILE("CGameInterfaceManager::Trigger");
         assert(uiTriggerID < NUM_UITRIGGERS);
-        assert(m_vTriggers[uiTriggerID] != NULL);
+        assert(m_vTriggers[uiTriggerID] != nullptr);
         m_vTriggers[uiTriggerID]->Trigger(_Param, uiIndex, m_uiUpdateSequence);
     }
 
@@ -835,7 +835,7 @@ public:
     {
         PROFILE("CGameInterfaceManager::Trigger");
         assert(uiTriggerID < NUM_UITRIGGERS);
-        assert(m_vTriggers[uiTriggerID] != NULL);
+        assert(m_vTriggers[uiTriggerID] != nullptr);
         m_vTriggers[uiTriggerID]->Trigger(sParam, uiIndex, m_uiUpdateSequence);
     }
 
@@ -843,7 +843,7 @@ public:
     {
         PROFILE("CGameInterfaceManager::Trigger");
         assert(uiTriggerID < NUM_UITRIGGERS);
-        assert(m_vTriggers[uiTriggerID] != NULL);
+        assert(m_vTriggers[uiTriggerID] != nullptr);
         m_vTriggers[uiTriggerID]->Trigger(vParams, uiIndex, m_uiUpdateSequence);
     }
 

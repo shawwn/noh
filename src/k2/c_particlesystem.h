@@ -87,7 +87,7 @@ public:
 
     virtual bool            IsParticleSystem() const        { return true; }
 
-    K2_API bool             Update(uint uiMilliseconds, ParticleTraceFn_t pfnTrace = NULL);
+    K2_API bool             Update(uint uiMilliseconds, ParticleTraceFn_t pfnTrace = nullptr);
     K2_API bool             UpdatePaused(uint uiMilliseconds);
     K2_API bool             IsDead();
 

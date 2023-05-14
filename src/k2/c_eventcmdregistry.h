@@ -72,7 +72,7 @@ CEventCmd   *CEventCmdRegistry::GetEventCmd(const tstring &sEventCmd)
     EventCmdMap::iterator find = m_mapEventCmds.find(LowerString(sEventCmd));
 
     if (find == m_mapEventCmds.end())
-        return NULL;
+        return nullptr;
     else
         return find->second;
 }

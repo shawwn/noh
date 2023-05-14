@@ -149,7 +149,7 @@ CVec3f  CCamera::ConstructRay2(float fX, float fY) const
   ====================*/
 void    CCamera::DefaultCamera(float fScreenW, float fScreenH)
 {
-    m_pWorld = NULL;
+    m_pWorld = nullptr;
 
     m_fX = m_fY = 0;
     m_fWidth = fScreenW;

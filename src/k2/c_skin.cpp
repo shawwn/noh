@@ -29,7 +29,7 @@ CSkin::~CSkin()
   ====================*/
 CSkin::CSkin() :
 m_bLoaded(false),
-m_pModel(NULL)
+m_pModel(nullptr)
 {
 }
 

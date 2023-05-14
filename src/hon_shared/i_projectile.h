@@ -139,7 +139,7 @@ public:
     virtual bool                ServerFrameMovement();
     virtual bool                ServerFrameAction();
     virtual bool                ServerFrameCleanup();
-    virtual void                Kill(IVisualEntity *pAttacker = NULL, ushort unKillingObjectID = INVALID_ENT_TYPE);
+    virtual void                Kill(IVisualEntity *pAttacker = nullptr, ushort unKillingObjectID = INVALID_ENT_TYPE);
 
     virtual void                Copy(const IGameEntity &B);
 

@@ -25,7 +25,7 @@ CMD(name)\
     }\
 \
     bool bReturn(false);\
-    IGameEntity* pEnt(NULL);\
+    IGameEntity* pEnt(nullptr);\
 \
     IGame *pGame(Game.GetCurrentGamePointer());\
     Game.SetCurrentGamePointer(CGameServer::GetInstance());\
@@ -47,7 +47,7 @@ CMD(name)\
         {\
             pEnt = GameServer.GetEntity(AtoI(sIndex));\
     \
-            if (pEnt != NULL && pEnt->Is##enttype())\
+            if (pEnt != nullptr && pEnt->Is##enttype())\
             {\
                 bReturn = cmd##name##FnTrigger(vArgList, (I##enttype##Entity *)pEnt);\
     \
@@ -57,7 +57,7 @@ CMD(name)\
                     Console.Script << _T(#name) << _T(": Command was: ") << ConcatinateArgs(vArgList) << newl;\
                 }\
             }\
-            else if (pEnt == NULL)\
+            else if (pEnt == nullptr)\
                 Console.Script << _T(#name) << _T(": Entity index ") << sIndex << _T(" was not found.") << newl;\
             else\
                 Console.Script << _T(#name) << _T(": Entity index ") << sIndex << _T(" was not of type ") << _T(#enttype) << _T(".") << newl;\
@@ -82,7 +82,7 @@ CMD(name)\
                 {\
                     pEnt = GameServer.GetEntity(pWorldEntity->GetGameIndex());\
     \
-                    if (pEnt != NULL && pEnt->Is##enttype())\
+                    if (pEnt != nullptr && pEnt->Is##enttype())\
                     {\
                         bReturn = cmd##name##FnTrigger(vArgList, (I##enttype##Entity *)pEnt);\
     \
@@ -126,7 +126,7 @@ FUNCTION(name)\
     }\
 \
     tstring sReturn(_T(""));\
-    IGameEntity* pEnt(NULL);\
+    IGameEntity* pEnt(nullptr);\
 \
     IGame *pGame(Game.GetCurrentGamePointer());\
     Game.SetCurrentGamePointer(CGameServer::GetInstance());\
@@ -148,9 +148,9 @@ FUNCTION(name)\
         {\
             pEnt = GameServer.GetEntity(AtoI(sIndex));\
     \
-            if (pEnt != NULL && pEnt->Is##enttype())\
+            if (pEnt != nullptr && pEnt->Is##enttype())\
                 sReturn = fn##name##FnTrigger(vArgList, (I##enttype##Entity *)pEnt);\
-            else if (pEnt == NULL)\
+            else if (pEnt == nullptr)\
                 Console.Script << _T(#name) << _T(": Entity index ") << sIndex << _T(" was not found.") << newl;\
             else\
                 Console.Script << _T(#name) << _T(": Entity index ") << sIndex << _T(" was not of type ") << _T(#enttype) << _T(".") << newl;\
@@ -175,7 +175,7 @@ FUNCTION(name)\
                 {\
                     pEnt = GameServer.GetEntity(pWorldEntity->GetGameIndex());\
     \
-                    if (pEnt != NULL && pEnt->Is##enttype())\
+                    if (pEnt != nullptr && pEnt->Is##enttype())\
                     {\
                         sReturn = fn##name##FnTrigger(vArgList, (I##enttype##Entity *)pEnt);\
                         bFound = true;\

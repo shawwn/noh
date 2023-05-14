@@ -20,7 +20,7 @@ BEGIN_XML_REGISTRATION(template)
 END_XML_REGISTRATION
 BEGIN_XML_PROCESSOR(template, IWidget)
     CInterface *pInterface(pObject->GetInterface());
-    if (pInterface == NULL)
+    if (pInterface == nullptr)
     {
         Console.Err << _T("Invalid interface for <template>") << newl;
         return false;

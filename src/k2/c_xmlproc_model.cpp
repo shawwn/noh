@@ -43,7 +43,7 @@ BEGIN_XML_PROCESSOR(skin, CModel)
     PROFILE("CXMLProcessor_model::Process");
 
     IModel *pIModel(pObject->GetModelFile());
-    if (pIModel == NULL)
+    if (pIModel == nullptr)
         return false;
 
     CSkin skin(node.GetProperty(_T("name")), FileManager.GetWorkingDirectory(), pIModel);
@@ -79,7 +79,7 @@ END_XML_REGISTRATION
 BEGIN_XML_PROCESSOR(anim, CModel)
     PROFILE("CXMLProcessor_anim::Process");
 
-    if (pObject->GetModelFile() == NULL)
+    if (pObject->GetModelFile() == nullptr)
         return false;
     if (pObject->GetModelFile()->GetType() != MODEL_K2)
         return false;
@@ -119,7 +119,7 @@ BEGIN_XML_PROCESSOR(anim, CModel)
         iMaxStartFrame,
         uiIgnoreFlags));
 
-    if (pAnim == NULL)
+    if (pAnim == nullptr)
     {
         Console.Warn << _T("Failed to create new animation") << newl;
         return false;
@@ -193,7 +193,7 @@ BEGIN_XML_PROCESSOR(spawnevent, CModel)
         return true;
 
     IModel *pIModel(pObject->GetModelFile());
-    if (pIModel == NULL)
+    if (pIModel == nullptr)
         return false;
 
     const tstring &sCmd(node.GetProperty(_T("cmd")));
@@ -209,7 +209,7 @@ BEGIN_XML_REGISTRATION(billboardmat)
 END_XML_REGISTRATION
 BEGIN_XML_PROCESSOR(billboardmat, CModel)
     IModel *pModel(pObject->GetModelFile());
-    if (pModel == NULL)
+    if (pModel == nullptr)
         return false;
     if (pModel->GetType() != MODEL_SPEEDTREE)
     {
@@ -232,7 +232,7 @@ BEGIN_XML_REGISTRATION(branchmat)
 END_XML_REGISTRATION
 BEGIN_XML_PROCESSOR(branchmat, CModel)
     IModel *pModel(pObject->GetModelFile());
-    if (pModel == NULL)
+    if (pModel == nullptr)
         return false;
     if (pModel->GetType() != MODEL_SPEEDTREE)
     {
@@ -255,7 +255,7 @@ BEGIN_XML_REGISTRATION(frondmat)
 END_XML_REGISTRATION
 BEGIN_XML_PROCESSOR(frondmat, CModel)
     IModel *pModel(pObject->GetModelFile());
-    if (pModel == NULL)
+    if (pModel == nullptr)
         return false;
     if (pModel->GetType() != MODEL_SPEEDTREE)
     {
@@ -278,7 +278,7 @@ BEGIN_XML_REGISTRATION(leafmat)
 END_XML_REGISTRATION
 BEGIN_XML_PROCESSOR(leafmat, CModel)
     IModel *pModel(pObject->GetModelFile());
-    if (pModel == NULL)
+    if (pModel == nullptr)
         return false;
     if (pModel->GetType() != MODEL_SPEEDTREE)
     {

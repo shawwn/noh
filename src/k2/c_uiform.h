@@ -59,7 +59,7 @@ public:
     void            SetStatusTrigger(const tstring &sName);
     void            SetResultTrigger(const tstring &sName);
     void            SetResultParam(uint uiParam, const tstring &sVariable)      { m_mapResults[sVariable] = uiParam; }
-    void            AddWidgetVariable(const tstring &sName, IWidget *pWidget)   { if (pWidget != NULL) m_mapWidgetVariables[sName] = pWidget; }
+    void            AddWidgetVariable(const tstring &sName, IWidget *pWidget)   { if (pWidget != nullptr) m_mapWidgetVariables[sName] = pWidget; }
 
     void    Submit(const tsvector &vParams);
     void    Frame();

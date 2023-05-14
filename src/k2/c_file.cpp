@@ -14,7 +14,7 @@
   CFile::CFile
   ====================*/
 CFile::CFile() :
-m_pBuffer(NULL),
+m_pBuffer(nullptr),
 m_iMode(0),
 m_uiSize(0),
 m_uiPos(0),
@@ -42,7 +42,7 @@ char    CFile::Peek(uint uiPos)
         if (uiPos < 0 || uiPos >= m_uiSize)
             EX_ERROR(_T("Index is out of bounds: ") + XtoA(uiPos));
 
-        if (m_pBuffer == NULL)
+        if (m_pBuffer == nullptr)
         {
             int iOldPos(Tell());
             char c;

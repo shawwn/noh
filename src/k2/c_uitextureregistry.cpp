@@ -103,9 +103,9 @@ bool    CUITextureRegistry::Register(const tstring &sFilename, uint uiTextureFla
 #if 0
     // TODO: get the width and height of the texture from the renderer.
     CTexture* pTexture(g_ResourceManager.GetTexture(pWidget.hTexture));
-    if (pTexture != NULL)
+    if (pTexture != nullptr)
     {
-        Vid.GetTextureInfo(pTexture->GetIndex(), NULL, &iWidth, &iHeight, NULL);
+        Vid.GetTextureInfo(pTexture->GetIndex(), nullptr, &iWidth, &iHeight, nullptr);
     }
 #endif
     widget.iWidth = iWidth;
@@ -115,7 +115,7 @@ bool    CUITextureRegistry::Register(const tstring &sFilename, uint uiTextureFla
 
     // Use a white texture if the resource failed to load.
     CTexture* pTexture(g_ResourceManager.GetTexture(widget.hTexture));
-    if (pTexture == NULL || pTexture->HasFlags(RES_LOAD_FAILED))
+    if (pTexture == nullptr || pTexture->HasFlags(RES_LOAD_FAILED))
         hTexture = g_ResourceManager.GetWhiteTexture();
 
     return true;

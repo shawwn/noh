@@ -52,8 +52,8 @@ CModelPanel::~CModelPanel()
   ====================*/
 CModelPanel::CModelPanel(CInterface* pInterface, IWidget* pParent, const CWidgetStyle& style) :
 IWidget(pInterface, pParent, WIDGET_MODELPANEL, style, false),
-m_pSkeleton(NULL),
-m_pEffectThread(NULL),
+m_pSkeleton(nullptr),
+m_pEffectThread(nullptr),
 m_v3ModelPos(style.GetPropertyVec3(_T("modelpos"), CVec3f(0.0f, 0.0f, 0.0f))),
 m_v3ModelAngles(style.GetPropertyVec3(_T("modelangles"), CVec3f(0.0f, 0.0f, 0.0f))),
 m_fModelScale(style.GetPropertyFloat(_T("modelscale"), 1.0f)),
@@ -92,9 +92,9 @@ m_uiModelMoveEndTime(INVALID_TIME),
 m_uiModelRotationStartTime(INVALID_TIME),
 m_uiModelRotationEndTime(INVALID_TIME),
 m_v4TeamColor(WHITE),
-m_sRestoreModel(NULL),
-m_sRestoreEffect(NULL),
-m_sRestoreAnim(NULL)
+m_sRestoreModel(nullptr),
+m_sRestoreEffect(nullptr),
+m_sRestoreAnim(nullptr)
 {
     m_uiFlags |= WFLAG_NO_DRAW;
 
@@ -265,7 +265,7 @@ void    CModelPanel::UpdateEffect(CEffectThread *&pEffectThread, const CVec3f &v
         {
             IEffectInstance *pParticleSystem(psit->second);
 
-            pParticleSystem->Update(Host.GetTime(), NULL);
+            pParticleSystem->Update(Host.GetTime(), nullptr);
 
             if (!pParticleSystem->IsDead() && pParticleSystem->IsParticleSystem())
                 SceneManager.AddParticleSystem(static_cast<CParticleSystem *>(pParticleSystem), false);
@@ -294,7 +294,7 @@ void    CModelPanel::RenderWidget(const CVec2f &vOrigin, float fFade)
     SceneManager.Clear();
 
     // verify that the model hasn't been unregistered.
-    if (m_hModel != INVALID_RESOURCE && g_ResourceManager.Get(m_hModel) != NULL)
+    if (m_hModel != INVALID_RESOURCE && g_ResourceManager.Get(m_hModel) != nullptr)
     {
         bRender = true;
 
@@ -360,7 +360,7 @@ void    CModelPanel::RenderWidget(const CVec2f &vOrigin, float fFade)
         SModel &cModel(it->second);
 
         // verify that the model hasn't been unregistered.
-        if (g_ResourceManager.Get(cModel.hModel) == NULL)
+        if (g_ResourceManager.Get(cModel.hModel) == nullptr)
             continue;
 
         if (cModel.pSkeleton)
@@ -554,11 +554,11 @@ void    CModelPanel::SetEffect(const tstring &sEffect)
             if (m_pEffectThread)
             {
                 m_pEffectThread->SetCamera(&m_Camera);
-                m_pEffectThread->SetWorld(NULL);
+                m_pEffectThread->SetWorld(nullptr);
                 m_pEffectThread->SetSourceSkeleton(m_pSkeleton);
                 m_pEffectThread->SetSourceModel(g_ResourceManager.GetModel(m_hModel));
-                m_pEffectThread->SetTargetSkeleton(NULL);
-                m_pEffectThread->SetTargetModel(NULL);
+                m_pEffectThread->SetTargetSkeleton(nullptr);
+                m_pEffectThread->SetTargetModel(nullptr);
             }
         }
     }
@@ -661,11 +661,11 @@ void    CModelPanel::SetEffect(int i, const tstring &sEffect)
         if (cModel.pEffectThread)
         {
             cModel.pEffectThread->SetCamera(&m_Camera);
-            cModel.pEffectThread->SetWorld(NULL);
+            cModel.pEffectThread->SetWorld(nullptr);
             cModel.pEffectThread->SetSourceSkeleton(cModel.pSkeleton);
             cModel.pEffectThread->SetSourceModel(g_ResourceManager.GetModel(m_hModel));
-            cModel.pEffectThread->SetTargetSkeleton(NULL);
-            cModel.pEffectThread->SetTargetModel(NULL);
+            cModel.pEffectThread->SetTargetSkeleton(nullptr);
+            cModel.pEffectThread->SetTargetModel(nullptr);
         }
     }
 }
@@ -850,7 +850,7 @@ UI_CMD(GetEffect, 0)
   --------------------*/
 UI_VOID_CMD(MoveModel, 1)
 {
-    if (pThis == NULL || pThis->GetType() != WIDGET_MODELPANEL)
+    if (pThis == nullptr || pThis->GetType() != WIDGET_MODELPANEL)
         return;
 
     CModelPanel *pModelPanel(static_cast<CModelPanel*>(pThis));
@@ -885,7 +885,7 @@ UI_VOID_CMD(MoveModel, 1)
   --------------------*/
 UI_VOID_CMD(RotateModel, 1)
 {
-    if (pThis == NULL || pThis->GetType() != WIDGET_MODELPANEL)
+    if (pThis == nullptr || pThis->GetType() != WIDGET_MODELPANEL)
         return;
 
     CModelPanel *pModelPanel(static_cast<CModelPanel*>(pThis));
@@ -921,7 +921,7 @@ UI_VOID_CMD(RotateModel, 1)
   --------------------*/
 UI_VOID_CMD(SetModelPos, 1)
 {
-    if (pThis == NULL || pThis->GetType() != WIDGET_MODELPANEL)
+    if (pThis == nullptr || pThis->GetType() != WIDGET_MODELPANEL)
         return;
 
     CModelPanel *pModelPanel(static_cast<CModelPanel*>(pThis));
@@ -935,7 +935,7 @@ UI_VOID_CMD(SetModelPos, 1)
   --------------------*/
 UI_VOID_CMD(SetModelAngles, 1)
 {
-    if (pThis == NULL || pThis->GetType() != WIDGET_MODELPANEL)
+    if (pThis == nullptr || pThis->GetType() != WIDGET_MODELPANEL)
         return;
 
     CModelPanel *pModelPanel(static_cast<CModelPanel*>(pThis));
@@ -949,7 +949,7 @@ UI_VOID_CMD(SetModelAngles, 1)
   --------------------*/
 UI_VOID_CMD(SetModelScale, 1)
 {
-    if (pThis == NULL || pThis->GetType() != WIDGET_MODELPANEL)
+    if (pThis == nullptr || pThis->GetType() != WIDGET_MODELPANEL)
         return;
 
     CModelPanel *pModelPanel(static_cast<CModelPanel*>(pThis));

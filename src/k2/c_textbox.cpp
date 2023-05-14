@@ -48,7 +48,7 @@ m_zLastClickPos(-1)
 
     m_hFontMap = g_ResourceManager.LookUpName(m_sFont, RES_FONTMAP);
     m_pFontMap = g_ResourceManager.GetFontMap(m_hFontMap);
-    if (m_pFontMap == NULL)
+    if (m_pFontMap == nullptr)
     {
         Console.Warn << _T("CTextBox::CTextBox() - Couldn't retrieve font: ") << m_sFont << newl;
         return;
@@ -220,7 +220,7 @@ bool    CTextBox::ButtonDown(EButton button)
         m_zStart = 0;
         m_zSelStart = -1;
         //m_zEnd = 0;
-        m_pInterface->SetActiveWidget(NULL);
+        m_pInterface->SetActiveWidget(nullptr);
         break;
 
     case BUTTON_HOME:
@@ -480,7 +480,7 @@ void    CTextBox::MouseUp(EButton button, const CVec2f &v2CursorPos)
         {
             m_bMidClick = false;
 
-            m_pInterface->SetExclusiveWidget(NULL);
+            m_pInterface->SetExclusiveWidget(nullptr);
 
             if (m_bNewFocus && m_bSelectOnFocus)
             {
@@ -794,7 +794,7 @@ void    CTextBox::SetInputLine(const tstring &sInputLine)
     m_zStart = 0;
     m_zSelStart = -1;
 
-    if (!m_bWrap && m_pFontMap != NULL)
+    if (!m_bWrap && m_pFontMap != nullptr)
     {
         while (m_pFontMap->GetStringWidth(m_sInputLine.substr(m_zStart, m_zEnd - m_zStart)) + m_pFontMap->GetCharMapInfo(_T(' '))->m_fAdvance > m_recArea.GetWidth()) {
             if (m_zStart >= m_zEnd)
@@ -829,7 +829,7 @@ void    CTextBox::SetInputPos(size_t zInputPos)
         m_zStart = 0;
     }
 
-    if (!m_bWrap && m_pFontMap != NULL)
+    if (!m_bWrap && m_pFontMap != nullptr)
     {
         while (m_pFontMap->GetStringWidth(m_sInputLine.substr(m_zStart, m_zEnd - m_zStart)) + m_pFontMap->GetCharMapInfo(_T(' '))->m_fAdvance > m_recArea.GetWidth()) {
             if (m_zStart >= m_zEnd)

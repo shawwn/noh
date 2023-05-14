@@ -171,7 +171,7 @@ CHostClient::~CHostClient()
     m_uiServerFrame = m_uiPrevServerFrame = UINT_MAX;
     CheckSnapshotFragments();
 
-    if (m_pGameLib != NULL)
+    if (m_pGameLib != nullptr)
         m_pGameLib->Shutdown();
     SAFE_DELETE(m_pGameLib);
 
@@ -187,7 +187,7 @@ CHostClient::CHostClient(uint uiIndex, CHTTPManager *pHTTPManager) :
 m_ClientAccount(pHTTPManager),
 m_ServerList(pHTTPManager),
 m_uiIndex(uiIndex),
-m_pGameLib(NULL),
+m_pGameLib(nullptr),
 
 m_hClientMessages(g_ResourceManager.Register(_T("/stringtables/client_messages.str"), RES_STRINGTABLE)),
 
@@ -213,7 +213,7 @@ m_uiLastAckedServerFrame(0),
 
 m_sockGame(_T("LOCAL_CLIENT")),
 
-m_pWorld(NULL),
+m_pWorld(nullptr),
 
 m_bStartedLoadingNetworkResources(false),
 m_uiNetworkResourceCount(0),
@@ -266,7 +266,7 @@ CStateString*   CHostClient::GetStateString(ushort unID)
     catch (CException &ex)
     {
         ex.Process(_T("CHostClient::GetStateString() - "));
-        return NULL;
+        return nullptr;
     }
 }
 
@@ -284,7 +284,7 @@ void    QueueNetworkResourceUpdate(const string &sStateUTF8, const string &sValu
     record.m_sPath = sValue.substr(3);
 
     CHostClient *pClient(Host.GetCurrentClient());
-    if (pClient == NULL)
+    if (pClient == nullptr)
         return;
 
     pClient->QueueNetworkResource(record);
@@ -324,7 +324,7 @@ void    UpdateNetworkResource(const string &sStateUTF8, const string &sValueUTF8
 void    CHostClient::StartLoadingNetworkResources()
 {
     CStateString *pStateString(GetStateString(STATE_STRING_RESOURCES));
-    if (pStateString == NULL)
+    if (pStateString == nullptr)
         return;
 
     m_bStartedLoadingNetworkResources = true;
@@ -372,7 +372,7 @@ void    CHostClient::SetStateString(ushort unID, const IBuffer &buffer)
 
         // If the string exists, just update it
         CStateString *pStateString(GetStateString(unID));
-        if (pStateString == NULL)
+        if (pStateString == nullptr)
             EX_WARN(_T("Failed to retrieve state string: ") + XtoA(unID));
 
         CStateString ssDiff;
@@ -391,7 +391,7 @@ void    CHostClient::SetStateString(ushort unID, const IBuffer &buffer)
 
         // Only update the network resource list right away if a world is already loaded,
         // since world archives can override files
-        if (unID == STATE_STRING_RESOURCES && m_pWorld != NULL && m_pWorld->IsLoaded())
+        if (unID == STATE_STRING_RESOURCES && m_pWorld != nullptr && m_pWorld->IsLoaded())
         ssDiff.ForEachState(UpdateNetworkResource, false);
 
         pStateString->Modify(buffer);
@@ -436,7 +436,7 @@ CStateBlock*    CHostClient::GetStateBlock(ushort unID)
     catch (CException &ex)
     {
         ex.Process(_T("CHostClient::GetStateBlock() - "), NO_THROW);
-        return NULL;
+        return nullptr;
     }
 }
 
@@ -454,7 +454,7 @@ void    CHostClient::SetStateBlock(ushort unID, const IBuffer &buffer)
 
         // If the string exists, just update it
         CStateBlock *pStateBlock(GetStateBlock(unID));
-        if (pStateBlock == NULL)
+        if (pStateBlock == nullptr)
             EX_WARN(_T("Failed to retrieve state block: ") + XtoA(unID));
 
         CStateBlock ssDiff;
@@ -486,12 +486,12 @@ void    CHostClient::Init()
 
         // Load the game library
         m_pGameLib = K2_NEW(ctx_HostClient,  CClientGameLib)(CLIENT_LIBRARY_NAME);
-        if (m_pGameLib == NULL || !m_pGameLib->IsValid())
+        if (m_pGameLib == nullptr || !m_pGameLib->IsValid())
             EX_ERROR(_T("Failed to load client library"));
 
         // Create a CWorld, in case the client wants to load a world
         m_pWorld = K2_NEW(ctx_World,  CWorld)(WORLDHOST_CLIENT);
-        if (m_pWorld == NULL)
+        if (m_pWorld == nullptr)
             EX_ERROR(_T("Failed to allocate a CWorld"));
         if (!m_pWorld->IsValid())
             EX_ERROR(_T("Failure constructing CWorld"));
@@ -517,7 +517,7 @@ void    CHostClient::Init()
   ====================*/
 void    CHostClient::SetGamePointer()
 {
-    if (m_pGameLib != NULL)
+    if (m_pGameLib != nullptr)
         m_pGameLib->SetGamePointer(m_uiIndex);
 }
 
@@ -797,7 +797,7 @@ bool    CHostClient::AllStateDataReceived()
 
     // Server info state string
     CStateString *pServerInfoString(GetStateString(STATE_STRING_SERVER_INFO));
-    if (pServerInfoString == NULL || pServerInfoString->IsEmpty())
+    if (pServerInfoString == nullptr || pServerInfoString->IsEmpty())
     {
         Console << _T("Client does not have a server info state string") << newl;
         return false;
@@ -856,7 +856,7 @@ bool    CHostClient::StartLoadingWorld(const tstring &sWorldName, bool bPreload)
     m_pGameLib->Reinitialize();
 
     if (bPreload ||
-        m_pWorld == NULL ||
+        m_pWorld == nullptr ||
         !m_pWorld->IsPreloaded(sWorldName))
     {
         Console.Client << _T("Client loading world ") << QuoteStr(sWorldName) << newl;
@@ -1088,7 +1088,7 @@ void    CHostClient::AssembleSnapshot(uint uiFrameNumber)
         for (byte y(0); y <= fragments.yCount; ++y)
         {
             IBuffer *pFragmentBuffer(fragments.mapBuffers[y]);
-            if (pFragmentBuffer == NULL)
+            if (pFragmentBuffer == nullptr)
                 EX_ERROR(_T("Missing a fragment that should be complete"));
 
             cBuffer << (*pFragmentBuffer);
@@ -1864,7 +1864,7 @@ void    CHostClient::Disconnect(const tstring &sReason)
             ChatManager.LeaveGameLobby();
         }
 
-        if (m_pGameLib != NULL)
+        if (m_pGameLib != nullptr)
             m_pGameLib->Reinitialize();
 
         m_eState = CLIENT_STATE_IDLE;
@@ -1893,7 +1893,7 @@ void    CHostClient::Disconnect(const tstring &sReason)
 
         m_sockGame.Close();
 
-        if (m_pWorld != NULL && !m_pWorld->IsPreloaded())
+        if (m_pWorld != nullptr && !m_pWorld->IsPreloaded())
             m_pWorld->Free();
 
         UIManager.UnloadTempInterfaces();
@@ -1917,9 +1917,9 @@ void    CHostClient::Disconnect(const tstring &sReason)
         // Move prev back to current if loading was canceled
         if (!g_ResourceInfo.WasGameContextCategoryLoaded(_T("world")))
         {
-            if (g_ResourceInfo.LookupContext(_T("client:prevgame_world"), false) != NULL)
+            if (g_ResourceInfo.LookupContext(_T("client:prevgame_world"), false) != nullptr)
                 g_ResourceInfo.ExecCommandLine(_T("context move client:prevgame_world client:curgame_world"));
-            else if (g_ResourceInfo.LookupContext(_T("client:curgame_world"), false) != NULL)
+            else if (g_ResourceInfo.LookupContext(_T("client:curgame_world"), false) != nullptr)
                 g_ResourceInfo.ExecCommandLine(_T("context delete client:curgame_world"));
 
             g_ResourceInfo.SetGameContextCategoryLoaded(_T("world"), false);
@@ -1927,9 +1927,9 @@ void    CHostClient::Disconnect(const tstring &sReason)
 
         if (!g_ResourceInfo.WasGameContextCategoryLoaded(_T("heroes")))
         {
-            if (g_ResourceInfo.LookupContext(_T("client:prevgame_heroes"), false) != NULL)
+            if (g_ResourceInfo.LookupContext(_T("client:prevgame_heroes"), false) != nullptr)
                 g_ResourceInfo.ExecCommandLine(_T("context move client:prevgame_heroes client:curgame_heroes"));
-            else if (g_ResourceInfo.LookupContext(_T("client:curgame_heroes"), false) != NULL)
+            else if (g_ResourceInfo.LookupContext(_T("client:curgame_heroes"), false) != nullptr)
                 g_ResourceInfo.ExecCommandLine(_T("context delete client:curgame_heroes"));
 
             g_ResourceInfo.SetGameContextCategoryLoaded(_T("heroes"), false);
@@ -2034,7 +2034,7 @@ void    CHostClient::ProcessKickPacket(CPacket &pkt)
             vMessage[2] = XtoA(false);
 
         CStringTable *pClientMessages(g_ResourceManager.GetStringTable(m_hClientMessages));
-        if (pClientMessages != NULL)
+        if (pClientMessages != nullptr)
         {
             vMessage[0] = pClientMessages->Get(vMessage[0]);
             vMessage[1] = pClientMessages->Get(vMessage[1]);
@@ -2068,7 +2068,7 @@ void    CHostClient::GameError(const tstring &sError)
     vMessage[1] = sError.empty() ? _T("error_unknown") : sError;
 
     CStringTable *pClientMessages(g_ResourceManager.GetStringTable(m_hClientMessages));
-    if (pClientMessages != NULL)
+    if (pClientMessages != nullptr)
     {
         vMessage[0] = pClientMessages->Get(vMessage[0]);
         vMessage[1] = pClientMessages->Get(vMessage[1]);
@@ -2213,7 +2213,7 @@ void    CHostClient::UpdateNetSettings()
   ====================*/
 void    CHostClient::FileDropNotify(const tsvector &vsFiles)
 {
-    if (m_pGameLib != NULL)
+    if (m_pGameLib != nullptr)
         m_pGameLib->FileDropNotify(vsFiles);
 }
 
@@ -2349,7 +2349,7 @@ uint    CHostClient::GetServerListCount() const
   ====================*/
 bool    CHostClient::IsLoading() const
 {
-    return m_eState == CLIENT_STATE_LOADING || (m_pWorld != NULL && m_pWorld->IsLoading());
+    return m_eState == CLIENT_STATE_LOADING || (m_pWorld != nullptr && m_pWorld->IsLoading());
 }
 
 
@@ -2615,10 +2615,10 @@ float   CHostClient::LoadingStep()
   ====================*/
 void    CHostClient::LoadingFrame()
 {
-    assert(m_pGameLib != NULL);
+    assert(m_pGameLib != nullptr);
 
     // Load the next world component if any are pending
-    if (m_pWorld == NULL)
+    if (m_pWorld == nullptr)
         return;
 
     m_uiServerTimeout = INVALID_TIME;
@@ -2748,10 +2748,10 @@ float   CHostClient::PreloadingStep()
   ====================*/
 void    CHostClient::PreloadingFrame()
 {
-    assert(m_pGameLib != NULL);
+    assert(m_pGameLib != nullptr);
 
     // Load the next world component if any are pending
-    if (m_pWorld == NULL)
+    if (m_pWorld == nullptr)
         return;
 
     float fProgress(0.0f);
@@ -2906,7 +2906,7 @@ bool    CHostClient::IsValidPSRForGameList(const int iRank, const ushort unMinPS
 tstring CHostClient::Translate(const tstring &sKey, const tsmapts &mapTokens)
 {
     CStringTable *pStringTable(g_ResourceManager.GetStringTable(m_hClientMessages));
-    if (pStringTable == NULL)
+    if (pStringTable == nullptr)
         return TSNULL;
 
     tstring sMessage(pStringTable->Get(sKey));
@@ -3016,7 +3016,7 @@ CMD(Remote)
         return false;
 
     CHostClient *pClient(Host.GetActiveClient());
-    if (pClient == NULL)
+    if (pClient == nullptr)
         return false;
 
     pClient->SendRemoteCommand(ConcatinateArgs(vArgList));
@@ -3031,7 +3031,7 @@ CMD(Remote)
 CMD(QuickConnect)
 {
     CHostClient *pClient(Host.GetActiveClient());
-    if (pClient == NULL)
+    if (pClient == nullptr)
         return false;
 
     pClient->RequestMasterServerList(_T("10"), LIST_GAME);
@@ -3051,7 +3051,7 @@ UI_VOID_CMD(QuickConnect, 0)
 CMD(GetGameList)
 {
     CHostClient *pClient(Host.GetActiveClient());
-    if (pClient == NULL)
+    if (pClient == nullptr)
         return false;
 
     if (vArgList.size() > 0)
@@ -3065,7 +3065,7 @@ CMD(GetGameList)
 UI_VOID_CMD(GetGameList, 0)
 {
     CHostClient *pClient(Host.GetActiveClient());
-    if (pClient == NULL)
+    if (pClient == nullptr)
         return;
 
     if (vArgList.size() > 0)
@@ -3080,7 +3080,7 @@ UI_VOID_CMD(GetGameList, 0)
 UI_CMD(GetGameListCount, 0)
 {
     CHostClient *pClient(Host.GetActiveClient());
-    if (pClient == NULL)
+    if (pClient == nullptr)
         return _T("0");
 
     return XtoA(pClient->GetServerListCount());
@@ -3093,7 +3093,7 @@ UI_CMD(GetGameListCount, 0)
 CMD(GetOngoingGameList)
 {
     CHostClient *pClient(Host.GetActiveClient());
-    if (pClient == NULL)
+    if (pClient == nullptr)
         return false;
 
     pClient->RequestMasterServerList(_T("32"), LIST_ONGOING_GAME);
@@ -3112,7 +3112,7 @@ UI_VOID_CMD(GetOngoingGameList, 0)
 CMD(GetServerList)
 {
     CHostClient *pClient(Host.GetActiveClient());
-    if (pClient == NULL)
+    if (pClient == nullptr)
         return false;
 
     if (vArgList.size() > 0)
@@ -3126,7 +3126,7 @@ CMD(GetServerList)
 UI_VOID_CMD(GetServerList, 0)
 {
     CHostClient *pClient(Host.GetActiveClient());
-    if (pClient == NULL)
+    if (pClient == nullptr)
         return;
 
     if (vArgList.size() > 0)
@@ -3142,7 +3142,7 @@ UI_VOID_CMD(GetServerList, 0)
 CMD(GetLocalGameList)
 {
     CHostClient *pClient(Host.GetActiveClient());
-    if (pClient == NULL)
+    if (pClient == nullptr)
         return false;
 
     pClient->RequestLocalServerList(LIST_GAME);
@@ -3161,7 +3161,7 @@ UI_VOID_CMD(GetLocalGameList, 0)
 CMD(GetLocalServerList)
 {
     CHostClient *pClient(Host.GetActiveClient());
-    if (pClient == NULL)
+    if (pClient == nullptr)
         return false;
 
     pClient->RequestLocalServerList(LIST_SERVER);
@@ -3180,7 +3180,7 @@ UI_VOID_CMD(GetLocalServerList, 0)
 UI_CMD(GetInviteAddress, 0)
 {
     CHostClient *pClient(Host.GetActiveClient());
-    if (pClient == NULL)
+    if (pClient == nullptr)
         return TSNULL;
 
     return pClient->GetInviteAddress();
@@ -3192,7 +3192,7 @@ UI_CMD(GetInviteAddress, 0)
 UI_CMD(GetInviteGameName, 0)
 {
     CHostClient *pClient(Host.GetActiveClient());
-    if (pClient == NULL)
+    if (pClient == nullptr)
         return TSNULL;
 
     return pClient->GetInviteGameName();
@@ -3205,7 +3205,7 @@ UI_CMD(GetInviteGameName, 0)
 UI_VOID_CMD(ClearInviteAddress, 0)
 {
     CHostClient *pClient(Host.GetActiveClient());
-    if (pClient == NULL)
+    if (pClient == nullptr)
         return;
 
     pClient->SetInviteAddress(TSNULL);
@@ -3298,7 +3298,7 @@ void    CServerList::RequestMasterServerList(const tstring &sCookie, const tstri
 
     m_pHTTPManager->ReleaseRequest(m_pRequest);
     m_pRequest = m_pHTTPManager->SpawnRequest();
-    if (m_pRequest == NULL)
+    if (m_pRequest == nullptr)
         return;
 
     m_pRequest->SetTargetURL(K2System.GetMasterServerAddress() + "/client_requester.php");
@@ -3331,10 +3331,10 @@ void    CServerList::RequestMasterServerList(const tstring &sCookie, const tstri
   ====================*/
 void    CServerList::CancelServerList()
 {
-    if (m_pRequest != NULL)
+    if (m_pRequest != nullptr)
     {
         m_pHTTPManager->ReleaseRequest(m_pRequest);
-        m_pRequest = NULL;
+        m_pRequest = nullptr;
     }
 
     m_deqRequests.clear();
@@ -4208,14 +4208,14 @@ void    CServerList::ProcessServerList(const tstring &sResponse)
     CPHPData phpResponse(sResponse);
 
     const CPHPData *pKey(phpResponse.GetVar(_T("acc_key")));
-    if (pKey != NULL)
+    if (pKey != nullptr)
     {
         m_sMatchKey = pKey->GetString();
         Console << _T("Received key: ") << m_sMatchKey << newl;
     }
 
     const CPHPData *pStats(phpResponse.GetVar(_T("svr_stats")));
-    if (pStats != NULL)
+    if (pStats != nullptr)
     {
         m_iNumOnline = pStats->GetInteger(_T("online"));
         m_iNumInGame = pStats->GetInteger(_T("in_game"));
@@ -4224,13 +4224,13 @@ void    CServerList::ProcessServerList(const tstring &sResponse)
     m_mapServers.clear();
 
     const CPHPData *pServerList(phpResponse.GetVar(_T("server_list")));
-    if (pServerList == NULL)
+    if (pServerList == nullptr)
         return;
 
     for (size_t z(0); z < pServerList->GetSize(); ++z)
     {
         const CPHPData *pEntry(pServerList->GetVar(z));
-        if (pEntry == NULL || pEntry->GetType() != PHP_ARRAY)
+        if (pEntry == nullptr || pEntry->GetType() != PHP_ARRAY)
             continue;
 
         RequestServerInfo(pEntry->GetString(_T("ip")) + _T(":") + pEntry->GetString(_T("port")), pEntry->GetInteger(_T("class")) > 0, m_eRequestList, false, TSNULL);
@@ -4289,13 +4289,13 @@ void    CServerList::Frame()
         m_fRequestAccumulator = 0.0f;
     }
 
-    if (m_pRequest != NULL && !m_pRequest->IsActive())
+    if (m_pRequest != nullptr && !m_pRequest->IsActive())
     {
         if (m_pRequest->WasSuccessful())
             ProcessServerList(m_pRequest->GetResponse());
 
         m_pHTTPManager->ReleaseRequest(m_pRequest);
-        m_pRequest = NULL;
+        m_pRequest = nullptr;
     }
 
     CPacket pkt;
@@ -4388,7 +4388,7 @@ tstring     CServerList::GetBestLocalServerName()
   ====================*/
 bool    CServerList::AwaitingResponses() const
 {
-    if (m_pRequest != NULL && m_pRequest->IsActive())
+    if (m_pRequest != nullptr && m_pRequest->IsActive())
         return true;
 
     uint uiTime(K2System.Milliseconds());
@@ -4529,7 +4529,7 @@ void    CServerList::ServerInvite(const tstring &sInviterName, int iInviterAccou
   ====================*/
 bool    CServerList::GetStatus(bool &bList, uint &uiProcessed, uint &uiTotal, uint &uiResponses, uint &uiVisible) const
 {
-    if (m_pRequest != NULL && m_pRequest->IsActive())
+    if (m_pRequest != nullptr && m_pRequest->IsActive())
     {
         bList = false;
         uiProcessed = 0;
@@ -4602,7 +4602,7 @@ CMD(PrintSystemInfo)
 CMD(RegenerateConnectionID)
 {
     CHostClient *pClient(Host.GetActiveClient());
-    if (pClient != NULL)
+    if (pClient != nullptr)
         pClient->RegenerateConnectionID();
 
     return true;
@@ -4616,7 +4616,7 @@ CMD(CheckReconnect)
 {
     CHostClient *pClient(Host.GetActiveClient());
 
-    if (pClient != NULL)
+    if (pClient != nullptr)
         return false;
 
     if (vArgList.size() < 2)
@@ -4637,7 +4637,7 @@ CMD(SetServerPrivateValue)
         return false;
 
     CHostClient *pClient(Host.GetActiveClient());
-    if (pClient == NULL)
+    if (pClient == nullptr)
         return false;
 
     byte yValue(AtoI(vArgList[0]));
@@ -4661,7 +4661,7 @@ CMD(FilterGameList)
         return false;
 
     CHostClient *pClient(Host.GetActiveClient());
-    if (pClient == NULL)
+    if (pClient == nullptr)
         return false;
 
     pClient->FilterGameList(vArgList[0], ConcatinateArgs(vArgList.begin() + 1, vArgList.end()));
@@ -4688,7 +4688,7 @@ CMD(SpamGameList)
         return false;
 
     CHostClient *pClient(Host.GetActiveClient());
-    if (pClient == NULL)
+    if (pClient == nullptr)
         return false;
 
     pClient->SpamGameList(AtoI(vArgList[0]));
@@ -4702,7 +4702,7 @@ CMD(SpamGameList)
 UI_VOID_CMD(AddTiers, 1)
 {
     CHostClient *pClient(Host.GetActiveClient());
-    if (pClient == NULL)
+    if (pClient == nullptr)
         return;
 
     if (!pThis || !pThis->HasFlags(WFLAG_LIST))
@@ -4794,7 +4794,7 @@ UI_VOID_CMD(AddTiers, 1)
 UI_CMD(GetNetName, 0)
 {
     CHostClient *pClient(Host.GetActiveClient());
-    if (pClient == NULL)
+    if (pClient == nullptr)
         return net_name;
 
     return pClient->GetNetName();
@@ -4807,7 +4807,7 @@ UI_CMD(GetNetName, 0)
 CMD(PlayerCount)
 {
     CHostClient *pClient(Host.GetActiveClient());
-    if (pClient == NULL)
+    if (pClient == nullptr)
         return false;
 
     Console << pClient->GetPlayerCount() << newl;
@@ -4821,7 +4821,7 @@ CMD(PlayerCount)
 CMD(GetServerCount)
 {
     CHostClient *pClient(Host.GetActiveClient());
-    if (pClient == NULL)
+    if (pClient == nullptr)
         return false;
 
     pClient->RequestMasterServerList(_T(""), LIST_SERVER);
@@ -4835,7 +4835,7 @@ CMD(GetServerCount)
 UI_VOID_CMD(CancelServerList, 0)
 {
     CHostClient *pClient(Host.GetActiveClient());
-    if (pClient == NULL)
+    if (pClient == nullptr)
         return;
 
     pClient->CancelServerList();
@@ -4849,7 +4849,7 @@ UI_VOID_CMD(CancelServerList, 0)
 UI_VOID_CMD(ClearServerList, 0)
 {
     CHostClient *pClient(Host.GetActiveClient());
-    if (pClient == NULL)
+    if (pClient == nullptr)
         return;
 
     pClient->ClearServerList();
@@ -4875,7 +4875,7 @@ UI_CMD(IsValidLeaverGame, 0)
 {
     // it's not a replay and it's not a practice game, so it's considered a leaver game
     CHostClient *pClient(Host.GetActiveClient());
-    if (pClient == NULL)
+    if (pClient == nullptr)
         return _T("0");
 
     if (!Host.IsReplay() && !pClient->GetPractice())
@@ -4891,7 +4891,7 @@ UI_CMD(IsValidLeaverGame, 0)
 CMD(PrintLoadTimes)
 {
     CHostClient *pClient(Host.GetActiveClient());
-    if (pClient == NULL)
+    if (pClient == nullptr)
         return false;
 
     Console << _T("Connected: ") << (pClient->GetStateStartTime(CLIENT_STATE_CONNECTED) - pClient->GetStateStartTime(CLIENT_STATE_CONNECTING)) / 1000.0f << _T(" ms") << newl;

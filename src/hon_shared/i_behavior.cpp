@@ -52,7 +52,7 @@ void    IBehavior::FindPathToUpdatedGoal()
         m_hPath = INVALID_POOL_HANDLE;
     }
 
-    if (m_pSelf == NULL)
+    if (m_pSelf == nullptr)
     {
         Console.Warn << _T("IBehavior::FindPathToUpdatedGoal() failed because its owner is invalid") << newl;
         return;
@@ -85,11 +85,11 @@ void    IBehavior::FindPathToUpdatedGoal()
     if (m_bDirectPathing)
         uiNavFlags &= ~(NAVIGATION_UNIT | NAVIGATION_CLIFF | NAVIGATION_BUILDING);
 
-    vector<PoolHandle> *pBlockers(NULL);
+    vector<PoolHandle> *pBlockers(nullptr);
     if (m_uiTargetIndex != INVALID_INDEX)
     {
         IUnitEntity *pTarget(Game.GetUnitEntity(m_uiTargetIndex));
-        if (pTarget != NULL && m_v2UpdatedGoal == pTarget->GetBlockPosition())
+        if (pTarget != nullptr && m_v2UpdatedGoal == pTarget->GetBlockPosition())
             pBlockers = &pTarget->GetPathBlockers();
     }
 
@@ -116,7 +116,7 @@ void    IBehavior::FindPathToUpdatedGoal()
     }
 
     CPath *pPath(Game.AccessPath(m_hPath));
-    if (pPath == NULL || pPath->GetWaypointCount() == 0)
+    if (pPath == nullptr || pPath->GetWaypointCount() == 0)
     {
         if (m_hPath != INVALID_POOL_HANDLE)
         {
@@ -137,7 +137,7 @@ void    IBehavior::GetMovement(CVec2f &v2Movement, float &fYawDelta, bool &bAtGo
     CVec3f v3Angles(m_pSelf->GetAngles());
 
     CPath *pPath(Game.AccessPath(m_hPath));
-    if (pPath == NULL || !pPath->Exists())
+    if (pPath == nullptr || !pPath->Exists())
     {
         if (m_hPath != INVALID_POOL_HANDLE)
             Console.Err << _T("m_hPath == INVALID_POOL_HANDLE") << newl;
@@ -333,7 +333,7 @@ void    IBehavior::CopyFrom( const IBehavior* pBehavior )
   ====================*/
 bool    IBehavior::Validate()
 {
-    if (m_pBrain == NULL || m_pSelf == NULL || GetFlags() & BSR_END)
+    if (m_pBrain == nullptr || m_pSelf == nullptr || GetFlags() & BSR_END)
     {
         SetFlag(BSR_END);
         return false;
@@ -342,7 +342,7 @@ bool    IBehavior::Validate()
     // Check for disjointing
     assert(m_uiTargetIndex == -1 || m_uiTargetOrderDisjointSequence != -1);
     IUnitEntity *pTargetUnit = Game.GetUnitEntity(m_uiTargetIndex);
-    if (pTargetUnit != NULL && m_uiTargetOrderDisjointSequence != -1 && pTargetUnit->GetOrderDisjointSequence() != m_uiTargetOrderDisjointSequence)
+    if (pTargetUnit != nullptr && m_uiTargetOrderDisjointSequence != -1 && pTargetUnit->GetOrderDisjointSequence() != m_uiTargetOrderDisjointSequence)
     {
         SetFlag(BSR_END);
         return false;

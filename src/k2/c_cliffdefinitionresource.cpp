@@ -318,7 +318,7 @@ CCliffPiece     CCliffDefinitionResource::GetWedgeShift()
 CVariation*     CCliffPiece::GetVariation(int iVariation)
 { 
     if (m_vVariations.empty())
-        return NULL;
+        return nullptr;
 
     int iRealVariation(iVariation);
     

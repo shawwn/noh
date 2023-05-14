@@ -38,7 +38,7 @@ BEGIN_XML_PROCESSOR(include, IWidget)
     const tstring &sFile(node.GetProperty(_T("file")));
 
     CInterface *pInterface(pObject->GetInterface());
-    if (pInterface != NULL)
+    if (pInterface != nullptr)
         pInterface->AddCallback(sFile);
 
     XMLManager.Process(sFile, _T("package"), pObject);

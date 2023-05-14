@@ -52,13 +52,13 @@ private:
     IEntityTool*    GetBeginTool() const
     {
         IGameEntity *pEntity(Game.GetEntityFromUniqueID(m_uiBeginToolUID));
-        return pEntity ? pEntity->GetAsTool() : NULL;
+        return pEntity ? pEntity->GetAsTool() : nullptr;
     }
 
     IEntityTool*    GetTool() const
     {
         IGameEntity *pEntity(Game.GetEntityFromUniqueID(m_uiToolUID));
-        return pEntity ? pEntity->GetAsTool() : NULL;
+        return pEntity ? pEntity->GetAsTool() : nullptr;
     }
 
 public:

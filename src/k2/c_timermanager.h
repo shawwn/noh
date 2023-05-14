@@ -72,8 +72,8 @@ public:
             return it->second;
 
         CTimer *pNewTimer(K2_NEW(ctx_Default,  CTimer));
-        if (pNewTimer == NULL)
-            return NULL;
+        if (pNewTimer == nullptr)
+            return nullptr;
 
         m_mapTimers[sName] = pNewTimer;
         if (bStart)

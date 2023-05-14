@@ -170,7 +170,7 @@ void    CWebImage::SetTexture(const tstring &sTexture, const tstring &sSuffix)
   --------------------*/
 UI_VOID_CMD(SetTextureURL, 1)
 {
-    if (pThis == NULL || pThis->GetType() != WIDGET_WEBIMAGE)
+    if (pThis == nullptr || pThis->GetType() != WIDGET_WEBIMAGE)
         return;
 
     static_cast<CWebImage *>(pThis)->SetTextureURL(vArgList[0]->Evaluate());

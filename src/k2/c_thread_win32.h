@@ -108,7 +108,7 @@ protected:
     static Handle   Self()
     {
         //Handle Hnd = K2_INVALID_THREAD;
-        //DuplicateHandle(GetCurrentProcess(),GetCurrentThread(),GetCurrentProcess(),(LPHANDLE)&Hnd,NULL,0,NULL);
+        //DuplicateHandle(GetCurrentProcess(),GetCurrentThread(),GetCurrentProcess(),(LPHANDLE)&Hnd,nullptr,0,nullptr);
         //return Hnd;
 
         // only a pseudo-handle!
@@ -120,7 +120,7 @@ public:
     static int  Create(
         const Handler&      pFunc,
         const ThreadParam&  cFuncParam,
-        Handle* const&      pOutHandle = NULL,
+        Handle* const&      pOutHandle = nullptr,
         const bool          bCreateDetached = false,
         const uint          uiStackSize = 0,
         const bool          bCancelEnable = false, // Used for Posix
@@ -155,7 +155,7 @@ public:
     // Create
     int             Create(
         const ThreadParam&  cFuncParam,
-        Handle* const&      pOutHandle = NULL,
+        Handle* const&      pOutHandle = nullptr,
         const bool          bCreateDetached = false,
         const uint          uiStackSize = 0,
         const bool          bCancelEnable = false,      // Used for Posix
@@ -286,7 +286,7 @@ public:
     // Create
     static int      Create(
         const Handler&      pFunc,
-        Handle* const&      pOutHandle = NULL,
+        Handle* const&      pOutHandle = nullptr,
         const bool          bCreateDetached = false,
         const uint          uiStackSize = 0,
         const bool          bCancelEnable = false, // Used for Posix
@@ -313,7 +313,7 @@ public:
 
     // Create
     int             Create(
-        Handle* const&  pOutHandle = NULL,
+        Handle* const&  pOutHandle = nullptr,
         const bool      bCreateDetached = false,
         const uint      uiStackSize = 0,
         const bool      bCancelEnable = false,      // Used for Posix

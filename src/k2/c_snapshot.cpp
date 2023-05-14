@@ -255,7 +255,7 @@ bool    CSnapshot::WriteBuffer(CBufferBit &cBuffer, byte yStateSequence, uint ui
 
                 bool bThisChanging((citThis->uiFlags & ENTITY_STREAM_FLAG_CHANGING) != 0);
 
-                if (pBaseline != NULL)
+                if (pBaseline != nullptr)
                 {
                     entSnapshot.Clear();
                     pThisSnapshot->DiffFrom(*pBaseline, entSnapshot);
@@ -458,7 +458,7 @@ bool    CSnapshot::WriteDiff(CBufferBit &cBuffer, const CSnapshot &base, byte yS
 
                     bool bThisChanging((citThis->uiFlags & ENTITY_STREAM_FLAG_CHANGING) != 0);
 
-                    if (pBaseline != NULL)
+                    if (pBaseline != nullptr)
                     {
                         entSnapshot.Clear();
                         pThisSnapshot->DiffFrom(*pBaseline, entSnapshot);
@@ -674,7 +674,7 @@ void    CSnapshot::DeleteByHandle(PoolHandle hHandle)
     if (s_pSnapshotPool.GetRefCount(hHandle) == 1)
     {
         CSnapshot *pSnapshot(CSnapshot::GetByHandle(hHandle));
-        if (pSnapshot != NULL)
+        if (pSnapshot != nullptr)
             *pSnapshot = CSnapshot();
     }
 

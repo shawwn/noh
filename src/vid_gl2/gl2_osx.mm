@@ -114,8 +114,8 @@ struct
     if (self = [super initWithContentRect:contentRect styleMask:aStyle backing:bufferingType defer:flag])
     {
         m_Display = 0;
-        m_pDisplayMode = NULL;
-        m_pMode = NULL;
+        m_pDisplayMode = nullptr;
+        m_pMode = nullptr;
         m_bDisplayCaptured = false;
         m_bExclusive = false;
     }
@@ -304,7 +304,7 @@ struct
 
     if (bExactMatch)
     {
-        #define DIFFER(key) (CFNumberCompare((CFNumberRef)CFDictionaryGetValue(m_pMode, key), (CFNumberRef)CFDictionaryGetValue(m_pDisplayMode, key), NULL) != 0)
+        #define DIFFER(key) (CFNumberCompare((CFNumberRef)CFDictionaryGetValue(m_pMode, key), (CFNumberRef)CFDictionaryGetValue(m_pDisplayMode, key), nullptr) != 0)
         
         if (!m_bDisplayCaptured && (DIFFER(kCGDisplayWidth) || DIFFER(kCGDisplayHeight)))
         {
@@ -331,7 +331,7 @@ struct
     }
     else
     {
-        m_pMode = NULL;
+        m_pMode = nullptr;
         *pMode = g_VidModes[0];
     }
 }
@@ -345,8 +345,8 @@ struct
     
     m_bDisplayCaptured = false;
     m_Display = 0;
-    m_pDisplayMode = NULL;
-    m_pMode = NULL;
+    m_pDisplayMode = nullptr;
+    m_pMode = nullptr;
     m_bExclusive = false;
     [NSMenu setMenuBarVisible:YES];
 }
@@ -528,7 +528,7 @@ int     GL_Init()
     mib[0] = CTL_HW;
     mib[1] = HW_NCPU;
     len = sizeof(numcpu);
-    if (sysctl(mib, 2, &numcpu, &len, NULL, 0) < 0 || numcpu < 2)
+    if (sysctl(mib, 2, &numcpu, &len, nullptr, 0) < 0 || numcpu < 2)
         gl_multithread = false;
     
     CGDirectDisplayID aDisplays[32];
@@ -959,7 +959,7 @@ void    GL_SetCursor(ResHandle hCursor)
         return GL_ShowCursor(true);
     
     CCursor *pCursor(g_ResourceManager.GetCursor(hCursor));
-    if (pCursor == NULL)
+    if (pCursor == nullptr)
         return GL_ShowCursor(false);
 
 #if TKTK // TKTK 2023: TODO: Does this leak cursors? Seems to crash if we try to release them here
@@ -968,10 +968,10 @@ void    GL_SetCursor(ResHandle hCursor)
 #endif
     
     CBitmap *pBitmap(pCursor->GetBitmapPointer());
-    if (pBitmap == NULL)
+    if (pBitmap == nullptr)
         return;
     
-    NSBitmapImageRep *pBitmapImageRep = [[NSBitmapImageRep alloc] initWithBitmapDataPlanes:NULL pixelsWide:pBitmap->GetWidth() pixelsHigh:pBitmap->GetHeight() bitsPerSample:8 samplesPerPixel:4 hasAlpha:YES isPlanar:NO colorSpaceName:NSDeviceRGBColorSpace bytesPerRow:(pBitmap->GetWidth() * 4) bitsPerPixel:32];
+    NSBitmapImageRep *pBitmapImageRep = [[NSBitmapImageRep alloc] initWithBitmapDataPlanes:nullptr pixelsWide:pBitmap->GetWidth() pixelsHigh:pBitmap->GetHeight() bitsPerSample:8 samplesPerPixel:4 hasAlpha:YES isPlanar:NO colorSpaceName:NSDeviceRGBColorSpace bytesPerRow:(pBitmap->GetWidth() * 4) bitsPerPixel:32];
     byte *p = [pBitmapImageRep bitmapData];
     for (int y(pBitmap->GetHeight() - 1); y >= 0; --y)
     {

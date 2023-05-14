@@ -19,7 +19,7 @@
   ====================*/
 CVertexCameraHeightMap::CVertexCameraHeightMap(EWorldComponent eComponent) :
 IWorldComponent(eComponent, _T("VertexCameraHeightMap")),
-m_pHeightMap(NULL)
+m_pHeightMap(nullptr)
 {
 }
 
@@ -38,7 +38,7 @@ CVertexCameraHeightMap::~CVertexCameraHeightMap()
   ====================*/
 void    CVertexCameraHeightMap::Release()
 {
-    m_pWorld = NULL;
+    m_pWorld = nullptr;
 
     SAFE_DELETE_ARRAY(m_pHeightMap);
 }
@@ -94,11 +94,11 @@ bool    CVertexCameraHeightMap::Generate(const CWorld *pWorld)
         Release();
         m_bChanged = true;
         m_pWorld = pWorld;
-        if (m_pWorld == NULL)
+        if (m_pWorld == nullptr)
             EX_ERROR(_T("CVertexCameraHeightMap needs a valid CWorld"));
 
         m_pHeightMap = K2_NEW_ARRAY(ctx_World, float, m_pWorld->GetGridArea());
-        if (m_pHeightMap == NULL)
+        if (m_pHeightMap == nullptr)
             EX_ERROR(_T("Failed to allocate memory for map data"));
 
         float *pHeightMap(m_pWorld->GetHeightMap());

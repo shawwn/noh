@@ -305,7 +305,7 @@ int     CStringTable::Load(uint uiIgnoreFlags, const char *pData, uint uiSize)
             if (!hFile.IsOpen())
                 continue;
             
-            const char *pData(NULL);
+            const char *pData(nullptr);
             uint uiSize(0);
 
             pData = hFile.GetBuffer(uiSize);

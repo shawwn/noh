@@ -159,9 +159,9 @@ ICvar*  CXMLNode::GetPropertyCvar(const tstring &sName, ICvar *pDefaultValue) co
         return pDefaultValue;
     else
     {
-        ICvar   *pCvar = NULL;
+        ICvar   *pCvar = nullptr;
         if (!ConsoleRegistry.Exists(findit->second))
-            pCvar = NULL;
+            pCvar = nullptr;
         else
         {
             CConsoleElement *pElement = Console.GetElement(findit->second);
@@ -169,7 +169,7 @@ ICvar*  CXMLNode::GetPropertyCvar(const tstring &sName, ICvar *pDefaultValue) co
             if (pElement->GetType() == ELEMENT_CVAR)
                 pCvar = static_cast<ICvar *>(pElement);
             else
-                pCvar = NULL;
+                pCvar = nullptr;
         }
 
         return pCvar;

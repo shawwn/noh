@@ -131,7 +131,7 @@ void    IWaypoint::Spawn()
 bool    IWaypoint::ServerFrameCleanup()
 {
     IVisualEntity *pAttach(Game.GetVisualEntity(m_uiUnitIndex));
-    if (pAttach != NULL)
+    if (pAttach != nullptr)
         m_v3Position = pAttach->GetPosition();
 
     return true;
@@ -150,7 +150,7 @@ bool    IWaypoint::AddToScene(const CVec4f &v4Color, int iFlags)
         return false;
 
     CPlayer *pLocalPlayer(Game.GetLocalPlayer());
-    if (pLocalPlayer == NULL)
+    if (pLocalPlayer == nullptr)
         return false;
 
     if (m_uiUnitIndex != INVALID_INDEX && !pLocalPlayer->CanSee(Game.GetVisualEntity(m_uiUnitIndex)))

@@ -58,7 +58,7 @@ void    CBlockHandle::Release()
     
     // If there is only one reference, this is the
     // world's handle, no client is using the block
-    if (*m_pReference == 1 && m_pReference->Get() != NULL)
+    if (*m_pReference == 1 && m_pReference->Get() != nullptr)
     {
         (*m_pReference)->Free();
         Invalidate();
@@ -70,7 +70,7 @@ void    CBlockHandle::Release()
     if (*m_pReference == 0)
     {
         K2_DELETE(m_pReference);
-        m_pReference = NULL;
+        m_pReference = nullptr;
     }
 }
 

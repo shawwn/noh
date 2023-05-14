@@ -18,7 +18,7 @@
   ====================*/
 CTileCliffMap::CTileCliffMap(EWorldComponent eComponent) :
 IWorldComponent(eComponent, _T("TileCliffMap")),
-m_pTileCliffs(NULL)
+m_pTileCliffs(nullptr)
 {
 }
 
@@ -37,11 +37,11 @@ CTileCliffMap::~CTileCliffMap()
   ====================*/
 void    CTileCliffMap::Release()
 {
-    m_pWorld = NULL;
+    m_pWorld = nullptr;
 
-    if (m_pTileCliffs != NULL)
+    if (m_pTileCliffs != nullptr)
         K2_DELETE_ARRAY(m_pTileCliffs);
-    m_pTileCliffs = NULL;
+    m_pTileCliffs = nullptr;
 }
 
 
@@ -80,9 +80,9 @@ bool    CTileCliffMap::Load(CArchive &archive, const CWorld *pWorld)
     }
     catch (CException &ex)
     {
-        if (m_pTileCliffs != NULL)
+        if (m_pTileCliffs != nullptr)
             K2_DELETE_ARRAY(m_pTileCliffs);
-        m_pTileCliffs = NULL;
+        m_pTileCliffs = nullptr;
 
         ex.Process(_T("CTileCliffMap::Load() - "), NO_THROW);
         return false;
@@ -105,11 +105,11 @@ bool    CTileCliffMap::Generate(const CWorld *pWorld)
 
         m_bChanged = true;
         m_pWorld = pWorld;
-        if (m_pWorld == NULL)
+        if (m_pWorld == nullptr)
             EX_ERROR(_T("CTileCliffMap needs a valid CWorld"));
 
         m_pTileCliffs = K2_NEW_ARRAY(ctx_World, byte, m_pWorld->GetTileArea());
-        if (m_pTileCliffs == NULL)
+        if (m_pTileCliffs == nullptr)
             EX_ERROR(_T("Failed to allocate memory for CliffMap"));
 
         for (int i(0); i < m_pWorld->GetTileArea(); ++i)

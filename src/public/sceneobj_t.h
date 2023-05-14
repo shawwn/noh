@@ -62,7 +62,7 @@ struct SSceneObject
     
     CVec4f      color;          //used if SCENEOBJ_SOLID_COLOR is set
     
-    //the following 3 variables are only used if skeleton == NULL
+    //the following 3 variables are only used if skeleton == nullptr
     int         loframe;        //frame to lerp from (in the default animation)
     int         hiframe;        //frame to lerp to (in the default animation)
     float       lerp_amt;       //amount to lerp between loframe and hiframe

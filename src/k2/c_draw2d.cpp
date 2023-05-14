@@ -165,7 +165,7 @@ void    CDraw2D::String(float x, float y, const tstring &sStr, ResHandle hFont)
 
         // Get the fontmap to be used for rendering this string
         CFontMap *pFontMap(g_ResourceManager.GetFontMap(hFont));
-        if (pFontMap == NULL)
+        if (pFontMap == nullptr)
             throw CException(_T("Failed to acquire font"), E_WARNING);
 
         // Get the color keys and a clean string
@@ -209,7 +209,7 @@ void    CDraw2D::String(float x, float y, const tstring &sStr, ResHandle hFont)
 
             float fKerning(z > 0 ? pFontMap->GetKerning(sClean[z - 1], sClean[z]) : 0.0f);
             const SCharacterMapInfo *pCharInfo(pFontMap->GetCharMapInfo(sClean[z]));
-            if (pCharInfo == NULL)
+            if (pCharInfo == nullptr)
             {
                 Rect(xPos, y, pFontMap->GetMaxAdvance(), pFontMap->GetMaxHeight(), GUI_STRING);
                 xPos += pFontMap->GetMaxAdvance();
@@ -243,7 +243,7 @@ void    CDraw2D::String(float x, float y, float w, float h, const tstring &sStr,
 
         // Retrieve the font map
         CFontMap *pFontMap(g_ResourceManager.GetFontMap(hFont));
-        if (pFontMap == NULL)
+        if (pFontMap == nullptr)
             throw CException(_T("Failed to acquire font"), E_WARNING);
 
         // Get the color keys and a clean string
@@ -345,7 +345,7 @@ void    CDraw2D::String(float x, float y, float w, float h, const tstring &sStr,
 
             float fKerning(z > 0 ? pFontMap->GetKerning(sClean[z - 1], sClean[z]) : 0.0f);
             const SCharacterMapInfo *pCharInfo(pFontMap->GetCharMapInfo(sClean[z]));
-            if (pCharInfo == NULL)
+            if (pCharInfo == nullptr)
             {
                 Rect(fXPos, y, pFontMap->GetMaxAdvance(), pFontMap->GetMaxHeight(), GUI_STRING);
                 fXPos += pFontMap->GetMaxAdvance();
@@ -438,7 +438,7 @@ void    CDraw2D::String(float x, float y, float w, float h, const tstring &sStr,
 
         // Retrieve the font map
         CFontMap *pFontMap(g_ResourceManager.GetFontMap(hFont));
-        if (pFontMap == NULL)
+        if (pFontMap == nullptr)
             throw CException(_T("Failed to acquire font"), E_WARNING);
 
         // Get the color keys and a clean string
@@ -548,7 +548,7 @@ void    CDraw2D::String(float x, float y, float w, float h, const tstring &sStr,
 
             float fKerning(z > 0 ? pFontMap->GetKerning(sClean[z - 1], sClean[z]) : 0.0f);
             const SCharacterMapInfo *pCharInfo(pFontMap->GetCharMapInfo(sClean[z]));
-            if (pCharInfo == NULL)
+            if (pCharInfo == nullptr)
             {
                 Rect(fXPos, y, pFontMap->GetMaxAdvance(), pFontMap->GetMaxHeight(), GUI_STRING);
                 fXPos += pFontMap->GetMaxAdvance();
@@ -659,7 +659,7 @@ void        CDraw2D::String(float x, float y, float w, float h, const tsvector &
 
         // Retrieve the font map
         CFontMap *pFontMap(g_ResourceManager.GetFontMap(hFont));
-        if (pFontMap == NULL)
+        if (pFontMap == nullptr)
             EX_WARN(_T("Failed to acquire font"));
 
         tsvector_cit itBegin(vStr.begin());
@@ -667,7 +667,7 @@ void        CDraw2D::String(float x, float y, float w, float h, const tsvector &
         size_t zCount(vStr.size());
 
         ColorVector::const_iterator itColor;
-        if (pColors != NULL)
+        if (pColors != nullptr)
             itColor = pColors->begin();
 
         // Break apart strings that need to wrap
@@ -677,7 +677,7 @@ void        CDraw2D::String(float x, float y, float w, float h, const tsvector &
         {
             for (tsvector_cit it(vStr.begin()); it != vStr.end(); ++it)
             {
-                if (pColors != NULL)
+                if (pColors != nullptr)
                 {
                     WrapString(*it, pFontMap, w, vsSplitStrings, &(*itColor), &vSplitColors);
                     ++itColor;
@@ -709,12 +709,12 @@ void        CDraw2D::String(float x, float y, float w, float h, const tsvector &
             if (fYOffset < 0.0f)
             {
                 fYOffset += pFontMap->GetMaxHeight();
-                if (pColors != NULL)
+                if (pColors != nullptr)
                     ++itColor;
                 continue;
             }
 
-            if (pColors != NULL)
+            if (pColors != nullptr)
             {
                 SetColor(*itColor);
                 ++itColor;
@@ -726,7 +726,7 @@ void        CDraw2D::String(float x, float y, float w, float h, const tsvector &
                 break;
         }
 
-        if (pColors != NULL)
+        if (pColors != nullptr)
             SetColor(v4OldColor);
     }
     catch (CException &ex)
@@ -745,7 +745,7 @@ void        CDraw2D::String(float x, float y, float w, float h, const tsvector &
 
         // Retrieve the font map
         CFontMap *pFontMap(g_ResourceManager.GetFontMap(hFont));
-        if (pFontMap == NULL)
+        if (pFontMap == nullptr)
             EX_WARN(_T("Failed to acquire font"));
 
         tsvector_cit itBegin(vStr.begin());
@@ -753,7 +753,7 @@ void        CDraw2D::String(float x, float y, float w, float h, const tsvector &
         size_t zCount(vStr.size());
 
         ColorVector::const_iterator itColor;
-        if (pColors != NULL)
+        if (pColors != nullptr)
             itColor = pColors->begin();
 
         // Break apart strings that need to wrap
@@ -763,7 +763,7 @@ void        CDraw2D::String(float x, float y, float w, float h, const tsvector &
         {
             for (tsvector_cit it(vStr.begin()); it != vStr.end(); ++it)
             {
-                if (pColors != NULL)
+                if (pColors != nullptr)
                 {
                      WrapString(*it, pFontMap, w, vsSplitStrings, &(*itColor), &vSplitColors);
                     ++itColor;
@@ -796,14 +796,14 @@ void        CDraw2D::String(float x, float y, float w, float h, const tsvector &
             if (fYOffset < 0.0f)
             {
                 fYOffset += pFontMap->GetMaxHeight();
-                if (pColors != NULL)
+                if (pColors != nullptr)
                     ++itColor;
 
                 uiLineCount++;
                 continue;
             }
 
-            if (pColors != NULL)
+            if (pColors != nullptr)
             {
                 SetColor(*itColor);
                 ++itColor;
@@ -821,7 +821,7 @@ void        CDraw2D::String(float x, float y, float w, float h, const tsvector &
             uiLineCount++;
         }
 
-        if (pColors != NULL)
+        if (pColors != nullptr)
             SetColor(v4OldColor);
     }
     catch (CException &ex)
@@ -838,7 +838,7 @@ void        CDraw2D::String(float x, float y, float w, float h, const tsvector &
     {
         // Retrieve the font map
         CFontMap *pFontMap(g_ResourceManager.GetFontMap(hFont));
-        if (pFontMap == NULL)
+        if (pFontMap == nullptr)
             EX_WARN(_T("Failed to acquire font"));
 
         size_t zCount(vStr.size());
@@ -908,7 +908,7 @@ void    CDraw2D::StringGlow(float x, float y, const tstring &sStr, ResHandle hFo
 
         // Get the fontmap to be used for rendering this string
         CFontMap *pFontMap(g_ResourceManager.GetFontMap(hFont));
-        if (pFontMap == NULL)
+        if (pFontMap == nullptr)
             throw CException(_T("Failed to acquire font"), E_WARNING);
 
         // Get the color keys and a clean string
@@ -950,7 +950,7 @@ void    CDraw2D::StringGlow(float x, float y, const tstring &sStr, ResHandle hFo
 
             float fKerning(z > 0 ? pFontMap->GetKerning(sClean[z - 1], sClean[z]) : 0.0f);
             const SCharacterMapInfo *pCharInfo(pFontMap->GetCharMapInfo(sClean[z]));
-            if (pCharInfo == NULL)
+            if (pCharInfo == nullptr)
             {
                 Rect(xPos, y, pFontMap->GetMaxAdvance(), pFontMap->GetMaxHeight(), GUI_STRING);
                 xPos += pFontMap->GetMaxAdvance();
@@ -994,7 +994,7 @@ void    CDraw2D::StringGlow(float x, float y, float w, float h, const tstring &s
 
         // Retrieve the font map
         CFontMap *pFontMap(g_ResourceManager.GetFontMap(hFont));
-        if (pFontMap == NULL)
+        if (pFontMap == nullptr)
             throw CException(_T("Failed to acquire font"), E_WARNING);
 
         tstring sClean(StripColorCodes(sStr));
@@ -1060,7 +1060,7 @@ void    CDraw2D::StringGlow(float x, float y, float w, float h, const tstring &s
 
             float fKerning(z > 0 ? pFontMap->GetKerning(sClean[z - 1], sClean[z]) : 0.0f);
             const SCharacterMapInfo *pCharInfo(pFontMap->GetCharMapInfo(sClean[z]));
-            if (pCharInfo == NULL)
+            if (pCharInfo == nullptr)
             {
                 Rect(fXPos, y, pFontMap->GetMaxAdvance(), pFontMap->GetMaxHeight(), GUI_STRING);
                 fXPos += pFontMap->GetMaxAdvance();
@@ -1153,7 +1153,7 @@ void    CDraw2D::StringGlow(float x, float y, float w, float h, const tstring &s
 
         // Retrieve the font map
         CFontMap *pFontMap(g_ResourceManager.GetFontMap(hFont));
-        if (pFontMap == NULL)
+        if (pFontMap == nullptr)
             throw CException(_T("Failed to acquire font"), E_WARNING);
 
         // Get the color keys and a clean string
@@ -1228,7 +1228,7 @@ void    CDraw2D::StringGlow(float x, float y, float w, float h, const tstring &s
 
             float fKerning(z > 0 ? pFontMap->GetKerning(sClean[z - 1], sClean[z]) : 0.0f);
             const SCharacterMapInfo *pCharInfo(pFontMap->GetCharMapInfo(sClean[z]));
-            if (pCharInfo == NULL)
+            if (pCharInfo == nullptr)
             {
                 Rect(fXPos, y, pFontMap->GetMaxAdvance(), pFontMap->GetMaxHeight(), GUI_STRING);
                 fXPos += pFontMap->GetMaxAdvance();

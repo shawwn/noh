@@ -36,14 +36,14 @@ EXTERN_CVAR_UINT(hero_blockRepathTimeExtra);
 #define HERO_ATTRIBUTE(name) \
 virtual float   Get##name##PerLevel() const \
 { \
-    if (m_pDefinition == NULL) \
+    if (m_pDefinition == nullptr) \
         return GetDefaultEmptyValue<float>(); \
 \
     return static_cast<TDefinition *>(m_pDefinition)->Get##name##PerLevel(); \
 } \
 virtual float   GetBase##name() const \
 { \
-    if (m_pDefinition == NULL) \
+    if (m_pDefinition == nullptr) \
         return GetDefaultEmptyValue<float>(); \
 \
     return floor(static_cast<TDefinition *>(m_pDefinition)->Get##name() + (GetLevel() - 1) * Get##name##PerLevel()); \
@@ -137,7 +137,7 @@ public:
     virtual bool        ServerFrameMovement();
     virtual bool        ServerFrameCleanup();
     virtual void        Spawn();
-    virtual void        Die(IUnitEntity *pAttacker = NULL, ushort unKillingObject = INVALID_ENT_TYPE);
+    virtual void        Die(IUnitEntity *pAttacker = nullptr, ushort unKillingObject = INVALID_ENT_TYPE);
     virtual void        KillReward(IUnitEntity *pKiller, CPlayer *pPlayerKiller);
     void                AssistsReward(IUnitEntity *&pKiller, CPlayer *&pPlayerKiller, ivector &vAssistPlayers);
     void                FirstBloodReward(IUnitEntity *pKiller, CPlayer *pPlayerKiller);
@@ -173,7 +173,7 @@ public:
     virtual float   GetExperienceBounty() const         { int iLevel(GetLevel()); if (iLevel < 5) return 100.0f + (10.0f * (SQR(iLevel) - iLevel)); return (iLevel * 100.0f) - 200.0f; }
     virtual float   GetUnsharedExperienceBounty() const { return GetLevel() * Game.GetHeroExpUnsharedBountyPerLevel(); }
     
-    GAME_SHARED_API float   GiveExperience(float fExperience, IUnitEntity *pSource = NULL);
+    GAME_SHARED_API float   GiveExperience(float fExperience, IUnitEntity *pSource = nullptr);
     GAME_SHARED_API void    ResetExperience();
 
     void    SetExperience(float fExperience)        { m_fExperience = fExperience; UpdateHeroLevel(); }

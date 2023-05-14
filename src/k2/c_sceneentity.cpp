@@ -38,7 +38,7 @@ t2(1.0f),
 
 color(0.0f, 0.0f, 0.0f, 0.0f),
 
-skeleton(NULL),
+skeleton(nullptr),
 
 width(0.0f),
 height(0.0f),
@@ -47,7 +47,7 @@ objtype(),
 
 flags(0),
 
-custom_mapping(NULL),
+custom_mapping(nullptr),
 
 effectlayer(0),
 effectdepth(0.0f),
@@ -79,7 +79,7 @@ void    CSceneEntity::Clear()
 
     color = CVec4f(1.0f, 1.0f, 1.0f, 1.0f);
 
-    skeleton = NULL;
+    skeleton = nullptr;
 
     width = 0.0f;
     height = 0.0f;
@@ -88,7 +88,7 @@ void    CSceneEntity::Clear()
 
     flags = 0;
 
-    custom_mapping = NULL;
+    custom_mapping = nullptr;
 
     effectlayer = 0;
     effectdepth = 0.0f;

@@ -34,8 +34,8 @@ CSlider::~CSlider()
   ====================*/
 CSlider::CSlider(CInterface *pInterface, IWidget *pParent, const CWidgetStyle& style) :
 IWidget(pInterface, pParent, WIDGET_SLIDER, style, false),
-m_pSlot(NULL),
-m_pHandle(NULL),
+m_pSlot(nullptr),
+m_pHandle(nullptr),
 m_fValue(style.GetPropertyFloat(_T("value"), 0.0f)),
 m_fMinValue(style.GetPropertyFloat(_T("minvalue"), 0.0f)),
 m_fMaxValue(style.GetPropertyFloat(_T("maxvalue"), 1.0f)),
@@ -385,7 +385,7 @@ void    CSlider::RecalculateChildSize()
   --------------------*/
 UI_VOID_CMD(SetMinValue, 1)
 {
-    if (pThis == NULL ||
+    if (pThis == nullptr ||
         pThis->GetType() != WIDGET_SLIDER)
         return;
 
@@ -398,7 +398,7 @@ UI_VOID_CMD(SetMinValue, 1)
   --------------------*/
 UI_VOID_CMD(SetMaxValue, 1)
 {
-    if (pThis == NULL ||
+    if (pThis == nullptr ||
         pThis->GetType() != WIDGET_SLIDER)
         return;
 

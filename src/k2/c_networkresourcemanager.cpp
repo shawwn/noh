@@ -106,7 +106,7 @@ ResHandle   CNetworkResourceManager::RegisterNetworkResource(ResHandle hHandle, 
         m_vResources[uiIndex].Set(hHandle);
 
         IResource *pResource(g_ResourceManager.Get(hHandle));
-        if (pResource != NULL)
+        if (pResource != nullptr)
             pResource->SetNetIndex(uiIndex);
 
         return m_vResources[uiIndex].GetHandle();
@@ -262,7 +262,7 @@ void    CNetworkResourceManager::Clear()
     for (NetResourceVector_it it(m_vResources.begin()); it != m_vResources.end(); ++it)
     {
         IResource *pResource(g_ResourceManager.Get(it->GetHandle()));
-        if (pResource == NULL)
+        if (pResource == nullptr)
             continue;
 
         pResource->SetNetIndex(INVALID_INDEX);

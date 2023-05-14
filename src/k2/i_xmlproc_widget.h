@@ -18,14 +18,14 @@
 #define SETUP_XML_PROCESSOR_WIDGET(name, widget_type) \
 BEGIN_XML_PROCESSOR(name, IWidget) \
     CInterface *pInterface(pObject->GetInterface()); \
-    if (pInterface == NULL) \
+    if (pInterface == nullptr) \
     { \
         Console.Err << _T("Invalid interface for widget: ") << m_sElementName << newl; \
         return false; \
     } \
 \
     CWidgetTemplate *pTemplate(pInterface->GetCurrentTemplate()); \
-    if (pTemplate != NULL) \
+    if (pTemplate != nullptr) \
     { \
         pTemplate->AddChild(m_sElementName, node); \
         ProcessChildren(node, pObject); \
@@ -37,7 +37,7 @@ BEGIN_XML_PROCESSOR(name, IWidget) \
 #define XML_PROCESSOR_CREATE_WIDGET(widget_type, ...) \
     CWidgetStyle style(pInterface, node); \
     widget_type *pNewWidget(K2_NEW(ctx_Widgets,  widget_type)(pInterface, pObject, style, ##__VA_ARGS__)); \
-    if (pNewWidget == NULL) \
+    if (pNewWidget == nullptr) \
     { \
         Console.Err << _T("Failed creating widget: ") << m_sElementName << newl; \
         return false; \

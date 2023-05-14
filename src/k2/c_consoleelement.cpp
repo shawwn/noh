@@ -27,6 +27,6 @@ m_sName(sName),
 m_iFlags(iFlags),
 m_eType(eType),
 m_pfnCmd(pfnCmd),
-m_pfnPrecacheCmd(NULL)
+m_pfnPrecacheCmd(nullptr)
 {
 }

@@ -89,7 +89,7 @@ void    CPostBuffer::Initialize(int iWidth, int iHeight)
     // Vertex buffer
     glGenBuffersARB(1, &VBPostQuad);
     glBindBufferARB(GL_ARRAY_BUFFER_ARB, VBPostQuad);
-    glBufferDataARB(GL_ARRAY_BUFFER_ARB, 4 * sizeof(SGuiVertex), NULL, GL_STREAM_DRAW_ARB);
+    glBufferDataARB(GL_ARRAY_BUFFER_ARB, 4 * sizeof(SGuiVertex), nullptr, GL_STREAM_DRAW_ARB);
 
 #if 0
     m_uiWidth = 800;
@@ -131,7 +131,7 @@ void    CPostBuffer::Initialize(int iWidth, int iHeight)
         m_ahPostBufferHandle[i] = g_ResourceManager.Register(K2_NEW(ctx_GL2,    CTexture)(_T("$postbuffer") + XtoA(i), TEXTURE_2D, TEX_FULL_QUALITY | TEX_NO_COMPRESS | TEX_NO_MIPMAPS, TEXFMT_A8R8G8B8), RES_TEXTURE);
 
         CTexture *pPostBufferTexture(g_ResourceManager.GetTexture(m_ahPostBufferHandle[i]));
-        if (pPostBufferTexture != NULL)
+        if (pPostBufferTexture != nullptr)
             pPostBufferTexture->SetIndex(m_auiColorTexture[i]);
     }
 
@@ -228,7 +228,7 @@ void    CPostBuffer::Render()
         return;
 
     CPostEffect *pPostEffect(g_ResourceManager.GetPostEffect(hPostEffect));
-    if (pPostEffect == NULL)
+    if (pPostEffect == nullptr)
         return;
 
     const vector<CPostFilter> &vFilters(pPostEffect->GetFilters());
@@ -272,11 +272,11 @@ void    CPostBuffer::Render()
 
         // Scale rendered quad by fScaleU and fScaleV of the current material
         const IMaterialParameter *pScaleU(cMaterial.GetParameter(_T("fScaleU")));
-        if (pScaleU != NULL)
+        if (pScaleU != nullptr)
             fImageWidth *= pScaleU->GetFloat(SceneManager.GetShaderTime());
 
         const IMaterialParameter *pScaleV(cMaterial.GetParameter(_T("fScaleV")));
-        if (pScaleV != NULL)
+        if (pScaleV != nullptr)
             fImageHeight *= pScaleV->GetFloat(SceneManager.GetShaderTime());
 
         if (it != itBack)

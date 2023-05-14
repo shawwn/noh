@@ -31,7 +31,7 @@ CVoiceUser::~CVoiceUser()
 
     while (it != m_dequeJitter.end())
     {
-        if ((*it) != NULL)
+        if ((*it) != nullptr)
         {
             K2_DELETE_ARRAY((*it)->pData);
             K2_DELETE(*it);
@@ -46,7 +46,7 @@ CVoiceUser::~CVoiceUser()
   CVoiceUser::CVoiceUser
   ====================*/
 CVoiceUser::CVoiceUser(uint uiClientNum, bool bMuted) :
-m_DecoderState(NULL),
+m_DecoderState(nullptr),
 m_uiFrameSize(0),
 m_uiBytesPerFrame(0),
 m_uiSampleLength(0),
@@ -55,7 +55,7 @@ m_yLastWritePos(0),
 m_yLastReadPos(0),
 m_uiLastWrittenFrame(0),
 m_uiLastInternalFrame(0),
-m_pSample(NULL),
+m_pSample(nullptr),
 m_hHandle(INVALID_RESOURCE),
 m_uiClientNum(uiClientNum),
 m_uiLastTalkTime(0),
@@ -72,7 +72,7 @@ m_bRecievedFirstFrame(false)
 
     FMOD::Sound *pSound(K2SoundManager.CreateSound(VOICE_SAMPLE_RATE, 1, SOUND_SAMPLE_RATE, VOICE_SAMPLE_SIZE, SND_LOOP | SND_2D));
 
-    if (pSound == NULL)
+    if (pSound == nullptr)
         return;
 
     m_pSample = K2_NEW(ctx_Voice,  CSample)(pSound);
@@ -99,7 +99,7 @@ void    CVoiceUser::Restart()
 {
     FMOD::Sound *pSound(K2SoundManager.CreateSound(VOICE_SAMPLE_RATE, 1, SOUND_SAMPLE_RATE, VOICE_SAMPLE_SIZE, SND_LOOP | SND_2D));
 
-    if (pSound == NULL)
+    if (pSound == nullptr)
         return;
 
     m_pSample = K2_NEW(ctx_Voice,  CSample)(pSound);
@@ -114,7 +114,7 @@ void    CVoiceUser::Restart()
   ====================*/
 void    CVoiceUser::DecodeFrame()
 {
-    if (m_pSample == NULL)
+    if (m_pSample == nullptr)
         return;
 
     // If m_hHandle == INVALID_RESOURCE, we haven't started playing the sound yet or we were muted
@@ -172,7 +172,7 @@ void    CVoiceUser::DecodeFrame()
         m_yFramesAhead = 0;
     }
         
-    JitterData *pJitter(NULL);
+    JitterData *pJitter(nullptr);
 
     byte yFramesToWrite;
 
@@ -183,12 +183,12 @@ void    CVoiceUser::DecodeFrame()
     if (m_dequeJitter.size() > 0)
         pJitter = m_dequeJitter.front();
 
-    while (pJitter != NULL || m_yFramesAhead < yFramesToWrite)
+    while (pJitter != nullptr || m_yFramesAhead < yFramesToWrite)
     {
         if (m_dequeJitter.size() > 0)
             m_dequeJitter.pop_front();
 
-        if (pJitter != NULL)
+        if (pJitter != nullptr)
         {
             speex_bits_read_from(&m_Bits, pJitter->pData, pJitter->uiLength);
             speex_decode_int(m_DecoderState, &m_Bits, &(m_pInputBuffer[uiFramesWritten * m_uiFrameSize]));
@@ -199,12 +199,12 @@ void    CVoiceUser::DecodeFrame()
             K2_DELETE_ARRAY(pJitter->pData);
             K2_DELETE(pJitter);
 
-            pJitter = NULL;
+            pJitter = nullptr;
         }
         else
         {
             if (m_uiLastWrittenFrame - m_uiLastInternalFrame <= VOICE_MAX_EXTRAPOLATE_FRAMES)
-                speex_decode_int(m_DecoderState, NULL, &(m_pInputBuffer[uiFramesWritten * m_uiFrameSize]));
+                speex_decode_int(m_DecoderState, nullptr, &(m_pInputBuffer[uiFramesWritten * m_uiFrameSize]));
 
             m_uiLastInternalFrame++;
         }
@@ -274,12 +274,12 @@ void    CVoiceUser::AddFrame(uint uiSequence, byte *pData, uint uiLength)
     MemManager.Copy(pJitter->pData, pData, uiLength);
 
     if (m_dequeJitter.size() < uiOffset)
-        m_dequeJitter.resize(uiOffset, NULL);
+        m_dequeJitter.resize(uiOffset, nullptr);
 
     JitterData *pDelete = m_dequeJitter[uiOffset - 1];
     m_dequeJitter[uiOffset - 1] = pJitter;
 
-    if (pDelete != NULL)
+    if (pDelete != nullptr)
     {
         K2_DELETE_ARRAY(pDelete->pData);
         K2_DELETE(pDelete);

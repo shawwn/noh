@@ -18,7 +18,7 @@
   ====================*/
 CVertexBlockerMap::CVertexBlockerMap(EWorldComponent eComponent) :
 IWorldComponent(eComponent, _T("VertexBlockerMap")),
-m_pVertexBlockers(NULL)
+m_pVertexBlockers(nullptr)
 {
 }
 
@@ -37,7 +37,7 @@ CVertexBlockerMap::~CVertexBlockerMap()
   ====================*/
 void    CVertexBlockerMap::Release()
 {
-    m_pWorld = NULL;
+    m_pWorld = nullptr;
     SAFE_DELETE_ARRAY(m_pVertexBlockers);
 }
 
@@ -99,11 +99,11 @@ bool    CVertexBlockerMap::Generate(const CWorld *pWorld)
 
         m_bChanged = true;
         m_pWorld = pWorld;
-        if (m_pWorld == NULL)
+        if (m_pWorld == nullptr)
             EX_ERROR(_T("CVertexBlockerMap needs a valid CWorld"));
 
         m_pVertexBlockers = K2_NEW_ARRAY(ctx_World, byte, m_pWorld->GetGridArea());
-        if (m_pVertexBlockers == NULL)
+        if (m_pVertexBlockers == nullptr)
             EX_ERROR(_T("Failed to allocate memory for BlockerMap"));
 
         for (int i(0); i < m_pWorld->GetGridArea(); ++i)

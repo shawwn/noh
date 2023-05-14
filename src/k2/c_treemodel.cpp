@@ -38,7 +38,7 @@ CTreeModel::~CTreeModel()
   ====================*/
 CTreeModel::CTreeModel() :
 IModel(MODEL_SPEEDTREE),
-m_pSpeedTree(NULL),
+m_pSpeedTree(nullptr),
 
 m_uiVidDefIndex(INVALID_INDEX),
 
@@ -57,7 +57,7 @@ bool    CTreeModel::Load(const tstring &sFileName, uint uiIgnoreFlags)
     {
         // Allocate a SpeedTree object
         m_pSpeedTree = ::K2_NEW(ctx_Models,  CSpeedTreeRT);
-        if (m_pSpeedTree == NULL)
+        if (m_pSpeedTree == nullptr)
             EX_ERROR(_T("Failed to allocate a CSpeedTreeRT object"));
 
         // Read file from disk
@@ -86,7 +86,7 @@ bool    CTreeModel::Load(const tstring &sFileName, uint uiIgnoreFlags)
         CSpeedTreeRT::SetDropToBillboard(false);
 
         // Generate and retrieve tree data
-        if (!m_pSpeedTree->Compute(NULL, 1, true))
+        if (!m_pSpeedTree->Compute(nullptr, 1, true))
             EX_ERROR(_T("CSpeedTreeRT::Compute() failed"));
 
         // Reset rand seed, as m_pSpeedTree->Compute changes it to a preset value
@@ -166,7 +166,7 @@ void    CTreeModel::LoadBranchGeometry()
 
         // Allocate geometry chunk
         STreeGeometry *pBranchGeometry = K2_NEW(ctx_Models,  STreeGeometry);
-        if (pBranchGeometry == NULL)
+        if (pBranchGeometry == nullptr)
             EX_WARN(_T("CTreeModel::LoadBranchGeometry() - Failed to allocate geometry chunk"));
 
         // Store misc data
@@ -175,7 +175,7 @@ void    CTreeModel::LoadBranchGeometry()
         // Allocate memory for verts
         pBranchGeometry->usNumVerts = branches.m_usVertexCount;
         pBranchGeometry->pfVerts = K2_NEW_ARRAY(ctx_Models, float, sizeof(SBranchVert)*pBranchGeometry->usNumVerts);
-        if (pBranchGeometry->pfVerts == NULL)
+        if (pBranchGeometry->pfVerts == nullptr)
             EX_WARN(_T("CTreeModel::LoadBranchGeometry() - Failed to allocate memory for verts"));
 
         // Store interlaced vertex data
@@ -192,10 +192,10 @@ void    CTreeModel::LoadBranchGeometry()
         // Allocate memory for index lists
         pBranchGeometry->usNumLists = branches.m_usNumStrips;
         pBranchGeometry->pusNumIndices = K2_NEW(ctx_Models,  unsigned)short[pBranchGeometry->usNumLists];
-        if (pBranchGeometry->pusNumIndices == NULL)
+        if (pBranchGeometry->pusNumIndices == nullptr)
             EX_WARN(_T("CTreeModel::LoadBranchGeometry() - Failed to allocate memory for index list lengths"));
         pBranchGeometry->ppwIndices = K2_NEW_ARRAY(ctx_Models, word*, pBranchGeometry->usNumLists);
-        if (pBranchGeometry->ppwIndices == NULL)
+        if (pBranchGeometry->ppwIndices == nullptr)
             EX_WARN(_T("CTreeModel::LoadBranchGeometry() - Failed to allocate memory for index lists"));
 
         // Create and fill index lists
@@ -203,7 +203,7 @@ void    CTreeModel::LoadBranchGeometry()
         {
             pBranchGeometry->pusNumIndices[usLists] = branches.m_pStripLengths[usLists];
             pBranchGeometry->ppwIndices[usLists] = K2_NEW_ARRAY(ctx_Models, word, pBranchGeometry->pusNumIndices[usLists]);
-            if (pBranchGeometry->ppwIndices == NULL)
+            if (pBranchGeometry->ppwIndices == nullptr)
                 EX_WARN(_T("CTreeModel::LoadBranchGeometry() - Failed to allocate memory for index list"));
 
             for (size_t z(0); z < pBranchGeometry->pusNumIndices[usLists]; ++z)
@@ -233,7 +233,7 @@ void    CTreeModel::LoadFrondGeometry()
 
         // Allocate geometry chunk
         STreeGeometry *pFrondGeometry = K2_NEW(ctx_Models,  STreeGeometry);
-        if (pFrondGeometry == NULL)
+        if (pFrondGeometry == nullptr)
             EX_WARN(_T("CTreeModel::LoadFrondGeometry() - Failed to allocate geometry chunk"));
 
         // Store misc data
@@ -242,7 +242,7 @@ void    CTreeModel::LoadFrondGeometry()
         // Allocate memory for verts
         pFrondGeometry->usNumVerts = fronds.m_usVertexCount;
         pFrondGeometry->pfVerts = K2_NEW_ARRAY(ctx_Models, float, sizeof(SFrondVert)*pFrondGeometry->usNumVerts);
-        if (pFrondGeometry->pfVerts == NULL)
+        if (pFrondGeometry->pfVerts == nullptr)
             EX_WARN(_T("CTreeModel::LoadFrondGeometry() - Failed to allocate memory for verts"));
 
         // Store interlaced vertex data
@@ -258,10 +258,10 @@ void    CTreeModel::LoadFrondGeometry()
         // Allocate memory for index lists
         pFrondGeometry->usNumLists = fronds.m_usNumStrips;
         pFrondGeometry->pusNumIndices = K2_NEW(ctx_Models,  unsigned)short[pFrondGeometry->usNumLists];
-        if (pFrondGeometry->pusNumIndices == NULL)
+        if (pFrondGeometry->pusNumIndices == nullptr)
             EX_WARN(_T("CTreeModel::LoadFrondGeometry() - Failed to allocate memory for index list lengths"));
         pFrondGeometry->ppwIndices = K2_NEW_ARRAY(ctx_Models, word*, pFrondGeometry->usNumLists);
-        if (pFrondGeometry->ppwIndices == NULL)
+        if (pFrondGeometry->ppwIndices == nullptr)
             EX_WARN(_T("CTreeModel::LoadFrondGeometry() - Failed to allocate memory for index lists"));
 
         // Create and fill index lists
@@ -269,7 +269,7 @@ void    CTreeModel::LoadFrondGeometry()
         {
             pFrondGeometry->pusNumIndices[usLists] = fronds.m_pStripLengths[usLists];
             pFrondGeometry->ppwIndices[usLists] = K2_NEW_ARRAY(ctx_Models, word, pFrondGeometry->pusNumIndices[usLists]);
-            if (pFrondGeometry->ppwIndices == NULL)
+            if (pFrondGeometry->ppwIndices == nullptr)
                 throw _TS("CTreeModel::LoadFrondGeometry() - Failed to allocate memory for index list");
 
             for (size_t z(0); z < pFrondGeometry->pusNumIndices[usLists]; ++z)
@@ -299,13 +299,13 @@ void    CTreeModel::LoadLeafGeometry()
 
         // Allocate geometry chunk
         STreeGeometry *pLeafGeometry = K2_NEW(ctx_Models,  STreeGeometry);
-        if (pLeafGeometry == NULL)
+        if (pLeafGeometry == nullptr)
             EX_WARN(_T("CTreeModel::LoadLeafGeometry() - Failed to allocate geometry chunk"));
 
         // Allocate memory for verts
         pLeafGeometry->usNumVerts = leaves.m_usLeafCount * 4;
         pLeafGeometry->pfVerts = K2_NEW_ARRAY(ctx_Models, float, sizeof(SLeafVert)*pLeafGeometry->usNumVerts);
-        if (pLeafGeometry->pfVerts == NULL)
+        if (pLeafGeometry->pfVerts == nullptr)
             EX_WARN(_T("CTreeModel::LoadLeafGeometry() - Failed to allocate memory for verts"));
 
         // Store interlaced vertex data
@@ -326,10 +326,10 @@ void    CTreeModel::LoadLeafGeometry()
         // Allocate memory for index lists
         pLeafGeometry->usNumLists = 1;
         pLeafGeometry->pusNumIndices = K2_NEW(ctx_Models,  unsigned)short[pLeafGeometry->usNumLists];
-        if (pLeafGeometry->pusNumIndices == NULL)
+        if (pLeafGeometry->pusNumIndices == nullptr)
             EX_WARN(_T("CTreeModel::LoadLeafGeometry() - Failed to allocate memory for index list lengths"));
         pLeafGeometry->ppwIndices = K2_NEW_ARRAY(ctx_Models,  word*, pLeafGeometry->usNumLists);
-        if (pLeafGeometry->ppwIndices == NULL)
+        if (pLeafGeometry->ppwIndices == nullptr)
             EX_WARN(_T("CTreeModel::LoadLeafGeometry() - Failed to allocate memory for index lists"));
 
         // Create and fill index lists
@@ -337,7 +337,7 @@ void    CTreeModel::LoadLeafGeometry()
         {
             pLeafGeometry->pusNumIndices[usLists] = leaves.m_usLeafCount * 6;
             pLeafGeometry->ppwIndices[usLists] = K2_NEW_ARRAY(ctx_Models, word, pLeafGeometry->pusNumIndices[usLists]);
-            if (pLeafGeometry->ppwIndices == NULL)
+            if (pLeafGeometry->ppwIndices == nullptr)
                 EX_WARN(_T("CTreeModel::LoadLeafGeometry() - Failed to allocate memory for index list"));
 
             word pzOffsets[6] = { 0, 3, 2, 2, 1, 0 };
@@ -534,7 +534,7 @@ void    CTreeModel::SetSeed(uint uiSeed)
     CSpeedTreeRT *pClone(m_pSpeedTree->Clone());
     K2_DELETE(m_pSpeedTree);
     m_pSpeedTree = pClone;
-    m_pSpeedTree->Compute(NULL, uiSeed);
+    m_pSpeedTree->Compute(nullptr, uiSeed);
     LoadBranchGeometry();
     LoadFrondGeometry();
     LoadLeafGeometry();

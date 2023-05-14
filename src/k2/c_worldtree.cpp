@@ -51,8 +51,8 @@ CWorldTreeNode::~CWorldTreeNode()
   CWorldTreeNode::CWorldTreeNode
   ====================*/
 CWorldTreeNode::CWorldTreeNode() :
-m_pChildLeft(NULL),
-m_pParent(NULL),
+m_pChildLeft(nullptr),
+m_pParent(nullptr),
 m_hLinkedBoundsStatic(INVALID_POOL_HANDLE),
 m_hLinkedSurfacesStatic(INVALID_POOL_HANDLE),
 m_hLinkedModelsStatic(INVALID_POOL_HANDLE),
@@ -144,7 +144,7 @@ PoolOffset  CWorldTreeNode::LinkRender(PoolHandle hWorldEntHandle)
 
 
 #define UNLINK(head, type) \
-    if (pPrev == NULL) \
+    if (pPrev == nullptr) \
     { \
         if (pRemoved->GetOffset##type()) \
             m_hLinked##head += pRemoved->GetOffset##type(); \
@@ -255,7 +255,7 @@ void    CWorldTreeNode::UpdateBounds(const CWorld &cWorld, bool bRecurse)
     float fOldMax(v3Max.z);
 
     // Static bounds
-    CWorldEntity *pBoundsEntStatic(VALID_PH(m_hLinkedBoundsStatic) ? cWorld.GetEntityByHandle(m_hLinkedBoundsStatic) : NULL);
+    CWorldEntity *pBoundsEntStatic(VALID_PH(m_hLinkedBoundsStatic) ? cWorld.GetEntityByHandle(m_hLinkedBoundsStatic) : nullptr);
     while (pBoundsEntStatic)
     {
         const CBBoxf &bbBounds(pBoundsEntStatic->GetWorldBounds());
@@ -267,7 +267,7 @@ void    CWorldTreeNode::UpdateBounds(const CWorld &cWorld, bool bRecurse)
     }
 
     // Static surfaces
-    CWorldEntity *pSurfaceEntStatic(VALID_PH(m_hLinkedSurfacesStatic) ? cWorld.GetEntityByHandle(m_hLinkedSurfacesStatic) : NULL);
+    CWorldEntity *pSurfaceEntStatic(VALID_PH(m_hLinkedSurfacesStatic) ? cWorld.GetEntityByHandle(m_hLinkedSurfacesStatic) : nullptr);
     while (pSurfaceEntStatic)
     {
         const CBBoxf &bbBounds(pSurfaceEntStatic->GetSurfaceBounds());
@@ -279,7 +279,7 @@ void    CWorldTreeNode::UpdateBounds(const CWorld &cWorld, bool bRecurse)
     }
 
     // Static models
-    CWorldEntity *pModelEntStatic(VALID_PH(m_hLinkedModelsStatic) ? cWorld.GetEntityByHandle(m_hLinkedModelsStatic) : NULL);
+    CWorldEntity *pModelEntStatic(VALID_PH(m_hLinkedModelsStatic) ? cWorld.GetEntityByHandle(m_hLinkedModelsStatic) : nullptr);
     while (pModelEntStatic)
     {
         const CBBoxf &bbBounds(pModelEntStatic->GetModelBounds());
@@ -291,7 +291,7 @@ void    CWorldTreeNode::UpdateBounds(const CWorld &cWorld, bool bRecurse)
     }
 
     // Dynamic bounds
-    CWorldEntity *pBoundsEntDynamic(VALID_PH(m_hLinkedBoundsDynamic) ? cWorld.GetEntityByHandle(m_hLinkedBoundsDynamic) : NULL);
+    CWorldEntity *pBoundsEntDynamic(VALID_PH(m_hLinkedBoundsDynamic) ? cWorld.GetEntityByHandle(m_hLinkedBoundsDynamic) : nullptr);
     while (pBoundsEntDynamic)
     {
         const CBBoxf &bbBounds(pBoundsEntDynamic->GetWorldBounds());
@@ -303,7 +303,7 @@ void    CWorldTreeNode::UpdateBounds(const CWorld &cWorld, bool bRecurse)
     }
 
     // Dynamic surfaces
-    CWorldEntity *pSurfaceEntDynamic(VALID_PH(m_hLinkedSurfacesDynamic) ? cWorld.GetEntityByHandle(m_hLinkedSurfacesDynamic) : NULL);
+    CWorldEntity *pSurfaceEntDynamic(VALID_PH(m_hLinkedSurfacesDynamic) ? cWorld.GetEntityByHandle(m_hLinkedSurfacesDynamic) : nullptr);
     while (pSurfaceEntDynamic)
     {
         const CBBoxf &bbBounds(pSurfaceEntDynamic->GetSurfaceBounds());
@@ -315,7 +315,7 @@ void    CWorldTreeNode::UpdateBounds(const CWorld &cWorld, bool bRecurse)
     }
 
     // Dynamic models
-    CWorldEntity *pModelEntDynamic(VALID_PH(m_hLinkedModelsDynamic) ? cWorld.GetEntityByHandle(m_hLinkedModelsDynamic) : NULL);
+    CWorldEntity *pModelEntDynamic(VALID_PH(m_hLinkedModelsDynamic) ? cWorld.GetEntityByHandle(m_hLinkedModelsDynamic) : nullptr);
     while (pModelEntDynamic)
     {
         const CBBoxf &bbBounds(pModelEntDynamic->GetModelBounds());
@@ -327,7 +327,7 @@ void    CWorldTreeNode::UpdateBounds(const CWorld &cWorld, bool bRecurse)
     }
 
     // Renders
-    CWorldEntity *pRenderEnt(VALID_PH(m_hLinkedRenders) ? cWorld.GetEntityByHandle(m_hLinkedRenders) : NULL);
+    CWorldEntity *pRenderEnt(VALID_PH(m_hLinkedRenders) ? cWorld.GetEntityByHandle(m_hLinkedRenders) : nullptr);
     while (pRenderEnt)
     {
         const CBBoxf &bbBounds(pRenderEnt->GetRenderBounds());
@@ -363,14 +363,14 @@ triIntersections(0),
 maxSurfsInNode(0),
 nodesPassed(0)
 {
-    m_Stack.pNodes = NULL;
-    m_Stack2.pNodes = NULL;
-    m_pNodeBuffer = NULL;
-    m_pEntityLinkLimit = NULL;
+    m_Stack.pNodes = nullptr;
+    m_Stack2.pNodes = nullptr;
+    m_pNodeBuffer = nullptr;
+    m_pEntityLinkLimit = nullptr;
 
-    m_pHeightMap = NULL;
-    m_pSplitMap = NULL;
-    m_pBlockerMap = NULL;
+    m_pHeightMap = nullptr;
+    m_pSplitMap = nullptr;
+    m_pBlockerMap = nullptr;
 }
 
 
@@ -397,7 +397,7 @@ void    CWorldTree::Release()
 
     m_vWorldTree.clear();
     m_bInitialized = false;
-    m_pWorld = NULL;
+    m_pWorld = nullptr;
 }
 
 
@@ -428,7 +428,7 @@ void    CWorldTree::PushNode(CWorldTreeNode *node)
 CWorldTreeNode*     CWorldTree::PopNode()
 {
     if (m_Stack.uiPos == 0)
-        return NULL;
+        return nullptr;
 
     return m_Stack.pNodes[--m_Stack.uiPos];
 }
@@ -467,7 +467,7 @@ void    CWorldTree::PushNode2(CWorldTreeNode *pWorldTreeNode, float fEnter, floa
 SNodeStack2Node*    CWorldTree::PopNode2()
 {
     if (m_Stack2.uiPos == 0)
-        return NULL;
+        return nullptr;
 
     return &m_Stack2.pNodes[--m_Stack2.uiPos];
 }
@@ -702,15 +702,15 @@ bool    CWorldTree::Generate(const CWorld *pWorld)
 {
     PROFILE("CWorldTree::Generate");
 
-    float   *pfNodeSizes(NULL);
-    int     *piNodeSizes(NULL);
+    float   *pfNodeSizes(nullptr);
+    int     *piNodeSizes(nullptr);
 
     try
     {
         Release();
 
         m_pWorld = pWorld;
-        if (m_pWorld == NULL)
+        if (m_pWorld == nullptr)
             EX_ERROR(_T("Invalid CWorld pointer"));
 
         m_pHeightMap = m_pWorld->GetHeightMap();
@@ -734,12 +734,12 @@ bool    CWorldTree::Generate(const CWorld *pWorld)
         // Allocate space for the new tree
         m_Stack.uiSize = 2 * iTreeLevels - 1;
         m_Stack.pNodes = K2_NEW_ARRAY(ctx_World, CWorldTreeNode*, m_Stack.uiSize);
-        if (m_Stack.pNodes == NULL)
+        if (m_Stack.pNodes == nullptr)
             EX_ERROR(_T("Failed allocation"));
 
         m_Stack2.uiSize = 2 * iTreeLevels - 1;
         m_Stack2.pNodes = K2_NEW_ARRAY(ctx_World, SNodeStack2Node, m_Stack2.uiSize);
-        if (m_Stack2.pNodes == NULL)
+        if (m_Stack2.pNodes == nullptr)
             EX_ERROR(_T("Failed allocation"));
 
         uint uiNumNodes(M_Power(2, iTreeLevels) - 1);
@@ -764,7 +764,7 @@ bool    CWorldTree::Generate(const CWorld *pWorld)
         // any node at any level very easy
 
         CWorldTreeNode &cNode(m_pNodeBuffer[0]);
-        cNode.SetParent(NULL);
+        cNode.SetParent(nullptr);
         cNode.SetBounds(CBBoxf(CVec3f(0.0f, 0.0f, 0.0f), CVec3f(m_pWorld->GetWorldWidth(), m_pWorld->GetWorldHeight(), 0.0f)));
         cNode.SetGridMin(CVec2s(0, 0));
         cNode.SetGridMax(CVec2s(m_pWorld->GetTileWidth(), m_pWorld->GetTileHeight()));
@@ -827,7 +827,7 @@ bool    CWorldTree::Generate(const CWorld *pWorld)
             }
             else
             {
-                cNode.SetChildLeft(NULL);
+                cNode.SetChildLeft(nullptr);
 
                 cNode.SetSplitType(NO_SPLIT);
                 cNode.SetSplitPos(0.0f);
@@ -840,10 +840,10 @@ bool    CWorldTree::Generate(const CWorld *pWorld)
     }
     catch (CException &ex)
     {
-        if (pfNodeSizes != NULL)
+        if (pfNodeSizes != nullptr)
             K2_DELETE_ARRAY(pfNodeSizes);
 
-        if (piNodeSizes != NULL)
+        if (piNodeSizes != nullptr)
             K2_DELETE_ARRAY(piNodeSizes);
 
         m_bInitialized = false;
@@ -962,7 +962,7 @@ bool    CWorldTree::IntersectLineWithModel(CWorldEntity *pEnt)
     {
         // Get the model
         CModel *pModel(g_ResourceManager.GetModel(pEnt->GetModelHandle()));
-        if (pModel == NULL)
+        if (pModel == nullptr)
             return false;
 
         switch (pModel->GetModelFile()->GetType())
@@ -991,7 +991,7 @@ bool    CWorldTree::IntersectLineWithK2Model(CK2Model *pK2Model, const CAxis &ax
 {
     try
     {
-        if (pK2Model == NULL)
+        if (pK2Model == nullptr)
             EX_ERROR(_T("Failed to retrieve model data"));
 
         // Translate the line into model space
@@ -1001,7 +1001,7 @@ bool    CWorldTree::IntersectLineWithK2Model(CK2Model *pK2Model, const CAxis &ax
         // Test intersection with all meshes
         float fFrac(tv.fFraction);
         int iFaceHit(-1);
-        CMesh *pMeshHit(NULL);
+        CMesh *pMeshHit(nullptr);
 
         if (pK2Model->GetNumTriSurfs() > 0)
         {
@@ -1068,7 +1068,7 @@ bool    CWorldTree::IntersectLineWithK2Model(CK2Model *pK2Model, const CAxis &ax
             }
         }
 
-        if (pMeshHit != NULL)
+        if (pMeshHit != nullptr)
         {
             CPlane contactPlane;
 
@@ -1116,7 +1116,7 @@ bool    CWorldTree::IntersectLineWithTreeModel(CTreeModel *pTreeModel, const CAx
 {
     try
     {
-        if (pTreeModel == NULL)
+        if (pTreeModel == nullptr)
             EX_ERROR(_T("Failed to retrieve model data"));
 
         // Translate the line into model space
@@ -1218,7 +1218,7 @@ bool    CWorldTree::IntersectLineWithWorld()
 
         CVec3f v3Delta(tv.v3End - tv.v3Start);
 
-        for (SNodeStack2Node *pNode(PopNode2()); pNode != NULL; pNode = PopNode2())
+        for (SNodeStack2Node *pNode(PopNode2()); pNode != nullptr; pNode = PopNode2())
         {
             ++nodesChecked;
             CWorldTreeNode *pWorldTreeNode(pNode->pWorldTreeNode);
@@ -1301,7 +1301,7 @@ bool    CWorldTree::IntersectLineWithWorld()
                     if (tv.uiTestSurface & SURF_BOUNDS)
                     {
                         PoolHandle hHeadOfBounds(pWorldTreeNode->GetHeadOfLinkedBoundsStatic());
-                        CWorldEntity *pBoundsEnt(VALID_PH(hHeadOfBounds) ? m_pWorld->GetEntityByHandle(hHeadOfBounds) : NULL);
+                        CWorldEntity *pBoundsEnt(VALID_PH(hHeadOfBounds) ? m_pWorld->GetEntityByHandle(hHeadOfBounds) : nullptr);
 
                         for(; pBoundsEnt; pBoundsEnt = pBoundsEnt->GetNextBounds())
                         {
@@ -1329,7 +1329,7 @@ bool    CWorldTree::IntersectLineWithWorld()
                     if (tv.uiTestSurface & SURF_HULL || tv.uiTestSurface & SURF_SHIELD)
                     {
                         PoolHandle hHeadOfSurfaces(pWorldTreeNode->GetHeadOfLinkedSurfacesStatic());
-                        CWorldEntity *pSurfaceEnt(VALID_PH(hHeadOfSurfaces) ? m_pWorld->GetEntityByHandle(hHeadOfSurfaces) : NULL);
+                        CWorldEntity *pSurfaceEnt(VALID_PH(hHeadOfSurfaces) ? m_pWorld->GetEntityByHandle(hHeadOfSurfaces) : nullptr);
 
                         for(; pSurfaceEnt; pSurfaceEnt = pSurfaceEnt->GetNextSurface())
                         {
@@ -1367,7 +1367,7 @@ bool    CWorldTree::IntersectLineWithWorld()
                     if (tv.uiTestSurface & SURF_MODEL)
                     {
                         PoolHandle hHeadOfModels(pWorldTreeNode->GetHeadOfLinkedModelsStatic());
-                        CWorldEntity *pModelEnt(VALID_PH(hHeadOfModels) ? m_pWorld->GetEntityByHandle(hHeadOfModels) : NULL);
+                        CWorldEntity *pModelEnt(VALID_PH(hHeadOfModels) ? m_pWorld->GetEntityByHandle(hHeadOfModels) : nullptr);
 
                         for(; pModelEnt; pModelEnt = pModelEnt->GetNextModel())
                         {
@@ -1402,7 +1402,7 @@ bool    CWorldTree::IntersectLineWithWorld()
                     if (tv.uiTestSurface & SURF_BOUNDS)
                     {
                         PoolHandle hHeadOfBounds(pWorldTreeNode->GetHeadOfLinkedBoundsDynamic());
-                        CWorldEntity *pBoundsEnt(VALID_PH(hHeadOfBounds) ? m_pWorld->GetEntityByHandle(hHeadOfBounds) : NULL);
+                        CWorldEntity *pBoundsEnt(VALID_PH(hHeadOfBounds) ? m_pWorld->GetEntityByHandle(hHeadOfBounds) : nullptr);
 
                         for(; pBoundsEnt; pBoundsEnt = pBoundsEnt->GetNextBounds())
                         {
@@ -1430,7 +1430,7 @@ bool    CWorldTree::IntersectLineWithWorld()
                     if (tv.uiTestSurface & SURF_HULL || tv.uiTestSurface & SURF_SHIELD)
                     {
                         PoolHandle hHeadOfSurfaces(pWorldTreeNode->GetHeadOfLinkedSurfacesDynamic());
-                        CWorldEntity *pSurfaceEnt(VALID_PH(hHeadOfSurfaces) ? m_pWorld->GetEntityByHandle(hHeadOfSurfaces) : NULL);
+                        CWorldEntity *pSurfaceEnt(VALID_PH(hHeadOfSurfaces) ? m_pWorld->GetEntityByHandle(hHeadOfSurfaces) : nullptr);
 
                         for(; pSurfaceEnt; pSurfaceEnt = pSurfaceEnt->GetNextSurface())
                         {
@@ -1468,7 +1468,7 @@ bool    CWorldTree::IntersectLineWithWorld()
                     if (tv.uiTestSurface & SURF_MODEL)
                     {
                         PoolHandle hHeadOfModels(pWorldTreeNode->GetHeadOfLinkedModelsDynamic());
-                        CWorldEntity *pModelEnt(VALID_PH(hHeadOfModels) ? m_pWorld->GetEntityByHandle(hHeadOfModels) : NULL);
+                        CWorldEntity *pModelEnt(VALID_PH(hHeadOfModels) ? m_pWorld->GetEntityByHandle(hHeadOfModels) : nullptr);
 
                         for(; pModelEnt; pModelEnt = pModelEnt->GetNextModel())
                         {
@@ -1962,7 +1962,7 @@ bool    CWorldTree::IntersectMovingBoundsWithWorld()
         ClearStack();
         PushNode(m_vWorldTree[0]);
 
-        for (CWorldTreeNode *pNode(PopNode()); pNode != NULL; pNode = PopNode())
+        for (CWorldTreeNode *pNode(PopNode()); pNode != nullptr; pNode = PopNode())
         {
             float fFraction(tv.fFraction);
             ++nodesChecked;
@@ -1993,7 +1993,7 @@ bool    CWorldTree::IntersectMovingBoundsWithWorld()
                     if (tv.uiTestSurface & SURF_BOUNDS)
                     {
                         PoolHandle hHeadOfBounds(pNode->GetHeadOfLinkedBoundsStatic());
-                        CWorldEntity *pBoundsEnt(VALID_PH(hHeadOfBounds) ? m_pWorld->GetEntityByHandle(hHeadOfBounds) : NULL);
+                        CWorldEntity *pBoundsEnt(VALID_PH(hHeadOfBounds) ? m_pWorld->GetEntityByHandle(hHeadOfBounds) : nullptr);
                         for(; pBoundsEnt; pBoundsEnt = pBoundsEnt->GetNextBounds())
                         {
                             if (tv.uiIgnoreSurface & pBoundsEnt->GetSurfFlags())
@@ -2023,7 +2023,7 @@ bool    CWorldTree::IntersectMovingBoundsWithWorld()
                     if (tv.uiTestSurface & SURF_HULL || tv.uiTestSurface & SURF_SHIELD)
                     {
                         PoolHandle hHeadOfSurfaces(pNode->GetHeadOfLinkedSurfacesStatic());
-                        CWorldEntity *pSurfaceEnt(VALID_PH(hHeadOfSurfaces) ? m_pWorld->GetEntityByHandle(hHeadOfSurfaces) : NULL);
+                        CWorldEntity *pSurfaceEnt(VALID_PH(hHeadOfSurfaces) ? m_pWorld->GetEntityByHandle(hHeadOfSurfaces) : nullptr);
 
                         for(; pSurfaceEnt; pSurfaceEnt = pSurfaceEnt->GetNextSurface())
                         {
@@ -2070,7 +2070,7 @@ bool    CWorldTree::IntersectMovingBoundsWithWorld()
                     if (tv.uiTestSurface & SURF_BOUNDS)
                     {
                         PoolHandle hHeadOfBounds(pNode->GetHeadOfLinkedBoundsDynamic());
-                        CWorldEntity *pBoundsEnt(VALID_PH(hHeadOfBounds) ? m_pWorld->GetEntityByHandle(hHeadOfBounds) : NULL);
+                        CWorldEntity *pBoundsEnt(VALID_PH(hHeadOfBounds) ? m_pWorld->GetEntityByHandle(hHeadOfBounds) : nullptr);
                         for(; pBoundsEnt; pBoundsEnt = pBoundsEnt->GetNextBounds())
                         {
                             if (tv.uiIgnoreSurface & pBoundsEnt->GetSurfFlags())
@@ -2100,7 +2100,7 @@ bool    CWorldTree::IntersectMovingBoundsWithWorld()
                     if (tv.uiTestSurface & SURF_HULL || tv.uiTestSurface & SURF_SHIELD)
                     {
                         PoolHandle hHeadOfSurfaces(pNode->GetHeadOfLinkedSurfacesDynamic());
-                        CWorldEntity *pSurfaceEnt(VALID_PH(hHeadOfSurfaces) ? m_pWorld->GetEntityByHandle(hHeadOfSurfaces) : NULL);
+                        CWorldEntity *pSurfaceEnt(VALID_PH(hHeadOfSurfaces) ? m_pWorld->GetEntityByHandle(hHeadOfSurfaces) : nullptr);
 
                         for(; pSurfaceEnt; pSurfaceEnt = pSurfaceEnt->GetNextSurface())
                         {
@@ -2555,7 +2555,7 @@ bool    CWorldTree::IntersectMovingBoundsWithWorld()
                     if (tv.uiTestSurface & SURF_BOUNDS)
                     {
                         PoolHandle hHeadOfBounds(pWorldTreeNode->GetHeadOfLinkedBoundsStatic());
-                        CWorldEntity *pBoundsEnt(VALID_PH(hHeadOfBounds) ? m_pWorld->GetEntityByHandle(hHeadOfBounds) : NULL);
+                        CWorldEntity *pBoundsEnt(VALID_PH(hHeadOfBounds) ? m_pWorld->GetEntityByHandle(hHeadOfBounds) : nullptr);
                         for(; pBoundsEnt; pBoundsEnt = pBoundsEnt->GetNextBounds())
                         {
                             if (tv.uiIgnoreSurface & pBoundsEnt->GetSurfFlags())
@@ -2585,7 +2585,7 @@ bool    CWorldTree::IntersectMovingBoundsWithWorld()
                     if (tv.uiTestSurface & SURF_HULL || tv.uiTestSurface & SURF_SHIELD)
                     {
                         PoolHandle hHeadOfSurfaces(pWorldTreeNode->GetHeadOfLinkedSurfacesStatic());
-                        CWorldEntity *pSurfaceEnt(VALID_PH(hHeadOfSurfaces) ? m_pWorld->GetEntityByHandle(hHeadOfSurfaces) : NULL);
+                        CWorldEntity *pSurfaceEnt(VALID_PH(hHeadOfSurfaces) ? m_pWorld->GetEntityByHandle(hHeadOfSurfaces) : nullptr);
 
                         for(; pSurfaceEnt; pSurfaceEnt = pSurfaceEnt->GetNextSurface())
                         {
@@ -2632,7 +2632,7 @@ bool    CWorldTree::IntersectMovingBoundsWithWorld()
                     if (tv.uiTestSurface & SURF_BOUNDS)
                     {
                         PoolHandle hHeadOfBounds(pWorldTreeNode->GetHeadOfLinkedBoundsDynamic());
-                        CWorldEntity *pBoundsEnt(VALID_PH(hHeadOfBounds) ? m_pWorld->GetEntityByHandle(hHeadOfBounds) : NULL);
+                        CWorldEntity *pBoundsEnt(VALID_PH(hHeadOfBounds) ? m_pWorld->GetEntityByHandle(hHeadOfBounds) : nullptr);
                         for(; pBoundsEnt; pBoundsEnt = pBoundsEnt->GetNextBounds())
                         {
                             if (tv.uiIgnoreSurface & pBoundsEnt->GetSurfFlags())
@@ -2662,7 +2662,7 @@ bool    CWorldTree::IntersectMovingBoundsWithWorld()
                     if (tv.uiTestSurface & SURF_HULL || tv.uiTestSurface & SURF_SHIELD)
                     {
                         PoolHandle hHeadOfSurfaces(pWorldTreeNode->GetHeadOfLinkedSurfacesDynamic());
-                        CWorldEntity *pSurfaceEnt(VALID_PH(hHeadOfSurfaces) ? m_pWorld->GetEntityByHandle(hHeadOfSurfaces) : NULL);
+                        CWorldEntity *pSurfaceEnt(VALID_PH(hHeadOfSurfaces) ? m_pWorld->GetEntityByHandle(hHeadOfSurfaces) : nullptr);
 
                         for(; pSurfaceEnt; pSurfaceEnt = pSurfaceEnt->GetNextSurface())
                         {
@@ -3444,7 +3444,7 @@ void    CWorldTree::GetEntitiesInRegion(uivector &vResult, const CBBoxf &bbRegio
         else
             return;
         
-        for (CWorldTreeNode *pNode(PopNode()); pNode != NULL; pNode = PopNode())
+        for (CWorldTreeNode *pNode(PopNode()); pNode != nullptr; pNode = PopNode())
         {
             ++uiNodesTested;
 
@@ -3466,7 +3466,7 @@ void    CWorldTree::GetEntitiesInRegion(uivector &vResult, const CBBoxf &bbRegio
                 if (uiTestSurface & SURF_BOUNDS)
                 {
                     PoolHandle hHeadOfBounds(pNode->GetHeadOfLinkedBoundsStatic());
-                    CWorldEntity *pBoundsEnt(VALID_PH(hHeadOfBounds) ? m_pWorld->GetEntityByHandle(hHeadOfBounds) : NULL);
+                    CWorldEntity *pBoundsEnt(VALID_PH(hHeadOfBounds) ? m_pWorld->GetEntityByHandle(hHeadOfBounds) : nullptr);
 
                     for(; pBoundsEnt; pBoundsEnt = pBoundsEnt->GetNextBounds())
                     {
@@ -3489,7 +3489,7 @@ void    CWorldTree::GetEntitiesInRegion(uivector &vResult, const CBBoxf &bbRegio
                 {
                     
                     PoolHandle hHeadOfSurfaces(pNode->GetHeadOfLinkedSurfacesStatic());
-                    CWorldEntity *pSurfaceEnt(VALID_PH(hHeadOfSurfaces) ? m_pWorld->GetEntityByHandle(hHeadOfSurfaces) : NULL);
+                    CWorldEntity *pSurfaceEnt(VALID_PH(hHeadOfSurfaces) ? m_pWorld->GetEntityByHandle(hHeadOfSurfaces) : nullptr);
 
                     for(; pSurfaceEnt; pSurfaceEnt = pSurfaceEnt->GetNextSurface())
                     {
@@ -3540,7 +3540,7 @@ void    CWorldTree::GetEntitiesInRegion(uivector &vResult, const CBBoxf &bbRegio
                 if (uiTestSurface & SURF_MODEL)
                 {
                     PoolHandle hHeadOfModels(pNode->GetHeadOfLinkedModelsStatic());
-                    CWorldEntity *pModelEnt(VALID_PH(hHeadOfModels) ? m_pWorld->GetEntityByHandle(hHeadOfModels) : NULL);
+                    CWorldEntity *pModelEnt(VALID_PH(hHeadOfModels) ? m_pWorld->GetEntityByHandle(hHeadOfModels) : nullptr);
 
                     for(; pModelEnt; pModelEnt = pModelEnt->GetNextModel())
                     {
@@ -3566,7 +3566,7 @@ void    CWorldTree::GetEntitiesInRegion(uivector &vResult, const CBBoxf &bbRegio
                 if (uiTestSurface & SURF_BOUNDS)
                 {
                     PoolHandle hHeadOfBounds(pNode->GetHeadOfLinkedBoundsDynamic());
-                    CWorldEntity *pBoundsEnt(VALID_PH(hHeadOfBounds) ? m_pWorld->GetEntityByHandle(hHeadOfBounds) : NULL);
+                    CWorldEntity *pBoundsEnt(VALID_PH(hHeadOfBounds) ? m_pWorld->GetEntityByHandle(hHeadOfBounds) : nullptr);
 
                     for(; pBoundsEnt; pBoundsEnt = pBoundsEnt->GetNextBounds())
                     {
@@ -3589,7 +3589,7 @@ void    CWorldTree::GetEntitiesInRegion(uivector &vResult, const CBBoxf &bbRegio
                 {
                     
                     PoolHandle hHeadOfSurfaces(pNode->GetHeadOfLinkedSurfacesDynamic());
-                    CWorldEntity *pSurfaceEnt(VALID_PH(hHeadOfSurfaces) ? m_pWorld->GetEntityByHandle(hHeadOfSurfaces) : NULL);
+                    CWorldEntity *pSurfaceEnt(VALID_PH(hHeadOfSurfaces) ? m_pWorld->GetEntityByHandle(hHeadOfSurfaces) : nullptr);
 
                     for(; pSurfaceEnt; pSurfaceEnt = pSurfaceEnt->GetNextSurface())
                     {
@@ -3640,7 +3640,7 @@ void    CWorldTree::GetEntitiesInRegion(uivector &vResult, const CBBoxf &bbRegio
                 if (uiTestSurface & SURF_MODEL)
                 {
                     PoolHandle hHeadOfModels(pNode->GetHeadOfLinkedModelsDynamic());
-                    CWorldEntity *pModelEnt(VALID_PH(hHeadOfModels) ? m_pWorld->GetEntityByHandle(hHeadOfModels) : NULL);
+                    CWorldEntity *pModelEnt(VALID_PH(hHeadOfModels) ? m_pWorld->GetEntityByHandle(hHeadOfModels) : nullptr);
 
                     for(; pModelEnt; pModelEnt = pModelEnt->GetNextModel())
                     {
@@ -3664,7 +3664,7 @@ void    CWorldTree::GetEntitiesInRegion(uivector &vResult, const CBBoxf &bbRegio
             if (uiTestSurface & SURF_RENDER)
             {
                 PoolHandle hHeadOfRenders(pNode->GetHeadOfLinkedRenders());
-                CWorldEntity *pRenderEnt(VALID_PH(hHeadOfRenders) ? m_pWorld->GetEntityByHandle(hHeadOfRenders) : NULL);
+                CWorldEntity *pRenderEnt(VALID_PH(hHeadOfRenders) ? m_pWorld->GetEntityByHandle(hHeadOfRenders) : nullptr);
 
                 for(; pRenderEnt; pRenderEnt = pRenderEnt->GetNextRender())
                 {
@@ -3770,7 +3770,7 @@ void    CWorldTree::GetEntityHandlesInRegion(WorldEntVector &vResult, const CBBo
         else
             return;
         
-        for (CWorldTreeNode *pNode(PopNode()); pNode != NULL; pNode = PopNode())
+        for (CWorldTreeNode *pNode(PopNode()); pNode != nullptr; pNode = PopNode())
         {
             ++uiNodesTested;
 
@@ -3790,7 +3790,7 @@ void    CWorldTree::GetEntityHandlesInRegion(WorldEntVector &vResult, const CBBo
             if (uiTestSurface & SURF_RENDER)
             {
                 PoolHandle hHeadOfRenders(pNode->GetHeadOfLinkedRenders());
-                CWorldEntity *pRenderEnt(VALID_PH(hHeadOfRenders) ? m_pWorld->GetEntityByHandle(hHeadOfRenders) : NULL);
+                CWorldEntity *pRenderEnt(VALID_PH(hHeadOfRenders) ? m_pWorld->GetEntityByHandle(hHeadOfRenders) : nullptr);
 
                 for(; pRenderEnt; pRenderEnt = pRenderEnt->GetNextRender())
                 {
@@ -3896,7 +3896,7 @@ void    CWorldTree::GetEntitiesInRadius(uivector &vResult, const CSphere &radius
         else
             return;
 
-        for (CWorldTreeNode *pNode(PopNode()); pNode != NULL; pNode = PopNode())
+        for (CWorldTreeNode *pNode(PopNode()); pNode != nullptr; pNode = PopNode())
         {
             // See if the bounds intersect this node
             ++uiNodesTested;
@@ -3919,7 +3919,7 @@ void    CWorldTree::GetEntitiesInRadius(uivector &vResult, const CSphere &radius
                 if (uiTestSurface & SURF_BOUNDS)
                 {
                     PoolHandle hHeadOfBounds(pNode->GetHeadOfLinkedBoundsStatic());
-                    CWorldEntity *pBoundsEnt(VALID_PH(hHeadOfBounds)?m_pWorld->GetEntityByHandle(hHeadOfBounds):NULL);
+                    CWorldEntity *pBoundsEnt(VALID_PH(hHeadOfBounds)?m_pWorld->GetEntityByHandle(hHeadOfBounds):nullptr);
 
                     for(; pBoundsEnt; pBoundsEnt = pBoundsEnt->GetNextBounds())
                     {
@@ -3939,7 +3939,7 @@ void    CWorldTree::GetEntitiesInRadius(uivector &vResult, const CSphere &radius
                 if (uiTestSurface & SURF_HULL || uiTestSurface & SURF_SHIELD)
                 {
                     PoolHandle hHeadOfSurfaces(pNode->GetHeadOfLinkedSurfacesStatic());
-                    CWorldEntity *pSurfaceEnt(VALID_PH(hHeadOfSurfaces)?m_pWorld->GetEntityByHandle(hHeadOfSurfaces):NULL);
+                    CWorldEntity *pSurfaceEnt(VALID_PH(hHeadOfSurfaces)?m_pWorld->GetEntityByHandle(hHeadOfSurfaces):nullptr);
 
                     for(; pSurfaceEnt; pSurfaceEnt = pSurfaceEnt->GetNextSurface())
                     {
@@ -3966,7 +3966,7 @@ void    CWorldTree::GetEntitiesInRadius(uivector &vResult, const CSphere &radius
                 if (uiTestSurface & SURF_MODEL)
                 {
                     PoolHandle hHeadOfModels(pNode->GetHeadOfLinkedModelsStatic());
-                    CWorldEntity *pModelEnt(VALID_PH(hHeadOfModels)?m_pWorld->GetEntityByHandle(hHeadOfModels):NULL);
+                    CWorldEntity *pModelEnt(VALID_PH(hHeadOfModels)?m_pWorld->GetEntityByHandle(hHeadOfModels):nullptr);
 
                     for(; pModelEnt; pModelEnt = pModelEnt->GetNextModel())
                     {
@@ -3992,7 +3992,7 @@ void    CWorldTree::GetEntitiesInRadius(uivector &vResult, const CSphere &radius
                 if (uiTestSurface & SURF_BOUNDS)
                 {
                     PoolHandle hHeadOfBounds(pNode->GetHeadOfLinkedBoundsDynamic());
-                    CWorldEntity *pBoundsEnt(VALID_PH(hHeadOfBounds)?m_pWorld->GetEntityByHandle(hHeadOfBounds):NULL);
+                    CWorldEntity *pBoundsEnt(VALID_PH(hHeadOfBounds)?m_pWorld->GetEntityByHandle(hHeadOfBounds):nullptr);
 
                     for(; pBoundsEnt; pBoundsEnt = pBoundsEnt->GetNextBounds())
                     {
@@ -4012,7 +4012,7 @@ void    CWorldTree::GetEntitiesInRadius(uivector &vResult, const CSphere &radius
                 if (uiTestSurface & SURF_HULL || uiTestSurface & SURF_SHIELD)
                 {
                     PoolHandle hHeadOfSurfaces(pNode->GetHeadOfLinkedSurfacesDynamic());
-                    CWorldEntity *pSurfaceEnt(VALID_PH(hHeadOfSurfaces)?m_pWorld->GetEntityByHandle(hHeadOfSurfaces):NULL);
+                    CWorldEntity *pSurfaceEnt(VALID_PH(hHeadOfSurfaces)?m_pWorld->GetEntityByHandle(hHeadOfSurfaces):nullptr);
 
                     for(; pSurfaceEnt; pSurfaceEnt = pSurfaceEnt->GetNextSurface())
                     {
@@ -4039,7 +4039,7 @@ void    CWorldTree::GetEntitiesInRadius(uivector &vResult, const CSphere &radius
                 if (uiTestSurface & SURF_MODEL)
                 {
                     PoolHandle hHeadOfModels(pNode->GetHeadOfLinkedModelsDynamic());
-                    CWorldEntity *pModelEnt(VALID_PH(hHeadOfModels)?m_pWorld->GetEntityByHandle(hHeadOfModels):NULL);
+                    CWorldEntity *pModelEnt(VALID_PH(hHeadOfModels)?m_pWorld->GetEntityByHandle(hHeadOfModels):nullptr);
 
                     for(; pModelEnt; pModelEnt = pModelEnt->GetNextModel())
                     {
@@ -4146,7 +4146,7 @@ void    CWorldTree::GetEntitiesInRadius(uivector &vResult, const CVec2f &v2Cente
         else
             return;
 
-        for (CWorldTreeNode *pNode(PopNode()); pNode != NULL; pNode = PopNode())
+        for (CWorldTreeNode *pNode(PopNode()); pNode != nullptr; pNode = PopNode())
         {
             // See if the bounds intersect this node
             ++uiNodesProcessed;
@@ -4160,7 +4160,7 @@ void    CWorldTree::GetEntitiesInRadius(uivector &vResult, const CVec2f &v2Cente
                 if (uiTestSurface & SURF_BOUNDS)
                 {
                     PoolHandle hHeadOfBounds(pNode->GetHeadOfLinkedBoundsStatic());
-                    CWorldEntity *pBoundsEnt(VALID_PH(hHeadOfBounds) ? m_pWorld->GetEntityByHandle(hHeadOfBounds) : NULL);
+                    CWorldEntity *pBoundsEnt(VALID_PH(hHeadOfBounds) ? m_pWorld->GetEntityByHandle(hHeadOfBounds) : nullptr);
 
                     for(; pBoundsEnt; pBoundsEnt = pBoundsEnt->GetNextBounds())
                     {
@@ -4180,7 +4180,7 @@ void    CWorldTree::GetEntitiesInRadius(uivector &vResult, const CVec2f &v2Cente
                 if (uiTestSurface & SURF_HULL || uiTestSurface & SURF_SHIELD)
                 {
                     PoolHandle hHeadOfSurfaces(pNode->GetHeadOfLinkedSurfacesStatic());
-                    CWorldEntity *pSurfaceEnt(VALID_PH(hHeadOfSurfaces) ? m_pWorld->GetEntityByHandle(hHeadOfSurfaces) : NULL);
+                    CWorldEntity *pSurfaceEnt(VALID_PH(hHeadOfSurfaces) ? m_pWorld->GetEntityByHandle(hHeadOfSurfaces) : nullptr);
 
                     for(; pSurfaceEnt; pSurfaceEnt = pSurfaceEnt->GetNextSurface())
                     {
@@ -4207,7 +4207,7 @@ void    CWorldTree::GetEntitiesInRadius(uivector &vResult, const CVec2f &v2Cente
                 if (uiTestSurface & SURF_MODEL)
                 {
                     PoolHandle hHeadOfModels(pNode->GetHeadOfLinkedModelsStatic());
-                    CWorldEntity *pModelEnt(VALID_PH(hHeadOfModels)?m_pWorld->GetEntityByHandle(hHeadOfModels):NULL);
+                    CWorldEntity *pModelEnt(VALID_PH(hHeadOfModels)?m_pWorld->GetEntityByHandle(hHeadOfModels):nullptr);
 
                     for(; pModelEnt; pModelEnt = pModelEnt->GetNextModel())
                     {
@@ -4233,7 +4233,7 @@ void    CWorldTree::GetEntitiesInRadius(uivector &vResult, const CVec2f &v2Cente
                 if (uiTestSurface & SURF_BOUNDS)
                 {
                     PoolHandle hHeadOfBounds(pNode->GetHeadOfLinkedBoundsDynamic());
-                    CWorldEntity *pBoundsEnt(VALID_PH(hHeadOfBounds)?m_pWorld->GetEntityByHandle(hHeadOfBounds):NULL);
+                    CWorldEntity *pBoundsEnt(VALID_PH(hHeadOfBounds)?m_pWorld->GetEntityByHandle(hHeadOfBounds):nullptr);
 
                     for(; pBoundsEnt; pBoundsEnt = pBoundsEnt->GetNextBounds())
                     {
@@ -4253,7 +4253,7 @@ void    CWorldTree::GetEntitiesInRadius(uivector &vResult, const CVec2f &v2Cente
                 if (uiTestSurface & SURF_HULL || uiTestSurface & SURF_SHIELD)
                 {
                     PoolHandle hHeadOfSurfaces(pNode->GetHeadOfLinkedSurfacesDynamic());
-                    CWorldEntity *pSurfaceEnt(VALID_PH(hHeadOfSurfaces)?m_pWorld->GetEntityByHandle(hHeadOfSurfaces):NULL);
+                    CWorldEntity *pSurfaceEnt(VALID_PH(hHeadOfSurfaces)?m_pWorld->GetEntityByHandle(hHeadOfSurfaces):nullptr);
 
                     for(; pSurfaceEnt; pSurfaceEnt = pSurfaceEnt->GetNextSurface())
                     {
@@ -4280,7 +4280,7 @@ void    CWorldTree::GetEntitiesInRadius(uivector &vResult, const CVec2f &v2Cente
                 if (uiTestSurface & SURF_MODEL)
                 {
                     PoolHandle hHeadOfModels(pNode->GetHeadOfLinkedModelsDynamic());
-                    CWorldEntity *pModelEnt(VALID_PH(hHeadOfModels)?m_pWorld->GetEntityByHandle(hHeadOfModels):NULL);
+                    CWorldEntity *pModelEnt(VALID_PH(hHeadOfModels)?m_pWorld->GetEntityByHandle(hHeadOfModels):nullptr);
 
                     for(; pModelEnt; pModelEnt = pModelEnt->GetNextModel())
                     {
@@ -4388,7 +4388,7 @@ void    CWorldTree::GetEntitiesInSurface(vector<uint> &vResult, const CConvexPol
         else
             return;
 
-        for (CWorldTreeNode *pNode(PopNode()); pNode != NULL; pNode = PopNode())
+        for (CWorldTreeNode *pNode(PopNode()); pNode != nullptr; pNode = PopNode())
         {
             // See if the bounds intersect this node
             ++uiNodesTested;
@@ -4411,7 +4411,7 @@ void    CWorldTree::GetEntitiesInSurface(vector<uint> &vResult, const CConvexPol
                 if (uiTestSurface & SURF_BOUNDS)
                 {
                     PoolHandle hHeadOfBounds(pNode->GetHeadOfLinkedBoundsStatic());
-                    CWorldEntity *pBoundsEnt(VALID_PH(hHeadOfBounds) ? m_pWorld->GetEntityByHandle(hHeadOfBounds) : NULL);
+                    CWorldEntity *pBoundsEnt(VALID_PH(hHeadOfBounds) ? m_pWorld->GetEntityByHandle(hHeadOfBounds) : nullptr);
 
                     for(; pBoundsEnt; pBoundsEnt = pBoundsEnt->GetNextBounds())
                     {
@@ -4431,7 +4431,7 @@ void    CWorldTree::GetEntitiesInSurface(vector<uint> &vResult, const CConvexPol
                 if (uiTestSurface & SURF_HULL || uiTestSurface & SURF_SHIELD)
                 {
                     PoolHandle hHeadOfSurfaces(pNode->GetHeadOfLinkedSurfacesStatic());
-                    CWorldEntity *pSurfaceEnt(VALID_PH(hHeadOfSurfaces) ? m_pWorld->GetEntityByHandle(hHeadOfSurfaces) : NULL);
+                    CWorldEntity *pSurfaceEnt(VALID_PH(hHeadOfSurfaces) ? m_pWorld->GetEntityByHandle(hHeadOfSurfaces) : nullptr);
 
                     for(; pSurfaceEnt; pSurfaceEnt = pSurfaceEnt->GetNextSurface())
                     {
@@ -4469,7 +4469,7 @@ void    CWorldTree::GetEntitiesInSurface(vector<uint> &vResult, const CConvexPol
                 if (uiTestSurface & SURF_MODEL)
                 {
                     PoolHandle hHeadOfModels(pNode->GetHeadOfLinkedModelsStatic());
-                    CWorldEntity *pModelEnt(VALID_PH(hHeadOfModels) ? m_pWorld->GetEntityByHandle(hHeadOfModels) : NULL);
+                    CWorldEntity *pModelEnt(VALID_PH(hHeadOfModels) ? m_pWorld->GetEntityByHandle(hHeadOfModels) : nullptr);
 
                     for(; pModelEnt; pModelEnt = pModelEnt->GetNextModel())
                     {
@@ -4495,7 +4495,7 @@ void    CWorldTree::GetEntitiesInSurface(vector<uint> &vResult, const CConvexPol
                 if (uiTestSurface & SURF_BOUNDS)
                 {
                     PoolHandle hHeadOfBounds(pNode->GetHeadOfLinkedBoundsDynamic());
-                    CWorldEntity *pBoundsEnt(VALID_PH(hHeadOfBounds) ? m_pWorld->GetEntityByHandle(hHeadOfBounds) : NULL);
+                    CWorldEntity *pBoundsEnt(VALID_PH(hHeadOfBounds) ? m_pWorld->GetEntityByHandle(hHeadOfBounds) : nullptr);
 
                     for(; pBoundsEnt; pBoundsEnt = pBoundsEnt->GetNextBounds())
                     {
@@ -4515,7 +4515,7 @@ void    CWorldTree::GetEntitiesInSurface(vector<uint> &vResult, const CConvexPol
                 if (uiTestSurface & SURF_HULL || uiTestSurface & SURF_SHIELD)
                 {
                     PoolHandle hHeadOfSurfaces(pNode->GetHeadOfLinkedSurfacesDynamic());
-                    CWorldEntity *pSurfaceEnt(VALID_PH(hHeadOfSurfaces) ? m_pWorld->GetEntityByHandle(hHeadOfSurfaces) : NULL);
+                    CWorldEntity *pSurfaceEnt(VALID_PH(hHeadOfSurfaces) ? m_pWorld->GetEntityByHandle(hHeadOfSurfaces) : nullptr);
 
                     for(; pSurfaceEnt; pSurfaceEnt = pSurfaceEnt->GetNextSurface())
                     {
@@ -4553,7 +4553,7 @@ void    CWorldTree::GetEntitiesInSurface(vector<uint> &vResult, const CConvexPol
                 if (uiTestSurface & SURF_MODEL)
                 {
                     PoolHandle hHeadOfModels(pNode->GetHeadOfLinkedModelsDynamic());
-                    CWorldEntity *pModelEnt(VALID_PH(hHeadOfModels) ? m_pWorld->GetEntityByHandle(hHeadOfModels) : NULL);
+                    CWorldEntity *pModelEnt(VALID_PH(hHeadOfModels) ? m_pWorld->GetEntityByHandle(hHeadOfModels) : nullptr);
 
                     for(; pModelEnt; pModelEnt = pModelEnt->GetNextModel())
                     {
@@ -4630,18 +4630,18 @@ void    CWorldTree::GetEntitiesInSurface(vector<uint> &vResult, const CConvexPol
 CWorldTreeNode*     CWorldTree::FindBestFitNode(const CBBoxf &bbBounds)
 {
     if (!m_vWorldTree[0])
-        return NULL;
+        return nullptr;
 
     ClearStack();
     PushNode(m_vWorldTree[0]);
 
-    CWorldTreeNode *pBestFitNode(NULL);
+    CWorldTreeNode *pBestFitNode(nullptr);
 
     const CVec3f &v3Min(bbBounds.GetMin());
     const CVec3f &v3Max(bbBounds.GetMax());
     int iDepth(1);
 
-    for (CWorldTreeNode *pNode(PopNode()); pNode != NULL; pNode = PopNode())
+    for (CWorldTreeNode *pNode(PopNode()); pNode != nullptr; pNode = PopNode())
     {
         if (iDepth == wt_maxEntityLinkDepth)
         {
@@ -4803,7 +4803,7 @@ void    CWorldTree::LinkSurface(CWorldEntity *pEnt)
     // Get the entity
     CModel *pModel(g_ResourceManager.GetModel(pEnt->GetModelHandle()));
 
-    if (pModel == NULL)
+    if (pModel == nullptr)
     {
         //Console.Warn << _T("LinkSurface called with no valid model.") << newl;
         return;
@@ -4952,13 +4952,13 @@ void    CWorldTree::UnlinkBounds(CWorldEntity *pEnt)
 {
     CWorldTreeNode *pNode(pEnt->GetBoundsNode());
 
-    if (pNode != NULL)
+    if (pNode != nullptr)
     {
         if (pEnt->GetSurfFlags() & SURF_STATIC)
         {
             PoolHandle hHeadOfBounds(pNode->GetHeadOfLinkedBoundsStatic());
-            CWorldEntity *pCurrent(VALID_PH(hHeadOfBounds) ? m_pWorld->GetEntityByHandle(hHeadOfBounds) : NULL);
-            CWorldEntity *pPrev(NULL);
+            CWorldEntity *pCurrent(VALID_PH(hHeadOfBounds) ? m_pWorld->GetEntityByHandle(hHeadOfBounds) : nullptr);
+            CWorldEntity *pPrev(nullptr);
 
             while (pCurrent)
             {
@@ -4976,8 +4976,8 @@ void    CWorldTree::UnlinkBounds(CWorldEntity *pEnt)
         else
         {
             PoolHandle hHeadOfBounds(pNode->GetHeadOfLinkedBoundsDynamic());
-            CWorldEntity *pCurrent(VALID_PH(hHeadOfBounds) ? m_pWorld->GetEntityByHandle(hHeadOfBounds) : NULL);
-            CWorldEntity *pPrev(NULL);
+            CWorldEntity *pCurrent(VALID_PH(hHeadOfBounds) ? m_pWorld->GetEntityByHandle(hHeadOfBounds) : nullptr);
+            CWorldEntity *pPrev(nullptr);
 
             while (pCurrent)
             {
@@ -4993,7 +4993,7 @@ void    CWorldTree::UnlinkBounds(CWorldEntity *pEnt)
             }
         }
     }
-    pEnt->SetBoundsNode(NULL);
+    pEnt->SetBoundsNode(nullptr);
 }
 
 
@@ -5009,8 +5009,8 @@ void    CWorldTree::UnlinkSurface(CWorldEntity *pEnt)
         if (pEnt->GetSurfFlags() & SURF_STATIC)
         {
             PoolHandle hHeadOfSurfaces(pNode->GetHeadOfLinkedSurfacesStatic());
-            CWorldEntity *pCurrent(VALID_PH(hHeadOfSurfaces) ? m_pWorld->GetEntityByHandle(hHeadOfSurfaces) : NULL);
-            CWorldEntity *pPrev(NULL);
+            CWorldEntity *pCurrent(VALID_PH(hHeadOfSurfaces) ? m_pWorld->GetEntityByHandle(hHeadOfSurfaces) : nullptr);
+            CWorldEntity *pPrev(nullptr);
 
             while (pCurrent)
             {
@@ -5028,8 +5028,8 @@ void    CWorldTree::UnlinkSurface(CWorldEntity *pEnt)
         else
         {
             PoolHandle hHeadOfSurfaces(pNode->GetHeadOfLinkedSurfacesDynamic());
-            CWorldEntity *pCurrent(VALID_PH(hHeadOfSurfaces) ? m_pWorld->GetEntityByHandle(hHeadOfSurfaces) : NULL);
-            CWorldEntity *pPrev(NULL);
+            CWorldEntity *pCurrent(VALID_PH(hHeadOfSurfaces) ? m_pWorld->GetEntityByHandle(hHeadOfSurfaces) : nullptr);
+            CWorldEntity *pPrev(nullptr);
 
             while (pCurrent)
             {
@@ -5045,7 +5045,7 @@ void    CWorldTree::UnlinkSurface(CWorldEntity *pEnt)
             }
         }
     }
-    pEnt->SetSurfaceNode(NULL);
+    pEnt->SetSurfaceNode(nullptr);
 }
 
 
@@ -5061,8 +5061,8 @@ void    CWorldTree::UnlinkModel(CWorldEntity *pEnt)
         if (pEnt->GetSurfFlags() & SURF_STATIC)
         {
             PoolHandle hHeadOfModels(pNode->GetHeadOfLinkedModelsStatic());
-            CWorldEntity *pCurrent(VALID_PH(hHeadOfModels) ? m_pWorld->GetEntityByHandle(hHeadOfModels) : NULL);
-            CWorldEntity *pPrev(NULL);
+            CWorldEntity *pCurrent(VALID_PH(hHeadOfModels) ? m_pWorld->GetEntityByHandle(hHeadOfModels) : nullptr);
+            CWorldEntity *pPrev(nullptr);
 
             while (pCurrent)
             {
@@ -5080,8 +5080,8 @@ void    CWorldTree::UnlinkModel(CWorldEntity *pEnt)
         else
         {
             PoolHandle hHeadOfModels(pNode->GetHeadOfLinkedModelsDynamic());
-            CWorldEntity *pCurrent(VALID_PH(hHeadOfModels) ? m_pWorld->GetEntityByHandle(hHeadOfModels) : NULL);
-            CWorldEntity *pPrev(NULL);
+            CWorldEntity *pCurrent(VALID_PH(hHeadOfModels) ? m_pWorld->GetEntityByHandle(hHeadOfModels) : nullptr);
+            CWorldEntity *pPrev(nullptr);
 
             while (pCurrent)
             {
@@ -5097,7 +5097,7 @@ void    CWorldTree::UnlinkModel(CWorldEntity *pEnt)
             }
         }
     }
-    pEnt->SetModelNode(NULL);
+    pEnt->SetModelNode(nullptr);
 }
 
 
@@ -5111,8 +5111,8 @@ void    CWorldTree::UnlinkRender(CWorldEntity *pEnt)
     if (pNode)
     {
         PoolHandle hHeadOfRenders(pNode->GetHeadOfLinkedRenders());
-        CWorldEntity *pCurrent(VALID_PH(hHeadOfRenders) ? m_pWorld->GetEntityByHandle(hHeadOfRenders) : NULL);
-        CWorldEntity *pPrev(NULL);
+        CWorldEntity *pCurrent(VALID_PH(hHeadOfRenders) ? m_pWorld->GetEntityByHandle(hHeadOfRenders) : nullptr);
+        CWorldEntity *pPrev(nullptr);
 
         while (pCurrent)
         {
@@ -5127,7 +5127,7 @@ void    CWorldTree::UnlinkRender(CWorldEntity *pEnt)
             pCurrent = pCurrent->GetNextRender();
         }
     }
-    pEnt->SetRenderNode(NULL);
+    pEnt->SetRenderNode(nullptr);
 }
 
 
@@ -5244,7 +5244,7 @@ bool    CWorldTree::TestBoundsVisibilty(const CVec3f &v3ViewPos, const CBBoxf &b
             CVec3f v3Delta(av3Points[i] - v3ViewPos);
             SNodeStack2Node *pNode;
 
-            while ((pNode = PopNode2()) != NULL)
+            while ((pNode = PopNode2()) != nullptr)
             {
                 ++nodesChecked;
                 CWorldTreeNode *pWorldTreeNode(pNode->pWorldTreeNode);

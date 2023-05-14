@@ -16,7 +16,7 @@
   ====================*/
 CServerGameLib::~CServerGameLib()
 {
-    if (m_pGameLib != NULL)
+    if (m_pGameLib != nullptr)
     {
         Shutdown();
         K2System.FreeLibrary(m_pGameLib);
@@ -32,31 +32,31 @@ extern "C" void    InitLibrary(CServerGameLib &GameLib);
   ====================*/
 CServerGameLib::CServerGameLib(const tstring &sLibPath) :
 m_bValid(false),
-m_pGameLib(NULL),
+m_pGameLib(nullptr),
 m_iMajorVersion(0),
 m_iMinorVersion(0),
-m_fnSetGamePointer(NULL),
-m_fnInit(NULL),
-m_fnFrame(NULL),
-m_fnLoadWorld(NULL),
-m_fnAddClient(NULL),
-m_fnRemoveClient(NULL),
-m_fnGetMaxClients(NULL),
-m_fnProcessClientSnapshot(NULL),
-m_fnProcessGameData(NULL),
-m_fnGetSnapshot(NULL),
-m_fnShutdown(NULL),
-m_fnGetMatchTime(NULL),
-m_fnReauthClient(NULL),
-m_fnStartReplay(NULL),
-m_fnStopReplay(NULL),
-m_fnStateStringChanged(NULL),
-m_fnUnloadWorld(NULL),
-m_fnGetEntity(NULL)
+m_fnSetGamePointer(nullptr),
+m_fnInit(nullptr),
+m_fnFrame(nullptr),
+m_fnLoadWorld(nullptr),
+m_fnAddClient(nullptr),
+m_fnRemoveClient(nullptr),
+m_fnGetMaxClients(nullptr),
+m_fnProcessClientSnapshot(nullptr),
+m_fnProcessGameData(nullptr),
+m_fnGetSnapshot(nullptr),
+m_fnShutdown(nullptr),
+m_fnGetMatchTime(nullptr),
+m_fnReauthClient(nullptr),
+m_fnStartReplay(nullptr),
+m_fnStopReplay(nullptr),
+m_fnStateStringChanged(nullptr),
+m_fnUnloadWorld(nullptr),
+m_fnGetEntity(nullptr)
 {
     // Load the game library
     m_pGameLib = K2System.LoadLibrary(sLibPath);
-    if (m_pGameLib == NULL)
+    if (m_pGameLib == nullptr)
     {
         Console.Server << _T("Couldn't load server library: ") << sLibPath << newl;
         return;
@@ -65,7 +65,7 @@ m_fnGetEntity(NULL)
 #ifndef GAME_SHARED_LIB
     // Initialize the game library
     FnInitServerGameLib *pfnInitGameLib((FnInitServerGameLib*)K2System.GetProcAddress(m_pGameLib, _T("InitLibrary")));
-    if (pfnInitGameLib == NULL)
+    if (pfnInitGameLib == nullptr)
     {
         Console.Server << _T("Couldn't find entry function \"InitLibrary()\"") << newl;
         return;
@@ -78,7 +78,7 @@ m_fnGetEntity(NULL)
 
     // Validate API
     #define CHECK_FUNCTION(fn) \
-    if (m_fn##fn == NULL) \
+    if (m_fn##fn == nullptr) \
     { \
         Console.Server << _T("Server API is missing: ") _T(#fn) _T("()") << newl; \
         m_bValid = false; \

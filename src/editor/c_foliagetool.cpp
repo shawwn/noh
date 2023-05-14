@@ -601,12 +601,12 @@ void    CFoliageTool::FoliageAuto(SFoliageVertexEntry *pRegion, const CRecti &re
   ====================*/
 void    CFoliageTool::PaintFoliageVertex(float fFrameTime)
 {
-    SFoliageVertexEntry *pRegion(NULL);
+    SFoliageVertexEntry *pRegion(nullptr);
 
     try
     {
         CBrush *pBrush(CBrush::GetCurrentBrush());
-        if (pBrush == NULL)
+        if (pBrush == nullptr)
             EX_ERROR(_T("No brush selected"));
 
         //if (!Editor.GetWorld().IsInBounds(m_iX, m_iY, GRID_SPACE))
@@ -624,7 +624,7 @@ void    CFoliageTool::PaintFoliageVertex(float fFrameTime)
 
         // Get the region
         pRegion = K2_NEW_ARRAY(ctx_Editor, SFoliageVertexEntry, recClippedBrush.GetArea());
-        if (pRegion == NULL)
+        if (pRegion == nullptr)
             EX_ERROR(_T("Failed to allocate region"));
 
         if (!Editor.GetWorld().GetRegion(WORLD_VERT_FOLIAGE_MAP, recClippedBrush, pRegion, le_foliageLayer))
@@ -694,7 +694,7 @@ void    CFoliageTool::PaintFoliageVertex(float fFrameTime)
     }
     catch (CException &ex)
     {
-        if (pRegion != NULL)
+        if (pRegion != nullptr)
             K2_DELETE_ARRAY(pRegion);
 
         ex.Process(_T("CFoliageTool::PaintFoliageVertex() - "), NO_THROW);
@@ -762,12 +762,12 @@ void    CFoliageTool::ApplyFoliageTextureStroked(SFoliageTile *pRegion, const CR
   ====================*/
 void    CFoliageTool::PaintFoliageTile(float fFrameTime)
 {
-    SFoliageTile *pRegion(NULL);
+    SFoliageTile *pRegion(nullptr);
 
     try
     {
         CBrush *pBrush(CBrush::GetCurrentBrush());
-        if (pBrush == NULL)
+        if (pBrush == nullptr)
             EX_ERROR(_T("No brush selected"));
 
         //if (!Editor.GetWorld().IsInBounds(m_iX, m_iY, TILE_SPACE))
@@ -807,7 +807,7 @@ void    CFoliageTool::PaintFoliageTile(float fFrameTime)
 
         // Get the region
         pRegion = K2_NEW_ARRAY(ctx_Editor, SFoliageTile, recClippedBrush.GetArea());
-        if (pRegion == NULL)
+        if (pRegion == nullptr)
             EX_ERROR(_T("Failed to allocate region"));
 
         if (!Editor.GetWorld().GetRegion(WORLD_TILE_FOLIAGE_MAP, recClippedBrush, pRegion, le_foliageLayer))
@@ -843,7 +843,7 @@ void    CFoliageTool::PaintFoliageTile(float fFrameTime)
     }
     catch (CException &ex)
     {
-        if (pRegion != NULL)
+        if (pRegion != nullptr)
             K2_DELETE_ARRAY(pRegion);
 
         ex.Process(_T("CFoliageTool::PaintFoliageTile() - "), NO_THROW);

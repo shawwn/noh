@@ -27,7 +27,7 @@ public:
     ~CEntityDefinitionResource()    {}
     CEntityDefinitionResource(const tstring &sPath) :
     IResource(sPath, TSNULL),
-    m_pDefinition(NULL),
+    m_pDefinition(nullptr),
     m_unTypeID(INVALID_ENT_TYPE)
     {}
 
@@ -40,19 +40,19 @@ public:
     template <class T>
     T*  GetDefinition() const
     {
-        if (m_pDefinition == NULL)
-            return NULL;
+        if (m_pDefinition == nullptr)
+            return nullptr;
         return static_cast<T*>(m_pDefinition);
     }
     
     template <class T>
     T*  GetDefinition(ushort unModifierBits) const
     {
-        if (m_pDefinition == NULL)
-            return NULL;
+        if (m_pDefinition == nullptr)
+            return nullptr;
 
         IEntityDefinition *pModifiedDef(m_pDefinition->GetModifiedDefinition(unModifierBits));
-        if (pModifiedDef != NULL)
+        if (pModifiedDef != nullptr)
             return static_cast<T*>(pModifiedDef);
 
         return static_cast<T*>(m_pDefinition);
@@ -65,13 +65,13 @@ public:
 
     void    Precache(EPrecacheScheme eScheme, const tstring &sModifier)
     {
-        if (m_pDefinition != NULL)
+        if (m_pDefinition != nullptr)
             m_pDefinition->Precache(eScheme, sModifier);
     }
 
     void    PostProcess()
     {
-        if (m_pDefinition != NULL)
+        if (m_pDefinition != nullptr)
             m_pDefinition->PostProcess();
     }
 

@@ -61,7 +61,7 @@ bool    CBHold::Validate()
   ====================*/
 void    CBHold::BeginBehavior()
 {
-    if (m_pSelf == NULL)
+    if (m_pSelf == nullptr)
     {
         Console << _T("CBHold: Behavior started without valid information") << newl;
         return;

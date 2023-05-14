@@ -80,11 +80,11 @@ void    CGfxInit::Start()
     const char *szVendor((const char*)glGetString(GL_VENDOR));
     const char *szExtensions((const char*)glGetString(GL_EXTENSIONS));
     
-    Console.Video << _T("OpenGL Renderer: ") << (szRenderer ? szRenderer : "NULL") << newl;
-    Console.Video << _T("OpenGL Version: ") << (szVersion ? szVersion : "NULL") << newl;
-    Console.Video << _T("OpenGL Shading Language Version: ") << (szGLSLVersion ? szGLSLVersion : "NULL") << newl;
-    Console.Video << _T("OpenGL Vendor: ") << (szVendor ? szVendor : "NULL") << newl;
-    Console.Video << _T("OpenGL Extensions: ") << (szExtensions ? szExtensions : "NULL") << newl;
+    Console.Video << _T("OpenGL Renderer: ") << (szRenderer ? szRenderer : "nullptr") << newl;
+    Console.Video << _T("OpenGL Version: ") << (szVersion ? szVersion : "nullptr") << newl;
+    Console.Video << _T("OpenGL Shading Language Version: ") << (szGLSLVersion ? szGLSLVersion : "nullptr") << newl;
+    Console.Video << _T("OpenGL Vendor: ") << (szVendor ? szVendor : "nullptr") << newl;
+    Console.Video << _T("OpenGL Extensions: ") << (szExtensions ? szExtensions : "nullptr") << newl;
 
     if (vid_checkOpenGLVersion)
     {

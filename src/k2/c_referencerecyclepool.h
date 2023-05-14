@@ -125,13 +125,13 @@ public:
     T*  GetReferenceByHandle(PoolHandle hHandle)
     {
         if (hHandle == INVALID_POOL_HANDLE)
-            return NULL;
+            return nullptr;
 
 #ifdef K2_FAULT_NOTEXIST
         if (!m_vAllocated[hHandle])
         {
             m_iFaults |= POOL_FAULT_NOTEXISTS;
-            return NULL;
+            return nullptr;
         }
         else
             return &m_pBuffer[hHandle];

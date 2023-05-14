@@ -81,8 +81,8 @@ CInterface::~CInterface()
         UIManager.LostInterface(this);
 
     // Destroy these things while CInterface is still valid
-    m_pInterface = NULL;
-    m_pParent = NULL;
+    m_pInterface = nullptr;
+    m_pParent = nullptr;
 
     WidgetPointerVector vChildren(m_vChildren);
     for (WidgetPointerVector_it itChild(vChildren.begin()), itEnd(vChildren.end()); itChild != itEnd; ++itChild)
@@ -94,13 +94,13 @@ CInterface::~CInterface()
   CInterface::CInterface
   ====================*/
 CInterface::CInterface(const CWidgetStyle& style) :
-IWidget(NULL, NULL, WIDGET_INTERFACE, style),
+IWidget(nullptr, nullptr, WIDGET_INTERFACE, style),
 m_sFilename(_T("")),
-m_pCurrentTemplate(NULL),
-m_pActiveWidget(NULL),
-m_pHoverWidget(NULL),
-m_pExclusiveWidget(NULL),
-m_pDefaultActiveWidget(NULL),
+m_pCurrentTemplate(nullptr),
+m_pActiveWidget(nullptr),
+m_pHoverWidget(nullptr),
+m_pExclusiveWidget(nullptr),
+m_pDefaultActiveWidget(nullptr),
 m_bAlwaysUpdate(style.GetPropertyBool(_T("alwaysupdate"), false)),
 m_bTemp(style.GetPropertyBool(_T("temp"), false)),
 m_bSnapToParent(false),
@@ -162,7 +162,7 @@ CWidgetStyle*   CInterface::GetStyle(const tstring &sName)
 {
     WidgetStyleMap_it itFind(m_mapStyles.find(sName));
     if (itFind == m_mapStyles.end())
-        return NULL;
+        return nullptr;
 
     return itFind->second;
 }
@@ -175,8 +175,8 @@ void    CInterface::RegisterTemplate(CWidgetTemplate *pTemplate)
 {
     try
     {
-        if (pTemplate == NULL)
-            EX_ERROR(_T("NULL template"));
+        if (pTemplate == nullptr)
+            EX_ERROR(_T("nullptr template"));
 
         WidgetTemplateMap_it itFind(m_mapTemplates.find(pTemplate->GetName()));
         if (itFind != m_mapTemplates.end())
@@ -199,7 +199,7 @@ CWidgetTemplate*    CInterface::GetTemplate(const tstring &sName)
 {
     WidgetTemplateMap_it itFind(m_mapTemplates.find(sName));
     if (itFind == m_mapTemplates.end())
-        return NULL;
+        return nullptr;
 
     return itFind->second;
 }
@@ -219,7 +219,7 @@ void    CInterface::AddWidget(IWidget *pWidget)
     {
         pWidget->SetID(m_vFreeWidgetIDs.back());
         m_vFreeWidgetIDs.pop_back();
-        assert(m_vWidgets[pWidget->GetID()] == NULL);
+        assert(m_vWidgets[pWidget->GetID()] == nullptr);
         m_vWidgets[pWidget->GetID()] = pWidget;
     }
 
@@ -246,12 +246,12 @@ void    CInterface::AddWidgetToGroup(IWidget *pWidget)
     if (sGroupName.empty())
         return;
 
-    WidgetGroup* pGroup(NULL);
+    WidgetGroup* pGroup(nullptr);
     WidgetGroupMap_it itGroup(m_mapGroups.find(sGroupName));
     if (itGroup == m_mapGroups.end())
     {
         pGroup = K2_NEW(ctx_Widgets,  WidgetGroup);
-        if (pGroup == NULL)
+        if (pGroup == nullptr)
         {
             Console.Err << _T("Failed to allocate new widget group") << newl;
             return;
@@ -264,7 +264,7 @@ void    CInterface::AddWidgetToGroup(IWidget *pWidget)
         pGroup = itGroup->second;
     }
 
-    if (pGroup == NULL)
+    if (pGroup == nullptr)
         return;
 
     pGroup->insert(pWidget);
@@ -285,7 +285,7 @@ void    CInterface::RemoveWidgetFromGroup(IWidget *pWidget)
         return;
 
     WidgetGroup* pGroup(itGroup->second);
-    if (pGroup == NULL)
+    if (pGroup == nullptr)
         return;
 
     pGroup->erase(pWidget);
@@ -297,23 +297,23 @@ void    CInterface::RemoveWidgetFromGroup(IWidget *pWidget)
   ====================*/
 void    CInterface::RemoveWidget(IWidget *pWidget)
 {
-    if (pWidget == NULL)
+    if (pWidget == nullptr)
         return;
 
     if (m_pActiveWidget == pWidget)
-        m_pActiveWidget = NULL;
+        m_pActiveWidget = nullptr;
     if (m_pHoverWidget == pWidget)
-        m_pHoverWidget = NULL;
+        m_pHoverWidget = nullptr;
     if (m_pExclusiveWidget == pWidget)
-        m_pExclusiveWidget = NULL;
+        m_pExclusiveWidget = nullptr;
     if (m_pDefaultActiveWidget == pWidget)
-        m_pDefaultActiveWidget = NULL;
+        m_pDefaultActiveWidget = nullptr;
 
     uint uiID(pWidget->GetID());
     if (uiID >= m_vWidgets.size())
         return;
 
-    m_vWidgets[uiID] = NULL;
+    m_vWidgets[uiID] = nullptr;
     m_vFreeWidgetIDs.push_back(uiID);
 
     const tstring &sName(pWidget->GetName());
@@ -331,7 +331,7 @@ void    CInterface::RemoveWidget(IWidget *pWidget)
 void    CInterface::ShowGroup(const tstring &sGroupName)
 {
     WidgetGroup *pGroup(GetGroup(sGroupName));
-    if (pGroup == NULL)
+    if (pGroup == nullptr)
     {
         Console.Warn << _T("Widget group ") << QuoteStr(sGroupName) << _T(" not found") << newl;
         return;
@@ -348,7 +348,7 @@ void    CInterface::ShowGroup(const tstring &sGroupName)
 void    CInterface::HideGroup(const tstring &sGroupName)
 {
     WidgetGroup *pGroup(GetGroup(sGroupName));
-    if (pGroup == NULL)
+    if (pGroup == nullptr)
     {
         Console.Warn << _T("Widget group ") << QuoteStr(sGroupName) << _T(" not found") << newl;
         return;
@@ -365,7 +365,7 @@ void    CInterface::HideGroup(const tstring &sGroupName)
 void    CInterface::ShowOnly(const tstring &sWidgetName)
 {
     IWidget* pWidget(GetWidget(sWidgetName));
-    if (pWidget == NULL)
+    if (pWidget == nullptr)
     {
         Console.Warn << _T("Widget ") << QuoteStr(sWidgetName) << _T(" not found") << newl;
         return;
@@ -373,7 +373,7 @@ void    CInterface::ShowOnly(const tstring &sWidgetName)
 
     tstring sGroupName(pWidget->GetGroupName());
     WidgetGroup *pGroup(GetGroup(sGroupName));
-    if (pGroup == NULL)
+    if (pGroup == nullptr)
     {
         Console.Warn << _T("Widget group ") << QuoteStr(sGroupName) << _T(" not found") << newl;
         return;
@@ -397,7 +397,7 @@ void    CInterface::ShowOnly(const tstring &sWidgetName)
 void    CInterface::HideOnly(const tstring &sWidgetName)
 {
     IWidget* pWidget(GetWidget(sWidgetName));
-    if (pWidget == NULL)
+    if (pWidget == nullptr)
     {
         Console.Warn << _T("Widget ") << QuoteStr(sWidgetName) << _T(" not found") << newl;
         return;
@@ -405,7 +405,7 @@ void    CInterface::HideOnly(const tstring &sWidgetName)
 
     tstring sGroupName(pWidget->GetGroupName());
     WidgetGroup *pGroup(GetGroup(sGroupName));
-    if (pGroup == NULL)
+    if (pGroup == nullptr)
     {
         Console.Warn << _T("Widget group ") << QuoteStr(sGroupName) << _T(" not found") << newl;
         return;
@@ -429,7 +429,7 @@ void    CInterface::HideOnly(const tstring &sWidgetName)
 void    CInterface::EnableGroup(const tstring &sGroupName)
 {
     WidgetGroup *pGroup(GetGroup(sGroupName));
-    if (pGroup == NULL)
+    if (pGroup == nullptr)
     {
         Console.Warn << _T("Widget group ") << QuoteStr(sGroupName) << _T(" not found") << newl;
         return;
@@ -446,7 +446,7 @@ void    CInterface::EnableGroup(const tstring &sGroupName)
 void    CInterface::DisableGroup(const tstring &sGroupName)
 {
     WidgetGroup *pGroup(GetGroup(sGroupName));
-    if (pGroup == NULL)
+    if (pGroup == nullptr)
     {
         Console.Warn << _T("Widget group ") << QuoteStr(sGroupName) << _T(" not found") << newl;
         return;
@@ -463,7 +463,7 @@ void    CInterface::DisableGroup(const tstring &sGroupName)
 void    CInterface::EnableOnly(const tstring &sWidgetName)
 {
     IWidget* pWidget(GetWidget(sWidgetName));
-    if (pWidget == NULL)
+    if (pWidget == nullptr)
     {
         Console.Warn << _T("Widget ") << QuoteStr(sWidgetName) << _T(" not found") << newl;
         return;
@@ -471,7 +471,7 @@ void    CInterface::EnableOnly(const tstring &sWidgetName)
 
     tstring sGroupName(pWidget->GetGroupName());
     WidgetGroup *pGroup(GetGroup(sGroupName));
-    if (pGroup == NULL)
+    if (pGroup == nullptr)
     {
         Console.Warn << _T("Widget group ") << QuoteStr(sGroupName) << _T(" not found") << newl;
         return;
@@ -495,7 +495,7 @@ void    CInterface::EnableOnly(const tstring &sWidgetName)
 void    CInterface::DisableOnly(const tstring &sWidgetName)
 {
     IWidget* pWidget(GetWidget(sWidgetName));
-    if (pWidget == NULL)
+    if (pWidget == nullptr)
     {
         Console.Warn << _T("Widget ") << QuoteStr(sWidgetName) << _T(" not found") << newl;
         return;
@@ -503,7 +503,7 @@ void    CInterface::DisableOnly(const tstring &sWidgetName)
 
     tstring sGroupName(pWidget->GetGroupName());
     WidgetGroup *pGroup(GetGroup(sGroupName));
-    if (pGroup == NULL)
+    if (pGroup == nullptr)
     {
         Console.Warn << _T("Widget group ") << QuoteStr(sGroupName) << _T(" not found") << newl;
         return;
@@ -527,11 +527,11 @@ void    CInterface::DisableOnly(const tstring &sWidgetName)
 IWidget*    CInterface::GetWidget(const tstring &sWidgetName) const
 {
     if (sWidgetName.empty())
-        return NULL;
+        return nullptr;
 
     WidgetMap_cit itFind(m_mapWidgets.find(sWidgetName));
     if (itFind == m_mapWidgets.end())
-        return NULL;
+        return nullptr;
 
     return m_vWidgets[itFind->second];
 }
@@ -576,7 +576,7 @@ WidgetGroup*    CInterface::GetGroup(const tstring &sGroupName) const
 {
     WidgetGroupMap_cit itGroup(m_mapGroups.find(sGroupName));
     if (itGroup == m_mapGroups.end())
-        return NULL;
+        return nullptr;
 
     return itGroup->second;
 }
@@ -587,12 +587,12 @@ WidgetGroup*    CInterface::GetGroup(const tstring &sGroupName) const
   ====================*/
 bool    CInterface::ProcessInputMouseButton(const CVec2f &v2CursorPos, EButton button, float fValue)
 {
-    if (m_pExclusiveWidget == NULL || fValue != 1.0f)
+    if (m_pExclusiveWidget == nullptr || fValue != 1.0f)
         return IWidget::ProcessInputMouseButton(v2CursorPos, button, fValue);
 
     CVec2f v2RelativeCursorPos(v2CursorPos);
 
-    if (m_pExclusiveWidget->GetParent() != NULL)
+    if (m_pExclusiveWidget->GetParent() != nullptr)
         v2RelativeCursorPos -= m_pExclusiveWidget->GetParent()->GetAbsolutePos();
 
     if (!m_pExclusiveWidget->ProcessInputMouseButton(v2RelativeCursorPos - m_recArea.lt(), button, fValue))
@@ -620,7 +620,7 @@ bool    CInterface::ProcessInputCursor(const CVec2f &v2CursorPos)
         if (pWidget == m_pExclusiveWidget)
             SetHoverWidget(pWidget);
         else
-            SetHoverWidget(NULL);
+            SetHoverWidget(nullptr);
     }
     else
         SetHoverWidget(pWidget);
@@ -665,7 +665,7 @@ void    CInterface::SetActiveWidget(IWidget *pWidget)
 
     if (pActive != pWidget)
     {
-        if (pActive != NULL)
+        if (pActive != nullptr)
         {
             pActive->LoseFocus();
 
@@ -673,7 +673,7 @@ void    CInterface::SetActiveWidget(IWidget *pWidget)
                 return;
         }
 
-        if (pWidget != NULL)
+        if (pWidget != nullptr)
         {
             pWidget->Focus();
 
@@ -770,8 +770,8 @@ void    CInterface::AddCallback(const tstring &sFile)
   ====================*/
 IWidget*    CInterface::GetNextTabWidget(uint uiOrder)
 {
-    IWidget *pNextWidget(NULL);
-    IWidget *pFirstWidget(NULL);
+    IWidget *pNextWidget(nullptr);
+    IWidget *pFirstWidget(nullptr);
     uint uiHighOrder(-1);
     uint uiLowOrder(uiOrder);
 
@@ -792,7 +792,7 @@ IWidget*    CInterface::GetNextTabWidget(uint uiOrder)
         }
     }
 
-    return (pNextWidget != NULL ? pNextWidget : pFirstWidget);
+    return (pNextWidget != nullptr ? pNextWidget : pFirstWidget);
 }
 
 
@@ -801,8 +801,8 @@ IWidget*    CInterface::GetNextTabWidget(uint uiOrder)
   ====================*/
 IWidget*    CInterface::GetPrevTabWidget(uint uiOrder)
 {
-    IWidget *pPrevWidget(NULL);
-    IWidget *pLastWidget(NULL);
+    IWidget *pPrevWidget(nullptr);
+    IWidget *pLastWidget(nullptr);
     uint uiHighOrder(uiOrder);
     uint uiLowOrder(0);
 
@@ -823,7 +823,7 @@ IWidget*    CInterface::GetPrevTabWidget(uint uiOrder)
         }
     }
 
-    return (pPrevWidget != NULL ? pPrevWidget : pLastWidget);
+    return (pPrevWidget != nullptr ? pPrevWidget : pLastWidget);
 }
 
 
@@ -846,7 +846,7 @@ void    CInterface::Frame(uint uiFrameLength, bool bProcessFrame)
 
     IWidget::Frame(uiFrameLength, bProcessFrame);
 
-    if (m_pActiveWidget == NULL)
+    if (m_pActiveWidget == nullptr)
         m_pActiveWidget = m_pDefaultActiveWidget;
 }
 
@@ -875,7 +875,7 @@ CUIForm*    CInterface::GetForm(const tstring &sName)
     if (itForm == m_mapForms.end())
     {
         Console.Warn << _T("Form ") << QuoteStr(sName) << _T(" not found in interface ") << m_sName << newl;
-        return NULL;
+        return nullptr;
     }
 
     return itForm->second;
@@ -887,7 +887,7 @@ CUIForm*    CInterface::GetForm(const tstring &sName)
   --------------------*/
 UI_VOID_CMD(Refresh, 0)
 {
-    if (pThis == NULL)
+    if (pThis == nullptr)
         return;
 
     pThis->GetInterface()->DoEvent(WEVENT_REFRESH);

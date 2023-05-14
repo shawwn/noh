@@ -101,7 +101,7 @@ public:
 
     K2_API tstring          SanitizePath(const tstring &sPath, bool bResolveToRoot = true);
     K2_API bool             IsCleanPath(const tstring &sPath, bool bResolveToRoot = true);
-    K2_API tstring          GetSystemPath(const tstring &sPath, const tstring &sMod = TSNULL, bool bWrite = false, bool bForce = false, bool bFileOnly = false, tstring *psBasePathOut = NULL);
+    K2_API tstring          GetSystemPath(const tstring &sPath, const tstring &sMod = TSNULL, bool bWrite = false, bool bForce = false, bool bFileOnly = false, tstring *psBasePathOut = nullptr);
     K2_API tstring          GetGamePath(const tstring &sSystemPath);
 
     const tstring&          GetWorkingDirectory()   { return m_sCurrentDir; }

@@ -43,7 +43,7 @@ CMenu::~CMenu()
   ====================*/
 CMenu::CMenu(CInterface *pInterface, IWidget *pParent, const CWidgetStyle& style) :
 IListWidget(pInterface, pParent, WIDGET_MENU, style),
-m_pListBox(NULL),
+m_pListBox(nullptr),
 m_bSingleClick(false),
 m_bLeft(false),
 m_iMaxListHeight(style.GetPropertyInt(_T("maxlistheight"), -1)),
@@ -149,7 +149,7 @@ void    CMenu::Close()
 
     SetFocus(false);
     if (m_bExclusive)
-        m_pInterface->SetExclusiveWidget(NULL);
+        m_pInterface->SetExclusiveWidget(nullptr);
     g_pUIManager->RefreshCursor();
     m_pListBox->Hide();
     m_bSingleClick = false;
@@ -168,7 +168,7 @@ bool    CMenu::ButtonDown(EButton button)
         {
             SetFocus(false);
             if (m_bExclusive)
-                m_pInterface->SetExclusiveWidget(NULL);
+                m_pInterface->SetExclusiveWidget(nullptr);
             g_pUIManager->RefreshCursor();
             m_pListBox->Hide();
             m_bSingleClick = false;
@@ -181,7 +181,7 @@ bool    CMenu::ButtonDown(EButton button)
         {
             SetFocus(false);
             if (m_bExclusive)
-                m_pInterface->SetExclusiveWidget(NULL);
+                m_pInterface->SetExclusiveWidget(nullptr);
             UIManager.RefreshCursor();
             m_pListBox->Hide();
             SelectItem(m_pListBox->GetSelectedListItem(), true);
@@ -221,7 +221,7 @@ void    CMenu::MouseDown(EButton button, const CVec2f &v2CursorPos)
         {
             SetFocus(false);
             if (m_bExclusive)
-                m_pInterface->SetExclusiveWidget(NULL);
+                m_pInterface->SetExclusiveWidget(nullptr);
             UIManager.RefreshCursor();
             m_pListBox->Hide();
         }
@@ -247,7 +247,7 @@ void    CMenu::MouseDown(EButton button, const CVec2f &v2CursorPos)
         {
             SetFocus(false);
             if (m_bExclusive)
-                m_pInterface->SetExclusiveWidget(NULL);
+                m_pInterface->SetExclusiveWidget(nullptr);
             UIManager.RefreshCursor();
             m_pListBox->Hide();
         }
@@ -270,7 +270,7 @@ void    CMenu::MouseUp(EButton button, const CVec2f &v2CursorPos)
     {
         SetFocus(false);
         if (m_bExclusive)
-            m_pInterface->SetExclusiveWidget(NULL);
+            m_pInterface->SetExclusiveWidget(nullptr);
         UIManager.RefreshCursor();
         m_pListBox->Hide();
         m_bSingleClick = false;
@@ -279,7 +279,7 @@ void    CMenu::MouseUp(EButton button, const CVec2f &v2CursorPos)
     {
         SetFocus(false);
         if (m_bExclusive)
-            m_pInterface->SetExclusiveWidget(NULL);
+            m_pInterface->SetExclusiveWidget(nullptr);
         UIManager.RefreshCursor();
         m_pListBox->Hide();
         m_bSingleClick = false;
@@ -376,7 +376,7 @@ void    CMenu::CreateNewListItemFromTemplate(const tstring &sName, const tstring
     {
         // Lookup the template
         CWidgetTemplate *pTemplate(m_pInterface->GetTemplate(sName));
-        if (pTemplate == NULL)
+        if (pTemplate == nullptr)
             EX_ERROR(_T("Could not retrieve template named: ") + sName);
 
         // Create new listitem
@@ -407,7 +407,7 @@ void    CMenu::CreateNewListItemFromTemplateWithSort(const tstring &sName, const
     {
         // Lookup the template
         CWidgetTemplate *pTemplate(m_pInterface->GetTemplate(sName));
-        if (pTemplate == NULL)
+        if (pTemplate == nullptr)
             EX_ERROR(_T("Could not retrieve template named: ") + sName);
 
         // Create new listitem
@@ -439,7 +439,7 @@ void    CMenu::CreateNewListItemFromTemplateWithSortReversed(const tstring &sNam
     {
         // Lookup the template
         CWidgetTemplate *pTemplate(m_pInterface->GetTemplate(sName));
-        if (pTemplate == NULL)
+        if (pTemplate == nullptr)
             EX_ERROR(_T("Could not retrieve template named: ") + sName);
 
         // Create new listitem
@@ -473,7 +473,7 @@ void    CMenu::ResizeListTemplate(const tstring &sName, uint uiSize, const CXMLN
         {
             // Lookup the template
             CWidgetTemplate *pTemplate(m_pInterface->GetTemplate(sName));
-            if (pTemplate == NULL)
+            if (pTemplate == nullptr)
                 EX_ERROR(_T("Could not retrieve template named: ") + sName);
 
             // Add items
@@ -648,20 +648,20 @@ void    CMenu::Frame(uint uiFrameLength, bool bProcessFrame)
   ====================*/
 void    CMenu::SelectItem(CListItem *pListItem, bool bEvent)
 {
-    if (bEvent && pListItem != NULL)
+    if (bEvent && pListItem != nullptr)
         pListItem->DoEvent(WEVENT_SELECT);
 
     m_bSingleClick = false;
     m_pListBox->Hide();
     SetFocus(false);
-    m_pInterface->SetExclusiveWidget(NULL);
+    m_pInterface->SetExclusiveWidget(nullptr);
     UIManager.RefreshCursor();
 
-    if (pListItem != NULL && pListItem->GetCommand())
+    if (pListItem != nullptr && pListItem->GetCommand())
         return;
 
     if (bEvent)
-        DO_EVENT_PARAM(WEVENT_SELECT, pListItem != NULL ? pListItem->GetValue() : TSNULL)
+        DO_EVENT_PARAM(WEVENT_SELECT, pListItem != nullptr ? pListItem->GetValue() : TSNULL)
 }
 
 
@@ -722,11 +722,11 @@ bool    CMenu::AddWidgetState(CWidgetState *pState)
   ====================*/
 void    CMenu::WidgetLost(IWidget *pWidget)
 {
-    if (pWidget == NULL)
+    if (pWidget == nullptr)
         return;
 
     if (m_pListBox == pWidget)
-        m_pListBox = NULL;
+        m_pListBox = nullptr;
 
     IWidget::WidgetLost(pWidget);
 }
@@ -796,7 +796,7 @@ uint    CMenu::GetItemIndex(CListItem *pItem)
   --------------------*/
 UI_VOID_CMD(MenuCmd, 1)
 {
-    if (pThis == NULL ||
+    if (pThis == nullptr ||
         pThis->GetType() != WIDGET_MENU)
         return;
 
@@ -898,7 +898,7 @@ UI_VOID_CMD(MenuCmd, 1)
   --------------------*/
 UI_VOID_CMD(OpenMenu, 0)
 {
-    if (pThis == NULL || pThis->GetType() != WIDGET_MENU)
+    if (pThis == nullptr || pThis->GetType() != WIDGET_MENU)
         return;
 
     static_cast<CMenu *>(pThis)->Open(vArgList.size() > 0 ? AtoB(vArgList[0]->Evaluate()) : false);
@@ -910,7 +910,7 @@ UI_VOID_CMD(OpenMenu, 0)
   --------------------*/
 UI_VOID_CMD(CloseMenu, 0)
 {
-    if (pThis == NULL || pThis->GetType() != WIDGET_MENU)
+    if (pThis == nullptr || pThis->GetType() != WIDGET_MENU)
         return;
 
     static_cast<CMenu *>(pThis)->Close();
@@ -922,7 +922,7 @@ UI_VOID_CMD(CloseMenu, 0)
   --------------------*/
 UI_VOID_CMD(UpdateMenuConditions, 0)
 {
-    if (pThis == NULL || pThis->GetType() != WIDGET_MENU)
+    if (pThis == nullptr || pThis->GetType() != WIDGET_MENU)
         return;
 
     static_cast<CMenu *>(pThis)->UpdateMenuConditions();

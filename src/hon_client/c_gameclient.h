@@ -110,7 +110,7 @@ struct SWeatherInfo
 {
     tstring     sFilePath;          // example: "/game/shared/effects/weather/aCiD rAiN.effect"
     tstring     sKeyName;           // example: "acidrain"
-    tstring     sLocalizedName;     // example: "Acid Rain" or "Chuva Ácida" or ... etc
+    tstring     sLocalizedName;     // example: "Acid Rain" or "Chuva ï¿½ï¿½cida" or ... etc
 
     // Internal use
     int         iEffectChannel;
@@ -687,7 +687,7 @@ public:
     void                StopClientGameEffect(int iChannel);
 
     CPlayer*            GetLocalPlayer() const                          { return m_pLocalPlayer; }
-    uint                GetLocalPlayerIndex() const                     { return (m_pLocalPlayer == NULL) ? INVALID_INDEX : m_pLocalPlayer->GetIndex(); }
+    uint                GetLocalPlayerIndex() const                     { return (m_pLocalPlayer == nullptr) ? INVALID_INDEX : m_pLocalPlayer->GetIndex(); }
     CCamera*            GetCamera() const                               { return m_pCamera; }
     CClientCommander*   GetClientCommander() const                      { return m_pClientCommander; }
     CClientEntity*      GetClientEntity(uint uiIndex) const;

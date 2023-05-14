@@ -147,16 +147,16 @@ m_v3LookAtOffset(eSettings.GetLookAtOffset()),
 m_pLookAtOwner(GetOwnerPointer(eSettings.GetLookAtOwner())),
 m_sLookAtBone(eSettings.GetLookAtBone()),
 m_eLookAtDirectionalSpace(eSettings.GetLookAtDirectionalSpace()),
-m_pImbeddedEmitter(NULL)
+m_pImbeddedEmitter(nullptr)
 {
     m_uiLastUpdateTime -= m_iTimeNudge;
 
     m_uiStartTime += m_iDelay;
     m_uiLastUpdateTime += m_iDelay;
 
-    Update(INVALID_TIME, NULL);
+    Update(INVALID_TIME, nullptr);
 
-    IEmitter *pCurrentEmitter(NULL);
+    IEmitter *pCurrentEmitter(nullptr);
     const tsvector &vEmitters(eSettings.GetEmitters());
     if (!vEmitters.empty())
     {
@@ -166,10 +166,10 @@ m_pImbeddedEmitter(NULL)
 
         IEmitterDef *pEmitterDef(pEffect->GetEmitterDef(*cit));
 
-        if (pEmitterDef != NULL)
+        if (pEmitterDef != nullptr)
             m_pImbeddedEmitter = pEmitterDef->Spawn(uiStartTime + m_iDelay, m_pParticleSystem, this);
 
-        if (m_pImbeddedEmitter != NULL)
+        if (m_pImbeddedEmitter != nullptr)
         {
             ++cit;
 
@@ -178,9 +178,9 @@ m_pImbeddedEmitter(NULL)
             for (; cit != vEmitters.end(); ++cit)
             {
                 IEmitterDef *pEmitterDef(pEffect->GetEmitterDef(*cit));
-                IEmitter *pNewEmitter(NULL);
+                IEmitter *pNewEmitter(nullptr);
 
-                if (pEmitterDef != NULL)
+                if (pEmitterDef != nullptr)
                     pNewEmitter = pEmitterDef->Spawn(uiStartTime + m_iDelay, m_pParticleSystem, this);
 
                 pCurrentEmitter->SetNextEmitter(pNewEmitter);
@@ -195,9 +195,9 @@ m_pImbeddedEmitter(NULL)
         for (int i(0); i < (*it)->GetCount(); ++i)
         {
             IEmitter *pNewEmitter((*it)->Spawn(uiStartTime + m_iDelay, m_pParticleSystem, this));
-            if (pNewEmitter != NULL)
+            if (pNewEmitter != nullptr)
             {
-                if (pCurrentEmitter == NULL)
+                if (pCurrentEmitter == nullptr)
                 {
                     m_pImbeddedEmitter = pNewEmitter;
                     pCurrentEmitter = m_pImbeddedEmitter;
@@ -353,20 +353,20 @@ bool    CControllerEmitter::Update(uint uiMilliseconds, ParticleTraceFn_t pfnTra
 
     UpdateNextEmitter(uiMilliseconds, pfnTrace);
 
-    if (m_pImbeddedEmitter != NULL)
+    if (m_pImbeddedEmitter != nullptr)
     {
         if (!UpdateEmbeddedEmitter(uiMilliseconds, pfnTrace, !m_bActive))
         {
             IEmitter *pEmitter(m_pImbeddedEmitter);
 
-            if (pEmitter->GetNextEmitter() != NULL)
+            if (pEmitter->GetNextEmitter() != nullptr)
             {
                 m_pImbeddedEmitter = pEmitter->GetNextEmitter();
-                pEmitter->SetNextEmitter(NULL);
+                pEmitter->SetNextEmitter(nullptr);
             }
             else
             {
-                m_pImbeddedEmitter = NULL;
+                m_pImbeddedEmitter = nullptr;
             }
 
             K2_DELETE(pEmitter);
@@ -385,7 +385,7 @@ bool    CControllerEmitter::Update(uint uiMilliseconds, ParticleTraceFn_t pfnTra
   ====================*/
 uint    CControllerEmitter::GetNumEmitters()
 {
-    return m_pImbeddedEmitter != NULL ? 1 : 0;
+    return m_pImbeddedEmitter != nullptr ? 1 : 0;
 }
 
 
@@ -394,5 +394,5 @@ uint    CControllerEmitter::GetNumEmitters()
   ====================*/
 IEmitter*   CControllerEmitter::GetEmitter(uint uiIndex)
 {
-    return uiIndex == 0 ? m_pImbeddedEmitter : NULL;
+    return uiIndex == 0 ? m_pImbeddedEmitter : nullptr;
 }

@@ -75,7 +75,7 @@ DEFINE_ENTITY_DESC(IVisualEntity, 1)
   IVisualEntity::IVisualEntity
   ====================*/
 IVisualEntity::IVisualEntity() :
-IGameEntity(NULL),
+IGameEntity(nullptr),
 
 m_uiWorldIndex(INVALID_INDEX),
 m_uiTeamID(TEAM_PASSIVE),
@@ -97,7 +97,7 @@ m_yLastProcessedEvent(0),
 
 m_uiLocalFlags(0),
 
-m_pSkeleton(NULL),
+m_pSkeleton(nullptr),
 
 m_uiClientRenderFlags(0),
 m_v4HighlightColor(WHITE),
@@ -324,7 +324,7 @@ void    IVisualEntity::ApplyWorldEntity(const CWorldEntity &ent)
   ====================*/
 void    IVisualEntity::UpdateSkeleton(bool bPose)
 {
-    if (m_pSkeleton == NULL)
+    if (m_pSkeleton == nullptr)
         return;
 
     m_pSkeleton->SetModel(GetModel());
@@ -520,7 +520,7 @@ bool    IVisualEntity::AddToScene(const CVec4f &v4Color, int iFlags)
     CVec4f v4TintedColor(v4Color);
 
     CPlayer *pLocalPlayer(Game.GetLocalPlayer());
-    if (pLocalPlayer == NULL)
+    if (pLocalPlayer == nullptr)
         return false;
 
     if (!pLocalPlayer->CanSee(this))
@@ -692,7 +692,7 @@ void    IVisualEntity::UpdateEffectThreadSource(CEffectThread *pEffectThread)
     else
         pEffectThread->SetSourceEffectScale(1.0f);
 
-    pEffectThread->SetSourceVisibility(Game.GetLocalPlayer() == NULL || Game.GetLocalPlayer()->CanSee(this));
+    pEffectThread->SetSourceVisibility(Game.GetLocalPlayer() == nullptr || Game.GetLocalPlayer()->CanSee(this));
 }
 
 
@@ -714,7 +714,7 @@ void    IVisualEntity::UpdateEffectThreadTarget(CEffectThread *pEffectThread)
     else
         pEffectThread->SetTargetEffectScale(1.0f);
 
-    pEffectThread->SetTargetVisibility(Game.GetLocalPlayer() == NULL || Game.GetLocalPlayer()->CanSee(this));
+    pEffectThread->SetTargetVisibility(Game.GetLocalPlayer() == nullptr || Game.GetLocalPlayer()->CanSee(this));
 }
 
 
@@ -734,7 +734,7 @@ const tstring&  IVisualEntity::GetTerrainType()
 
     Game.GetEntityHandlesInRegion(vEntities, bbWorldBounds, SURF_STATIC | SURF_DYNAMIC | SURF_TREE);
     WorldEntVector_cit cit(vEntities.begin()), citEnd(vEntities.end());
-    CWorldEntity *pWorldEnt(NULL);
+    CWorldEntity *pWorldEnt(nullptr);
     for (; cit != citEnd; ++cit)
     {
         pWorldEnt = Game.GetWorldPointer()->GetEntityByHandle(*cit);
@@ -777,7 +777,7 @@ const tstring&  IVisualEntity::GetTerrainType()
   ====================*/
 void    IVisualEntity::Bind(IUnitEntity *pTarget, const CVec3f &v3Offset, uint uiFlags)
 {
-    if (pTarget == NULL || pTarget->IsBit())
+    if (pTarget == nullptr || pTarget->IsBit())
         return;
 
     pTarget->m_uiBindTargetUID = GetUniqueID();
@@ -828,8 +828,8 @@ void    IVisualEntity::ReleaseBinds()
     for (vector<SEntityBind>::iterator it(m_vBinds.begin()); it != m_vBinds.end(); ++it)
     {
         IGameEntity *pGameEntity(Game.GetEntityFromUniqueID(it->uiEntityUID));
-        IUnitEntity *pEntity(pGameEntity ? pGameEntity->GetAsUnit() : NULL);
-        if (pEntity == NULL)
+        IUnitEntity *pEntity(pGameEntity ? pGameEntity->GetAsUnit() : nullptr);
+        if (pEntity == nullptr)
             continue;
 
         pEntity->m_uiBindTargetUID = INVALID_INDEX;
@@ -842,13 +842,13 @@ void    IVisualEntity::ReleaseBinds()
     for (uivector_it it(m_vBindStateUIDs.begin()); it != m_vBindStateUIDs.end(); ++it)
     {
         IGameEntity *pEntity(Game.GetEntityFromUniqueID(*it));
-        if (pEntity == NULL)
+        if (pEntity == nullptr)
             continue;
         IEntityState *pState(pEntity->GetAsState());
-        if (pState == NULL)
+        if (pState == nullptr)
             continue;
         IUnitEntity *pOwner(pState->GetOwner());
-        if (pOwner == NULL)
+        if (pOwner == nullptr)
             continue;
 
         pState->SetExpireNextFrame(true);
@@ -868,8 +868,8 @@ void    IVisualEntity::ReleaseBind(uint uiUID)
             continue;
 
         IGameEntity *pGameEntity(Game.GetEntityFromUniqueID(it->uiEntityUID));
-        IUnitEntity *pEntity(pGameEntity ? pGameEntity->GetAsUnit() : NULL);
-        if (pEntity == NULL)
+        IUnitEntity *pEntity(pGameEntity ? pGameEntity->GetAsUnit() : nullptr);
+        if (pEntity == nullptr)
             continue;
 
         pEntity->m_uiBindTargetUID = INVALID_INDEX;
@@ -883,13 +883,13 @@ void    IVisualEntity::ReleaseBind(uint uiUID)
     for (uivector_it it(m_vBindStateUIDs.begin()); it != m_vBindStateUIDs.end(); ++it)
     {
         IGameEntity *pEntity(Game.GetEntityFromUniqueID(*it));
-        if (pEntity == NULL)
+        if (pEntity == nullptr)
             continue;
         IEntityState *pState(pEntity->GetAsState());
-        if (pState == NULL)
+        if (pState == nullptr)
             continue;
         IUnitEntity *pOwner(pState->GetOwner());
-        if (pOwner == NULL)
+        if (pOwner == nullptr)
             continue;
 
         if (pOwner->GetUniqueID() != uiUID)
@@ -937,7 +937,7 @@ void    IVisualEntity::Unbind()
         return;
     
     IGameEntity *pBindTarget(Game.GetEntityFromUniqueID(m_uiBindTargetUID));
-    if (pBindTarget == NULL || !pBindTarget->IsVisual())
+    if (pBindTarget == nullptr || !pBindTarget->IsVisual())
         return;
 
     pBindTarget->GetAsVisual()->ReleaseBind(m_uiUniqueID);
@@ -953,7 +953,7 @@ uint    IVisualEntity::GetBindFlags()
         return 0;
     
     IGameEntity *pBindTarget(Game.GetEntityFromUniqueID(m_uiBindTargetUID));
-    if (pBindTarget == NULL || !pBindTarget->IsVisual())
+    if (pBindTarget == nullptr || !pBindTarget->IsVisual())
         return 0;
 
     return pBindTarget->GetAsVisual()->GetBindFlags(m_uiUniqueID);
@@ -968,8 +968,8 @@ bool    IVisualEntity::ServerFrameMovementEnd()
     for (vector<SEntityBind>::iterator it(m_vBinds.begin()); it != m_vBinds.end(); ++it)
     {
         IGameEntity *pGameEntity(Game.GetEntityFromUniqueID(it->uiEntityUID));
-        IVisualEntity *pEntity(pGameEntity ? pGameEntity->GetAsVisual() : NULL);
-        if (pEntity == NULL)
+        IVisualEntity *pEntity(pGameEntity ? pGameEntity->GetAsVisual() : nullptr);
+        if (pEntity == nullptr)
         {
             it->uiEntityUID = INVALID_INDEX;
             continue;
@@ -1001,7 +1001,7 @@ bool    IVisualEntity::ServerFrameMovementEnd()
         }
 
         IUnitEntity *pUnit(pEntity->GetAsUnit());
-        if (pUnit != NULL && !(it->uiFlags & ENT_BIND_NO_PUSH))
+        if (pUnit != nullptr && !(it->uiFlags & ENT_BIND_NO_PUSH))
             pUnit->Moved();
 
         if (m_vBinds.empty())

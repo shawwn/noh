@@ -189,7 +189,7 @@ void    CTreeBranchRenderer::Render(EMaterialPhase ePhase)
     for (size_t z(0); z < branches.m_vIBuffers.size(); ++z)
     {
         glBindBufferARB(GL_ELEMENT_ARRAY_BUFFER, branches.m_vIBuffers[z]);
-        glDrawElements(GL_TRIANGLE_STRIP, branches.m_viNumIndices[z] - 2, GL_UNSIGNED_SHORT, NULL);
+        glDrawElements(GL_TRIANGLE_STRIP, branches.m_viNumIndices[z] - 2, GL_UNSIGNED_SHORT, nullptr);
     }
 
     glPopMatrix();

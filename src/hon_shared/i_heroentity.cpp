@@ -165,7 +165,7 @@ void    IHeroEntity::Copy(const IGameEntity &B)
 
     const IHeroEntity *pB(B.GetAsHero());
 
-    if (pB == NULL) 
+    if (pB == nullptr)
         return;
 
     const IHeroEntity &C(*pB);
@@ -227,7 +227,7 @@ bool    IHeroEntity::ServerFrameThink()
     if (m_uiOwnerEntityIndex == INVALID_INDEX && m_uiAIControllerUID != INVALID_INDEX)
     {
         CEntityCreepSpawner *pController(Game.GetEntityFromUniqueIDAs<CEntityCreepSpawner>(m_uiAIControllerUID));
-        if (pController != NULL)
+        if (pController != nullptr)
         {
             m_v2Waypoint = pController->GetLane().GetNextWaypoint(m_v3Position.xy(), m_v2Waypoint);
 
@@ -239,7 +239,7 @@ bool    IHeroEntity::ServerFrameThink()
             else
             {
                 IBehavior *pBehavior(m_cBrain.GetCurrentBehavior());
-                if (pBehavior != NULL && pBehavior->GetGoal() != m_v2Waypoint)
+                if (pBehavior != nullptr && pBehavior->GetGoal() != m_v2Waypoint)
                 {
                     m_cBrain.GetCurrentBehavior()->SetGoal(m_v2Waypoint);
                     m_cBrain.GetCurrentBehavior()->ForceUpdate();
@@ -275,7 +275,7 @@ void    IHeroEntity::Respawn()
     else
     {
         CTeamInfo *pTeam(Game.GetTeam(GetTeam()));
-        if (pTeam != NULL)
+        if (pTeam != nullptr)
             pTeam->SetHeroSpawnPosition(this);
     }
 
@@ -324,8 +324,8 @@ void    IHeroEntity::Respawn()
 
     // Respawn action
     CHeroDefinition *pDefinition(GetDefinition<CHeroDefinition>());
-    if (pDefinition != NULL)
-        pDefinition->ExecuteActionScript(ACTION_SCRIPT_RESPAWN, this, GetOwner(), this, this, GetPosition(), NULL, GetLevel());
+    if (pDefinition != nullptr)
+        pDefinition->ExecuteActionScript(ACTION_SCRIPT_RESPAWN, this, GetOwner(), this, this, GetPosition(), nullptr, GetLevel());
 
     Game.UnitRespawned(m_uiIndex);
     Game.UpdateUnitVisibility(this);
@@ -345,7 +345,7 @@ bool    IHeroEntity::ServerFrameMovement()
     if (GetStatus() != ENTITY_STATUS_ACTIVE)
     {
         CPlayer *pOwner(GetOwnerPlayer());
-        if (pOwner != NULL)
+        if (pOwner != nullptr)
             pOwner->SetLastInteractionTime(Game.GetGameTime());
     }
 
@@ -408,7 +408,7 @@ void    IHeroEntity::Die(IUnitEntity *pAttacker, ushort unKillingObjectID)
 
     uint uiDelay(1000);
 
-    if (pAttacker != NULL && pPlayerOwner != NULL && !HasUnitFlags(UNIT_FLAG_ILLUSION))
+    if (pAttacker != nullptr && pPlayerOwner != nullptr && !HasUnitFlags(UNIT_FLAG_ILLUSION))
     {
         ushort uType(EntityRegistry.LookupID(_T("State_Taunted")));
 
@@ -416,10 +416,10 @@ void    IHeroEntity::Die(IUnitEntity *pAttacker, ushort unKillingObjectID)
         bool bSmackdown(false);
         for (int i(INVENTORY_START_STATES); i < INVENTORY_END_STATES && (!bHumilation || !bSmackdown); ++i)
         {
-            if (pAttacker->GetState(i) != NULL && pAttacker->GetState(i)->GetType() == uType && pAttacker->GetState(i)->GetInflictor() == this)
+            if (pAttacker->GetState(i) != nullptr && pAttacker->GetState(i)->GetType() == uType && pAttacker->GetState(i)->GetInflictor() == this)
                 bHumilation = true;
 
-            if (GetState(i) != NULL && GetState(i)->GetType() == uType && GetState(i)->GetInflictor() == pAttacker)
+            if (GetState(i) != nullptr && GetState(i)->GetType() == uType && GetState(i)->GetInflictor() == pAttacker)
                 bSmackdown = true;
         }
 
@@ -492,7 +492,7 @@ void    IHeroEntity::Die(IUnitEntity *pAttacker, ushort unKillingObjectID)
 
                 for (int i(INVENTORY_START_STATES); i < INVENTORY_END_STATES && (!bAttackerTaunted || !bThisTaunted); i++)
                 {
-                    if ((*it)->GetState(i) != NULL && (*it)->GetState(i)->GetType() == uType && (*it)->GetState(i)->GetInflictor() == pAttacker)
+                    if ((*it)->GetState(i) != nullptr && (*it)->GetState(i)->GetType() == uType && (*it)->GetState(i)->GetInflictor() == pAttacker)
                         (*it)->RemoveState(i);      
                 }
             }
@@ -508,7 +508,7 @@ void    IHeroEntity::Die(IUnitEntity *pAttacker, ushort unKillingObjectID)
     if (GetProtectedDeath())
         return;
 
-    if (pPlayerOwner != NULL)
+    if (pPlayerOwner != nullptr)
     {
         ushort unGoldLoss(GetDeathGoldCost());
         if (pPlayerOwner->GetGold() < unGoldLoss)
@@ -518,7 +518,7 @@ void    IHeroEntity::Die(IUnitEntity *pAttacker, ushort unKillingObjectID)
         pPlayerOwner->TakeGold(unGoldLoss);
         pPlayerOwner->AdjustStat(PLAYER_STAT_DEATHS, 1);
 
-        if (pAttacker != NULL && pAttacker->IsValidPlayer())
+        if (pAttacker != nullptr && pAttacker->IsValidPlayer())
         {
             // Increment this players KilledBy map with their killer's client number for Rival/Payback tracking
             pPlayerOwner->UpdateKilledBy(pAttacker->GetOwnerClientNumber());
@@ -526,14 +526,14 @@ void    IHeroEntity::Die(IUnitEntity *pAttacker, ushort unKillingObjectID)
             CPlayer *pKiller(Game.GetPlayerFromClientNumber(pAttacker->GetOwnerClientNumber()));
             
             // If the attacker contributed towards this kill, reset their KilledBy map value for their victim
-            if (pKiller != NULL)
+            if (pKiller != nullptr)
                 pKiller->ResetKilledBy(pPlayerOwner->GetClientNumber());
         }
             
         
         Game.LogGold(GAME_LOG_GOLD_LOST, pPlayerOwner, pAttacker, unGoldLoss);
 
-        if (pAttacker != NULL && pAttacker != this)
+        if (pAttacker != nullptr && pAttacker != this)
         {
             if (pPlayerOwner->GetKillStreak() > 2)
                 Game.LogAward(GAME_LOG_AWARD_KILL_STREAK_BREAK, pAttacker, this);
@@ -556,7 +556,7 @@ void    IHeroEntity::Die(IUnitEntity *pAttacker, ushort unKillingObjectID)
 
     // Check for a team wipe
     CTeamInfo *pTeam(Game.GetTeam(GetTeam()));
-    if (pTeam != NULL && pTeam->GetNumActiveClients() > 1 && pTeam->AreAllDead() && !pTeam->GetAllKilled())
+    if (pTeam != nullptr && pTeam->GetNumActiveClients() > 1 && pTeam->AreAllDead() && !pTeam->GetAllKilled())
     {
         pTeam->SetAllKilled(true);
 
@@ -581,7 +581,7 @@ void    IHeroEntity::KillReward(IUnitEntity *pKiller, CPlayer *pPlayerKiller)
     AssistsReward(pKiller, pPlayerKiller, vAssistPlayers);
     
     if (pKiller != this)
-        Game.LogKill(this, pKiller, NULL, &vAssistPlayers);
+        Game.LogKill(this, pKiller, nullptr, &vAssistPlayers);
 
     // Kill message
     ushort unGoldBounty(GetGoldBounty());
@@ -591,7 +591,7 @@ void    IHeroEntity::KillReward(IUnitEntity *pKiller, CPlayer *pPlayerKiller)
     // Loop over all the players who assisted with this kill, and update the KilledBy map for Rival/Payback messages
     for (ivector::iterator it(vAssistPlayers.begin()), itEnd(vAssistPlayers.end()); it != itEnd; ++it)
     {
-        if (pPlayerOwner != NULL)
+        if (pPlayerOwner != nullptr)
         {
             // For every one of the players who assisted killing this player, increment this players KilledBy map for their client numbers
             pPlayerOwner->UpdateKilledBy(*it);
@@ -599,15 +599,15 @@ void    IHeroEntity::KillReward(IUnitEntity *pKiller, CPlayer *pPlayerKiller)
             CPlayer *pAssister(Game.GetPlayerFromClientNumber(*it));
             
             // If a player contributed towards this kill, reset the KilledBy value
-            if (pAssister != NULL)
+            if (pAssister != nullptr)
                 pAssister->ResetKilledBy(pPlayerOwner->GetClientNumber());
         }
     }
 #endif
 
-    if (pPlayerKiller != NULL)
+    if (pPlayerKiller != nullptr)
     {
-        if (pPlayerOwner != NULL)
+        if (pPlayerOwner != nullptr)
         {
             if (pKiller == this)
             {
@@ -643,15 +643,15 @@ void    IHeroEntity::KillReward(IUnitEntity *pKiller, CPlayer *pPlayerKiller)
 
         FirstBloodReward(pKiller, pPlayerKiller);
 
-        if (pPlayerOwner == NULL || (pPlayerOwner->GetTeam() != pPlayerKiller->GetTeam()))
+        if (pPlayerOwner == nullptr || (pPlayerOwner->GetTeam() != pPlayerKiller->GetTeam()))
         {
             pPlayerKiller->AdjustStat(PLAYER_STAT_HERO_KILLS, 1);
             pPlayerKiller->RewardKill();
         }
     }
-    else if (pKiller != NULL)
+    else if (pKiller != nullptr)
     {
-        if (pPlayerOwner != NULL)
+        if (pPlayerOwner != nullptr)
         {
             if (pKiller->GetTeam() == TEAM_1 || pKiller->GetTeam() == TEAM_2)
             {
@@ -679,7 +679,7 @@ void    IHeroEntity::KillReward(IUnitEntity *pKiller, CPlayer *pPlayerKiller)
             }
         }
     }
-    else if (pPlayerOwner != NULL)
+    else if (pPlayerOwner != nullptr)
     {
         CBufferFixed<5> buffer;
         buffer << GAME_CMD_UNKNOWN_KILL_MESSAGE << pPlayerOwner->GetClientNumber();
@@ -695,7 +695,7 @@ void    IHeroEntity::KillReward(IUnitEntity *pKiller, CPlayer *pPlayerKiller)
   ====================*/
 void    IHeroEntity::AssistsReward(IUnitEntity *&pKiller, CPlayer *&pPlayerKiller, ivector &vAssistPlayers)
 {
-    if (pKiller != NULL && pKiller->GetTeam() == GetTeam())
+    if (pKiller != nullptr && pKiller->GetTeam() == GetTeam())
         return;
 
     float fTotalRecentDamage(0.0f);
@@ -707,7 +707,7 @@ void    IHeroEntity::AssistsReward(IUnitEntity *&pKiller, CPlayer *&pPlayerKille
     {
         SDamageTrackerLog &logDamage(*it);
         CPlayer *pPlayer(Game.GetPlayer(logDamage.iPlayerOwner));
-        if (pPlayer == NULL || pPlayer->GetTeam() == GetTeam() || pPlayer == pPlayerKiller)
+        if (pPlayer == nullptr || pPlayer->GetTeam() == GetTeam() || pPlayer == pPlayerKiller)
             continue;
 
         if (Game.GetGameTime() - logDamage.uiTimeStamp > g_assistTimeThreshold)
@@ -723,15 +723,15 @@ void    IHeroEntity::AssistsReward(IUnitEntity *&pKiller, CPlayer *&pPlayerKille
     for (int iSlot(INVENTORY_START_STATES); iSlot <= INVENTORY_END_STATES; ++iSlot)
     {
         IEntityState *pState(GetState(iSlot));
-        if (pState == NULL)
+        if (pState == nullptr)
             continue;
 
         IUnitEntity *pInflictor(pState->GetInflictor());
-        if (pInflictor == NULL)
+        if (pInflictor == nullptr)
             continue;
 
         CPlayer *pPlayer(pInflictor->GetOwnerPlayer());
-        if (pPlayer == NULL || pPlayer->GetTeam() == GetTeam() || pPlayer == pPlayerKiller)
+        if (pPlayer == nullptr || pPlayer->GetTeam() == GetTeam() || pPlayer == pPlayerKiller)
             continue;
 
         if (Game.IsAssist(pState->GetEffectType()))
@@ -750,7 +750,7 @@ void    IHeroEntity::AssistsReward(IUnitEntity *&pKiller, CPlayer *&pPlayerKille
     }
 
     // A kill with no valid killer and a single assist goes to the assister
-    if (pPlayerKiller == NULL && vAssists.size() == 1)
+    if (pPlayerKiller == nullptr && vAssists.size() == 1)
     {
         pKiller = Game.GetUnitFromUniqueID(uiAssisterUID);
         pPlayerKiller = vAssists.back();
@@ -765,7 +765,7 @@ void    IHeroEntity::AssistsReward(IUnitEntity *&pKiller, CPlayer *&pPlayerKille
         // Award the assist to the player.
         pPlayerWhoAssisted->AdjustStat(PLAYER_STAT_ASSISTS, 1);
         vAssistPlayers.push_back(pPlayerWhoAssisted->GetClientNumber());
-        Game.LogAssist(this, NULL, NULL, pPlayerWhoAssisted);
+        Game.LogAssist(this, nullptr, nullptr, pPlayerWhoAssisted);
 
         // Get the hero of the player that assisted in the kill.
         IHeroEntity* pHeroWhoAssisted(pPlayerWhoAssisted->GetHero());
@@ -784,8 +784,8 @@ void    IHeroEntity::AssistsReward(IUnitEntity *&pKiller, CPlayer *&pPlayerKille
 
             // if the pet isn't valid, skip it.
             IUnitEntity* pPet(Game.GetUnitEntity(uiGameIndex));
-            assert(pPet != NULL);
-            if (pPet == NULL)
+            assert(pPet != nullptr);
+            if (pPet == nullptr)
                 continue;
 
             // generate the assist event.
@@ -821,7 +821,7 @@ void    IHeroEntity::FirstBloodReward(IUnitEntity *pKiller, CPlayer *pPlayerKill
     if (Game.HasFlags(GAME_FLAG_FIRST_BLOOD))
         return;
     
-    if (pKiller == NULL || pPlayerKiller == NULL)
+    if (pKiller == nullptr || pPlayerKiller == nullptr)
         return;
 
     if (pPlayerKiller->GetTeam() == GetTeam())
@@ -856,7 +856,7 @@ void    IHeroEntity::FirstBloodReward(IUnitEntity *pKiller, CPlayer *pPlayerKill
 CVec4f  IHeroEntity::GetMapIconColor(CPlayer *pLocalPlayer) const
 {
     CPlayer *pPlayer(Game.GetPlayerFromClientNumber(GetOwnerClientNumber()));
-    if (pPlayer == NULL)
+    if (pPlayer == nullptr)
         return IUnitEntity::GetMapIconColor(pLocalPlayer);
 
     return pPlayer->GetColor();
@@ -871,7 +871,7 @@ CVec4f  IHeroEntity::GetTeamColor(CPlayer *pLocalPlayer) const
     if (Game.UsePlayerColors())
     {
         CPlayer *pPlayer(Game.GetPlayerFromClientNumber(GetOwnerClientNumber()));
-        if (pPlayer == NULL)
+        if (pPlayer == nullptr)
             return IUnitEntity::GetTeamColor(pLocalPlayer);
 
         return pPlayer->GetColor();
@@ -914,7 +914,7 @@ ushort  IHeroEntity::GetGoldBounty() const
 {
     ushort unGold(Game.GetHeroGoldBounty() + Game.GetHeroGoldBountyPerLevel() * GetLevel());
     CPlayer *pPlayer(Game.GetPlayer(GetOwnerClientNumber()));
-    if (pPlayer != NULL && pPlayer->GetKillStreak() >= Game.GetHeroGoldBountyMinStreak())
+    if (pPlayer != nullptr && pPlayer->GetKillStreak() >= Game.GetHeroGoldBountyMinStreak())
         unGold += MIN(Game.GetHeroGoldBountyMaxStreak(), (pPlayer->GetKillStreak() - Game.GetHeroGoldBountyMinStreak() + 1)) * Game.GetHeroGoldBountyPerStreak();
     
     return unGold;
@@ -927,7 +927,7 @@ ushort  IHeroEntity::GetGoldBounty() const
 float   IHeroEntity::GiveExperience(float fExperience, IUnitEntity *pSource)
 {
     CGameInfo *pGameInfo(Game.GetGameInfo());
-    if (pGameInfo != NULL)
+    if (pGameInfo != nullptr)
         fExperience *= pGameInfo->GetExperienceMultiplier();
 
     fExperience = MIN(fExperience, GetExperienceForLevel(GetMaxLevel()) - m_fExperience);
@@ -936,7 +936,7 @@ float   IHeroEntity::GiveExperience(float fExperience, IUnitEntity *pSource)
         return 0.0f;
 
     CPlayer *pOwner(GetOwnerPlayer());
-    if (pOwner != NULL)
+    if (pOwner != nullptr)
     {
         // store the time at which we last earned experience before the game ended.
         if (!Game.IsGameOver())
@@ -990,7 +990,7 @@ float   IHeroEntity::GiveExperience(float fExperience, IUnitEntity *pSource)
         }
     }
 
-    Game.SendPopup(POPUP_EXPERIENCE, pSource == NULL ? this : pSource, this, ushort(fExperience));
+    Game.SendPopup(POPUP_EXPERIENCE, pSource == nullptr ? this : pSource, this, ushort(fExperience));
     return fExperience;
 }
 
@@ -1005,7 +1005,7 @@ void    IHeroEntity::ResetExperience()
     for (int i(INVENTORY_START_ABILITIES); i <= INVENTORY_END_ABILITIES; ++i)
     {
         IEntityAbility *pAbility(GetAbility(i));
-        if (pAbility != NULL)
+        if (pAbility != nullptr)
             pAbility->SetLevel(0);
     }
 
@@ -1022,7 +1022,7 @@ int     IHeroEntity::GetAvailablePoints() const
     for (int i(INVENTORY_START_ABILITIES); i <= INVENTORY_END_ABILITIES; ++i)
     {
         IEntityAbility *pAbility(GetAbility(i));
-        if (pAbility != NULL && pAbility->GetMaxLevel() > 0)
+        if (pAbility != nullptr && pAbility->GetMaxLevel() > 0)
             iTotal += pAbility->GetLevel() - pAbility->GetBaseLevel();
     }
 
@@ -1039,8 +1039,8 @@ IUnitEntity*    IHeroEntity::SpawnIllusion(const CVec3f &v3Position, const CVec3
                                            bool bDeathAnim, bool bInheritActions)
 {
     IUnitEntity *pUnit(IUnitEntity::SpawnIllusion(v3Position, v3Angles, uiLifetime, fReceiveDamageMultiplier, fInflictDamageMultiplier, hSpawnEffect, hDeathEffect, bDeathAnim, bInheritActions));
-    IHeroEntity *pIllusion(pUnit ? pUnit->GetAsHero() : NULL);
-    if (pIllusion != NULL)
+    IHeroEntity *pIllusion(pUnit ? pUnit->GetAsHero() : nullptr);
+    if (pIllusion != nullptr)
     {
         pIllusion->SetExperience(GetExperience());
         pIllusion->SetHealth(GetHealth());
@@ -1061,7 +1061,7 @@ void    IHeroEntity::Moved()
     IUnitEntity::Moved();
 
     IBehavior *pBehavior(m_cBrain.GetCurrentBehavior());
-    if (pBehavior != NULL && pBehavior->GetDefault())
+    if (pBehavior != nullptr && pBehavior->GetDefault())
         pBehavior->SetGoal(m_v3Position.xy());
 }
 
@@ -1137,7 +1137,7 @@ void    IHeroEntity::DrawOnMap(CUITrigger &minimap, CPlayer *pLocalPlayer) const
         
         buffer << GetMapIconSize(pLocalPlayer) * fSize << GetMapIconSize(pLocalPlayer) * fSize;
     
-        CVec4f v4Color(pPlayer == NULL ? IUnitEntity::GetMapIconColor(pLocalPlayer) : pPlayer->GetColor());
+        CVec4f v4Color(pPlayer == nullptr ? IUnitEntity::GetMapIconColor(pLocalPlayer) : pPlayer->GetColor());
 
         if (bTarget)
             v4Color = CVec4f(1.0f, 1.0f, 1.0f, 1.0f);
@@ -1189,7 +1189,7 @@ void    IHeroEntity::DrawOnMap(CUITrigger &minimap, CPlayer *pLocalPlayer) const
 void    IHeroEntity::AddIndicator()
 {
     CPlayer *pLocalPlayer(Game.GetLocalPlayer());
-    if (pLocalPlayer == NULL)
+    if (pLocalPlayer == nullptr)
         return;
 
     float fSize(128.0f);

@@ -48,7 +48,7 @@ public:
     }
 
     CWorldEntityEx() :
-    m_pSkeleton(NULL)
+    m_pSkeleton(nullptr)
     {
     }
 

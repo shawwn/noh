@@ -10,7 +10,7 @@ struct SBlendedLink
     int             num_weights;    //number of weights this vertex is affected by (from 1 to CModel::numBones, or any maximum that we decide to set)
                                     //if num_weights is 1, use the union member "index" to get the bone attachment
 
-    //SBlendedLink() : indexes(NULL), weights(NULL), num_weights(0) {}
+    //SBlendedLink() : indexes(nullptr), weights(nullptr), num_weights(0) {}
 };
 
 #endif // __BLENDEDLINK_T__

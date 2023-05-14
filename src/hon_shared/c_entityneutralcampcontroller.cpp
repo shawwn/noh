@@ -258,7 +258,7 @@ void    CEntityNeutralCampController::GameStart()
             else
             {
                 IVisualEntity *pTarget(Game.GetEntityFromName(*itList));
-                if (pTarget != NULL)
+                if (pTarget != nullptr)
                     *itUIDList = pTarget->GetUniqueID();
                 else
                 {
@@ -319,7 +319,7 @@ bool    CEntityNeutralCampController::AttemptSpawn()
     for (uivector_it it(vEntities.begin()); it != vEntities.end(); ++it)
     {
         IUnitEntity *pUnit(Game.GetUnitEntity(Game.GetGameIndexFromWorldIndex(*it)));
-        if (pUnit == NULL)
+        if (pUnit == nullptr)
             continue;
         if (pUnit->GetNoBlockNeutralSpawn())
             continue;
@@ -343,18 +343,18 @@ bool    CEntityNeutralCampController::AttemptSpawn()
     {
         IGameEntity *pSpawner(Game.GetEntityFromUniqueID(*it));
         assert(pSpawner);
-        if (pSpawner == NULL)
+        if (pSpawner == nullptr)
             continue;
 
         CEntityNeutralCampSpawner *pNeutralSpawner(pSpawner->GetAsNeutralCampSpawner());
         assert(pNeutralSpawner);
-        if (pNeutralSpawner == NULL)
+        if (pNeutralSpawner == nullptr)
             continue;
 
         pSpawner->Trigger(this);
 
         IUnitEntity *pUnit(pNeutralSpawner->GetSpawnedUnit());
-        if (pUnit == NULL)
+        if (pUnit == nullptr)
             continue;
 
         assert(pUnit->GetUniqueID() != INVALID_INDEX);

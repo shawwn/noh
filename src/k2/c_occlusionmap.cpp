@@ -26,8 +26,8 @@
 COcclusionMap::COcclusionMap(EWorldComponent eComponent) :
 IWorldComponent(eComponent, _T("OcclusionMap")),
 m_bInitialized(false),
-m_pTerrain(NULL),
-m_pCombined(NULL),
+m_pTerrain(nullptr),
+m_pCombined(nullptr),
 m_uiSize(2),
 m_fScale(1.0f),
 m_bRebuildOcclusion(true)
@@ -139,7 +139,7 @@ bool    COcclusionMap::Generate(const CWorld *pWorld)
         Release();
 
         m_pWorld = pWorld;
-        if (m_pWorld == NULL)
+        if (m_pWorld == nullptr)
             EX_ERROR(_T("Invalid CWorld pointer"));
 
         m_uiSize = 1 << m_pWorld->GetVisibilitySize();
@@ -221,7 +221,7 @@ bool    COcclusionMap::GetRegion(const CRecti &recArea, byte *pDst, float fHeigh
         for (WorldEntList_it it(vEntities.begin()), itEnd(vEntities.end()); it != itEnd; ++it)
         {
             CWorldEntity *pWorldEnt(m_pWorld->GetEntityByHandle(*it));
-            if (pWorldEnt == NULL)
+            if (pWorldEnt == nullptr)
                 continue;
 
             if (pWorldEnt->GetOcclusionRadius() > 0.0f && ~pWorldEnt->GetSurfFlags() & SURF_IGNORE)

@@ -40,7 +40,7 @@ m_bPressed(false),
 m_uiState(0),
 m_refCvar(style.GetProperty(_T("cvar"))),
 m_uiNumStates(MAX(style.GetPropertyInt(_T("numstates"), 1), 1)),
-m_vStateGroups(m_uiNumStates, ButtonStateGroupVector(NUM_UI_BUTTON_TEXTURES, NULL)),
+m_vStateGroups(m_uiNumStates, ButtonStateGroupVector(NUM_UI_BUTTON_TEXTURES, nullptr)),
 m_eActiveTexture(UI_BUTTON_TEXTURE_UP)
 {
     SetFlags(WFLAG_PASSIVE_CHILDREN);
@@ -140,8 +140,8 @@ bool    CButton::ButtonDown(EButton button)
     {
     case BUTTON_ENTER:
         {
-            m_pInterface->SetExclusiveWidget(NULL);
-            m_pInterface->SetActiveWidget(NULL);
+            m_pInterface->SetExclusiveWidget(nullptr);
+            m_pInterface->SetActiveWidget(nullptr);
 
             uint uiState(m_uiState + 1 >= m_uiNumStates ? 0 : m_uiState + 1);
             SetState(uiState);
@@ -247,8 +247,8 @@ void    CButton::MouseUp(EButton button, const CVec2f &v2CursorPos)
     if (!m_bPressed)
         return;
 
-    m_pInterface->SetExclusiveWidget(NULL);
-    m_pInterface->SetActiveWidget(NULL);
+    m_pInterface->SetExclusiveWidget(nullptr);
+    m_pInterface->SetActiveWidget(nullptr);
 
     m_v2LastCursorPos.Set(-1, -1);
 
@@ -505,7 +505,7 @@ void    CButton::RecalculateSize()
     {
         for (ButtonStateGroupVector_it itState(itGroup->begin()), itStateEnd(itGroup->end()); itState != itStateEnd; ++itState)
         {
-            if (*itState != NULL)
+            if (*itState != nullptr)
                 (*itState)->RecalculateSize();
         }
     }
@@ -522,7 +522,7 @@ void    CButton::RecalculatePosition()
     {
         for (ButtonStateGroupVector::iterator itState(itStateGroup->begin()); itState != itStateGroup->end(); ++itState)
         {
-            if (*itState != NULL)
+            if (*itState != nullptr)
                 (*itState)->RecalculatePosition();
         }
     }

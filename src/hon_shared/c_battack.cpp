@@ -80,7 +80,7 @@ void    CBAttack::Init(CBrain *pBrain, IUnitEntity *pSelf, uint uiTargetIndex, u
 
     // Update disjoint sequence because we're beginning an attack
     const IUnitEntity *pTargetUnit = Game.GetUnitEntity(uiTargetIndex);
-    if (pTargetUnit != NULL)
+    if (pTargetUnit != nullptr)
         m_uiTargetOrderDisjointSequence = pTargetUnit->GetOrderDisjointSequence();
 }
 
@@ -98,7 +98,7 @@ bool    CBAttack::Validate()
 
     IUnitEntity *pTarget(Game.GetUnitEntity(GetTarget()));
 
-    if (pTarget == NULL || (m_uiEndTime != INVALID_TIME && m_uiEndTime <= Game.GetGameTime()))
+    if (pTarget == nullptr || (m_uiEndTime != INVALID_TIME && m_uiEndTime <= Game.GetGameTime()))
     {
         SetFlag(BSR_END);
         return false;
@@ -129,7 +129,7 @@ void    CBAttack::Update()
   ====================*/
 void    CBAttack::BeginBehavior()
 {
-    if (m_pSelf == NULL)
+    if (m_pSelf == nullptr)
     {
         Console << _T("CBAttack: Behavior started without valid information") << newl;
         return;
@@ -164,7 +164,7 @@ void    CBAttack::BeginBehavior()
 
     // Check for a target that has become invalid
     IUnitEntity *pTarget(Game.GetUnitEntity(GetTarget()));
-    if (pTarget == NULL ||
+    if (pTarget == nullptr ||
         (!m_pSelf->CanSee(pTarget) && !pTarget->GetAlwaysTargetable()))
     {
         m_pSelf->SetTargetIndex(INVALID_INDEX);
@@ -195,7 +195,7 @@ void    CBAttack::ThinkFrame()
     // Only update think variables on valid targets, otherwise reset
     IUnitEntity *pTarget(Game.GetUnitEntity(GetTarget()));
 
-    if (pTarget != NULL &&
+    if (pTarget != nullptr &&
         pTarget->GetStatus() == ENTITY_STATUS_ACTIVE)
     {
         CVec3f v3Position(m_pSelf->GetPosition());
@@ -251,7 +251,7 @@ void    CBAttack::ThinkFrame()
     }
 
     // Check for a target that has become invalid after our current attack had ended
-    if (pTarget == NULL ||
+    if (pTarget == nullptr ||
         pTarget->GetStatus() != ENTITY_STATUS_ACTIVE)
     {
         m_pSelf->SetTargetIndex(INVALID_INDEX);
@@ -304,7 +304,7 @@ void    CBAttack::MovementFrame()
         return;
 
     IUnitEntity *pTarget(Game.GetUnitEntity(GetTarget()));
-    if (pTarget == NULL)
+    if (pTarget == nullptr)
         return;
 
     if (m_fDistSq <= SQR(m_fRange) && m_bSight)
@@ -435,7 +435,7 @@ void    CBAttack::ActionFrame()
 
     IUnitEntity *pTarget(Game.GetUnitEntity(GetTarget()));
 
-    bool bAlwaysTargetable(pTarget != NULL && pTarget->GetAlwaysTargetable());
+    bool bAlwaysTargetable(pTarget != nullptr && pTarget->GetAlwaysTargetable());
 
     // Chase until we reach last sighted position
     if (!m_bSight && !bAlwaysTargetable)

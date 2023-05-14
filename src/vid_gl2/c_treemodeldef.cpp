@@ -211,7 +211,7 @@ void    CTreeModelDef::LoadBranches()
 
         glGenBuffersARB(1, &branchLOD.m_VBuffer);
         glBindBufferARB(GL_ARRAY_BUFFER_ARB, branchLOD.m_VBuffer);
-        glBufferDataARB(GL_ARRAY_BUFFER_ARB, branchLOD.m_iNumVerts * sizeof(SBranchVert), NULL, GL_STATIC_DRAW_ARB);
+        glBufferDataARB(GL_ARRAY_BUFFER_ARB, branchLOD.m_iNumVerts * sizeof(SBranchVert), nullptr, GL_STATIC_DRAW_ARB);
 
         byte* pVertices = (byte*)glMapBufferARB(GL_ARRAY_BUFFER_ARB, GL_WRITE_ONLY);
         MemManager.Copy(pVertices, it->second->pfVerts, sizeof(SBranchVert) * branchLOD.m_iNumVerts);
@@ -225,7 +225,7 @@ void    CTreeModelDef::LoadBranches()
             GLuint uiIB;
             glGenBuffersARB(1, &uiIB);
             glBindBufferARB(GL_ELEMENT_ARRAY_BUFFER, uiIB);
-            glBufferDataARB(GL_ELEMENT_ARRAY_BUFFER, iStripLength * sizeof(ushort), NULL, GL_STATIC_DRAW_ARB);
+            glBufferDataARB(GL_ELEMENT_ARRAY_BUFFER, iStripLength * sizeof(ushort), nullptr, GL_STATIC_DRAW_ARB);
 
             byte* pIndices = (byte*)glMapBufferARB(GL_ELEMENT_ARRAY_BUFFER, GL_WRITE_ONLY);
             MemManager.Copy(pIndices, it->second->ppwIndices[us], iStripLength * sizeof(ushort));
@@ -256,7 +256,7 @@ void    CTreeModelDef::LoadFronds()
 
         glGenBuffersARB(1, &frondLOD.m_VBuffer);
         glBindBufferARB(GL_ARRAY_BUFFER_ARB, frondLOD.m_VBuffer);
-        glBufferDataARB(GL_ARRAY_BUFFER_ARB, frondLOD.m_iNumVerts * sizeof(SFrondVert), NULL, GL_STATIC_DRAW_ARB);
+        glBufferDataARB(GL_ARRAY_BUFFER_ARB, frondLOD.m_iNumVerts * sizeof(SFrondVert), nullptr, GL_STATIC_DRAW_ARB);
 
         byte* pVertices = (byte*)glMapBufferARB(GL_ARRAY_BUFFER_ARB, GL_WRITE_ONLY);
         MemManager.Copy(pVertices, it->second->pfVerts, sizeof(SFrondVert) * frondLOD.m_iNumVerts);
@@ -270,7 +270,7 @@ void    CTreeModelDef::LoadFronds()
             GLuint uiIB;
             glGenBuffersARB(1, &uiIB);
             glBindBufferARB(GL_ELEMENT_ARRAY_BUFFER, uiIB);
-            glBufferDataARB(GL_ELEMENT_ARRAY_BUFFER, iStripLength * sizeof(ushort), NULL, GL_STATIC_DRAW_ARB);
+            glBufferDataARB(GL_ELEMENT_ARRAY_BUFFER, iStripLength * sizeof(ushort), nullptr, GL_STATIC_DRAW_ARB);
 
             byte* pIndices = (byte*)glMapBufferARB(GL_ELEMENT_ARRAY_BUFFER, GL_WRITE_ONLY);
             MemManager.Copy(pIndices, it->second->ppwIndices[us], iStripLength * sizeof(ushort));
@@ -302,7 +302,7 @@ void    CTreeModelDef::LoadLeaves()
 
         glGenBuffersARB(1, &leafLOD.m_VBuffer);
         glBindBufferARB(GL_ARRAY_BUFFER_ARB, leafLOD.m_VBuffer);
-        glBufferDataARB(GL_ARRAY_BUFFER_ARB, leafLOD.m_iNumVerts * sizeof(SLeafVert), NULL, GL_STATIC_DRAW_ARB);
+        glBufferDataARB(GL_ARRAY_BUFFER_ARB, leafLOD.m_iNumVerts * sizeof(SLeafVert), nullptr, GL_STATIC_DRAW_ARB);
 
         byte* pVertices = (byte*)glMapBufferARB(GL_ARRAY_BUFFER_ARB, GL_WRITE_ONLY);
         MemManager.Copy(pVertices, it->second->pfVerts, sizeof(SLeafVert) * leafLOD.m_iNumVerts);
@@ -316,7 +316,7 @@ void    CTreeModelDef::LoadLeaves()
             GLuint uiIB;
             glGenBuffersARB(1, &uiIB);
             glBindBufferARB(GL_ELEMENT_ARRAY_BUFFER, uiIB);
-            glBufferDataARB(GL_ELEMENT_ARRAY_BUFFER, iStripLength * sizeof(ushort), NULL, GL_STATIC_DRAW_ARB);
+            glBufferDataARB(GL_ELEMENT_ARRAY_BUFFER, iStripLength * sizeof(ushort), nullptr, GL_STATIC_DRAW_ARB);
 
             byte* pIndices = (byte*)glMapBufferARB(GL_ELEMENT_ARRAY_BUFFER, GL_WRITE_ONLY);
             MemManager.Copy(pIndices, it->second->ppwIndices[us], iStripLength * sizeof(ushort));

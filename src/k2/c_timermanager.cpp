@@ -46,7 +46,7 @@ CMD(StartTimer)
         return false;
 
     CTimer *pTimer(TimerManager.AddTimer(vArgList[0]));
-    if (pTimer != NULL)
+    if (pTimer != nullptr)
         pTimer->Start();
     return true;
 }

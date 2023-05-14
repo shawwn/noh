@@ -38,9 +38,9 @@ struct SGameLibInfo
     SGameLibInfo() :
     iMajorVersion(0),
     iMinorVersion(0),
-    Init(NULL),
-    Frame(NULL),
-    Shutdown(NULL)
+    Init(nullptr),
+    Frame(nullptr),
+    Shutdown(nullptr)
     {
     }
 };

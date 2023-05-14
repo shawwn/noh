@@ -41,7 +41,7 @@ END_XML_REGISTRATION
 SETUP_XML_PROCESSOR_WIDGET(widgetstate, CWidgetState)
     CWidgetStyle style(pInterface, node);
     CWidgetState *pNewWidget(pObject->AllocateWidgetState(style));
-    if (pNewWidget == NULL)
+    if (pNewWidget == nullptr)
     {
         Console.Err << _T("Failed creating widget: ") << m_sElementName << newl;
         return false;

@@ -29,10 +29,10 @@ static const uint   K2_FILE_CHUNK(128 * 1024);
   CFileStream::CFileStream
   ====================*/
 CFileStream::CFileStream()
-: m_File(NULL)
-, m_pBuffer(NULL)
+: m_File(nullptr)
+, m_pBuffer(nullptr)
 , m_uiReadSize(0)
-, m_pZlib(NULL)
+, m_pZlib(nullptr)
 , m_uiCompressedOffset(0)
 , m_uiCompressedSize(0)
 {
@@ -54,7 +54,7 @@ bool    CFileStream::EnsureData(uint uiSize) const
         if (ferror(m_File))
             return false;
 
-        if (m_pZlib == NULL)
+        if (m_pZlib == nullptr)
         {
             // Regular file
             uint uiReadCount(uiSize - m_uiReadSize);
@@ -122,7 +122,7 @@ FILE*   CFileStream::LocateCompressedFile(const tstring& sZipFilePath, const tst
 
     // Invalid zip file?
     FILE* fp(tfopen(TStringToNative(sZipFilePath).c_str(), "rb"));
-    if (fp != NULL)
+    if (fp != nullptr)
     {
         fseek(fp, 0, SEEK_END);
         uint uiZipFileSize(ftell(fp));
@@ -221,7 +221,7 @@ FILE*   CFileStream::LocateCompressedFile(const tstring& sZipFilePath, const tst
         }
     }
     fclose(fp);
-    return NULL;
+    return nullptr;
 }
 
 
@@ -246,8 +246,8 @@ bool    CFileStream::AcquireCompressedFile(FILE* fp, uint uiCompressedOffset, ui
 
     fseek(m_File, m_uiCompressedOffset, SEEK_SET);
 
-    assert(m_pBuffer == NULL);
-    assert(m_pZlib == NULL);
+    assert(m_pBuffer == nullptr);
+    assert(m_pZlib == nullptr);
     m_pZlib = new z_stream;
     m_pZlib->zalloc = Z_NULL;
     m_pZlib->zfree = Z_NULL;
@@ -315,7 +315,7 @@ bool    CFileStream::Open(const tstring &sPath, int iMode)
         m_iMode |= FILE_BLOCK;
 
     // validate file
-    if (m_File == NULL)
+    if (m_File == nullptr)
         return false;
 
     // Get size
@@ -357,7 +357,7 @@ bool    CFileStream::OpenCompressed(const tstring &sZipFile, const tstring &sDir
     uint uiCompressedOffset(0);
     uint uiCompressedSize(0);
     FILE* fp(LocateCompressedFile(sZipFile, sPath, uiCompressedOffset, uiCompressedSize, uiRawSize));
-    if (fp == NULL)
+    if (fp == nullptr)
     {
         Close();
         return false;
@@ -384,16 +384,16 @@ void    CFileStream::Close()
 {
     SAFE_DELETE_ARRAY(m_pBuffer);
 
-    if (m_pZlib != NULL)
+    if (m_pZlib != nullptr)
     {
         inflateEnd(m_pZlib);
         SAFE_DELETE(m_pZlib);
     }
 
-    if (m_File != NULL)
+    if (m_File != nullptr)
     {
         fclose(m_File);
-        m_File = NULL;
+        m_File = nullptr;
     }
 }
 
@@ -403,7 +403,7 @@ void    CFileStream::Close()
   ====================*/
 bool    CFileStream::IsOpen() const
 {
-    if (m_pBuffer != NULL)
+    if (m_pBuffer != nullptr)
         return true;
 
     return false;
@@ -829,7 +829,7 @@ const char  *CFileStream::GetBuffer(uint &uiSize)
     if (!EnsureData(m_uiSize))
     {
         uiSize = 0;
-        return NULL;
+        return nullptr;
     }
 
     uiSize = m_uiSize;
@@ -893,7 +893,7 @@ bool    CFileStream::Seek(uint uiOffset, ESeekOrigin eOrigin)
 {
     bool bResult;
 
-    if (m_pBuffer != NULL)
+    if (m_pBuffer != nullptr)
     {
         bResult = CFile::Seek(uiOffset, eOrigin);
         EnsureData(m_uiPos);

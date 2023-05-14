@@ -22,7 +22,7 @@ public:
     inline static int Cof(SZipFile *pFile);
     inline static int ReadCurrentFile(SZipFile *pFile, voidp pBuf, uint iLen);
 
-    bool    IsOpen() const  { return m_pzipFile != NULL; }
+    bool    IsOpen() const  { return m_pzipFile != nullptr; }
 
 private:
     int     GoToFirstFile();

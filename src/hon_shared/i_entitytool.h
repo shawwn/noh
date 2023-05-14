@@ -76,7 +76,7 @@ protected:
     bool        Impact(IUnitEntity *pTarget, const CVec3f &v3Target, const CVec3f &v3Delta, bool bSecondary, int iIssuedClientNumber, float fManaCost);
 
     void        ExecuteOwner(EEntityActionScript eScript, EEntityActionScript eOwnerScript,
-        IUnitEntity *pTarget, const CVec3f &v3Target, CCombatEvent *pCombatEvent = NULL);
+        IUnitEntity *pTarget, const CVec3f &v3Target, CCombatEvent *pCombatEvent = nullptr);
 
 public:
     virtual ~IEntityTool()  {}
@@ -96,7 +96,7 @@ public:
     virtual uint    GetAdjustedCastTime() const;
 
     GAME_SHARED_API bool    HasActionScript(EEntityActionScript eScript);
-    GAME_SHARED_API void    ExecuteActionScript(EEntityActionScript eScript, IUnitEntity *pTarget, const CVec3f &v3Target, CCombatEvent *pCombatEvent = NULL);
+    GAME_SHARED_API void    ExecuteActionScript(EEntityActionScript eScript, IUnitEntity *pTarget, const CVec3f &v3Target, CCombatEvent *pCombatEvent = nullptr);
 
     void                    SetFlag(ushort unFlag)              { m_unFlags |= unFlag; }
     bool                    HasFlag(ushort unFlag) const        { return (m_unFlags & unFlag) == unFlag; }
@@ -139,11 +139,11 @@ public:
     bool    CreateProjectile(const T &_target, int iIssuedClientNumber, float fManaCost)
     {
         IUnitEntity *pOwner(GetOwner());
-        if (pOwner == NULL)
+        if (pOwner == nullptr)
             return false;
 
         IProjectile *pProjectile(pOwner->CreateProjectile(GetCastProjectileName(), _target, GetLevel()));
-        if (pProjectile == NULL)
+        if (pProjectile == nullptr)
             return false;
 
         CCombatEvent &combat(pProjectile->GetCombatEvent());
@@ -193,7 +193,7 @@ public:
         uint uiCooldownTime(GetCooldownTime());
 
         IUnitEntity *pOwner(GetOwner());
-        if (pOwner != NULL)
+        if (pOwner != nullptr)
         {
             float fCooldownSpeed(pOwner->GetCooldownSpeed());
             float fCooldownReduction(MIN(pOwner->GetReducedCooldowns() - pOwner->GetIncreasedCooldowns(), 1.0f));

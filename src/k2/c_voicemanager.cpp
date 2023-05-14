@@ -66,8 +66,8 @@ CVoiceManager::~CVoiceManager()
   CVoiceManager::CVoiceManager
   ====================*/
 CVoiceManager::CVoiceManager() :
-m_EncoderState(NULL),
-m_Preprocess(NULL),
+m_EncoderState(nullptr),
+m_Preprocess(nullptr),
 m_uiFrameSize(0),
 m_uiBytesPerFrame(0),
 m_uiLastReadPos(0),
@@ -84,7 +84,7 @@ m_bTalkPushed(false),
 m_bLaneTalkPushed(false),
 m_bUserTalking(false),
 m_bRecievedData(false),
-m_Bits(NULL),
+m_Bits(nullptr),
 m_uiControlAccumulator(0),
 m_iClientNum(-1)
 #ifdef linux
@@ -128,7 +128,7 @@ void    CVoiceManager::Init()
 
     K2SoundManager.StartRecording(VOICE_SAMPLE_RATE, VOICE_SAMPLE_SIZE);
 
-    if (K2SoundManager.GetRecordTarget() == NULL)
+    if (K2SoundManager.GetRecordTarget() == nullptr)
     {
         m_bRecording = false;
         return;
@@ -169,7 +169,7 @@ void    CVoiceManager::Restart()
 
     K2SoundManager.StartRecording(VOICE_SAMPLE_RATE, VOICE_SAMPLE_SIZE);
 
-    if (K2SoundManager.GetRecordTarget() == NULL)
+    if (K2SoundManager.GetRecordTarget() == nullptr)
     {
         m_bRecording = false;
         return;
@@ -256,7 +256,7 @@ void    CVoiceManager::EncodeFrame()
 {
     CSample *pSample(K2SoundManager.GetRecordTarget());
 
-    if (pSample == NULL)
+    if (pSample == nullptr)
         return;
 
     uint uiPos = K2SoundManager.GetRecordingPos();
@@ -391,7 +391,7 @@ void    CVoiceManager::NetFrame()
 
             CVoiceUser *pUser(GetVoiceUser(yVoiceID));
 
-            if (pUser == NULL)
+            if (pUser == nullptr)
             {
                 Console.Warn << _T("Voice: Voice user ") << yVoiceID << _T(" not found.") << newl;
                 pkt.Advance(yLength);
@@ -518,7 +518,7 @@ CVoiceUser* CVoiceManager::GetVoiceUser(byte yVoiceID)
     VoiceUserMap_it findit(m_mapVoiceUsers.find(yVoiceID));
 
     if (findit == m_mapVoiceUsers.end())
-        return NULL;
+        return nullptr;
 
     return findit->second;
 }
@@ -560,10 +560,10 @@ void    CVoiceManager::MuteClient(int iClientNum)
 {
     m_setMuted.insert(iClientNum);
 
-    CVoiceUser *pUser(NULL);
+    CVoiceUser *pUser(nullptr);
     VoiceUserMap_it it(m_mapVoiceUsers.begin());
 
-    while (it != m_mapVoiceUsers.end() && pUser == NULL)
+    while (it != m_mapVoiceUsers.end() && pUser == nullptr)
     {
         if (it->second->GetClientNum() != iClientNum)
         {
@@ -574,7 +574,7 @@ void    CVoiceManager::MuteClient(int iClientNum)
         pUser = it->second;
     }
 
-    if (pUser == NULL)
+    if (pUser == nullptr)
         return;
 
     pUser->SetMuted(true);
@@ -587,10 +587,10 @@ void    CVoiceManager::UnmuteClient(int iClientNum)
 {
     m_setMuted.erase(iClientNum);
 
-    CVoiceUser *pUser(NULL);
+    CVoiceUser *pUser(nullptr);
     VoiceUserMap_it it(m_mapVoiceUsers.begin());
 
-    while (it != m_mapVoiceUsers.end() && pUser == NULL)
+    while (it != m_mapVoiceUsers.end() && pUser == nullptr)
     {
         if (it->second->GetClientNum() != iClientNum)
         {
@@ -601,7 +601,7 @@ void    CVoiceManager::UnmuteClient(int iClientNum)
         pUser = it->second;
     }
 
-    if (pUser == NULL)
+    if (pUser == nullptr)
         return;
 
     pUser->SetMuted(false);

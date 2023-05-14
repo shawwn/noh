@@ -39,10 +39,10 @@ public:
     ~CXMLManager();
     CXMLManager();
 
-    K2_API bool ReadBuffer(const char *pBuffer, int iSize, const tstring &sRoot, void *pObject = NULL);
+    K2_API bool ReadBuffer(const char *pBuffer, int iSize, const tstring &sRoot, void *pObject = nullptr);
 
-    K2_API bool Process(const tstring &sFilename, const tstring &sRoot, void *pObject = NULL, uint uiFileFlags = 0);
-    K2_API bool Process(CFileHandle &hFile, const tstring &sRoot, void *pObject = NULL);
+    K2_API bool Process(const tstring &sFilename, const tstring &sRoot, void *pObject = nullptr, uint uiFileFlags = 0);
+    K2_API bool Process(CFileHandle &hFile, const tstring &sRoot, void *pObject = nullptr);
 
     K2_API void PrintVersion() const;
 };

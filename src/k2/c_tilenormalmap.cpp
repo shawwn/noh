@@ -18,8 +18,8 @@
 CTileNormalMap::CTileNormalMap(EWorldComponent eComponent) :
 IWorldComponent(eComponent, _T("TileNormalMap"))
 {
-    m_pTileNormalMap[TRIANGLE_LEFT] = NULL;
-    m_pTileNormalMap[TRIANGLE_RIGHT] = NULL;
+    m_pTileNormalMap[TRIANGLE_LEFT] = nullptr;
+    m_pTileNormalMap[TRIANGLE_RIGHT] = nullptr;
 }
 
 
@@ -37,15 +37,15 @@ CTileNormalMap::~CTileNormalMap()
   ====================*/
 void    CTileNormalMap::Release()
 {
-    m_pWorld = NULL;
+    m_pWorld = nullptr;
 
-    if (m_pTileNormalMap[TRIANGLE_LEFT] != NULL)
+    if (m_pTileNormalMap[TRIANGLE_LEFT] != nullptr)
         K2_DELETE_ARRAY(m_pTileNormalMap[TRIANGLE_LEFT]);
-    m_pTileNormalMap[TRIANGLE_LEFT] = NULL;
+    m_pTileNormalMap[TRIANGLE_LEFT] = nullptr;
 
-    if (m_pTileNormalMap[TRIANGLE_RIGHT] != NULL)
+    if (m_pTileNormalMap[TRIANGLE_RIGHT] != nullptr)
         K2_DELETE_ARRAY(m_pTileNormalMap[TRIANGLE_RIGHT]);
-    m_pTileNormalMap[TRIANGLE_RIGHT] = NULL;
+    m_pTileNormalMap[TRIANGLE_RIGHT] = nullptr;
 }
 
 
@@ -70,12 +70,12 @@ bool    CTileNormalMap::Generate(const CWorld *pWorld)
         Release();
         m_bChanged = false;
         m_pWorld = pWorld;
-        if (m_pWorld == NULL)
+        if (m_pWorld == nullptr)
             EX_ERROR(_T("CTileNormalMap needs a valid CWorld"));
 
         m_pTileNormalMap[TRIANGLE_LEFT] = K2_NEW_ARRAY(ctx_World, CPlane, m_pWorld->GetTileArea());
         m_pTileNormalMap[TRIANGLE_RIGHT] = K2_NEW_ARRAY(ctx_World, CPlane, m_pWorld->GetTileArea());
-        if (m_pTileNormalMap[TRIANGLE_LEFT] == NULL || m_pTileNormalMap[TRIANGLE_RIGHT] == NULL)
+        if (m_pTileNormalMap[TRIANGLE_LEFT] == nullptr || m_pTileNormalMap[TRIANGLE_RIGHT] == nullptr)
             EX_ERROR(_T("Failed to allocate memory for map data"));
 
         for (int y(0); y < m_pWorld->GetTileHeight(); ++y)
@@ -158,7 +158,7 @@ const CVec3f&   CTileNormalMap::GetTileNormal(int iX, int iY, EGridTriangles tri
 {
     assert(iX >= 0 && iX < m_pWorld->GetTileWidth());
     assert(iY >= 0 && iY < m_pWorld->GetTileHeight());
-    assert(m_pTileNormalMap[tri] != NULL);
+    assert(m_pTileNormalMap[tri] != nullptr);
 
     return m_pTileNormalMap[tri][m_pWorld->GetTileIndex(iX, iY)].v3Normal;
 }
@@ -171,7 +171,7 @@ const CPlane&   CTileNormalMap::GetTilePlane(int iX, int iY, EGridTriangles tri)
 {
     assert(iX >= 0 && iX < m_pWorld->GetTileWidth());
     assert(iY >= 0 && iY < m_pWorld->GetTileHeight());
-    assert(m_pTileNormalMap[tri] != NULL);
+    assert(m_pTileNormalMap[tri] != nullptr);
 
     return m_pTileNormalMap[tri][m_pWorld->GetTileIndex(iX, iY)];
 }

@@ -946,7 +946,7 @@ void    CInput::FlushByTable(EBindTable eTable, int iFlags)
     {
         CBind *pBind(ActionRegistry.GetBind(eTable, itInput->uID.btn, GetBindModifierFromFlags(itInput->iFlags)));
 
-        if (pBind != NULL && pBind->HasAllFlags(iFlags))
+        if (pBind != nullptr && pBind->HasAllFlags(iFlags))
             itInput = m_deqStream.erase(itInput);
         else
             ++itInput;
@@ -964,17 +964,17 @@ void    CInput::ExecuteBinds(EBindTable eTable, int iFlags)
     while (itInput != m_deqStream.end())
     {
         int     iModifier(GetBindModifierFromFlags(itInput->iFlags));
-        CBind*  pBind(NULL);
+        CBind*  pBind(nullptr);
         bool    bUsed(false);
 
         switch (itInput->eType)
         {
         case INPUT_BUTTON:
             pBind = ActionRegistry.GetBind(eTable, itInput->uID.btn, iModifier);
-            if (pBind == NULL)
+            if (pBind == nullptr)
                 pBind = ActionRegistry.GetBind(eTable, itInput->uID.btn, 0);
 
-            if (pBind != NULL && pBind->HasAllFlags(iFlags))
+            if (pBind != nullptr && pBind->HasAllFlags(iFlags))
             {
                 if ((pBind->GetFlags() & BIND_NOREPEAT) && (itInput->cDelta.fValue == 0.0f))
                     break;
@@ -986,7 +986,7 @@ void    CInput::ExecuteBinds(EBindTable eTable, int iFlags)
 
         case INPUT_AXIS:
             pBind = ActionRegistry.GetBind(eTable, itInput->uID.axis, iModifier);
-            if (pBind == NULL)
+            if (pBind == nullptr)
                 pBind = ActionRegistry.GetBind(eTable, itInput->uID.axis, 0);
 
             if (pBind && pBind->HasAllFlags(iFlags))

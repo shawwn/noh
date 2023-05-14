@@ -72,7 +72,7 @@ CShaderSampler  *CShaderSamplerRegistry::GetShaderSampler(const tstring &sShader
     ShaderSamplerMap::iterator find = m_mapShaderSamplers.find(sShaderSampler);
 
     if (find == m_mapShaderSamplers.end())
-        return NULL;
+        return nullptr;
     else
         return find->second;
 }

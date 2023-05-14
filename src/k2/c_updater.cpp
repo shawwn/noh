@@ -86,7 +86,7 @@ SINGLETON_INIT(CUpdater)
 struct SArchiveEntry
 {
     SArchiveEntry()
-        : pArchive(NULL)
+        : pArchive(nullptr)
     {
     }
     SArchiveEntry(CArchive* pArch)
@@ -104,7 +104,7 @@ struct SArchiveEntry
   CUpdater::CUpdater
   ====================*/
 CUpdater::CUpdater() :
-m_pRequest(NULL),
+m_pRequest(nullptr),
 m_uiLastSpeedUpdate(-1),
 m_uiCurDownloaded(0),
 m_uiTotalResumed(0),
@@ -135,7 +135,7 @@ CUpdater::~CUpdater()
     {
         m_fileHTTP.StopTransfer((!it->bPrimaryFail ? m_sPrimaryServer : m_sSecondaryServer) + it->sOS + _T("/") + it->sArch + _T("/") + it->sVersion + it->sURLFile + _T(".zip"));
 
-        if (it->pFile != NULL)
+        if (it->pFile != nullptr)
         {
             it->pFile->Close();
             SAFE_DELETE(it->pFile);
@@ -165,7 +165,7 @@ void    CUpdater::GenerateIgnore(const tstring &sFilename)
 
     pFile = FileManager.GetFile(sFilename, FILE_NOUSERDIR | FILE_NOARCHIVES | FILE_NOWORLDARCHIVE | FILE_TOPMODONLY | FILE_WRITE | FILE_TEXT);
 
-    if (pFile == NULL)
+    if (pFile == nullptr)
     {
         Console << _T("[Ignore File Generation] Target file could not be opened for writing.") << newl;
         return;
@@ -184,7 +184,7 @@ void    CUpdater::GenerateIgnore(const tstring &sFilename)
 void    CUpdater::ReadFileList(const tstring &sFile, sset &setFiles)
 {
     CFile *pFile(FileManager.GetFile(sFile, FILE_NOUSERDIR | FILE_NOARCHIVES | FILE_NOWORLDARCHIVE | FILE_TOPMODONLY | FILE_READ | FILE_TEXT));
-    if (pFile == NULL)
+    if (pFile == nullptr)
         return;
 
     tstring sFilename;
@@ -230,7 +230,7 @@ void    CUpdater::GenerateUpdate(bool bResourceFilesOnly)
 
     // Get current live version from master server
     CHTTPRequest *pRequest(Host.GetHTTPManager()->SpawnRequest());
-    if (pRequest == NULL)
+    if (pRequest == nullptr)
     {
         Console << _T("[Update Generation] Error spawning HTTP request.") << newl;
         return;
@@ -252,7 +252,7 @@ void    CUpdater::GenerateUpdate(bool bResourceFilesOnly)
 
     CPHPData response(pRequest->GetResponse());
     Host.GetHTTPManager()->ReleaseRequest(pRequest);
-    if (response.GetVar(_T("error")) != NULL)
+    if (response.GetVar(_T("error")) != nullptr)
     {
         Console << _T("[Update Generation] Error: ") << response.GetVar(_T("error"))->GetString(0) << newl;
         return;
@@ -401,7 +401,7 @@ void    CUpdater::GenerateUpdate(bool bResourceFilesOnly)
         if (CompareNoCase(Filename_GetExtension(*it), _T("s2z")) != 0)
         {
             CFile *pFile(FileManager.GetFile(*it, FILE_NOUSERDIR | FILE_NOARCHIVES | FILE_NOWORLDARCHIVE | FILE_TOPMODONLY | FILE_READ | FILE_BINARY));
-            if (pFile == NULL || !pFile->IsOpen())
+            if (pFile == nullptr || !pFile->IsOpen())
             {
                 K2_DELETE(pFile);
                 continue;
@@ -471,7 +471,7 @@ void    CUpdater::GenerateUpdate(bool bResourceFilesOnly)
                 uint uiUseFileSize(uiFileSize);
 
                 // convert '\r\n' to '\n' on Windows.
-                char *pFileConvertedBuf(NULL);
+                char *pFileConvertedBuf(nullptr);
                 uint uiFileConvertedSize(0);
                 if (bFixupNewlines)
                 {
@@ -490,7 +490,7 @@ void    CUpdater::GenerateUpdate(bool bResourceFilesOnly)
 
                         short *pUTFBuf(((short *)pFileBuf) + 1);
                         uint uiUTFSize((uiFileSize-2) / 2);
-                        int iConvertedSize(UTF16to8((short *)pUTFBuf, uiUTFSize, NULL));
+                        int iConvertedSize(UTF16to8((short *)pUTFBuf, uiUTFSize, nullptr));
                         bool bFailed(true);
                         if (iConvertedSize > 0)
                         {
@@ -616,7 +616,7 @@ void    CUpdater::GenerateUpdate(bool bResourceFilesOnly)
     for (map<tstring, SArchiveEntry*>::iterator closeit(mapArchives.begin()); closeit != mapArchives.end(); closeit++)
     {
         SArchiveEntry* pEntry(closeit->second);
-        byte *pBuf(NULL);
+        byte *pBuf(nullptr);
         uint uiBufSize(0);
 
         CFileHandle hChecksumsFile(_T("/checksums"), FILE_WRITE | FILE_BINARY | FILE_COMPRESS, *pEntry->pArchive);
@@ -674,12 +674,12 @@ next:
             if ((*itFile).empty() || (*itFile)[itFile->length() - 1] == _T('/'))
                 continue;
 
-            char *pBuf(NULL);
+            char *pBuf(nullptr);
             size_t zLen;
 
             zLen = cArchive.ReadFile(LowerString(Filename_GetPath(*itArchive) + *itFile), pBuf);
 
-            if (pBuf == NULL)
+            if (pBuf == nullptr)
                 continue;
 
             uint uiChecksum(FileManager.GetCRC32(pBuf, zLen));
@@ -774,7 +774,7 @@ next:
 
                 CFile *pFile(FileManager.GetFile(*it, FILE_NOUSERDIR | FILE_NOARCHIVES | FILE_NOWORLDARCHIVE | FILE_TOPMODONLY | FILE_READ | FILE_BINARY));
 
-                if (pFile == NULL || !pFile->IsOpen())
+                if (pFile == nullptr || !pFile->IsOpen())
                 {
                     Console.Err << _T("[Update Generation] Failure on file ") << sName << _T(", could not open file for reading. Checksum: ") << CtoA(itNewFile->second.uiChecksum) << newl;
                     K2System.Sleep(5000);
@@ -783,7 +783,7 @@ next:
 
 
                 CFile *pOutFile(FileManager.GetFile(_T(":/") + K2System.GetBuildOSCodeString() + _T("/") + K2System.GetBuildArchString() + _T("/") + m_sVersion + it->substr(1), FILE_NOUSERDIR | FILE_NOARCHIVES | FILE_NOWORLDARCHIVE | FILE_TOPMODONLY | FILE_WRITE | FILE_BINARY));
-                if (pOutFile == NULL || !pOutFile->IsOpen())
+                if (pOutFile == nullptr || !pOutFile->IsOpen())
                 {
                     Console.Err << _T("[Update Generation] Failure on file ") << sName << _T(", could not copy file. Checksum: ") << CtoA(itNewFile->second.uiChecksum) << newl;
                     K2System.Sleep(5000);
@@ -845,16 +845,16 @@ next:
                     Console << _T("[Update Generation] Copying file ") << sName << _T(", checksum: ") << CtoA(itNewFile->second.uiChecksum) << newl;
 
                     CFile *pOutFile(FileManager.GetFile(_T(":/") + K2System.GetBuildOSCodeString() + _T("/") + K2System.GetBuildArchString() + _T("/") + m_sVersion + it->substr(1) + _T("/") + *itFile, FILE_NOUSERDIR | FILE_NOARCHIVES | FILE_NOWORLDARCHIVE | FILE_TOPMODONLY | FILE_WRITE | FILE_BINARY));
-                    if (pOutFile == NULL || !pOutFile->IsOpen())
+                    if (pOutFile == nullptr || !pOutFile->IsOpen())
                     {
                         Console.Err << _T("[Update Generation] Failure on file ") << sName << _T(", could not copy file. Checksum: ") << CtoA(itNewFile->second.uiChecksum) << newl;
                         K2System.Sleep(5000);
                         return 0.0f;
                     }
 
-                    char *pBuffer(NULL);
+                    char *pBuffer(nullptr);
                     uint uiSize(cArchive.ReadFile(LowerString(Filename_GetPath(_T(":/") + it->substr(2))) + _T("/") + *itFile, pBuffer));
-                    if (pBuffer == NULL)
+                    if (pBuffer == nullptr)
                     {
                         Console.Err << _T("[Update Generation] Failure on file ") << sName << _T(", could not open file for reading. Checksum: ") << CtoA(itNewFile->second.uiChecksum) << newl;
                         continue;
@@ -967,7 +967,7 @@ void    CUpdater::UploadUpdate(const tstring &sAddress, const tstring &sUser, co
     uint uiVersion((AtoI(vsVersion[0]) << 24) + (AtoI(vsVersion[1]) << 16) + (AtoI(vsVersion[2]) << 8) + AtoI(vsVersion[3]));
 
     CHTTPRequest *pRequest(Host.GetHTTPManager()->SpawnRequest());
-    if (pRequest == NULL)
+    if (pRequest == nullptr)
     {
         Console << _T("[Update Generation] Error spawning HTTP request.") << newl;
         Host.GetHTTPManager()->ReleaseRequest(pRequest);
@@ -990,7 +990,7 @@ void    CUpdater::UploadUpdate(const tstring &sAddress, const tstring &sUser, co
 
     CPHPData response(pRequest->GetResponse());
     Host.GetHTTPManager()->ReleaseRequest(pRequest);
-    if (response.GetVar(_T("error")) != NULL)
+    if (response.GetVar(_T("error")) != nullptr)
     {
         Console << _T("[Update Generation] Error: ") << response.GetVar(_T("error"))->GetString(0) << newl;
         return;
@@ -1115,7 +1115,7 @@ void    CUpdater::UploadUpdate(const tstring &sAddress, const tstring &sUser, co
 
             CFile *pFile(FileManager.GetFile(sFilename, FILE_NOUSERDIR | FILE_NOARCHIVES | FILE_NOWORLDARCHIVE | FILE_TOPMODONLY | FILE_READ | FILE_BINARY));
 
-            if (pFile == NULL || !pFile->IsOpen())
+            if (pFile == nullptr || !pFile->IsOpen())
             {
                 Console.Err << _T("[Update Generation] Failure on file ") << sName << _T(", could not open file for reading.") << newl;
                 K2System.Sleep(5000);
@@ -1123,10 +1123,10 @@ void    CUpdater::UploadUpdate(const tstring &sAddress, const tstring &sUser, co
             }
 
             CArchive archive;
-            CFile *pArchiveFile(NULL);
+            CFile *pArchiveFile(nullptr);
             tstring sTempFile(_T(":/temp.zip"));
             const char *pBuffer(pFile->GetBuffer(uiSize));
-            if (pBuffer == NULL)
+            if (pBuffer == nullptr)
             {
                 Console.Err << _T("[Update Generation] Failure on file ") << sName << _T(", could not open file for reading.") << newl;
                 K2System.Sleep(5000);
@@ -1157,7 +1157,7 @@ void    CUpdater::UploadUpdate(const tstring &sAddress, const tstring &sUser, co
                 FileManager.Delete(sTempFile);
             }
             
-            if (pArchiveFile != NULL)
+            if (pArchiveFile != nullptr)
             {
                 if (!pArchiveFile->IsOpen())
                 {
@@ -1254,7 +1254,7 @@ void    CUpdater::UploadUpdate(const tstring &sAddress, const tstring &sUser, co
         xmlManifest.EndNode();
 
         CArchive archive;
-        CFile *pArchiveFile(NULL);
+        CFile *pArchiveFile(nullptr);
 
         if (archive.Open(_T(":/manifest.xml.zip"), ARCHIVE_WRITE | ARCHIVE_MAX_COMPRESS) && archive.WriteFile(_T("manifest.xml"), xmlManifest.GetBuffer()->Get(), xmlManifest.GetBuffer()->GetLength()))
         {
@@ -1267,7 +1267,7 @@ void    CUpdater::UploadUpdate(const tstring &sAddress, const tstring &sUser, co
             FileManager.Delete(_T(":/manifest.xml.zip"));
         }
 
-        if (pArchiveFile != NULL)
+        if (pArchiveFile != nullptr)
         {
             CFileHTTP fileHTTP;
 
@@ -1345,7 +1345,7 @@ void    CUpdater::UploadPrevious(const tstring &sAddress, const tstring &sUser, 
     uint uiVersion((AtoI(vsVersion[0]) << 24) + (AtoI(vsVersion[1]) << 16) + (AtoI(vsVersion[2]) << 8) + AtoI(vsVersion[3]));
 
     CHTTPRequest *pRequest(Host.GetHTTPManager()->SpawnRequest());
-    if (pRequest == NULL)
+    if (pRequest == nullptr)
     {
         Console << _T("[Update Generation] Error spawing HTTP request.") << newl;
         return;
@@ -1368,7 +1368,7 @@ void    CUpdater::UploadPrevious(const tstring &sAddress, const tstring &sUser, 
     CPHPData response(pRequest->GetResponse());
     Host.GetHTTPManager()->ReleaseRequest(pRequest);
 
-    if (response.GetVar(_T("error")) != NULL)
+    if (response.GetVar(_T("error")) != nullptr)
     {
         Console << _T("[Update Generation] Error: ") << response.GetVar(_T("error"))->GetString(0) << newl;
         return;
@@ -1459,16 +1459,16 @@ void    CUpdater::UploadPrevious(const tstring &sAddress, const tstring &sUser, 
                 Console << _T("[Update Generation] Copying file ") << sName << _T(", checksum: ") << CtoA(itNewFile->second.uiChecksum) << newl;
 
                 CFile *pOutFile(FileManager.GetFile(_T(":/") + K2System.GetBuildOSCodeString() + _T("/") + K2System.GetBuildArchString() + _T("/") + sFileVersion + _T("/") + *it, FILE_NOUSERDIR | FILE_NOARCHIVES | FILE_NOWORLDARCHIVE | FILE_TOPMODONLY | FILE_WRITE | FILE_BINARY));
-                if (pOutFile == NULL || !pOutFile->IsOpen())
+                if (pOutFile == nullptr || !pOutFile->IsOpen())
                 {
                     Console.Err << _T("[Update Generation] Failure on file ") << sName << _T(", could not copy file. Checksum: ") << CtoA(itNewFile->second.uiChecksum) << newl;
                     K2System.Sleep(5000);
                     continue;
                 }
 
-                char *pBuffer(NULL);
+                char *pBuffer(nullptr);
                 uint uiSize(itFindRes->second.ReadFile(itFindRes->second.GetPathToArchive() + _T("/") + it->substr(zPos + 5), pBuffer));
-                if (pBuffer == NULL)
+                if (pBuffer == nullptr)
                 {
                     Console.Err << _T("[Update Generation] Failure on file ") << sName << _T(", could not open file for reading. Checksum: ") << CtoA(itNewFile->second.uiChecksum) << newl;
                     ++it;
@@ -1504,7 +1504,7 @@ void    CUpdater::UploadPrevious(const tstring &sAddress, const tstring &sUser, 
 
             CFile *pFile(FileManager.GetFile(_T(":/") + *it, FILE_NOUSERDIR | FILE_NOARCHIVES | FILE_NOWORLDARCHIVE | FILE_TOPMODONLY | FILE_READ | FILE_BINARY));
 
-            if (pFile == NULL || !pFile->IsOpen())
+            if (pFile == nullptr || !pFile->IsOpen())
             {
                 Console.Err << _T("[Update Generation] Failure on file ") << sName << _T(", could not open file for reading. Checksum: ") << CtoA(itNewFile->second.uiChecksum) << newl;
                 K2System.Sleep(5000);
@@ -1512,7 +1512,7 @@ void    CUpdater::UploadPrevious(const tstring &sAddress, const tstring &sUser, 
             }
 
             CFile *pOutFile(FileManager.GetFile(_T(":/") + K2System.GetBuildOSCodeString() + _T("/") + K2System.GetBuildArchString() + _T("/") + sFileVersion + _T("/") + *it, FILE_NOUSERDIR | FILE_NOARCHIVES | FILE_NOWORLDARCHIVE | FILE_TOPMODONLY | FILE_WRITE | FILE_BINARY));
-            if (pOutFile == NULL || !pOutFile->IsOpen())
+            if (pOutFile == nullptr || !pOutFile->IsOpen())
             {
                 Console.Err << _T("[Update Generation] Failure on file ") << sName << _T(", could not copy file. Checksum: ") << CtoA(itNewFile->second.uiChecksum) << newl;
                 K2System.Sleep(5000);
@@ -1609,7 +1609,7 @@ void    CUpdater::UploadPrevious(const tstring &sAddress, const tstring &sUser, 
 
             CFile *pFile(FileManager.GetFile(sFilename, FILE_NOUSERDIR | FILE_NOARCHIVES | FILE_NOWORLDARCHIVE | FILE_TOPMODONLY | FILE_READ | FILE_BINARY));
 
-            if (pFile == NULL || !pFile->IsOpen())
+            if (pFile == nullptr || !pFile->IsOpen())
             {
                 Console.Err << _T("[Update Generation] Failure on file ") << sName << _T(", could not open file for reading.") << newl;
                 K2System.Sleep(5000);
@@ -1617,10 +1617,10 @@ void    CUpdater::UploadPrevious(const tstring &sAddress, const tstring &sUser, 
             }
 
             CArchive archive;
-            CFile *pArchiveFile(NULL);
+            CFile *pArchiveFile(nullptr);
             tstring sTempFile(_T(":/temp.zip"));
             const char *pBuffer(pFile->GetBuffer(uiSize));
-            if (pBuffer == NULL)
+            if (pBuffer == nullptr)
             {
                 Console.Err << _T("[Update Generation] Failure on file ") << sName << _T(", could not open file for reading.") << newl;
                 K2System.Sleep(5000);
@@ -1651,7 +1651,7 @@ void    CUpdater::UploadPrevious(const tstring &sAddress, const tstring &sUser, 
                 FileManager.Delete(sTempFile);
             }
             
-            if (pArchiveFile != NULL)
+            if (pArchiveFile != nullptr)
             {
                 if (!pArchiveFile->IsOpen())
                 {
@@ -1743,7 +1743,7 @@ void    CUpdater::UpdateDB(const tstring &sUsername, const tstring &sPassword)
     //uint uiVersion((AtoI(vsVersion[0]) << 24) + (AtoI(vsVersion[1]) << 16) + (AtoI(vsVersion[2]) << 8) + AtoI(vsVersion[3]));
 
     CHTTPRequest *pRequest(Host.GetHTTPManager()->SpawnRequest());
-    if (pRequest == NULL)
+    if (pRequest == nullptr)
     {
         return;
     }
@@ -1799,7 +1799,7 @@ void    CUpdater::SilentUpdate()
 
     Host.GetHTTPManager()->ReleaseRequest(m_pRequest);
     m_pRequest = Host.GetHTTPManager()->SpawnRequest();
-    if (m_pRequest == NULL)
+    if (m_pRequest == nullptr)
         return;
 
     m_pRequest->SetTargetURL(m_sMasterServerURL);
@@ -1858,7 +1858,7 @@ void    CUpdater::CheckForUpdates(bool bRequireConfirmation)
 
     Host.GetHTTPManager()->ReleaseRequest(m_pRequest);
     m_pRequest = Host.GetHTTPManager()->SpawnRequest();
-    if (m_pRequest == NULL)
+    if (m_pRequest == nullptr)
         return;
 
     m_bCheckingForUpdate = true;
@@ -1906,7 +1906,7 @@ void    CUpdater::CancelUpdate()
     {
         m_fileHTTP.StopTransfer((!it->bPrimaryFail ? m_sPrimaryServer : m_sSecondaryServer) + it->sOS + _T("/") + it->sArch + _T("/") + it->sVersion + _T("/") + it->sURLFile + _T(".zip"));
 
-        if (it->pFile != NULL)
+        if (it->pFile != nullptr)
             it->pFile->Close();
 
         SAFE_DELETE(it->pFile);
@@ -1947,7 +1947,7 @@ void    CUpdater::CancelCompatDownload()
     {
         m_fileHTTP.StopTransfer((!it->bPrimaryFail ? m_sPrimaryServer : m_sSecondaryServer) + it->sOS + _T("/") + it->sArch + _T("/") + it->sVersion + _T("/") + it->sURLFile + _T(".zip"));
 
-        if (it->pFile != NULL)
+        if (it->pFile != nullptr)
             it->pFile->Close();
 
         SAFE_DELETE(it->pFile);
@@ -1984,7 +1984,7 @@ void    CUpdater::GetUpdate(const tstring &sFile, const tstring &sVersion, const
 
     sUpdate.sFile = sFile;
     sUpdate.sURLFile = StringToTString(URLEncode(sFile, true, true));
-    sUpdate.pFile = NULL;
+    sUpdate.pFile = nullptr;
     sUpdate.uiDownloaded = 0;
     sUpdate.bDownloading = false;
     sUpdate.bComplete = false;
@@ -2335,7 +2335,7 @@ void    CUpdater::ResponseVersion(CPHPData &response)
 
     // Grab version info
     const CPHPData *pVersion(response.GetVar(0));
-    if (pVersion != NULL)
+    if (pVersion != nullptr)
     {
         bValid = true;
         sPrimaryServer = pVersion->GetString(_T("url"));
@@ -2394,7 +2394,7 @@ void    CUpdater::ResponseError(CPHPData &response)
   ====================*/
 void    CUpdater::FrameAwaitingResponse()
 {
-    if (m_pRequest == NULL || m_pRequest->IsActive())
+    if (m_pRequest == nullptr || m_pRequest->IsActive())
         return;
 
     // If we got a response, check for a file being passed.
@@ -2436,7 +2436,7 @@ void    CUpdater::FrameAwaitingResponse()
     }
 
     Host.GetHTTPManager()->ReleaseRequest(m_pRequest);
-    m_pRequest = NULL;
+    m_pRequest = nullptr;
 }
 
 
@@ -2479,12 +2479,12 @@ void    CUpdater::FrameDownloading()
                 
                 CFile *pFile(FileManager.GetFile(_T(":/Update/") + it->sFile, FILE_READ | FILE_BINARY));
 
-                if (pFile != NULL && pFile->IsOpen())
+                if (pFile != nullptr && pFile->IsOpen())
                 {
                     uint uiSize;
                     const char *pBuffer(pFile->GetBuffer(uiSize));
 
-                    if (pBuffer != NULL)
+                    if (pBuffer != nullptr)
                     {
                         if (it->uiFullSize == uiSize && it->uiChecksum == FileManager.GetCRC32(pBuffer, uiSize))
                         {
@@ -2537,12 +2537,12 @@ void    CUpdater::FrameDownloading()
 
                     if (cArchive.IsOpen() && cArchive.ContainsFile(LowerString(_T(":/Update/") + sNewFilename)))
                     {
-                        char *pBuf(NULL);
+                        char *pBuf(nullptr);
                         size_t zLen;
 
                         zLen = cArchive.ReadFile(LowerString(_T(":/Update/") + sNewFilename), pBuf);
 
-                        if (pBuf == NULL)
+                        if (pBuf == nullptr)
                             continue;
 
                         if (it->uiFullSize == zLen && it->uiChecksum == FileManager.GetCRC32(pBuf, zLen))
@@ -2587,7 +2587,7 @@ void    CUpdater::FrameDownloading()
                 it->pFile = (CFileDisk *)FileManager.GetFile(_T(":/Update/") + sNewFilename + _T(".zip"), FILE_WRITE | FILE_BINARY);
 
                 // If that didn't work... We've run into an issue.
-                if (it->pFile == NULL || !it->pFile->IsOpen())
+                if (it->pFile == nullptr || !it->pFile->IsOpen())
                 {
                     Console.Net << _T("[Updater] Error opening ") << it->sFile << _T(".zip for writing!") << newl;
 
@@ -2640,7 +2640,7 @@ void    CUpdater::FrameDownloading()
                 {
                     Console.Net << _T("[Updater] Finished download on ") << it->sFile << newl;
 
-                    if (it->pFile != NULL)
+                    if (it->pFile != nullptr)
                         it->pFile->Close();
 
                     SAFE_DELETE(it->pFile);
@@ -2665,12 +2665,12 @@ void    CUpdater::FrameDownloading()
 
                         if (cArchive.IsOpen() && cArchive.ContainsFile(LowerString(_T(":/Update/") + sNewFilename)))
                         {
-                            char *pBuf(NULL);
+                            char *pBuf(nullptr);
                             size_t zLen;
 
                             zLen = cArchive.ReadFile(LowerString(_T(":/Update/") + sNewFilename), pBuf);
 
-                            if (pBuf == NULL)
+                            if (pBuf == nullptr)
                                 continue;
 
                             if (it->uiFullSize == zLen && it->uiChecksum == FileManager.GetCRC32(pBuf, zLen))
@@ -2729,7 +2729,7 @@ void    CUpdater::FrameDownloading()
                         m_uiCurDownloaded -= it->uiDownloaded;
                         it->uiDownloaded = 0;
                         
-                        if (it->pFile != NULL)
+                        if (it->pFile != nullptr)
                             it->pFile->Close();
 
                         SAFE_DELETE(it->pFile);
@@ -2967,11 +2967,11 @@ void    CUpdater::AutoUpdateCompatArchives(float fLoadingScale, float fLoadingOf
 
     sset setIgnore;
 
-    CFile *pFile(NULL);
+    CFile *pFile(nullptr);
 
     pFile = FileManager.GetFile(_T(":/compat_ignore.txt"), FILE_NOUSERDIR | FILE_NOARCHIVES | FILE_NOWORLDARCHIVE | FILE_TOPMODONLY | FILE_READ | FILE_TEXT);
 
-    if (pFile != NULL)
+    if (pFile != nullptr)
     {
         tstring sFilename;
 
@@ -3044,7 +3044,7 @@ void    CUpdater::AutoUpdateCompatArchives(float fLoadingScale, float fLoadingOf
         // Store the old files for compatibility
         if (!itFile->sOldVersion.empty())
         {
-            CFile *pFileTarget(NULL);
+            CFile *pFileTarget(nullptr);
             CCompressedFile cFile;
             int iSize(0);
 
@@ -3098,7 +3098,7 @@ void    CUpdater::AutoUpdateCompatArchives(float fLoadingScale, float fLoadingOf
                     {
                         iSize = itFindRes->second.GetCompressedFile(itFindRes->second.GetPathToArchive() + _T("/") + itFile->sFile.substr(zPos + 5), cFile);
 
-                        if (cFile.GetData() != NULL)
+                        if (cFile.GetData() != nullptr)
                         {
                             if (itFindCompat->second.IsOpen())
                                 itFindCompat->second.WriteCompressedFile(itFile->sOldVersion + _T("/") + itFile->sFile, cFile);
@@ -3119,13 +3119,13 @@ void    CUpdater::AutoUpdateCompatArchives(float fLoadingScale, float fLoadingOf
                 pFileTarget = FileManager.GetFile(_T(":/") + itFile->sFile, FILE_NOUSERDIR | FILE_NOARCHIVES | FILE_NOWORLDARCHIVE | FILE_TOPMODONLY | FILE_READ | FILE_BINARY);
 
                 CFileHandle hDestFile(itFile->sOldVersion + _T("/") + itFile->sFile, FILE_WRITE | FILE_BINARY | FILE_COMPRESS, itFindCompat->second);
-                if (pFileTarget != NULL && hDestFile.IsOpen())
+                if (pFileTarget != nullptr && hDestFile.IsOpen())
                 {
                     uint uiSize(0);
                     if (hDestFile.Write(pFileTarget->GetBuffer(uiSize), pFileTarget->GetBufferSize()) != pFileTarget->GetBufferSize())
                     {
                         Console.Err << _T("Couldn't write file ") << itFile->sFile << _T(" in archive ") << itFindCompat->first << newl;
-                        if (pFileTarget != NULL)
+                        if (pFileTarget != nullptr)
                         {
                             pFileTarget->Close();
                             SAFE_DELETE(pFileTarget);
@@ -3135,7 +3135,7 @@ void    CUpdater::AutoUpdateCompatArchives(float fLoadingScale, float fLoadingOf
                 else
                 {
                     Console.Err << _T("Couldn't open file ") << itFile->sFile << _T(" in archive ") << itFindCompat->first << newl;
-                    if (pFileTarget != NULL)
+                    if (pFileTarget != nullptr)
                     {
                         pFileTarget->Close();
                         SAFE_DELETE(pFileTarget);
@@ -3187,7 +3187,7 @@ void    CUpdater::AutoUpdateCompatArchives(float fLoadingScale, float fLoadingOf
         // Store the old files for compatibility
         if (!itDelFile->sOldVersion.empty())
         {
-            CFile *pFileTarget(NULL);
+            CFile *pFileTarget(nullptr);
             CCompressedFile cFile;
             int iSize(0);
 
@@ -3241,7 +3241,7 @@ void    CUpdater::AutoUpdateCompatArchives(float fLoadingScale, float fLoadingOf
                     {
                         iSize = itFindRes->second.GetCompressedFile(itFindRes->second.GetPathToArchive() + _T("/") + itDelFile->sFile.substr(zPos + 5), cFile);
 
-                        if (cFile.GetData() != NULL)
+                        if (cFile.GetData() != nullptr)
                         {
                             if (itFindCompat->second.IsOpen())
                                 itFindCompat->second.WriteCompressedFile(itDelFile->sOldVersion + _T("/") + itDelFile->sFile, cFile);
@@ -3262,13 +3262,13 @@ void    CUpdater::AutoUpdateCompatArchives(float fLoadingScale, float fLoadingOf
                 pFileTarget = FileManager.GetFile(_T(":/") + itDelFile->sFile, FILE_NOUSERDIR | FILE_NOARCHIVES | FILE_NOWORLDARCHIVE | FILE_TOPMODONLY | FILE_READ | FILE_BINARY);
 
                 CFileHandle hDestFile(itDelFile->sOldVersion + _T("/") + itDelFile->sFile, FILE_WRITE | FILE_BINARY | FILE_COMPRESS, itFindCompat->second);
-                if (pFileTarget != NULL && hDestFile.IsOpen())
+                if (pFileTarget != nullptr && hDestFile.IsOpen())
                 {
                     uint uiSize(0);
                     if (hDestFile.Write(pFileTarget->GetBuffer(uiSize), pFileTarget->GetBufferSize()) != pFileTarget->GetBufferSize())
                     {
                         Console.Err << _T("Couldn't write file ") << itDelFile->sFile << _T(" in archive ") << itFindCompat->first << newl;
-                        if (pFileTarget != NULL)
+                        if (pFileTarget != nullptr)
                         {
                             pFileTarget->Close();
                             SAFE_DELETE(pFileTarget);
@@ -3278,7 +3278,7 @@ void    CUpdater::AutoUpdateCompatArchives(float fLoadingScale, float fLoadingOf
                 else
                 {
                     Console.Err << _T("Couldn't open file ") << itDelFile->sFile << _T(" in archive ") << itFindCompat->first << newl;
-                    if (pFileTarget != NULL)
+                    if (pFileTarget != nullptr)
                     {
                         pFileTarget->Close();
                         SAFE_DELETE(pFileTarget);
@@ -3410,7 +3410,7 @@ void    CUpdater::UpdateCompatArchives()
 
         if (FileManager.Exists(_T(":/Update/") + sNewFilename + _T(".zip")))
         {
-            CFile *pFileTarget(NULL);
+            CFile *pFileTarget(nullptr);
             CCompressedFile cFile;
             int iSize(0);
             
@@ -3420,7 +3420,7 @@ void    CUpdater::UpdateCompatArchives()
             {
                 iSize = archive.GetCompressedFile(archive.GetPathToArchive() + _T("/") + Filename_StripPath(sNewFilename), cFile);
 
-                if (cFile.GetData() != NULL)
+                if (cFile.GetData() != nullptr)
                     bSuccess = compat.WriteCompressedFile(itFile->sVersion + _T("/") + itFile->sFile, cFile);
                 else
                     Console.Net << _T("[Updater] Error unzipping ") + itFile->sFile + _T(": Could not decompress file.") << newl;
@@ -3560,7 +3560,7 @@ void    CUpdater::ApplyUpdate()
     K2SoundManager.StopStreamingImmediately();
     Vid.CloseTextureArchive();
     Host.StopClient(uint(-1));
-    if (Host.HasServer() && Host.GetServer() != NULL && Host.GetServer()->GetWorld() != NULL)
+    if (Host.HasServer() && Host.GetServer() != nullptr && Host.GetServer()->GetWorld() != nullptr)
         Host.GetServer()->GetWorld()->Free();
 
     Vid.BeginFrame();
@@ -3624,7 +3624,7 @@ void    CUpdater::ApplyUpdate()
 
             if (FileManager.Exists(_T(":/Update/") + sNewFilename + _T(".zip")))
             {
-                CFile *pFileTarget(NULL);
+                CFile *pFileTarget(nullptr);
                 CCompressedFile cFile;
                 char *pBuf;
                 int iSize(0);
@@ -3662,7 +3662,7 @@ void    CUpdater::ApplyUpdate()
                         {
                             iSize = archive.GetCompressedFile(archive.GetPathToArchive() + _T("/") + Filename_StripPath(sFilename), cFile);
 
-                            if (cFile.GetData() != NULL)
+                            if (cFile.GetData() != nullptr)
                             {
                                 if (findit->second.IsOpen())
                                     bSuccess = findit->second.WriteCompressedFile(itUnzip->sFile.substr(zPos + 5), cFile);
@@ -3694,9 +3694,9 @@ void    CUpdater::ApplyUpdate()
                     {
                         iSize = archive.ReadFile(LowerString(_T(":/Update/") + itUnzip->sFile), pBuf);
 
-                        if (pBuf != NULL)
+                        if (pBuf != nullptr)
                         {
-                            if (pFileTarget != NULL)
+                            if (pFileTarget != nullptr)
                             {
                                 pFileTarget->Write(pBuf, iSize);
                                 pFileTarget->Close();
@@ -3834,7 +3834,7 @@ void    CUpdater::ApplyUpdate()
 
     CFile *pVerify(FileManager.GetFile(_T(":/Update/verify"), FILE_WRITE | FILE_BINARY | FILE_TRUNCATE));
 
-    if (pVerify != NULL)
+    if (pVerify != nullptr)
         pVerify->Close();
     
 #ifdef linux
@@ -3896,7 +3896,7 @@ void    CUpdater::DownloadCompat(const tstring &sVersion)
 
     Host.GetHTTPManager()->ReleaseRequest(m_pRequest);
     m_pRequest = Host.GetHTTPManager()->SpawnRequest();
-    if (m_pRequest == NULL)
+    if (m_pRequest == nullptr)
         return;
 
     m_eStatus = UPDATE_STATUS_RETRIEVING_COMPAT_FILES;
@@ -3968,11 +3968,11 @@ void    CUpdater::CompatResponse(CPHPData &response)
 
     sset setIgnore;
 
-    CFile *pFile(NULL);
+    CFile *pFile(nullptr);
 
     pFile = FileManager.GetFile(_T(":/compat_ignore.txt"), FILE_NOUSERDIR | FILE_NOARCHIVES | FILE_NOWORLDARCHIVE | FILE_TOPMODONLY | FILE_READ | FILE_TEXT);
 
-    if (pFile != NULL)
+    if (pFile != nullptr)
     {
         tstring sFilename;
 
@@ -4009,7 +4009,7 @@ void    CUpdater::CompatResponse(CPHPData &response)
 
     // Grab version info
     const CPHPData *pVersion(response.GetVar(0));
-    if (pVersion != NULL)
+    if (pVersion != nullptr)
     {
         bValid = true;
         m_sPrimaryServer = pVersion->GetString(_T("url"));
@@ -4290,20 +4290,20 @@ void    CUpdater::CleanupUpdateFiles()
   ====================*/
 void    CUpdater::FrameAwaitingCompatResponse()
 {
-    if (m_pRequest == NULL || m_pRequest->IsActive())
+    if (m_pRequest == nullptr || m_pRequest->IsActive())
         return;
 
     if (!m_pRequest->WasSuccessful())
     {
         Host.GetHTTPManager()->ReleaseRequest(m_pRequest);
-        m_pRequest = NULL;
+        m_pRequest = nullptr;
         CompatResponseError();
         return;
     }
 
     CPHPData response(m_pRequest->GetResponse());
     Host.GetHTTPManager()->ReleaseRequest(m_pRequest);
-    m_pRequest = NULL;
+    m_pRequest = nullptr;
 
     if (response.GetString(_T("version")) != _T(""))
         CompatResponse(response);
@@ -4419,7 +4419,7 @@ namespace XMLManifest
             ex.Process(_T("<file> - "));
             return false;
         }
-    END_XML_PROCESSOR(NULL)
+    END_XML_PROCESSOR(nullptr)
 }
 
 

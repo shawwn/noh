@@ -379,13 +379,13 @@ public:
     void    Precache(ushort unType, EPrecacheScheme eScheme, const tstring &sModifier);
 
     void    SendPopup(const CPopup *pPopup, IUnitEntity *pSource, IUnitEntity *pTarget, ushort unValue);
-    void    SendPopup(byte yType, IUnitEntity *pSource, IUnitEntity *pTarget = NULL, ushort unValue = 0);
-    void    SendPopup(EPopup eType, IUnitEntity *pSource, IUnitEntity *pTarget = NULL, ushort unValue = 0);
+    void    SendPopup(byte yType, IUnitEntity *pSource, IUnitEntity *pTarget = nullptr, ushort unValue = 0);
+    void    SendPopup(EPopup eType, IUnitEntity *pSource, IUnitEntity *pTarget = nullptr, ushort unValue = 0);
 
     void    SendPing(const CPing *pPing, IUnitEntity *pSource, IUnitEntity *pTarget, byte yX, byte yY);
     void    SendPing(const CPing *pPing, IUnitEntity *pSource, IUnitEntity *pTarget, const CVec2f &v2Pos);
-    void    SendPing(byte yType, IUnitEntity *pSource, IUnitEntity *pTarget = NULL, const CVec2f &v2Pos = V2_ZERO);
-    void    SendPing(EPing eType, IUnitEntity *pSource, IUnitEntity *pTarget = NULL, const CVec2f &v2Pos = V2_ZERO);
+    void    SendPing(byte yType, IUnitEntity *pSource, IUnitEntity *pTarget = nullptr, const CVec2f &v2Pos = V2_ZERO);
+    void    SendPing(EPing eType, IUnitEntity *pSource, IUnitEntity *pTarget = nullptr, const CVec2f &v2Pos = V2_ZERO);
 
     void    SendUnitPing(const CPing *pPing, IUnitEntity *pSource, IUnitEntity *pTarget);
     void    SendUnitPing(byte yType, IUnitEntity *pSource, IUnitEntity *pTarget);
@@ -420,7 +420,7 @@ public:
 
     void            RegisterShopInfo();
 
-    PoolHandle  FindPath(const CVec2f &v2Src, float fEntityWidth, uint uiNavigationFlags, const CVec2f &v2Goal, float fGoalRange, vector<PoolHandle> *pBlockers = NULL) const   { return GetWorldPointer()->FindPath(v2Src, fEntityWidth, uiNavigationFlags, v2Goal, fGoalRange, pBlockers); }
+    PoolHandle  FindPath(const CVec2f &v2Src, float fEntityWidth, uint uiNavigationFlags, const CVec2f &v2Goal, float fGoalRange, vector<PoolHandle> *pBlockers = nullptr) const   { return GetWorldPointer()->FindPath(v2Src, fEntityWidth, uiNavigationFlags, v2Goal, fGoalRange, pBlockers); }
     CPath*      AccessPath(PoolHandle hPath) const                                              { return GetWorldPointer()->AccessPath(hPath); }
     PoolHandle  ClonePath(PoolHandle hPath) const                                               { return GetWorldPointer()->ClonePath(hPath); }
     void        FreePath(PoolHandle hPath) const                                                { return GetWorldPointer()->FreePath(hPath); }
@@ -436,7 +436,7 @@ public:
     void    UnitKilled(uint uiIndex);
 
     void    LogPlayer(EGameLogEvent eEvent, CPlayer *pPlayer)                                                                   { m_GameLog.WritePlayer(eEvent, pPlayer); }
-    void    LogKill(IUnitEntity *pTarget, IUnitEntity *pAttacker, IGameEntity *pInflictor = NULL, ivector *pAssists = NULL)     { m_GameLog.WriteKill(pTarget, pAttacker, pInflictor, pAssists); }
+    void    LogKill(IUnitEntity *pTarget, IUnitEntity *pAttacker, IGameEntity *pInflictor = nullptr, ivector *pAssists = nullptr)     { m_GameLog.WriteKill(pTarget, pAttacker, pInflictor, pAssists); }
     void    LogAssist(IUnitEntity *pTarget, IUnitEntity *pAttacker, IGameEntity *pInflictor, CPlayer *pPlayer)                  { m_GameLog.WriteAssist(pTarget, pAttacker, pInflictor, pPlayer); }
     void    LogDamage(IUnitEntity *pTarget, int iPlayer, ushort unAttackerType, ushort unInflictorType, float fDamage)          { m_GameLog.WriteDamage(pTarget, iPlayer, unAttackerType, unInflictorType, fDamage); }
     void    LogDeny(IUnitEntity *pTarget, IUnitEntity *pAttacker, IGameEntity *pInflictor, float fExperience, ushort unGold)    { m_GameLog.WriteDeny(pTarget, pAttacker, pInflictor, fExperience, unGold); }
@@ -444,8 +444,8 @@ public:
     void    LogGold(EGameLogEvent eEvent, CPlayer *pPlayer, IUnitEntity *pSource, ushort unGold)                                { m_GameLog.WriteGold(eEvent, pPlayer, pSource, unGold); }
     void    LogHero(EGameLogEvent eEvent, IHeroEntity *pHero, const tstring &sParamA = TSNULL)                                  { m_GameLog.WriteHero(eEvent, pHero, sParamA); }
     void    LogAward(EGameLogEvent eEvent, IUnitEntity *pAttacker, IUnitEntity *pTarget, ushort unGold = 0)                     { m_GameLog.WriteAward(eEvent, pAttacker, pTarget, unGold); }
-    void    LogItem(EGameLogEvent eEvent, IEntityItem *pItem, IUnitEntity *pTarget = NULL)                                      { m_GameLog.WriteItem(eEvent, pItem, pTarget); }
-    void    LogAbility(EGameLogEvent eEvent, IEntityAbility *pAbility, IUnitEntity *pTarget = NULL)                             { m_GameLog.WriteAbility(eEvent, pAbility, pTarget); }
+    void    LogItem(EGameLogEvent eEvent, IEntityItem *pItem, IUnitEntity *pTarget = nullptr)                                      { m_GameLog.WriteItem(eEvent, pItem, pTarget); }
+    void    LogAbility(EGameLogEvent eEvent, IEntityAbility *pAbility, IUnitEntity *pTarget = nullptr)                             { m_GameLog.WriteAbility(eEvent, pAbility, pTarget); }
 
     void            LongServerFrame(uint uiLength);
 
@@ -456,7 +456,7 @@ public:
     EStatsStatus    GetStatsStatus() const
     {
         CGameInfo *pGameInfo(GetGameInfo());
-        return pGameInfo != NULL ? pGameInfo->GetStatsStatus() : STATS_NULL;
+        return pGameInfo != nullptr ? pGameInfo->GetStatsStatus() : STATS_NULL;
     }
 
     void    SelectBaseAvatar(int iClientNumber);

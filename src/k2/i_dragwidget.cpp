@@ -296,7 +296,7 @@ void    IDragWidget::SetCanGrab(bool bCanGrab)
   --------------------*/
 UI_VOID_CMD(SetCanGrab, 1)
 {
-    if (pThis == NULL ||
+    if (pThis == nullptr ||
         !pThis->IsDragWidget())
         return;
 

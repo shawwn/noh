@@ -45,7 +45,7 @@ void    CMenuListBox::MouseUp(EButton button, const CVec2f &v2CursorPos)
 {
     CListBox::MouseUp(button, v2CursorPos);
 
-    if ((button == BUTTON_MOUSEL || button == BUTTON_MOUSER) && m_bMidClick && GetSelectedListItem() != NULL)
+    if ((button == BUTTON_MOUSEL || button == BUTTON_MOUSER) && m_bMidClick && GetSelectedListItem() != nullptr)
         DO_EVENT(WEVENT_SELECT)
 }
 
@@ -70,7 +70,7 @@ void    CMenuListBox::DoEvent(EWidgetEvent eEvent, const tstring &sParam)
     if (eEvent == WEVENT_SELECT)
     {
         if (m_iSelectedListItem == -1)
-            static_cast<CMenu *>(m_pParent)->SelectItem(NULL, true);
+            static_cast<CMenu *>(m_pParent)->SelectItem(nullptr, true);
         else
             static_cast<CMenu *>(m_pParent)->SelectItem(m_vItems[m_iSelectedListItem], true);
     }

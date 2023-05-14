@@ -25,7 +25,7 @@ CScriptThread::~CScriptThread()
 CScriptThread::CScriptThread(const tstring &sName) :
 m_sName(sName),
 
-m_pvActions(NULL),
+m_pvActions(nullptr),
 
 m_uiStartTime(0),
 m_uiLastUpdateTime(INVALID_TIME),
@@ -68,8 +68,8 @@ m_uiLevel(1)
     m_cEnv.pTarget = pTarget;
     m_cEnv.pProxy = pProxy;
     m_cEnv.v3Target = v3Target;
-    m_cEnv.pCombatEvent = NULL;
-    m_cEnv.pDamageEvent = NULL;
+    m_cEnv.pCombatEvent = nullptr;
+    m_cEnv.pDamageEvent = nullptr;
     m_cEnv.v3Delta = v3Delta;
     m_cEnv.pScriptThread = this;
 
@@ -84,16 +84,16 @@ m_uiLevel(1)
     m_cEnv.v3Pos1.Clear();
     m_cEnv.v3Pos2.Clear();
     m_cEnv.v3Pos3.Clear();
-    m_cEnv.pEnt0 = NULL;
-    m_cEnv.pEnt1 = NULL;
-    m_cEnv.pEnt2 = NULL;
-    m_cEnv.pEnt3 = NULL;
+    m_cEnv.pEnt0 = nullptr;
+    m_cEnv.pEnt1 = nullptr;
+    m_cEnv.pEnt2 = nullptr;
+    m_cEnv.pEnt3 = nullptr;
 
     m_cEnv.bStall = false;
     m_cEnv.bTerminate = false;
     m_cEnv.uiRepeated = 0;
     m_cEnv.uiTracker = 0;
-    m_cEnv.pNext = NULL;
+    m_cEnv.pNext = nullptr;
 }
 
 
@@ -144,8 +144,8 @@ bool    CScriptThread::Execute(uint uiTime)
     m_cEnv.pTarget = pTarget;
     m_cEnv.pProxy = pProxy;
     m_cEnv.v3Target = v3Target;
-    m_cEnv.pCombatEvent = NULL;
-    m_cEnv.pDamageEvent = NULL;
+    m_cEnv.pCombatEvent = nullptr;
+    m_cEnv.pDamageEvent = nullptr;
     m_cEnv.v3Delta = v3Delta;
     m_cEnv.bStall = false;
 

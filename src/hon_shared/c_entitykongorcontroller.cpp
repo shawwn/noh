@@ -110,7 +110,7 @@ void    CEntityBossController::GameStart()
             }
 
             IVisualEntity *pTarget(Game.GetEntityFromName(*itList));
-            if (pTarget != NULL)
+            if (pTarget != nullptr)
             {
                 *itUIDList = pTarget->GetUniqueID();
                 continue;
@@ -142,7 +142,7 @@ bool    CEntityBossController::ServerFrameThink()
         {
             IUnitEntity *pUnit(Game.GetUnitEntity(Game.GetGameIndexFromUniqueID(*it)));
 
-            if (pUnit == NULL || pUnit->GetStatus() != ENTITY_STATUS_ACTIVE)
+            if (pUnit == nullptr || pUnit->GetStatus() != ENTITY_STATUS_ACTIVE)
             {
                 STL_ERASE(m_setActiveBossUIDs, it);
                 continue;
@@ -188,7 +188,7 @@ bool    CEntityBossController::AttemptSpawn()
     for (SpawnerUIDList_it it(vSpawners.begin()); it != vSpawners.end(); ++it)
     {
         IGameEntity *pSpawner(Game.GetEntityFromUniqueID(*it));
-        if (pSpawner == NULL)
+        if (pSpawner == nullptr)
             continue;
 
         pSpawner->Trigger(this);

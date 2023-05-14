@@ -19,11 +19,11 @@ private:
 public:
     ~CPriorityQueue()
     {
-        if (m_pHeap != NULL)
+        if (m_pHeap != nullptr)
             K2_DELETE_ARRAY(m_pHeap);
     }
 
-    CPriorityQueue() : m_pHeap(NULL), m_uiHeapSize(0) {}
+    CPriorityQueue() : m_pHeap(nullptr), m_uiHeapSize(0) {}
 
     bool    Empty()         { return m_uiHeapSize == 0; }
     void    Init(uint uiMaxElements);
@@ -52,7 +52,7 @@ public:
 template <class T, class _Pred>
 void    CPriorityQueue<T, _Pred>::Init(uint uiMaxElements)
 {
-    if (m_pHeap == NULL)
+    if (m_pHeap == nullptr)
     {
         m_pHeap = K2_NEW_ARRAY(ctx_Nav, T, uiMaxElements);
         m_uiMaxHeapSize = uiMaxElements;

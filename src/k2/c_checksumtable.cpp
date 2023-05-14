@@ -239,7 +239,7 @@ bool    CChecksumTable::Compare(const tstring &sFilePath, const byte *pChecksum)
   ====================*/
 bool    CChecksumTable::Serialize(byte *&pOut, uint &uiOutSize, const tsvector &vFileList)
 {
-    pOut = NULL;
+    pOut = nullptr;
     uiOutSize = 0;
 
     CBufferDynamic cBuffer;

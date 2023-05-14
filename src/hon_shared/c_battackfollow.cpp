@@ -71,7 +71,7 @@ void    CBAttackFollow::UpdateAggro()
     if (m_uiPrimaryTarget != INVALID_INDEX)
     {
         IUnitEntity *pPrimaryTarget(Game.GetUnitEntity(m_uiPrimaryTarget));
-        if (pPrimaryTarget == NULL ||
+        if (pPrimaryTarget == nullptr ||
             pPrimaryTarget->GetStatus() != ENTITY_STATUS_ACTIVE ||
             !m_pSelf->ShouldTarget(pPrimaryTarget))
         {
@@ -113,7 +113,7 @@ void    CBAttackFollow::UpdateAggro()
             continue;
 
         IUnitEntity *pTarget(Game.GetUnitEntity(Game.GetGameIndexFromWorldIndex(*cit)));
-        if (pTarget == NULL)
+        if (pTarget == nullptr)
             continue;
         if (pTarget->IsCritter())
             continue;
@@ -153,7 +153,7 @@ void    CBAttackFollow::UpdateAggro()
   ====================*/
 void    CBAttackFollow::BeginBehavior()
 {
-    if (m_pSelf == NULL || m_v2UpdatedGoal == V2_ZERO)
+    if (m_pSelf == nullptr || m_v2UpdatedGoal == V2_ZERO)
     {
         Console << _T("CBAttackFollow: Behavior started without valid information") << newl;
         return;
@@ -294,7 +294,7 @@ void    CBAttackFollow::EndBehavior()
   ====================*/
 void    CBAttackFollow::Aggro(IUnitEntity *pTarget, uint uiDuration, uint uiDelay, bool bReaggroBlock)
 {
-    if (pTarget == NULL || m_uiPrimaryTarget != INVALID_INDEX)
+    if (pTarget == nullptr || m_uiPrimaryTarget != INVALID_INDEX)
         return;
 
     m_uiPrimaryTarget = pTarget->GetIndex();

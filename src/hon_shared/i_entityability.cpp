@@ -75,7 +75,7 @@ bool    IEntityAbility::ReadSnapshot(CEntitySnapshot &snapshot, uint uiVersion)
 void    IEntityAbility::LevelUp()
 {
     IUnitEntity *pOwner(GetOwner());
-    if (pOwner == NULL)
+    if (pOwner == nullptr)
         return;
 
     if (!CanLevelUp())
@@ -101,13 +101,13 @@ void    IEntityAbility::LevelUp()
 
     Game.LogAbility(GAME_LOG_ABILITY_UPGRADE, this);
 
-    if (pOwner != NULL)
+    if (pOwner != nullptr)
         pOwner->UpdateInventory();
 
     for (uiset_it it(m_setPersistentPetUID.begin()); it != m_setPersistentPetUID.end(); ++it)
     {
         IUnitEntity *pPet(Game.GetUnitEntity(Game.GetGameIndexFromUniqueID(*it)));
-        if (pPet == NULL)
+        if (pPet == nullptr)
             continue;
         if (pPet->GetStatus() != ENTITY_STATUS_ACTIVE)
             continue;
@@ -128,10 +128,10 @@ bool    IEntityAbility::CanLevelUp() const
         return false;
 
     IUnitEntity *pOwner(GetOwner());
-    if (pOwner == NULL)
+    if (pOwner == nullptr)
         return false;
     IHeroEntity *pHero(pOwner->GetAsHero());
-    if (pHero == NULL)
+    if (pHero == nullptr)
         return false;
 
     if (pHero->GetAvailablePoints() < 1)
@@ -154,7 +154,7 @@ bool    IEntityAbility::IsDisabled() const
     if (GetActionType() != TOOL_ACTION_PASSIVE)
     {
         IUnitEntity *pOwner(GetOwner());
-        if (pOwner != NULL && pOwner->IsSilenced() && !GetNoSilence())
+        if (pOwner != nullptr && pOwner->IsSilenced() && !GetNoSilence())
             return true;
     }
 

@@ -56,7 +56,7 @@ int     CGameMechanicsResource::Load(uint uiIgnoreFlags, const char *pData, uint
 void    CGameMechanicsResource::PostLoad()
 {
     Game.RegisterGameMechanics(GetHandle());
-    if (m_pGameMechanics != NULL)
+    if (m_pGameMechanics != nullptr)
         m_pGameMechanics->PostLoad();
 
     g_ResLibEntityDefinition.ReloadAll();

@@ -31,7 +31,7 @@ UI_TRIGGER(PayAccountSuccess);
   CAccountManager::CAccountManager
   ====================*/
 CAccountManager::CAccountManager() :
-m_pRequest(NULL),
+m_pRequest(nullptr),
 m_sShipName(_T("")),
 m_sFirst(_T("")),
 m_sLast(_T("")),
@@ -153,7 +153,7 @@ void    CAccountManager::ProcessPaymentResponse(const tstring &sResponse)
 #if 0
     try
     {
-        if (pResponse == NULL)
+        if (pResponse == nullptr)
             EX_ERROR(_T("No response recieved, please try again later."));
 
         if (!pResponse->GetVarString("error").empty())
@@ -224,7 +224,7 @@ void CAccountManager::ProcessCreateResponse(const tstring &sResponse)
 #if 0
     try
     {
-        if (pResponse == NULL)
+        if (pResponse == nullptr)
             EX_ERROR(_T("No response received, please try again later."));
 
         if (!pResponse->GetVarString("error").empty())

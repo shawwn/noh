@@ -155,7 +155,7 @@ public:
     singleLink_t        *singleLinks;   //allocated for nonblended meshes.  can also be used as an LOD fallback for blended meshes.
 
     int                 bonelink;       //if > -1, ALL vertices of this mesh are linked to this bone only, in which case both
-                                    //singleLinks and blendedLinks will be NULL.
+                                    //singleLinks and blendedLinks will be nullptr.
 
     int                 sbuffer;                        // index to static vertex buffer
     int                 dbuffer;                        // index to dynamic vertex buffer

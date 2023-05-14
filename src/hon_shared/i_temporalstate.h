@@ -29,7 +29,7 @@ INIT_ENTITY_CVAR(name##MidPos, 0.5f)
 #define TEMPORAL_CVAR_ACCESSOR(type, name) \
 virtual type    Get##name() const \
 { \
-    if (m_pEntityConfig == NULL) \
+    if (m_pEntityConfig == nullptr) \
         return GetDefaultEmptyValue<type>(); \
 \
     uint uiGameTime(Game.GetGameTime()); \

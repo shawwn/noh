@@ -45,7 +45,7 @@ void    CScrollbarSlider::DoChange()
   ====================*/
 void    CScrollbarSlider::MouseDown(EButton button, const CVec2f &v2CursorPos)
 {
-    if (m_pParent == NULL || m_pParent->GetType() != WIDGET_SCROLLBAR)
+    if (m_pParent == nullptr || m_pParent->GetType() != WIDGET_SCROLLBAR)
     {
         CSlider::MouseDown(button, v2CursorPos);
         return;

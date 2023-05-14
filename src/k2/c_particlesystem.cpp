@@ -85,14 +85,14 @@ m_fCustomScale(1.0f)
 {
     PROFILE("CParticleSysem::CParticleSystem");
 
-    if (pEffectThread == NULL)
+    if (pEffectThread == nullptr)
         return;
 
     for (EmitterDefList::const_iterator it(psSettings.GetEmitterDefs().begin()); it != psSettings.GetEmitterDefs().end(); ++it)
     {
         for (int i(0); i < (*it)->GetCount(); ++i)
         {
-            IEmitter *pNewEmitter((*it)->Spawn(uiStartTime, this, NULL));
+            IEmitter *pNewEmitter((*it)->Spawn(uiStartTime, this, nullptr));
 
             if (!pNewEmitter)
                 continue;
@@ -127,10 +127,10 @@ bool    CParticleSystem::Update(uint uiMilliseconds, ParticleTraceFn_t pfnTrace)
             if (!pEmitter->GetName().empty())
                 m_mapNamedEmitters.erase(pEmitter->GetName());
 
-            if (pEmitter->GetNextEmitter() != NULL)
+            if (pEmitter->GetNextEmitter() != nullptr)
             {
                 *it = pEmitter->GetNextEmitter();
-                pEmitter->SetNextEmitter(NULL);
+                pEmitter->SetNextEmitter(nullptr);
                 K2_DELETE(pEmitter);
                 ++it;
             }
@@ -181,7 +181,7 @@ IEmitter*   CParticleSystem::GetEmitter(const tstring &sName)
     if (findit != m_mapNamedEmitters.end())
         return findit->second;
     else
-        return NULL;
+        return nullptr;
 }
 
 

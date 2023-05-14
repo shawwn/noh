@@ -51,7 +51,7 @@ void    CPropTree::Spawn()
         return;
 
     CWorldEntity *pWorldEnt(Game.GetWorldEntity(m_uiWorldIndex));
-    if (pWorldEnt == NULL)
+    if (pWorldEnt == nullptr)
         return;
 
     float fOcclusionRadius(GetOcclusionRadius());
@@ -85,7 +85,7 @@ void    CPropTree::Activate()
     m_vPathBlockers.clear();
 
     CWorldEntity *pWorldEnt(Game.GetWorldEntity(m_uiWorldIndex));
-    if (pWorldEnt == NULL)
+    if (pWorldEnt == nullptr)
         return;
 
     pWorldEnt->SetSurfFlags(pWorldEnt->GetSurfFlags() & ~SURF_IGNORE);
@@ -112,7 +112,7 @@ void    CPropTree::Activate()
 void    CPropTree::Deactivate()
 {
     CWorldEntity *pWorldEnt(Game.GetWorldEntity(m_uiWorldIndex));
-    if (pWorldEnt == NULL)
+    if (pWorldEnt == nullptr)
         return;
 
     pWorldEnt->SetSurfFlags(pWorldEnt->GetSurfFlags() | SURF_IGNORE);

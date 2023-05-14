@@ -22,9 +22,9 @@ struct SGameInterfaceLib
     SGameInterfaceLib() :
     iMajorVersion(0),
     iMinorVersion(0),
-    Initialize(NULL),
-    //Frame(NULL),
-    Shutdown(NULL)
+    Initialize(nullptr),
+    //Frame(nullptr),
+    Shutdown(nullptr)
     {
     }
 };

@@ -20,7 +20,7 @@
 CTexelOcclusionMap::CTexelOcclusionMap(EWorldComponent eComponent) :
 IWorldComponent(eComponent, _T("TexelOcclusionMap")),
 m_bActive(false),
-m_pTexelOcclusion(NULL)
+m_pTexelOcclusion(nullptr)
 {
 }
 
@@ -39,12 +39,12 @@ CTexelOcclusionMap::~CTexelOcclusionMap()
   ====================*/
 void    CTexelOcclusionMap::Release()
 {
-    m_pWorld = NULL;
+    m_pWorld = nullptr;
     m_bActive = false;
 
-    if (m_pTexelOcclusion != NULL)
+    if (m_pTexelOcclusion != nullptr)
         K2_DELETE_ARRAY(m_pTexelOcclusion);
-    m_pTexelOcclusion = NULL;
+    m_pTexelOcclusion = nullptr;
 }
 
 
@@ -85,9 +85,9 @@ bool    CTexelOcclusionMap::Load(CArchive &archive, const CWorld *pWorld)
     }
     catch (CException &ex)
     {
-        if (m_pTexelOcclusion != NULL)
+        if (m_pTexelOcclusion != nullptr)
             K2_DELETE_ARRAY(m_pTexelOcclusion);
-        m_pTexelOcclusion = NULL;
+        m_pTexelOcclusion = nullptr;
 
         ex.Process(_T("CTexelOcclusionMap::Load() - "), NO_THROW);
         return false;
@@ -112,7 +112,7 @@ bool    CTexelOcclusionMap::Generate(const CWorld *pWorld)
         m_bChanged = true;
         
         m_pWorld = pWorld;
-        if (m_pWorld == NULL)
+        if (m_pWorld == nullptr)
             EX_ERROR(_T("CTexelOcclusionMap needs a valid CWorld"));
 
         
@@ -210,7 +210,7 @@ void    CTexelOcclusionMap::SetOcclusion(int iX, int iY, byte yAlpha)
 void    CTexelOcclusionMap::Calculate(int iSamples)
 {
     m_pTexelOcclusion = K2_NEW_ARRAY(ctx_World, byte, m_pWorld->GetTexelArea());
-    if (m_pTexelOcclusion == NULL)
+    if (m_pTexelOcclusion == nullptr)
         return;
 
     float fTexelSize(m_pWorld->GetScale() / m_pWorld->GetTexelDensity());

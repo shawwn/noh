@@ -25,7 +25,7 @@ protected:
 public:
     ~CEntityNeutralCampSpawner()    {}
     CEntityNeutralCampSpawner()
-        : m_pSpawnedUnit(NULL)
+        : m_pSpawnedUnit(nullptr)
     {}
 
     SUB_ENTITY_ACCESSOR(CEntityNeutralCampSpawner, NeutralCampSpawner)

@@ -93,7 +93,7 @@ IBaseInput* CActionRegistry::GetAction(const tstring &sAction)
     ActionMap::iterator find = m_mapActions.find(sAction);
 
     if (find == m_mapActions.end())
-        return NULL;
+        return nullptr;
     else
         return find->second;
 }

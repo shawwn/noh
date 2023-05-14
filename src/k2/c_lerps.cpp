@@ -35,7 +35,7 @@ m_sValStart(m_sValOutName + _T("StartAmount"))
     tstring sTriggerName = m_sValOutName;
     sTriggerName += _T("Trigger");
     pUITrigger = UITriggerRegistry.GetUITrigger(sTriggerName);
-    if (pUITrigger == NULL)
+    if (pUITrigger == nullptr)
     {
         pUITrigger = K2_NEW(MemManager.GetHeap(HEAP_CLIENT_GAME),  CUITrigger)(sTriggerName);
     }

@@ -617,7 +617,7 @@ bool    CTrailEmitter::Update(uint uiMilliseconds, ParticleTraceFn_t pfnTrace)
             fAcceleration,
             fLerpedScale,
             TransformPoint(v3CurrentBonePos, aLerpedAxis, v3LerpedPos, fLerpedScale),
-            NULL,
+            nullptr,
             **itDef
         );
         m_vTrack[uiSlot].SetActive(true);

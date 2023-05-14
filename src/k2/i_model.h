@@ -63,7 +63,7 @@ protected:
 
 public:
     virtual ~IModel();
-    IModel(EModelType eType) : m_eType(eType), m_uiSeed(1), m_pBaseLod(NULL), m_fLodDistance(0.0f), m_pModel(NULL)  {}
+    IModel(EModelType eType) : m_eType(eType), m_uiSeed(1), m_pBaseLod(nullptr), m_fLodDistance(0.0f), m_pModel(nullptr)  {}
 
     const tstring&      GetName() const                             { return m_sName; }
     void                SetName(const tstring &sName)               { m_sName = sName; }

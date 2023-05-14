@@ -102,7 +102,7 @@ void    ILight::Spawn()
             EX_WARN(_T("Light has no world index"));
 
         CWorldLight *pLight(Game.GetWorldLight(m_uiWorldIndex));
-        if (pLight == NULL)
+        if (pLight == nullptr)
             EX_WARN(_T("World entity not found: #") + XtoA(m_uiWorldIndex));
 
         m_v3Position = pLight->GetPosition();

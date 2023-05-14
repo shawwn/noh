@@ -24,7 +24,7 @@ public:
     float   fPos;
     float   fNeg;
 
-    CSegmentWaypoint() : pNode(NULL), uiLength(0), iPos(0), iNeg(0) { }
+    CSegmentWaypoint() : pNode(nullptr), uiLength(0), iPos(0), iNeg(0) { }
 };
 
 typedef vector<CSegmentWaypoint> SegmentWaypoints;

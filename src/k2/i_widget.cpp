@@ -226,8 +226,8 @@ m_bMouseOut(true)
     m_sMarginV = style.GetProperty(_CTS("vmargin"), _CTS("0"));
 
     // Size
-    float fParentWidth((m_pParent == NULL) ? Draw2D.GetScreenW() : m_pParent->GetWidth());
-    float fParentHeight((m_pParent == NULL) ? Draw2D.GetScreenH() : m_pParent->GetHeight());
+    float fParentWidth((m_pParent == nullptr) ? Draw2D.GetScreenW() : m_pParent->GetWidth());
+    float fParentHeight((m_pParent == nullptr) ? Draw2D.GetScreenH() : m_pParent->GetHeight());
 
     float fMarginH(ROUND(GetPositionFromString(m_sMarginH, fParentWidth, fParentHeight)));
     float fMarginV(ROUND(GetPositionFromString(m_sMarginV, fParentHeight, fParentWidth)));
@@ -252,13 +252,13 @@ m_bMouseOut(true)
         m_fSpacing = ROUND(GetSizeFromString(style.GetProperty(_CTS("spacing")), fParentWidth, fParentHeight));
     else if (m_eAdhere == WFLOAT_BOTTOM)
         m_fSpacing = ROUND(GetSizeFromString(style.GetProperty(_CTS("spacing")), fParentHeight, fParentWidth));
-    else if (m_pParent != NULL)
+    else if (m_pParent != nullptr)
         m_fSpacing = m_pParent->m_fPadding;
 
     // Position
     if (m_sBaseX.empty() &&
         m_sBaseY.empty() &&
-        (m_eAdhere != WFLOAT_NONE || (m_pParent != NULL && m_pParent->m_eFloat != WFLOAT_NONE && (m_pParent->HasFloatTarget() || m_pInterface->IsAnchored()))))
+        (m_eAdhere != WFLOAT_NONE || (m_pParent != nullptr && m_pParent->m_eFloat != WFLOAT_NONE && (m_pParent->HasFloatTarget() || m_pInterface->IsAnchored()))))
     {
         CVec2f v2Pos(GetFloatPosition(m_fSpacing));
         SetX(v2Pos.x);
@@ -266,7 +266,7 @@ m_bMouseOut(true)
     }
     else
     {
-        if (m_pParent != NULL)
+        if (m_pParent != nullptr)
         {
             float fBaseX(0.0f);
             float fBaseY(0.0f);
@@ -339,7 +339,7 @@ m_bMouseOut(true)
             for (tsvector::iterator it(vWatchNames.begin()); it != vWatchNames.end(); ++it)
             {
                 CUIWatcher *pNewWatcher(K2_NEW(ctx_Widgets,  CUIWatcher)(this, *it));
-                if (pNewWatcher != NULL)
+                if (pNewWatcher != nullptr)
                     m_vWatched.push_back(pNewWatcher);
             }
         }
@@ -358,7 +358,7 @@ m_bMouseOut(true)
                 for (tsvector::iterator it = vWatchNames.begin(); it != vWatchNames.end(); ++it)
                 {
                     CUIWatcher *pNewWatcher(K2_NEW(ctx_Widgets,  CUIWatcher)(this, *it, i));
-                    if (pNewWatcher != NULL)
+                    if (pNewWatcher != nullptr)
                         m_vvWatched[i].push_back(pNewWatcher);
                 }
             }
@@ -430,7 +430,7 @@ m_bMouseOut(true)
     if (!sForm.empty() && !sData.empty())
     {
         CUIForm *pForm(pInterface->GetForm(sForm));
-        if (pForm != NULL)
+        if (pForm != nullptr)
             pForm->AddWidgetVariable(sData, this);
     }
 
@@ -466,7 +466,7 @@ IWidget::~IWidget()
     }
 
     // Notify parent
-    if (m_pParent != NULL)
+    if (m_pParent != nullptr)
     {
         if (m_pParent->GetFloatTarget() == this)
             m_pParent->SetFloatTarget(m_refStickyTarget);
@@ -529,7 +529,7 @@ void    IWidget::UpdateChildAlignment(IWidget *pUpdateFrom)
   ====================*/
 void    IWidget::LostReference(IWidget *pWidget)
 {
-    if (pWidget == NULL)
+    if (pWidget == nullptr)
         return;
 
     bool bRecalculatePos(false);
@@ -554,7 +554,7 @@ void    IWidget::LostReference(IWidget *pWidget)
         }
 
         if (it == itEnd)
-            m_refAdhereTarget = NULL;
+            m_refAdhereTarget = nullptr;
     }
 
     if (m_refFloatTarget.GetTarget() == pWidget)
@@ -571,14 +571,14 @@ void    IWidget::LostReference(IWidget *pWidget)
         }
 
         if (it == itEnd)
-            m_refFloatTarget = NULL;
+            m_refFloatTarget = nullptr;
     }
 
     if (bRecalculatePos)
     {
         RealignToSticky();
 
-        if (m_pParent != NULL)
+        if (m_pParent != nullptr)
             m_pParent->UpdateChildAlignment(this);
     }
 }
@@ -603,7 +603,7 @@ void    IWidget::RealignToSticky()
         EWidgetFloat eFloat(WFLOAT_NONE);
         if (m_eAdhere != WFLOAT_NONE)
             eFloat = m_eAdhere;
-        else if (m_pParent != NULL && m_pParent->m_eFloat != WFLOAT_NONE)
+        else if (m_pParent != nullptr && m_pParent->m_eFloat != WFLOAT_NONE)
             eFloat = m_pParent->m_eFloat;
 
         if (eFloat == WFLOAT_BOTTOM)
@@ -657,7 +657,7 @@ void    IWidget::LoseChildren()
   ====================*/
 void    IWidget::WidgetLost(IWidget *pWidget)
 {
-    if (pWidget == NULL)
+    if (pWidget == nullptr)
         return;
 
     if (m_refStickyTarget.GetTarget() == pWidget)
@@ -670,9 +670,9 @@ void    IWidget::WidgetLost(IWidget *pWidget)
         m_refFloatTarget.Invalidate();
 
     if (m_pInterface == pWidget)
-        m_pInterface = NULL;
+        m_pInterface = nullptr;
 
-    if (m_pParent != NULL)
+    if (m_pParent != nullptr)
         m_pParent->WidgetLost(pWidget);
 }
 
@@ -717,10 +717,10 @@ void    IWidget::SetStickyTarget(const CWidgetReference &ref)
 CVec2f  IWidget::GetFloatPosition(float fSpacing)
 {
     // Check for an overriding <anchor> tag
-    if (m_pInterface != NULL && m_pInterface->IsAnchored())
+    if (m_pInterface != nullptr && m_pInterface->IsAnchored())
         return m_pInterface->GetAnchorPosition();
 
-    if (m_pParent == NULL)
+    if (m_pParent == nullptr)
         return V2_ZERO;
 
     // Determine widget to float from and direction of floating
@@ -729,14 +729,14 @@ CVec2f  IWidget::GetFloatPosition(float fSpacing)
     {
         eFloat = m_eAdhere;
 
-        if (m_pParent->GetAdhereTarget() != NULL)
+        if (m_pParent->GetAdhereTarget() != nullptr)
             m_refStickyTarget = m_pParent->GetAdhereTarget();
     }
     else if (m_pParent->m_eFloat != WFLOAT_NONE)
     {
         eFloat = m_pParent->m_eFloat;
 
-        if (m_pParent->GetFloatTarget() != NULL)
+        if (m_pParent->GetFloatTarget() != nullptr)
             m_refStickyTarget = m_pParent->GetFloatTarget();
     }
 
@@ -774,9 +774,9 @@ void    IWidget::RecalculatePosition()
 {
     if (!(m_sBaseX.empty() &&
         m_sBaseY.empty() &&
-        (m_eAdhere != WFLOAT_NONE || (m_pParent != NULL && m_pParent->m_eFloat != WFLOAT_NONE && (m_pParent->HasFloatTarget()/* || m_pInterface->IsAnchored()*/)))))
+        (m_eAdhere != WFLOAT_NONE || (m_pParent != nullptr && m_pParent->m_eFloat != WFLOAT_NONE && (m_pParent->HasFloatTarget()/* || m_pInterface->IsAnchored()*/)))))
     {
-        if (m_pParent != NULL)
+        if (m_pParent != nullptr)
         {
             float fBaseX(0.0f);
             float fBaseY(0.0f);
@@ -904,7 +904,7 @@ void    IWidget::RecalculateSize()
 
     UnsetFlags(WFLAG_RESIZING);
 
-    if (m_pParent != NULL && m_pParent->HasFlags(WFLAG_GROW_WITH_CHILDREN))
+    if (m_pParent != nullptr && m_pParent->HasFlags(WFLAG_GROW_WITH_CHILDREN))
     {
         m_pParent->RecalculateSize();
         RecalculatePosition();
@@ -919,7 +919,7 @@ CRectf  IWidget::GetStickyRect()
 {
     IWidget *pTarget(m_refStickyTarget.GetTarget());
     // No target, use parents top left
-    if (pTarget == NULL)
+    if (pTarget == nullptr)
         return CRectf(0.0f, 0.0f, 0.0f, 0.0f);
 
     if (pTarget->HasFlags(WFLAG_VISIBLE) || HasFlags(WFLAG_STICKYTOINVIS))
@@ -939,7 +939,7 @@ void    IWidget::ApplyStickiness()
 
     float fParentWidth;
     float fParentHeight;
-    if (m_pParent != NULL)
+    if (m_pParent != nullptr)
     {
         fParentWidth = m_pParent->GetWidth();
         fParentHeight = m_pParent->GetHeight();
@@ -989,7 +989,7 @@ void    IWidget::ApplyStickiness()
         return;
     }
 
-    if (m_pParent == NULL)
+    if (m_pParent == nullptr)
         return;
 
     if (m_pParent->m_eFloat != WFLOAT_NONE)
@@ -1038,7 +1038,7 @@ void    IWidget::ApplyStickiness()
   ====================*/
 void    IWidget::ResizeParent()
 {
-    if (!HasFlags(WFLAG_VISIBLE) || m_pParent == NULL)
+    if (!HasFlags(WFLAG_VISIBLE) || m_pParent == nullptr)
         return;
 
     bool bRecalculate(false);
@@ -1214,7 +1214,7 @@ void    IWidget::SetWatch(const tstring &sWatch)
         for (tsvector::iterator it(vWatchNames.begin()); it != vWatchNames.end(); ++it)
         {
             CUIWatcher *pNewWatcher(K2_NEW(ctx_Widgets,  CUIWatcher)(this, *it));
-            if (pNewWatcher != NULL)
+            if (pNewWatcher != nullptr)
                 m_vWatched.push_back(pNewWatcher);
         }
     }
@@ -1277,9 +1277,9 @@ void    IWidget::Hide()
     m_fFadeCurrent = 0.0f;
 
     if (m_pInterface->GetActiveWidget() == this)
-        m_pInterface->SetActiveWidget(NULL);
+        m_pInterface->SetActiveWidget(nullptr);
     if (m_pInterface->GetExclusiveWidget() == this)
-        m_pInterface->SetExclusiveWidget(NULL);
+        m_pInterface->SetExclusiveWidget(nullptr);
 
     if(m_pParent && m_pParent->HasFlags(WFLAG_REGROW))
     {
@@ -1309,9 +1309,9 @@ void    IWidget::Disable()
     UnsetFlags(WFLAG_ENABLED);
 
     if (m_pInterface->GetActiveWidget() == this)
-        m_pInterface->SetActiveWidget(NULL);
+        m_pInterface->SetActiveWidget(nullptr);
     if (m_pInterface->GetExclusiveWidget() == this)
-        m_pInterface->SetExclusiveWidget(NULL);
+        m_pInterface->SetExclusiveWidget(nullptr);
 }
 
 
@@ -2156,7 +2156,7 @@ CVec2f  IWidget::GetAbsolutePos()
 IWidget*    IWidget::GetWidget(const CVec2f &v2Pos, bool bClick)
 {
     if (!HasFlags(WFLAG_VISIBLE) || !HasFlags(WFLAG_ENABLED))
-        return NULL;
+        return nullptr;
 
     if (!bClick || !HasFlags(WFLAG_PASSIVE_CHILDREN))
     {
@@ -2170,12 +2170,12 @@ IWidget*    IWidget::GetWidget(const CVec2f &v2Pos, bool bClick)
     }
 
     if (HasFlags(WFLAG_NO_CLICK) && bClick)
-        return NULL;
+        return nullptr;
 
     if (m_recArea.AltContains(v2Pos))
         return this;
     else
-        return NULL;
+        return nullptr;
 }
 
 
@@ -2333,7 +2333,7 @@ void IWidget::SetLerp(tstring sName, float fTarget, uint iTime, uint iType , int
   ====================*/
 void    IWidget::AddChild(IWidget *pChild)
 {
-    if (pChild == NULL)
+    if (pChild == nullptr)
         return;
 
     if (HasFlags(WFLAG_REVERSE))
@@ -2441,9 +2441,9 @@ void    IWidget::DoEvent(EWidgetEvent eEvent, const tstring &sParam)
     if (eEvent == WEVENT_HIDE || eEvent == WEVENT_DISABLE)
     {
         if (m_pInterface->GetActiveWidget() == this)
-            m_pInterface->SetActiveWidget(NULL);
+            m_pInterface->SetActiveWidget(nullptr);
         if (m_pInterface->GetExclusiveWidget() == this)
-            m_pInterface->SetExclusiveWidget(NULL);
+            m_pInterface->SetExclusiveWidget(nullptr);
     }
 
     // Don't execute show events if we're still hidden
@@ -2521,11 +2521,11 @@ void    IWidget::DoEvent(EWidgetEvent eEvent, const tsvector &vParam)
   ====================*/
 bool    IWidget::IsAbsoluteVisible()
 {
-    if (m_pParent == NULL)
+    if (m_pParent == nullptr)
     {
         CInterface *pInterface(GetInterface());
 
-        if (pInterface != NULL && pInterface != UIManager.GetActiveInterface() && pInterface != UIManager.GetSavedActiveInterface() && !UIManager.IsOverlayInterface(pInterface))
+        if (pInterface != nullptr && pInterface != UIManager.GetActiveInterface() && pInterface != UIManager.GetSavedActiveInterface() && !UIManager.IsOverlayInterface(pInterface))
             return false;
 
         return HasFlags(WFLAG_VISIBLE);
@@ -2540,7 +2540,7 @@ bool    IWidget::IsAbsoluteVisible()
   ====================*/
 bool    IWidget::IsAbsoluteEnabled()
 {
-    if (m_pParent == NULL)
+    if (m_pParent == nullptr)
         return HasFlags(WFLAG_ENABLED);
     else
         return HasFlags(WFLAG_ENABLED) && m_pParent->IsAbsoluteEnabled();
@@ -2661,7 +2661,7 @@ void    IWidget::RequestPurge()
   ====================*/
 bool    IWidget::ChildHasFocus()
 {
-    if (m_pInterface == NULL)
+    if (m_pInterface == nullptr)
         return false;
 
     IWidget *pActive(m_pInterface->GetActiveWidget());
@@ -2683,7 +2683,7 @@ bool    IWidget::ChildHasFocus()
   ====================*/
 float   IWidget::GetAbsoluteFractionX(float fFraction) const
 {
-    CVec2f v2ParentPos(m_pParent != NULL ? m_pParent->GetAbsolutePos() : V2_ZERO);
+    CVec2f v2ParentPos(m_pParent != nullptr ? m_pParent->GetAbsolutePos() : V2_ZERO);
 
     return v2ParentPos.x + LERP(fFraction, m_recArea.left, m_recArea.right);
 }
@@ -2694,7 +2694,7 @@ float   IWidget::GetAbsoluteFractionX(float fFraction) const
   ====================*/
 float   IWidget::GetAbsoluteFractionY(float fFraction) const
 {
-    CVec2f v2ParentPos(m_pParent != NULL ? m_pParent->GetAbsolutePos() : V2_ZERO);
+    CVec2f v2ParentPos(m_pParent != nullptr ? m_pParent->GetAbsolutePos() : V2_ZERO);
 
     return v2ParentPos.y + LERP(fFraction, m_recArea.top, m_recArea.bottom);
 }
@@ -2736,7 +2736,7 @@ void    IWidget::SetFocus(bool bFocus)
     else
     {
         if (m_pInterface->GetActiveWidget() == this)
-            m_pInterface->SetActiveWidget(NULL);
+            m_pInterface->SetActiveWidget(nullptr);
     }
 }
 
@@ -2768,7 +2768,7 @@ UI_CMD(GetTexture, 0)
 {
     PROFILE("GetTexture");
 
-    if (pThis == NULL)
+    if (pThis == nullptr)
         return TSNULL;
 
     int iIdx(0);
@@ -2792,7 +2792,7 @@ UI_VOID_CMD(SetTexture, 1)
 {
     PROFILE("SetTexture");
 
-    if (pThis == NULL)
+    if (pThis == nullptr)
         return;
 
     pThis->SetTexture(vArgList[0]->Evaluate());
@@ -2909,17 +2909,17 @@ UI_VOID_CMD(SetVisible, 1)
   --------------------*/
 UI_CMD(IsVisible, 0)
 {
-    if (pThis == NULL)
+    if (pThis == nullptr)
         return _T("0");
 
     if (!vArgList.empty())
     {
-        if (pThis->GetInterface() == NULL)
+        if (pThis->GetInterface() == nullptr)
             return _T("0");
 
         IWidget *pTarget(pThis->GetInterface()->GetWidget(vArgList[0]->Evaluate()));
 
-        if (pTarget == NULL)
+        if (pTarget == nullptr)
             return _T("0");
 
         return XtoA(pTarget->IsAbsoluteVisible(), true);
@@ -2933,17 +2933,17 @@ UI_CMD(IsVisible, 0)
   --------------------*/
 UI_CMD(IsEnabled, 0)
 {
-    if (pThis == NULL)
+    if (pThis == nullptr)
         return _T("0");
 
     if (!vArgList.empty())
     {
-        if (pThis->GetInterface() == NULL)
+        if (pThis->GetInterface() == nullptr)
             return _T("0");
 
         IWidget *pTarget(pThis->GetInterface()->GetWidget(vArgList[0]->Evaluate()));
 
-        if (pTarget == NULL)
+        if (pTarget == nullptr)
             return _T("0");
 
         return XtoA(pTarget->IsAbsoluteEnabled(), true);
@@ -2984,7 +2984,7 @@ UI_VOID_CMD(SetFocus, 1)
     else
     {
         if (pInterface->GetActiveWidget() == pThis)
-            pInterface->SetActiveWidget(NULL);
+            pInterface->SetActiveWidget(nullptr);
     }
 }
 
@@ -3023,7 +3023,7 @@ UI_VOID_CMD(SetDefaultFocus, 1)
     else
     {
         if (pInterface->GetDefaultActiveWidget() == pThis)
-            pInterface->SetDefaultActiveWidget(NULL);
+            pInterface->SetDefaultActiveWidget(nullptr);
     }
 }
 
@@ -3040,7 +3040,7 @@ UI_VOID_CMD(BreakExclusive, 0)
     CInterface *pInterface(pThis->GetInterface());
 
     if (pInterface->GetExclusiveWidget() == pThis)
-        pInterface->SetExclusiveWidget(NULL);
+        pInterface->SetExclusiveWidget(nullptr);
 }
 
 
@@ -3062,7 +3062,7 @@ UI_VOID_CMD(SetWidth, 1)
   --------------------*/
 UI_VOID_CMD(SetHeight, 1)
 {
-    if (pThis == NULL)
+    if (pThis == nullptr)
         return;
 
     pThis->SetBaseHeight(vArgList[0]->Evaluate());
@@ -3075,7 +3075,7 @@ UI_VOID_CMD(SetHeight, 1)
   --------------------*/
 UI_VOID_CMD(SetUOffset, 1)
 {
-    if (pThis == NULL)
+    if (pThis == nullptr)
         return;
 
     pThis->SetUOffset(pThis->GetTextureOffsetFromString(vArgList[0]->Evaluate(), X));
@@ -3087,7 +3087,7 @@ UI_VOID_CMD(SetUOffset, 1)
   --------------------*/
 UI_VOID_CMD(SetVOffset, 1)
 {
-    if (pThis == NULL)
+    if (pThis == nullptr)
         return;
 
     pThis->SetVOffset(pThis->GetTextureOffsetFromString(vArgList[0]->Evaluate(), Y));
@@ -3099,7 +3099,7 @@ UI_VOID_CMD(SetVOffset, 1)
   --------------------*/
 UI_VOID_CMD(SetUScale, 1)
 {
-    if (pThis == NULL)
+    if (pThis == nullptr)
         return;
 
     pThis->SetUScale(pThis->GetTextureScaleFromString(vArgList[0]->Evaluate(), X));
@@ -3111,7 +3111,7 @@ UI_VOID_CMD(SetUScale, 1)
   --------------------*/
 UI_VOID_CMD(SetVScale, 1)
 {
-    if (pThis == NULL)
+    if (pThis == nullptr)
         return;
 
     pThis->SetVScale(pThis->GetTextureScaleFromString(vArgList[0]->Evaluate(), Y));
@@ -3123,7 +3123,7 @@ UI_VOID_CMD(SetVScale, 1)
   --------------------*/
 UI_VOID_CMD(SetUSpeed, 1)
 {
-    if (pThis == NULL)
+    if (pThis == nullptr)
         return;
 
     pThis->SetUSpeed(pThis->GetTextureOffsetFromString(vArgList[0]->Evaluate(), X));
@@ -3135,7 +3135,7 @@ UI_VOID_CMD(SetUSpeed, 1)
   --------------------*/
 UI_VOID_CMD(SetVSpeed, 1)
 {
-    if (pThis == NULL)
+    if (pThis == nullptr)
         return;
 
     pThis->SetVSpeed(pThis->GetTextureOffsetFromString(vArgList[0]->Evaluate(), Y));
@@ -3195,7 +3195,7 @@ UI_CMD(GetParentX, 0)
   --------------------*/
 UI_VOID_CMD(SetX, 1)
 {
-    if (pThis == NULL)
+    if (pThis == nullptr)
         return;
 
     pThis->SetBaseX(vArgList[0]->Evaluate());
@@ -3233,7 +3233,7 @@ UI_CMD(GetParentAbsoluteX, 0)
   --------------------*/
 UI_VOID_CMD(SetAbsoluteX, 1)
 {
-    if (pThis == NULL)
+    if (pThis == nullptr)
         return;
 
     float fPos(AtoF(vArgList[0]->Evaluate()));
@@ -3323,7 +3323,7 @@ UI_CMD(GetParentAbsoluteY, 0)
   --------------------*/
 UI_VOID_CMD(SetAbsoluteY, 1)
 {
-    if (pThis == NULL)
+    if (pThis == nullptr)
         return;
 
     float fPos(AtoF(vArgList[0]->Evaluate()));
@@ -3351,7 +3351,7 @@ UI_CMD(GetAbsoluteFractionY, 1)
   --------------------*/
 UI_VOID_CMD(MoveToCursor, 0)
 {
-    if (pThis == NULL)
+    if (pThis == nullptr)
         return;
 
     CVec2f v2Pos(Input.GetCursorPos());
@@ -3368,7 +3368,7 @@ UI_VOID_CMD(MoveToCursor, 0)
   --------------------*/
 UI_VOID_CMD(Slide, 3)
 {
-    if (pThis == NULL)
+    if (pThis == nullptr)
         return;
 
     float fParentWidth(Draw2D.GetScreenW());
@@ -3376,7 +3376,7 @@ UI_VOID_CMD(Slide, 3)
     float fBaseX(0.0f);
     float fBaseY(0.0f);
     IWidget *pParent(pThis->GetParent());
-    if (pParent != NULL)
+    if (pParent != nullptr)
     {
         fParentWidth = pParent->GetWidth();
         fParentHeight = pParent->GetHeight();
@@ -3416,14 +3416,14 @@ UI_VOID_CMD(Slide, 3)
   --------------------*/
 UI_VOID_CMD(SlideX, 2)
 {
-    if (pThis == NULL)
+    if (pThis == nullptr)
         return;
 
     float fParentWidth(Draw2D.GetScreenW());
     float fParentHeight(Draw2D.GetScreenH());
     float fBaseX(0.0f);
     IWidget *pParent(pThis->GetParent());
-    if (pParent != NULL)
+    if (pParent != nullptr)
     {
         fParentWidth = pParent->GetWidth();
         fParentHeight = pParent->GetHeight();
@@ -3450,14 +3450,14 @@ UI_VOID_CMD(SlideX, 2)
   --------------------*/
 UI_VOID_CMD(SlideY, 2)
 {
-    if (pThis == NULL)
+    if (pThis == nullptr)
         return;
 
     float fParentWidth(Draw2D.GetScreenW());
     float fParentHeight(Draw2D.GetScreenH());
     float fBaseY(0.0f);
     IWidget *pParent(pThis->GetParent());
-    if (pParent != NULL)
+    if (pParent != nullptr)
     {
         fParentWidth = pParent->GetWidth();
         fParentHeight = pParent->GetHeight();
@@ -3484,7 +3484,7 @@ UI_VOID_CMD(SlideY, 2)
   --------------------*/
 UI_VOID_CMD(Rotate, 2)
 {
-    if (pThis == NULL)
+    if (pThis == nullptr)
         return;
 
     tstring sTarget(vArgList[0]->Evaluate());
@@ -3507,13 +3507,13 @@ UI_VOID_CMD(Rotate, 2)
   --------------------*/
 UI_VOID_CMD(Scale, 3)
 {
-    if (pThis == NULL)
+    if (pThis == nullptr)
         return;
 
     float fParentWidth(Draw2D.GetScreenW());
     float fParentHeight(Draw2D.GetScreenH());
     IWidget *pParent(pThis->GetParent());
-    if (pParent != NULL)
+    if (pParent != nullptr)
     {
         fParentWidth = pParent->GetWidth();
         fParentHeight = pParent->GetHeight();
@@ -3553,13 +3553,13 @@ UI_VOID_CMD(Scale, 3)
   --------------------*/
 UI_VOID_CMD(ScaleWidth, 2)
 {
-    if (pThis == NULL)
+    if (pThis == nullptr)
         return;
 
     float fParentWidth(Draw2D.GetScreenW());
     float fParentHeight(Draw2D.GetScreenH());
     IWidget *pParent(pThis->GetParent());
-    if (pParent != NULL)
+    if (pParent != nullptr)
     {
         fParentWidth = pParent->GetWidth();
         fParentHeight = pParent->GetHeight();
@@ -3591,13 +3591,13 @@ UI_VOID_CMD(ScaleWidth, 2)
   --------------------*/
 UI_VOID_CMD(ScaleHeight, 2)
 {
-    if (pThis == NULL)
+    if (pThis == nullptr)
         return;
 
     float fParentWidth(Draw2D.GetScreenW());
     float fParentHeight(Draw2D.GetScreenH());
     IWidget *pParent(pThis->GetParent());
-    if (pParent != NULL)
+    if (pParent != nullptr)
     {
         fParentWidth = pParent->GetWidth();
         fParentHeight = pParent->GetHeight();
@@ -3629,7 +3629,7 @@ UI_VOID_CMD(ScaleHeight, 2)
   --------------------*/
 UI_VOID_CMD(FadeOut, 1)
 {
-    if (pThis == NULL)
+    if (pThis == nullptr)
         return;
 
     pThis->FadeOut(vArgList[0]->EvaluateInteger());
@@ -3645,7 +3645,7 @@ UI_VOID_CMD(FadeOut, 1)
   --------------------*/
 UI_VOID_CMD(FadeIn, 1)
 {
-    if (pThis == NULL)
+    if (pThis == nullptr)
         return;
 
     pThis->FadeIn(vArgList[0]->EvaluateInteger());
@@ -3661,7 +3661,7 @@ UI_VOID_CMD(FadeIn, 1)
   --------------------*/
 UI_VOID_CMD(Fade, 3)
 {
-    if (pThis == NULL)
+    if (pThis == nullptr)
         return;
 
     pThis->Fade(AtoF(vArgList[0]->Evaluate()), AtoF(vArgList[1]->Evaluate()), vArgList[2]->EvaluateInteger());
@@ -3677,7 +3677,7 @@ UI_VOID_CMD(Fade, 3)
   --------------------*/
 UI_VOID_CMD(SetValue, 1)
 {
-    if (pThis == NULL)
+    if (pThis == nullptr)
         return;
 
     pThis->SetValue(vArgList[0]->Evaluate());
@@ -3689,7 +3689,7 @@ UI_VOID_CMD(SetValue, 1)
   --------------------*/
 UI_CMD(GetValue, 0)
 {
-    if (pThis == NULL)
+    if (pThis == nullptr)
         return _T("");
 
     return pThis->GetValue();
@@ -3701,7 +3701,7 @@ UI_CMD(GetValue, 0)
   --------------------*/
 UI_VOID_CMD(SetRenderMode, 1)
 {
-    if (pThis == NULL)
+    if (pThis == nullptr)
         return;
 
     pThis->SetRenderMode(vArgList[0]->Evaluate());
@@ -3713,7 +3713,7 @@ UI_VOID_CMD(SetRenderMode, 1)
   --------------------*/
 UI_VOID_CMD(SetRotation, 1)
 {
-    if (pThis == NULL)
+    if (pThis == nullptr)
         return;
 
     pThis->SetRotation(AtoF(vArgList[0]->Evaluate()));
@@ -3749,7 +3749,7 @@ UI_CMD(Tan, 1)
   --------------------*/
 UI_VOID_CMD(SetWatch, 1)
 {
-    if (pThis == NULL)
+    if (pThis == nullptr)
         return;
 
     pThis->SetWatch(vArgList[0]->Evaluate());
@@ -3761,7 +3761,7 @@ UI_VOID_CMD(SetWatch, 1)
   --------------------*/
 UI_VOID_CMD(SetOntrigger, 1)
 {
-    if (pThis == NULL)
+    if (pThis == nullptr)
         return;
 
     if (vArgList.size() == 1)
@@ -3783,7 +3783,7 @@ UI_VOID_CMD(SetOntrigger, 1)
   --------------------*/
 UI_VOID_CMD(SetOnclick, 1)
 {
-    if (pThis == NULL)
+    if (pThis == nullptr)
         return;
 
     pThis->SetEventCommand(WEVENT_CLICK, vArgList[0]->Evaluate());
@@ -3795,7 +3795,7 @@ UI_VOID_CMD(SetOnclick, 1)
   --------------------*/
 UI_VOID_CMD(SetOnrightclick, 1)
 {
-    if (pThis == NULL)
+    if (pThis == nullptr)
         return;
 
     pThis->SetEventCommand(WEVENT_RIGHTCLICK, vArgList[0]->Evaluate());
@@ -3807,7 +3807,7 @@ UI_VOID_CMD(SetOnrightclick, 1)
   --------------------*/
 UI_VOID_CMD(SetOnmouseover, 1)
 {
-    if (pThis == NULL)
+    if (pThis == nullptr)
         return;
 
     pThis->SetEventCommand(WEVENT_MOUSEOVER, vArgList[0]->Evaluate());
@@ -3819,7 +3819,7 @@ UI_VOID_CMD(SetOnmouseover, 1)
   --------------------*/
 UI_VOID_CMD(SetOnmouseout, 1)
 {
-    if (pThis == NULL)
+    if (pThis == nullptr)
         return;
 
     pThis->SetEventCommand(WEVENT_MOUSEOUT, vArgList[0]->Evaluate());
@@ -3842,14 +3842,14 @@ CMD(PrintNumWidgets)
 UI_VOID_CMD(DestroyWidget, 0)
 {
     CInterface *pInterface(pThis->GetInterface());
-    if (pInterface == NULL)
+    if (pInterface == nullptr)
         return;
 
     IWidget *pWidget(pThis);
     if (vArgList.size() > 0)
         pWidget = pInterface->GetWidget(vArgList[0]->Evaluate());
 
-    if (pWidget == NULL)
+    if (pWidget == nullptr)
         return;
 
     pWidget->RequestPurge();
@@ -3902,10 +3902,10 @@ UI_VOID_CMD(DoEvent, 0)
     --------------------*/
 UI_VOID_CMD(BringToFront, 0)
 {
-    if (pThis == NULL)
+    if (pThis == nullptr)
         return;
 
-    if (pThis->GetParent() == NULL)
+    if (pThis->GetParent() == nullptr)
         return;
 
     pThis->GetParent()->BringChildToFront(pThis);
@@ -3917,10 +3917,10 @@ UI_VOID_CMD(BringToFront, 0)
   --------------------*/
 UI_VOID_CMD(SetParent, 1)
 {
-    if (pThis == NULL)
+    if (pThis == nullptr)
         return;
 
-    if (pThis->GetParent() == NULL)
+    if (pThis->GetParent() == nullptr)
         return;
 
     IWidget *pNewParent(pThis->GetInterface()->GetWidget(vArgList[0]->Evaluate()));
@@ -3937,7 +3937,7 @@ UI_VOID_CMD(SetParent, 1)
   --------------------*/
 UI_CMD(GetParent, 0)
 {
-    if (pThis == NULL)
+    if (pThis == nullptr)
         return TSNULL;
 
     IWidget* pParent(pThis->GetParent());
@@ -3953,13 +3953,13 @@ UI_CMD(GetParent, 0)
   --------------------*/
 UI_VOID_CMD(ForceToFront, 0)
 {
-    if (pThis == NULL)
+    if (pThis == nullptr)
         return;
 
-    if (pThis->GetInterface() == NULL)
+    if (pThis->GetInterface() == nullptr)
         return;
 
-    if (pThis->GetParent() == NULL)
+    if (pThis->GetParent() == nullptr)
         return;
 
     IWidget *pNewParent(pThis->GetInterface());
@@ -3984,9 +3984,9 @@ UI_VOID_CMD(Clear, 0)
   --------------------*/
 UI_CMD(GetWidthFromString, 1)
 {
-    IWidget *pWidget(pThis != NULL ? pThis->GetParent() : NULL);
+    IWidget *pWidget(pThis != nullptr ? pThis->GetParent() : nullptr);
 
-    if (pWidget != NULL)
+    if (pWidget != nullptr)
         return XtoA(IWidget::GetSizeFromString(vArgList[0]->Evaluate(), pWidget->GetWidth(), pWidget->GetHeight()));
     else
         return XtoA(IWidget::GetSizeFromString(vArgList[0]->Evaluate(), Draw2D.GetScreenW(), Draw2D.GetScreenH()));
@@ -3998,9 +3998,9 @@ UI_CMD(GetWidthFromString, 1)
   --------------------*/
 UI_CMD(GetHeightFromString, 1)
 {
-    IWidget *pWidget(pThis != NULL ? pThis->GetParent() : NULL);
+    IWidget *pWidget(pThis != nullptr ? pThis->GetParent() : nullptr);
 
-    if (pWidget != NULL)
+    if (pWidget != nullptr)
         return XtoA(IWidget::GetSizeFromString(vArgList[0]->Evaluate(), pWidget->GetHeight(), pWidget->GetWidth()));
     else
         return XtoA(IWidget::GetSizeFromString(vArgList[0]->Evaluate(), Draw2D.GetScreenH(), Draw2D.GetScreenW()));
@@ -4012,9 +4012,9 @@ UI_CMD(GetHeightFromString, 1)
   --------------------*/
 UI_CMD(GetXFromString, 1)
 {
-    IWidget *pWidget(pThis != NULL ? pThis->GetParent() : NULL);
+    IWidget *pWidget(pThis != nullptr ? pThis->GetParent() : nullptr);
 
-    if (pWidget != NULL)
+    if (pWidget != nullptr)
         return XtoA(IWidget::GetPositionFromString(vArgList[0]->Evaluate(), pWidget->GetWidth(), pWidget->GetHeight()));
     else
         return XtoA(IWidget::GetPositionFromString(vArgList[0]->Evaluate(), Draw2D.GetScreenW(), Draw2D.GetScreenH()));
@@ -4026,9 +4026,9 @@ UI_CMD(GetXFromString, 1)
   --------------------*/
 UI_CMD(GetYFromString, 1)
 {
-    IWidget *pWidget(pThis != NULL ? pThis->GetParent() : NULL);
+    IWidget *pWidget(pThis != nullptr ? pThis->GetParent() : nullptr);
 
-    if (pWidget != NULL)
+    if (pWidget != nullptr)
         return XtoA(IWidget::GetPositionFromString(vArgList[0]->Evaluate(), pWidget->GetHeight(), pWidget->GetWidth()));
     else
         return XtoA(IWidget::GetPositionFromString(vArgList[0]->Evaluate(), Draw2D.GetScreenH(), Draw2D.GetScreenW()));
@@ -4040,7 +4040,7 @@ UI_CMD(GetYFromString, 1)
   --------------------*/
 UI_CMD(ChildHasFocus, 0)
 {
-    if (pThis != NULL)
+    if (pThis != nullptr)
         return XtoA(pThis->ChildHasFocus(), true);
 
     return _T("0");
@@ -4052,7 +4052,7 @@ UI_CMD(ChildHasFocus, 0)
   --------------------*/
 UI_VOID_CMD(SetPassiveChildren, 1)
 {
-    if (pThis == NULL)
+    if (pThis == nullptr)
         return;
 
     pThis->SetPassiveChildren(AtoB(vArgList[0]->Evaluate()));
@@ -4064,7 +4064,7 @@ UI_VOID_CMD(SetPassiveChildren, 1)
   --------------------*/
 UI_VOID_CMD(SetNoClick, 1)
 {
-    if (pThis == NULL)
+    if (pThis == nullptr)
         return;
 
     pThis->SetNoClick(AtoB(vArgList[0]->Evaluate()));
@@ -4076,7 +4076,7 @@ UI_VOID_CMD(SetNoClick, 1)
   --------------------*/
 UI_CMD(GetAlign, 0)
 {
-    if (pThis == NULL)
+    if (pThis == nullptr)
         return AlignToA(ALIGN_LEFT);
 
     return AlignToA(pThis->GetAlign());
@@ -4088,7 +4088,7 @@ UI_CMD(GetAlign, 0)
   --------------------*/
 UI_CMD(GetVAlign, 0)
 {
-    if (pThis == NULL)
+    if (pThis == nullptr)
         return VAlignToA(ALIGN_TOP);
 
     return VAlignToA(pThis->GetVAlign());
@@ -4100,7 +4100,7 @@ UI_CMD(GetVAlign, 0)
   --------------------*/
 UI_VOID_CMD(SetAlign, 1)
 {
-    if (pThis == NULL)
+    if (pThis == nullptr)
         return;
 
     pThis->SetAlign(AtoAlign(vArgList[0]->Evaluate()));
@@ -4113,7 +4113,7 @@ UI_VOID_CMD(SetAlign, 1)
   --------------------*/
 UI_VOID_CMD(SetVAlign, 1)
 {
-    if (pThis == NULL)
+    if (pThis == nullptr)
         return;
 
     pThis->SetVAlign(AtoVAlign(vArgList[0]->Evaluate()));
@@ -4126,7 +4126,7 @@ UI_VOID_CMD(SetVAlign, 1)
   --------------------*/
 UI_VOID_CMD(RecalculateSize, 0)
 {
-    if (pThis == NULL)
+    if (pThis == nullptr)
         return;
 
     pThis->RecalculateSize();
@@ -4140,12 +4140,12 @@ UI_CMD(IsVisibleExt, 2)
 {
     CInterface *pInterface(UIManager.GetInterface(vArgList[0]->Evaluate()));
 
-    if (pInterface == NULL)
+    if (pInterface == nullptr)
         return _T("0");
 
     IWidget *pTarget(pInterface->GetWidget(vArgList[1]->Evaluate()));
 
-    if (pTarget == NULL)
+    if (pTarget == nullptr)
         return _T("0");
 
     return XtoA(pTarget->IsAbsoluteVisible(), true);
@@ -4159,12 +4159,12 @@ UI_CMD(GetAbsoluteXExt, 2)
 {
     CInterface *pInterface(UIManager.GetInterface(vArgList[0]->Evaluate()));
 
-    if (pInterface == NULL)
+    if (pInterface == nullptr)
         return _T("0");
 
     IWidget *pTarget(pInterface->GetWidget(vArgList[1]->Evaluate()));
 
-    if (pTarget == NULL)
+    if (pTarget == nullptr)
         return _T("0");
 
     return XtoA(pTarget->GetAbsolutePos().x);
@@ -4178,12 +4178,12 @@ UI_CMD(GetAbsoluteYExt, 2)
 {
     CInterface *pInterface(UIManager.GetInterface(vArgList[0]->Evaluate()));
 
-    if (pInterface == NULL)
+    if (pInterface == nullptr)
         return _T("0");
 
     IWidget *pTarget(pInterface->GetWidget(vArgList[1]->Evaluate()));
 
-    if (pTarget == NULL)
+    if (pTarget == nullptr)
         return _T("0");
 
     return XtoA(pTarget->GetAbsolutePos().y);
@@ -4197,12 +4197,12 @@ UI_CMD(GetAbsoluteFractionXExt, 3)
 {
     CInterface *pInterface(UIManager.GetInterface(vArgList[0]->Evaluate()));
 
-    if (pInterface == NULL)
+    if (pInterface == nullptr)
         return _T("0");
 
     IWidget *pTarget(pInterface->GetWidget(vArgList[1]->Evaluate()));
 
-    if (pTarget == NULL)
+    if (pTarget == nullptr)
         return _T("0");
 
     return XtoA(pThis->GetAbsoluteFractionX(AtoF(vArgList[2]->Evaluate())));
@@ -4216,12 +4216,12 @@ UI_CMD(GetAbsoluteFractionYExt, 3)
 {
     CInterface *pInterface(UIManager.GetInterface(vArgList[0]->Evaluate()));
 
-    if (pInterface == NULL)
+    if (pInterface == nullptr)
         return _T("0");
 
     IWidget *pTarget(pInterface->GetWidget(vArgList[1]->Evaluate()));
 
-    if (pTarget == NULL)
+    if (pTarget == nullptr)
         return _T("0");
 
     return XtoA(pThis->GetAbsoluteFractionY(AtoF(vArgList[2]->Evaluate())));

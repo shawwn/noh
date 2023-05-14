@@ -43,7 +43,7 @@ CServerChatConnection::~CServerChatConnection()
   ====================*/
 CServerChatConnection::CServerChatConnection(CHostServer *pHostServer) :
 m_pHostServer(pHostServer),
-m_pSocket(NULL),
+m_pSocket(nullptr),
 m_unPort(0),
 m_eState(STATE_IDLE),
 m_uiReconnectTime(INVALID_TIME),
@@ -104,7 +104,7 @@ void    CServerChatConnection::Reconnect(uint uiTimeout, const tstring &sReason)
   ====================*/
 void    CServerChatConnection::Disconnect(const tstring &sReason)
 {
-    if (m_pSocket == NULL)
+    if (m_pSocket == nullptr)
         return;
 
     Console.Server << _T("Connection to chat server terminated. ") << ParenStr(sReason) << newl;
@@ -116,7 +116,7 @@ void    CServerChatConnection::Disconnect(const tstring &sReason)
     m_uiReconnectTime = INVALID_TIME;
     m_eState = STATE_DISCONNECTED;
     K2_DELETE(m_pSocket);
-    m_pSocket = NULL;
+    m_pSocket = nullptr;
 }
 
 
@@ -125,7 +125,7 @@ void    CServerChatConnection::Disconnect(const tstring &sReason)
   ====================*/
 void    CServerChatConnection::Handshake()
 {
-    if (m_pSocket == NULL)
+    if (m_pSocket == nullptr)
         return;
 
     Console.Server << _T("Sending handshake to chat server.") << newl;
@@ -145,7 +145,7 @@ void    CServerChatConnection::Handshake()
   ====================*/
 void    CServerChatConnection::SendStatusUpdate()
 {
-    if (m_pSocket == NULL || m_eState != STATE_CONNECTED)
+    if (m_pSocket == nullptr || m_eState != STATE_CONNECTED)
         return;
 
     Console.Server << _T("Sending status update.") << newl;
@@ -275,7 +275,7 @@ void    CServerChatConnection::UpdateReminderTime()
   ====================*/
 void    CServerChatConnection::SendConnectionReminder(uint uiAccountID)
 {
-    if (m_pSocket == NULL || m_eState != STATE_CONNECTED)
+    if (m_pSocket == nullptr || m_eState != STATE_CONNECTED)
         return;
 
     m_pktSend.Clear();
@@ -293,7 +293,7 @@ void    CServerChatConnection::SendConnectionReminder(uint uiAccountID)
   ====================*/
 void    CServerChatConnection::ReplacePlayer(uint uiAccountID)
 {
-    if (m_pSocket == NULL || m_eState != STATE_CONNECTED)
+    if (m_pSocket == nullptr || m_eState != STATE_CONNECTED)
         return;
 
     m_pktSend.Clear();
@@ -311,7 +311,7 @@ void    CServerChatConnection::ReplacePlayer(uint uiAccountID)
   ====================*/
 void    CServerChatConnection::SendAbandonMatch(bool bFailed)
 {
-    if (m_pSocket == NULL || m_eState != STATE_CONNECTED)
+    if (m_pSocket == nullptr || m_eState != STATE_CONNECTED)
         return;
 
     m_pktSend.Clear();
@@ -325,7 +325,7 @@ void    CServerChatConnection::SendAbandonMatch(bool bFailed)
   ====================*/
 void    CServerChatConnection::SendMatchStarted()
 {
-    if (m_pSocket == NULL || m_eState != STATE_CONNECTED)
+    if (m_pSocket == nullptr || m_eState != STATE_CONNECTED)
         return;
 
     m_pktSend.Clear();
@@ -339,7 +339,7 @@ void    CServerChatConnection::SendMatchStarted()
   ====================*/
 void    CServerChatConnection::SendMatchAborted(EMatchAbortedReason eReason)
 {
-    if (m_pSocket == NULL || m_eState != STATE_CONNECTED)
+    if (m_pSocket == nullptr || m_eState != STATE_CONNECTED)
         return;
 
     m_pktSend.Clear();
@@ -530,7 +530,7 @@ bool    CServerChatConnection::HandleRemoteCommand(CPacket &pkt)
   ====================*/
 void    CServerChatConnection::ReadSocket()
 {
-    if (m_pSocket == NULL)
+    if (m_pSocket == nullptr)
         return;
 
     if (!m_pSocket->IsConnected())
@@ -652,19 +652,19 @@ void    CServerChatConnection::Frame()
         break;
 
     case STATE_CONNECTING:
-        if (m_pSocket != NULL && m_pSocket->IsConnected())
+        if (m_pSocket != nullptr && m_pSocket->IsConnected())
             Handshake();
-        else if (m_pSocket == NULL || K2System.Milliseconds() >= m_uiTimeout)
+        else if (m_pSocket == nullptr || K2System.Milliseconds() >= m_uiTimeout)
             Reconnect(svr_chatReconnectDelay, _T("CONNECTING: Timeout"));
         break;
 
     case STATE_AUTHENTICATING:
-        if (m_pSocket == NULL || m_pSocket->HasError() || K2System.Milliseconds() - m_uiLastReceiveTime >= svr_chatConnectedTimeout)
+        if (m_pSocket == nullptr || m_pSocket->HasError() || K2System.Milliseconds() - m_uiLastReceiveTime >= svr_chatConnectedTimeout)
         {
             tstring sReason(_T("AUTHENTICATING: "));
 
-            if (m_pSocket == NULL)
-                sReason += _T("NULL socket");
+            if (m_pSocket == nullptr)
+                sReason += _T("nullptr socket");
             else if (m_pSocket->HasError())
                 sReason += _T("Socket error");
             else
@@ -677,12 +677,12 @@ void    CServerChatConnection::Frame()
         break;
 
     case STATE_CONNECTED:
-        if (m_pSocket == NULL || m_pSocket->HasError() || K2System.Milliseconds() - m_uiLastReceiveTime >= svr_chatConnectedTimeout)
+        if (m_pSocket == nullptr || m_pSocket->HasError() || K2System.Milliseconds() - m_uiLastReceiveTime >= svr_chatConnectedTimeout)
         {
             tstring sReason(_T("CONNECTED: "));
 
-            if (m_pSocket == NULL)
-                sReason += _T("NULL socket");
+            if (m_pSocket == nullptr)
+                sReason += _T("nullptr socket");
             else if (m_pSocket->HasError())
                 sReason += _T("Socket error");
             else

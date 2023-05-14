@@ -17,7 +17,7 @@
   ====================*/
 CTileSplitMap::CTileSplitMap(EWorldComponent eComponent) :
 IWorldComponent(eComponent, _T("TileSplitMap")),
-m_pTileSplitMap(NULL)
+m_pTileSplitMap(nullptr)
 {
 }
 
@@ -36,7 +36,7 @@ CTileSplitMap::~CTileSplitMap()
   ====================*/
 void    CTileSplitMap::Release()
 {
-    m_pWorld = NULL;
+    m_pWorld = nullptr;
     SAFE_DELETE_ARRAY(m_pTileSplitMap);
 }
 
@@ -62,11 +62,11 @@ bool    CTileSplitMap::Generate(const CWorld *pWorld)
         Release();
         m_bChanged = false;
         m_pWorld = pWorld;
-        if (m_pWorld == NULL)
+        if (m_pWorld == nullptr)
             EX_ERROR(_T("CTileSplitMap needs a valid CWorld"));
 
         m_pTileSplitMap = K2_NEW_ARRAY(ctx_World, byte, m_pWorld->GetTileArea());
-        if (m_pTileSplitMap == NULL)
+        if (m_pTileSplitMap == nullptr)
             EX_ERROR(_T("Failed to allocate memory for map data"));
 
         for (int y(0); y < m_pWorld->GetTileHeight(); ++y)
@@ -133,7 +133,7 @@ ETileSplitType  CTileSplitMap::GetTileSplit(int iX, int iY) const
 {
     assert(iX >= 0 && iX < m_pWorld->GetTileWidth());
     assert(iY >= 0 && iY < m_pWorld->GetTileHeight());
-    assert(m_pTileSplitMap != NULL);
+    assert(m_pTileSplitMap != nullptr);
 
     return ETileSplitType(m_pTileSplitMap[m_pWorld->GetTileIndex(iX, iY)]);
 }

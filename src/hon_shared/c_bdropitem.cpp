@@ -72,7 +72,7 @@ bool    CBDropItem::Validate()
     for (int i(INVENTORY_START_BACKPACK); i <= INVENTORY_END_BACKPACK; ++i)
     {
         IEntityItem *pItem(m_pSelf->GetItem(i));
-        if (pItem == NULL)
+        if (pItem == nullptr)
             continue;
 
         if (pItem->GetNoDrop())
@@ -143,7 +143,7 @@ void    CBDropItem::ActionFrame()
     for (int i(INVENTORY_START_BACKPACK); i <= INVENTORY_END_BACKPACK; ++i)
     {
         IEntityItem *pItem(m_pSelf->GetItem(i));
-        if (pItem == NULL)
+        if (pItem == nullptr)
             continue;
         if (!pItem->CanDrop() || pItem->HasFlag(ENTITY_TOOL_FLAG_LOCKED))
             continue;

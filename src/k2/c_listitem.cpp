@@ -66,8 +66,8 @@ m_uiTransitionTime(INVALID_TIME)
   ====================*/
 CVec2f  CListItem::GetAbsolutePos()
 {
-    assert(m_pParent != NULL && m_pParent->HasFlags(WFLAG_LIST));
-    if (m_pParent == NULL || !m_pParent->HasFlags(WFLAG_LIST))
+    assert(m_pParent != nullptr && m_pParent->HasFlags(WFLAG_LIST));
+    if (m_pParent == nullptr || !m_pParent->HasFlags(WFLAG_LIST))
         return CVec2f(0.0f, 0.0f);
 
     IListWidget* pParentList((IListWidget*)m_pParent);
@@ -203,7 +203,7 @@ void    CListItem::Render(const CVec2f &vOrigin, int iFlag, float fFade, bool bH
 
     if (GetDrawColors())
     {
-        if (pBackgroundState != NULL)
+        if (pBackgroundState != nullptr)
             pBackgroundState->Render(vOrigin, iFlag, fLocalFade);
 
         // Draw back color
@@ -218,7 +218,7 @@ void    CListItem::Render(const CVec2f &vOrigin, int iFlag, float fFade, bool bH
             Draw2D.FilledRect(rect, 1.0f, v4BorderColor, v4Color);
         }
 
-        if ((bHovered || bSelected) && pHighlightState != NULL)
+        if ((bHovered || bSelected) && pHighlightState != nullptr)
             pHighlightState->Render(vOrigin, iFlag, fLocalFade);
     }
 
@@ -250,7 +250,7 @@ void    CListItem::Render(const CVec2f &vOrigin, int iFlag, float fFade, bool bH
   --------------------*/
 UI_VOID_CMD(SetAllowSelect, 1)
 {
-    if (pThis == NULL || pThis->GetType() != WIDGET_LISTITEM)
+    if (pThis == nullptr || pThis->GetType() != WIDGET_LISTITEM)
         return;
 
     CListItem *pListItem(static_cast<CListItem*>(pThis));

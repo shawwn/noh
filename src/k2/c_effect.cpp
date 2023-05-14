@@ -48,7 +48,7 @@ IResource*  AllocEffect(const tstring &sPath)
   ====================*/
 CEffect::CEffect(const tstring &sPath) :
 IResource(sPath, _T("")),
-m_pEffectThread(NULL),
+m_pEffectThread(nullptr),
 m_bDeferred(false),
 m_bPersistent(false),
 m_bPausable(false),
@@ -72,7 +72,7 @@ int     CEffect::Load(uint uiIgnoreFlags, const char *pData, uint uiSize)
     if (m_sPath.empty())
         sStrEffect = m_sName;
 
-    if (pData == NULL || uiSize <= 0)
+    if (pData == nullptr || uiSize <= 0)
     {
         Console.Err << _T("Invalid effect '^y") << sStrEffect << _T("^*'") << newl;
         return RES_LOAD_FAILED;
@@ -155,7 +155,7 @@ CEffectThread*  CEffect::SpawnThread(uint uiMilliseconds)
         Console.Dev << _T("CEffect::SpawnThread(") << SingleQuoteStr(m_sPath) << _T(", ") << uiMilliseconds << _T(")") << newl;
 
     if (!m_pEffectThread)
-        return NULL;
+        return nullptr;
     else
         return K2_NEW(ctx_Effects,  CEffectThread)(uiMilliseconds, *m_pEffectThread);
 }
@@ -210,7 +210,7 @@ CParticleSystemDef* CEffect::GetParticleSystemDef(const tstring &sParticleSystem
     if (findit != m_mapParticleSystems.end())
         return findit->second;
     else
-        return NULL;
+        return nullptr;
 }
 
 
@@ -224,7 +224,7 @@ CModifierDef*   CEffect::GetModifierDef(const tstring &sModifier)
     if (findit != m_mapModifiers.end())
         return findit->second;
     else
-        return NULL;
+        return nullptr;
 }
 
 
@@ -238,5 +238,5 @@ IEmitterDef*    CEffect::GetEmitterDef(const tstring &sEmitter)
     if (findit != m_mapEmitterDefs.end())
         return findit->second;
     else
-        return NULL;
+        return nullptr;
 }

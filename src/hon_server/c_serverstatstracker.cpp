@@ -111,7 +111,7 @@ void    CServerStatsTracker::WriteStatsToFile(PlayerMap &mapClients, const tstri
         sFilePath = FileManager.GetNextFileIncrement(6, _T("~/matches/unsent_"), _T("txt"));
 
     CFile *pFile(FileManager.GetFile(sFilePath, FILE_WRITE | FILE_TEXT));
-    if (pFile == NULL)
+    if (pFile == nullptr)
         return;
 
     uint uiHours(m_uiMatchLength / MS_PER_HR);
@@ -338,19 +338,19 @@ void    CServerStatsTracker::SubmitAllData()
     {
         bContinue = false;
 
-        if (m_pStatsPoster != NULL && m_pStatsPoster->GetStatus() == HTTP_POST_SENDING)
+        if (m_pStatsPoster != nullptr && m_pStatsPoster->GetStatus() == HTTP_POST_SENDING)
         {
             bContinue = true;
             m_pStatsPoster->Frame();
         }
 
-        if (m_pServerDatabase != NULL && m_pServerDatabase->GetStatus() == HTTP_POST_SENDING)
+        if (m_pServerDatabase != nullptr && m_pServerDatabase->GetStatus() == HTTP_POST_SENDING)
         {
             bContinue = true;
             m_pServerDatabase->Frame();
         }
 
-        if (m_pStatsDatabase != NULL && m_pStatsDatabase->GetStatus() == HTTP_POST_SENDING)
+        if (m_pStatsDatabase != nullptr && m_pStatsDatabase->GetStatus() == HTTP_POST_SENDING)
         {
             bContinue = true;
             m_pStatsDatabase->Frame();
@@ -370,7 +370,7 @@ void    CServerStatsTracker::Frame()
 #if 0
     PROFILE("CServerStatsTracker::Frame");
 
-    CDBResponse *pResponse(NULL);
+    CDBResponse *pResponse(nullptr);
 
     if (m_bMatchInProgress)
     {
@@ -378,18 +378,18 @@ void    CServerStatsTracker::Frame()
         m_uiLastUpdate = K2System.Milliseconds();
     }
 
-    if (m_pStatsPoster != NULL)
+    if (m_pStatsPoster != nullptr)
         m_pStatsPoster->Frame();
 
     //Authentication, match starts and match ends
-    if (m_pServerDatabase != NULL)
+    if (m_pServerDatabase != nullptr)
         pResponse = m_pServerDatabase->Frame();
 
-    if (pResponse != NULL)
+    if (pResponse != nullptr)
     {
         if (pResponse->GetResponseName() =="StartMatch")
         {
-            if (pResponse->GetVarString("Error").empty() && pResponse->GetVarArray("error") == NULL && !pResponse->GetVarString("match_id").empty())
+            if (pResponse->GetVarString("Error").empty() && pResponse->GetVarArray("error") == nullptr && !pResponse->GetVarString("match_id").empty())
             {
                 m_sSalt = StringToTString(pResponse->GetVarString("salt"));
                 m_iMatchID = AtoI(pResponse->GetVarString("match_id"));
@@ -403,7 +403,7 @@ void    CServerStatsTracker::Frame()
                 m_iMatchID = -1;
                 m_iServerID = -1;
             }
-            else if (pResponse->GetVarArray("error") != NULL)
+            else if (pResponse->GetVarArray("error") != nullptr)
             {
                 Console.Err << _T("CServerStatsTracker::Frame() - Error authenticating, stats will not be saved: ") << pResponse->GetVarArray("error")->GetVarString("") << newl;
                 m_iMatchID = -1;
@@ -419,12 +419,12 @@ void    CServerStatsTracker::Frame()
     }
 
     //Player stats
-    pResponse = NULL;
+    pResponse = nullptr;
 
-    if (m_pStatsDatabase != NULL)
+    if (m_pStatsDatabase != nullptr)
         pResponse = m_pStatsDatabase->Frame();
 
-    if (pResponse != NULL)
+    if (pResponse != nullptr)
     {
         int iClientNum(GameServer.GetClientNumFromAccountID(AtoI(pResponse->GetResponseName())));
 
@@ -432,7 +432,7 @@ void    CServerStatsTracker::Frame()
         {
             CPlayer *pClient(GameServer.GetPlayer(iClientNum));
 
-            if (pClient != NULL && pResponse->GetVarArray("all_stats") != NULL && pResponse->GetVarArray("all_stats")->GetArrayNum(0) != NULL)
+            if (pClient != nullptr && pResponse->GetVarArray("all_stats") != nullptr && pResponse->GetVarArray("all_stats")->GetArrayNum(0) != nullptr)
             {
                 pClient->SetClanName(StringToTString(pResponse->GetVarArray("all_stats")->GetArrayNum(0)->GetVarString("clan_name")));
                 pClient->SetClanRank(StringToTString(pResponse->GetVarArray("all_stats")->GetArrayNum(0)->GetVarString("member_rank")));

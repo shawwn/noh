@@ -35,10 +35,10 @@ m_uiMapChanges(0),
 m_uiReady(0),
 m_cBlockers(SHRT_MAX),
 m_cGrids(ENAVGRID_MAX),
-m_pBuildingGrid(NULL),
-m_pTreeGrid(NULL),
-m_pUnitGrid(NULL),
-m_pAntiGrid(NULL)
+m_pBuildingGrid(nullptr),
+m_pTreeGrid(nullptr),
+m_pUnitGrid(nullptr),
+m_pAntiGrid(nullptr)
 {
     MemManager.Set(m_ahGrids, 0xff, sizeof(m_ahGrids));
 };
@@ -668,7 +668,7 @@ CNavGridZ *CNavigationMap::GetGrid(uint uiFlags, uint uiResolution)
         }
     }
 
-    return NULL;
+    return nullptr;
 }
 
 
@@ -680,7 +680,7 @@ CNavGridZ *CNavigationMap::PrepForSearch(uint uiFlags, uint uiResolution)
     PROFILE("CNavigationMap::PrepForSearch");
 
     if (m_uiReady == 0)
-        return NULL;
+        return nullptr;
 
     CNavGridZ *pRet;
 
@@ -710,7 +710,7 @@ CNavGridZ *CNavigationMap::PrepForSearch(uint uiFlags, uint uiResolution)
             if (!pBase)
             {
                 K2System.Error(_T("Error finding or allocating base grid"));
-                return NULL;
+                return nullptr;
             }
 
             CNavGridZ *pUnitGrid(m_cGrids.GetReferenceByHandle(m_ahGrids[uiResolution][ENAVGRID_UNIT]));

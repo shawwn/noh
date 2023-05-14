@@ -34,7 +34,7 @@ char*   strncpy(char *out, const xmlChar *in, size_t len)
     if (STRNCPY_S(out, len, (const char*)in, len))
         return out;
     else
-        return NULL;
+        return nullptr;
 }
 
 CXMLManager XMLManager;
@@ -79,12 +79,12 @@ void    CXMLManager::ConvertNodes(void *node, CXMLNode &cNode)
         // Set element properties
         xmlAttrPtr prop = xmlnode->properties;
 
-        while (prop != NULL)
+        while (prop != nullptr)
         {
 #if 0
             xmlChar *ret = xmlNodeListGetString(xmlnode->doc, prop->children, 1);
 
-            if (ret != NULL)
+            if (ret != nullptr)
             {
 #ifdef _UNICODE
                 tstring sPropertyName;
@@ -214,13 +214,13 @@ bool    CXMLManager::ReadBuffer(const char *pBuffer, int iSize, const tstring &s
 {
     PROFILE("CXMLManager::ReadBuffer");
 
-    xmlDoc  *pXMLDoc(NULL);
-    xmlNode *pRootElement(NULL);
+    xmlDoc  *pXMLDoc(nullptr);
+    xmlNode *pRootElement(nullptr);
 
     try
     {
-        if (pBuffer == NULL)
-            EX_WARN(_T("NULL buffer"));
+        if (pBuffer == nullptr)
+            EX_WARN(_T("nullptr buffer"));
 
         // Parse XML File
         {
@@ -228,10 +228,10 @@ bool    CXMLManager::ReadBuffer(const char *pBuffer, int iSize, const tstring &s
             pXMLDoc = xmlParseMemory(pBuffer, iSize);
         }
 
-        if (pXMLDoc == NULL)
+        if (pXMLDoc == nullptr)
         {
             xmlError *pError(xmlGetLastError());
-            if (pError == NULL)
+            if (pError == nullptr)
                 EX_ERROR(_T("Unknown error in xmlParseMemory"));
 
             tstring sError;
@@ -253,7 +253,7 @@ bool    CXMLManager::ReadBuffer(const char *pBuffer, int iSize, const tstring &s
 
         // Cleanup
         xmlFreeDoc(pXMLDoc);
-        pXMLDoc = NULL;
+        pXMLDoc = nullptr;
 
         CXMLNode::List &lChildren(rootNode.GetChildren());
 
@@ -269,12 +269,12 @@ bool    CXMLManager::ReadBuffer(const char *pBuffer, int iSize, const tstring &s
             Preprocess(rootNode);
         
         // Step through the nodes
-        g_xmlproc_root.Process(rootNode, pObject, NULL);
+        g_xmlproc_root.Process(rootNode, pObject, nullptr);
         return true;
     }
     catch (CException &ex)
     {
-        if (pXMLDoc != NULL)
+        if (pXMLDoc != nullptr)
             xmlFreeDoc(pXMLDoc);
         ex.Process(_T("CXMLManager::ReadBuffer() - "), NO_THROW);
         return false;
@@ -296,7 +296,7 @@ bool    CXMLManager::Process(const tstring &sFilename, const tstring &sRoot, voi
 
         uint uiSize(0);
         const char* pScriptBuffer(hFile.GetBuffer(uiSize));
-        if (pScriptBuffer == NULL)
+        if (pScriptBuffer == nullptr)
             EX_ERROR(_T("Could not read ") + QuoteStr(sFilename));
 
         tstring sOldDir(FileManager.GetWorkingDirectory());
@@ -327,7 +327,7 @@ bool    CXMLManager::Process(CFileHandle &hFile, const tstring &sRoot, void *pOb
         uint uiSize(0);
         const char *pScriptBuffer(hFile.GetBuffer(uiSize));
 
-        if (pScriptBuffer == NULL)
+        if (pScriptBuffer == nullptr)
             EX_ERROR(_T("Could not read ") + QuoteStr(hFile.GetPath()));
 
         if (!ReadBuffer(pScriptBuffer, uiSize, sRoot, pObject))

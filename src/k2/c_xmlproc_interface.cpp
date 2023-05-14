@@ -53,7 +53,7 @@ BEGIN_XML_PROCESSOR(interface, CInterfaceResource)
     }
 
     // Create new interface
-    CWidgetStyle style(NULL, node.GetPropertyMap());
+    CWidgetStyle style(nullptr, node.GetPropertyMap());
     pObject->Allocate(style);
 END_XML_PROCESSOR(pObject->GetInterface())
 

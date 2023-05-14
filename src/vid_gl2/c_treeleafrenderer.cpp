@@ -215,7 +215,7 @@ void    CTreeLeafRenderer::Render(EMaterialPhase ePhase)
         for (size_t z(0); z < leaves.m_vIBuffers.size(); ++z)
         {
             glBindBufferARB(GL_ELEMENT_ARRAY_BUFFER, leaves.m_vIBuffers[z]);
-            glDrawElements(GL_TRIANGLES, leaves.m_viNumIndices[z], GL_UNSIGNED_SHORT, NULL);
+            glDrawElements(GL_TRIANGLES, leaves.m_viNumIndices[z], GL_UNSIGNED_SHORT, nullptr);
         }
 
         GfxMaterials->UnbindAttributes();

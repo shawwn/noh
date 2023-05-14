@@ -23,7 +23,7 @@ HWND        g_hWnd;
 HDC         g_hDC;
 HGLRC       g_hglrc;
 ICONINFO    g_IconInfo = {0};
-HICON       g_hCursorIcon = NULL;
+HICON       g_hCursorIcon = nullptr;
 
 CVAR_BOOL   (win_changeDisplayMode,     false);
 //=============================================================================
@@ -69,7 +69,7 @@ int     GL_Init()
     devmode.dmSize = sizeof(DEVMODE);
 
     // Fill in the default mode (Desktop)
-    if (EnumDisplaySettings(NULL, ENUM_REGISTRY_SETTINGS, &devmode))
+    if (EnumDisplaySettings(nullptr, ENUM_REGISTRY_SETTINGS, &devmode))
     {
         g_VidModes[0].iWidth = devmode.dmPelsWidth;
         g_VidModes[0].iHeight = devmode.dmPelsHeight;
@@ -85,7 +85,7 @@ int     GL_Init()
     do
     {
         bool bModeExists(false);
-        bSuccess = EnumDisplaySettings(NULL, modenum, &devmode);
+        bSuccess = EnumDisplaySettings(nullptr, modenum, &devmode);
         if (!bSuccess)
         {
             if (modenum == 0)
@@ -203,10 +203,10 @@ void    GL_Start()
         0, 
         g_CurrentVidMode.iWidth,
         g_CurrentVidMode.iHeight,
-        NULL,
-        NULL,
+        nullptr,
+        nullptr,
         g_hInstance,
-        NULL
+        nullptr
     );
 
     if (!hWnd)
@@ -362,7 +362,7 @@ int     GL_SetMode()
                 }
                 else
                 {
-                    bSuccess = ChangeDisplaySettings(NULL, 0) == DISP_CHANGE_SUCCESSFUL;
+                    bSuccess = ChangeDisplaySettings(nullptr, 0) == DISP_CHANGE_SUCCESSFUL;
                 }
 
                 g_iCurrentVideoMode = 0;
@@ -375,7 +375,7 @@ int     GL_SetMode()
         }
         else
         {
-            if (ChangeDisplaySettings(NULL, 0) != DISP_CHANGE_SUCCESSFUL)
+            if (ChangeDisplaySettings(nullptr, 0) != DISP_CHANGE_SUCCESSFUL)
                 K2System.Error(_T("GL_SetMode: Unable to set desktop video mode"));
         }
 
@@ -385,7 +385,7 @@ int     GL_SetMode()
     {
         g_bFullscreen = false;
 
-        if (ChangeDisplaySettings(NULL, 0) != DISP_CHANGE_SUCCESSFUL)
+        if (ChangeDisplaySettings(nullptr, 0) != DISP_CHANGE_SUCCESSFUL)
             K2System.Error(_T("GL_SetMode: Unable to set desktop video mode"));
     }
 
@@ -470,14 +470,14 @@ void    GL_SetCursor(ResHandle hCursor)
     }
 
     CCursor *pCursor(g_ResourceManager.GetCursor(hCursor));
-    if (pCursor == NULL)
+    if (pCursor == nullptr)
     {
         ShowCursor(false);
         return;
     }
 
     CBitmap *pBitmap(pCursor->GetBitmapPointer());
-    if (pBitmap == NULL)
+    if (pBitmap == nullptr)
     {
         ShowCursor(false);
         return;
@@ -516,7 +516,7 @@ void    GL_SetCursor(ResHandle hCursor)
 
     CVec2i v2Hotspot(pCursor->GetHotspot());
 
-    if (g_hCursorIcon != NULL) {
+    if (g_hCursorIcon != nullptr) {
         DeleteObject(g_IconInfo.hbmMask);
         DeleteObject(g_IconInfo.hbmColor);
         DestroyIcon(g_hCursorIcon);
@@ -525,7 +525,7 @@ void    GL_SetCursor(ResHandle hCursor)
     g_IconInfo.fIcon = false;
     g_IconInfo.xHotspot = v2Hotspot.x;
     g_IconInfo.yHotspot = v2Hotspot.y;
-    g_IconInfo.hbmMask = CreateBitmap(WIDTH, HEIGHT, 1, 1, NULL);
+    g_IconInfo.hbmMask = CreateBitmap(WIDTH, HEIGHT, 1, 1, nullptr);
     g_IconInfo.hbmColor = CreateBitmap(WIDTH, HEIGHT, 1, BYTEPP * 8, yBuffer);
 
     g_hCursorIcon = CreateIconIndirect(&g_IconInfo);
@@ -544,7 +544,7 @@ void    GL_Shutdown()
 
     GL_Global_Shutdown();
 
-    wglMakeCurrent(NULL, NULL);
+    wglMakeCurrent(nullptr, nullptr);
     
     GL_SetGamma(1);
 
@@ -560,13 +560,13 @@ void    GL_Shutdown()
         g_hDC = 0;
     }
 
-    if (g_hCursorIcon != NULL)
+    if (g_hCursorIcon != nullptr)
         DestroyIcon(g_hCursorIcon);
 
     DestroyWindow(g_hWnd);
     UnregisterClass(_T("K2_OpenGL"), g_hInstance);
 
-    ChangeDisplaySettings(NULL, 0);
+    ChangeDisplaySettings(nullptr, 0);
 
     ShowCursor(TRUE);
     DestroyIcon(g_hCursorIcon);

@@ -65,7 +65,7 @@ void    CBFollowGuard::UpdateAggro()
     IUnitEntity *pTarget(Game.GetUnitEntity(m_Attack.GetTarget()));
 
     // Follow target if target begins traveling
-    if (pFollowTarget != NULL && pFollowTarget->IsTraveling() && m_eGuardState == GUARD_CHASING)
+    if (pFollowTarget != nullptr && pFollowTarget->IsTraveling() && m_eGuardState == GUARD_CHASING)
     {
         if (m_bAttacking)
         {
@@ -82,7 +82,7 @@ void    CBFollowGuard::UpdateAggro()
     if (m_eGuardState == GUARD_CHASING &&
         (m_uiGuardStateEndTime == INVALID_TIME ||
             m_uiGuardStateEndTime <= Game.GetGameTime() ||
-            pTarget == NULL ||
+            pTarget == nullptr ||
             !m_pSelf->ShouldTarget(pTarget) ||
             pTarget->HasUnitFlags(UNIT_FLAG_INVULNERABLE) ||
             pTarget->GetInvulnerable()) &&
@@ -156,7 +156,7 @@ void    CBFollowGuard::UpdateAggro()
             continue;
 
         IUnitEntity *pTarget(Game.GetUnitEntity(Game.GetGameIndexFromWorldIndex(*cit)));
-        if (pTarget == NULL)
+        if (pTarget == nullptr)
             continue;
         if (!m_pSelf->ShouldTarget(pTarget))
             continue;
@@ -202,7 +202,7 @@ void    CBFollowGuard::UpdateAggro()
   ====================*/
 void    CBFollowGuard::BeginBehavior()
 {
-    if (m_pSelf == NULL)
+    if (m_pSelf == nullptr)
     {
         Console << _T("CBFollowGuard: Behavior started without valid information") << newl;
         return;
@@ -359,7 +359,7 @@ void    CBFollowGuard::EndBehavior()
   ====================*/
 void    CBFollowGuard::Aggro(IUnitEntity *pAttacker, uint uiChaseTime)
 {
-    if (pAttacker == NULL ||
+    if (pAttacker == nullptr ||
         !m_pSelf->ShouldTarget(pAttacker))
         return;
 
@@ -381,7 +381,7 @@ void    CBFollowGuard::Aggro(IUnitEntity *pAttacker, uint uiChaseTime)
   ====================*/
 void    CBFollowGuard::Damaged(IUnitEntity *pAttacker)
 {
-    if (pAttacker == NULL)
+    if (pAttacker == nullptr)
         return;
 
     m_pSelf->CallForHelp(500.0f, pAttacker);
@@ -402,7 +402,7 @@ void    CBFollowGuard::Damaged(IUnitEntity *pAttacker)
   ====================*/
 void    CBFollowGuard::Assist(IUnitEntity *pAlly, IUnitEntity *pAttacker)
 {
-    if (pAttacker == NULL)
+    if (pAttacker == nullptr)
         return;
 
     if (m_eGuardState == GUARD_HOLDING)
@@ -429,7 +429,7 @@ bool    CBFollowGuard::IsTraveling() const
     bool bRet;
 
     IUnitEntity *pFollowTarget(Game.GetUnitEntity(m_uiTargetIndex));
-    if (pFollowTarget != NULL)
+    if (pFollowTarget != nullptr)
         bRet = pFollowTarget->IsTraveling();
     else
         bRet = false;

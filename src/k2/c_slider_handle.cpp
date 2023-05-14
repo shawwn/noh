@@ -119,8 +119,8 @@ void     CSliderHandle::EndSlide()
     {
         m_bIsSliding = false;
         m_vLastPos.Set(-1.0f, -1.0f);
-        m_pInterface->SetExclusiveWidget(NULL);
-        m_pInterface->SetActiveWidget(NULL);
+        m_pInterface->SetExclusiveWidget(nullptr);
+        m_pInterface->SetActiveWidget(nullptr);
 
         if (m_pParent->HasFlags(WFLAG_ORIENT_VERTICAL))
         {

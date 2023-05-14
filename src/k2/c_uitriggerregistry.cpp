@@ -73,7 +73,7 @@ void    CUITriggerRegistry::Unregister(CUITrigger *pUITrigger)
     if (itFindWatcherList != m_mapWatchers.end())
     {
         for (UIWatcherList_it it(itFindWatcherList->second.begin()); it != itFindWatcherList->second.end(); ++it)
-            (*it)->SetTrigger(NULL);
+            (*it)->SetTrigger(nullptr);
     }
 
     // Console.Dev << _T("UI Trigger ") << QuoteStr(pUITrigger->GetName()) << _T(" has been unregistered.") << newl;

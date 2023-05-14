@@ -48,13 +48,13 @@ protected:
         float           fModelScale;
 
         SModel() :
-        sModel(NULL),
-        sEffect(NULL),
-        sAnim(NULL),
+        sModel(nullptr),
+        sEffect(nullptr),
+        sAnim(nullptr),
         hModel(INVALID_RESOURCE),
         hSkin(0),
-        pSkeleton(NULL),
-        pEffectThread(NULL),
+        pSkeleton(nullptr),
+        pEffectThread(nullptr),
         v3ModelPos(0.0f, 0.0f, 0.0f),
         v3ModelAngles(0.0f, 0.0f, 0.0f),
         fModelScale(1.0f)

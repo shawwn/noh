@@ -41,7 +41,7 @@ int     CCursor::Load(uint uiIgnoreFlags, const char *pData, uint uiSize)
 
     Console.Res << _T("Loading ^079Cursor^*: ") << m_sPath << newl;
 
-    if (pData == NULL)
+    if (pData == nullptr)
     {
         // Process the XML
         if (!XMLManager.Process(m_sPath, _T("cursor"), this))
@@ -70,8 +70,8 @@ int     CCursor::Load(uint uiIgnoreFlags, const char *pData, uint uiSize)
 CBitmap*    CCursor::GetBitmapPointer()
 {
     CBitmapResource *pBitmapResource(g_ResourceManager.GetBitmapResource(m_hBitmap));
-    if (pBitmapResource != NULL)
+    if (pBitmapResource != nullptr)
         return &pBitmapResource->GetBitmap();
     else
-        return NULL;
+        return nullptr;
 }

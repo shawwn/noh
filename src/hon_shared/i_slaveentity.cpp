@@ -36,7 +36,7 @@ DEFINE_ENTITY_DESC(ISlaveEntity, 1)
   ISlaveEntity::ISlaveEntity
   ====================*/
 ISlaveEntity::ISlaveEntity() :
-IGameEntity(NULL),
+IGameEntity(nullptr),
 
 m_uiOwnerIndex(INVALID_INDEX),
 m_ySlot(INVALID_SLOT),
@@ -109,7 +109,7 @@ bool    ISlaveEntity::ReadSnapshot(CEntitySnapshot &snapshot, uint uiVersion)
 int     ISlaveEntity::GetPrivateClient()
 {
     IUnitEntity *pUnit(GetOwner());
-    if (pUnit == NULL)
+    if (pUnit == nullptr)
         return -1;
 
     return pUnit->GetOwnerClientNumber();
@@ -125,7 +125,7 @@ void    ISlaveEntity::Spawn()
     {
         // Spawn action
         ISlaveDefinition *pDefinition(GetDefinition<ISlaveDefinition>());
-        if (pDefinition != NULL)
+        if (pDefinition != nullptr)
             pDefinition->ExecuteActionScript(ACTION_SCRIPT_SPAWN, this, GetOwner(), this, GetOwner(), GetOwner()->GetPosition(), GetProxy(0), GetLevel());
     }
 }
@@ -164,12 +164,12 @@ void    ISlaveEntity::UpdateModifiers(const uivector &vModifiers)
 
     // Activate conditional modifiers
     IUnitEntity *pOwner(GetOwner());
-    if (pOwner == NULL)
+    if (pOwner == nullptr)
         return;
 
     // Grab base definition
     IEntityDefinition *pDefinition(GetBaseDefinition<IEntityDefinition>());
-    if (pDefinition == NULL)
+    if (pDefinition == nullptr)
         return;
 
     const EntityModifierMap &mapModifiers(pDefinition->GetModifiers());
@@ -211,7 +211,7 @@ void    ISlaveEntity::UpdateModifiers(const uivector &vModifiers)
   ====================*/
 const tstring&  ISlaveEntity::GetEffectDescription(EEntityActionScript eAction)
 {
-    if (m_pDefinition == NULL)
+    if (m_pDefinition == nullptr)
         return TSNULL;
 
     return static_cast<ISlaveDefinition *>(m_pDefinition)->GetEffectDescription(eAction);
@@ -223,7 +223,7 @@ const tstring&  ISlaveEntity::GetEffectDescription(EEntityActionScript eAction)
   ====================*/
 uint    ISlaveEntity::GetEffectDescriptionIndex(EEntityActionScript eAction)
 {
-    if (m_pDefinition == NULL)
+    if (m_pDefinition == nullptr)
         return INVALID_INDEX;
 
     return static_cast<ISlaveDefinition *>(m_pDefinition)->GetEffectDescriptionIndex(eAction);
@@ -271,7 +271,7 @@ void    ISlaveEntity::AddTimedCharges(int iCharges, uint uiExpireTime)
   ====================*/
 bool    ISlaveEntity::ServerFrameAction()
 {
-    if (m_pDefinition != NULL)
+    if (m_pDefinition != nullptr)
         static_cast<ISlaveDefinition *>(m_pDefinition)->ExecuteActionScript(ACTION_SCRIPT_FRAME, this, GetOwner(), this, GetOwner(), GetOwner()->GetPosition(), GetProxy(0), GetLevel());
 
     return IGameEntity::ServerFrameAction();

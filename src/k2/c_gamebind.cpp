@@ -27,7 +27,7 @@ IGameBind::~IGameBind()
   IGameBind::IGameBind
   ====================*/
 IGameBind::IGameBind(const tstring &sName, const tstring &sAction, const tstring &sParam, EActionType eActionType, EBindTable eBindTable, int iFlags) :
-CConsoleElement(sName, iFlags, ELEMENT_GAMEBIND, NULL),
+CConsoleElement(sName, iFlags, ELEMENT_GAMEBIND, nullptr),
 m_sAction(sAction),
 m_sParam(sParam),
 m_eActionType(eActionType),
@@ -73,7 +73,7 @@ IGameBind   *IGameBind::Find(const tstring &sName)
     if (pElem && pElem->GetType() == ELEMENT_GAMEBIND)
         return static_cast<IGameBind*>(pElem);
     else
-        return NULL;
+        return nullptr;
 }
 
 
@@ -94,7 +94,7 @@ IGameBind*  IGameBind::Create(const tstring &sName, const tstring &sAction, cons
     else if (pElem)
     {
         Console << _T("Console element ") << pElem->GetName() << _T(" already exists") << newl;
-        return NULL;
+        return nullptr;
     }
     else
     {
@@ -130,7 +130,7 @@ IGameBind*  IGameBind::Create(const tstring &sName, const tstring &sAction, cons
         }
     }
 
-    return NULL;
+    return nullptr;
 }
 
 
@@ -449,7 +449,7 @@ CMD(GameBind)
     }
 
     IGameBind *pOldGameBind(IGameBind::Find(vArgList[0]));
-    if (pOldGameBind != NULL)
+    if (pOldGameBind != nullptr)
     {
         pOldGameBind->SetKey1(vArgList.size() > 5 ? vArgList[5] : TSNULL, true);
         pOldGameBind->SetKey2(vArgList.size() > 6 ? vArgList[6] : TSNULL, true);
@@ -459,7 +459,7 @@ CMD(GameBind)
     {
         CConsoleElement *pElem(ConsoleRegistry.GetElement(vArgList[0]));
 
-        if (pElem != NULL)
+        if (pElem != nullptr)
             Console << _T("Console element ") << pElem->GetName() << _T(" already exists") << newl;
 
         const tstring &sName(vArgList[0]);
@@ -483,7 +483,7 @@ CMD(GameBind)
         EBindTable eBindTable(EBindTableFromString(vArgList[4]));
 
         IGameBind *pGameBind(IGameBind::Create(sName, sAction, sParam, eActionType, eBindTable, vArgList.size() > 5 ? vArgList[5] : TSNULL, vArgList.size() > 6 ? vArgList[6] : TSNULL, CONEL_DYNAMIC));
-        if (pGameBind == NULL)
+        if (pGameBind == nullptr)
         {
             Console.Warn << _T("GameBind: Unable to allocate GameBind") << newl;
             return false;
@@ -521,7 +521,7 @@ CMD(DefaultGameBind)
     for (ElementList::const_iterator it(lGameBinds.begin()), itEnd(lGameBinds.end()); it != itEnd; ++it)
     {
         IGameBind *pGameBind(static_cast<IGameBind *>(it->second));
-        if (pGameBind == NULL)
+        if (pGameBind == nullptr)
             continue;
 
         if (pGameBind->GetAction() == sAction && pGameBind->GetParam() == sParam)
@@ -546,7 +546,7 @@ CMD(DefaultGameBinds)
     for (ElementList::const_iterator it(lGameBinds.begin()), itEnd(lGameBinds.end()); it != itEnd; ++it)
     {
         IGameBind *pGameBind(static_cast<IGameBind *>(it->second));
-        if (pGameBind == NULL)
+        if (pGameBind == nullptr)
             continue;
 
         pGameBind->ResetKey1();

@@ -211,14 +211,14 @@ public:
     uint                RegisterChatSymbol(const CXMLNode &node);
     K2_API uint         LookupChatSymbol(const tstring &sName) const;
     uint                GetNumChatSymbols() const                           { return uint(m_vChatSymbols.size()); }
-    const CChatSymbol*  GetChatSymbol(uint uiIndex) const                   { return uiIndex < m_vChatSymbols.size() ? &m_vChatSymbols[uiIndex] : NULL; }
+    const CChatSymbol*  GetChatSymbol(uint uiIndex) const                   { return uiIndex < m_vChatSymbols.size() ? &m_vChatSymbols[uiIndex] : nullptr; }
     const tstring&      GetChatSymbolDisplayName(uint uiIndex) const        { return uiIndex < m_vChatSymbols.size() ? m_vChatSymbols[uiIndex].GetDisplayName() : TSNULL; }
     const tstring&      GetChatSymbolTexturePath(uint uiIndex) const        { return uiIndex < m_vChatSymbols.size() ? m_vChatSymbols[uiIndex].GetTexturePath() : TSNULL; }
 
     uint                RegisterChatNameColor(const CXMLNode &node);
     K2_API uint         LookupChatNameColor(const tstring &sName) const;
     uint                GetNumChatNameColors() const                        { return uint(m_vChatNameColors.size()); }
-    const CChatNameColor*   GetChatNameColor(uint uiIndex) const            { return uiIndex < m_vChatNameColors.size() ? &m_vChatNameColors[uiIndex] : NULL; }
+    const CChatNameColor*   GetChatNameColor(uint uiIndex) const            { return uiIndex < m_vChatNameColors.size() ? &m_vChatNameColors[uiIndex] : nullptr; }
     const tstring&      GetChatNameColorDisplayName(uint uiIndex) const     { return uiIndex < m_vChatNameColors.size() ? m_vChatNameColors[uiIndex].GetDisplayName() : TSNULL; }
     const tstring&      GetChatNameColorTexturePath(uint uiIndex) const     { return uiIndex < m_vChatNameColors.size() ? m_vChatNameColors[uiIndex].GetTexturePath() : TSNULL; }
     const tstring&      GetChatNameColorString(uint uiIndex) const          { return uiIndex < m_vChatNameColors.size() ? m_vChatNameColors[uiIndex].GetColor() : TSNULL; }
@@ -228,14 +228,14 @@ public:
     uint                RegisterAccountIcon(const CXMLNode &node);
     K2_API uint         LookupAccountIcon(const tstring &sName) const;
     uint                GetNumAccountIcons() const                          { return uint(m_vAccountIcons.size()); }
-    const CAccountIcon* GetAccountIcon(uint uiIndex) const                  { return uiIndex < m_vAccountIcons.size() ? &m_vAccountIcons[uiIndex] : NULL; }
+    const CAccountIcon* GetAccountIcon(uint uiIndex) const                  { return uiIndex < m_vAccountIcons.size() ? &m_vAccountIcons[uiIndex] : nullptr; }
     const tstring&      GetAccountIconDisplayName(uint uiIndex) const       { return uiIndex < m_vAccountIcons.size() ? m_vAccountIcons[uiIndex].GetDisplayName() : TSNULL; }
     const tstring&      GetAccountIconTexturePath(uint uiIndex) const       { return uiIndex < m_vAccountIcons.size() ? m_vAccountIcons[uiIndex].GetTexturePath() : TSNULL; }
 
     uint                RegisterAnnouncerVoice(const CXMLNode &node);
     K2_API uint         LookupAnnouncerVoice(const tstring &sName) const;
     uint                GetNumAnnouncerVoices() const                       { return uint(m_vAnnouncerVoices.size()); }
-    const CAnnouncerVoice*  GetAnnouncerVoice(uint uiIndex) const           { return uiIndex < m_vAnnouncerVoices.size() ? &m_vAnnouncerVoices[uiIndex] : NULL; }
+    const CAnnouncerVoice*  GetAnnouncerVoice(uint uiIndex) const           { return uiIndex < m_vAnnouncerVoices.size() ? &m_vAnnouncerVoices[uiIndex] : nullptr; }
     const tstring&      GetAnnouncerVoiceDisplayName(uint uiIndex) const    { return uiIndex < m_vAnnouncerVoices.size() ? m_vAnnouncerVoices[uiIndex].GetDisplayName() : TSNULL; }
     const tstring&      GetAnnouncerVoiceSet(uint uiIndex) const            { return uiIndex < m_vAnnouncerVoices.size() ? m_vAnnouncerVoices[uiIndex].GetVoiceSet() : TSNULL; }
     const tstring&      GetAnnouncerVoiceArcadeText(uint uiIndex) const     { return uiIndex < m_vAnnouncerVoices.size() ? m_vAnnouncerVoices[uiIndex].GetArcadeText() : TSNULL; }
@@ -243,7 +243,7 @@ public:
     uint                RegisterTaunt(const CXMLNode &node);
     K2_API uint         LookupTaunt(const tstring &sName) const;
     uint                GetNumTaunts() const                                { return uint(m_vTaunts.size()); }
-    const CTaunt*       GetTaunt(uint uiIndex) const                        { return uiIndex < m_vTaunts.size() ? &m_vTaunts[uiIndex] : NULL; }
+    const CTaunt*       GetTaunt(uint uiIndex) const                        { return uiIndex < m_vTaunts.size() ? &m_vTaunts[uiIndex] : nullptr; }
     const tstring&      GetTauntDisplayName(uint uiIndex) const             { return uiIndex < m_vTaunts.size() ? m_vTaunts[uiIndex].GetDisplayName() : TSNULL; }
     const tstring&      GetTauntModifier(uint uiIndex) const                { return uiIndex < m_vTaunts.size() ? m_vTaunts[uiIndex].GetModifier() : TSNULL; }
 

@@ -35,8 +35,8 @@ CVAR_BOOL(skel_debug, false);
   CSkeleton::CSkeleton
   ====================*/
 CSkeleton::CSkeleton() :
-m_pBoneStates(NULL),
-m_pTempBoneStates(NULL),
+m_pBoneStates(nullptr),
+m_pTempBoneStates(nullptr),
 m_uiNumBones(0),
 m_bIsValid(false),
 
@@ -52,17 +52,17 @@ m_fYaw(0.0f),
 m_sDefaultAnimName(_T("idle")),
 
 m_hModel(INVALID_RESOURCE),
-m_pModel(NULL)
+m_pModel(nullptr)
 {
     for (int i = 0; i < NUM_ANIM_CHANNELS; ++i)
     {
-        m_pAnim[i] = NULL;
+        m_pAnim[i] = nullptr;
         m_fSpeed[i] = 1.0f;
         m_uiForceLength[i] = 0;
         m_bPassiveAnim[i] = true;
-        m_pCurrentPose[i] = NULL;
-        m_pSavedPose[i] = NULL;
-        m_pTempPose[i] = NULL;
+        m_pCurrentPose[i] = nullptr;
+        m_pSavedPose[i] = nullptr;
+        m_pTempPose[i] = nullptr;
         m_iParentChannel[i] = -1;
         m_bValidPose[i] = false;
         m_uiStartTime[i] = INVALID_TIME;
@@ -167,17 +167,17 @@ void    CSkeleton::Clear()
     SkeletonBonePool.Deallocate(cBoneData);
 
     m_uiNumBones = 0;
-    m_pBoneStates = NULL;
-    m_pTempBoneStates = NULL;
+    m_pBoneStates = nullptr;
+    m_pTempBoneStates = nullptr;
 
     for (int i = 0; i < NUM_ANIM_CHANNELS; ++i)
     {
-        m_pCurrentPose[i] = NULL;
-        m_pSavedPose[i] = NULL;
-        m_pTempPose[i] = NULL;
+        m_pCurrentPose[i] = nullptr;
+        m_pSavedPose[i] = nullptr;
+        m_pTempPose[i] = nullptr;
     }
 
-    m_pModel = NULL;
+    m_pModel = nullptr;
     m_bIsValid = false;
 
     m_bIsCharacter = false;
@@ -192,7 +192,7 @@ void    CSkeleton::Clear()
 
     for (int n(0); n < NUM_ANIM_CHANNELS; ++n)
     {
-        m_pAnim[n] = NULL;
+        m_pAnim[n] = nullptr;
         m_uiBlendTime[n] = 0;
         m_uiBlendStartTime[n] = 0;
         m_uiTime[n] = 0;
@@ -517,7 +517,7 @@ void    CSkeleton::StopAnim(int iChannel, uint uiTime)
 
     // If possible, synch with channel zero, otherwise fall
     // back to the current default anim
-    if (iChannel != 0 && m_pAnim[0] != NULL && !(pDefaultAnim && pDefaultAnim->GetLock()))
+    if (iChannel != 0 && m_pAnim[0] != nullptr && !(pDefaultAnim && pDefaultAnim->GetLock()))
     {
         if (m_iParentChannel[0] == iChannel)
             StopAnim(0, uiTime);
@@ -545,7 +545,7 @@ bool    CSkeleton::HasAnim(const tstring &sAnim)
     if (!m_pModel)
         return false;
 
-    return (m_pModel->GetAnim(sAnim) != NULL);
+    return (m_pModel->GetAnim(sAnim) != nullptr);
 }
 
 
@@ -618,7 +618,7 @@ void    CSkeleton::PoseStandard(uint uiTime)
   ====================*/
 void    CSkeleton::Pose(uint uiTime, float fParam1, float fParam2)
 {
-    if (m_pModel == NULL)
+    if (m_pModel == nullptr)
         return;
 
     m_uiPrevPoseTime = m_uiPoseTime;
@@ -814,7 +814,7 @@ void    CSkeleton::PoseGadget(uint uiTime, float fPitch, float fYaw)
   ====================*/
 void    CSkeleton::PoseLite(uint uiTime)
 {
-    if (m_pModel == NULL)
+    if (m_pModel == nullptr)
         return;
 
     ProcessAnimRequests(uiTime);
@@ -843,9 +843,9 @@ bool    CSkeleton::CheckAnims(uint uiTime)
 {
     for (int iChannel(0); iChannel < NUM_ANIM_CHANNELS; ++iChannel)
     {
-        if (m_pAnim[iChannel] == NULL)
+        if (m_pAnim[iChannel] == nullptr)
             StartAnim(m_sDefaultAnimName, uiTime, iChannel);
-        if (m_pAnim[iChannel] == NULL)
+        if (m_pAnim[iChannel] == nullptr)
         {
             Invalidate();
             return false;
@@ -864,7 +864,7 @@ bool    CSkeleton::HasValidAnims()
 {
     for (int iChannel(0); iChannel < NUM_ANIM_CHANNELS; ++iChannel)
     {
-        if (m_pAnim[iChannel] == NULL)
+        if (m_pAnim[iChannel] == nullptr)
             return false;
     }
     return true;
@@ -1013,7 +1013,7 @@ void    CSkeleton::RelativeToWorldRecurse(uint uiBone)
     {
         const CBone *pParent(m_pModel->GetBoneParent(uiBone));
         const CBone *pThis(m_pModel->GetBone(uiBone));
-        if (pParent != NULL)
+        if (pParent != nullptr)
         {
             M_MultiplyMatrix(&m_pBoneStates[pParent->GetIndex()].tm_local, &pBoneState->tm, &pBoneState->tm_local);
             M_MultiplyMatrix(&pBoneState->tm_local, &pThis->m_invBase, &pBoneState->tm_world);
@@ -1088,7 +1088,7 @@ void    CSkeleton::SetModel(ResHandle hModel)
 
     CModel *pModel(g_ResourceManager.GetModel(hModel));
 
-    if (pModel == NULL)
+    if (pModel == nullptr)
     {
         Clear();
         Invalidate();
@@ -1097,7 +1097,7 @@ void    CSkeleton::SetModel(ResHandle hModel)
 
     IModel *pIModel = pModel->GetModelFile();
 
-    if (pIModel == NULL || pIModel->GetType() != MODEL_K2)
+    if (pIModel == nullptr || pIModel->GetType() != MODEL_K2)
     {
         Clear();
         Invalidate();
@@ -1106,7 +1106,7 @@ void    CSkeleton::SetModel(ResHandle hModel)
 
     CK2Model *pK2Model = static_cast<CK2Model *>(pIModel);
 
-    if (pK2Model == NULL)
+    if (pK2Model == nullptr)
     {
         Clear();
         Invalidate();
@@ -1218,7 +1218,7 @@ uint    CSkeleton::GetAnimIndex(int iChannel)
   ====================*/
 int     CSkeleton::GetAnimIndex(const tstring &sAnim)
 {
-    if (m_pModel != NULL)
+    if (m_pModel != nullptr)
         return m_pModel->GetAnimIndex(sAnim);
     else
         return -1;

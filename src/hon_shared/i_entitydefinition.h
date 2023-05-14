@@ -673,7 +673,7 @@ READ_ENTITY_DEFINITION_MULTI_LEVEL_TEMPORAL_PROPERTY(name##PerCharge, attribute#
 void    def::ImportDefinition(IEntityDefinition *pOtherDefinition) \
 { \
     base::ImportDefinition(pOtherDefinition); \
-    if (pOtherDefinition == NULL) \
+    if (pOtherDefinition == nullptr) \
         return; \
 \
     if (GetAllocator()->GetBaseType() != pOtherDefinition->GetAllocator()->GetBaseType()) \
@@ -969,7 +969,7 @@ public:
     IBaseEntityAllocator*   GetAllocator(const tstring &sSubType) const;
     CCombatActionScript*    GetActionScript(EEntityActionScript eScript)            { return m_vActionScripts[eScript]; }
     CCombatActionScript*    NewActionScript(EEntityActionScript eScript, int iPriority, bool bPropagateToIllusions, bool bActivateOnBounces);
-    float                   ExecuteActionScript(EEntityActionScript eScript, IGameEntity *pEntity, IGameEntity *pInitiator, IGameEntity *pInflictor, IGameEntity *pTarget, const CVec3f &v3Target, IGameEntity *pProxy, uint uiLevel, CCombatEvent *pCombatEvent = NULL, CDamageEvent *pDamageEvent = NULL, const CVec3f &v3Delta = V3_ZERO, float fDefault = 0.0f);
+    float                   ExecuteActionScript(EEntityActionScript eScript, IGameEntity *pEntity, IGameEntity *pInitiator, IGameEntity *pInflictor, IGameEntity *pTarget, const CVec3f &v3Target, IGameEntity *pProxy, uint uiLevel, CCombatEvent *pCombatEvent = nullptr, CDamageEvent *pDamageEvent = nullptr, const CVec3f &v3Delta = V3_ZERO, float fDefault = 0.0f);
 
     void                    ApplyAuras(IGameEntity *pSource, uint uiLevel);
     const AuraList&         GetAuraList() const                             { return m_vAuras; }

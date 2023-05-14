@@ -51,7 +51,7 @@ void    CEntityCreepSpawner::Spawn()
     IVisualEntity::Spawn();
 
     CEntityLaneNode *pWaypoint(Game.GetEntityFromNameAs<CEntityLaneNode>(m_asTargets[0]));
-    while (pWaypoint != NULL)
+    while (pWaypoint != nullptr)
     {
         m_cLane.AddWaypoint(pWaypoint->GetPosition().xy());
 

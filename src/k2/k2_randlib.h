@@ -23,8 +23,8 @@ extern K2_API MersenneTwister*      gMersenneTwister;
   ====================*/
 inline void     K2_SRAND(LONGLONG seed)
 {
-    assert(gMersenneTwister == NULL);
-    if (gMersenneTwister == NULL)
+    assert(gMersenneTwister == nullptr);
+    if (gMersenneTwister == nullptr)
         gMersenneTwister = K2_NEW(ctx_Singleton,  MersenneTwister)( uint(seed & UINT_MAX) );
 }
 
@@ -34,7 +34,7 @@ inline void     K2_SRAND(LONGLONG seed)
   ====================*/
 inline double       K2_RAND(double lo, double hi)
 {
-    assert(gMersenneTwister != NULL);
+    assert(gMersenneTwister != nullptr);
     assert(lo < hi);
     return gMersenneTwister->genrand(lo, hi);
 }
@@ -45,7 +45,7 @@ inline double       K2_RAND(double lo, double hi)
   ====================*/
 inline double       K2_RAND_NOT_INCLUSIVE(double lo, double hi)
 {
-    assert(gMersenneTwister != NULL);
+    assert(gMersenneTwister != nullptr);
     return gMersenneTwister->genrand2(lo, hi);
 }
 
@@ -55,7 +55,7 @@ inline double       K2_RAND_NOT_INCLUSIVE(double lo, double hi)
   ====================*/
 inline uint         K2_RAND_UINT32()
 {
-    assert(gMersenneTwister != NULL);
+    assert(gMersenneTwister != nullptr);
     return gMersenneTwister->genrand_uint32();
 }
 

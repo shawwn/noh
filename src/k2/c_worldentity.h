@@ -100,10 +100,10 @@ public:
     m_fOcclusionRadius(0.0f),
     m_uiFlags(0),
     
-    m_pBoundsNode(NULL),
-    m_pSurfaceNode(NULL),
-    m_pModelNode(NULL),
-    m_pRenderNode(NULL),
+    m_pBoundsNode(nullptr),
+    m_pSurfaceNode(nullptr),
+    m_pModelNode(nullptr),
+    m_pRenderNode(nullptr),
     m_hNextBounds(INVALID_POOL_OFFSET),
     m_hNextSurface(INVALID_POOL_OFFSET),
     m_hNextModel(INVALID_POOL_OFFSET),
@@ -234,19 +234,19 @@ public:
 
     void SetNextBounds(PoolOffset hOffset) { m_hNextBounds = hOffset; }
     PoolOffset GetOffsetBounds() { return m_hNextBounds; }
-    CWorldEntity *GetNextBounds() { if (m_hNextBounds == INVALID_POOL_OFFSET) return NULL; else return this + m_hNextBounds; }
+    CWorldEntity *GetNextBounds() { if (m_hNextBounds == INVALID_POOL_OFFSET) return nullptr; else return this + m_hNextBounds; }
 
     void SetNextSurface(PoolOffset hOffset) { m_hNextSurface = hOffset; }
     PoolOffset GetOffsetSurface() { return m_hNextSurface; }
-    CWorldEntity *GetNextSurface() { if (m_hNextSurface == INVALID_POOL_OFFSET) return NULL; return this + m_hNextSurface; }
+    CWorldEntity *GetNextSurface() { if (m_hNextSurface == INVALID_POOL_OFFSET) return nullptr; return this + m_hNextSurface; }
 
     void SetNextModel(PoolOffset hOffset) { m_hNextModel = hOffset; }
     PoolOffset GetOffsetModel() { return m_hNextModel; }
-    CWorldEntity *GetNextModel() { if (m_hNextModel == INVALID_POOL_OFFSET) return NULL; return this + m_hNextModel; }
+    CWorldEntity *GetNextModel() { if (m_hNextModel == INVALID_POOL_OFFSET) return nullptr; return this + m_hNextModel; }
 
     void SetNextRender(PoolOffset hOffset) { m_hNextRender = hOffset; }
     PoolOffset GetOffsetRender() { return m_hNextRender; }
-    CWorldEntity *GetNextRender() { if (m_hNextRender == INVALID_POOL_OFFSET) return NULL; return this + m_hNextRender; }
+    CWorldEntity *GetNextRender() { if (m_hNextRender == INVALID_POOL_OFFSET) return nullptr; return this + m_hNextRender; }
 
     void SetBoundsNode(CWorldTreeNode *pNode) { m_pBoundsNode = pNode; }
     CWorldTreeNode *GetBoundsNode() { return m_pBoundsNode; }

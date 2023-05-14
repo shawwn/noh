@@ -86,7 +86,7 @@ void    CFogofWar::Initialize()
     // Vertex buffer
     glGenBuffersARB(1, &VBFowQuad);
     glBindBufferARB(GL_ARRAY_BUFFER_ARB, VBFowQuad);
-    glBufferDataARB(GL_ARRAY_BUFFER_ARB, MAX_FOWQUADS * 4 * sizeof(SGuiVertex), NULL, GL_STREAM_DRAW_ARB);
+    glBufferDataARB(GL_ARRAY_BUFFER_ARB, MAX_FOWQUADS * 4 * sizeof(SGuiVertex), nullptr, GL_STREAM_DRAW_ARB);
     glBindBufferARB(GL_ARRAY_BUFFER_ARB, 0);
 
     //
@@ -273,9 +273,9 @@ void    CFogofWar::Update(const CBitmap &cBmp)
 #if 1
     glBindBufferARB(GL_PIXEL_UNPACK_BUFFER_ARB, m_uiPixelBufferObject);
 
-    glBufferDataARB(GL_PIXEL_UNPACK_BUFFER_ARB, cBmp.GetSize(), NULL, GL_STREAM_DRAW_ARB);
+    glBufferDataARB(GL_PIXEL_UNPACK_BUFFER_ARB, cBmp.GetSize(), nullptr, GL_STREAM_DRAW_ARB);
     GLubyte* pData((GLubyte*)glMapBufferARB(GL_PIXEL_UNPACK_BUFFER_ARB, GL_WRITE_ONLY_ARB));
-    if (pData != NULL)
+    if (pData != nullptr)
     {
         MemManager.Copy(pData, cBmp.GetBuffer(), cBmp.GetSize());
         glUnmapBufferARB(GL_PIXEL_UNPACK_BUFFER_ARB);
@@ -287,7 +287,7 @@ void    CFogofWar::Update(const CBitmap &cBmp)
     else
         glBindTexture(GL_TEXTURE_2D, m_uiDynamicTexture1);
 
-    glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, cBmp.GetWidth(), cBmp.GetHeight(), GL_ALPHA, GL_UNSIGNED_BYTE, NULL);
+    glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, cBmp.GetWidth(), cBmp.GetHeight(), GL_ALPHA, GL_UNSIGNED_BYTE, nullptr);
 
     PRINT_GLERROR_BREAK();
 

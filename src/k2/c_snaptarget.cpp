@@ -20,8 +20,8 @@
 CSnapTarget::CSnapTarget(CInterface *pInterface, IWidget *pParent, const CWidgetStyle& style) :
 IWidget(pInterface, pParent, WIDGET_SNAPTARGET, style),
 m_uiSnapDistance(style.GetPropertyInt(_T("snapdistance"), 0)),
-m_pSnapTarget(NULL),
-m_pDragTarget(NULL)
+m_pSnapTarget(nullptr),
+m_pDragTarget(nullptr)
 {
     if (!style.HasProperty(_T("texture")) && !style.HasProperty(_T("color")))
         SetFlags(WFLAG_NO_DRAW);
@@ -53,10 +53,10 @@ bool    CSnapTarget::CheckSnapTargets(CVec2f &v2Pos, IWidget *pWidget)
     else
     {
         if (pWidget == m_pSnapTarget)
-            m_pSnapTarget = NULL;
+            m_pSnapTarget = nullptr;
 
         if (pWidget == m_pDragTarget)
-            m_pDragTarget = NULL;
+            m_pDragTarget = nullptr;
     }
 
     return IWidget::CheckSnapTargets(v2Pos, pWidget);
@@ -74,14 +74,14 @@ bool    CSnapTarget::CheckSnapTo(CVec2f &v2Pos, IWidget *pWidget)
         (v2Pos.y <= v2Area.y + GetHeight() + m_uiSnapDistance) &&
         (v2Pos.y >= v2Area.y - m_uiSnapDistance))
     {
-        m_pDragTarget = NULL;
+        m_pDragTarget = nullptr;
         m_pSnapTarget = pWidget;
         DO_EVENT_PARAM_RETURN(WEVENT_SNAP, pWidget->GetName(), true)
 
         return true;
     }
     else if (pWidget == m_pSnapTarget)
-        m_pSnapTarget = NULL;
+        m_pSnapTarget = nullptr;
 
     return IWidget::CheckSnapTo(v2Pos, pWidget);
 }
@@ -103,11 +103,11 @@ void    CSnapTarget::Render(const CVec2f &vOrigin, int iFlag, float fFade)
         return;*/
 
     // Always render the snapped target overtop of the widget
-    if (m_pSnapTarget != NULL)
+    if (m_pSnapTarget != nullptr)
         m_pSnapTarget->Render(m_pSnapTarget->GetAbsolutePos() - m_pSnapTarget->GetRect().lt(), WIDGET_RENDER_ALL, fFade * m_fFadeCurrent);
 
     // Always render the dragged target overtop of the widget and snapped widget
-    if (m_pDragTarget != NULL)
+    if (m_pDragTarget != nullptr)
         m_pDragTarget->Render(m_pDragTarget->GetAbsolutePos() - m_pDragTarget->GetRect().lt(), WIDGET_RENDER_ALL, fFade * m_fFadeCurrent);
 }
 
@@ -117,8 +117,8 @@ void    CSnapTarget::Render(const CVec2f &vOrigin, int iFlag, float fFade)
   ====================*/
 void    CSnapTarget::ClearSnapTarget()
 {
-    m_pSnapTarget = NULL;
-    m_pDragTarget = NULL;
+    m_pSnapTarget = nullptr;
+    m_pDragTarget = nullptr;
 }
 
 /*====================
@@ -126,14 +126,14 @@ void    CSnapTarget::ClearSnapTarget()
   ====================*/
 void    CSnapTarget::WidgetLost(IWidget *pWidget)
 {
-    if (pWidget == NULL)
+    if (pWidget == nullptr)
         return;
 
     if (m_pSnapTarget == pWidget)
-        m_pSnapTarget = NULL;
+        m_pSnapTarget = nullptr;
 
     if (m_pDragTarget == pWidget)
-        m_pSnapTarget = NULL;
+        m_pSnapTarget = nullptr;
 
     IWidget::WidgetLost(pWidget);
 }

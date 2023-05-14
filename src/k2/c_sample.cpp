@@ -52,7 +52,7 @@ CSample::CSample(const tstring &sPath) :
 IResource(sPath, TSNULL),
 m_iSoundFlags(0),
 m_bRandomSample(false),
-m_pSampleData(NULL),
+m_pSampleData(nullptr),
 m_uiLastRandom(uint(-1))
 {
 }
@@ -70,7 +70,7 @@ CSample::CSample(const tstring &sPath, int iSoundFlags) :
 IResource(sPath, TSNULL),
 m_iSoundFlags(iSoundFlags),
 m_bRandomSample(false),
-m_pSampleData(NULL),
+m_pSampleData(nullptr),
 m_uiLastRandom(uint(-1))
 {
 }
@@ -115,7 +115,7 @@ int     CSample::Load(uint uiIgnoreFlags, const char *pData, uint uiSize)
                 tstring sPath(sFirstPart + XtoA(iSamples) + sLastPart);
                 FMOD::Sound *pSound(K2SoundManager.LoadSample(sPath, m_iSoundFlags | SND_QUIETFAIL));
 
-                while (pSound != NULL) 
+                while (pSound != nullptr)
                 {
                     m_vhSamples.push_back(g_ResourceManager.Register(K2_NEW(ctx_Sound,  CSample)(sPath, m_iSoundFlags, pSound), RES_SAMPLE));
                     
@@ -135,19 +135,19 @@ int     CSample::Load(uint uiIgnoreFlags, const char *pData, uint uiSize)
                 Console.Res << "Loading ^bSample^* " << SingleQuoteStr(m_sPath) << newl;
             else if (!m_sName.empty())
                 Console.Res << "Loading ^bSample^* " << SingleQuoteStr(m_sName) << newl;
-            else if (m_pSampleData != NULL && m_pData == NULL)
+            else if (m_pSampleData != nullptr && m_pData == nullptr)
                 Console.Res << "Loading ^bPrecreated Sample^*" << newl;
             else
                 Console.Res << "Loading ^bUnknown Sample^*" << newl;
 
-            if (m_pSampleData == NULL)
+            if (m_pSampleData == nullptr)
             {
                 if (!m_sPath.empty())
                     m_pSampleData = K2SoundManager.LoadSample(m_sPath, m_iSoundFlags);
                 else if (!m_sName.empty())
                     m_pSampleData = K2SoundManager.LoadSample(m_sName, m_iSoundFlags);
 
-                if (m_pSampleData == NULL)
+                if (m_pSampleData == nullptr)
                     return RES_LOAD_FAILED;
             }
         }
@@ -175,7 +175,7 @@ void    CSample::Free()
     {
         K2SoundManager.FreeSample(m_pSampleData);
     }
-    m_pSampleData = NULL;
+    m_pSampleData = nullptr;
 }
 
 
@@ -201,13 +201,13 @@ FMOD::Sound*    CSample::GetSampleData() const
             m_uiLastRandom = uiRandom;
 
             CSample *pSample(g_ResourceManager.GetSample(m_vhSamples[uiRandom]));
-            if (pSample != NULL)
+            if (pSample != nullptr)
                 return pSample->GetSampleData();
             else
-                return NULL;
+                return nullptr;
         }
         else
-            return NULL;
+            return nullptr;
     }
     else
         return m_pSampleData;

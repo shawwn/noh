@@ -30,7 +30,7 @@ IBuffer::~IBuffer()
   IBuffer::IBuffer
   ====================*/
 IBuffer::IBuffer() :
-m_pBuffer(NULL),
+m_pBuffer(nullptr),
 m_uiSize(0),
 m_uiEnd(0),
 m_uiRead(0),
@@ -39,7 +39,7 @@ m_iFaults(0)
 }
 
 IBuffer::IBuffer(const IBuffer &buffer) :
-m_pBuffer(NULL),
+m_pBuffer(nullptr),
 m_uiSize(buffer.m_uiSize),
 m_uiEnd(buffer.m_uiEnd),
 m_uiRead(buffer.m_uiRead),
@@ -51,7 +51,7 @@ m_iFaults(buffer.m_iFaults)
     if (buffer.m_pBuffer)
     {
         m_pBuffer = K2_NEW_ARRAY(ctx_Buffers, char, buffer.m_uiSize);
-        if (m_pBuffer == NULL)
+        if (m_pBuffer == nullptr)
             m_iFaults |= BUFFER_FAULT_COPY | BUFFER_FAULT_ALLOCATE;
         MemManager.Copy(m_pBuffer, buffer.m_pBuffer, buffer.m_uiSize);
     }
@@ -76,7 +76,7 @@ void    IBuffer::Init(uint uiSize)
     }
     else
     {
-        m_pBuffer = NULL;
+        m_pBuffer = nullptr;
         m_uiSize = 0;
     }
     
@@ -125,7 +125,7 @@ bool    IBuffer::Resize(uint uiSize)
         if (m_pBuffer)
             K2_DELETE_ARRAY(m_pBuffer);
 
-        m_pBuffer = NULL;
+        m_pBuffer = nullptr;
         m_uiSize = 0;
     }
     
@@ -199,7 +199,7 @@ bool    IBuffer::Reallocate(uint uiSize)
         if (m_pBuffer)
             K2_DELETE_ARRAY(m_pBuffer);
 
-        m_pBuffer = NULL;
+        m_pBuffer = nullptr;
         m_uiSize = 0;
     }
     
@@ -238,7 +238,7 @@ uint    IBuffer::FindNext(wchar_t c) const
   ====================*/
 string  IBuffer::ReadString() const
 {
-    char *sz(NULL);
+    char *sz(nullptr);
 
     try
     {
@@ -248,7 +248,7 @@ string  IBuffer::ReadString() const
 
         uint uiRead(uiPos - GetReadPos() + 1);
         sz = K2_NEW_ARRAY(ctx_Buffers, char, uiRead);
-        if (sz == NULL)
+        if (sz == nullptr)
             EX_ERROR(_T("Failed to allocate temporary string buffer"));
 
         Read(sz, uiRead);
@@ -261,7 +261,7 @@ string  IBuffer::ReadString() const
     }
     catch (CException &ex)
     {
-        if (sz != NULL)
+        if (sz != nullptr)
             K2_DELETE_ARRAY(sz);
 
         ex.Process(_T("IBuffer::ReadString() - "), NO_THROW);
@@ -275,7 +275,7 @@ string  IBuffer::ReadString() const
   ====================*/
 wstring IBuffer::ReadWString() const
 {
-    wchar_t *sz(NULL);
+    wchar_t *sz(nullptr);
 
     try
     {
@@ -285,7 +285,7 @@ wstring IBuffer::ReadWString() const
 
         uint uiRead((uiPos - GetReadPos() + sizeof(wchar_t)));
         sz = K2_NEW_ARRAY(ctx_Buffers, wchar_t, uiRead);
-        if (sz == NULL)
+        if (sz == nullptr)
             EX_ERROR(_T("Failed to allocate temporary string buffer"));
 
         Read(sz, uiRead);
@@ -298,7 +298,7 @@ wstring IBuffer::ReadWString() const
     }
     catch (CException &ex)
     {
-        if (sz != NULL)
+        if (sz != nullptr)
             K2_DELETE_ARRAY(sz);
 
         ex.Process(_T("IBuffer::ReadString() - "), NO_THROW);
@@ -311,7 +311,7 @@ wstring IBuffer::ReadWString() const
   ====================*/
 tstring IBuffer::ReadTString() const
 {
-    char *sz(NULL);
+    char *sz(nullptr);
 
     try
     {
@@ -321,7 +321,7 @@ tstring IBuffer::ReadTString() const
 
         uint uiRead(uiPos - GetReadPos() + 1);
         sz = K2_NEW_ARRAY(ctx_Buffers, char, uiRead);
-        if (sz == NULL)
+        if (sz == nullptr)
             EX_ERROR(_T("Failed to allocate temporary string buffer"));
 
         Read(sz, uiRead);
@@ -334,7 +334,7 @@ tstring IBuffer::ReadTString() const
     }
     catch (CException &ex)
     {
-        if (sz != NULL)
+        if (sz != nullptr)
             K2_DELETE_ARRAY(sz);
 
         ex.Process(_T("IBuffer::ReadString() - "), NO_THROW);
@@ -352,7 +352,7 @@ bool    CBufferStatic::Write(const void *pBuffer, uint uiSize)
 {
     bool ret(true);
 
-    if (pBuffer == NULL)
+    if (pBuffer == nullptr)
         return false;
 
     uint uiCopyLen(uiSize);
@@ -407,7 +407,7 @@ char*   CBufferStatic::Lock(uint uiSize)
     }
 
     if (uiSize == 0)
-        return NULL;
+        return nullptr;
 
     char *pBuffer(&m_pBuffer[m_uiEnd]);
     m_uiEnd += uiSize;
@@ -489,7 +489,7 @@ bool    CBufferDynamic::Write(const void *pBuffer, uint uiSize)
 
         bool ret(true);
 
-        if (pBuffer == NULL)
+        if (pBuffer == nullptr)
             EX_ERROR(_T("Invalid source"));
 
         uint uiCopyLen(uiSize);
@@ -591,7 +591,7 @@ bool    CBufferDynamic::Overwrite(const void *pBuffer, uint uiSize)
 
     bool ret(true);
 
-    if (pBuffer == NULL)
+    if (pBuffer == nullptr)
     {
         Console.Err << _T("CBufferDynamic::Overwrite - Invalid source") << newl;
         ret = false;
@@ -631,7 +631,7 @@ bool    CBufferDynamic::Overwrite(tstring &sNewString)
     while (ReadByte() && m_uiRead <= m_uiEnd)
         /* do nothing */;
 
-    char *pTemp(NULL);
+    char *pTemp(nullptr);
     uint uiRemainingBuffer(m_uiEnd - m_uiRead);
     if (uiRemainingBuffer)
     {
@@ -670,7 +670,7 @@ char*   CBufferDynamic::Lock(uint uiSize)
     }
 
     if (uiSize == 0)
-        return NULL;
+        return nullptr;
 
     char *pBuffer(&m_pBuffer[m_uiEnd]);
     m_uiEnd += uiSize;

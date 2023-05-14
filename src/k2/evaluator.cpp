@@ -270,7 +270,7 @@ m_iCurrentEnvironmentIndex(-1)
   ====================*/
 void    CExpressionEvaluator::RegisterOperator(IOperator *pOperator)
 {
-    assert(pOperator != NULL);
+    assert(pOperator != nullptr);
     assert(!(pOperator->IsPostUnary() && pOperator->IsBinary()));
     assert(m_mapOperators.find(pOperator->GetSymbolCode()) == m_mapOperators.end());
     m_mapOperators[pOperator->GetSymbolCode()] = pOperator;
@@ -737,7 +737,7 @@ float   Eval_Evaluate(const tstring &sExpression, bool &bError, EvalLookupFn pfn
                 buf[i] = 0;
                 equation += i;
 
-                val = float(_tcstol(buf, NULL, 16));
+                val = float(_tcstol(buf, nullptr, 16));
                 Eval_AddValue(val);
                 break;
             }
@@ -908,8 +908,8 @@ CEvaluatorToken::~CEvaluatorToken()
   ====================*/
 CEvaluatorToken::CEvaluatorToken(const tstring &sLiteral) :
 m_bIsOperator(false),
-m_pOperator(NULL),
-m_pToken(K2_NEW(ctx_Script,  CUIScriptToken)(NULL, sLiteral))
+m_pOperator(nullptr),
+m_pToken(K2_NEW(ctx_Script,  CUIScriptToken)(nullptr, sLiteral))
 {}
 
 
@@ -918,12 +918,12 @@ m_pToken(K2_NEW(ctx_Script,  CUIScriptToken)(NULL, sLiteral))
   ====================*/
 void    CEvaluatorToken::AddArgumentChain(CEvaluatorToken *pToken)
 {
-    if (m_pToken == NULL)
+    if (m_pToken == nullptr)
         return;
 
     CUIScriptToken *pArgToken(pToken->m_pToken);
-    pToken->m_pToken = NULL;
-    while (pArgToken != NULL)
+    pToken->m_pToken = nullptr;
+    while (pArgToken != nullptr)
     {
         m_pToken->AddArgument(pArgToken);
         pArgToken = pArgToken->GetNextLink();
@@ -936,7 +936,7 @@ void    CEvaluatorToken::AddArgumentChain(CEvaluatorToken *pToken)
   ====================*/
 void    CEvaluatorToken::AddArgument(const tstring &sValue)
 {
-    if (m_pToken == NULL)
+    if (m_pToken == nullptr)
         return;
 
     m_pToken->AddArgument(sValue);
@@ -948,11 +948,11 @@ void    CEvaluatorToken::AddArgument(const tstring &sValue)
   ====================*/
 void    CEvaluatorToken::LinkArgument(CEvaluatorToken *pToken)
 {
-    if (m_pToken == NULL)
+    if (m_pToken == nullptr)
         return;
 
     m_pToken->LinkArgument(pToken->m_pToken);
-    pToken->m_pToken = NULL;
+    pToken->m_pToken = nullptr;
 }
 
 
@@ -961,7 +961,7 @@ void    CEvaluatorToken::LinkArgument(CEvaluatorToken *pToken)
   ====================*/
 const tstring&  CEvaluatorToken::GetValue() const
 {
-    if (m_pToken == NULL)
+    if (m_pToken == nullptr)
         return TSNULL;
 
     if (m_bIsOperator)
@@ -979,7 +979,7 @@ const tstring&  CEvaluatorToken::GetValue() const
   ====================*/
 void    CEvaluatorToken::SetValue(const tstring &sValue)
 {
-    if (m_pToken == NULL)
+    if (m_pToken == nullptr)
         return;
 
     if (m_bIsOperator)
@@ -997,7 +997,7 @@ void    CEvaluatorToken::SetValue(const tstring &sValue)
   ====================*/
 void    CEvaluatorToken::AssignValue(const tstring &sValue)
 {
-    if (m_pToken == NULL)
+    if (m_pToken == nullptr)
         return;
 
     if (m_bIsOperator)
@@ -1015,7 +1015,7 @@ void    CEvaluatorToken::AssignValue(const tstring &sValue)
   ====================*/
 void    CEvaluatorToken::AssignToken(CUIScriptToken *pToken)
 {
-    if (pToken == NULL)
+    if (pToken == nullptr)
         return;
 
     SAFE_DELETE(m_pToken);
@@ -1062,7 +1062,7 @@ CEvaluatorToken*    CExpressionEvaluator::GetToken(const tstring &sSymbol, CEval
 {
     //PROFILE("CExpressionEvaluator::GetToken");
 
-    CUIScriptToken *pNewScriptToken(NULL);
+    CUIScriptToken *pNewScriptToken(nullptr);
     IWidget *pActiveWidget(GetCurrentEnvironment().m_pActiveWidget);
 
     // Number
@@ -1078,10 +1078,10 @@ CEvaluatorToken*    CExpressionEvaluator::GetToken(const tstring &sSymbol, CEval
         sSymbol[3] == _T('a') &&
         sSymbol[4] == _T('m'))
     {
-        if (pActiveWidget == NULL)
+        if (pActiveWidget == nullptr)
         {
             SetError(QuoteStr(GetCurrentEnvironment().m_sExpression) + newl + _T("'param' is not valid because there is no active widget"));
-            return NULL;
+            return nullptr;
         }
 
         const tsvector &vEventParams(GetCurrentEnvironment().m_vParams);
@@ -1100,7 +1100,7 @@ CEvaluatorToken*    CExpressionEvaluator::GetToken(const tstring &sSymbol, CEval
         if (vEventParams.size() <= uiParam)
         {
             SetError(QuoteStr(GetCurrentEnvironment().m_sExpression) + newl + SingleQuoteStr(sSymbol) + _T(" is not valid for the active widget"));
-            return NULL;
+            return nullptr;
         }
 
         pNewScriptToken = K2_NEW(ctx_Script,  CUIScriptToken)(pActiveWidget, vEventParams[uiParam]);
@@ -1128,10 +1128,10 @@ CEvaluatorToken*    CExpressionEvaluator::GetToken(const tstring &sSymbol, CEval
         }
         else if (TStringCompare(sSymbol, _T("data")) == 0)
         {
-            if (pActiveWidget == NULL || pActiveWidget->GetType() != WIDGET_TABLE)
+            if (pActiveWidget == nullptr || pActiveWidget->GetType() != WIDGET_TABLE)
             {
                 SetError(_T("Cannot get 'data' for widget ") + SingleQuoteStr(pActiveWidget->GetName()) + _T(" because it is not a table"));
-                return NULL;
+                return nullptr;
             }
 
             pNewScriptToken = K2_NEW(ctx_Script,  CUIScriptToken)(pActiveWidget, static_cast<CTable*>(pActiveWidget)->GetEventData());
@@ -1140,10 +1140,10 @@ CEvaluatorToken*    CExpressionEvaluator::GetToken(const tstring &sSymbol, CEval
     // Table information
     else if (TStringCompare(sSymbol, _T("dataid")) == 0)
     {
-        if (pActiveWidget == NULL || pActiveWidget->GetType() != WIDGET_TABLE)
+        if (pActiveWidget == nullptr || pActiveWidget->GetType() != WIDGET_TABLE)
         {
             SetError(_T("Cannot get 'dataid' for widget ") + SingleQuoteStr(pActiveWidget->GetName()) + _T(" because it is not a table"));
-            return NULL;
+            return nullptr;
         }
 
         pNewScriptToken = K2_NEW(ctx_Script,  CUIScriptToken)(pActiveWidget, static_cast<CTable*>(pActiveWidget)->GetEventDataID());
@@ -1152,20 +1152,20 @@ CEvaluatorToken*    CExpressionEvaluator::GetToken(const tstring &sSymbol, CEval
     {
         if (TStringCompare(sSymbol, _T("row")) == 0)
         {
-            if (pActiveWidget == NULL || pActiveWidget->GetType() != WIDGET_TABLE)
+            if (pActiveWidget == nullptr || pActiveWidget->GetType() != WIDGET_TABLE)
             {
                 SetError(_T("Cannot get 'row' for widget ") + SingleQuoteStr(pActiveWidget->GetName()) + _T(" because it is not a table"));
-                return NULL;
+                return nullptr;
             }
 
             pNewScriptToken = K2_NEW(ctx_Script,  CUIScriptToken)(pActiveWidget, XtoA(static_cast<CTable*>(pActiveWidget)->GetEventRow()));
         }
         else if (TStringCompare(sSymbol, _T("col")) == 0)
         {
-            if (pActiveWidget == NULL || pActiveWidget->GetType() != WIDGET_TABLE)
+            if (pActiveWidget == nullptr || pActiveWidget->GetType() != WIDGET_TABLE)
             {
                 SetError(_T("Cannot get 'col' for widget ") + SingleQuoteStr(pActiveWidget->GetName()) + _T(" because it is not a table"));
-                return NULL;
+                return nullptr;
             }
 
             pNewScriptToken = K2_NEW(ctx_Script,  CUIScriptToken)(pActiveWidget, XtoA(static_cast<CTable*>(pActiveWidget)->GetEventCol()));
@@ -1173,7 +1173,7 @@ CEvaluatorToken*    CExpressionEvaluator::GetToken(const tstring &sSymbol, CEval
         else if (TStringCompare(sSymbol, _T("and")) == 0)
         {
             PushOperator(&g_OperatorLogicalAnd);
-            return NULL;
+            return nullptr;
         }
     }
     // Alternative operators
@@ -1182,73 +1182,73 @@ CEvaluatorToken*    CExpressionEvaluator::GetToken(const tstring &sSymbol, CEval
         if (TStringCompare(sSymbol, _T("gt")) == 0)
         {
             PushOperator(&g_OperatorGreaterThan);
-            return NULL;
+            return nullptr;
         }
         else if (TStringCompare(sSymbol, _T("lt")) == 0)
         {
             PushOperator(&g_OperatorLessThan);
-            return NULL;
+            return nullptr;
         }
         else if (TStringCompare(sSymbol, _T("ge")) == 0)
         {
             PushOperator(&g_OperatorGreaterThanEqual);
-            return NULL;
+            return nullptr;
         }
         else if (TStringCompare(sSymbol, _T("le")) == 0)
         {
             PushOperator(&g_OperatorLessThanEqual);
-            return NULL;
+            return nullptr;
         }
         else if (TStringCompare(sSymbol, _T("or")) == 0)
         {
             PushOperator(&g_OperatorLogicalOr);
-            return NULL;
+            return nullptr;
         }
     }
 
     // Command
-    if (pNewScriptToken == NULL)
+    if (pNewScriptToken == nullptr)
     {
         CUICmd *pUICmd(pUICmdRegistry->GetUICmd(sSymbol));
-        if (pUICmd != NULL)
+        if (pUICmd != nullptr)
             pNewScriptToken = K2_NEW(ctx_Script,  CUIScriptToken)(pActiveWidget, pUICmd);
     }
 
     // Widget name
-    if (pNewScriptToken == NULL)
+    if (pNewScriptToken == nullptr)
     {
         CInterface *pInterface(UIManager.GetActiveInterface());
-        if (pInterface != NULL)
+        if (pInterface != nullptr)
         {
             IWidget *pWidget(pInterface->GetWidget(sSymbol));
-            if (pWidget != NULL)
+            if (pWidget != nullptr)
                 pNewScriptToken = K2_NEW(ctx_Script,  CUIScriptToken)(pActiveWidget, pWidget->GetValue());
         }
     }
 
     // Cvar
-    if (pNewScriptToken == NULL)
+    if (pNewScriptToken == nullptr)
     {
         ICvar *pCvar(ConsoleRegistry.GetCvar(sSymbol));
-        if (pCvar != NULL)
+        if (pCvar != nullptr)
             pNewScriptToken = K2_NEW(ctx_Script,  CUIScriptToken)(pActiveWidget, pCvar);
     }
 
     // Trigger
-    if (pNewScriptToken == NULL)
+    if (pNewScriptToken == nullptr)
     {
         CUITrigger *pUITrigger(CUITriggerRegistry::GetInstance()->GetUITrigger(sSymbol));
-        if (pUITrigger != NULL)
+        if (pUITrigger != nullptr)
             pNewScriptToken = K2_NEW(ctx_Script,  CUIScriptToken)(pActiveWidget, pUITrigger);
     }
 
-    if (pNewScriptToken == NULL)
+    if (pNewScriptToken == nullptr)
     {
         Console.Warn << QuoteStr(GetCurrentEnvironment().m_sExpression) << newl << _T("Could not find a value for symbol: ") << sSymbol << newl;
         pNewScriptToken = K2_NEW(ctx_Script,  CUIScriptToken)(pActiveWidget, TSNULL);
     }
 
-    if (pResultToken != NULL)
+    if (pResultToken != nullptr)
     {
         pResultToken->AssignToken(pNewScriptToken);
         return pResultToken;
@@ -1289,7 +1289,7 @@ void    CExpressionEvaluator::PushOperator(IOperator *pOperator)
 {
     //PROFILE("CExpressionEvaluator::PushOperator");
 
-    if (pOperator == NULL)
+    if (pOperator == nullptr)
     {
         SetError(_T("Invalid operator"));
         return;
@@ -1355,7 +1355,7 @@ void    CExpressionEvaluator::PushToken(CEvaluatorToken *pToken)
 {
     //PROFILE("CExpressionEvaluator::PushToken");
 
-    if (pToken == NULL)
+    if (pToken == nullptr)
         return;
 
     Environment &environment(GetCurrentEnvironment());
@@ -1615,7 +1615,7 @@ bool    CExpressionEvaluator::Parse(const tstring &sExpression, EvalLookupFn pfn
 CMD(eval)
 {
     tstring sExpression(ConcatinateArgs(vArgList));
-    Console << ExpressionEvaluator.Evaluate(sExpression, NULL, VSNULL) << newl;
+    Console << ExpressionEvaluator.Evaluate(sExpression, nullptr, VSNULL) << newl;
     return true;
 }
 

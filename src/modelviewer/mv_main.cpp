@@ -150,8 +150,8 @@ INPUT_STATE_BOOL(HideEffect);
 INPUT_STATE_BOOL(AddBlocker);
 INPUT_STATE_BOOL(ClearBlocker);
 
-CHostClient     *g_pHostClient(NULL);
-CWorld          *g_pWorld(NULL);
+CHostClient     *g_pHostClient(nullptr);
+CWorld          *g_pWorld(nullptr);
 
 UI_TRIGGER(AnimList)
 
@@ -384,7 +384,7 @@ CMD(StartEffect)
         if (mv.apEffectThread[iChannel])
         {
             K2_DELETE(mv.apEffectThread[iChannel]);
-            mv.apEffectThread[iChannel] = NULL;
+            mv.apEffectThread[iChannel] = nullptr;
         }
 
         CEffectThread   *pEffectThread(pEffect->SpawnThread(g_pHostClient->GetTime()));
@@ -397,8 +397,8 @@ CMD(StartEffect)
 
         pEffectThread->SetSourceSkeleton(&g_Skeleton);
         pEffectThread->SetSourceModel(g_ResourceManager.GetModel(mv.hActiveModel));
-        pEffectThread->SetTargetSkeleton(NULL);
-        pEffectThread->SetTargetModel(NULL);
+        pEffectThread->SetTargetSkeleton(nullptr);
+        pEffectThread->SetTargetModel(nullptr);
 
         mv.apEffectThread[iChannel] = pEffectThread;
 
@@ -421,7 +421,7 @@ CMD(StopEffects)
         if (mv.apEffectThread[i])
         {
             K2_DELETE(mv.apEffectThread[i]);
-            mv.apEffectThread[i] = NULL;
+            mv.apEffectThread[i] = nullptr;
         }
     }
 
@@ -436,7 +436,7 @@ CMD(ExpireEffects)
 {
     for (int i(0); i < NUM_MV_EFFECTS; i++)
     {
-        if (mv.apEffectThread[i] != NULL)
+        if (mv.apEffectThread[i] != nullptr)
         {
             if (mv.apEffectThread[i]->IsDeferred())
                 mv.apEffectThread[i]->Expire(g_pHostClient->GetTime());
@@ -466,7 +466,7 @@ EVENT_CMD(StopEffect)
         if (mv.apEffectThread[iChannel])
         {
             K2_DELETE(mv.apEffectThread[iChannel]);
-            mv.apEffectThread[iChannel] = NULL;
+            mv.apEffectThread[iChannel] = nullptr;
         }
     }
 
@@ -513,7 +513,7 @@ EVENT_CMD(StartEffect)
         if (mv.apEffectThread[iChannel])
         {
             K2_DELETE(mv.apEffectThread[iChannel]);
-            mv.apEffectThread[iChannel] = NULL;
+            mv.apEffectThread[iChannel] = nullptr;
         }
 
         CEffectThread   *pEffectThread(pEffect->SpawnThread(g_pHostClient->GetTime() + iTimeNudge));
@@ -526,8 +526,8 @@ EVENT_CMD(StartEffect)
 
         pEffectThread->SetSourceSkeleton(&g_Skeleton);
         pEffectThread->SetSourceModel(g_ResourceManager.GetModel(mv.hActiveModel));
-        pEffectThread->SetTargetSkeleton(NULL);
-        pEffectThread->SetTargetModel(NULL);
+        pEffectThread->SetTargetSkeleton(nullptr);
+        pEffectThread->SetTargetModel(nullptr);
         
         // Update entity attachment information
         pEffectThread->SetSourcePos(CVec3f(model_x, model_y, model_z));
@@ -948,7 +948,7 @@ void    MV_UpdateAnimListUI(ResHandle hModel)
 {
     CInterface *pInterface(UIManager.GetInterface(_T("mv_main")));
 
-    if (hModel == INVALID_RESOURCE || pInterface == NULL)
+    if (hModel == INVALID_RESOURCE || pInterface == nullptr)
         return;
 
     // Clear list
@@ -978,11 +978,11 @@ bool    CL_Init(CHostClient *pHostClient)
     mv.hActiveModel = INVALID_RESOURCE;
 
     g_pHostClient = pHostClient;
-    if (pHostClient == NULL)
+    if (pHostClient == nullptr)
         return false;
 
     g_pWorld = g_pHostClient->GetWorld();
-    if (g_pWorld == NULL)
+    if (g_pWorld == nullptr)
         EX_ERROR(_T("Invalid CWorld from host"));
 
 #ifdef PATH_ANALYZER
@@ -1063,7 +1063,7 @@ bool    CL_Init(CHostClient *pHostClient)
         mv.ahSounds[i] = INVALID_INDEX;
 
     for (int i(0); i < NUM_MV_EFFECTS; i++)
-        mv.apEffectThread[i] = NULL;
+        mv.apEffectThread[i] = nullptr;
 
     MV_CenterCamera();
     return true;
@@ -1123,7 +1123,7 @@ void    CL_Frame()
             if (mv.apEffectThread[i])
             {
                 K2_DELETE(mv.apEffectThread[i]);
-                mv.apEffectThread[i] = NULL;
+                mv.apEffectThread[i] = nullptr;
             }
         }
         MV_UpdateAnimListUI(mv.hActiveModel);
@@ -1239,7 +1239,7 @@ void    CL_Frame()
         mv.camera.SetShadowBias(MAX(Distance(mv.camera.GetOrigin(), CVec3f(model_x, model_y, model_z)) + (g_bbModelBounds.GetDim(X) + g_bbModelBounds.GetDim(Y) + g_bbModelBounds.GetDim(Z)) / 3.0f - 500.0f, 0.0f));
 
         CInterface *pActiveInterface(UIManager.GetActiveInterface());
-        if (pActiveInterface != NULL)
+        if (pActiveInterface != nullptr)
         {
             float fWidth(pActiveInterface->GetSceneWidth());
             float fHeight(pActiveInterface->GetSceneHeight());
@@ -1353,7 +1353,7 @@ void    CL_Frame()
         for (int i(0); i < NUM_MV_EFFECTS; i++)
         {
             CEffectThread* pEffectThread(mv.apEffectThread[i]);
-            if (pEffectThread == NULL)
+            if (pEffectThread == nullptr)
                 continue;
 
             pEffectThread->SetActive(!DisableEffect);
@@ -1382,7 +1382,7 @@ void    CL_Frame()
             {
                 // Effect finished, so delete it
                 K2_DELETE(pEffectThread);
-                mv.apEffectThread[i] = NULL;
+                mv.apEffectThread[i] = nullptr;
             }
             else
             {
@@ -1423,7 +1423,7 @@ void    CL_Frame()
         CVec3f v3Pos(cEntity.GetPosition());
 
         CModel *pModel(g_ResourceManager.GetModel(cEntity.hRes));
-        if (pModel != NULL)
+        if (pModel != nullptr)
         {
             cEntity.flags |= SCENEENT_USE_AXIS;
             cEntity.axis = CAxis(cEntity.angle);
@@ -2031,7 +2031,7 @@ void    CL_Shutdown()
         if (mv.apEffectThread[i])
         {
             K2_DELETE(mv.apEffectThread[i]);
-            mv.apEffectThread[i] = NULL;
+            mv.apEffectThread[i] = nullptr;
         }
     }
     MV_StopAllSounds();
@@ -2535,7 +2535,7 @@ void    MV_DrawNavGrid()
 
     CNavGridZ *pNavGrid(cNavigationMap.PrepForSearch(NAVIGATION_UNIT | NAVIGATION_CLIFF, 0));
 
-    if (pNavGrid == NULL)
+    if (pNavGrid == nullptr)
         return;
 
     uint *pHorizontal(pNavGrid->GetHorizontal());
@@ -2601,7 +2601,7 @@ map<uint, PoolHandle>   g_mapBlockers;
   ====================*/
 void    MV_AddBlocker()
 {
-    if (g_pWorld == NULL)
+    if (g_pWorld == nullptr)
         return;
 
     CVec2f v2Pos(Input.GetCursorPos() * (g_pWorld->GetNavigationScale() / PATH_TILE_SIZE));
@@ -2637,7 +2637,7 @@ void    MV_AddBlocker()
   ====================*/
 void    MV_ClearBlocker()
 {
-    if (g_pWorld == NULL)
+    if (g_pWorld == nullptr)
         return;
 
     CVec2f v2Pos(Input.GetCursorPos() * (g_pWorld->GetNavigationScale() / PATH_TILE_SIZE));
@@ -2680,7 +2680,7 @@ void    MV_DrawHoverTile()
     if (uiX >= uint(g_pWorld->GetNavigationWidth()) || uiY >= uint(g_pWorld->GetNavigationHeight()))
         return;
 
-    if (!g_pWorld->GetNavigationMap().IsReady() || g_pWorld->GetNavigationGraph().GetNode(0, 0) == NULL)
+    if (!g_pWorld->GetNavigationMap().IsReady() || g_pWorld->GetNavigationGraph().GetNode(0, 0) == nullptr)
         return;
 
     CNavigationGraph &cNavGraph(g_pWorld->GetNavigationGraph());
@@ -2707,8 +2707,8 @@ void    MV_DrawHoverTile()
     else
     {
         CSearchNode *pDrawNode0(pNode);
-        CSearchNode *pDrawNode1(pDrawNode0->ParentDirection() != SD_INVALID ? cNavGraph.FindNeighbor(pDrawNode0, pDrawNode0->ParentDirection()) : NULL);
-        while (pDrawNode1 != NULL)
+        CSearchNode *pDrawNode1(pDrawNode0->ParentDirection() != SD_INVALID ? cNavGraph.FindNeighbor(pDrawNode0, pDrawNode0->ParentDirection()) : nullptr);
+        while (pDrawNode1 != nullptr)
         {
             CVec2f v0, v1;
 
@@ -2737,7 +2737,7 @@ void    MV_DrawHoverTile()
             Draw2D.Line(v0, v1, LIME, LIME);
 
             pDrawNode0 = pDrawNode1;
-            pDrawNode1 = pDrawNode0->ParentDirection() != SD_INVALID ? cNavGraph.FindNeighbor(pDrawNode0, pDrawNode0->ParentDirection()) : NULL;
+            pDrawNode1 = pDrawNode0->ParentDirection() != SD_INVALID ? cNavGraph.FindNeighbor(pDrawNode0, pDrawNode0->ParentDirection()) : nullptr;
         }
 
         Draw2D.SetColor(LIME);
@@ -2794,7 +2794,7 @@ void    MV_DrawNodes()
         g_ResourceManager.Register(K2_NEW(ctx_ModelViewer,  CTexture)(_T("/test/textures/circle.tga"), TEXTURE_2D, TEX_FULL_QUALITY | TEX_NO_COMPRESS, TEXFMT_A8R8G8B8), RES_TEXTURE)
     };
 
-    if (!g_pWorld->GetNavigationMap().IsReady() || g_pWorld->GetNavigationGraph().GetNode(0, 0) == NULL)
+    if (!g_pWorld->GetNavigationMap().IsReady() || g_pWorld->GetNavigationGraph().GetNode(0, 0) == nullptr)
         return;
 
     uint uiGridWidth(MIN(INT_ROUND(Draw2D.GetScreenW() / PATH_TILE_SIZE), g_pWorld->GetNavigationWidth()));
@@ -2829,7 +2829,7 @@ void    MV_DrawNodes()
   ====================*/
 void    MV_DrawPath()
 {
-    if (g_pWorld == NULL || !g_pWorld->IsLoaded() || &g_pWorld->GetNavigationMap() == NULL)
+    if (g_pWorld == nullptr || !g_pWorld->IsLoaded() || &g_pWorld->GetNavigationMap() == nullptr)
         return;
 
     ICvar::SetBool(_T("g_PathDetail"), true);
@@ -3518,7 +3518,7 @@ CMD(RegisterCursor)
 
     ResHandle hCursor(g_ResourceManager.Register(vArgList[0], RES_K2CURSOR));
     CCursor *pCursor(g_ResourceManager.GetCursor(hCursor));
-    if (pCursor == NULL)
+    if (pCursor == nullptr)
         return false;
 
     return true;

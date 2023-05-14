@@ -156,7 +156,7 @@ void    CEntityEffect::Interpolate(float fLerp, IVisualEntity *pPrevState, IVisu
   ====================*/
 void    CEntityEffect::UpdateEffectThread(CEffectThread *pEffectThread)
 {
-    IVisualEntity *pSourceEntity(m_uiSourceEntityIndex != INVALID_INDEX ? Game.GetVisualEntity(m_uiSourceEntityIndex) : NULL);
+    IVisualEntity *pSourceEntity(m_uiSourceEntityIndex != INVALID_INDEX ? Game.GetVisualEntity(m_uiSourceEntityIndex) : nullptr);
     if (pSourceEntity)
     {
         pEffectThread->SetSourceModel(g_ResourceManager.GetModel(pSourceEntity->GetModel()));
@@ -174,14 +174,14 @@ void    CEntityEffect::UpdateEffectThread(CEffectThread *pEffectThread)
     }
     else
     {
-        pEffectThread->SetSourceModel(NULL);
-        pEffectThread->SetSourceSkeleton(NULL);
+        pEffectThread->SetSourceModel(nullptr);
+        pEffectThread->SetSourceSkeleton(nullptr);
 
         pEffectThread->SetSourcePos(m_v3Position);
         pEffectThread->SetSourceAxis(CAxis(m_v3Angles));
     }
 
-    IVisualEntity *pTargetEntity(m_uiTargetEntityIndex != INVALID_INDEX ? Game.GetVisualEntity(m_uiTargetEntityIndex) : NULL);
+    IVisualEntity *pTargetEntity(m_uiTargetEntityIndex != INVALID_INDEX ? Game.GetVisualEntity(m_uiTargetEntityIndex) : nullptr);
     if (pTargetEntity)
     {
         pEffectThread->SetTargetModel(g_ResourceManager.GetModel(pTargetEntity->GetModel()));
@@ -199,8 +199,8 @@ void    CEntityEffect::UpdateEffectThread(CEffectThread *pEffectThread)
     }
     else
     {
-        pEffectThread->SetTargetModel(NULL);
-        pEffectThread->SetTargetSkeleton(NULL);
+        pEffectThread->SetTargetModel(nullptr);
+        pEffectThread->SetTargetSkeleton(nullptr);
 
         pEffectThread->SetTargetPos(m_v3TargetPosition);
         pEffectThread->SetTargetAxis(CAxis(m_v3TargetAngles));

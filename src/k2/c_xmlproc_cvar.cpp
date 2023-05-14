@@ -26,7 +26,7 @@ namespace XMLInterface
         try
         {
             CInterface *pInterface(pObject->GetInterface());
-            if (pInterface == NULL)
+            if (pInterface == nullptr)
                 EX_ERROR(_T("Interface pointer not set for <cvar> tag"));
 
             if (!node.HasProperty(_T("name")))
@@ -54,7 +54,7 @@ namespace XMLInterface
                 eType = CT_STRING; // Default
 
             ICvar *pCvar(ICvar::Create(sName, eType, sValue, 0)); 
-            if (pCvar == NULL)
+            if (pCvar == nullptr)
                 EX_ERROR(_T("Create failed"));
 
             return true;

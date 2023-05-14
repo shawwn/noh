@@ -14,7 +14,7 @@
 //=============================================================================
 // Globals
 //=============================================================================
-FT_Library  IFreeTypeResource::s_FTLibrary(NULL);
+FT_Library  IFreeTypeResource::s_FTLibrary(nullptr);
 bool        IFreeTypeResource::s_bInitialized(false);
 //=============================================================================
 

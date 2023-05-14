@@ -48,7 +48,7 @@ public:
     static int      Create(
         const Handler&      pFunc,
         ThreadParam&        cFuncParam,
-        Handle*             pOutHandle = NULL,
+        Handle*             pOutHandle = nullptr,
         const bool          bCreateDetached = false,
         const size_t        uiStackSize = 0,
         const bool          bCancelEnable = false,
@@ -82,7 +82,7 @@ public:
     // Create
     int             Create(
         const ThreadParam&  cFuncParam,
-        Handle*             pOutHandle = NULL,
+        Handle*             pOutHandle = nullptr,
         const bool          bCreateDetached = false,
         const size_t        uiStackSize = 0,
         const bool          bCancelEnable = false,
@@ -146,16 +146,16 @@ private:
 
         if (I->Flags & 1 /*bCancelEnable*/)
         {
-            pthread_setcancelstate(PTHREAD_CANCEL_ENABLE,NULL);
+            pthread_setcancelstate(PTHREAD_CANCEL_ENABLE,nullptr);
 
             if (I->Flags & 2 /*bCancelAsync*/)
-                pthread_setcanceltype(PTHREAD_CANCEL_ASYNCHRONOUS,NULL);
+                pthread_setcanceltype(PTHREAD_CANCEL_ASYNCHRONOUS,nullptr);
             else
-                pthread_setcanceltype(PTHREAD_CANCEL_DEFERRED,NULL);
+                pthread_setcanceltype(PTHREAD_CANCEL_DEFERRED,nullptr);
         }
         else
         {
-            pthread_setcancelstate(PTHREAD_CANCEL_DISABLE,NULL);
+            pthread_setcancelstate(PTHREAD_CANCEL_DISABLE,nullptr);
         }
 
         if (I->Owner)
@@ -215,7 +215,7 @@ public:
     // Create
     static int  Create(
         const Handler&      pFunc,
-        Handle*             pOutHandle = NULL,
+        Handle*             pOutHandle = nullptr,
         const bool          bCreateDetached = false,
         const size_t        uiStackSize = 0,
         const bool          bCancelEnable = false,
@@ -248,7 +248,7 @@ public:
 
     // Create
     int             Create(
-        Handle*         pOutHandle = NULL,
+        Handle*         pOutHandle = nullptr,
         const bool      bCreateDetached = false,
         const size_t    uiStackSize = 0,
         const bool      bCancelEnable = false,
@@ -312,16 +312,16 @@ private:
 
         if (I.Flags & 1 /*bCancelEnable*/)
         {
-            pthread_setcancelstate(PTHREAD_CANCEL_ENABLE, NULL);
+            pthread_setcancelstate(PTHREAD_CANCEL_ENABLE, nullptr);
 
             if (I.Flags & 2 /*bCancelAsync*/)
-                pthread_setcanceltype(PTHREAD_CANCEL_ASYNCHRONOUS, NULL);
+                pthread_setcanceltype(PTHREAD_CANCEL_ASYNCHRONOUS, nullptr);
             else
-                pthread_setcanceltype(PTHREAD_CANCEL_DEFERRED, NULL);
+                pthread_setcanceltype(PTHREAD_CANCEL_DEFERRED, nullptr);
         }
         else
         {
-            pthread_setcancelstate(PTHREAD_CANCEL_DISABLE, NULL);
+            pthread_setcancelstate(PTHREAD_CANCEL_DISABLE, nullptr);
         }
 
         if (I.Owner)

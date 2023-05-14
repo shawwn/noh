@@ -582,7 +582,7 @@ void    CGfxMaterials::SetSampler(int iTextureStage, GLenum eTextureType, const 
     if (hTexture != INVALID_RESOURCE)
     {
         CTexture *pTexture(g_ResourceManager.GetTexture(hTexture));
-        uint uiTextureID(pTexture != NULL ? uiSubTexture > 0 ? pTexture->GetIndex2() : pTexture->GetIndex() : 0);
+        uint uiTextureID(pTexture != nullptr ? uiSubTexture > 0 ? pTexture->GetIndex2() : pTexture->GetIndex() : 0);
         
         glBindTexture(eTextureType, uiTextureID);
 
@@ -740,7 +740,7 @@ bool    CGfxMaterials::UpdateShaderTexture(int iTextureStage, ResHandle hTexture
     if (hTexture != INVALID_RESOURCE)
     {
         CTexture *pTexture(g_ResourceManager.GetTexture(hTexture));
-        uint uiTextureID(pTexture != NULL ? uiSubTexture > 0 ? pTexture->GetIndex2() : pTexture->GetIndex() : 0);
+        uint uiTextureID(pTexture != nullptr ? uiSubTexture > 0 ? pTexture->GetIndex2() : pTexture->GetIndex() : 0);
         glBindTexture(eTextureType, uiTextureID);
 
         return true;
@@ -780,7 +780,7 @@ bool    CGfxMaterials::UpdateShaderTexture(const tstring &sSampler, ResHandle hT
                 m_aTextureUnits[iTextureStage].eTextureType = eTextureType;
 
             CTexture *pTexture(g_ResourceManager.GetTexture(hTexture));
-            uint uiTextureID(pTexture != NULL ? uiSubTexture > 0 ? pTexture->GetIndex2() : pTexture->GetIndex() : 0);
+            uint uiTextureID(pTexture != nullptr ? uiSubTexture > 0 ? pTexture->GetIndex2() : pTexture->GetIndex() : 0);
             
             glBindTexture(eTextureType, uiTextureID);
         

@@ -68,7 +68,7 @@ UI_TRIGGER(PaintNormalmapTexture);
   ====================*/
 CPaintTool::CPaintTool() :
 ITool(TOOL_PAINT, _T("paint")),
-m_pMaterialBrush(NULL),
+m_pMaterialBrush(nullptr),
 m_hMaterial(INVALID_RESOURCE),
 m_hDiffuse(INVALID_RESOURCE),
 m_hNormalmap(INVALID_RESOURCE),
@@ -399,7 +399,7 @@ void     CPaintTool::CalcToolProperties()
         if (m_pMaterialBrush)
         {
             delete m_pMaterialBrush;
-            m_pMaterialBrush = NULL;
+            m_pMaterialBrush = nullptr;
         }
 
         m_pMaterialBrush = K2_NEW(ctx_Editor,   CMaterialBrush)(_T("/brushes/materials/") + le_paintMaterial + _T(".xml"));
@@ -475,12 +475,12 @@ void    CPaintTool::LerpAlpha(CVec4b *pRegion, const CRecti &recArea, const CBru
   ====================*/
 void    CPaintTool::PaintVertex(float fFrameTime)
 {
-    CVec4b *pRegion(NULL);
+    CVec4b *pRegion(nullptr);
 
     try
     {
         CBrush *pBrush(CBrush::GetCurrentBrush());
-        if (pBrush == NULL)
+        if (pBrush == nullptr)
             EX_ERROR(_T("No brush selected"));
 
         //if (!Editor.GetWorld().IsInBounds(m_iX, m_iY, GRID_SPACE))
@@ -524,7 +524,7 @@ void    CPaintTool::PaintVertex(float fFrameTime)
     }
     catch (CException &ex)
     {
-        if (pRegion != NULL)
+        if (pRegion != nullptr)
             K2_DELETE_ARRAY(pRegion);
 
         ex.Process(_T("CPaintTool::PaintVertex() - "), NO_THROW);
@@ -725,7 +725,7 @@ void    CPaintTool::ApplyTextureMaterial(STile *pRegion, const CRecti &recArea, 
   ====================*/
 void    CPaintTool::PaintTile(float fFrameTime)
 {
-    STile *pRegion(NULL);
+    STile *pRegion(nullptr);
 
     try
     {
@@ -733,7 +733,7 @@ void    CPaintTool::PaintTile(float fFrameTime)
         int iBrushSize, iX = m_iTexelX, iY = m_iTexelY;
 
         CBrush *pBrush(CBrush::GetCurrentBrush());
-        if (pBrush == NULL)
+        if (pBrush == nullptr)
             EX_ERROR(_T("No brush selected"));
 
     //  if (!Editor.GetWorld().IsInBounds(m_iX, m_iY, TILE_SPACE))
@@ -792,7 +792,7 @@ void    CPaintTool::PaintTile(float fFrameTime)
 
         // Get the region
         pRegion = K2_NEW_ARRAY(ctx_Editor, STile, recClippedBrush.GetArea());
-        if (pRegion == NULL)
+        if (pRegion == nullptr)
             EX_ERROR(_T("Failed to allocate region"));
 
         if (!Editor.GetWorld().GetRegion(WORLD_TILE_MATERIAL_MAP, recClippedBrush, pRegion, le_paintLayer))
@@ -824,7 +824,7 @@ void    CPaintTool::PaintTile(float fFrameTime)
     }
     catch (CException &ex)
     {
-        if (pRegion != NULL)
+        if (pRegion != nullptr)
             K2_DELETE_ARRAY(pRegion);
 
         ex.Process(_T("CPaintTool::PaintTile() - "), NO_THROW);
@@ -865,12 +865,12 @@ void    CPaintTool::LerpTexelAlpha(byte *pRegion, const CRecti &recArea, const C
   ====================*/
 void    CPaintTool::PaintTexel(float fFrameTime)
 {
-    byte *pRegion(NULL);
+    byte *pRegion(nullptr);
 
     try
     {
         CBrush *pBrush(CBrush::GetCurrentBrush());
-        if (pBrush == NULL)
+        if (pBrush == nullptr)
             EX_ERROR(_T("No brush selected"));
 
         //if (!Editor.GetWorld().IsInBounds(m_iTexelX, m_iTexelY, TEXEL_SPACE))
@@ -890,7 +890,7 @@ void    CPaintTool::PaintTexel(float fFrameTime)
 
         // Get the region
         pRegion = K2_NEW_ARRAY(ctx_Editor, byte, recClippedBrush.GetArea());
-        if (pRegion == NULL)
+        if (pRegion == nullptr)
             EX_ERROR(_T("Failed to allocate region"));
 
         if (!Editor.GetWorld().GetRegion(WORLD_TEXEL_ALPHA_MAP, recClippedBrush, pRegion, 0))
@@ -917,7 +917,7 @@ void    CPaintTool::PaintTexel(float fFrameTime)
     }
     catch (CException &ex)
     {
-        if (pRegion != NULL)
+        if (pRegion != nullptr)
             K2_DELETE_ARRAY(pRegion);
 
         ex.Process(_T("CPaintTool::PaintTile() - "), NO_THROW);

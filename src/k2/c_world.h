@@ -79,10 +79,10 @@ typedef deque<IWorldComponent*>         WorldComponentList;
 typedef WorldComponentList::iterator    WorldComponentList_it;
 
 #define ADD_COMPONENT(id, name, host) \
-if (m_yHostType & (host) && m_apWorldComponents[id] == NULL) \
+if (m_yHostType & (host) && m_apWorldComponents[id] == nullptr) \
 { \
     m_p##name = K2_NEW(ctx_World,  C##name)(id); \
-    if (m_p##name == NULL) \
+    if (m_p##name == nullptr) \
     { \
         Console.Err << _T("Failure allocating world component: ") _T(#name) << newl; \
         Free(); \
@@ -94,9 +94,9 @@ if (m_yHostType & (host) && m_apWorldComponents[id] == NULL) \
 }
 
 #define CLEAR_COMPONENT(id, name, host) \
-if (m_yHostType & (host) && m_apWorldComponents[id] == NULL) \
+if (m_yHostType & (host) && m_apWorldComponents[id] == nullptr) \
 { \
-    m_p##name = NULL; \
+    m_p##name = nullptr; \
 }
 
 const byte WORLDHOST_NULL   (0);
@@ -344,7 +344,7 @@ public:
     const CVec3f&       GetGridTangent(int iX, int iY) const                        { return m_pVertexTangentMap->GetVertexTangent(iX, iY); }
     const CVec4b&       GetGridColor(int iX, int iY) const                          { return m_pVertexColorMap->GetVertexColor(iX, iY); }
     byte                GetTexelAlpha(int iX, int iY) const                         { return m_pTexelAlphaMap ? m_pTexelAlphaMap->GetTexelAlpha(iX, iY) : 255; }
-    bool                HasTexelAlphaMap() const                                    { return m_pTexelAlphaMap != NULL; }
+    bool                HasTexelAlphaMap() const                                    { return m_pTexelAlphaMap != nullptr; }
     byte                GetTexelOcclusion(int iX, int iY) const                     { return m_pTexelOcclusionMap->GetTexelOcclusion(iX, iY); }
     float*              GetHeightMap() const                                        { return m_pHeightMap->GetHeightMap(); }
     byte*               GetSplitMap() const                                         { return m_pTileSplitMap->GetSplitMap(); }
@@ -465,7 +465,7 @@ public:
     K2_API CPath*           AccessPath(PoolHandle hPath) const                      { return m_pWorldPaths->GetReferenceByHandle(hPath); }
     K2_API PoolHandle       NewPath() const                                         { return m_pWorldPaths->New(CPath()); }
     K2_API PoolHandle       ClonePath(PoolHandle hPath) const;
-    K2_API PoolHandle       FindPath(const CVec2f &v2Src, float fEntityWidth, uint uiNavigationFlags, const CVec2f &v2Goal, float fGoalRange, vector<PoolHandle> *pBlockers = NULL) const;
+    K2_API PoolHandle       FindPath(const CVec2f &v2Src, float fEntityWidth, uint uiNavigationFlags, const CVec2f &v2Goal, float fGoalRange, vector<PoolHandle> *pBlockers = nullptr) const;
     K2_API void             FreePath(PoolHandle hPath) const                        { m_pWorldPaths->Free(hPath); }
     K2_API PoolHandle       BlockPath(uint uiFlags, const CVec2f &v2Position, float fWidth, float fHeight);
     K2_API void             BlockPath(vector<PoolHandle> &vecBlockers, uint uiFlags, const CConvexPolyhedron &cSurf, float fStepHeight);

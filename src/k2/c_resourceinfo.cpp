@@ -113,7 +113,7 @@ CGraphResource::~CGraphResource()
   CGraphResource::CGraphResource
   ====================*/
 CGraphResource::CGraphResource()
-: m_pPrevParent(NULL)
+: m_pPrevParent(nullptr)
 , m_hResource(INVALID_RESOURCE)
 , m_bValid(true)
 , m_bDone(false)
@@ -196,7 +196,7 @@ void    CGraphResource::Done()
         return;
 
     bool bIsToplevel(false);
-    if (s_pCurrentParent == NULL)
+    if (s_pCurrentParent == nullptr)
         bIsToplevel = true;
     if (m_bLinking)
         bIsToplevel = false;
@@ -224,7 +224,7 @@ void    CGraphResource::Done()
     if (!m_bLinking)
     {
         // add our handle as a child of the parent resource.
-        if (s_pCurrentParent != NULL)
+        if (s_pCurrentParent != nullptr)
             s_pCurrentParent->m_setChildren.insert(m_hResource);
 
         // add to the active context.
@@ -246,7 +246,7 @@ void    CGraphResource::LinkExistingChild(ResHandle hResource)
     if (hResource == INVALID_RESOURCE)
         return;
 
-    if (s_pCurrentParent == NULL)
+    if (s_pCurrentParent == nullptr)
     {
         g_ResourceInfo.InfoAddToActiveContext(hResource);
         return;
@@ -268,7 +268,7 @@ CResourceInfo::SResInfo*    CResourceInfo::InfoAlloc(ResHandle hRes)
 {
     assert(hRes != INVALID_RESOURCE);
     if (hRes == INVALID_RESOURCE)
-        return NULL;
+        return nullptr;
 
     return &m_mapResInfo[hRes];
 }
@@ -294,8 +294,8 @@ void    CResourceInfo::InfoFree(ResHandle hRes)
 void    CResourceInfo::InfoClearChildren(ResHandle hRes)
 {
     SResInfo* pInfo(LookupInfo(hRes));
-    assert(pInfo != NULL);
-    if (pInfo == NULL)
+    assert(pInfo != nullptr);
+    if (pInfo == nullptr)
         return;
 
     pInfo->setChildren.clear();
@@ -310,8 +310,8 @@ void    CResourceInfo::InfoAddChildren(ResHandle hRes, const ResourceSet& setChi
     PROFILE("CResourceInfo::InfoAddChildren");
 
     SResInfo* pInfo(LookupInfo(hRes));
-    assert(pInfo != NULL);
-    if (pInfo == NULL)
+    assert(pInfo != nullptr);
+    if (pInfo == nullptr)
         return;
 
     // merge.
@@ -333,8 +333,8 @@ void    CResourceInfo::InfoAddToActiveContext(ResHandle hRes)
     PROFILE("CResourceInfo::InfoAddToActiveContext");
 
     SResInfo* pInfo(LookupInfo(hRes));
-    assert(pInfo != NULL);
-    if (pInfo == NULL)
+    assert(pInfo != nullptr);
+    if (pInfo == nullptr)
         return;
 
     assert(!m_stkPushedContexts.empty());
@@ -429,11 +429,11 @@ void    CResourceInfo::IterateToplevel(const IResourceGraphIterator& vIterator)
 void    CResourceInfo::IterateContext(const IResourceGraphIterator& vIterator, const tstring &sCtxName, SResContext* pCtx)
 {
     IResourceGraphIterator* pIterator = const_cast<IResourceGraphIterator*>(&vIterator);
-    if (pCtx == NULL)
+    if (pCtx == nullptr)
         pCtx = LookupContext(sCtxName);
 
-    assert(pCtx != NULL);
-    if (pCtx == NULL)
+    assert(pCtx != nullptr);
+    if (pCtx == nullptr)
         return;
 
     ResInfoStack stkParents;
@@ -453,13 +453,13 @@ void    CResourceInfo::IterateContext(const IResourceGraphIterator& vIterator, c
 CResourceInfo::SResInfo*    CResourceInfo::LookupInfo(ResHandle hRes, bool bAllocate)
 {
     if (hRes == INVALID_RESOURCE)
-        return NULL;
+        return nullptr;
 
     ResInfoMap::iterator itFind(m_mapResInfo.find(hRes));
     if (itFind == m_mapResInfo.end())
     {
         if (!bAllocate)
-            return NULL;
+            return nullptr;
 
         itFind = m_mapResInfo.insert(std::make_pair(hRes, SResInfo())).first;
     }
@@ -476,13 +476,13 @@ CResourceInfo::SResContext* CResourceInfo::LookupContext(const tstring &sCtxName
 {
     assert(!sCtxName.empty());
     if (sCtxName.empty())
-        return NULL;
+        return nullptr;
 
     ResContextMap::iterator itFind(m_mapResContexts.find(sCtxName));
     if (itFind == m_mapResContexts.end())
     {
         if (!bAllocate)
-            return NULL;
+            return nullptr;
 
         itFind = m_mapResContexts.insert(std::make_pair(sCtxName, SResContext())).first;
     }
@@ -532,8 +532,8 @@ void    CResourceInfo::ActivateContextPushTop(const tstring &sCtxName)
 
     // allocate the context if necessary.
     SResContext* pContext(LookupContext(sCtxName, true));
-    assert(pContext != NULL);
-    if (pContext == NULL)
+    assert(pContext != nullptr);
+    if (pContext == nullptr)
         return;
 
     ResContextMap::iterator itFind(m_mapResContexts.find(sCtxName));
@@ -554,8 +554,8 @@ void    CResourceInfo::ActivateContextPushTop(const tstring &sCtxName)
 bool    CResourceInfo::DeactivateContextPopTop(const tstring &sCtxName)
 {
     SResContext* pContext(LookupContext(sCtxName));
-    assert(pContext != NULL);
-    if (pContext == NULL)
+    assert(pContext != nullptr);
+    if (pContext == nullptr)
         return false;
 
     assert(!m_stkPushedContexts.empty());
@@ -633,12 +633,12 @@ void    CResourceInfo::CalcOrphanedResources()
   ====================*/
 void    CResourceInfo::PrintContext(CConsoleStream& cStream, const tstring &sCtxName, const tstring &sWildcardChildren, SResContext* pCtx)
 {
-    if (pCtx == NULL)
+    if (pCtx == nullptr)
         pCtx = LookupContext(sCtxName);
 
-    if (pCtx == NULL)
+    if (pCtx == nullptr)
     {
-        cStream << _T("^r[NULL context]");
+        cStream << _T("^r[nullptr context]");
         return;
     }
 
@@ -738,7 +738,7 @@ bool    CResourceInfo::ExecCommand(const tstring &sCommand, const tsvector& vArg
                 // print the resource.
                 g_ResourceManager.PrintResource(cStream, pRes,
                     false, 
-                    (bMatched ? NULL : _T("^v")));
+                    (bMatched ? nullptr : _T("^v")));
                 cStream << newl;
             }
             ForEachResChainEnd_DoAllToplevel();
@@ -818,7 +818,7 @@ bool    CResourceInfo::ExecCommand(const tstring &sCommand, const tsvector& vArg
                     bWildcard = true;
 
                 // global context.
-                SResContext* pGlobalCtx(NULL);
+                SResContext* pGlobalCtx(nullptr);
                 if (!m_stkPushedContexts.empty())
                     pGlobalCtx = &((*m_stkPushedContexts.front()).second);
 
@@ -888,21 +888,21 @@ bool    CResourceInfo::ExecCommand(const tstring &sCommand, const tsvector& vArg
                 const tstring &sDstContextName(vArgs[2]);
 
                 SResContext* pSrcContext(LookupContext(sSrcContextName));
-                if (pSrcContext == NULL)
+                if (pSrcContext == nullptr)
                     EX_ERROR(_TS("unknown source context '") + sSrcContextName + _T("'"));
 
                 bool bReplacing(false);
                 uint uiPrevResCount(0);
 
                 SResContext* pDstContext(LookupContext(sDstContextName));
-                if (pDstContext != NULL)
+                if (pDstContext != nullptr)
                 {
                     bReplacing = true;
                     uiPrevResCount = (uint)pDstContext->setToplevelResources.size();
                 }
                 else
                     pDstContext = LookupContext(sDstContextName, true);
-                assert(pDstContext != NULL);
+                assert(pDstContext != nullptr);
 
                 pDstContext->setToplevelResources = pSrcContext->setToplevelResources;
 
@@ -943,14 +943,14 @@ bool    CResourceInfo::ExecCommand(const tstring &sCommand, const tsvector& vArg
                 const tstring &sDstContextName(vArgs[2]);
 
                 SResContext* pSrcContext(LookupContext(sSrcContextName));
-                if (pSrcContext == NULL)
+                if (pSrcContext == nullptr)
                     EX_ERROR(_TS("unknown source context '") + sSrcContextName + _T("'"));
 
                 bool bReplacing(false);
                 uint uiPrevResCount(0);
 
                 SResContext* pDstContext(LookupContext(sDstContextName));
-                if (pDstContext != NULL)
+                if (pDstContext != nullptr)
                 {
                     bReplacing = true;
                     uiPrevResCount = (uint)pDstContext->setToplevelResources.size();
@@ -959,7 +959,7 @@ bool    CResourceInfo::ExecCommand(const tstring &sCommand, const tsvector& vArg
                 {
                     pDstContext = LookupContext(sDstContextName, true);
                 }
-                assert(pDstContext != NULL);
+                assert(pDstContext != nullptr);
 
                 pDstContext->setToplevelResources = pSrcContext->setToplevelResources;
 
@@ -1003,7 +1003,7 @@ bool    CResourceInfo::ExecCommand(const tstring &sCommand, const tsvector& vArg
                 const tstring &sContextName(vArgs[0]);
 
                 SResContext* pSrcContext(LookupContext(sContextName));
-                if (pSrcContext == NULL)
+                if (pSrcContext == nullptr)
                     Console << XtoA(_T("false"));
                 else
                     Console << XtoA(_T("true"));

@@ -467,7 +467,7 @@ const char* CEntitySnapshot::GetNextField(uint uiSize) const
         if (uiSize != uiSize2)
             EX_ERROR(_T("Size mismatch"));
 #endif
-        const char *pBuffer(NULL);
+        const char *pBuffer(nullptr);
         if (IsFieldSet(m_uiReadIndex))
         {
             pBuffer = m_cBuffer.Get(m_cBuffer.GetReadPos());
@@ -480,7 +480,7 @@ const char* CEntitySnapshot::GetNextField(uint uiSize) const
     catch (CException &ex)
     {
         ex.Process(_T("CEntitySnapshot::GetNextField() - "));
-        return NULL;
+        return nullptr;
     }
 }
 

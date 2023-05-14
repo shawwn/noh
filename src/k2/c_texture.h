@@ -90,7 +90,7 @@ public:
     K2_API  virtual const tstring&  GetResTypeName() const      { return ResTypeName(); }
     K2_API  static const tstring&   ResTypeName()               { static tstring sTypeName(_T("{texture}")); return sTypeName; }
 
-    bool            HasBitmap()                         { return m_pBitmap != NULL; }
+    bool            HasBitmap()                         { return m_pBitmap != nullptr; }
     void            SetBitmap(const CBitmap *pBitmap)   { m_pBitmap = pBitmap; }
     const CBitmap*  GetBitmap()                         { return m_pBitmap; }
 

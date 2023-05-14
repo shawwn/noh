@@ -54,13 +54,13 @@ UI_TRIGGER(RefreshInfosStatus);
   ====================*/
 CClientAccount::CClientAccount(CHTTPManager *pHTTPManager) :
 m_pHTTPManager(pHTTPManager),
-m_pSRP(NULL),
-m_pPreAuthRequest(NULL),
-m_pAuthRequest(NULL),
-m_pChangePasswordRequest(NULL),
-m_pSelectUpgradesRequest(NULL),
-m_pRefreshUpgradesRequest(NULL),
-m_pRefreshInfosRequest(NULL),
+m_pSRP(nullptr),
+m_pPreAuthRequest(nullptr),
+m_pAuthRequest(nullptr),
+m_pChangePasswordRequest(nullptr),
+m_pSelectUpgradesRequest(nullptr),
+m_pRefreshUpgradesRequest(nullptr),
+m_pRefreshInfosRequest(nullptr),
 
 m_eStatus(CLIENT_LOGIN_OFFLINE),
 m_eChangePasswordStatus(CLIENT_CHANGE_PASSWORD_UNUSED),
@@ -113,22 +113,22 @@ void    CClientAccount::Disconnect(const tstring &sReason, EClientLoginStatus eS
     SAFE_DELETE(m_pSRP);
 
     m_pHTTPManager->ReleaseRequest(m_pPreAuthRequest);
-    m_pPreAuthRequest = NULL;
+    m_pPreAuthRequest = nullptr;
 
     m_pHTTPManager->ReleaseRequest(m_pAuthRequest);
-    m_pAuthRequest = NULL;
+    m_pAuthRequest = nullptr;
 
     m_pHTTPManager->ReleaseRequest(m_pChangePasswordRequest);
-    m_pChangePasswordRequest = NULL;
+    m_pChangePasswordRequest = nullptr;
 
     m_pHTTPManager->ReleaseRequest(m_pSelectUpgradesRequest);
-    m_pSelectUpgradesRequest = NULL;
+    m_pSelectUpgradesRequest = nullptr;
 
     m_pHTTPManager->ReleaseRequest(m_pRefreshUpgradesRequest);
-    m_pRefreshUpgradesRequest = NULL;
+    m_pRefreshUpgradesRequest = nullptr;
 
     m_pHTTPManager->ReleaseRequest(m_pRefreshInfosRequest);
-    m_pRefreshInfosRequest = NULL;
+    m_pRefreshInfosRequest = nullptr;
 
     m_eStatus = eStatus;
     m_sStatusDescription = sReason;
@@ -185,7 +185,7 @@ void    CClientAccount::Cancel()
 void    CClientAccount::Logout()
 {
     CHTTPRequest *pLogoutRequest(m_pHTTPManager->SpawnRequest());
-    if (pLogoutRequest == NULL)
+    if (pLogoutRequest == nullptr)
         return;
 
     pLogoutRequest->SetTargetURL(K2System.GetMasterServerAddress() + "/client_requester.php");
@@ -243,7 +243,7 @@ void    CClientAccount::Connect(const tstring &sUser, const tstring &sPassword)
         tstring sA = m_pSRP->Start(sUser, sPassword);
 
         m_pPreAuthRequest = m_pHTTPManager->SpawnRequest();
-        if (m_pPreAuthRequest == NULL)
+        if (m_pPreAuthRequest == nullptr)
             return;
 
         m_pPreAuthRequest->SetTargetURL(K2System.GetMasterServerAddress() + "/client_requester.php");
@@ -266,7 +266,7 @@ void    CClientAccount::Connect(const tstring &sUser, const tstring &sPassword)
     } else {
         // Send an authorization message to the DB
         m_pAuthRequest = m_pHTTPManager->SpawnRequest();
-        if (m_pAuthRequest == NULL)
+        if (m_pAuthRequest == nullptr)
             return;
 
         m_pAuthRequest->SetTargetURL(K2System.GetMasterServerAddress() + "/client_requester.php");
@@ -309,7 +309,7 @@ void    CClientAccount::ChangePassword(const tstring &sUser, const tstring &sOld
     m_sChangePasswordStatusDescription = _T("Sending the request to change your password, please wait...");
 
     m_pChangePasswordRequest = m_pHTTPManager->SpawnRequest();
-    if (m_pChangePasswordRequest == NULL)
+    if (m_pChangePasswordRequest == nullptr)
         return;
 
     m_pChangePasswordRequest->SetTargetURL(_T("www.heroesofnewerth.com/clientPassUpdate.php"));
@@ -334,7 +334,7 @@ void    CClientAccount::ChangePassword(const tstring &sUser, const tstring &sOld
   ====================*/
 void    CClientAccount::Frame()
 {
-    if (m_pPreAuthRequest != NULL && !m_pPreAuthRequest->IsActive())
+    if (m_pPreAuthRequest != nullptr && !m_pPreAuthRequest->IsActive())
     {
         if (m_pPreAuthRequest->WasSuccessful())
         {
@@ -347,10 +347,10 @@ void    CClientAccount::Frame()
         }
 
         m_pHTTPManager->ReleaseRequest(m_pPreAuthRequest);
-        m_pPreAuthRequest = NULL;
+        m_pPreAuthRequest = nullptr;
     }
 
-    if (m_pAuthRequest != NULL && !m_pAuthRequest->IsActive())
+    if (m_pAuthRequest != nullptr && !m_pAuthRequest->IsActive())
     {
         if (m_pAuthRequest->WasSuccessful())
         {
@@ -363,10 +363,10 @@ void    CClientAccount::Frame()
         }
 
         m_pHTTPManager->ReleaseRequest(m_pAuthRequest);
-        m_pAuthRequest = NULL;
+        m_pAuthRequest = nullptr;
     }
 
-    if (m_pChangePasswordRequest != NULL && !m_pChangePasswordRequest->IsActive())
+    if (m_pChangePasswordRequest != nullptr && !m_pChangePasswordRequest->IsActive())
     {
         if (m_pChangePasswordRequest->WasSuccessful())
         {
@@ -379,13 +379,13 @@ void    CClientAccount::Frame()
         }
 
         m_pHTTPManager->ReleaseRequest(m_pChangePasswordRequest);
-        m_pChangePasswordRequest = NULL;
+        m_pChangePasswordRequest = nullptr;
     }
 
-    if (m_pSelectUpgradesRequest != NULL)
+    if (m_pSelectUpgradesRequest != nullptr)
         SelectUpgradesStatus.Trigger(XtoA(m_pSelectUpgradesRequest->GetStatus()));
 
-    if (m_pSelectUpgradesRequest != NULL && !m_pSelectUpgradesRequest->IsActive())
+    if (m_pSelectUpgradesRequest != nullptr && !m_pSelectUpgradesRequest->IsActive())
     {
         if (m_pSelectUpgradesRequest->WasSuccessful())
         {
@@ -396,7 +396,7 @@ void    CClientAccount::Frame()
                 ChatManager.RequestRefreshUpgrades();
 
                 CHostClient *pClient(Host.GetActiveClient());
-                if (pClient != NULL)
+                if (pClient != nullptr)
                     Console.Execute(_T("ServerRefreshUpgrades"));
             }
         }
@@ -406,13 +406,13 @@ void    CClientAccount::Frame()
         }
 
         m_pHTTPManager->ReleaseRequest(m_pSelectUpgradesRequest);
-        m_pSelectUpgradesRequest = NULL;
+        m_pSelectUpgradesRequest = nullptr;
     }
 
-    if (m_pRefreshUpgradesRequest != NULL)
+    if (m_pRefreshUpgradesRequest != nullptr)
         RefreshUpgradesStatus.Trigger(XtoA(m_pRefreshUpgradesRequest->GetStatus()));
 
-    if (m_pRefreshUpgradesRequest != NULL && !m_pRefreshUpgradesRequest->IsActive())
+    if (m_pRefreshUpgradesRequest != nullptr && !m_pRefreshUpgradesRequest->IsActive())
     {
         if (m_pRefreshUpgradesRequest->WasSuccessful())
         {
@@ -424,13 +424,13 @@ void    CClientAccount::Frame()
         }
 
         m_pHTTPManager->ReleaseRequest(m_pRefreshUpgradesRequest);
-        m_pRefreshUpgradesRequest = NULL;
+        m_pRefreshUpgradesRequest = nullptr;
     }
 
-    if (m_pRefreshInfosRequest != NULL)
+    if (m_pRefreshInfosRequest != nullptr)
         RefreshInfosStatus.Trigger(XtoA(m_pRefreshInfosRequest->GetStatus()));
 
-    if (m_pRefreshInfosRequest != NULL && !m_pRefreshInfosRequest->IsActive())
+    if (m_pRefreshInfosRequest != nullptr && !m_pRefreshInfosRequest->IsActive())
     {
         if (m_pRefreshInfosRequest->WasSuccessful())
         {
@@ -442,7 +442,7 @@ void    CClientAccount::Frame()
         }
 
         m_pHTTPManager->ReleaseRequest(m_pRefreshInfosRequest);
-        m_pRefreshInfosRequest = NULL;
+        m_pRefreshInfosRequest = nullptr;
     }
 }
 
@@ -470,10 +470,10 @@ void    CClientAccount::ProcessLoginPreAuth(const tstring &sResponse)
     phpResponse.Print();
 
     const CPHPData *pError(phpResponse.GetVar(_T("error")));
-    if (pError != NULL)
+    if (pError != nullptr)
     {
         const CPHPData *pErrorCode(pError->GetVar(0));
-        Disconnect(pErrorCode == NULL ? _T("Unknown error") : pErrorCode->GetString());
+        Disconnect(pErrorCode == nullptr ? _T("Unknown error") : pErrorCode->GetString());
         return;
     }
 
@@ -499,7 +499,7 @@ void    CClientAccount::ProcessLoginPreAuth(const tstring &sResponse)
         return;
     }
 
-    if (m_pSRP == NULL)
+    if (m_pSRP == nullptr)
     {
         Disconnect(_T("SRP is null"));
         return;
@@ -516,7 +516,7 @@ void    CClientAccount::ProcessLoginPreAuth(const tstring &sResponse)
 
     // Send an authorization message to the DB
     m_pAuthRequest = m_pHTTPManager->SpawnRequest();
-    if (m_pAuthRequest == NULL)
+    if (m_pAuthRequest == nullptr)
         return;
 
     m_pAuthRequest->SetTargetURL(K2System.GetMasterServerAddress() + "/client_requester.php");
@@ -561,10 +561,10 @@ void    CClientAccount::ProcessLoginResponse(const tstring &sResponse)
     //phpResponse.Print();
 
     const CPHPData *pError(phpResponse.GetVar(_T("error")));
-    if (pError != NULL)
+    if (pError != nullptr)
     {
         const CPHPData *pErrorCode(pError->GetVar(0));
-        Disconnect(pErrorCode == NULL ? _T("Unknown error") : pErrorCode->GetString());
+        Disconnect(pErrorCode == nullptr ? _T("Unknown error") : pErrorCode->GetString());
         return;
     }
     
@@ -665,11 +665,11 @@ void    CClientAccount::ProcessLoginResponse(const tstring &sResponse)
 
     // Grab infos
     const CPHPData *pInfos(phpResponse.GetVar(_T("infos")));
-    if (pInfos != NULL && pInfos->GetVar(_T("error")) == NULL)
+    if (pInfos != nullptr && pInfos->GetVar(_T("error")) == nullptr)
     {
         pInfos = pInfos->GetVar(0);
 
-        if (pInfos != NULL)
+        if (pInfos != nullptr)
         {
             m_iLevel = pInfos->GetInteger(_T("level"));
             m_unRank = pInfos->GetInteger(_T("acc_pub_skill"));
@@ -678,12 +678,12 @@ void    CClientAccount::ProcessLoginResponse(const tstring &sResponse)
             m_iDisconnects = pInfos->GetInteger(_T("acc_discos")) + pInfos->GetInteger(_T("rnk_discos")) + pInfos->GetInteger(_T("cs_discos"));
 
             const CPHPData *pMyUpgrades(phpResponse.GetVar(_T("my_upgrades")));
-            if (pMyUpgrades != NULL)
+            if (pMyUpgrades != nullptr)
             {
                 uint uiNum(0);
                 const CPHPData *pUpgrade(pMyUpgrades->GetVar(uiNum++));
 
-                while (pUpgrade != NULL)
+                while (pUpgrade != nullptr)
                 {
                     m_setAvailableUpgrades.insert(pUpgrade->GetString());
                     pUpgrade = pMyUpgrades->GetVar(uiNum++);
@@ -691,12 +691,12 @@ void    CClientAccount::ProcessLoginResponse(const tstring &sResponse)
             }
 
             const CPHPData *pSelectedUpgrades(phpResponse.GetVar(_T("selected_upgrades")));
-            if (pSelectedUpgrades != NULL)
+            if (pSelectedUpgrades != nullptr)
             {
                 uint uiNum(0);
                 const CPHPData *pUpgrade(pSelectedUpgrades->GetVar(uiNum++));
 
-                while (pUpgrade != NULL)
+                while (pUpgrade != nullptr)
                 {
                     tstring sType(Upgrade_GetType(pUpgrade->GetString()));
 
@@ -711,7 +711,7 @@ void    CClientAccount::ProcessLoginResponse(const tstring &sResponse)
 
     // Get clan info
     const CPHPData *pClanInfo(phpResponse.GetVar(_T("clan_member_info")));
-    if (pClanInfo != NULL && pClanInfo->GetVar(_T("error")) == NULL)
+    if (pClanInfo != nullptr && pClanInfo->GetVar(_T("error")) == nullptr)
     {
         m_sClanName = pClanInfo->GetString(_T("name"));
         m_uiClanID = pClanInfo->GetInteger(_T("clan_id"));
@@ -746,12 +746,12 @@ void    CClientAccount::ProcessLoginResponse(const tstring &sResponse)
     m_vTiers.clear();
     
     const CPHPData *pTiers(phpResponse.GetVar(_T("tiers")));
-    if (pTiers != NULL && pTiers->GetVar(_T("error")) == NULL)
+    if (pTiers != nullptr && pTiers->GetVar(_T("error")) == nullptr)
     {
         uint uiNum(0);
         const CPHPData *pTierItem(pTiers->GetVar(uiNum++));
 
-        while (pTierItem != NULL)
+        while (pTierItem != nullptr)
         {
             m_vTiers.push_back(pair<int, int>(pTierItem->GetInteger(_T("min")), pTierItem->GetInteger(_T("max"))));
             pTierItem = pTiers->GetVar(uiNum++);
@@ -761,14 +761,14 @@ void    CClientAccount::ProcessLoginResponse(const tstring &sResponse)
 
     // Grab banlist
     const CPHPData *pBanned(phpResponse.GetVar(_T("banned_list")));
-    if (pBanned != NULL && pBanned->GetVar(_T("error")) == NULL)
+    if (pBanned != nullptr && pBanned->GetVar(_T("error")) == nullptr)
     {
         pBanned = pBanned->GetVar(0);
 
         uint uiNum(0);
         const CPHPData *pBannedItem(pBanned->GetVar(uiNum++));
 
-        while (pBannedItem != NULL)
+        while (pBannedItem != nullptr)
         {
             ChatManager.AddBan(AtoI(pBannedItem->GetString(_T("banned_id"))), pBannedItem->GetString(_T("nickname")), pBannedItem->GetString(_T("reason")));
             pBannedItem = pBanned->GetVar(uiNum++);
@@ -777,14 +777,14 @@ void    CClientAccount::ProcessLoginResponse(const tstring &sResponse)
 
     // Grab ignore list
     const CPHPData *pIgnore(phpResponse.GetVar(_T("ignored_list")));
-    if (pIgnore != NULL && pIgnore->GetVar(_T("error")) == NULL)
+    if (pIgnore != nullptr && pIgnore->GetVar(_T("error")) == nullptr)
     {
         pIgnore = pIgnore->GetVar(0);
 
         uint uiNum(0);
         const CPHPData *pIgnoreItem(pIgnore->GetVar(uiNum++));
 
-        while (pIgnoreItem != NULL)
+        while (pIgnoreItem != nullptr)
         {
             ChatManager.AddIgnore(AtoI(pIgnoreItem->GetString(_T("ignored_id"))), pIgnoreItem->GetString(_T("nickname")));
             pIgnoreItem = pIgnore->GetVar(uiNum++);
@@ -793,12 +793,12 @@ void    CClientAccount::ProcessLoginResponse(const tstring &sResponse)
 
     // Grab clan list
     const CPHPData *pClan(phpResponse.GetVar(_T("clan_roster")));
-    if (pClan != NULL && pClan->GetVar(_T("error")) == NULL)
+    if (pClan != nullptr && pClan->GetVar(_T("error")) == nullptr)
     {
         uint uiNum(0);
         const CPHPData *pClanItem(pClan->GetVar(uiNum++));
 
-        while (pClanItem != NULL)
+        while (pClanItem != nullptr)
         {
             tstring sRank(pClanItem->GetString(_T("rank")));
             tstring sName(pClanItem->GetString(_T("nickname")));
@@ -821,14 +821,14 @@ void    CClientAccount::ProcessLoginResponse(const tstring &sResponse)
 
     // Grab buddy list
     const CPHPData *pBuddy(phpResponse.GetVar(_T("buddy_list")));
-    if (pBuddy != NULL && pBuddy->GetVar(_T("error")) == NULL)
+    if (pBuddy != nullptr && pBuddy->GetVar(_T("error")) == nullptr)
     {
         pBuddy = pBuddy->GetVar(0);
 
         uint uiNum(0);
         const CPHPData *pBuddyItem(pBuddy->GetVar(uiNum++));
 
-        while (pBuddyItem != NULL)
+        while (pBuddyItem != nullptr)
         {
             tstring sName(pBuddyItem->GetString(_T("nickname")));
             tstring sTag(pBuddyItem->GetString(_T("clan_tag")));
@@ -844,12 +844,12 @@ void    CClientAccount::ProcessLoginResponse(const tstring &sResponse)
     
     // Grab auto join channels
     const CPHPData *pAutoJoinChannels(phpResponse.GetVar(_T("chatrooms")));
-    if (pAutoJoinChannels != NULL && pAutoJoinChannels->GetVar(_T("error")) == NULL)
+    if (pAutoJoinChannels != nullptr && pAutoJoinChannels->GetVar(_T("error")) == nullptr)
     {
         uint uiNum(0);
         const CPHPData *pAutoJoinChannel(pAutoJoinChannels->GetVar(uiNum++));
 
-        while (pAutoJoinChannel != NULL)
+        while (pAutoJoinChannel != nullptr)
         {
             // only allow them to join a maximum of 8 channels for now
             if (uiNum < 8)
@@ -864,12 +864,12 @@ void    CClientAccount::ProcessLoginResponse(const tstring &sResponse)
     
     // Grab notifications
     const CPHPData *pNotifications(phpResponse.GetVar(_T("notifications")));
-    if (pNotifications != NULL && pNotifications->GetVar(_T("error")) == NULL)
+    if (pNotifications != nullptr && pNotifications->GetVar(_T("error")) == nullptr)
     {
         uint uiNum(0);
         const CPHPData *pNotification(pNotifications->GetVar(uiNum++));
 
-        while (pNotification != NULL)
+        while (pNotification != nullptr)
         {
             tstring sNotification(pNotification->GetString(_T("notification")));
             ChatManager.ParseNotification(sNotification, pNotification->GetInteger(_T("notify_id")), true);
@@ -881,14 +881,14 @@ void    CClientAccount::ProcessLoginResponse(const tstring &sResponse)
 
     // Grab alt avatar info
     const CPHPData *pProducts(phpResponse.GetVar(_CTS("products")));
-    if (pProducts != NULL)
+    if (pProducts != nullptr)
     {
         const CPHPData *pAvatarList(pProducts->GetVar(_CTS("Alt Avatar")));
-        if (pAvatarList != NULL)
+        if (pAvatarList != nullptr)
         {
             uint uiNum(0);
             const CPHPData *pAvatar(pAvatarList->GetVar(uiNum++));
-            while (pAvatar != NULL)
+            while (pAvatar != nullptr)
             {
                 SAvatarInfo info;
                 info.sName = pAvatar->GetString(_CTS("name"));
@@ -941,7 +941,7 @@ void    CClientAccount::ProcessPasswordChangeResponse(const tstring &sResponse)
     }
 
     const CPHPData *pError(phpResponse.GetVar(_T("error")));
-    if (pError != NULL)
+    if (pError != nullptr)
     {
         m_eChangePasswordStatus = CLIENT_CHANGE_PASSWORD_FAILURE;
         m_sChangePasswordStatusDescription = pError->GetString();
@@ -949,7 +949,7 @@ void    CClientAccount::ProcessPasswordChangeResponse(const tstring &sResponse)
     }
 
     const CPHPData *pSuccess(phpResponse.GetVar(_T("success")));
-    if (pSuccess != NULL)
+    if (pSuccess != nullptr)
     {
         m_eChangePasswordStatus = CLIENT_CHANGE_PASSWORD_SUCCESS;
         m_sChangePasswordStatusDescription = pSuccess->GetString();
@@ -1171,7 +1171,7 @@ void    CClientAccount::SendSelectUpgradesRequest()
     m_pHTTPManager->ReleaseRequest(m_pSelectUpgradesRequest);
 
     m_pSelectUpgradesRequest = m_pHTTPManager->SpawnRequest();
-    if (m_pSelectUpgradesRequest == NULL)
+    if (m_pSelectUpgradesRequest == nullptr)
         return;
 
     m_pSelectUpgradesRequest->SetTargetURL(K2System.GetMasterServerAddress() + "/client_requester.php");
@@ -1269,7 +1269,7 @@ const SAvatarInfo*  CClientAccount::GetAvatarInfo(const tstring &sName) const
     if (itFind != m_mapAvatarInfo.end())
         return &itFind->second;
     else
-        return NULL;
+        return nullptr;
 }
 
 
@@ -1280,7 +1280,7 @@ void    CClientAccount::RefreshUpgrades()
 {
     // Send an authorization message to the DB
     m_pRefreshUpgradesRequest = m_pHTTPManager->SpawnRequest();
-    if (m_pRefreshUpgradesRequest == NULL)
+    if (m_pRefreshUpgradesRequest == nullptr)
         return;
 
     m_pRefreshUpgradesRequest->SetTargetURL(K2System.GetMasterServerAddress() + "/client_requester.php");
@@ -1297,7 +1297,7 @@ void    CClientAccount::RefreshInfos()
 {
     // Send an authorization message to the DB
     m_pRefreshInfosRequest = m_pHTTPManager->SpawnRequest();
-    if (m_pRefreshInfosRequest == NULL)
+    if (m_pRefreshInfosRequest == nullptr)
         return;
 
     m_pRefreshInfosRequest->SetTargetURL(K2System.GetMasterServerAddress() + "/client_requester.php");
@@ -1326,12 +1326,12 @@ void    CClientAccount::ProcessRefreshUpgradesResponse(const tstring &sResponse)
     m_mapSelectedUpgrades.clear();
 
     const CPHPData *pMyUpgrades(phpResponse.GetVar(_T("my_upgrades")));
-    if (pMyUpgrades != NULL)
+    if (pMyUpgrades != nullptr)
     {
         uint uiNum(0);
         const CPHPData *pUpgrade(pMyUpgrades->GetVar(uiNum++));
 
-        while (pUpgrade != NULL)
+        while (pUpgrade != nullptr)
         {
             m_setAvailableUpgrades.insert(pUpgrade->GetString());
             pUpgrade = pMyUpgrades->GetVar(uiNum++);
@@ -1339,12 +1339,12 @@ void    CClientAccount::ProcessRefreshUpgradesResponse(const tstring &sResponse)
     }
 
     const CPHPData *pSelectedUpgrades(phpResponse.GetVar(_T("selected_upgrades")));
-    if (pSelectedUpgrades != NULL)
+    if (pSelectedUpgrades != nullptr)
     {
         uint uiNum(0);
         const CPHPData *pUpgrade(pSelectedUpgrades->GetVar(uiNum++));
 
-        while (pUpgrade != NULL)
+        while (pUpgrade != nullptr)
         {
             tstring sType(Upgrade_GetType(pUpgrade->GetString()));
 
@@ -1376,11 +1376,11 @@ void    CClientAccount::ProcessRefreshInfosResponse(const tstring &sResponse)
 
     // Grab infos
     const CPHPData *pInfos(phpResponse.GetVar(_T("infos")));
-    if (pInfos != NULL && pInfos->GetVar(_T("error")) == NULL)
+    if (pInfos != nullptr && pInfos->GetVar(_T("error")) == nullptr)
     {
         pInfos = pInfos->GetVar(0);
 
-        if (pInfos != NULL)
+        if (pInfos != nullptr)
         {
             m_iLevel = pInfos->GetInteger(_T("level"));
             m_unRank = pInfos->GetInteger(_T("acc_pub_skill"));
@@ -1398,7 +1398,7 @@ void    CClientAccount::ProcessRefreshInfosResponse(const tstring &sResponse)
 CMD(Login)
 {
     CHostClient *pClient(Host.GetActiveClient());
-    if (pClient == NULL)
+    if (pClient == nullptr)
         return false;
 
 #ifdef K2_GARENA
@@ -1422,7 +1422,7 @@ UI_VOID_CMD(Login, 0)
 CMD(CancelLogin)
 {
     CHostClient *pClient(Host.GetActiveClient());
-    if (pClient == NULL)
+    if (pClient == nullptr)
         return false;
 
     pClient->CancelLogin();
@@ -1441,7 +1441,7 @@ UI_VOID_CMD(CancelLogin, 0)
 CMD(Logout)
 {
     CHostClient *pClient(Host.GetActiveClient());
-    if (pClient == NULL)
+    if (pClient == nullptr)
         return false;
 
     pClient->Logout();
@@ -1460,7 +1460,7 @@ UI_VOID_CMD(Logout, 0)
 UI_CMD(GetAccountID, 0)
 {
     CHostClient *pClient(Host.GetActiveClient());
-    if (pClient == NULL)
+    if (pClient == nullptr)
         return _T("-1");
 
     return XtoA(pClient->GetAccountID());
@@ -1473,7 +1473,7 @@ UI_CMD(GetAccountID, 0)
 UI_CMD(GetAccountName, 0)
 {
     CHostClient *pClient(Host.GetActiveClient());
-    if (pClient == NULL)
+    if (pClient == nullptr)
         return TSNULL;
 
     return pClient->GetAccount().GetNickname();
@@ -1486,7 +1486,7 @@ UI_CMD(GetAccountName, 0)
 UI_CMD(GetCookie, 0)
 {
     CHostClient *pClient(Host.GetActiveClient());
-    if (pClient == NULL)
+    if (pClient == nullptr)
         return TSNULL;
 
     return pClient->GetCookie();
@@ -1499,7 +1499,7 @@ UI_CMD(GetCookie, 0)
 UI_CMD(GetPSR, 0)
 {
     CHostClient *pClient(Host.GetActiveClient());
-    if (pClient == NULL)
+    if (pClient == nullptr)
         return TSNULL;
 
     return XtoA(pClient->GetAccount().GetPSR());
@@ -1512,7 +1512,7 @@ UI_CMD(GetPSR, 0)
 UI_CMD(GetAccountEmail, 0)
 {
     CHostClient *pClient(Host.GetActiveClient());
-    if (pClient == NULL)
+    if (pClient == nullptr)
         return TSNULL;
 
     return pClient->GetAccount().GetEmailAddress();
@@ -1525,7 +1525,7 @@ UI_CMD(GetAccountEmail, 0)
 UI_CMD(IsLoggedIn, 0)
 {
     CHostClient *pClient(Host.GetActiveClient());
-    if (pClient == NULL)
+    if (pClient == nullptr)
         return _T("false");
 
     return XtoA(pClient->IsLoggedIn(), true);
@@ -1538,7 +1538,7 @@ UI_CMD(IsLoggedIn, 0)
 UI_CMD(IsLeaver, 0)
 {
     CHostClient *pClient(Host.GetActiveClient());
-    if (pClient == NULL)
+    if (pClient == nullptr)
         return _T("false");
 
     if (pClient->IsLeaver())
@@ -1605,7 +1605,7 @@ CMD(ChangePassword)
         return false;
 
     CHostClient *pClient(Host.GetActiveClient());
-    if (pClient == NULL)
+    if (pClient == nullptr)
         return false;
         
     pClient->ChangePassword(login_name, login_temp_password, vArgList[0], vArgList[1]);
@@ -1625,7 +1625,7 @@ UI_VOID_CMD(ChangePassword, 2)
 UI_CMD(IsTrialAccount, 0)
 {
     CHostClient *pClient(Host.GetActiveClient());
-    if (pClient == NULL)
+    if (pClient == nullptr)
         return TSNULL;
         
     return XtoA(pClient->GetAccount().GetAccountType() == 1);
@@ -1641,7 +1641,7 @@ CMD(SelectUpgrade)
         return false;
 
     CHostClient *pClient(Host.GetActiveClient());
-    if (pClient == NULL)
+    if (pClient == nullptr)
         return false;
         
     pClient->SelectUpgrade(vArgList[0]);
@@ -1655,7 +1655,7 @@ CMD(SelectUpgrade)
 UI_VOID_CMD(SelectUpgrade, 1)
 {
     CHostClient *pClient(Host.GetActiveClient());
-    if (pClient == NULL)
+    if (pClient == nullptr)
         return;
         
     pClient->SelectUpgrade(vArgList[0]->Evaluate());
@@ -1671,7 +1671,7 @@ CMD(ClearUpgrade)
         return false;
 
     CHostClient *pClient(Host.GetActiveClient());
-    if (pClient == NULL)
+    if (pClient == nullptr)
         return false;
         
     pClient->ClearUpgrade(vArgList[0]);
@@ -1685,7 +1685,7 @@ CMD(ClearUpgrade)
 UI_VOID_CMD(ClearUpgrade, 1)
 {
     CHostClient *pClient(Host.GetActiveClient());
-    if (pClient == NULL)
+    if (pClient == nullptr)
         return;
         
     pClient->ClearUpgrade(vArgList[0]->Evaluate());
@@ -1806,7 +1806,7 @@ UI_CMD(GetAccountIconTexturePathFromUpgrades, 1)
 CMD(PrintAvailableUpgrades)
 {
     CHostClient *pClient(Host.GetActiveClient());
-    if (pClient == NULL)
+    if (pClient == nullptr)
         return true;
         
     //pClient->PrintAvailableUpgrades();
@@ -1820,7 +1820,7 @@ CMD(PrintAvailableUpgrades)
 CMD(ClientRefreshUpgrades)
 {
     CHostClient *pClient(Host.GetActiveClient());
-    if (pClient == NULL)
+    if (pClient == nullptr)
         return true;
 
     pClient->RefreshUpgrades();
@@ -1835,7 +1835,7 @@ CMD(ClientRefreshUpgrades)
 UI_VOID_CMD(ClientRefreshUpgrades, 0)
 {
     CHostClient *pClient(Host.GetActiveClient());
-    if (pClient == NULL)
+    if (pClient == nullptr)
         return;
 
     pClient->RefreshUpgrades();
@@ -1848,7 +1848,7 @@ UI_VOID_CMD(ClientRefreshUpgrades, 0)
 CMD(ClientRefreshInfos)
 {
     CHostClient *pClient(Host.GetActiveClient());
-    if (pClient == NULL)
+    if (pClient == nullptr)
         return true;
 
     pClient->RefreshInfos();
@@ -1863,7 +1863,7 @@ CMD(ClientRefreshInfos)
 UI_VOID_CMD(ClientRefreshInfos, 0)
 {
     CHostClient *pClient(Host.GetActiveClient());
-    if (pClient == NULL)
+    if (pClient == nullptr)
         return;
 
     pClient->RefreshInfos();

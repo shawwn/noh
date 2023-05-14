@@ -47,4 +47,4 @@ BEGIN_XML_PROCESSOR(sound, CWorldSoundList)
         ex.Process(_T("CXMLProc_WorldSound() - "), NO_THROW);
         return false;
     }
-END_XML_PROCESSOR(NULL)
+END_XML_PROCESSOR(nullptr)

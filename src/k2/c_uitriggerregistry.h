@@ -82,7 +82,7 @@ CUITrigger  *CUITriggerRegistry::GetUITrigger(const tstring &sUITrigger)
     UITriggerMap::iterator find = m_mapUITriggers.find(sUITrigger);
 
     if (find == m_mapUITriggers.end())
-        return NULL;
+        return nullptr;
     else
         return find->second;
 }

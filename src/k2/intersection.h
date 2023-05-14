@@ -27,7 +27,7 @@ K2_API bool I_BoxTriIntersect(const vec3_t apkTri[3], const vec3_t bPos, const v
 K2_API bool I_LineMeshIntersect(const CVec3f &start, const CVec3f &end, const class CMesh *mesh,
                             float &fFraction, int &face_hit);
 
-K2_API bool I_LineBoundsIntersect(const CVec3f &v3Start, const CVec3f &v3End, const CBBoxf &bbBounds, float &fFraction, CPlane *pPlaneHit = NULL, bool *pbStartInSurface = NULL);
+K2_API bool I_LineBoundsIntersect(const CVec3f &v3Start, const CVec3f &v3End, const CBBoxf &bbBounds, float &fFraction, CPlane *pPlaneHit = nullptr, bool *pbStartInSurface = nullptr);
 
 K2_API bool I_IntersectBoxWithSurface(const CVec3f &start, const CVec3f &end, struct linkedSurface_s *surf, float &fraction);
 
@@ -43,15 +43,15 @@ K2_API bool I_LineTriangleIntersect(const CVec3f &start, const CVec3f &end, cons
 
 K2_API bool I_LineQuadIntersect(const CVec3f &v3Start, const CVec3f &v3End, const CVec3f &v1, const CVec3f &v2, const CVec3f &v3, const CVec3f &v4, float &fFraction);
 
-K2_API bool I_LineSurfaceIntersect(const CVec3f &v3Start, const CVec3f &v3End, const CConvexPolyhedron &surface, float &fFraction, CPlane *pPlaneHit = NULL, bool *pbStartInSurface = NULL);
+K2_API bool I_LineSurfaceIntersect(const CVec3f &v3Start, const CVec3f &v3End, const CConvexPolyhedron &surface, float &fFraction, CPlane *pPlaneHit = nullptr, bool *pbStartInSurface = nullptr);
 
-K2_API bool I_LineTerrainIntersect(const CVec3f &v3Start, const CVec3f &v3End, const CPlane aPlanes[], float &fFraction, CPlane *pPlaneHit = NULL, bool *pbStartInSurface = NULL);
+K2_API bool I_LineTerrainIntersect(const CVec3f &v3Start, const CVec3f &v3End, const CPlane aPlanes[], float &fFraction, CPlane *pPlaneHit = nullptr, bool *pbStartInSurface = nullptr);
 
-K2_API bool I_MovingBoundsBoundsIntersect(const CVec3f &v3Start, const CVec3f &v3Delta, const CBBoxf &bbBoundsA, const CBBoxf &bbBoundsB, float &fFraction, CPlane *pPlaneHit = NULL, bool *pbStartInSurface = NULL);
+K2_API bool I_MovingBoundsBoundsIntersect(const CVec3f &v3Start, const CVec3f &v3Delta, const CBBoxf &bbBoundsA, const CBBoxf &bbBoundsB, float &fFraction, CPlane *pPlaneHit = nullptr, bool *pbStartInSurface = nullptr);
 
-K2_API bool I_MovingBoundsSurfaceIntersect(const CVec3f &v3Start, const CVec3f &v3End, const CBBoxf &bbBounds, const CConvexPolyhedron &surface, float &fFraction, CPlane *pPlaneHit = NULL, bool *pbStartInSurface = NULL);
+K2_API bool I_MovingBoundsSurfaceIntersect(const CVec3f &v3Start, const CVec3f &v3End, const CBBoxf &bbBounds, const CConvexPolyhedron &surface, float &fFraction, CPlane *pPlaneHit = nullptr, bool *pbStartInSurface = nullptr);
 
-K2_API bool I_MovingBoundsTerrainIntersect(const CVec3f &v3Start, const CVec3f &v3End, const CBBoxf &bbBounds, const CPlane aPlanes[], const CVec3f &v1, const CVec3f &v2, const CVec3f &v3, float &fFraction, CPlane *pPlaneHit = NULL, bool *pbStartInSurface = NULL);
+K2_API bool I_MovingBoundsTerrainIntersect(const CVec3f &v3Start, const CVec3f &v3End, const CBBoxf &bbBounds, const CPlane aPlanes[], const CVec3f &v1, const CVec3f &v2, const CVec3f &v3, float &fFraction, CPlane *pPlaneHit = nullptr, bool *pbStartInSurface = nullptr);
 
 K2_API bool I_LinePlaneIntersect(const CVec3f &v3Start, const CVec3f &v3End, const CPlane &plane, float &fFraction);
 
@@ -67,8 +67,8 @@ K2_API bool I_LineBoundsOverlap(const CVec3f &v3Start, const CVec3f &v3End, cons
 
 K2_API bool I_MovingBoundsBoundsOverlap(const CVec3f &v3Start, const CVec3f &v3End, const CBBoxf &bbBoundsA, const CBBoxf &bbBoundsB, float &fEnter, float &fExit);
 
-K2_API bool I_LineBlockerIntersect(const CVec3f &v3Start, const CVec3f &v3End, const CPlane aPlanes[], float &fFraction, CPlane *pPlaneHit = NULL, bool *pbStartInSurface = NULL);
+K2_API bool I_LineBlockerIntersect(const CVec3f &v3Start, const CVec3f &v3End, const CPlane aPlanes[], float &fFraction, CPlane *pPlaneHit = nullptr, bool *pbStartInSurface = nullptr);
 
-K2_API bool I_MovingBoundsBlockerIntersect(const CVec3f &v3Start, const CVec3f &v3End, const CBBoxf &bbBounds, const CVec3f &v3Diag, const CVec3f &v1, const CVec3f &v2, const CVec3f &v3, float &fFraction, CPlane *pPlaneHit = NULL, bool *pbStartInSurface = NULL);
+K2_API bool I_MovingBoundsBlockerIntersect(const CVec3f &v3Start, const CVec3f &v3End, const CBBoxf &bbBounds, const CVec3f &v3Diag, const CVec3f &v1, const CVec3f &v2, const CVec3f &v3, float &fFraction, CPlane *pPlaneHit = nullptr, bool *pbStartInSurface = nullptr);
 //=============================================================================
 #endif //__INTERSECTION_H__

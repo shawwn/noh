@@ -62,7 +62,7 @@ template<> inline const string&     GetTimeString<string>(ETimeFormatString e)  
 template<> inline const wstring&    GetTimeString<wstring>(ETimeFormatString e) { return TIME_STRINGW[e]; }
 
 #ifndef _WIN32
-#define _wtoi(x) wcstol(x, NULL, 10)
+#define _wtoi(x) wcstol(x, nullptr, 10)
 #endif
 
 #if defined(_WIN32)
@@ -70,7 +70,7 @@ inline double WTOF(const wstring &s) { return _wtof(s.c_str()); }
 #elif defined(__APPLE__)
 inline double WTOF(const wstring &s) { return atof(WStringToUTF8(s).c_str()); }
 #elif defined(linux)
-inline double WTOF(const wstring &s) { return wcstod(s.c_str(), NULL); }
+inline double WTOF(const wstring &s) { return wcstod(s.c_str(), nullptr); }
 #endif
 //=============================================================================
 
@@ -181,8 +181,8 @@ inline string           XtoS(char c)                    { return string(1, c); }
 // AtoX
 inline int&     AtoX(const string &s, int &i)           { i = static_cast<int>(atoi(s.c_str())); return i; }
 inline int&     AtoX(const wstring &s, int &i)          { i = static_cast<int>(_wtoi(s.c_str())); return i; }
-inline uint&    AtoX(const string &s, uint &ui)         { ui = static_cast<uint>(strtoul(s.c_str(), NULL, 10)); return ui; }
-inline uint&    AtoX(const wstring &s, uint &ui)        { ui = static_cast<uint>(wcstoul(s.c_str(), NULL, 10)); return ui; }
+inline uint&    AtoX(const string &s, uint &ui)         { ui = static_cast<uint>(strtoul(s.c_str(), nullptr, 10)); return ui; }
+inline uint&    AtoX(const wstring &s, uint &ui)        { ui = static_cast<uint>(wcstoul(s.c_str(), nullptr, 10)); return ui; }
 inline float&   AtoX(const string &s, float &f)         { f = float(atof(s.c_str())); return f; }
 inline float&   AtoX(const wstring &s, float &f)        { f = float(WTOF(s)); return f; }
 inline double&  AtoX(const string &s, double &d)        { d = atof(s.c_str()); return d; }
@@ -201,8 +201,8 @@ inline int                  AtoI(const string &s)   { return static_cast<int>(at
 inline int                  AtoI(const wstring &s)  { return static_cast<int>(_wtoi(s.c_str())); }
 template <class T> short    AtoN(const T &s)        { return short(AtoI(s) & USHRT_MAX); }
 
-inline uint                 AtoUI(const string &s)  { return static_cast<uint>(strtoul(s.c_str(), NULL, 10)); }
-inline uint                 AtoUI(const wstring &s) { return static_cast<uint>(wcstoul(s.c_str(), NULL, 10)); }
+inline uint                 AtoUI(const string &s)  { return static_cast<uint>(strtoul(s.c_str(), nullptr, 10)); }
+inline uint                 AtoUI(const wstring &s) { return static_cast<uint>(wcstoul(s.c_str(), nullptr, 10)); }
 
 inline float                AtoF(const string &s)   { return float(atof(s.c_str())); }
 inline float                AtoF(const wstring &s)  { return float(WTOF(s)); }

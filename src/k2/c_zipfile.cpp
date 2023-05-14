@@ -30,7 +30,7 @@ int     CZipFile::GetCurrentFileInfoInternal (zipFileInfo_t *pFileInfo, zipFileI
     uLong uMagic;
     long lSeek = 0;
 
-    SZipFile *pfileInfInternal((SZipFile *)NULL/*m_pzipFile*/);
+    SZipFile *pfileInfInternal((SZipFile *)nullptr/*m_pzipFile*/);
     if (fseek(pfileInfInternal->pfile, pfileInfInternal->posCentralDir
         + pfileInfInternal->byteBefore, SEEK_SET) != 0)
         status = UNZ_ERRNO;
@@ -91,7 +91,7 @@ int     CZipFile::GetCurrentFileInfoInternal (zipFileInfo_t *pFileInfo, zipFileI
         status = UNZ_ERRNO;
 
     lSeek += fileInfo.sizeFilename;
-    if ((status == UNZ_OK) && (szFilename!=NULL))
+    if ((status == UNZ_OK) && (szFilename!=nullptr))
     {
         uLong uSizeRead;
         if (fileInfo.sizeFilename < ulFilenameBufferSize)
@@ -109,7 +109,7 @@ int     CZipFile::GetCurrentFileInfoInternal (zipFileInfo_t *pFileInfo, zipFileI
     }
 
 
-    if ((status == UNZ_OK) && (pExtraField != NULL))
+    if ((status == UNZ_OK) && (pExtraField != nullptr))
     {
         uLong uSizeRead;
         if (fileInfo.sizeFileExtra < ulExtraFieldBufferSize)
@@ -134,7 +134,7 @@ int     CZipFile::GetCurrentFileInfoInternal (zipFileInfo_t *pFileInfo, zipFileI
         lSeek += fileInfo.sizeFileExtra;
 
 
-    if ((status == UNZ_OK) && (szComment!=NULL))
+    if ((status == UNZ_OK) && (szComment!=nullptr))
     {
         uLong uSizeRead;
         if (fileInfo.sizeFileComment < ulCommentBufferSize)
@@ -257,7 +257,7 @@ int     CZipFile::GetCurrentFileInfo (zipFileInfo_t *pFileInfo, TCHAR *szFilenam
                                       void *pExtraField, uLong ulExtraFieldBufferSize, char *szComment,
                                       uLong ulCommentBufferSize)
 {
-        return GetCurrentFileInfoInternal(pFileInfo, NULL, szFilename, ulFilenameBufferSize, pExtraField,
+        return GetCurrentFileInfoInternal(pFileInfo, nullptr, szFilename, ulFilenameBufferSize, pExtraField,
             ulExtraFieldBufferSize, szComment, ulCommentBufferSize);
 }
 

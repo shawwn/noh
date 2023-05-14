@@ -66,14 +66,14 @@ bool    CResourceManager::RegisterStandardResources()
 
     bool bFault(false);
 
-    m_pNullMaterial = K2_NEW(ctx_Resources,  CMaterial)(TSNULL, _T("NULL Material"));
-    if (m_pNullMaterial == NULL || !m_pNullMaterial->LoadNull())
+    m_pNullMaterial = K2_NEW(ctx_Resources,  CMaterial)(TSNULL, _T("nullptr Material"));
+    if (m_pNullMaterial == nullptr || !m_pNullMaterial->LoadNull())
     {
         bFault = true;
-        if (m_pNullMaterial != NULL)
+        if (m_pNullMaterial != nullptr)
             K2_DELETE(m_pNullMaterial);
-        m_pNullMaterial = NULL;
-        Console.Warn << _T("CResourceManager::RegisterResources() - Failed to generate a NULL material") << newl;
+        m_pNullMaterial = nullptr;
+        Console.Warn << _T("CResourceManager::RegisterResources() - Failed to generate a nullptr material") << newl;
     }
 
     m_hWhiteTexture = Register(_T("$white"), RES_TEXTURE);
@@ -107,9 +107,9 @@ bool    CResourceManager::RegisterStandardResources()
 void    CResourceManager::RegisterLibrary(uint uiType, IResourceLibrary *pLib)
 {
     if (m_vResourceLibs.size() <= uiType)
-        m_vResourceLibs.resize(uiType + 1, NULL);
+        m_vResourceLibs.resize(uiType + 1, nullptr);
 
-    if (m_vResourceLibs[uiType] != NULL)
+    if (m_vResourceLibs[uiType] != nullptr)
     {
         Console.Err << _T("CResourceManager::RegisterLibrary() - Duplicate library type") << newl;
         return;
@@ -127,7 +127,7 @@ void    CResourceManager::UnregisterLibrary(uint uiType)
     if (m_vResourceLibs.size() <= uiType)
         return;
 
-    m_vResourceLibs[uiType] = NULL;
+    m_vResourceLibs[uiType] = nullptr;
 }
 
 
@@ -136,10 +136,10 @@ void    CResourceManager::UnregisterLibrary(uint uiType)
   ====================*/
 IResourceLibrary*   CResourceManager::GetLib(uint uiType)
 {
-    if (uiType >= m_vResourceLibs.size() || m_vResourceLibs[uiType] == NULL)
+    if (uiType >= m_vResourceLibs.size() || m_vResourceLibs[uiType] == nullptr)
     {
         Console.Err << _T("No library registered for resource type: ") << uiType << newl;
-        return NULL;
+        return nullptr;
     }
 
     return m_vResourceLibs[uiType];
@@ -230,7 +230,7 @@ ResHandle   CResourceManager::Register(const tstring &sPath, uint uiType, uint u
 
         IResource *pRes(Get(hResult));
 
-        if (pRes != NULL && !pRes->GetPath().empty())
+        if (pRes != nullptr && !pRes->GetPath().empty())
         {
             m_mapActivePaths[pRes->GetLocalizedPath()] = hResult;
 
@@ -263,7 +263,7 @@ void    CResourceManager::Unregister(ResHandle hResource, EUnregisterResource eU
         IResourceLibrary *pLib(GetLib(Res_GetType(hResource)));
 
         IResource *pResource(pLib->Get(hResource));
-        if (pResource == NULL)
+        if (pResource == nullptr)
             EX_ERROR(_T("Couldn't retrieve resource"));
 
         if (eUnregisterOp == UNREG_RESERVE_HANDLE)
@@ -350,7 +350,7 @@ void    CResourceManager::ReloadByFlag(int iFlag)
     {
         for (ResourceLibVector::iterator it(m_vResourceLibs.begin()); it != m_vResourceLibs.end(); ++it)
         {
-            if (*it == NULL)
+            if (*it == nullptr)
                 continue;
 
             (*it)->ReloadByFlag(iFlag);
@@ -396,7 +396,7 @@ ResHandle   CResourceManager::LookUpName(const tstring &sName, EResourceType eTy
     try
     {
         IResourceLibrary *pLib(GetLib(eType));
-        if (pLib == NULL)
+        if (pLib == nullptr)
             EX_ERROR(_T("Library not found"));
 
         return pLib->LookUpName(sName);
@@ -432,7 +432,7 @@ IResource*  CResourceManager::LookUpHandle(ResHandle hResource, uint uiType)
     try
     {
         if (hResource == INVALID_RESOURCE)
-            return NULL;
+            return nullptr;
 
         uint uiResType(Res_GetType(hResource));
 
@@ -442,8 +442,8 @@ IResource*  CResourceManager::LookUpHandle(ResHandle hResource, uint uiType)
             EX_ERROR(_T("Handle is of wrong type"));
 
         IResourceLibrary *pLib(GetLib(uiResType));
-        if (pLib == NULL)
-            return NULL;
+        if (pLib == nullptr)
+            return nullptr;
 
         IResource* pResource(pLib->LookUpHandle(hResource));
         return pResource;
@@ -451,7 +451,7 @@ IResource*  CResourceManager::LookUpHandle(ResHandle hResource, uint uiType)
     catch (CException &ex)
     {
         ex.Process(_T("CResourceManager::LookUpHandle(") + XtoA(hResource, 0, 0, 16) + _T(", ") + XtoA(uiType) + _T(") - "), NO_THROW);
-        return NULL;
+        return nullptr;
     }
 }
 
@@ -464,11 +464,11 @@ IResource*  CResourceManager::Get(ResHandle hResource)
     try
     {
         if (hResource == INVALID_RESOURCE)
-            return NULL;
+            return nullptr;
 
         IResourceLibrary *pLib(GetLib(Res_GetType(hResource)));
-        if (pLib == NULL)
-            return NULL;
+        if (pLib == nullptr)
+            return nullptr;
 
         IResource* pResource(pLib->Get(hResource));
         return pResource;
@@ -476,7 +476,7 @@ IResource*  CResourceManager::Get(ResHandle hResource)
     catch (CException &ex)
     {
         ex.Process(_T("CResourceManager::Get() - "), NO_THROW);
-        return NULL;
+        return nullptr;
     }
 }
 
@@ -494,7 +494,7 @@ IResource*  CResourceManager::Get(ResHandle hResource, EResourceType eType)
             hResource = GetReferencedResource(hResource);
 
         if (hResource == INVALID_RESOURCE || Res_GetType(hResource) != eType)
-            return NULL;
+            return nullptr;
 
         IResourceLibrary *pLib(GetLib(eType));
 
@@ -504,7 +504,7 @@ IResource*  CResourceManager::Get(ResHandle hResource, EResourceType eType)
     catch (CException &ex)
     {
         ex.Process(_T("CResourceManager::Get() - "), NO_THROW);
-        return NULL;
+        return nullptr;
     }
 }
 
@@ -514,7 +514,7 @@ IResource*  CResourceManager::Get(ResHandle hResource, EResourceType eType)
   ====================*/
 void    CResourceManager::RegisterFileChangeCallback(IFileChangeCallback *pCallback)
 {
-    if (pCallback == NULL)
+    if (pCallback == nullptr)
         return;
 
     const tstring &sPath(pCallback->GetPath());
@@ -533,7 +533,7 @@ void    CResourceManager::RegisterFileChangeCallback(IFileChangeCallback *pCallb
   ====================*/
 void    CResourceManager::UnregisterFileChangeCallback(IFileChangeCallback *pCallback)
 {
-    if (pCallback == NULL)
+    if (pCallback == nullptr)
         return;
 
     const tstring &sPath(pCallback->GetPath());
@@ -560,8 +560,8 @@ void        CResourceManager::RemoveResourceWatcher(IResourceWatcher* pWatcher, 
         return;
 
     IResourceLibrary *pLib(GetLib(Res_GetType(hUnregisterFrom)));
-    assert(pLib != NULL);
-    if (pLib == NULL)
+    assert(pLib != nullptr);
+    if (pLib == nullptr)
         return;
 
     pLib->RemoveResourceWatcher(pWatcher, hUnregisterFrom);
@@ -577,8 +577,8 @@ void        CResourceManager::AddResourceWatcher(IResourceWatcher* pWatcher, Res
         return;
 
     IResourceLibrary *pLib(GetLib(Res_GetType(hRegisterWith)));
-    assert(pLib != NULL);
-    if (pLib == NULL)
+    assert(pLib != nullptr);
+    if (pLib == nullptr)
         return;
 
     pLib->AddResourceWatcher(pWatcher, hRegisterWith);
@@ -755,7 +755,7 @@ CCursor*    CResourceManager::GetCursor(ResHandle hCursor)
 CResourceReference* CResourceManager::GetReference(ResHandle hReference)
 {
     if (Res_GetType(hReference) != RES_REFERENCE)
-        return NULL;
+        return nullptr;
 
     return static_cast<CResourceReference*>(Get(hReference));
 }
@@ -902,7 +902,7 @@ const SurfVector&   CResourceManager::GetModelSurfaces(ResHandle hModel)
     if (!pModelRes || !pModelRes->GetModelFile())
     {
         if (hModel == m_hTeapotModel)
-            EX_ERROR(_T("NULL model not correctly registered!"));
+            EX_ERROR(_T("nullptr model not correctly registered!"));
 
         return GetModelSurfaces(m_hTeapotModel);
     }
@@ -973,7 +973,7 @@ ResHandle   CResourceManager::GetReferencedResource(ResHandle hReference)
 bool    CResourceManager::IsStringTableExtension(const tstring &sPath)
 {
     IResourceLibrary *pLib(GetLib(RES_STRINGTABLE));
-    if (pLib == NULL)
+    if (pLib == nullptr)
         return false;
 
     tstring sStrippedPath(Filename_StripExtension(sPath));
@@ -997,7 +997,7 @@ bool    CResourceManager::IsStringTableExtension(const tstring &sPath)
 void    CResourceManager::ReloadStringTableExtension(const tstring &sPath)
 {
     IResourceLibrary *pLib(GetLib(RES_STRINGTABLE));
-    if (pLib == NULL)
+    if (pLib == nullptr)
         return;
 
     tstring sStrippedPath(Filename_StripExtension(sPath));
@@ -1030,7 +1030,7 @@ void    CResourceManager::PrintResource(CConsoleStream& cStream, ResHandle hReso
     }
 
     IResource* pRes(LookUpHandle(hResource, Res_GetType(hResource)));
-    if (pRes != NULL)
+    if (pRes != nullptr)
     {
         PrintResource(cStream, pRes, bCompact, pOverrideColor);
         return;
@@ -1043,8 +1043,8 @@ void    CResourceManager::PrintResource(CConsoleStream& cStream, ResHandle hReso
 
     uint uiResType(Res_GetType(hResource));
     IResourceLibrary* pLib(GetLib(uiResType));
-    assert(pLib != NULL);
-    if (pLib == NULL)
+    assert(pLib != nullptr);
+    if (pLib == nullptr)
         cStream << XtoA(_TS("[UNKNOWN] {type ") + XtoA(uiResType) + _T("}"), FMT_ALIGNLEFT, 16);
     else
         cStream << XtoA(_TS("[DELETED] ") + pLib->GetTypeName(), FMT_ALIGNLEFT, 16);
@@ -1058,9 +1058,9 @@ void    CResourceManager::PrintResource(CConsoleStream& cStream, IResource* pRes
 {
     const TCHAR* col(pOverrideColor);
 
-    if (pResource == NULL)
+    if (pResource == nullptr)
     {
-        cStream << (col ? col : _T("^r")) << _T("{NULL resource}");
+        cStream << (col ? col : _T("^r")) << _T("{nullptr resource}");
         return;
     }
 
@@ -1124,7 +1124,7 @@ void    CResourceManager::ListResourceUsage() const
 
     for (ResourceLibVector::const_iterator it(m_vResourceLibs.begin()); it != m_vResourceLibs.end(); ++it)
     {
-        if (*it == NULL)
+        if (*it == nullptr)
             continue;
 
         Console << XtoA(tstring((*it)->GetName()).substr(0, 18), FMT_ALIGNLEFT, 19)
@@ -1191,7 +1191,7 @@ uint    CResourceManager::FindResources(vector<ResPtrVec>& vResults, const tstri
         ResPtrVec &vRes(vResults.back());
 
         IResourceLibrary* pLib(*it);
-        if (pLib == NULL)
+        if (pLib == nullptr)
             continue;
 
         uiTotal += pLib->FindResources(vRes, sWildcard);

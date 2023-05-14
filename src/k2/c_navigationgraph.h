@@ -144,7 +144,7 @@ public:
     virtual void    Release();
     virtual bool    Save(CArchive &archive) { return true; }
 
-    PoolHandle      FindPath(float fSrcX, float fSrcY, float fEntityWidth, uint uiNavigationFlags, float fGoalX, float fGoalY, float fGoalRange, vector<PoolHandle> *pBlockers = NULL);
+    PoolHandle      FindPath(float fSrcX, float fSrcY, float fEntityWidth, uint uiNavigationFlags, float fGoalX, float fGoalY, float fGoalRange, vector<PoolHandle> *pBlockers = nullptr);
 
     inline CSearchNode* FindNeighbor(CSearchNode *pA, int iDirection);
     CSearchNode*    GetNode(uint uiX, uint uiY)                     { return &m_pNodeBucket[uiY * m_uiBucketWidth + uiX]; }

@@ -49,7 +49,7 @@ GAME_SHARED_API EXTERN_CVAR_UINT(g_voteConcedeUnanimousTime);
 #define CASUAL_SETTING(type, name, cvar) \
 type    Get##name() const \
 { \
-    if (m_pGameInfo != NULL && m_pGameInfo->HasGameOptions(GAME_OPTION_CASUAL)) \
+    if (m_pGameInfo != nullptr && m_pGameInfo->HasGameOptions(GAME_OPTION_CASUAL)) \
         return cvar##_Casual; \
     else \
         return cvar; \
@@ -59,14 +59,14 @@ type    Get##name() const \
 #define CASUAL_ARRAY_SETTING(type, name, cvar) \
 type    Get##name(uint uiIndex) const \
 { \
-    if (m_pGameInfo != NULL && m_pGameInfo->HasGameOptions(GAME_OPTION_CASUAL)) \
+    if (m_pGameInfo != nullptr && m_pGameInfo->HasGameOptions(GAME_OPTION_CASUAL)) \
         return cvar##_Casual[uiIndex]; \
     else \
         return cvar[uiIndex]; \
 } \
 uint    Get##name##Size() const \
 { \
-    if (m_pGameInfo != NULL && m_pGameInfo->HasGameOptions(GAME_OPTION_CASUAL)) \
+    if (m_pGameInfo != nullptr && m_pGameInfo->HasGameOptions(GAME_OPTION_CASUAL)) \
         return cvar##_Casual.GetSize(); \
     else \
         return cvar.GetSize(); \
@@ -131,14 +131,14 @@ public:
     m_sResourceCategory(_T("world")),
     m_sTypeName(sTypeName),
     m_uiGameTime(0),
-    m_pWorld(NULL),
-    m_pEntityDirectory(NULL),
+    m_pWorld(nullptr),
+    m_pEntityDirectory(nullptr),
 
     m_iWinningTeam(TEAM_INVALID),
     m_uiFinalMatchTime(INVALID_TIME),
-    m_pGameInfo(NULL),
+    m_pGameInfo(nullptr),
     m_hGameMechanics(INVALID_RESOURCE),
-    m_pGameMechanics(NULL),
+    m_pGameMechanics(nullptr),
     m_bActiveReflection(false)
     {}
 
@@ -156,7 +156,7 @@ public:
     virtual bool        IsClient() const                    { return false; }
 
     virtual int         GetLocalClientNum()                 { return -1; }
-    virtual CPlayer*    GetLocalPlayer()                    { return NULL; }
+    virtual CPlayer*    GetLocalPlayer()                    { return nullptr; }
 
     void                AddGlobalModifier(uint uiIndex)     { m_vGlobalModifiers.push_back(uiIndex); }
     const uivector&     GetGlobalModifiers() const          { return m_vGlobalModifiers; }
@@ -175,43 +175,43 @@ public:
     void                SetGameInfo(CGameInfo *pGameInfo)   { m_pGameInfo = pGameInfo; }
     CGameInfo*          GetGameInfo() const                 { return m_pGameInfo; }
 
-    void                ClearFlags()                            {if (m_pGameInfo != NULL) m_pGameInfo->ClearFlags(); }
-    void                SetFlags(byte yFlags)                   { if (m_pGameInfo != NULL) m_pGameInfo->SetFlags(yFlags); }
-    void                RemoveFlags(byte yFlags)                { if (m_pGameInfo != NULL) m_pGameInfo->RemoveFlags(yFlags); }
-    bool                HasFlags(byte yFlags) const             { return m_pGameInfo == NULL ? false : m_pGameInfo->HasFlags(yFlags); }
+    void                ClearFlags()                            {if (m_pGameInfo != nullptr) m_pGameInfo->ClearFlags(); }
+    void                SetFlags(byte yFlags)                   { if (m_pGameInfo != nullptr) m_pGameInfo->SetFlags(yFlags); }
+    void                RemoveFlags(byte yFlags)                { if (m_pGameInfo != nullptr) m_pGameInfo->RemoveFlags(yFlags); }
+    bool                HasFlags(byte yFlags) const             { return m_pGameInfo == nullptr ? false : m_pGameInfo->HasFlags(yFlags); }
 
-    uint                GetGameMode() const                     { return m_pGameInfo == NULL ? 0 : m_pGameInfo->GetGameMode(); }
-    void                SetGameMode(uint uiMode)                { if (m_pGameInfo != NULL) m_pGameInfo->SetGameMode(uiMode); }
-    bool                HasGameOptions(uint uiOptions) const    { return m_pGameInfo == NULL ? false : m_pGameInfo->HasGameOptions(uiOptions); }
-    void                SetGameOptions(uint uiOptions)          { if (m_pGameInfo != NULL) m_pGameInfo->SetGameOptions(uiOptions); }
-    void                ClearGameOptions(uint uiOptions)        { if (m_pGameInfo != NULL) m_pGameInfo->ClearGameOptions(uiOptions); }
-    uint                GetTeamSize() const                     { return m_pGameInfo == NULL ? 0 : m_pGameInfo->GetTeamSize(); }
-    void                SetTeamSize(uint uiTeamSize)            { if (m_pGameInfo != NULL) m_pGameInfo->SetTeamSize(uiTeamSize); }
-    uint                GetCurrentSpectatorCount() const        { return m_pGameInfo == NULL ? 0 : m_pGameInfo->GetCurrentSpectatorCount(); }
-    uint                GetCurrentRefereeCount() const          { return m_pGameInfo == NULL ? 0 : m_pGameInfo->GetCurrentRefereeCount(); } 
-    uint                GetMaxSpectators() const                { return m_pGameInfo == NULL ? 0 : m_pGameInfo->GetMaxSpectators(); }
-    void                SetMaxSpectators(uint uiMaxSpectators)  { if (m_pGameInfo != NULL) m_pGameInfo->SetMaxSpectators(uiMaxSpectators); }
-    uint                GetMaxReferees() const                  { return m_pGameInfo == NULL ? 0 : m_pGameInfo->GetMaxReferees(); }
-    void                SetMaxReferees(uint uiMaxReferees)      { if (m_pGameInfo != NULL) m_pGameInfo->SetMaxReferees(uiMaxReferees); }
-    uint                GetStartingGold() const                 { return m_pGameInfo == NULL ? 0 : m_pGameInfo->GetStartingGold(); }
-    bool                GetAlternatePicks() const               { return m_pGameInfo == NULL ? 0 : m_pGameInfo->GetAlternatePicks(); }
-    uint                GetBanCount() const                     { return m_pGameInfo == NULL ? 0 : m_pGameInfo->GetBanCount(); }
-    uint                GetExtraTime() const                    { return m_pGameInfo == NULL ? 0 : m_pGameInfo->GetExtraTime(); }
+    uint                GetGameMode() const                     { return m_pGameInfo == nullptr ? 0 : m_pGameInfo->GetGameMode(); }
+    void                SetGameMode(uint uiMode)                { if (m_pGameInfo != nullptr) m_pGameInfo->SetGameMode(uiMode); }
+    bool                HasGameOptions(uint uiOptions) const    { return m_pGameInfo == nullptr ? false : m_pGameInfo->HasGameOptions(uiOptions); }
+    void                SetGameOptions(uint uiOptions)          { if (m_pGameInfo != nullptr) m_pGameInfo->SetGameOptions(uiOptions); }
+    void                ClearGameOptions(uint uiOptions)        { if (m_pGameInfo != nullptr) m_pGameInfo->ClearGameOptions(uiOptions); }
+    uint                GetTeamSize() const                     { return m_pGameInfo == nullptr ? 0 : m_pGameInfo->GetTeamSize(); }
+    void                SetTeamSize(uint uiTeamSize)            { if (m_pGameInfo != nullptr) m_pGameInfo->SetTeamSize(uiTeamSize); }
+    uint                GetCurrentSpectatorCount() const        { return m_pGameInfo == nullptr ? 0 : m_pGameInfo->GetCurrentSpectatorCount(); }
+    uint                GetCurrentRefereeCount() const          { return m_pGameInfo == nullptr ? 0 : m_pGameInfo->GetCurrentRefereeCount(); }
+    uint                GetMaxSpectators() const                { return m_pGameInfo == nullptr ? 0 : m_pGameInfo->GetMaxSpectators(); }
+    void                SetMaxSpectators(uint uiMaxSpectators)  { if (m_pGameInfo != nullptr) m_pGameInfo->SetMaxSpectators(uiMaxSpectators); }
+    uint                GetMaxReferees() const                  { return m_pGameInfo == nullptr ? 0 : m_pGameInfo->GetMaxReferees(); }
+    void                SetMaxReferees(uint uiMaxReferees)      { if (m_pGameInfo != nullptr) m_pGameInfo->SetMaxReferees(uiMaxReferees); }
+    uint                GetStartingGold() const                 { return m_pGameInfo == nullptr ? 0 : m_pGameInfo->GetStartingGold(); }
+    bool                GetAlternatePicks() const               { return m_pGameInfo == nullptr ? 0 : m_pGameInfo->GetAlternatePicks(); }
+    uint                GetBanCount() const                     { return m_pGameInfo == nullptr ? 0 : m_pGameInfo->GetBanCount(); }
+    uint                GetExtraTime() const                    { return m_pGameInfo == nullptr ? 0 : m_pGameInfo->GetExtraTime(); }
 
-    ushort              GetMinPSR() const                       { return m_pGameInfo == NULL ? 0 : m_pGameInfo->GetMinPSR(); }
-    ushort              GetMaxPSR() const                       { return m_pGameInfo == NULL ? 0 : m_pGameInfo->GetMaxPSR(); }
-    void                SetMinPSR(const ushort unMinPSR)        { if (m_pGameInfo != NULL) m_pGameInfo->SetMinPSR(unMinPSR); }
-    void                SetMaxPSR(const ushort unMaxPSR)        { if (m_pGameInfo != NULL) m_pGameInfo->SetMaxPSR(unMaxPSR); }
+    ushort              GetMinPSR() const                       { return m_pGameInfo == nullptr ? 0 : m_pGameInfo->GetMinPSR(); }
+    ushort              GetMaxPSR() const                       { return m_pGameInfo == nullptr ? 0 : m_pGameInfo->GetMaxPSR(); }
+    void                SetMinPSR(const ushort unMinPSR)        { if (m_pGameInfo != nullptr) m_pGameInfo->SetMinPSR(unMinPSR); }
+    void                SetMaxPSR(const ushort unMaxPSR)        { if (m_pGameInfo != nullptr) m_pGameInfo->SetMaxPSR(unMaxPSR); }
 
-    uint                GetGamePhase() const                { return m_pGameInfo == NULL ? GAME_PHASE_IDLE : m_pGameInfo->GetGamePhase(); }
-    uint                GetPhaseStartTime() const           { return m_pGameInfo == NULL ? INVALID_TIME : m_pGameInfo->GetPhaseStartTime(); }
-    uint                GetPhaseDuration() const            { return m_pGameInfo == NULL ? INVALID_TIME : m_pGameInfo->GetPhaseDuration(); }
-    uint                GetPhaseEndTime() const             { return m_pGameInfo == NULL ? INVALID_TIME : m_pGameInfo->GetPhaseEndTime(); }
-    EServerAccess       GetServerAccess() const             { return m_pGameInfo == NULL ? ACCESS_PUBLIC : m_pGameInfo->GetServerAccess(); }
-    byte                GetHostFlags() const                { return m_pGameInfo == NULL ? 0 : m_pGameInfo->GetHostFlags(); }
-    uint                GetRemainingPhaseTime() const       { if (m_pGameInfo == NULL) return INVALID_TIME; if (m_uiGameTime >= GetPhaseEndTime()) return 0; return GetPhaseEndTime() - GetServerTime(); }
-    void                SetGamePhase(EGamePhase ePhase, uint uiLength = INVALID_TIME, uint uiStartTime = INVALID_TIME)  { if (m_pGameInfo == NULL) return; m_pGameInfo->SetGamePhase(ePhase, uiLength, uiStartTime); }
-    void                SetGamePhaseEndTime(uint uiTime)    { if (m_pGameInfo == NULL) return; m_pGameInfo->SetGamePhaseEndTime(uiTime); }
+    uint                GetGamePhase() const                { return m_pGameInfo == nullptr ? GAME_PHASE_IDLE : m_pGameInfo->GetGamePhase(); }
+    uint                GetPhaseStartTime() const           { return m_pGameInfo == nullptr ? INVALID_TIME : m_pGameInfo->GetPhaseStartTime(); }
+    uint                GetPhaseDuration() const            { return m_pGameInfo == nullptr ? INVALID_TIME : m_pGameInfo->GetPhaseDuration(); }
+    uint                GetPhaseEndTime() const             { return m_pGameInfo == nullptr ? INVALID_TIME : m_pGameInfo->GetPhaseEndTime(); }
+    EServerAccess       GetServerAccess() const             { return m_pGameInfo == nullptr ? ACCESS_PUBLIC : m_pGameInfo->GetServerAccess(); }
+    byte                GetHostFlags() const                { return m_pGameInfo == nullptr ? 0 : m_pGameInfo->GetHostFlags(); }
+    uint                GetRemainingPhaseTime() const       { if (m_pGameInfo == nullptr) return INVALID_TIME; if (m_uiGameTime >= GetPhaseEndTime()) return 0; return GetPhaseEndTime() - GetServerTime(); }
+    void                SetGamePhase(EGamePhase ePhase, uint uiLength = INVALID_TIME, uint uiStartTime = INVALID_TIME)  { if (m_pGameInfo == nullptr) return; m_pGameInfo->SetGamePhase(ePhase, uiLength, uiStartTime); }
+    void                SetGamePhaseEndTime(uint uiTime)    { if (m_pGameInfo == nullptr) return; m_pGameInfo->SetGamePhaseEndTime(uiTime); }
 
     virtual void        StartMatch()                        {}
     virtual void        EndMatch(int iLosingTeam)           {}
@@ -223,7 +223,7 @@ public:
     CGameMechanics*                     GetGameMechanics() const                        { return m_pGameMechanics; }
 
     uint                LookupAttackType(const tstring &sName) const        { return m_pGameMechanics ? m_pGameMechanics->LookupAttackType(sName) : INVALID_ATTACK_TYPE; }
-    const CAttackType*  GetAttackType(uint uiAttackType) const              { return m_pGameMechanics ? m_pGameMechanics->GetAttackType(uiAttackType) : NULL; }
+    const CAttackType*  GetAttackType(uint uiAttackType) const              { return m_pGameMechanics ? m_pGameMechanics->GetAttackType(uiAttackType) : nullptr; }
     const tstring&      GetAttackTypeDisplayName(uint uiAttackType) const   { return m_pGameMechanics ? m_pGameMechanics->GetAttackTypeDisplayName(uiAttackType) : TSNULL; }
     
     uint                LookupCombatType(const tstring &sName) const        { return m_pGameMechanics ? m_pGameMechanics->LookupCombatType(sName) : INVALID_COMBAT_TYPE; }
@@ -253,20 +253,20 @@ public:
     float               GetArmorDamageAdjustment(uint uiArmorType, float fArmor) const  { return m_pGameMechanics ? m_pGameMechanics->GetArmorDamageAdjustment(uiArmorType, fArmor) : 0.0f; }
 
     uint                    LookupTargetScheme(const tstring &sName) const  { return m_pGameMechanics ? m_pGameMechanics->LookupTargetScheme(sName) : INVALID_TARGET_SCHEME; }
-    const CTargetScheme*    GetTargetScheme(uint uiIndex) const             { return m_pGameMechanics ? m_pGameMechanics->GetTargetScheme(uiIndex) : NULL; }
+    const CTargetScheme*    GetTargetScheme(uint uiIndex) const             { return m_pGameMechanics ? m_pGameMechanics->GetTargetScheme(uiIndex) : nullptr; }
     const tstring&          GetTargetSchemeDisplayName(uint uiIndex) const  { return m_pGameMechanics ? m_pGameMechanics->GetTargetSchemeDisplayName(uiIndex) : TSNULL; }
 
     byte            LookupPopup(const tstring &sName) const { return m_pGameMechanics ? m_pGameMechanics->LookupPopup(sName) : INVALID_POPUP; }
-    const CPopup*   GetPopup(byte yType)                    { return m_pGameMechanics ? m_pGameMechanics->GetPopup(yType) : NULL; }
-    const CPopup*   GetPopup(EPopup eType)                  { return m_pGameMechanics ? m_pGameMechanics->GetPopup(eType) : NULL; }
-    virtual void    SendPopup(byte yType, IUnitEntity *pSource, IUnitEntity *pTarget = NULL, ushort unValue = 0)    {}
-    virtual void    SendPopup(EPopup eType, IUnitEntity *pSource, IUnitEntity *pTarget = NULL, ushort unValue = 0)  {}
+    const CPopup*   GetPopup(byte yType)                    { return m_pGameMechanics ? m_pGameMechanics->GetPopup(yType) : nullptr; }
+    const CPopup*   GetPopup(EPopup eType)                  { return m_pGameMechanics ? m_pGameMechanics->GetPopup(eType) : nullptr; }
+    virtual void    SendPopup(byte yType, IUnitEntity *pSource, IUnitEntity *pTarget = nullptr, ushort unValue = 0)    {}
+    virtual void    SendPopup(EPopup eType, IUnitEntity *pSource, IUnitEntity *pTarget = nullptr, ushort unValue = 0)  {}
 
     byte            LookupPing(const tstring &sName) const  { return m_pGameMechanics ? m_pGameMechanics->LookupPing(sName) : INVALID_PING; }
-    const CPing*    GetPing(byte yType)                     { return m_pGameMechanics ? m_pGameMechanics->GetPing(yType) : NULL; }
-    const CPing*    GetPing(EPing eType)                    { return m_pGameMechanics ? m_pGameMechanics->GetPing(eType) : NULL; }
-    virtual void    SendPing(byte yType, IUnitEntity *pSource, IUnitEntity *pTarget = NULL, const CVec2f &v2Pos = V2_ZERO)      {}
-    virtual void    SendPing(EPing eType, IUnitEntity *pSource, IUnitEntity *pTarget = NULL, const CVec2f &v2Pos = V2_ZERO)     {}
+    const CPing*    GetPing(byte yType)                     { return m_pGameMechanics ? m_pGameMechanics->GetPing(yType) : nullptr; }
+    const CPing*    GetPing(EPing eType)                    { return m_pGameMechanics ? m_pGameMechanics->GetPing(eType) : nullptr; }
+    virtual void    SendPing(byte yType, IUnitEntity *pSource, IUnitEntity *pTarget = nullptr, const CVec2f &v2Pos = V2_ZERO)      {}
+    virtual void    SendPing(EPing eType, IUnitEntity *pSource, IUnitEntity *pTarget = nullptr, const CVec2f &v2Pos = V2_ZERO)     {}
 
     // World
     void            SetWorldPointer(CWorld *pWorld)                         { m_pWorld = pWorld; }
@@ -282,9 +282,9 @@ public:
     WorldLightsMap& GetWorldLightsMap()                                     { return m_pWorld->GetLightsMap(); }
     WorldSoundsMap& GetWorldSoundsMap()                                     { return m_pWorld->GetSoundsMap(); }
     tsmapts&            GetWorldScriptMap()                                     { return m_pWorld->GetScriptMap(); }
-    CWorldEntity*   GetWorldEntity(uint uiIndex, bool bThrow = NO_THROW)    { if (m_pWorld == NULL) return NULL; return m_pWorld->GetEntity(uiIndex, bThrow); }
-    CWorldLight*    GetWorldLight(uint uiIndex, bool bThrow = NO_THROW)     { if (m_pWorld == NULL) return NULL; return m_pWorld->GetLight(uiIndex, bThrow); }
-    CWorldSound*    GetWorldSound(uint uiIndex, bool bThrow = NO_THROW)     { if (m_pWorld == NULL) return NULL; return m_pWorld->GetSound(uiIndex, bThrow); }
+    CWorldEntity*   GetWorldEntity(uint uiIndex, bool bThrow = NO_THROW)    { if (m_pWorld == nullptr) return nullptr; return m_pWorld->GetEntity(uiIndex, bThrow); }
+    CWorldLight*    GetWorldLight(uint uiIndex, bool bThrow = NO_THROW)     { if (m_pWorld == nullptr) return nullptr; return m_pWorld->GetLight(uiIndex, bThrow); }
+    CWorldSound*    GetWorldSound(uint uiIndex, bool bThrow = NO_THROW)     { if (m_pWorld == nullptr) return nullptr; return m_pWorld->GetSound(uiIndex, bThrow); }
     void            LinkEntity(uint uiIndex, uint uiLinkFlags, uint uiSurfFlags) const  { m_pWorld->LinkEntity(uiIndex, uiLinkFlags, uiSurfFlags); }
     void            UnlinkEntity(uint uiIndex)                              { m_pWorld->UnlinkEntity(uiIndex); }
     float           SampleGround(float fX, float fY)                        { return m_pWorld->SampleGround(fX, fY); }
@@ -341,7 +341,7 @@ public:
 
     // Teams
     GAME_SHARED_API void            SetTeam(uint uiTeamID, CTeamInfo *pTeam);
-    CTeamInfo*                      GetTeam(uint uiTeamID) const                { map<uint, CTeamInfo*>::const_iterator itFind(m_mapTeams.find(uiTeamID)); if (itFind == m_mapTeams.end()) return NULL; return itFind->second; }
+    CTeamInfo*                      GetTeam(uint uiTeamID) const                { map<uint, CTeamInfo*>::const_iterator itFind(m_mapTeams.find(uiTeamID)); if (itFind == m_mapTeams.end()) return nullptr; return itFind->second; }
     void                            ClearTeams()                                { m_mapTeams.clear(); }
     const map<uint, CTeamInfo*>&    GetTeams() const                            { return m_mapTeams; }
     void                            RemoveTeam(uint uiTeamID)                   { map<uint, CTeamInfo*>::iterator itFind(m_mapTeams.find(uiTeamID)); if (itFind != m_mapTeams.end()) m_mapTeams.erase(itFind); }
@@ -356,11 +356,11 @@ public:
 
     // Entities
     void                    SetEntityDirectory(IEntityDirectory* pDirectory)                        { m_pEntityDirectory = pDirectory; }
-    virtual IGameEntity*    AllocateEntity(const tstring &sName, uint uiMinIndex = INVALID_INDEX)   { return NULL; }
-    virtual IGameEntity*    AllocateEntity(ushort unType, uint uiMinIndex = INVALID_INDEX)          { return NULL; }
+    virtual IGameEntity*    AllocateEntity(const tstring &sName, uint uiMinIndex = INVALID_INDEX)   { return nullptr; }
+    virtual IGameEntity*    AllocateEntity(ushort unType, uint uiMinIndex = INVALID_INDEX)          { return nullptr; }
 
-    virtual IGameEntity*    AllocateDynamicEntity(const tstring &sName, uint uiMinIndex, uint uiBaseType)   { return NULL; }
-    virtual IGameEntity*    AllocateDynamicEntity(ushort unTypeID, uint uiMinIndex, uint uiBaseType)        { return NULL; }
+    virtual IGameEntity*    AllocateDynamicEntity(const tstring &sName, uint uiMinIndex, uint uiBaseType)   { return nullptr; }
+    virtual IGameEntity*    AllocateDynamicEntity(ushort unTypeID, uint uiMinIndex, uint uiBaseType)        { return nullptr; }
     template <class T>
     T*  AllocateDynamicEntity(const tstring &sName, uint uiMinIndex = INVALID_INDEX)
     {
@@ -376,62 +376,62 @@ public:
     virtual void            DeleteEntity(uint uiIndex)                                              {}
 
     IGameEntity*            GetEntity(uint uiIndex)                             { return m_pEntityDirectory->GetEntity(uiIndex); }
-    CGameStats*             GetStatsEntity(uint uiIndex)                        { IGameEntity *pEntity(GetEntity(uiIndex)); return ((pEntity == NULL) ? NULL : pEntity->GetAsStats()); }
-    IVisualEntity*          GetVisualEntity(uint uiIndex)                       { IGameEntity *pEntity(GetEntity(uiIndex)); return ((pEntity == NULL) ? NULL : pEntity->GetAsVisual()); }
-    IBuildingEntity*        GetBuildingEntity(uint uiIndex)                     { IGameEntity *pEntity(GetEntity(uiIndex)); return ((pEntity == NULL) ? NULL : pEntity->GetAsBuilding()); }
-    IPropEntity*            GetPropEntity(uint uiIndex)                         { IGameEntity *pEntity(GetEntity(uiIndex)); return ((pEntity == NULL) ? NULL : pEntity->GetAsProp()); }
-    IUnitEntity*            GetUnitEntity(uint uiIndex)                         { IGameEntity *pEntity(GetEntity(uiIndex)); return ((pEntity == NULL) ? NULL : pEntity->GetAsUnit()); }
-    IHeroEntity*            GetHeroEntity(uint uiIndex)                         { IGameEntity *pEntity(GetEntity(uiIndex)); return ((pEntity == NULL) ? NULL : pEntity->GetAsHero()); }
-    IGadgetEntity*          GetGadgetEntity(uint uiIndex)                       { IGameEntity *pEntity(GetEntity(uiIndex)); return ((pEntity == NULL) ? NULL : pEntity->GetAsGadget()); }
-    IProjectile*            GetProjectile(uint uiIndex)                         { IGameEntity *pEntity(GetEntity(uiIndex)); return ((pEntity == NULL) ? NULL : pEntity->GetAsProjectile()); }
-    IAffector*              GetAreaAffector(uint uiIndex)                       { IGameEntity *pEntity(GetEntity(uiIndex)); return ((pEntity == NULL) ? NULL : pEntity->GetAsAffector()); }
-    IEntityState*           GetEntityState(uint uiIndex)                        { IGameEntity *pEntity(GetEntity(uiIndex)); return ((pEntity == NULL) ? NULL : pEntity->GetAsState()); }
-    IEntityItem*            GetEntityItem(uint uiIndex)                         { IGameEntity *pEntity(GetEntity(uiIndex)); return ((pEntity == NULL) ? NULL : pEntity->GetAsItem()); }
-    IBitEntity*             GetBitEntity(uint uiIndex)                          { IGameEntity *pEntity(GetEntity(uiIndex)); return ((pEntity == NULL) ? NULL : pEntity->GetAsBit()); }
-    IVisualEntity*          GetEntityFromWorldIndex(uint uiIndex)               { CWorldEntity *pWorldEnt(GetWorldEntity(uiIndex)); if (pWorldEnt == NULL) return NULL; return GetVisualEntity(pWorldEnt->GetGameIndex()); }
-    CPlayer*                GetPlayerFromClientNumber(int iClientNumber)        { PlayerMap_it itClient(m_mapClients.find(iClientNumber)); if (itClient == m_mapClients.end()) return NULL; return itClient->second; }
+    CGameStats*             GetStatsEntity(uint uiIndex)                        { IGameEntity *pEntity(GetEntity(uiIndex)); return ((pEntity == nullptr) ? nullptr : pEntity->GetAsStats()); }
+    IVisualEntity*          GetVisualEntity(uint uiIndex)                       { IGameEntity *pEntity(GetEntity(uiIndex)); return ((pEntity == nullptr) ? nullptr : pEntity->GetAsVisual()); }
+    IBuildingEntity*        GetBuildingEntity(uint uiIndex)                     { IGameEntity *pEntity(GetEntity(uiIndex)); return ((pEntity == nullptr) ? nullptr : pEntity->GetAsBuilding()); }
+    IPropEntity*            GetPropEntity(uint uiIndex)                         { IGameEntity *pEntity(GetEntity(uiIndex)); return ((pEntity == nullptr) ? nullptr : pEntity->GetAsProp()); }
+    IUnitEntity*            GetUnitEntity(uint uiIndex)                         { IGameEntity *pEntity(GetEntity(uiIndex)); return ((pEntity == nullptr) ? nullptr : pEntity->GetAsUnit()); }
+    IHeroEntity*            GetHeroEntity(uint uiIndex)                         { IGameEntity *pEntity(GetEntity(uiIndex)); return ((pEntity == nullptr) ? nullptr : pEntity->GetAsHero()); }
+    IGadgetEntity*          GetGadgetEntity(uint uiIndex)                       { IGameEntity *pEntity(GetEntity(uiIndex)); return ((pEntity == nullptr) ? nullptr : pEntity->GetAsGadget()); }
+    IProjectile*            GetProjectile(uint uiIndex)                         { IGameEntity *pEntity(GetEntity(uiIndex)); return ((pEntity == nullptr) ? nullptr : pEntity->GetAsProjectile()); }
+    IAffector*              GetAreaAffector(uint uiIndex)                       { IGameEntity *pEntity(GetEntity(uiIndex)); return ((pEntity == nullptr) ? nullptr : pEntity->GetAsAffector()); }
+    IEntityState*           GetEntityState(uint uiIndex)                        { IGameEntity *pEntity(GetEntity(uiIndex)); return ((pEntity == nullptr) ? nullptr : pEntity->GetAsState()); }
+    IEntityItem*            GetEntityItem(uint uiIndex)                         { IGameEntity *pEntity(GetEntity(uiIndex)); return ((pEntity == nullptr) ? nullptr : pEntity->GetAsItem()); }
+    IBitEntity*             GetBitEntity(uint uiIndex)                          { IGameEntity *pEntity(GetEntity(uiIndex)); return ((pEntity == nullptr) ? nullptr : pEntity->GetAsBit()); }
+    IVisualEntity*          GetEntityFromWorldIndex(uint uiIndex)               { CWorldEntity *pWorldEnt(GetWorldEntity(uiIndex)); if (pWorldEnt == nullptr) return nullptr; return GetVisualEntity(pWorldEnt->GetGameIndex()); }
+    CPlayer*                GetPlayerFromClientNumber(int iClientNumber)        { PlayerMap_it itClient(m_mapClients.find(iClientNumber)); if (itClient == m_mapClients.end()) return nullptr; return itClient->second; }
     IGameEntity*            GetEntityFromUniqueID(uint uiUniqueID)              { return m_pEntityDirectory->GetEntityFromUniqueID(uiUniqueID); }
-    IUnitEntity*            GetUnitFromUniqueID(uint uiUniqueID)                { IGameEntity *pEntity(m_pEntityDirectory->GetEntityFromUniqueID(uiUniqueID)); return pEntity == NULL ? NULL : pEntity->GetAsUnit(); }
+    IUnitEntity*            GetUnitFromUniqueID(uint uiUniqueID)                { IGameEntity *pEntity(m_pEntityDirectory->GetEntityFromUniqueID(uiUniqueID)); return pEntity == nullptr ? nullptr : pEntity->GetAsUnit(); }
     uint                    GetGameIndexFromUniqueID(uint uiUniqueID)           { return m_pEntityDirectory->GetGameIndexFromUniqueID(uiUniqueID); }
-    uint                    GetGameIndexFromWorldIndex(uint uiIndex)            { CWorldEntity *pWorldEnt(GetWorldEntity(uiIndex)); if (pWorldEnt == NULL) return INVALID_INDEX; return pWorldEnt->GetGameIndex(); }
+    uint                    GetGameIndexFromWorldIndex(uint uiIndex)            { CWorldEntity *pWorldEnt(GetWorldEntity(uiIndex)); if (pWorldEnt == nullptr) return INVALID_INDEX; return pWorldEnt->GetGameIndex(); }
     IGameEntity*            GetFirstEntity()                                    { return m_pEntityDirectory->GetFirstEntity(); }
     IGameEntity*            GetNextEntity(IGameEntity *pEntity)                 { return m_pEntityDirectory->GetNextEntity(pEntity); }
     IVisualEntity*          GetEntityFromName(const tstring &sName)             { return m_pEntityDirectory->GetEntityFromName(sName); }
     IVisualEntity*          GetNextEntityFromName(IVisualEntity *pEntity)       { return m_pEntityDirectory->GetNextEntityFromName(pEntity); }
-    CPlayer*                GetPlayer(int iClientNumber)                        { PlayerMap_it itClient(m_mapClients.find(iClientNumber)); if (itClient == m_mapClients.end()) return NULL; return itClient->second; }
+    CPlayer*                GetPlayer(int iClientNumber)                        { PlayerMap_it itClient(m_mapClients.find(iClientNumber)); if (itClient == m_mapClients.end()) return nullptr; return itClient->second; }
     void                    GetEntities(uivector &vResult, ushort unType)       { m_pEntityDirectory->GetEntities(vResult, unType); }
     const UnitList&         GetUnitList()                                       { return m_pEntityDirectory->GetUnitList(); }
     void                    ActivateBitEntity(uint uiIndex)                     { m_pEntityDirectory->ActivateBitEntity(uiIndex); }
     void                    DeactivateBitEntity(uint uiIndex)                   { m_pEntityDirectory->DeactivateBitEntity(uiIndex); }
-    void                    UpdateDefinitions(ushort unType)                    { if (m_pEntityDirectory != NULL) m_pEntityDirectory->UpdateDefinitions(unType); }
+    void                    UpdateDefinitions(ushort unType)                    { if (m_pEntityDirectory != nullptr) m_pEntityDirectory->UpdateDefinitions(unType); }
 
     const PlayerMap&        GetPlayerMap() const                                { return m_mapClients; }
 
     template <class T> T*   GetEntityAs(uint uiIndex)
     {
         IGameEntity *pEntity(GetEntity(uiIndex));
-        if (pEntity != NULL && pEntity->GetType() == T::GetEntityType())
+        if (pEntity != nullptr && pEntity->GetType() == T::GetEntityType())
             return static_cast<T*>(pEntity);
         else
-            return NULL;
+            return nullptr;
     }
 
     template <class T> T*   GetEntityFromNameAs(const tstring &sName)
     {
         IGameEntity *pEntity(reinterpret_cast<IGameEntity*>(GetEntityFromName(sName))); // TKTK 2023: Tricky forward declaration situation here; remove reinterpret_cast eventually.
-        if (pEntity != NULL && pEntity->GetType() == T::GetEntityType())
+        if (pEntity != nullptr && pEntity->GetType() == T::GetEntityType())
             return static_cast<T*>(pEntity);
         else
-            return NULL;
+            return nullptr;
     }
 
     template <class T> T*   GetEntityFromUniqueIDAs(uint uiUniqueID)
     {
         IGameEntity *pEntity(GetEntityFromUniqueID(uiUniqueID));
-        if (pEntity != NULL && pEntity->GetType() == T::GetEntityType())
+        if (pEntity != nullptr && pEntity->GetType() == T::GetEntityType())
             return static_cast<T*>(pEntity);
         else
-            return NULL;
+            return nullptr;
     }
 
     virtual const tstring&  GetEntityString(const tstring &sKey) const          { return sKey; }
@@ -460,7 +460,7 @@ public:
     void    DeleteRelatedEvents(uint uiIndex)       { m_EventDirectory.DeleteRelatedEvents(uiIndex); }
 
     // Client
-    virtual CClientSnapshot*    GetCurrentSnapshot()                                            { return NULL; }
+    virtual CClientSnapshot*    GetCurrentSnapshot()                                            { return nullptr; }
 
     virtual bool        IsEntitySelected(uint uiIndex)  { return false; }
     virtual bool        IsEntityHoverSelected(uint uiIndex) { return false; }
@@ -468,7 +468,7 @@ public:
 
     virtual void        AddCameraEffectAngleOffset(const CVec3f &v3Angles)      {}
     virtual void        AddCameraEffectOffset(const CVec3f &v3Position)         {}
-    virtual CCamera*    GetCamera() const                                       { return NULL; }
+    virtual CCamera*    GetCamera() const                                       { return nullptr; }
     virtual void        AddOverlay(const CVec4f &v4Color)                       {}
     virtual void        AddOverlay(const CVec4f &v4Color, ResHandle hMaterial)  {}
 
@@ -494,8 +494,8 @@ public:
     virtual uint            GetServerFrameLength() = 0;
 
     // Pathfinding
-    virtual PoolHandle      FindPath(const CVec2f &v2Src, float fEntityWidth, uint uiNavigationFlags, const CVec2f &v2Goal, float fGoalRange, vector<PoolHandle> *pBlockers = NULL) const       { return INVALID_POOL_HANDLE; }
-    virtual CPath*          AccessPath(PoolHandle hPath) const                                                                          { return NULL; }
+    virtual PoolHandle      FindPath(const CVec2f &v2Src, float fEntityWidth, uint uiNavigationFlags, const CVec2f &v2Goal, float fGoalRange, vector<PoolHandle> *pBlockers = nullptr) const       { return INVALID_POOL_HANDLE; }
+    virtual CPath*          AccessPath(PoolHandle hPath) const                                                                          { return nullptr; }
     virtual PoolHandle      ClonePath(PoolHandle hPath) const                                                                           { return INVALID_POOL_HANDLE; }
     virtual void            FreePath(PoolHandle hPath) const                                                                            {}
     virtual PoolHandle      BlockPath(uint uiFlags, const CVec2f &v2Position, float fWidth, float fHeight)                              { return INVALID_POOL_HANDLE; }
@@ -525,7 +525,7 @@ public:
 
     // Game log
     virtual void    LogPlayer(EGameLogEvent eEvent, CPlayer *pPlayer)                                                                   {}
-    virtual void    LogKill(IUnitEntity *pTarget, IUnitEntity *pAttacker, IGameEntity *pInflictor = NULL, ivector *pAssists = NULL)     {}
+    virtual void    LogKill(IUnitEntity *pTarget, IUnitEntity *pAttacker, IGameEntity *pInflictor = nullptr, ivector *pAssists = nullptr)     {}
     virtual void    LogAssist(IUnitEntity *pTarget, IUnitEntity *pAttacker, IGameEntity *pInflictor, CPlayer *pPlayer)                  {}
     virtual void    LogDamage(IUnitEntity *pTarget, int iPlayer, ushort unAttackerType, ushort unInflictorType, float fDamage)          {}
     virtual void    LogDeny(IUnitEntity *pTarget, IUnitEntity *pAttacker, IGameEntity *pInflictor, float fExperience, ushort unGold)    {}
@@ -533,8 +533,8 @@ public:
     virtual void    LogGold(EGameLogEvent eEvent, CPlayer *pPlayer, IUnitEntity *pSource, ushort unGold)                                {}
     virtual void    LogHero(EGameLogEvent eEvent, IHeroEntity *pUnit, const tstring &sParamA = TSNULL)                                  {}
     virtual void    LogAward(EGameLogEvent eEvent, IUnitEntity *pAttacker, IUnitEntity *pTarget, ushort unGold = 0)                     {}
-    virtual void    LogItem(EGameLogEvent eEvent, IEntityItem *pItem, IUnitEntity *pTarget = NULL)                                      {}
-    virtual void    LogAbility(EGameLogEvent eEvent, IEntityAbility *pAbility, IUnitEntity *pTarget = NULL)                             {}
+    virtual void    LogItem(EGameLogEvent eEvent, IEntityItem *pItem, IUnitEntity *pTarget = nullptr)                                      {}
+    virtual void    LogAbility(EGameLogEvent eEvent, IEntityAbility *pAbility, IUnitEntity *pTarget = nullptr)                             {}
 
     virtual bool    UsePlayerColors()                                                                                                   { return true; }
     virtual bool    UseHeroIndicators()                                                                                                 { return true; }
@@ -591,10 +591,10 @@ bool    IGame::Validate() const
 {
     try
     {
-        if (m_pWorld == NULL)
+        if (m_pWorld == nullptr)
             EX_ERROR(_T("Invalid world pointer"));
 
-        if (m_pEntityDirectory == NULL)
+        if (m_pEntityDirectory == nullptr)
             EX_ERROR(_T("Invalid entity directory pointer"));
 
         return true;

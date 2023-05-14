@@ -117,7 +117,7 @@ m_hFont(g_ResourceManager.LookUpName(_T("system_medium"), RES_FONTMAP))
             continue;
 
         const CDynamicEntityAllocator *pAllocator(EntityRegistry.GetDynamicAllocator(it->first));
-        if (pAllocator != NULL && GET_ENTITY_BASE_TYPE1(pAllocator->GetBaseType()) != ENTITY_BASE_TYPE1_UNIT &&
+        if (pAllocator != nullptr && GET_ENTITY_BASE_TYPE1(pAllocator->GetBaseType()) != ENTITY_BASE_TYPE1_UNIT &&
             GET_ENTITY_BASE_TYPE1(pAllocator->GetBaseType()) != ENTITY_BASE_TYPE1_AFFECTOR)
             continue;
 
@@ -527,7 +527,7 @@ void     CEntityTool::CalcToolProperties()
 //          pNewSpawn->SetSkin(g_ResourceManager.GetSkin(pNewSpawn->GetModelHandle(), _T("green")));
 //
 //          IUnitDefinition *pDefinition(EntityRegistry.GetDefinition<IUnitDefinition>(_T("Trigger_SpawnPoint")));
-//          if (pDefinition != NULL)
+//          if (pDefinition != nullptr)
 //          {
 //              Editor.GetWorld().UnlinkEntity(pNewSpawn->GetIndex());
 //              pNewSpawn->SetScale(pDefinition->GetPreGlobalScale(0) * pDefinition->GetModelScale(0));
@@ -596,7 +596,7 @@ void     CEntityTool::CalcToolProperties()
 //          //}
 //
 //          /*IUnitDefinition *pDefinition(EntityRegistry.GetDefinition<IUnitDefinition>(_T("Entity_CreepSpawner")));
-//          if (pDefinition != NULL)
+//          if (pDefinition != nullptr)
 //          {
 //              Editor.GetWorld().UnlinkEntity(pNewSpawn->GetIndex());
 //              pNewSpawn->SetScale(pDefinition->GetPreGlobalScale(0) * pDefinition->GetModelScale(0));
@@ -618,7 +618,7 @@ void     CEntityTool::CalcToolProperties()
 //          pNewSpawn->SetSkin(g_ResourceManager.GetSkin(pNewSpawn->GetModelHandle(), _T("yellow")));
 //
 //          /*IUnitDefinition *pDefinition(EntityRegistry.GetDefinition<IUnitDefinition>(le_spawnType));
-//          if (pDefinition != NULL)
+//          if (pDefinition != nullptr)
 //          {
 //              Editor.GetWorld().UnlinkEntity(pNewSpawn->GetIndex());
 //              pNewSpawn->SetScale(pDefinition->GetPreGlobalScale(0) * pDefinition->GetModelScale(0));
@@ -635,7 +635,7 @@ void     CEntityTool::CalcToolProperties()
 //          pNewSpawn->SetType(le_spawnType);
 //
 //          IUnitDefinition *pDefinition(EntityRegistry.GetDefinition<IUnitDefinition>(le_spawnType));
-//          if (pDefinition != NULL)
+//          if (pDefinition != nullptr)
 //          {
 //              Editor.GetWorld().UnlinkEntity(pNewSpawn->GetIndex());
 //              pNewSpawn->SetScale(pDefinition->GetPreGlobalScale(0) * pDefinition->GetModelScale(0));
@@ -674,7 +674,7 @@ void    CEntityTool::TranslateXY()
         if (le_entityCenterMode == CENTER_HOVER || le_entityCenterMode == CENTER_INDIVIDUAL && m_uiHoverEnt != INVALID_INDEX)
         {
             CWorldEntity *pEntity(Editor.GetWorld().GetEntity(m_uiHoverEnt));
-            if (pEntity != NULL)
+            if (pEntity != nullptr)
                 SnapCursor(CVec3f(pEntity->GetPosition().x, pEntity->GetPosition().y, Editor.GetWorld().GetTerrainHeight(pEntity->GetPosition().x, pEntity->GetPosition().y)));
         }
         else
@@ -952,7 +952,7 @@ void    CEntityTool::StartTranslateXY()
 
             m_iState = STATE_TRANSLATE_XY;
 
-            if ((le_entityCenterMode == CENTER_HOVER || le_entityCenterMode == CENTER_INDIVIDUAL) && Editor.GetWorld().GetEntity(m_uiHoverEnt, true) != NULL)
+            if ((le_entityCenterMode == CENTER_HOVER || le_entityCenterMode == CENTER_INDIVIDUAL) && Editor.GetWorld().GetEntity(m_uiHoverEnt, true) != nullptr)
                 m_vTranslate = Editor.GetWorld().GetEntity(m_uiHoverEnt, true)->GetPosition();
             else
                 m_vTranslate = SelectionCenter();
@@ -1206,7 +1206,7 @@ void    CEntityTool::ApplyTranslateXY()
         for (uiset::iterator it(m_setSelection.begin()); it != m_setSelection.end(); ++it)
         {
             CWorldEntity *pEntity(Editor.GetWorld().GetEntity(*it));
-            if (pEntity == NULL)
+            if (pEntity == nullptr)
                 continue;
 
             CVec3f vDiff = pEntity->GetPosition() - v3Center;
@@ -1263,7 +1263,7 @@ void    CEntityTool::ApplyTranslateZ()
     for (uiset::iterator it = m_setSelection.begin(); it != m_setSelection.end(); ++it)
     {
         CWorldEntity *pEntity(Editor.GetWorld().GetEntity(*it));
-        if (pEntity == NULL)
+        if (pEntity == nullptr)
             continue;
 
         CVec3f vOrigin = pEntity->GetPosition();
@@ -1287,7 +1287,7 @@ void    CEntityTool::ApplyRotation(EEulerComponent eDirection, const CVec3f &v3C
     for (uiset::iterator it = m_setSelection.begin(); it != m_setSelection.end(); ++it)
     {
         CWorldEntity *pEntity(Editor.GetWorld().GetEntity(*it));
-        if (pEntity == NULL)
+        if (pEntity == nullptr)
             continue;
 
         if (bAdjustOrigin)
@@ -1336,7 +1336,7 @@ void    CEntityTool::ApplyScaleUniform(const CVec3f &v3Center, bool bAdjustOrigi
     for (uiset::iterator it(m_setSelection.begin()); it != m_setSelection.end(); ++it)
     {
         CWorldEntity *pEntity(Editor.GetWorld().GetEntity(*it));
-        if (pEntity == NULL)
+        if (pEntity == nullptr)
             continue;
 
         if (bAdjustOrigin)
@@ -1492,7 +1492,7 @@ uint    CEntityTool::CreateEntity(float fX, float fY)
             pNewEntity->SetType(le_entityType);
 
             IUnitDefinition *pDefinition(EntityRegistry.GetDefinition<IUnitDefinition>(le_entityType));
-            if (pDefinition != NULL)
+            if (pDefinition != nullptr)
             {
                 Editor.GetWorld().UnlinkEntity(pNewEntity->GetIndex());
                 pNewEntity->SetScale(pDefinition->GetPreGlobalScale(0) * pDefinition->GetModelScale(0));
@@ -1530,7 +1530,7 @@ CVec3f  CEntityTool::SelectionCenter()
     for (uiset::iterator it = m_setSelection.begin(); it != m_setSelection.end(); ++it)
     {
         CWorldEntity *pEntity(Editor.GetWorld().GetEntity(*it));
-        if (pEntity == NULL)
+        if (pEntity == nullptr)
             continue;
 
         v3Center += pEntity->GetPosition();
@@ -1740,7 +1740,7 @@ void    CEntityTool::Draw()
     {
         CFontMap *pFontMap(g_ResourceManager.GetFontMap(m_hFont));
 
-        if (m_uiHoverEnt != INVALID_INDEX && Editor.GetWorld().GetEntity(m_uiHoverEnt) != NULL)
+        if (m_uiHoverEnt != INVALID_INDEX && Editor.GetWorld().GetEntity(m_uiHoverEnt) != nullptr)
         {
             CWorldEntity *pWorldEnt(Editor.GetWorld().GetEntity(m_uiHoverEnt));
 
@@ -1782,7 +1782,7 @@ void    CEntityTool::GroundSelection()
     for (uiset::iterator it(m_setSelection.begin()); it != m_setSelection.end(); ++it)
     {
         CWorldEntity *pEntity(Editor.GetWorld().GetEntity(*it));
-        if (pEntity == NULL)
+        if (pEntity == nullptr)
             continue;
 
         Editor.GetWorld().UnlinkEntity(*it);
@@ -1802,7 +1802,7 @@ void    CEntityTool::StraightenSelection()
     for (uiset::iterator it(m_setSelection.begin()); it != m_setSelection.end(); ++it)
     {
         CWorldEntity *pEntity(Editor.GetWorld().GetEntity(*it));
-        if (pEntity == NULL)
+        if (pEntity == nullptr)
             continue;
 
         Editor.GetWorld().UnlinkEntity(*it);
@@ -1820,7 +1820,7 @@ void    CEntityTool::ResetScaleSelection()
     for (uiset::iterator it(m_setSelection.begin()); it != m_setSelection.end(); ++it)
     {
         CWorldEntity *pEntity(Editor.GetWorld().GetEntity(*it));
-        if (pEntity == NULL)
+        if (pEntity == nullptr)
             continue;
 
         Editor.GetWorld().UnlinkEntity(*it);
@@ -1852,7 +1852,7 @@ tstring CEntityTool::GetSelectionName()
     for (uiset::iterator it(m_setSelection.begin()); it != m_setSelection.end(); ++it)
     {
         CWorldEntity *pEntity(Editor.GetWorld().GetEntity(*it));
-        if (pEntity == NULL)
+        if (pEntity == nullptr)
             continue;
 
         if (pEntity->GetName() != sName)
@@ -1875,7 +1875,7 @@ int     CEntityTool::GetSelectionTeam()
     for (uiset::iterator it(m_setSelection.begin()); it != m_setSelection.end(); ++it)
     {
         CWorldEntity *pEntity(Editor.GetWorld().GetEntity(*it));
-        if (pEntity == NULL)
+        if (pEntity == nullptr)
             continue;
 
         if (pEntity->GetTeam() != iTeam)
@@ -1912,7 +1912,7 @@ tstring CEntityTool::GetSelectionModel()
     for (uiset::iterator it(m_setSelection.begin()); it != m_setSelection.end(); ++it)
     {
         CWorldEntity *pEntity(Editor.GetWorld().GetEntity(*it));
-        if (pEntity == NULL)
+        if (pEntity == nullptr)
             continue;
 
         if (g_ResourceManager.GetPath(pEntity->GetModelHandle()) != sModel)
@@ -1932,15 +1932,15 @@ tstring CEntityTool::GetSelectionSkin()
         return le_entitySkin;
 
     CWorldEntity *pEntity(Editor.GetWorld().GetEntity(*m_setSelection.begin()));
-    if (pEntity == NULL)
+    if (pEntity == nullptr)
         return TSNULL;
 
     CModel *pModel(g_ResourceManager.GetModel(pEntity->GetModelHandle()));
-    if (pModel == NULL)
+    if (pModel == nullptr)
         return TSNULL;
 
     IModel *pIModel(pModel->GetModelFile());
-    if (pIModel == NULL)
+    if (pIModel == nullptr)
         return TSNULL;
 
     tstring sSkin(pIModel->GetSkin(pEntity->GetSkin())->GetName());
@@ -1948,15 +1948,15 @@ tstring CEntityTool::GetSelectionSkin()
     for (uiset::iterator it(m_setSelection.begin()); it != m_setSelection.end(); ++it)
     {
         CWorldEntity *pEntity(Editor.GetWorld().GetEntity(*it));
-        if (pEntity == NULL)
+        if (pEntity == nullptr)
             continue;
 
         CModel *pModel(g_ResourceManager.GetModel(pEntity->GetModelHandle()));
-        if (pModel == NULL)
+        if (pModel == nullptr)
             continue;
 
         IModel *pIModel(pModel->GetModelFile());
-        if (pIModel == NULL)
+        if (pIModel == nullptr)
             continue;
         
         if (pIModel->GetSkin(pEntity->GetSkin())->GetName() != sSkin)
@@ -1980,7 +1980,7 @@ tstring CEntityTool::GetSelectionType()
     for (uiset::iterator it(m_setSelection.begin()); it != m_setSelection.end(); ++it)
     {
         CWorldEntity *pEntity(Editor.GetWorld().GetEntity(*it));
-        if (pEntity == NULL)
+        if (pEntity == nullptr)
             continue;
 
         if (pEntity->GetType() != sType)
@@ -2019,7 +2019,7 @@ bool    CEntityTool::IsSelectionType(const tstring &sType)
     for (uiset::iterator it(m_setSelection.begin()); it != m_setSelection.end(); ++it)
     {
         CWorldEntity *pEntity(Editor.GetWorld().GetEntity(*it));
-        if (pEntity == NULL)
+        if (pEntity == nullptr)
             continue;
 
         uint uiBaseType(EntityRegistry.GetBaseType(pEntity->GetType()));
@@ -2053,7 +2053,7 @@ tstring CEntityTool::GetSelectionProperty(const tstring &sName)
     for (uiset::iterator it(m_setSelection.begin()); it != m_setSelection.end(); ++it)
     {
         CWorldEntity *pEntity(Editor.GetWorld().GetEntity(*it));
-        if (pEntity == NULL)
+        if (pEntity == nullptr)
             continue;
 
         if (pEntity->GetProperty(sName) != sValue)
@@ -2076,7 +2076,7 @@ int     CEntityTool::GetWorldIndexFromName(const tstring &sName)
     {
         CWorldEntity *pEntity(Editor.GetWorld().GetEntityByHandle(*it));
 
-        if (pEntity != NULL && pEntity->GetName() == sName)
+        if (pEntity != nullptr && pEntity->GetName() == sName)
             return pEntity->GetIndex();
     }
 
@@ -2091,7 +2091,7 @@ void    CEntityTool::SetSelectionName(const tstring &sName)
     for (uiset::iterator it(m_setSelection.begin()); it != m_setSelection.end(); ++it)
     {
         CWorldEntity *pEntity(Editor.GetWorld().GetEntity(*it));
-        if (pEntity == NULL)
+        if (pEntity == nullptr)
             continue;
 
         pEntity->SetName(sName);
@@ -2107,7 +2107,7 @@ void    CEntityTool::SetSelectionTeam(int iTeam)
     for (uiset::iterator it(m_setSelection.begin()); it != m_setSelection.end(); ++it)
     {
         CWorldEntity *pEntity(Editor.GetWorld().GetEntity(*it));
-        if (pEntity == NULL)
+        if (pEntity == nullptr)
             continue;
 
         pEntity->SetTeam(iTeam);
@@ -2127,15 +2127,15 @@ void    CEntityTool::SetSelectionModel(const tstring &sModel)
     for (uiset::iterator it(m_setSelection.begin()); it != m_setSelection.end(); ++it)
     {
         CWorldEntity *pEntity(Editor.GetWorld().GetEntity(*it));
-        if (pEntity == NULL)
+        if (pEntity == nullptr)
             continue;
 
         CModel *pModel(g_ResourceManager.GetModel(pEntity->GetModelHandle()));
-        if (pModel == NULL)
+        if (pModel == nullptr)
             continue;
 
         IModel *pIModel(pModel->GetModelFile());
-        if (pIModel == NULL)
+        if (pIModel == nullptr)
             continue;
 
         tstring sSkin(pIModel->GetSkin(pEntity->GetSkin())->GetName());
@@ -2160,7 +2160,7 @@ void    CEntityTool::SetSelectionSkin(const tstring &sSkin)
     for (uiset::iterator it(m_setSelection.begin()); it != m_setSelection.end(); ++it)
     {
         CWorldEntity *pEntity(Editor.GetWorld().GetEntity(*it));
-        if (pEntity == NULL)
+        if (pEntity == nullptr)
             continue;
 
         pEntity->SetSkin(g_ResourceManager.GetSkin(pEntity->GetModelHandle(), sSkin));
@@ -2181,13 +2181,13 @@ void    CEntityTool::SetSelectionType(const tstring &sType)
     for (uiset::iterator it(m_setSelection.begin()); it != m_setSelection.end(); ++it)
     {
         CWorldEntity *pEntity(Editor.GetWorld().GetEntity(*it));
-        if (pEntity == NULL)
+        if (pEntity == nullptr)
             continue;
 
         pEntity->SetType(sType);
 
         IUnitDefinition *pDefinition(EntityRegistry.GetDefinition<IUnitDefinition>(sType));
-        if (pDefinition != NULL)
+        if (pDefinition != nullptr)
         {
             Editor.GetWorld().UnlinkEntity(pEntity->GetIndex());
             pEntity->SetScale(pDefinition->GetPreGlobalScale(0) * pDefinition->GetModelScale(0));
@@ -2208,7 +2208,7 @@ void    CEntityTool::SetSelectionProperty(const tstring &sName, const tstring &s
     for (uiset::iterator it(m_setSelection.begin()); it != m_setSelection.end(); ++it)
     {
         CWorldEntity *pEntity(Editor.GetWorld().GetEntity(*it));
-        if (pEntity == NULL)
+        if (pEntity == nullptr)
             continue;
 
         pEntity->SetProperty(sName, NormalizeLineBreaks(sValue, _T("\n")));
@@ -2228,7 +2228,7 @@ void    CEntityTool::SelectByModel(const tstring &sModel)
     {
         CWorldEntity *pEntity(Editor.GetWorld().GetEntityByHandle(*it));
 
-        if (pEntity != NULL && g_ResourceManager.GetPath(pEntity->GetModelHandle()) == sModel)
+        if (pEntity != nullptr && g_ResourceManager.GetPath(pEntity->GetModelHandle()) == sModel)
             m_setSelection.insert(pEntity->GetIndex());
     }
 }
@@ -3022,7 +3022,7 @@ void    CEntityTool::StartTreeTranslateXY()
 
             m_iState = STATE_TRANSLATE_XY;
 
-            if ((le_entityCenterMode == CENTER_HOVER || le_entityCenterMode == CENTER_INDIVIDUAL) && Editor.GetWorld().GetEntity(m_uiHoverEnt, true) != NULL)
+            if ((le_entityCenterMode == CENTER_HOVER || le_entityCenterMode == CENTER_INDIVIDUAL) && Editor.GetWorld().GetEntity(m_uiHoverEnt, true) != nullptr)
                 m_vTranslate = Editor.GetWorld().GetEntity(m_uiHoverEnt, true)->GetPosition();
             else
                 m_vTranslate = SelectionCenter();
@@ -3121,7 +3121,7 @@ void    CEntityTool::ApplyTreeTranslateXY()
         for (uiset::iterator it(m_setSelection.begin()); it != m_setSelection.end(); ++it)
         {
             CWorldEntity *pEntity(Editor.GetWorld().GetEntity(*it));
-            if (pEntity == NULL)
+            if (pEntity == nullptr)
                 continue;
 
             CVec3f vDiff = pEntity->GetPosition() - v3Center;
@@ -3191,7 +3191,7 @@ void    CEntityTool::TreeTranslateXY()
         if (le_entityCenterMode == CENTER_HOVER || le_entityCenterMode == CENTER_INDIVIDUAL && m_uiHoverEnt != INVALID_INDEX)
         {
             CWorldEntity *pEntity(Editor.GetWorld().GetEntity(m_uiHoverEnt));
-            if (pEntity != NULL)
+            if (pEntity != nullptr)
                 SnapCursor(CVec3f(pEntity->GetPosition().x, pEntity->GetPosition().y, Editor.GetWorld().GetTerrainHeight(pEntity->GetPosition().x, pEntity->GetPosition().y)));
         }
         else
@@ -3255,7 +3255,7 @@ tstring CEntityTool::GetSelectionTreeDef()
     for (uiset::iterator it(m_setSelection.begin()); it != m_setSelection.end(); ++it)
     {
         CWorldEntity *pEntity(Editor.GetWorld().GetEntity(*it));
-        if (pEntity == NULL)
+        if (pEntity == nullptr)
             continue;
 
         if (pEntity->GetTreeDefinition() != INVALID_RESOURCE)
@@ -3282,7 +3282,7 @@ void    CEntityTool::SetSelectionTreeDef(const tstring &sTreePath)
     for (uiset::iterator it(m_setSelection.begin()); it != m_setSelection.end(); ++it)
     {
         CWorldEntity *pEntity(Editor.GetWorld().GetEntity(*it));
-        if (pEntity == NULL)
+        if (pEntity == nullptr)
             continue;
 
         ResHandle hTreeDef2 = pEntity->GetTreeDefinition();

@@ -199,7 +199,7 @@ void    CTreeFrondRenderer::Render(EMaterialPhase ePhase)
     for (size_t z(0); z < fronds.m_vIBuffers.size(); ++z)
     {
         glBindBufferARB(GL_ELEMENT_ARRAY_BUFFER, fronds.m_vIBuffers[z]);
-        glDrawElements(GL_TRIANGLE_STRIP, fronds.m_viNumIndices[z] - 2, GL_UNSIGNED_SHORT, NULL);
+        glDrawElements(GL_TRIANGLE_STRIP, fronds.m_viNumIndices[z] - 2, GL_UNSIGNED_SHORT, nullptr);
     }
 
     glPopMatrix();

@@ -21,7 +21,7 @@
 //=============================================================================
 static uint InProgressIO(0);
 static uint nextDecompressionTime(0);  // Using this to keep average FPS high
-static SZippedFile* nextLoad(NULL);   // And this to know what to decompress!
+static SZippedFile* nextLoad(nullptr);   // And this to know what to decompress!
 
 CVAR_BOOLF      (fs_preloadCPU,                 true,       CVAR_SAVECONFIG);
 //=============================================================================
@@ -33,7 +33,7 @@ void    CFastUnzip::AddZippedFile(const tstring &sFileName, archiveFileInfo_s* i
 {
     m_vFiles.push_back(SZippedFile());
     SZippedFile *pZippedFile(&(m_vFiles.back()));
-    if (pZippedFile == NULL)
+    if (pZippedFile == nullptr)
     {
         Console.Err << _T("CFastUnzip::AddZippedFile() - Failed to allocate SZippedFile struct") << newl;
         return;
@@ -42,7 +42,7 @@ void    CFastUnzip::AddZippedFile(const tstring &sFileName, archiveFileInfo_s* i
     pZippedFile->sFileName = FileManager.SanitizePath(sFileName, false);
 
     // Initialize the various "obvious" stuff
-    pZippedFile->buf = NULL;
+    pZippedFile->buf = nullptr;
     pZippedFile->compressed = (info->compression != 0);
     pZippedFile->loading = 0;
     pZippedFile->loaded = 0;
@@ -87,7 +87,7 @@ uint    CFastUnzip::SearchCentralDir(FILE *pFileIn)
 {
     // Determine the archive's filesize
     #ifdef _WIN32
-    uint uSizeFile = GetFileSize(hFileIn, NULL);
+    uint uSizeFile = GetFileSize(hFileIn, nullptr);
     #else
     if (fseek(pFileIn, 0, SEEK_END) != 0)
         return 0;
@@ -103,8 +103,8 @@ uint    CFastUnzip::SearchCentralDir(FILE *pFileIn)
     // Read the data
     #ifdef _WIN32
     long long ret = 0;
-    SetFilePointer(hFileIn, uSizeFile-uMaxBack, NULL, FILE_BEGIN);
-    ReadFile(hFileIn, buf, uMaxBack, (LPDWORD)&ret, NULL);
+    SetFilePointer(hFileIn, uSizeFile-uMaxBack, nullptr, FILE_BEGIN);
+    ReadFile(hFileIn, buf, uMaxBack, (LPDWORD)&ret, nullptr);
     #else
     fseek(pFileIn,uSizeFile-uMaxBack,SEEK_SET);
     fread(buf,uMaxBack, 1,pFileIn);
@@ -150,10 +150,10 @@ CFastUnzip::CFastUnzip(const tstring &sPath)
     threadHandle = 0;
     // Windows version
     // Open the files for synchronous and asynchronous I/O
-    file = CreateFile(sPath.c_str(), GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_ALWAYS, FILE_FLAG_RANDOM_ACCESS, NULL);
+    file = CreateFile(sPath.c_str(), GENERIC_READ, FILE_SHARE_READ, nullptr, OPEN_ALWAYS, FILE_FLAG_RANDOM_ACCESS, nullptr);
     if(file == INVALID_HANDLE_VALUE)
         return;
-    fileAsynch = CreateFile(sPath.c_str(), FILE_READ_DATA, FILE_SHARE_READ, NULL, OPEN_ALWAYS, FILE_FLAG_OVERLAPPED | FILE_FLAG_SEQUENTIAL_SCAN, NULL);
+    fileAsynch = CreateFile(sPath.c_str(), FILE_READ_DATA, FILE_SHARE_READ, nullptr, OPEN_ALWAYS, FILE_FLAG_OVERLAPPED | FILE_FLAG_SEQUENTIAL_SCAN, nullptr);
     if(fileAsynch == INVALID_HANDLE_VALUE)
     {
         CloseHandle(file);
@@ -168,8 +168,8 @@ CFastUnzip::CFastUnzip(const tstring &sPath)
         return;
 
     // Read the information located at the end of the central directory
-    SetFilePointer(file, dirPos, NULL, FILE_BEGIN);
-    ReadFile(file, &centralInfo, sizeof(archiveCentralInfo_t), (LPDWORD)&ret, NULL);
+    SetFilePointer(file, dirPos, nullptr, FILE_BEGIN);
+    ReadFile(file, &centralInfo, sizeof(archiveCentralInfo_t), (LPDWORD)&ret, nullptr);
     #else
     // Linux version
     // Open the file for synchronous I/O
@@ -183,7 +183,7 @@ CFastUnzip::CFastUnzip(const tstring &sPath)
     if(!asynchInfo.aio_fildes)
     {
         fclose(file);
-        file = NULL;
+        file = nullptr;
         return;
     }
     
@@ -216,8 +216,8 @@ CFastUnzip::CFastUnzip(const tstring &sPath)
         // Set the file pointer (position) and read the structure's data
         // We also read 128 extra bytes to hopefully have the filename in the same read
         #ifdef _WIN32
-        SetFilePointer(file, pos, NULL, FILE_BEGIN);
-        ReadFile(file, buf, sizeof(archiveFileInfo_s)+128, (LPDWORD)&ret, NULL);
+        SetFilePointer(file, pos, nullptr, FILE_BEGIN);
+        ReadFile(file, buf, sizeof(archiveFileInfo_s)+128, (LPDWORD)&ret, nullptr);
         #else
         fseek(file, pos, SEEK_SET);
         ret = fread(buf, 1, sizeof(archiveFileInfo_s)+128, file);
@@ -239,8 +239,8 @@ CFastUnzip::CFastUnzip(const tstring &sPath)
         if (info->filenameLength > 128)
         {
             #ifdef _WIN32
-            SetFilePointer(file, pos, NULL, FILE_BEGIN);
-            ReadFile(file, buf2, MIN(info->filenameLength, (unsigned short)1023), (LPDWORD)&ret, NULL);
+            SetFilePointer(file, pos, nullptr, FILE_BEGIN);
+            ReadFile(file, buf2, MIN(info->filenameLength, (unsigned short)1023), (LPDWORD)&ret, nullptr);
             #else
             fseek(file, pos, SEEK_SET);
             ret = fread(buf2, MIN(info->filenameLength, (unsigned short)1023), 1, file);
@@ -290,7 +290,7 @@ CFastUnzip::~CFastUnzip()
         // Free the buffer if it's allocated, and the structure too
         if(cit->second->buf)
             K2_DELETE_ARRAY(cit->second->buf);
-        cit->second->buf = NULL;
+        cit->second->buf = nullptr;
         ++cit;
     }
     InProgressIO = false;
@@ -312,7 +312,7 @@ CFastUnzip::~CFastUnzip()
 #else
     if(file)
         fclose(file);
-    file = NULL;
+    file = nullptr;
     if(asynchInfo.aio_fildes)
         close(asynchInfo.aio_fildes);
 #endif
@@ -338,7 +338,7 @@ void CFastUnzip::UnloadAll()
         // Delete the buffer if it was allocated and reset the loaded/preload variables
         if(cit->second->buf)
             K2_DELETE_ARRAY(cit->second->buf);
-        cit->second->buf = NULL;
+        cit->second->buf = nullptr;
         cit->second->preload = 0;
         cit->second->loaded = 0;
 
@@ -422,12 +422,12 @@ void CFastUnzip::FastUnzipAsynchIO()
         preloadIterThread->buf = K2_NEW_ARRAY(g_heapFileSystem, byte, preloadIterThread->size);
 
         // Setup the asynchronous I/O structure
-        asynchInfo.hEvent = CreateEvent(NULL, FALSE, FALSE, NULL);
+        asynchInfo.hEvent = CreateEvent(nullptr, FALSE, FALSE, nullptr);
         asynchInfo.Offset = preloadIterThread->atPos;
         asynchInfo.OffsetHigh = 0;
 
         // And then start the asynchronous I/O operation... now!
-        ReadFile(fileAsynch, preloadIterThread->buf, preloadIterThread->size, NULL, &asynchInfo);
+        ReadFile(fileAsynch, preloadIterThread->buf, preloadIterThread->size, nullptr, &asynchInfo);
         preloadIterThread->loading = 1;
         preloading = 1;
 
@@ -470,7 +470,7 @@ bool    CFastUnzip::PreloadFrame()
 
         DWORD IDThread;
         preloading = true;
-        threadHandle = CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)FastUnzipAsynchIOThread, this, 0, &IDThread);
+        threadHandle = CreateThread(nullptr, 0, (LPTHREAD_START_ROUTINE)FastUnzipAsynchIOThread, this, 0, &IDThread);
         SetThreadPriority(threadHandle, THREAD_PRIORITY_HIGHEST);
     }
     #else
@@ -484,7 +484,7 @@ bool    CFastUnzip::PreloadFrame()
             nextLoad->preload = 0;
             nextLoad->loading = 0;
             nextLoad->loaded = 1;
-            nextLoad = NULL;
+            nextLoad = nullptr;
             numToPreload2++;
             numToPreload--;
         }
@@ -531,7 +531,7 @@ bool    CFastUnzip::PreloadFrame()
         nextLoad->preload = 0;
         nextLoad->loading = 0;
         nextLoad->loaded = 1;
-        nextLoad = NULL;
+        nextLoad = nullptr;
         numToPreload2++;
         numToPreload--;
 
@@ -703,7 +703,7 @@ void    CFastUnzip::StopFilePreload(const tstring &sFilename)
     {
         // File already fully preloaded, so just unload it completely!
         K2_DELETE_ARRAY(file_entry->second->buf);
-        file_entry->second->buf = NULL;
+        file_entry->second->buf = nullptr;
         file_entry->second->loaded = 0;
     }
 }
@@ -732,7 +732,7 @@ uint    CFastUnzip::OpenUnzipFile(const tstring &sFilename, char *&pBuffer)
 {
     try
     {
-        pBuffer = NULL;
+        pBuffer = nullptr;
 
         if (sFilename.empty())
             return 0;
@@ -762,7 +762,7 @@ uint    CFastUnzip::OpenUnzipFile(const tstring &sFilename, char *&pBuffer)
         && file_entry->second->size > MAX_KEEPINMEM_SIZE)
         {
             pBuffer = (char*)file_entry->second->buf;
-            file_entry->second->buf = NULL;
+            file_entry->second->buf = nullptr;
             file_entry->second->loaded = 0;
             return file_entry->second->rawSize;
         }
@@ -810,14 +810,14 @@ uint    CFastUnzip::OpenUnzipFile(const tstring &sFilename, char *&pBuffer)
             // Make sure numToPreload is up to date and allocate the buffer if needed
             if(file_entry->second->preload)
                 numToPreload--;
-            if(file_entry->second->buf == NULL)
+            if(file_entry->second->buf == nullptr)
                 file_entry->second->buf = K2_NEW_ARRAY(g_heapFileSystem, byte, file_entry->second->size);
 
             // Set the file pointer and read the data finally
             #ifdef _WIN32
             long long ret = 0;
-            SetFilePointer(file, file_entry->second->atPos, NULL, FILE_BEGIN);
-            ReadFile(file, file_entry->second->buf, file_entry->second->size, (LPDWORD)&ret, NULL);
+            SetFilePointer(file, file_entry->second->atPos, nullptr, FILE_BEGIN);
+            ReadFile(file, file_entry->second->buf, file_entry->second->size, (LPDWORD)&ret, nullptr);
             #else
             fseek(file, file_entry->second->atPos, SEEK_SET);
             fread(file_entry->second->buf, file_entry->second->size, 1, file);
@@ -844,11 +844,11 @@ uint    CFastUnzip::OpenUnzipFile(const tstring &sFilename, char *&pBuffer)
             {
                 // Failure? How come? Ah well!
                 K2_DELETE_ARRAY(file_entry->second->buf);
-                file_entry->second->buf = NULL;
+                file_entry->second->buf = nullptr;
                 file_entry->second->loaded = 0;
                 inflateEnd(&Dstrm);
                 K2_DELETE_ARRAY(pBuffer);
-                pBuffer = NULL;
+                pBuffer = nullptr;
                 return 0;
             }
 
@@ -864,11 +864,11 @@ uint    CFastUnzip::OpenUnzipFile(const tstring &sFilename, char *&pBuffer)
             {
                 // Failure? How come? Ah well!
                 K2_DELETE_ARRAY(file_entry->second->buf);
-                file_entry->second->buf = NULL;
+                file_entry->second->buf = nullptr;
                 file_entry->second->loaded = 0;
                 inflateEnd(&Dstrm);
                 K2_DELETE_ARRAY(pBuffer);
-                pBuffer = NULL;
+                pBuffer = nullptr;
                 return 0;
             }
 
@@ -886,7 +886,7 @@ uint    CFastUnzip::OpenUnzipFile(const tstring &sFilename, char *&pBuffer)
         if(file_entry->second->size > MAX_KEEPINMEM_SIZE)
         {
             K2_DELETE_ARRAY(file_entry->second->buf);
-            file_entry->second->buf = NULL;
+            file_entry->second->buf = nullptr;
             file_entry->second->loaded = 0;
         }
         else

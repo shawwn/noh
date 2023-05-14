@@ -53,7 +53,7 @@ private:
 
 public:
     ~CScript();
-    CScript(tsmapts *mapParams = NULL);
+    CScript(tsmapts *mapParams = nullptr);
 
     void    LoadFile(const tstring &sFilename);
     void    LoadScript(const tstring &sScript);

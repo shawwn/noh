@@ -24,12 +24,12 @@ CVAR_BOOL(php_printDebugInfo,   false);
 TCHAR*  CPHPData::ReadInteger(TCHAR *p)
 {
     if (*p != _T(':') || !*(++p))
-        return NULL;
+        return nullptr;
     
     TCHAR *sValue = p;
     
     if (!(p = _tcschr(p, _T(';'))))
-        return NULL;
+        return nullptr;
     
     *p = 0;
     
@@ -45,12 +45,12 @@ TCHAR*  CPHPData::ReadInteger(TCHAR *p)
 TCHAR*  CPHPData::ReadFloat(TCHAR *p)
 {
     if (*p != _T(':') || !*(++p))
-        return NULL;
+        return nullptr;
     
     TCHAR *sValue = p;
     
     if (!(p = _tcschr(p, _T(';'))))
-        return NULL;
+        return nullptr;
     
     *p = 0;
     
@@ -67,18 +67,18 @@ TCHAR*  CPHPData::ReadString(TCHAR *p)
 {
     int size;
     if (*p != _T(':') || !*(++p))
-        return NULL;
+        return nullptr;
     
     size = _tcstol(p, &p, 0);
     if (*p != _T(':') || *(++p) != _T('"') || !*(++p))
-        return NULL;
+        return nullptr;
     
     TCHAR *sValue = p;
     
     while (*p && p < sValue + size) ++p;
     
     if (*p != _T('"') || *(p+1) != _T(';'))
-            return NULL;
+            return nullptr;
     
     *p = 0;
     
@@ -94,12 +94,12 @@ TCHAR*  CPHPData::ReadString(TCHAR *p)
 TCHAR*  CPHPData::ReadBool(TCHAR *p)
 {
     if (*p != _T(':') || !*(++p))
-        return NULL;
+        return nullptr;
     
     TCHAR *sValue = p;
     
     if (!(p = _tcschr(p, _T(';'))))
-        return NULL;
+        return nullptr;
     
     *p = 0;
     
@@ -116,11 +116,11 @@ TCHAR*  CPHPData::ReadArray(TCHAR *p)
 {
     int i, size;
     if (*p != _T(':') || !*(++p))
-        return NULL;
+        return nullptr;
     
     size = _tcstol(p, &p, 0);
     if (*p != _T(':') || *(++p) != _T('{') || !*(++p))
-        return NULL;
+        return nullptr;
     
     m_eType = PHP_ARRAY;
     m_vArray.reserve(size);
@@ -143,7 +143,7 @@ TCHAR*  CPHPData::ReadArray(TCHAR *p)
     
     if (!p || *p != _T('}'))
     {
-        return NULL;
+        return nullptr;
     }
     
     return p+1;
@@ -179,12 +179,12 @@ TCHAR*  CPHPData::Deserialize(TCHAR *p)
         
         case(_T('N')):
             if (!*(++p) || *p != _T(';'))
-                return NULL;
+                return nullptr;
             ++p;
             break;
         
         default:
-            p = NULL;
+            p = nullptr;
             break;
     }
     
@@ -243,7 +243,7 @@ void    CPHPData::Print() const
     
     switch (m_eType)
     {
-        case PHP_NULL:      Console << _T("NULL"); break;
+        case PHP_NULL:      Console << _T("nullptr"); break;
         case PHP_INTEGER:   Console << _T("INT: ") << m_iValue; break;
         case PHP_STRING:    Console << _T("STRING: ") << m_sValue; break;
         case PHP_FLOAT:     Console << _T("FLOAT: ") << m_fValue; break;

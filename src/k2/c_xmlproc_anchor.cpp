@@ -84,7 +84,7 @@ BEGIN_XML_PROCESSOR(anchor, IWidget)
     try
     {
         CInterface *pInterface(pObject->GetInterface());
-        if (pInterface == NULL)
+        if (pInterface == nullptr)
             EX_ERROR(_T("Interface pointer not set for <anchor> tag"));
 
         CWidgetTemplate *pTemplate(pInterface->GetCurrentTemplate());
@@ -103,4 +103,4 @@ BEGIN_XML_PROCESSOR(anchor, IWidget)
         ex.Process(_T(""), NO_THROW);
         return false;
     }
-END_XML_PROCESSOR(NULL)
+END_XML_PROCESSOR(nullptr)

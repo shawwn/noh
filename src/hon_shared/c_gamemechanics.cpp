@@ -549,7 +549,7 @@ BEGIN_XML_REGISTRATION(gamemechanics)
 END_XML_REGISTRATION
 BEGIN_XML_PROCESSOR(gamemechanics, CGameMechanicsResource)
     CGameMechanics *pGameMechanics(K2_NEW(ctx_Game,    CGameMechanics));
-    if (pGameMechanics == NULL)
+    if (pGameMechanics == nullptr)
         return false;
 
     pObject->SetMechanics(pGameMechanics);
@@ -585,7 +585,7 @@ END_XML_REGISTRATION
 BEGIN_XML_PROCESSOR(combattable, CGameMechanics)
     const tstring &sName(node.GetProperty(_CTS("name")));
     CCombatTable *pCombatTable(pObject->GetCombatTable(sName));
-    if (pCombatTable == NULL)
+    if (pCombatTable == nullptr)
     {
         Console.Err << _T("CombatTable declared for unknown combat type: ") << sName << newl;
         return false;
@@ -985,7 +985,7 @@ uint    CGameMechanics::RegisterCombatType(const tstring &sName, uint uiNumComba
 float   CGameMechanics::GetAttackMultiplier(uint uiCombatTypeA, uint uiCombatTypeB)
 {
     CCombatTable *pTable(GetCombatTable(uiCombatTypeA));
-    if (pTable == NULL)
+    if (pTable == nullptr)
         return 1.0f;
 
     return pTable->GetAttackMultiplier(uiCombatTypeB);
@@ -998,7 +998,7 @@ float   CGameMechanics::GetAttackMultiplier(uint uiCombatTypeA, uint uiCombatTyp
 float   CGameMechanics::GetSpellMultiplier(uint uiCombatTypeA, uint uiCombatTypeB)
 {
     CCombatTable *pTable(GetCombatTable(uiCombatTypeA));
-    if (pTable == NULL)
+    if (pTable == nullptr)
         return 1.0f;
 
     return pTable->GetSpellMultiplier(uiCombatTypeB);
@@ -1011,7 +1011,7 @@ float   CGameMechanics::GetSpellMultiplier(uint uiCombatTypeA, uint uiCombatType
 int CGameMechanics::GetAggroPriority(uint uiCombatTypeA, uint uiCombatTypeB)
 {
     CCombatTable *pTable(GetCombatTable(uiCombatTypeA));
-    if (pTable == NULL)
+    if (pTable == nullptr)
         return 0;
 
     return pTable->GetAggroPriority(uiCombatTypeB);
@@ -1024,7 +1024,7 @@ int CGameMechanics::GetAggroPriority(uint uiCombatTypeA, uint uiCombatTypeB)
 int CGameMechanics::GetTargetPriority(uint uiCombatTypeA, uint uiCombatTypeB)
 {
     CCombatTable *pTable(GetCombatTable(uiCombatTypeA));
-    if (pTable == NULL)
+    if (pTable == nullptr)
         return 0;
 
     return pTable->GetTargetPriority(uiCombatTypeB);
@@ -1037,7 +1037,7 @@ int CGameMechanics::GetTargetPriority(uint uiCombatTypeA, uint uiCombatTypeB)
 int CGameMechanics::GetAttackPriority(uint uiCombatTypeA, uint uiCombatTypeB)
 {
     CCombatTable *pTable(GetCombatTable(uiCombatTypeA));
-    if (pTable == NULL)
+    if (pTable == nullptr)
         return 0;
 
     return pTable->GetAttackPriority(uiCombatTypeB);
@@ -1050,7 +1050,7 @@ int CGameMechanics::GetAttackPriority(uint uiCombatTypeA, uint uiCombatTypeB)
 int CGameMechanics::GetProximityPriority(uint uiCombatTypeA, uint uiCombatTypeB)
 {
     CCombatTable *pTable(GetCombatTable(uiCombatTypeA));
-    if (pTable == NULL)
+    if (pTable == nullptr)
         return 0;
 
     return pTable->GetProximityPriority(uiCombatTypeB);
@@ -1277,7 +1277,7 @@ uint    CGameMechanics::LookupArmorType(const tstring &sName) const
 bool    CGameMechanics::IsArmorEffective(uint uiArmorType, uint uiEffectType) const
 {
     const CArmorType *pArmor(GetArmorType(uiArmorType));
-    if (pArmor == NULL)
+    if (pArmor == nullptr)
         return false;
 
     return pArmor->IsEffective(uiEffectType);
@@ -1290,7 +1290,7 @@ bool    CGameMechanics::IsArmorEffective(uint uiArmorType, uint uiEffectType) co
 float   CGameMechanics::GetArmorDamageAdjustment(uint uiArmorType, float fArmor) const
 {
     const CArmorType *pArmor(GetArmorType(uiArmorType));
-    if (pArmor == NULL)
+    if (pArmor == nullptr)
         return 0.0f;
 
     return pArmor->GetDamageAdjustment(fArmor);

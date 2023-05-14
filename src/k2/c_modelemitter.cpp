@@ -151,7 +151,7 @@ IEmitter
     pOwner,
     uiStartTime
 ),
-m_pSkeleton(NULL),
+m_pSkeleton(nullptr),
 m_tv3Color(eSettings.GetColor()),
 m_tfAlpha(eSettings.GetAlpha()),
 m_tfPitch(eSettings.GetPitch()),
@@ -167,7 +167,7 @@ m_hSkin(eSettings.GetSkin()),
 m_hMaterial(eSettings.GetMaterial()),
 m_bParentModel(eSettings.GetParentModel()),
 m_bParentSkeleton(eSettings.GetParentSkeleton()),
-m_pImbeddedEmitter(NULL)
+m_pImbeddedEmitter(nullptr)
 {
     m_uiLastUpdateTime -= m_iTimeNudge;
 
@@ -184,9 +184,9 @@ m_pImbeddedEmitter(NULL)
         m_pSkeleton->StartAnim(sAnim, uiStartTime, 0);
     }
 
-    Update(INVALID_TIME, NULL);
+    Update(INVALID_TIME, nullptr);
 
-    IEmitter *pCurrentEmitter(NULL);
+    IEmitter *pCurrentEmitter(nullptr);
     const tsvector &vEmitters(eSettings.GetEmitters());
     if (!vEmitters.empty())
     {
@@ -196,10 +196,10 @@ m_pImbeddedEmitter(NULL)
 
         IEmitterDef *pEmitterDef(pEffect->GetEmitterDef(*cit));
 
-        if (pEmitterDef != NULL)
+        if (pEmitterDef != nullptr)
             m_pImbeddedEmitter = pEmitterDef->Spawn(uiStartTime + m_iDelay, m_pParticleSystem, this);
 
-        if (m_pImbeddedEmitter != NULL)
+        if (m_pImbeddedEmitter != nullptr)
         {
             ++cit;
 
@@ -208,9 +208,9 @@ m_pImbeddedEmitter(NULL)
             for (; cit != vEmitters.end(); ++cit)
             {
                 IEmitterDef *pEmitterDef(pEffect->GetEmitterDef(*cit));
-                IEmitter *pNewEmitter(NULL);
+                IEmitter *pNewEmitter(nullptr);
 
-                if (pEmitterDef != NULL)
+                if (pEmitterDef != nullptr)
                     pNewEmitter = pEmitterDef->Spawn(uiStartTime + m_iDelay, m_pParticleSystem, this);
 
                 pCurrentEmitter->SetNextEmitter(pNewEmitter);
@@ -225,9 +225,9 @@ m_pImbeddedEmitter(NULL)
         for (int i(0); i < (*it)->GetCount(); ++i)
         {
             IEmitter *pNewEmitter((*it)->Spawn(uiStartTime + m_iDelay, m_pParticleSystem, this));
-            if (pNewEmitter != NULL)
+            if (pNewEmitter != nullptr)
             {
-                if (pCurrentEmitter == NULL)
+                if (pCurrentEmitter == nullptr)
                 {
                     m_pImbeddedEmitter = pNewEmitter;
                     pCurrentEmitter = m_pImbeddedEmitter;
@@ -369,20 +369,20 @@ bool    CModelEmitter::Update(uint uiMilliseconds, ParticleTraceFn_t pfnTrace)
 
     UpdateNextEmitter(uiMilliseconds, pfnTrace);
 
-    if (m_pImbeddedEmitter != NULL)
+    if (m_pImbeddedEmitter != nullptr)
     {
         if (!UpdateEmbeddedEmitter(uiMilliseconds, pfnTrace, !m_bVisible))
         {
             IEmitter *pEmitter(m_pImbeddedEmitter);
 
-            if (pEmitter->GetNextEmitter() != NULL)
+            if (pEmitter->GetNextEmitter() != nullptr)
             {
                 m_pImbeddedEmitter = pEmitter->GetNextEmitter();
-                pEmitter->SetNextEmitter(NULL);
+                pEmitter->SetNextEmitter(nullptr);
             }
             else
             {
-                m_pImbeddedEmitter = NULL;
+                m_pImbeddedEmitter = nullptr;
             }
 
             K2_DELETE(pEmitter);
@@ -397,7 +397,7 @@ bool    CModelEmitter::Update(uint uiMilliseconds, ParticleTraceFn_t pfnTrace)
         m_bbBounds.Transform(m_v3LastPos, m_aLastAxis, m_fLastScale);
     }
 
-    if (bDead && m_pImbeddedEmitter == NULL)
+    if (bDead && m_pImbeddedEmitter == nullptr)
         return false;
 
     return true;
@@ -521,7 +521,7 @@ bool    CModelEmitter::GetEntity(uint uiIndex, CSceneEntity &outEntity)
   ====================*/
 uint    CModelEmitter::GetNumEmitters()
 {
-    return m_pImbeddedEmitter != NULL ? 1 : 0;
+    return m_pImbeddedEmitter != nullptr ? 1 : 0;
 }
 
 
@@ -530,7 +530,7 @@ uint    CModelEmitter::GetNumEmitters()
   ====================*/
 IEmitter*   CModelEmitter::GetEmitter(uint uiIndex)
 {
-    return uiIndex == 0 ? m_pImbeddedEmitter : NULL;
+    return uiIndex == 0 ? m_pImbeddedEmitter : nullptr;
 }
 
 
@@ -539,7 +539,7 @@ IEmitter*   CModelEmitter::GetEmitter(uint uiIndex)
   ====================*/
 void    CModelEmitter::Expire(uint uiMilliseconds)
 {
-    if (m_pImbeddedEmitter != NULL)
+    if (m_pImbeddedEmitter != nullptr)
         m_pImbeddedEmitter->Expire(uiMilliseconds);
 
     IEmitter::Expire(uiMilliseconds);

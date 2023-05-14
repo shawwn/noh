@@ -73,7 +73,7 @@ public:
     ETextureFormat  GetFormat() const   { return m_eFormat; }
     int             GetFlags() const    { return m_iFlags; }
 
-    bool            IsMipmaps() const   { return m_pfnProceduralMipmaps != NULL; }
+    bool            IsMipmaps() const   { return m_pfnProceduralMipmaps != nullptr; }
 
     CVec4f      Get(float fU, float fV) const;
     CVec4f      Get(float fU, float fV, int iLevel) const;

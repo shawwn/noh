@@ -33,7 +33,7 @@ public:
 
     void    RenderWidget(const CVec2f &vOrigin, float fFade);
 
-    virtual CListWidgetState*   GetAsListWidgetState()  { return NULL; }
+    virtual CListWidgetState*   GetAsListWidgetState()  { return nullptr; }
 };
 //=============================================================================
 

@@ -33,8 +33,8 @@
 #define _tcslen wcslen
 #define _tcsncmp wcsncmp
 #define _tcstol wcstol
-#define _tstof(x) wcstof((x), NULL)
-#define _tstoi(x) wcstol((x), NULL, 0)
+#define _tstof(x) wcstof((x), nullptr)
+#define _tstoi(x) wcstol((x), nullptr, 0)
 #define _tcsncpy wcsncpy
 #define _vstprintf vswprintf
 #define _vsntprintf vswprintf

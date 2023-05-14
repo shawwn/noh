@@ -35,7 +35,7 @@ CVAR_BOOL(ui_debugScript, false);
   CUIScript::CUIScript
   ====================*/
 CUIScript::CUIScript() :
-m_pActiveWidget(NULL)
+m_pActiveWidget(nullptr)
 {
 }
 
@@ -68,7 +68,7 @@ CMD(UICall)
         if (vArgList.size() < 2)
             EX_MESSAGE(_T("syntax: UICall <widget> <uicmd>"));
 
-        IWidget *pWidget(NULL);
+        IWidget *pWidget(nullptr);
 
         if (vArgList[0] == _T("*"))
             pWidget = UIManager.GetActiveInterface();
@@ -96,7 +96,7 @@ UI_CMD(Call, 2)
 {
     try
     {
-        if (pThis == NULL)
+        if (pThis == nullptr)
             return TSNULL;
 
         if (!pThis->GetInterface())
@@ -128,12 +128,12 @@ UI_CMD(RefCall, 2)
 {
     try
     {
-        if (pThis == NULL)
+        if (pThis == nullptr)
             return TSNULL;
 
         CUICmd *pCmd(CUICmdRegistry::GetInstance()->GetUICmd(vArgList[0]->Evaluate()));
 
-        if (pCmd == NULL)
+        if (pCmd == nullptr)
             return TSNULL;
 
         return pCmd->Execute(pThis, ScriptTokenVector(vArgList.begin() + 1, vArgList.end()));
@@ -151,7 +151,7 @@ UI_CMD(RefCall, 2)
   --------------------*/
 UI_VOID_CMD(GroupCall, 2)
 {
-    if (pThis == NULL)
+    if (pThis == nullptr)
         return;
 
     if (!pThis->GetInterface())
@@ -162,7 +162,7 @@ UI_VOID_CMD(GroupCall, 2)
     tstring sGroupName(vArgList[0]->Evaluate());
     WidgetGroup *pGroup(pThis->GetInterface()->GetGroup(sGroupName));
 
-    if (pGroup == NULL)
+    if (pGroup == nullptr)
     {
         Console.Warn << _T("Group ") << SingleQuoteStr(sGroupName) << _T(" not found") << newl;
         return;
@@ -181,7 +181,7 @@ UI_VOID_CMD(GroupCall, 2)
   --------------------*/
 UI_CMD(GroupCount, 1)
 {
-    if (pThis == NULL)
+    if (pThis == nullptr)
         return TSNULL;
 
     if (!pThis->GetInterface())
@@ -192,7 +192,7 @@ UI_CMD(GroupCount, 1)
     tstring sGroupName(vArgList[0]->Evaluate());
     WidgetGroup *pGroup(pThis->GetInterface()->GetGroup(sGroupName));
 
-    if (pGroup == NULL)
+    if (pGroup == nullptr)
     {
         Console.Warn << _T("Group ") << SingleQuoteStr(sGroupName) << _T(" not found") << newl;
         return TSNULL;
@@ -209,7 +209,7 @@ UI_CMD(Evaluate, 1)
 {
     try
     {
-        if (pThis == NULL)
+        if (pThis == nullptr)
             return TSNULL;
 
         pThis->SetEventParam(pThis->GetEventParam());

@@ -87,7 +87,7 @@ IGameEntity*    CClientEntityDirectory::Allocate(uint uiIndex, ushort unType)
             EX_ERROR(_T("Entity #") + XtoA(uiIndex) + _T(" is already allocated"));
 
         IGameEntity *pNewEntity(EntityRegistry.Allocate(unType));
-        if (pNewEntity == NULL)
+        if (pNewEntity == nullptr)
             EX_ERROR(_T("Allocation failed"));
 
         pNewEntity->SetIndex(uiIndex);
@@ -145,7 +145,7 @@ IGameEntity*    CClientEntityDirectory::Allocate(uint uiIndex, ushort unType)
             if (!IsLocalEntity(uiIndex) && !pNewEntity->IsBit())
                 m_lMonoEntities.push_back(pNewEntity);
 
-            if (m_mapEntities[uiIndex] == NULL)
+            if (m_mapEntities[uiIndex] == nullptr)
                 EX_ERROR(_T("Allocation failed"));
         }
 
@@ -154,7 +154,7 @@ IGameEntity*    CClientEntityDirectory::Allocate(uint uiIndex, ushort unType)
     catch (CException &ex)
     {
         ex.Process(_T("CEntityDirectory::Allocate() - "), NO_THROW);
-        return NULL;
+        return nullptr;
     }
 }
 
@@ -209,7 +209,7 @@ void    CClientEntityDirectory::Delete(uint uiIndex)
             if (m_hFirstLocalClientEntity == GetHandle(pClientEntity))
             {
                 CClientEntity *pNextClientEntity(pClientEntity->GetNextClientEntity());
-                if (pNextClientEntity != NULL)
+                if (pNextClientEntity != nullptr)
                     m_hFirstLocalClientEntity = GetHandle(pNextClientEntity);
                 else
                     m_hFirstLocalClientEntity = INVALID_POOL_HANDLE;
@@ -227,7 +227,7 @@ void    CClientEntityDirectory::Delete(uint uiIndex)
         else
         {
             CClientEntity *pNextClientEntity(pClientEntity->GetNextClientEntity());
-            if (pNextClientEntity != NULL)
+            if (pNextClientEntity != nullptr)
                 m_hFirstClientEntity = GetHandle(pNextClientEntity);
             else
                 m_hFirstClientEntity = INVALID_POOL_HANDLE;
@@ -252,15 +252,15 @@ void    CClientEntityDirectory::Delete(uint uiIndex)
             IEntityState *pState(itFind->second->GetAsState());
 
             CClientEntity *pOwner(GetClientEntity(pState->GetOwnerIndex()));
-            if (pOwner != NULL && 
-                pOwner->GetNextEntity() != NULL && 
-                pOwner->GetPrevEntity() != NULL && 
-                pOwner->GetCurrentEntity() != NULL && 
+            if (pOwner != nullptr &&
+                pOwner->GetNextEntity() != nullptr &&
+                pOwner->GetPrevEntity() != nullptr &&
+                pOwner->GetCurrentEntity() != nullptr &&
                 pOwner->GetNextEntity()->IsUnit())
             {
-                if (pOwner->GetNextEntity()->GetAsUnit() != NULL) pOwner->GetNextEntity()->GetAsUnit()->RemoveState(pState);
-                if (pOwner->GetPrevEntity()->GetAsUnit() != NULL) pOwner->GetPrevEntity()->GetAsUnit()->RemoveState(pState);
-                if (pOwner->GetCurrentEntity()->GetAsUnit() != NULL) pOwner->GetCurrentEntity()->GetAsUnit()->RemoveState(pState);
+                if (pOwner->GetNextEntity()->GetAsUnit() != nullptr) pOwner->GetNextEntity()->GetAsUnit()->RemoveState(pState);
+                if (pOwner->GetPrevEntity()->GetAsUnit() != nullptr) pOwner->GetPrevEntity()->GetAsUnit()->RemoveState(pState);
+                if (pOwner->GetCurrentEntity()->GetAsUnit() != nullptr) pOwner->GetCurrentEntity()->GetAsUnit()->RemoveState(pState);
             }
         }
         else if (itFind->second->IsTool())
@@ -268,19 +268,19 @@ void    CClientEntityDirectory::Delete(uint uiIndex)
             IEntityTool *pItem(itFind->second->GetAsTool());
 
             CClientEntity *pOwner(GetClientEntity(pItem->GetOwnerIndex()));
-            if (pOwner != NULL && pOwner->GetNextEntity() != NULL && pOwner->GetNextEntity()->IsUnit())
+            if (pOwner != nullptr && pOwner->GetNextEntity() != nullptr && pOwner->GetNextEntity()->IsUnit())
             {
-                if (pOwner->GetNextEntity()->GetAsUnit() != NULL &&
+                if (pOwner->GetNextEntity()->GetAsUnit() != nullptr &&
                     pOwner->GetNextEntity()->GetAsUnit()->GetTool(pItem->GetSlot()) == pItem)
-                    pOwner->GetNextEntity()->GetAsUnit()->SetInventorySlot(pItem->GetSlot(), NULL);
-                if (pOwner->GetPrevEntity() != NULL && 
-                    pOwner->GetPrevEntity()->GetAsUnit() != NULL &&
+                    pOwner->GetNextEntity()->GetAsUnit()->SetInventorySlot(pItem->GetSlot(), nullptr);
+                if (pOwner->GetPrevEntity() != nullptr &&
+                    pOwner->GetPrevEntity()->GetAsUnit() != nullptr &&
                     pOwner->GetPrevEntity()->GetAsUnit()->GetTool(pItem->GetSlot()) == pItem)
-                    pOwner->GetPrevEntity()->GetAsUnit()->SetInventorySlot(pItem->GetSlot(), NULL);
-                if (pOwner->GetCurrentEntity() != NULL && 
-                    pOwner->GetCurrentEntity()->GetAsUnit() != NULL && 
+                    pOwner->GetPrevEntity()->GetAsUnit()->SetInventorySlot(pItem->GetSlot(), nullptr);
+                if (pOwner->GetCurrentEntity() != nullptr &&
+                    pOwner->GetCurrentEntity()->GetAsUnit() != nullptr &&
                     pOwner->GetCurrentEntity()->GetAsUnit()->GetTool(pItem->GetSlot()) == pItem)
-                    pOwner->GetCurrentEntity()->GetAsUnit()->SetInventorySlot(pItem->GetSlot(), NULL);
+                    pOwner->GetCurrentEntity()->GetAsUnit()->SetInventorySlot(pItem->GetSlot(), nullptr);
             }
         }
 
@@ -297,7 +297,7 @@ CClientEntity*  CClientEntityDirectory::GetClientEntity(uint uiIndex)
 {
     ClientEntMap_it itFind(m_mapClientEntities.find(uiIndex));
     if (itFind == m_mapClientEntities.end())
-        return NULL;
+        return nullptr;
 
     return GetByHandle(itFind->second);
 }
@@ -310,7 +310,7 @@ IVisualEntity*  CClientEntityDirectory::GetClientEntityCurrent(uint uiIndex)
 {
     ClientEntMap_it itFind(m_mapClientEntities.find(uiIndex));
     if (itFind == m_mapClientEntities.end())
-        return NULL;
+        return nullptr;
 
     return GetByHandle(itFind->second)->GetCurrentEntity();
 }
@@ -323,7 +323,7 @@ IVisualEntity*  CClientEntityDirectory::GetClientEntityPrev(uint uiIndex)
 {
     ClientEntMap_it itFind(m_mapClientEntities.find(uiIndex));
     if (itFind == m_mapClientEntities.end())
-        return NULL;
+        return nullptr;
 
     return GetByHandle(itFind->second)->GetPrevEntity();
 }
@@ -336,7 +336,7 @@ IVisualEntity*  CClientEntityDirectory::GetClientEntityNext(uint uiIndex)
 {
     ClientEntMap_it itFind(m_mapClientEntities.find(uiIndex));
     if (itFind == m_mapClientEntities.end())
-        return NULL;
+        return nullptr;
 
     return GetByHandle(itFind->second)->GetNextEntity();
 }
@@ -355,7 +355,7 @@ IGameEntity*    CClientEntityDirectory::GetEntity(uint uiIndex)
     if (itFind != m_mapEntities.end())
         return itFind->second;
 
-    return NULL;
+    return nullptr;
 }
 
 
@@ -372,7 +372,7 @@ IGameEntity*    CClientEntityDirectory::GetEntityNext(uint uiIndex)
     if (itFind != m_mapEntities.end())
         return itFind->second;
 
-    return NULL;
+    return nullptr;
 }
 
 
@@ -383,7 +383,7 @@ IGameEntity*    CClientEntityDirectory::GetFirstEntity()
 {
     ClientEntMap_it itFind(m_mapClientEntities.begin());
     if (itFind == m_mapClientEntities.end())
-        return NULL;
+        return nullptr;
 
     return GetByHandle(itFind->second)->GetCurrentEntity();
 }
@@ -395,16 +395,16 @@ IGameEntity*    CClientEntityDirectory::GetFirstEntity()
 IGameEntity*    CClientEntityDirectory::GetNextEntity(IGameEntity *pEntity)
 {
     if (!pEntity)
-        return NULL;
+        return nullptr;
 
     ClientEntMap_it itFind(m_mapClientEntities.find(pEntity->GetIndex()));
     if (itFind == m_mapClientEntities.end())
-        return NULL;
+        return nullptr;
 
     ++itFind;
 
     if (itFind == m_mapClientEntities.end())
-        return NULL;
+        return nullptr;
 
     return GetByHandle(itFind->second)->GetCurrentEntity();
 }
@@ -571,7 +571,7 @@ void    CClientEntityDirectory::PopulateScene()
 {
     PROFILE("CClientEntityDirectory::PopulateScene");
 
-    for (CClientEntity *pClEnt(GetFirstClientEntity()); pClEnt != NULL; pClEnt = pClEnt->GetNextClientEntity())
+    for (CClientEntity *pClEnt(GetFirstClientEntity()); pClEnt != nullptr; pClEnt = pClEnt->GetNextClientEntity())
     {
         GameClient.SetCurrentEntity(pClEnt);
 
@@ -588,7 +588,7 @@ void    CClientEntityDirectory::DrawScreen()
     static ResHandle hFont(g_ResourceManager.LookUpName(_T("system_medium"), RES_FONTMAP));
     CFontMap *pFontMap(g_ResourceManager.GetFontMap(hFont));
 
-    for (CClientEntity *pClEnt(GetFirstClientEntity()); pClEnt != NULL; pClEnt = pClEnt->GetNextClientEntity())
+    for (CClientEntity *pClEnt(GetFirstClientEntity()); pClEnt != nullptr; pClEnt = pClEnt->GetNextClientEntity())
     {
         IVisualEntity *pVisual(pClEnt->GetCurrentEntity());
 
@@ -646,11 +646,11 @@ void    CClientEntityDirectory::UpdateDefinitions(ushort unType)
         if (pClientEntity->GetType() != unType)
             continue;
 
-        if (pClientEntity->GetNextEntity() != NULL)
+        if (pClientEntity->GetNextEntity() != nullptr)
             pClientEntity->GetNextEntity()->UpdateDefinition();
-        if (pClientEntity->GetPrevEntity() != NULL)
+        if (pClientEntity->GetPrevEntity() != nullptr)
             pClientEntity->GetPrevEntity()->UpdateDefinition();
-        if (pClientEntity->GetCurrentEntity() != NULL)
+        if (pClientEntity->GetCurrentEntity() != nullptr)
             pClientEntity->GetCurrentEntity()->UpdateDefinition();
     }
 }

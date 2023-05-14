@@ -187,13 +187,13 @@ void    IAffector::Spawn()
         SetVisibilityFlags(Game.GetVision(GetPosition().x, GetPosition().y));
 
         IUnitEntity *pOwner(GetOwner());
-        if (pOwner != NULL && (pOwner->GetTeam() == 1 || pOwner->GetTeam() == 2))
+        if (pOwner != nullptr && (pOwner->GetTeam() == 1 || pOwner->GetTeam() == 2))
             SetVisibilityFlags(VIS_SIGHTED(pOwner->GetTeam()));
 
         IUnitEntity *pAttach(Game.GetUnitEntity(Game.GetGameIndexFromUniqueID(m_uiAttachTargetUID)));
 
         CAffectorDefinition *pDefinition(GetDefinition<CAffectorDefinition>(GetModifierBits()));
-        if (pDefinition != NULL)
+        if (pDefinition != nullptr)
             pDefinition->ExecuteActionScript(ACTION_SCRIPT_SPAWN, this, GetOwner(), this, pAttach, GetPosition(), GetProxy(0), GetLevel());
     }
 }
@@ -235,7 +235,7 @@ uint    IAffector::GetPotentialImpactCount(uint uiTargetUID, uint uiTotalRemaini
   ====================*/
 void    IAffector::ImpactEntity(IUnitEntity *pTarget)
 {
-    if (pTarget == NULL)
+    if (pTarget == nullptr)
         return;
 
     //Console << _T("IAffector::ImpactEntity ") << Game.GetGameTime() << _T(" ") << pTarget->GetIndex() << newl;
@@ -256,7 +256,7 @@ void    IAffector::ImpactEntity(IUnitEntity *pTarget)
     if (GetChainCount() > 0 && hLinkEffect != INVALID_RESOURCE)
     {
         IUnitEntity *pAttachTarget(GetAttachTarget());
-        if (pAttachTarget != NULL)
+        if (pAttachTarget != nullptr)
         {
             CGameEvent evBridge;
             evBridge.SetSourceEntity(pAttachTarget->GetIndex());
@@ -268,7 +268,7 @@ void    IAffector::ImpactEntity(IUnitEntity *pTarget)
     else if (hBridgeEffect != INVALID_RESOURCE)
     {
         IUnitEntity *pAttachTarget(GetOwner());
-        if (pAttachTarget != NULL)
+        if (pAttachTarget != nullptr)
         {
             CGameEvent evBridge;
             evBridge.SetSourceEntity(pAttachTarget->GetIndex());
@@ -288,7 +288,7 @@ void    IAffector::ImpactEntity(IUnitEntity *pTarget)
 
     // Impact event
     CAffectorDefinition *pDefinition(GetDefinition<CAffectorDefinition>(GetModifierBits()));
-    if (pDefinition != NULL)
+    if (pDefinition != nullptr)
         pDefinition->ExecuteActionScript(ACTION_SCRIPT_IMPACT, this, GetOwner(), this, pTarget, pTarget->GetPosition(), GetProxy(0), GetLevel());
 }
 
@@ -302,7 +302,7 @@ void    IAffector::Impact(vector<IUnitEntity*> &vTargets)
 
     // Interval event
     CAffectorDefinition *pDefinition(GetDefinition<CAffectorDefinition>(GetModifierBits()));
-    if (pDefinition != NULL)
+    if (pDefinition != nullptr)
         pDefinition->ExecuteActionScript(ACTION_SCRIPT_INTERVAL, this, GetOwner(), this, pAttach, GetPosition(), GetProxy(0), GetLevel());
     
     if (vTargets.empty() && m_uiFirstTargetIndex == INVALID_INDEX &&
@@ -330,7 +330,7 @@ void    IAffector::Impact(vector<IUnitEntity*> &vTargets)
     {
         IUnitEntity *pTarget(Game.GetUnitEntity(m_uiFirstTargetIndex));
         m_uiFirstTargetIndex = INVALID_INDEX;
-        if (pTarget != NULL && Game.IsValidTarget(GetTargetScheme(), GetEffectType(), GetOwner(), pTarget))
+        if (pTarget != nullptr && Game.IsValidTarget(GetTargetScheme(), GetEffectType(), GetOwner(), pTarget))
         {
             ImpactEntity(pTarget);
             if (uiRemainingImpacts <= 1)
@@ -425,7 +425,7 @@ void    IAffector::Impact(vector<IUnitEntity*> &vTargets)
     case TARGET_SELECT_RANDOM_POSITION:
         {
             CAffectorDefinition *pDefinition(GetDefinition<CAffectorDefinition>(GetModifierBits()));
-            if (pDefinition == NULL)
+            if (pDefinition == nullptr)
                 break;
 
             if (uiRemainingImpacts == UINT_MAX)
@@ -433,7 +433,7 @@ void    IAffector::Impact(vector<IUnitEntity*> &vTargets)
             for (uint ui(0); ui < uiRemainingImpacts; ++ui)
             {
                 CVec2f v2Position(GetPosition().xy() + M_RandomPointInCircle() * GetRadius());
-                pDefinition->ExecuteActionScript(ACTION_SCRIPT_IMPACT, this, GetOwner(), this, NULL, Game.GetTerrainPosition(v2Position), GetProxy(0), GetLevel());
+                pDefinition->ExecuteActionScript(ACTION_SCRIPT_IMPACT, this, GetOwner(), this, nullptr, Game.GetTerrainPosition(v2Position), GetProxy(0), GetLevel());
             }
         }
         break;
@@ -441,7 +441,7 @@ void    IAffector::Impact(vector<IUnitEntity*> &vTargets)
     case TARGET_SELECT_RANDOM_ANGLE_DISTANCE:
         {
             CAffectorDefinition *pDefinition(GetDefinition<CAffectorDefinition>(GetModifierBits()));
-            if (pDefinition == NULL)
+            if (pDefinition == nullptr)
                 break;
 
             float fOuterRadius(GetRadius());
@@ -463,7 +463,7 @@ void    IAffector::Impact(vector<IUnitEntity*> &vTargets)
                 v2Point.Rotate(fRandomAngle + fAngle);
 
                 CVec2f v2Position(GetPosition().xy() + v2Point);
-                pDefinition->ExecuteActionScript(ACTION_SCRIPT_IMPACT, this, GetOwner(), this, NULL, Game.GetTerrainPosition(v2Position), GetProxy(0), GetLevel());
+                pDefinition->ExecuteActionScript(ACTION_SCRIPT_IMPACT, this, GetOwner(), this, nullptr, Game.GetTerrainPosition(v2Position), GetProxy(0), GetLevel());
             }
         }
         break;
@@ -488,11 +488,11 @@ bool    IAffector::ServerFrameSetup()
     if (!GetPersist() && m_uiAttachTargetUID != INVALID_INDEX)
     {
         IVisualEntity *pTarget(Game.GetVisualEntity(Game.GetGameIndexFromUniqueID(m_uiAttachTargetUID)));
-        if (pTarget == NULL || pTarget->GetStatus() != ENTITY_STATUS_ACTIVE)
+        if (pTarget == nullptr || pTarget->GetStatus() != ENTITY_STATUS_ACTIVE)
         {
             CAffectorDefinition *pDefinition(GetDefinition<CAffectorDefinition>(GetModifierBits()));
-            if (pDefinition != NULL)
-                pDefinition->ExecuteActionScript(ACTION_SCRIPT_EXPIRED, this, GetOwner(), this, NULL, GetPosition(), GetProxy(0), GetLevel());
+            if (pDefinition != nullptr)
+                pDefinition->ExecuteActionScript(ACTION_SCRIPT_EXPIRED, this, GetOwner(), this, nullptr, GetPosition(), GetProxy(0), GetLevel());
 
             return false;
         }
@@ -514,7 +514,7 @@ bool    IAffector::ServerFrameMovement()
     SetVisibilityFlags(Game.GetVision(GetPosition().x, GetPosition().y));
 
     IUnitEntity *pOwner(GetOwner());
-    if (pOwner != NULL && (pOwner->GetTeam() == 1 || pOwner->GetTeam() == 2))
+    if (pOwner != nullptr && (pOwner->GetTeam() == 1 || pOwner->GetTeam() == 2))
         SetVisibilityFlags(VIS_SIGHTED(pOwner->GetTeam()));
 
     if (m_uiLastMoveTime != INVALID_TIME)
@@ -533,7 +533,7 @@ bool    IAffector::ServerFrameMovement()
     }
 
     IVisualEntity *pTarget(Game.GetVisualEntity(Game.GetGameIndexFromUniqueID(m_uiAttachTargetUID)));
-    if (pTarget != NULL)
+    if (pTarget != nullptr)
     {
         SetPosition(pTarget->GetPosition());
 
@@ -560,7 +560,7 @@ bool    IAffector::ServerFrameAction()
 
     // Frame event
     CAffectorDefinition *pDefinition(GetDefinition<CAffectorDefinition>(GetModifierBits()));
-    if (pDefinition != NULL)
+    if (pDefinition != nullptr)
         pDefinition->ExecuteActionScript(ACTION_SCRIPT_FRAME, this, GetOwner(), this, pAttach, GetPosition(), GetProxy(0), GetLevel());
 
     bool bImpact(false);
@@ -631,7 +631,7 @@ bool    IAffector::ServerFrameAction()
                 continue;
 
             IGameEntity *pTargetBase(Game.GetEntity(uiTargetIndex));
-            if (pTargetBase == NULL)
+            if (pTargetBase == nullptr)
                 continue;
 
             if (pTargetBase->IsBit())
@@ -642,7 +642,7 @@ bool    IAffector::ServerFrameAction()
                 IBitEntity *pTargetBit(pTargetBase->GetAsBit());
                 
                 CWorldEntity *pWorldEnt(Game.GetWorldEntity(pTargetBit->GetWorldIndex()));
-                if (pWorldEnt == NULL)
+                if (pWorldEnt == nullptr)
                     continue;
                 
                 // Ignore entities completely within the inner radius
@@ -660,7 +660,7 @@ bool    IAffector::ServerFrameAction()
             else
             {
                 IUnitEntity *pTarget(pTargetBase->GetAsUnit());
-                if (pTarget == NULL)
+                if (pTarget == nullptr)
                     continue;
                 
                 // Ignore entities completely within the inner radius
@@ -678,7 +678,7 @@ bool    IAffector::ServerFrameAction()
                     continue;
 
                 // Execute frame script, this hits all valid targets every frame, ignoring impact rules
-                if (pDefinition != NULL)
+                if (pDefinition != nullptr)
                     pDefinition->ExecuteActionScript(ACTION_SCRIPT_FRAME_IMPACT, this, pOwner, this, pTarget, pTarget->GetPosition(), GetProxy(0), GetLevel());
 
                 // Skip first target (added in Impact)
@@ -707,10 +707,10 @@ bool    IAffector::ServerFrameAction()
     else if (m_uiAttachTargetUID != INVALID_INDEX)
     {
         IUnitEntity *pAttachTarget(Game.GetUnitFromUniqueID(m_uiAttachTargetUID));
-        if (pAttachTarget != NULL && Game.IsValidTarget(uiTargetScheme, uiEffectType, pOwner, pAttachTarget, GetIgnoreInvulnerable()))
+        if (pAttachTarget != nullptr && Game.IsValidTarget(uiTargetScheme, uiEffectType, pOwner, pAttachTarget, GetIgnoreInvulnerable()))
         {
             // Execute frame impact script, this hits all valid targets every frame, ignoring impact rules
-            if (pDefinition != NULL)
+            if (pDefinition != nullptr)
                 pDefinition->ExecuteActionScript(ACTION_SCRIPT_FRAME_IMPACT, this, pOwner, this, pAttachTarget, pAttachTarget->GetPosition(), GetProxy(0), GetLevel());
 
             vTargets.push_back(pAttachTarget);
@@ -741,8 +741,8 @@ bool    IAffector::ServerFrameCleanup()
     if (bExpire)
     {
         CAffectorDefinition *pDefinition(GetDefinition<CAffectorDefinition>(GetModifierBits()));
-        if (pDefinition != NULL)
-            pDefinition->ExecuteActionScript(ACTION_SCRIPT_EXPIRED, this, GetOwner(), this, NULL, GetPosition(), GetProxy(0), GetLevel());
+        if (pDefinition != nullptr)
+            pDefinition->ExecuteActionScript(ACTION_SCRIPT_EXPIRED, this, GetOwner(), this, nullptr, GetPosition(), GetProxy(0), GetLevel());
 
         return false;
     }
@@ -757,7 +757,7 @@ bool    IAffector::ServerFrameCleanup()
 bool    IAffector::AddToScene(const CVec4f &v4Color, int iFlags)
 {
     CPlayer *pLocalPlayer(Game.GetLocalPlayer());
-    if (pLocalPlayer == NULL)
+    if (pLocalPlayer == nullptr)
         return false;
 
     if (!pLocalPlayer->CanSee(this))
@@ -772,7 +772,7 @@ bool    IAffector::AddToScene(const CVec4f &v4Color, int iFlags)
     }
 
     // If the cvar is false or it isn't a practice/replay game, return as it can be used to reveal abilities in game it shouldn't be able to
-    if (!d_drawAreaAffectors || (Host.GetActiveClient() != NULL && !(Host.GetActiveClient()->GetPractice() || Host.IsReplay())))
+    if (!d_drawAreaAffectors || (Host.GetActiveClient() != nullptr && !(Host.GetActiveClient()->GetPractice() || Host.IsReplay())))
         return true;
 
     float fOuterRadius(GetRadius());
@@ -835,7 +835,7 @@ bool    IAffector::AddToScene(const CVec4f &v4Color, int iFlags)
 void    IAffector::ExecuteActionScript(EEntityActionScript eScript, IUnitEntity *pTarget, const CVec3f &v3Target)
 {
     CAffectorDefinition *pDef(GetDefinition<CAffectorDefinition>(GetModifierBits()));
-    if (pDef == NULL)
+    if (pDef == nullptr)
         return;
 
     pDef->ExecuteActionScript(eScript, this, GetOwner(), this, pTarget, v3Target, GetProxy(0), GetLevel());
@@ -857,14 +857,14 @@ void    IAffector::UpdateModifiers(const uivector &vModifiers)
 
     // Activate conditional modifiers
     IUnitEntity *pOwner(GetOwner());
-    if (pOwner == NULL)
+    if (pOwner == nullptr)
         return;
 
     CEntityDefinitionResource *pResource(g_ResourceManager.Get<CEntityDefinitionResource>(m_hDefinition));
-    if (pResource == NULL)
+    if (pResource == nullptr)
         return;
     IEntityDefinition *pDefinition(pResource->GetDefinition<IEntityDefinition>());
-    if (pDefinition == NULL)
+    if (pDefinition == nullptr)
         return;
 
     const EntityModifierMap &mapModifiers(pDefinition->GetModifiers());

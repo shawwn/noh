@@ -269,12 +269,12 @@ inline
 CBone*  CK2Model::GetBoneParent(uint zIndex)
 {
     const CBone *pBone(GetBone(zIndex));
-    if (pBone == NULL)
-        return NULL;
+    if (pBone == nullptr)
+        return nullptr;
 
     uint uiParentIndex(pBone->GetParentIndex());
     if (uiParentIndex == INVALID_BONE)
-        return NULL;
+        return nullptr;
 
     return &m_vBones[uiParentIndex];
 }
@@ -287,7 +287,7 @@ inline
 const tstring&  CK2Model::GetBoneName(uint zIndex)
 {
     const CBone *pBone(GetBone(zIndex));
-    if (pBone == NULL)
+    if (pBone == nullptr)
         return TSNULL;
     else
         return pBone->GetName();
@@ -301,7 +301,7 @@ inline
 uint    CK2Model::GetBoneIndex(const tstring &sName)
 {
     const CBone *pBone(GetBone(sName));
-    if (pBone == NULL)
+    if (pBone == nullptr)
         return INVALID_BONE;
     else
         return pBone->GetIndex();
@@ -315,7 +315,7 @@ inline
 const vector<uint>* CK2Model::GetBoneChildren(uint zIndex)
 {
     if (zIndex >= m_vBones.size())
-        return NULL;
+        return nullptr;
 
     return &m_vBones[zIndex].GetChildren();
 }

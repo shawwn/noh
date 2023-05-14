@@ -75,8 +75,8 @@ public:
     static bool     IsLocalEntity(uint uiIndex)     { return (uiIndex >= 0x10000); }
     
     void            Delete(uint uiIndex);
-    void            Delete(CClientEntity *pEntity)  { if (pEntity != NULL) Delete(pEntity->GetIndex()); }
-    void            Delete(IGameEntity *pEntity)    { if (pEntity != NULL) Delete(pEntity->GetIndex()); }
+    void            Delete(CClientEntity *pEntity)  { if (pEntity != nullptr) Delete(pEntity->GetIndex()); }
+    void            Delete(IGameEntity *pEntity)    { if (pEntity != nullptr) Delete(pEntity->GetIndex()); }
 
     CClientEntity*          GetClientEntity(uint uiIndex);
     IVisualEntity*          GetClientEntityCurrent(uint uiIndex);

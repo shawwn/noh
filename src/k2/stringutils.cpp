@@ -631,7 +631,7 @@ int     CompareNum(const tstring &s1, const TCHAR *s2, size_t n)
     if (n == 0)
         return 0;
     else
-        return p1 == s1.end() ? p2 == NULL ? 0 : -1 : 1;
+        return p1 == s1.end() ? p2 == nullptr ? 0 : -1 : 1;
 }
 
 
@@ -657,7 +657,7 @@ int     CompareNoCaseNum(const TCHAR *p1, const TCHAR *p2, size_t n)
     if (n == 0)
         return 0;
     else
-        return p1 == NULL ? p2 == NULL ? 0 : -1 : 1;
+        return p1 == nullptr ? p2 == nullptr ? 0 : -1 : 1;
 }
 
 
@@ -1582,7 +1582,7 @@ int     UTFChar2Bytes(int c, char* buf)
 
     Convert an UTF-16 string to UTF-8.
     The input is "instr[inlen]" with "inlen" in number of UTF-16 words.
-    When "outstr" is NULL only return the required number of bytes.
+    When "outstr" is nullptr only return the required number of bytes.
     Otherwise "outstr" must be a buffer of sufficient size.
     Return the number of bytes produced.
   ====================*/
@@ -1608,7 +1608,7 @@ int     UTF16to8(short *instr, int inlen, char *outstr)
                 --todo;
             }
         }
-        if (outstr != NULL)
+        if (outstr != nullptr)
         {
             l = UTFChar2Bytes(ch, outstr);
             outstr += l;
@@ -2607,10 +2607,10 @@ float   WrapStringCount(const tstring &sStr, CFontMap *pFontMap, float fWidth, b
     if(sStr.length() == 0 || pFontMap == 0)
         return 1.0f;
 
-    if(vWrappingBreakListOut != NULL)
+    if(vWrappingBreakListOut != nullptr)
         vWrappingBreakListOut->clear();
     
-    if(vCentering != NULL)
+    if(vCentering != nullptr)
         vCentering->clear();
 
         //Used for String Wrapping
@@ -2636,18 +2636,18 @@ float   WrapStringCount(const tstring &sStr, CFontMap *pFontMap, float fWidth, b
 
         if (sStr[zStrPos] == '\n')
         {   
-            if(vWrappingBreakListOut != NULL)
+            if(vWrappingBreakListOut != nullptr)
                 vWrappingBreakListOut->push_back(zStrPos);
-            if (vCentering != NULL && (iFlags & DRAW_STRING_CENTER || iFlags & DRAW_STRING_RIGHT))
+            if (vCentering != nullptr && (iFlags & DRAW_STRING_CENTER || iFlags & DRAW_STRING_RIGHT))
                 vCentering->push_back(fCurrentWidth);
             fWrapCount++;
             zLastStrPos = zLastStrBreak  = zStrPos + 1;
         }
         else if (fCurrentWidth > fWidth && bWrap)
         {
-            if(vWrappingBreakListOut != NULL)
+            if(vWrappingBreakListOut != nullptr)
                 vWrappingBreakListOut->push_back(zLastStrBreak);
-            if (vCentering != NULL && (iFlags & DRAW_STRING_CENTER || iFlags & DRAW_STRING_RIGHT))
+            if (vCentering != nullptr && (iFlags & DRAW_STRING_CENTER || iFlags & DRAW_STRING_RIGHT))
             {
                 sSubStr = sStr.substr(zLastStrPos, (zLastStrBreak - zLastStrPos) + 1);
                 fCurrentWidth = pFontMap->GetStringWidth(sSubStr);
@@ -2667,7 +2667,7 @@ float   WrapStringCount(const tstring &sStr, CFontMap *pFontMap, float fWidth, b
         tstring sSubStr(sStr.substr(zLastStrPos));
         fCurrentWidth = pFontMap->GetStringWidth(sSubStr);
         fWrapCount++;
-        if (vCentering != NULL && (iFlags & DRAW_STRING_CENTER || iFlags & DRAW_STRING_RIGHT))
+        if (vCentering != nullptr && (iFlags & DRAW_STRING_CENTER || iFlags & DRAW_STRING_RIGHT))
             vCentering->push_back(fCurrentWidth);
     }
 
@@ -2736,14 +2736,14 @@ tsvector    WrapString(const tstring &sStr, CFontMap *pFontMap, float fWidth, bo
         if (sStr[zStrPos] == '\n')
         {   
             vsOut.push_back (sStr.substr(zLastStrPos, (zStrPos - zLastStrPos) + 1));
-            if (pColors != NULL)
+            if (pColors != nullptr)
                     pColors->push_back(*pColor);
             zLastStrPos = zLastStrBreak  = zStrPos + 1;
         }
         else if (fCurrentWidth > fWidth && bWrap)
         {
             vsOut.push_back(sStr.substr(zLastStrPos, (zLastStrBreak - zLastStrPos) + 1));
-            if (pColors != NULL)
+            if (pColors != nullptr)
                 pColors->push_back(*pColor);
             zLastStrPos = zLastStrBreak + 1;
         }
@@ -2756,7 +2756,7 @@ tsvector    WrapString(const tstring &sStr, CFontMap *pFontMap, float fWidth, bo
     if (zLastStrPos != sStr.length())
     {
         vsOut.push_back(sStr.substr(zLastStrPos));
-        if (pColors != NULL)
+        if (pColors != nullptr)
             pColors->push_back(*pColor);
     }
 
@@ -2780,7 +2780,7 @@ void    WrapString(const tstring &sStr, CFontMap *pFontMap, float fWidth, tsvect
         if (pFontMap->GetMaxAdvance() * sStr.length() < fWidth)
         {
             vsOut.push_back(sStr);
-            if(pColor != NULL)
+            if(pColor != nullptr)
                 pColors->push_back(*pColor);
             return;
         }
@@ -2790,7 +2790,7 @@ void    WrapString(const tstring &sStr, CFontMap *pFontMap, float fWidth, tsvect
     if (pFontMap->GetStringWidth(sStr) < fWidth)
     {
         vsOut.push_back(sStr);
-        if(pColor != NULL)
+        if(pColor != nullptr)
             pColors->push_back(*pColor);
         return;
     }
@@ -2830,7 +2830,7 @@ void    WrapString(const tstring &sStr, CFontMap *pFontMap, float fWidth, tsvect
     {
         // Didn't find any white space to break on, so just split mid-token
         vsOut.push_back(sStr.substr(0, zOverflowPos));
-        if (pColors != NULL)
+        if (pColors != nullptr)
             pColors->push_back(*pColor);
         WrapString(sStr.substr(zOverflowPos + 1), pFontMap, fWidth, vsOut, pColor, pColors);
     }
@@ -2838,7 +2838,7 @@ void    WrapString(const tstring &sStr, CFontMap *pFontMap, float fWidth, tsvect
     {
         // Break in the middle of some white space
         vsOut.push_back(sStr.substr(0, zBreakPos));
-        if (pColors != NULL)
+        if (pColors != nullptr)
             pColors->push_back(*pColor);
         WrapString(sStr.substr(zBreakPos + 1), pFontMap, fWidth, vsOut, pColor, pColors);
     }
@@ -3209,7 +3209,7 @@ CMD(StrCmp)
     }
 
     ICvar *pCvar(ICvar::Find(vArgList[2]));
-    if (pCvar == NULL)
+    if (pCvar == nullptr)
     {
         Console << _T("Unknown cvar: ") << vArgList[2] << newl;
         return false;

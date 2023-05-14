@@ -228,9 +228,9 @@ public:
     virtual bool        GetEntity(uint uiIndex, CSceneEntity &outEntity)        { return true; }
 
     virtual uint        GetNumEmitters()                                        { return 0; }
-    virtual IEmitter*   GetEmitter(uint uiIndex)                                { return NULL; }
+    virtual IEmitter*   GetEmitter(uint uiIndex)                                { return nullptr; }
 
-    virtual CSkeleton*  GetCustomSkeleton()                                     { return NULL; }
+    virtual CSkeleton*  GetCustomSkeleton()                                     { return nullptr; }
 
     const CVec3f&       GetLastPos() const                                      { return m_v3LastPos; }
     const CAxis&        GetLastAxis() const                                     { return m_aLastAxis; }
@@ -259,7 +259,7 @@ public:
     {
         if (m_uiExpireTime == INVALID_TIME)
             m_uiExpireTime = uiMilliseconds;
-        if (m_pNextEmitter != NULL)
+        if (m_pNextEmitter != nullptr)
             m_pNextEmitter->Expire(uiMilliseconds);
     }
     

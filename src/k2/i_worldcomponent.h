@@ -75,7 +75,7 @@ protected:
 
 public:
     virtual ~IWorldComponent()                                                          {}
-    IWorldComponent(EWorldComponent eComponent, tstring sName) : m_pWorld(NULL), m_sName(sName), m_bChanged(false), m_eComponent(eComponent)    {}
+    IWorldComponent(EWorldComponent eComponent, tstring sName) : m_pWorld(nullptr), m_sName(sName), m_bChanged(false), m_eComponent(eComponent)    {}
 
     bool            IsChanged() const       { return m_bChanged; }
     tstring         GetName() const         { return m_sName; }

@@ -467,12 +467,12 @@ void    CDeformTool::TerrainClone(float *pRegion, const CRecti &recArea, const C
   ====================*/
 void    CDeformTool::DeformTerrain(float fFrameTime)
 {
-    float *pRegion(NULL);
+    float *pRegion(nullptr);
 
     try
     {
         CBrush *pBrush(CBrush::GetCurrentBrush());
-        if (pBrush == NULL)
+        if (pBrush == nullptr)
             EX_ERROR(_T("No brush selected"));
 
         if (!Editor.GetWorld().IsInBounds(m_iX, m_iY, GRID_SPACE))
@@ -490,7 +490,7 @@ void    CDeformTool::DeformTerrain(float fFrameTime)
 
         // Get the region
         pRegion = K2_NEW_ARRAY(global, float, recClippedBrush.GetArea());
-        if (pRegion == NULL)
+        if (pRegion == nullptr)
             EX_ERROR(_T("Failed to allocate region"));
 
         if (!Editor.GetWorld().GetRegion(WORLD_VERT_HEIGHT_MAP, recClippedBrush, pRegion))
@@ -571,7 +571,7 @@ void    CDeformTool::DeformTerrain(float fFrameTime)
     }
     catch (CException &ex)
     {
-        if (pRegion != NULL)
+        if (pRegion != nullptr)
             K2_DELETE_ARRAY(pRegion);
 
         ex.Process(_T("CDeformTool::DeformTerrain() - "), NO_THROW);

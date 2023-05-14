@@ -73,7 +73,7 @@ IResource*  AllocModel(const tstring &sPath)
   ====================*/
 CModel::CModel(const tstring &sPath) :
 IResource(sPath, TSNULL),
-m_pModelFile(NULL)
+m_pModelFile(nullptr)
 {
 }
 
@@ -150,7 +150,7 @@ void    CModel::Free()
     
     SAFE_DELETE(m_pModelFile);
 
-    if (m_pCallback != NULL)
+    if (m_pCallback != nullptr)
         g_ResourceManager.UnregisterFileChangeCallback(m_pCallback);
     SAFE_DELETE(m_pCallback);
 }
@@ -178,7 +178,7 @@ bool    CModel::LoadNull()
     catch (CException &ex)
     {
         ex.Process(_TS("CModel::Load(") + m_sName + _TS(") - "), NO_THROW);
-        EX_FATAL(_T("Model NULL resource failure"));
+        EX_FATAL(_T("Model nullptr resource failure"));
     }
 
     return true;
@@ -214,7 +214,7 @@ bool    CModel::Allocate(const tstring &sName, const tstring &sFilename, const t
         m_pModelFile->SetName(sName);
 
         if (!m_pModelFile->Load(_T("/core/null/null.model"), m_uiIgnoreFlags))
-            EX_FATAL(_T("ModelFile NULL resource failure"));
+            EX_FATAL(_T("ModelFile nullptr resource failure"));
     }
 
     return true;

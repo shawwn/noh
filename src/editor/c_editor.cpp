@@ -115,7 +115,7 @@ map<uint, CWorldEntityEx>   g_WorldEntData;
   ====================*/
 CEditor::~CEditor()
 {
-    if (m_pCamera != NULL)
+    if (m_pCamera != nullptr)
         K2_DELETE(m_pCamera);
     SAFE_DELETE(m_pMinimapBitmap); // UTTAR
 }
@@ -125,16 +125,16 @@ CEditor::~CEditor()
   CEditor::CEditor
   ====================*/
 CEditor::CEditor() : IGame(_T("editor")),
-m_pCamera(NULL),
+m_pCamera(nullptr),
 m_v3CamAngles(-45.0f, 0.0f, 315.0f),
-m_pHostClient(NULL),
-m_pWorld(NULL),
+m_pHostClient(nullptr),
+m_pWorld(nullptr),
 
 m_hLineMaterial(g_ResourceManager.Register(_T("/core/materials/line.material"), RES_MATERIAL)),
 m_hOccluderMaterial(g_ResourceManager.Register(_T("/core/materials/occluder.material"), RES_MATERIAL)),
 m_hMinimapReference(INVALID_RESOURCE),
 m_hMinimapTexture(INVALID_RESOURCE),
-m_pMinimapBitmap(NULL),
+m_pMinimapBitmap(nullptr),
 m_v2PathStart(0.0f, 0.0f),
 m_v2PathEnd(0.0f, 0.0f),
 m_bPathStartValid(false),
@@ -161,7 +161,7 @@ void    CEditor::SetNullTiles()
     if (rhNewTex == INVALID_RESOURCE && rhNewNorm == INVALID_RESOURCE)
         return;
 
-    STile *pRegion(NULL);
+    STile *pRegion(nullptr);
 
     // Clip the brush
     CRecti  recClippedBrush(0, 0, Editor.GetWorld().GetTileWidth(), Editor.GetWorld().GetTileHeight());
@@ -172,7 +172,7 @@ void    CEditor::SetNullTiles()
 
     // Get the region
     pRegion = K2_NEW_ARRAY(ctx_Editor, STile, recClippedBrush.GetArea());
-    if (pRegion == NULL)
+    if (pRegion == nullptr)
         EX_ERROR(_T("Failed to allocate region"));
 
     if (!Editor.GetWorld().GetRegion(WORLD_TILE_MATERIAL_MAP, recClippedBrush, pRegion, 0))
@@ -216,7 +216,7 @@ bool    CEditor::Init(CHostClient *pHostClient)
         SetGamePointer();
 
         m_pCamera = K2_NEW(ctx_Editor,   CCamera);
-        if (m_pCamera == NULL)
+        if (m_pCamera == nullptr)
             EX_ERROR(_T("Failed to allocate camera"));
 
         m_v3TargetCamAngles = m_v3CamAngles;
@@ -228,11 +228,11 @@ bool    CEditor::Init(CHostClient *pHostClient)
         m_pCamera->AddFlags(CAM_NO_DEPTH_CLEAR);
 
         m_pHostClient = pHostClient;
-        if (m_pHostClient == NULL)
+        if (m_pHostClient == nullptr)
             EX_ERROR(_T("Inalid CHostClient"));
 
         m_pWorld = m_pHostClient->GetWorld();
-        if (m_pWorld == NULL)
+        if (m_pWorld == nullptr)
             EX_ERROR(_T("Invalid CWorld from host"));
         
         m_pWorld->SetHostType(WORLDHOST_BOTH);
@@ -376,7 +376,7 @@ bool    CEditor::LoadWorld(const tstring &sWorldName)
         for (WorldEntList_cit cit(vEntities.begin()), citEnd(vEntities.end()); cit != citEnd; ++cit)
         {
             CWorldEntity *pWorldEnt(m_pWorld->GetEntityByHandle(*cit));
-            if (pWorldEnt == NULL)
+            if (pWorldEnt == nullptr)
                 continue;
 
             pWorldEnt->SetModelHandle(g_ResourceManager.Register(pWorldEnt->GetModelPath(), RES_MODEL));
@@ -387,7 +387,7 @@ bool    CEditor::LoadWorld(const tstring &sWorldName)
                 sType = pWorldEnt->GetProperty(_T("target0"));
 
             IUnitDefinition *pDefinition(EntityRegistry.GetDefinition<IUnitDefinition>(sType));
-            if (pDefinition != NULL)
+            if (pDefinition != nullptr)
             {
                 pWorldEnt->SetScale(pDefinition->GetPreGlobalScale(0) * pDefinition->GetModelScale(0));
                 pWorldEnt->SetModelHandle(g_ResourceManager.Register(pDefinition->GetModelPath(0), RES_MODEL));
@@ -438,7 +438,7 @@ void    CEditor::DrawEntities()
     if (!le_drawEntities)
         return;
 
-    CEntityTool *pTool(NULL);
+    CEntityTool *pTool(nullptr);
     if (ToolBox.IsToolSelected(TOOL_ENTITY))
         pTool = static_cast<CEntityTool*>(ToolBox.GetCurrentTool());
 
@@ -448,14 +448,14 @@ void    CEditor::DrawEntities()
     for (WorldEntList_cit cit(vEntities.begin()), citEnd(vEntities.end()); cit != citEnd; ++cit)
     {
         CWorldEntity *pEnt(m_pWorld->GetEntityByHandle(*cit));
-        if (pEnt == NULL)
+        if (pEnt == nullptr)
             continue;
 
         uint uiIndex(pEnt->GetIndex());
 
         sc.Clear();
 
-        if (pTool != NULL)
+        if (pTool != nullptr)
         {
 
             sc.scale = pTool->GetScale(uiIndex);
@@ -500,7 +500,7 @@ void    CEditor::DrawEntities()
             sc.flags |= SCENEENT_TERRAIN_TEXTURES;
 
         CModel *pModel(g_ResourceManager.GetModel(sc.hRes));
-        if (pModel != NULL)
+        if (pModel != nullptr)
         {
             sc.flags |= SCENEENT_USE_AXIS;
             sc.axis = CAxis(sc.angle);
@@ -514,7 +514,7 @@ void    CEditor::DrawEntities()
 
         SSceneEntityEntry &cEntry(SceneManager.AddEntity(sc));
 
-        if (pModel != NULL && pModel->GetModelFile() && pModel->GetModelFile()->GetType() == MODEL_K2 && (!cEntry.bCull || !cEntry.bCullShadow))
+        if (pModel != nullptr && pModel->GetModelFile() && pModel->GetModelFile()->GetType() == MODEL_K2 && (!cEntry.bCull || !cEntry.bCullShadow))
         {
             CK2Model *pK2Model(static_cast<CK2Model *>(pModel->GetModelFile()));
 
@@ -570,7 +570,7 @@ void    CEditor::AddLights()
     if (!le_drawLights)
         return;
 
-    CLightTool *pTool(NULL);
+    CLightTool *pTool(nullptr);
     if (ToolBox.IsToolSelected(TOOL_LIGHT))
         pTool = static_cast<CLightTool*>(ToolBox.GetCurrentTool());
 
@@ -1098,7 +1098,7 @@ void    CEditor::UpdateMinimap()
     for (WorldEntList_cit cit(vEntities.begin()), citEnd(vEntities.end()); cit != citEnd; ++cit)
     {
         CWorldEntity *pEnt(m_pWorld->GetEntityByHandle(*cit));
-        if (pEnt == NULL)
+        if (pEnt == nullptr)
             continue;
 
         buffer.Clear();

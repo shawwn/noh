@@ -36,7 +36,7 @@ CProfileManager::CProfileManager() :
 m_bActive(false),
 m_bDraw(false)
 {
-    m_pPrintNode = m_pRootNode = m_pCurrentNode = K2_NEW(ctx_Profile,  CProfileNode)(_T("Root"), PROFILE_ROOT, NULL);
+    m_pPrintNode = m_pRootNode = m_pCurrentNode = K2_NEW(ctx_Profile,  CProfileNode)(_T("Root"), PROFILE_ROOT, nullptr);
     g_bProfile = true;
 }
 
@@ -176,7 +176,7 @@ void    CProfileManager::Draw()
 
     ResHandle hProfilerFont(g_ResourceManager.LookUpName(prof_font, RES_FONTMAP));
     CFontMap *pFontMap(g_ResourceManager.GetFontMap(hProfilerFont));
-    if (pFontMap == NULL)
+    if (pFontMap == nullptr)
         return;
 
     const float FONT_WIDTH = pFontMap->GetFixedAdvance();

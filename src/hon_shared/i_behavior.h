@@ -115,8 +115,8 @@ public:
     m_uiFlags(BSR_NEW),
     m_iIssuedClientNumber(-1),
     m_hPath(INVALID_POOL_HANDLE),
-    m_pBrain(NULL),
-    m_pSelf(NULL),
+    m_pBrain(nullptr),
+    m_pSelf(nullptr),
     m_uiTargetIndex(INVALID_INDEX),
     m_uiLastUpdate(0),
     m_plAvoidPlane(0.0f, 0.0f, 0.0f, 0.0f),
@@ -227,13 +227,13 @@ public:
     IOrderEntity*   GetOrder() const
     {
         if (m_uiOrderEntUID == INVALID_INDEX)
-            return NULL;
+            return nullptr;
 
         IGameEntity *pEntity(Game.GetEntityFromUniqueID(m_uiOrderEntUID));
-        if (pEntity != NULL && pEntity->IsOrder())
+        if (pEntity != nullptr && pEntity->IsOrder())
             return pEntity->GetAsOrder();
         else
-            return NULL;
+            return nullptr;
     }
 };
 //=============================================================================

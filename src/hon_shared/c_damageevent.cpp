@@ -20,7 +20,7 @@ void    CDamageEvent::ApplyDamage()
     IUnitEntity *pAttacker(Game.GetUnitEntity(m_uiAttackerIndex));
 
     IUnitEntity *pTarget(Game.GetUnitEntity(m_uiTargetIndex));
-    if (pTarget == NULL)
+    if (pTarget == nullptr)
         return;
 
     if (pTarget->GetInvulnerable())
@@ -44,7 +44,7 @@ void    CDamageEvent::ApplyDamage()
     m_fAppliedDamage = MAX(0.0f, m_fAttemptedDamage - m_fDeflection) * pTarget->GetIncomingDamageMultiplier();
 
     // Combat type modifications
-    if (pAttacker != NULL)
+    if (pAttacker != nullptr)
     {
         if (m_eSuperType == SUPERTYPE_ATTACK)
             m_fAppliedDamage *= Game.GetAttackMultiplier(pAttacker->GetCombatTypeIndex(), pTarget->GetCombatTypeIndex());

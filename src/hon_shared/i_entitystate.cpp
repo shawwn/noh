@@ -136,7 +136,7 @@ void    IEntityState::Expired()
     IUnitEntity *pOwner(GetOwner());
 
     CStateDefinition *pDef(GetDefinition<CStateDefinition>());
-    if (pDef != NULL)
+    if (pDef != nullptr)
         pDef->ExecuteActionScript(ACTION_SCRIPT_EXPIRED, this, GetInflictor(), this, pOwner, pOwner ? pOwner->GetPosition() : V_ZERO, GetProxy(0), GetLevel());
 }
 
@@ -159,7 +159,7 @@ void    IEntityState::Spawn()
 bool    IEntityState::ServerFrameSetup()
 {
     IUnitEntity *pOwner(Game.GetUnitEntity(GetOwnerIndex()));
-    if (pOwner == NULL)
+    if (pOwner == nullptr)
         return false;
 
     if (m_bExpireNextFrame || Game.GetGameTime() > GetExpireTime())
@@ -168,7 +168,7 @@ bool    IEntityState::ServerFrameSetup()
     // Auras
     if (IsActive() && pOwner->GetStatus() == ENTITY_STATUS_ACTIVE)
     {
-        if (m_pDefinition != NULL)
+        if (m_pDefinition != nullptr)
             m_pDefinition->ApplyAuras(this, GetLevel());
     }
 
@@ -217,7 +217,7 @@ bool    IEntityState::ServerFrameAction()
 
     // Frame action
     CStateDefinition *pDefinition(GetDefinition<CStateDefinition>(GetModifierBits()));
-    if (pDefinition != NULL)
+    if (pDefinition != nullptr)
         pDefinition->ExecuteActionScript(ACTION_SCRIPT_FRAME, this, GetInflictor(), this, GetOwner(), GetOwner()->GetPosition(), GetProxy(0), GetLevel());
 
     // Interval action
@@ -228,7 +228,7 @@ bool    IEntityState::ServerFrameAction()
             m_uiLastIntervalTriggerTime += GetImpactInterval();
 
             CStateDefinition *pDefinition(GetDefinition<CStateDefinition>(GetModifierBits()));
-            if (pDefinition != NULL)
+            if (pDefinition != nullptr)
                 pDefinition->ExecuteActionScript(ACTION_SCRIPT_IMPACT, this, GetInflictor(), this, GetOwner(), GetOwner()->GetPosition(), GetProxy(0), GetLevel());
         }
     }
@@ -273,11 +273,11 @@ bool    IEntityState::OwnerAction()
 void    IEntityState::ExecuteActionScript(EEntityActionScript eScript, IUnitEntity *pTarget, const CVec3f &v3Target)
 {
     CGameInfo *pGameInfo(Game.GetGameInfo());
-    if (pGameInfo != NULL)
+    if (pGameInfo != nullptr)
         pGameInfo->ExecuteActionScript(eScript, GetOwner(), this, pTarget, v3Target);
 
     CStateDefinition *pDef(GetDefinition<CStateDefinition>(GetModifierBits()));
-    if (pDef == NULL)
+    if (pDef == nullptr)
         return;
 
     pDef->ExecuteActionScript(eScript, this, GetOwner(), this, pTarget, v3Target, GetProxy(0), GetLevel());
@@ -323,12 +323,12 @@ void    IEntityState::UpdateModifiers()
 
     // Activate conditional modifiers
     IUnitEntity *pOwner(GetOwner());
-    if (pOwner == NULL)
+    if (pOwner == nullptr)
         return;
 
     // Grab base definition
     IEntityDefinition *pDefinition(GetBaseDefinition<IEntityDefinition>());
-    if (pDefinition == NULL)
+    if (pDefinition == nullptr)
         return;
 
     const EntityModifierMap &mapModifiers(pDefinition->GetModifiers());

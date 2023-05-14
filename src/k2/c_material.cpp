@@ -90,7 +90,7 @@ int     CMaterial::Load(uint uiIgnoreFlags, const char *pData, uint uiSize)
 /*====================
   CMaterial::LoadNull
 
-  Loads NULL material
+  Loads nullptr material
   ====================*/
 bool    CMaterial::LoadNull()
 {
@@ -122,7 +122,7 @@ bool    CMaterial::LoadNull()
     catch (CException &ex)
     {
         ex.Process(_TS("CMaterial::LoadNull(") + m_sName + _TS(") - "), NO_THROW);
-        EX_FATAL(_T("Material NULL resource failure"));
+        EX_FATAL(_T("Material nullptr resource failure"));
     }
 
     return true;

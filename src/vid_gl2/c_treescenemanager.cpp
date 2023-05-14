@@ -66,7 +66,7 @@ uint    CTreeSceneManager::AddDefinition(CTreeModelDef *pTreeDef)
   ====================*/
 uint    CTreeSceneManager::RemoveDefinition(uint uiIndex)
 {
-    m_vpTreeDefs[uiIndex] = NULL;
+    m_vpTreeDefs[uiIndex] = nullptr;
     return uint(m_vpTreeDefs.size());
 }
 
@@ -77,7 +77,7 @@ uint    CTreeSceneManager::RemoveDefinition(uint uiIndex)
 const CTreeModelDef*    CTreeSceneManager::GetDefinition(uint uiIndex)
 {
     if (uiIndex == INVALID_INDEX || uiIndex >= m_vpTreeDefs.size())
-        return NULL;
+        return nullptr;
 
     return m_vpTreeDefs[uiIndex];
 }

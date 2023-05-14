@@ -67,7 +67,7 @@ void    CScriptThread::Frame()
 void    CScriptThread::ExecuteScript(const tstring &sData, bool bFile, tsmapts *mapParams)
 {
     CScript *pNewScript = K2_NEW(ctx_Script,  CScript)(mapParams);
-    CScript *pOldScript = !m_qActiveScripts.empty() ? m_qActiveScripts.back() : NULL;
+    CScript *pOldScript = !m_qActiveScripts.empty() ? m_qActiveScripts.back() : nullptr;
 
     if (bFile)
         pNewScript->LoadFile(sData);

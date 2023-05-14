@@ -16,7 +16,7 @@
   CCompressedFile::CCompressedFile
   ====================*/
 CCompressedFile::CCompressedFile() :
-m_pData(NULL)
+m_pData(nullptr)
 {
 }
 

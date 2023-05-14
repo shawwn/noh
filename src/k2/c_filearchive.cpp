@@ -34,7 +34,7 @@ m_tModTime(0)
   ====================*/
 bool    CFileArchive::Open(const tstring &sPath, int iMode)
 {
-    if (m_pArchive == NULL)
+    if (m_pArchive == nullptr)
         return false;
 
     m_sPath = sPath;
@@ -55,7 +55,7 @@ bool    CFileArchive::Open(const tstring &sPath, int iMode)
     m_uiPos = 0;
     m_bEOF = false;
 
-    if (m_pBuffer != NULL || iMode & FILE_WRITE)
+    if (m_pBuffer != nullptr || iMode & FILE_WRITE)
         return true;
     else
         return false;
@@ -69,11 +69,11 @@ void    CFileArchive::Close()
 {
     SAFE_DELETE_ARRAY(m_pBuffer);
     
-    if (m_iMode & FILE_WRITE && m_pArchive != NULL)
+    if (m_iMode & FILE_WRITE && m_pArchive != nullptr)
     {
         m_pArchive->WriteFile(m_sPath, m_bufferWrite.Get(), m_bufferWrite.GetLength(), m_iMode, m_tModTime);
         m_bufferWrite.Clear();
-        m_pArchive = NULL;
+        m_pArchive = nullptr;
     }
 }
 
@@ -83,13 +83,13 @@ void    CFileArchive::Close()
   ====================*/
 bool    CFileArchive::IsOpen() const
 {
-    if (m_pArchive == NULL)
+    if (m_pArchive == nullptr)
         return false;
 
     if (m_iMode & FILE_WRITE)
         return m_pArchive->IsOpen();
     else
-        return m_pBuffer != NULL;
+        return m_pBuffer != nullptr;
 }
 
 
@@ -245,7 +245,7 @@ bool    CFileArchive::WriteString(const wstring &sText)
   ====================*/
 uint    CFileArchive::Read(char* pBuffer, uint uiBufferSize) const
 {
-    assert(pBuffer != NULL);
+    assert(pBuffer != nullptr);
 
     if (m_iMode & FILE_WRITE)
     {
@@ -289,13 +289,13 @@ const char  *CFileArchive::GetBuffer(uint &uiSize)
     if (m_iMode & FILE_WRITE)
     {
         uiSize = 0;
-        return NULL;
+        return nullptr;
     }
 
-    if (m_pBuffer == NULL)
+    if (m_pBuffer == nullptr)
     {
         uiSize = 0;
-        return NULL;
+        return nullptr;
     }
     else
     {

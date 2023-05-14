@@ -86,13 +86,13 @@ static void signal_handler_fatal (int signal, siginfo_t* info, void* context)
     sigemptyset(&act.sa_mask);
     act.sa_flags = 0;
     act.sa_handler = SIG_DFL;
-    sigaction(SIGILL, &act, NULL);
-    sigaction(SIGTRAP, &act, NULL);
-    sigaction(SIGABRT, &act, NULL);
-    sigaction(SIGFPE, &act, NULL);
-    sigaction(SIGSEGV, &act, NULL);
-    sigaction(SIGBUS, &act, NULL);
-    sigaction(SIGPIPE, &act, NULL);
+    sigaction(SIGILL, &act, nullptr);
+    sigaction(SIGTRAP, &act, nullptr);
+    sigaction(SIGABRT, &act, nullptr);
+    sigaction(SIGFPE, &act, nullptr);
+    sigaction(SIGSEGV, &act, nullptr);
+    sigaction(SIGBUS, &act, nullptr);
+    sigaction(SIGPIPE, &act, nullptr);
     
     string sSignal(XtoS(signal));
     switch (signal)
@@ -135,7 +135,7 @@ static void signal_handler_fatal (int signal, siginfo_t* info, void* context)
         pFile->WriteString("Signal: " + sSignal + "\n");
         
         pFile->WriteString("Backtrace:\n");
-        if (strings != NULL)
+        if (strings != nullptr)
         {
             for (int i(0); i < nptrs; ++i)
             {
@@ -184,7 +184,7 @@ static void signal_handler_fatal (int signal, siginfo_t* info, void* context)
     {
         // signal the main thread to shut down the video system, flush logs, and exit
         pthread_kill((pthread_t)K2System.GetMainThread(), SIGUSR2);
-        pthread_exit(NULL);
+        pthread_exit(nullptr);
     }
 }
 
@@ -234,24 +234,24 @@ int main(int argc, char *argv[])
     act.sa_sigaction = signal_handler_fatal;
     if (!getenv("K2_DUMP_CORE") || atoi(getenv("K2_DUMP_CORE")) == 0)
     {
-        sigaction(SIGILL, &act, NULL);
-        sigaction(SIGABRT, &act, NULL);
-        sigaction(SIGFPE, &act, NULL);
-        sigaction(SIGSEGV, &act, NULL);
-        sigaction(SIGBUS, &act, NULL);
+        sigaction(SIGILL, &act, nullptr);
+        sigaction(SIGABRT, &act, nullptr);
+        sigaction(SIGFPE, &act, nullptr);
+        sigaction(SIGSEGV, &act, nullptr);
+        sigaction(SIGBUS, &act, nullptr);
     }
     signal(SIGPIPE, SIG_IGN);
     signal(SIGTRAP, SIG_IGN);
     act.sa_sigaction = signal_handler_quit;
-    sigaction(SIGHUP, &act, NULL);
-    sigaction(SIGINT, &act, NULL);
-    sigaction(SIGQUIT, &act, NULL);
-    sigaction(SIGTERM, &act, NULL);
+    sigaction(SIGHUP, &act, nullptr);
+    sigaction(SIGINT, &act, nullptr);
+    sigaction(SIGQUIT, &act, nullptr);
+    sigaction(SIGTERM, &act, nullptr);
     // SIGUSR1 is sent to the main thread if a quit signal is encountered in a secondary thread
-    sigaction(SIGUSR1, &act, NULL);
+    sigaction(SIGUSR1, &act, nullptr);
     // SIGUSR2 is sent to the main thread if a crash is encountered in a secondary thread
     act.sa_sigaction = signal_handler_terminate;
-    sigaction(SIGUSR2, &act, NULL);
+    sigaction(SIGUSR2, &act, nullptr);
     
 #ifdef UNICODE
     // set locale to the one specified by the environment

@@ -300,8 +300,8 @@ private:
     CCvar(const CCvar<T> &);
 
 public:
-    inline CCvar(const tstring &sName, T _Default, int iFlags = 0, ConsoleElementFn_t pfnCmd = NULL);
-    inline CCvar(const tstring &sName, T _Default, int iFlags, T _Min, T _Max, ConsoleElementFn_t pfnCmd = NULL);
+    inline CCvar(const tstring &sName, T _Default, int iFlags = 0, ConsoleElementFn_t pfnCmd = nullptr);
+    inline CCvar(const tstring &sName, T _Default, int iFlags, T _Min, T _Max, ConsoleElementFn_t pfnCmd = nullptr);
 
     ~CCvar() {}
 
@@ -372,7 +372,7 @@ private:
     CCvar(const CCvar<tstring> &);
 
 public:
-    inline CCvar(const tstring &sName, const tstring &_Default, int iFlags = 0, ConsoleElementFn_t pfnCmd = NULL);
+    inline CCvar(const tstring &sName, const tstring &_Default, int iFlags = 0, ConsoleElementFn_t pfnCmd = nullptr);
 
     ~CCvar() {}
 
@@ -445,7 +445,7 @@ private:
 public:
     ~CArrayCvar() {}
 
-    CArrayCvar(const tstring &sName, const tstring &sDefault, int iFlags = 0, ConsoleElementFn_t pfnCmd = NULL) :
+    CArrayCvar(const tstring &sName, const tstring &sDefault, int iFlags = 0, ConsoleElementFn_t pfnCmd = nullptr) :
     ICvar(sName, iFlags | CONEL_HOME, CT_OTHER, pfnCmd),
     m_sDefault(sDefault),
     m_sValue(sDefault)
@@ -464,7 +464,7 @@ public:
         }
     }
 
-    CArrayCvar(const tstring &sName, const tstring &sDefault, int iFlags, T _Min, T _Max, ConsoleElementFn_t pfnCmd = NULL) :
+    CArrayCvar(const tstring &sName, const tstring &sDefault, int iFlags, T _Min, T _Max, ConsoleElementFn_t pfnCmd = nullptr) :
     ICvar(sName, iFlags | CONEL_HOME | CVAR_VALUERANGE, CT_OTHER, pfnCmd),
     m_RangeMin(_Min),
     m_RangeMax(_Max)
@@ -599,7 +599,7 @@ private:
 public:
     ~CArrayCvar() {}
 
-    CArrayCvar(const tstring &sName, const tstring &sDefault, int iFlags = 0, ConsoleElementFn_t pfnCmd = NULL) :
+    CArrayCvar(const tstring &sName, const tstring &sDefault, int iFlags = 0, ConsoleElementFn_t pfnCmd = nullptr) :
     ICvar(sName, iFlags | CONEL_HOME, CT_OTHER, pfnCmd),
     m_sDefault(sDefault),
     m_sValue(sDefault)
@@ -867,7 +867,7 @@ inline void CCvar<CVec3f, float>::UpdateChildren()
 {
     for (uint ui(X); ui <= Z; ++ui)
     {
-        if (m_pXYZW[ui] == NULL || m_pRGBA[ui] == NULL)
+        if (m_pXYZW[ui] == nullptr || m_pRGBA[ui] == nullptr)
         {
             Console.Err << _T("Failed to allocate a subscript cvar for ") << QuoteStr(m_sName) << newl;
             break;
@@ -887,7 +887,7 @@ inline void CCvar<CVec4f, float>::UpdateChildren()
 {
     for (uint ui(X); ui <= W; ++ui)
     {
-        if (m_pXYZW[ui] == NULL || m_pRGBA[ui] == NULL)
+        if (m_pXYZW[ui] == nullptr || m_pRGBA[ui] == nullptr)
         {
             Console.Err << _T("Failed to allocate a subscript cvar for ") << QuoteStr(m_sName) << newl;
             break;
@@ -1014,7 +1014,7 @@ inline void CCvar<float>::Set(const tstring &s)
         Modified();
     }
 
-    if (m_pParent != NULL)
+    if (m_pParent != nullptr)
     {
         if (m_pParent->GetType() == CT_VEC3)
             static_cast<CCvar<CVec3f, float>*>(m_pParent)->SetValueIndex(m_uiChildIndex, m_Value);

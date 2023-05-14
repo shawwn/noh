@@ -36,7 +36,7 @@ CLocale::~CLocale()
 
   This function takes in the direction of a client's movement, and shuffles the
   pointers around to match the new layout.  All blocks that are leaving scope
-  should be marked as NULL prior to calling, otherwise no shifting will occur.
+  should be marked as nullptr prior to calling, otherwise no shifting will occur.
   ====================*/
 void    CLocale::Shift(int iDir)
 {
@@ -89,7 +89,7 @@ void    CLocale::UpdateNeighborLinks()
     for (int block = FIRST_BLOCK; block <= LAST_BLOCK; ++block)
     {
         CBlockConfig *pConfig = BLOCK_COMPONENT(m_pBlockHandles[block], BlockConfig);
-        if (pConfig == NULL)
+        if (pConfig == nullptr)
             continue;
 
         for (int n = SOUTH; n < LAST_BLOCK; n += 2)

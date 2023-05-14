@@ -52,15 +52,15 @@ private:
 public:
     ~CCombatActionCombatEvent() {}
     
-    CCombatActionCombatEvent() : m_vActionScripts(NUM_ACTION_SCRIPTS, NULL)
+    CCombatActionCombatEvent() : m_vActionScripts(NUM_ACTION_SCRIPTS, nullptr)
     {
     }
 
     CCombatActionScript*    NewActionScript(EEntityActionScript eScript)
     {
         CCombatActionScript *pNewScript(K2_NEW(g_heapResources, CCombatActionScript)(eScript, 0, false, false, INVALID_INDEX));
-        if (pNewScript == NULL)
-            return NULL;
+        if (pNewScript == nullptr)
+            return nullptr;
 
         m_vActionScripts[eScript] = pNewScript;
         return pNewScript;
@@ -74,7 +74,7 @@ public:
     void    AddActionScript(EEntityActionScript eScript, CCombatEvent &combat)
     {
         CCombatActionScript *pScript(GetActionScript(eScript));
-        if (pScript != NULL)
+        if (pScript != nullptr)
         {
             CCombatActionScript &cScript(combat.AddActionScript(eScript, *pScript));
             cScript.SetThisUID(m_pEnv->pThis->GetUniqueID());
@@ -92,10 +92,10 @@ public:
         CCombatEvent combatEvent;
 
         combatEvent.SetSuperType(GetSuperType());
-        combatEvent.SetInitiatorIndex(pSource != NULL ? pSource->GetIndex() : INVALID_INDEX);
-        combatEvent.SetInflictorIndex(pInflictor != NULL ? pInflictor->GetIndex() : INVALID_INDEX);
-        combatEvent.SetTarget(pTarget != NULL ? pTarget->GetIndex() : INVALID_INDEX);
-        combatEvent.SetProxyUID(pProxy != NULL ? pProxy->GetUniqueID() : INVALID_INDEX);
+        combatEvent.SetInitiatorIndex(pSource != nullptr ? pSource->GetIndex() : INVALID_INDEX);
+        combatEvent.SetInflictorIndex(pInflictor != nullptr ? pInflictor->GetIndex() : INVALID_INDEX);
+        combatEvent.SetTarget(pTarget != nullptr ? pTarget->GetIndex() : INVALID_INDEX);
+        combatEvent.SetProxyUID(pProxy != nullptr ? pProxy->GetUniqueID() : INVALID_INDEX);
         combatEvent.SetEffectType(GetEffectType());
 
         AddActionScript(ACTION_SCRIPT_PRE_IMPACT, combatEvent);
@@ -113,7 +113,7 @@ public:
     {
         for (vector<CCombatActionScript*>::iterator it(m_vActionScripts.begin()); it != m_vActionScripts.end(); ++it)
         {
-            if (*it == NULL)
+            if (*it == nullptr)
                 continue;
 
             (*it)->Precache(eScheme, sModifier);
@@ -124,7 +124,7 @@ public:
     {
         for (vector<CCombatActionScript*>::iterator it(m_vActionScripts.begin()); it != m_vActionScripts.end(); ++it)
         {
-            if (*it == NULL)
+            if (*it == nullptr)
                 continue;
 
             (*it)->GetPrecacheList(eScheme, sModifier, deqPrecache);
@@ -182,145 +182,145 @@ public:
         Console << _T("pos3 ") << m_pEnv->v3Pos3 << newl;
 
         Console << _T("ent0 ");
-        if (m_pEnv->pEnt0 != NULL)
+        if (m_pEnv->pEnt0 != nullptr)
             Console << m_pEnv->pEnt0->GetTypeName() << _T(" ") << m_pEnv->pEnt0->GetIndex();
         else
-            Console << _T("NULL");
+            Console << _T("nullptr");
         Console << newl;
 
         Console << _T("ent1 ");
-        if (m_pEnv->pEnt1 != NULL)
+        if (m_pEnv->pEnt1 != nullptr)
             Console << m_pEnv->pEnt1->GetTypeName() << _T(" ") << m_pEnv->pEnt1->GetIndex();
         else
-            Console << _T("NULL");
+            Console << _T("nullptr");
         Console << newl;
 
         Console << _T("ent2 ");
-        if (m_pEnv->pEnt2 != NULL)
+        if (m_pEnv->pEnt2 != nullptr)
             Console << m_pEnv->pEnt2->GetTypeName() << _T(" ") << m_pEnv->pEnt2->GetIndex();
         else
-            Console << _T("NULL");
+            Console << _T("nullptr");
         Console << newl;
 
         Console << _T("ent3 ");
-        if (m_pEnv->pEnt3 != NULL)
+        if (m_pEnv->pEnt3 != nullptr)
             Console << m_pEnv->pEnt3->GetTypeName() << _T(" ") << m_pEnv->pEnt3->GetIndex();
         else
-            Console << _T("NULL");
+            Console << _T("nullptr");
         Console << newl;
         
-        IGameEntity *pEntity(NULL);
+        IGameEntity *pEntity(nullptr);
 
         pEntity = GetEntityFromActionTarget(ACTION_TARGET_THIS_ENTITY);
         Console << _T("this_entity ");
-        if (pEntity != NULL)
+        if (pEntity != nullptr)
             Console << pEntity->GetTypeName() << _T(" ") << pEntity->GetIndex();
         else
-            Console << _T("NULL");
+            Console << _T("nullptr");
         Console << newl;
 
         pEntity = GetEntityFromActionTarget(ACTION_TARGET_SOURCE_ENTITY);
         Console << _T("source_entity ");
-        if (pEntity != NULL)
+        if (pEntity != nullptr)
             Console << pEntity->GetTypeName() << _T(" ") << pEntity->GetIndex();
         else
-            Console << _T("NULL");
+            Console << _T("nullptr");
         Console << newl;
 
         pEntity = GetEntityFromActionTarget(ACTION_TARGET_TARGET_ENTITY);
         Console << _T("target_entity ");
-        if (pEntity != NULL)
+        if (pEntity != nullptr)
             Console << pEntity->GetTypeName() << _T(" ") << pEntity->GetIndex();
         else
-            Console << _T("NULL");
+            Console << _T("nullptr");
         Console << newl;
 
         pEntity = GetEntityFromActionTarget(ACTION_TARGET_INFLICTOR_ENTITY);
         Console << _T("inflictor_entity ");
-        if (pEntity != NULL)
+        if (pEntity != nullptr)
             Console << pEntity->GetTypeName() << _T(" ") << pEntity->GetIndex();
         else
-            Console << _T("NULL");
+            Console << _T("nullptr");
         Console << newl;
 
         pEntity = GetEntityFromActionTarget(ACTION_TARGET_PROXY_ENTITY);
         Console << _T("proxy_entity ");
-        if (pEntity != NULL)
+        if (pEntity != nullptr)
             Console << pEntity->GetTypeName() << _T(" ") << pEntity->GetIndex();
         else
-            Console << _T("NULL");
+            Console << _T("nullptr");
         Console << newl;
 
         pEntity = GetEntityFromActionTarget(ACTION_TARGET_STACK_ENTITY);
         Console << _T("stack_entity ");
-        if (pEntity != NULL)
+        if (pEntity != nullptr)
             Console << pEntity->GetTypeName() << _T(" ") << pEntity->GetIndex();
         else
-            Console << _T("NULL");
+            Console << _T("nullptr");
         Console << newl;
 
         pEntity = GetEntityFromActionTarget(ACTION_TARGET_THIS_INFLICTOR_ENTITY);
         Console << _T("this_inflictor_entity ");
-        if (pEntity != NULL)
+        if (pEntity != nullptr)
             Console << pEntity->GetTypeName() << _T(" ") << pEntity->GetIndex();
         else
-            Console << _T("NULL");
+            Console << _T("nullptr");
         Console << newl;
 
         pEntity = GetEntityFromActionTarget(ACTION_TARGET_THIS_SPAWNER_ENTITY);
         Console << _T("this_spawner_entity ");
-        if (pEntity != NULL)
+        if (pEntity != nullptr)
             Console << pEntity->GetTypeName() << _T(" ") << pEntity->GetIndex();
         else
-            Console << _T("NULL");
+            Console << _T("nullptr");
         Console << newl;
 
         pEntity = GetEntityFromActionTarget(ACTION_TARGET_THIS_OWNER_ENTITY);
         Console << _T("this_owner_entity ");
-        if (pEntity != NULL)
+        if (pEntity != nullptr)
             Console << pEntity->GetTypeName() << _T(" ") << pEntity->GetIndex();
         else
-            Console << _T("NULL");
+            Console << _T("nullptr");
         Console << newl;
 
         pEntity = GetEntityFromActionTarget(ACTION_TARGET_THIS_OWNER_TARGET_ENTITY);
         Console << _T("this_owner_target_entity ");
-        if (pEntity != NULL)
+        if (pEntity != nullptr)
             Console << pEntity->GetTypeName() << _T(" ") << pEntity->GetIndex();
         else
-            Console << _T("NULL");
+            Console << _T("nullptr");
         Console << newl;
 
         pEntity = GetEntityFromActionTarget(ACTION_TARGET_SOURCE_OWNER_ENTITY);
         Console << _T("source_owner_entity ");
-        if (pEntity != NULL)
+        if (pEntity != nullptr)
             Console << pEntity->GetTypeName() << _T(" ") << pEntity->GetIndex();
         else
-            Console << _T("NULL");
+            Console << _T("nullptr");
         Console << newl;
 
         pEntity = GetEntityFromActionTarget(ACTION_TARGET_TARGET_OWNER_ENTITY);
         Console << _T("target_owner_entity ");
-        if (pEntity != NULL)
+        if (pEntity != nullptr)
             Console << pEntity->GetTypeName() << _T(" ") << pEntity->GetIndex();
         else
-            Console << _T("NULL");
+            Console << _T("nullptr");
         Console << newl;
 
         pEntity = GetEntityFromActionTarget(ACTION_TARGET_INFLICTOR_OWNER_ENTITY);
         Console << _T("inflictor_owner_entity ");
-        if (pEntity != NULL)
+        if (pEntity != nullptr)
             Console << pEntity->GetTypeName() << _T(" ") << pEntity->GetIndex();
         else
-            Console << _T("NULL");
+            Console << _T("nullptr");
         Console << newl;
 
         pEntity = GetEntityFromActionTarget(ACTION_TARGET_THIS_PROXY_ENTITY);
         Console << _T("this_proxy_entity ");
-        if (pEntity != NULL)
+        if (pEntity != nullptr)
             Console << pEntity->GetTypeName() << _T(" ") << pEntity->GetIndex();
         else
-            Console << _T("NULL");
+            Console << _T("nullptr");
         Console << newl;
         
         return m_pEnv->fResult;
@@ -500,7 +500,7 @@ public:
 
     float   Execute()
     {
-        if (GetSourceEntity() == NULL)
+        if (GetSourceEntity() == nullptr)
             return 0.0f;
 
         if (!Game.IsValidTarget(GetTargetScheme(), GetEffectType(), GetSourceUnit(), GetTargetUnit(), GetIgnoreInvulnerable()))
@@ -527,7 +527,7 @@ public:
 
     float   Execute()
     {
-        if (m_pEnv->pThis == NULL || !m_pEnv->pThis->IsTool())
+        if (m_pEnv->pThis == nullptr || !m_pEnv->pThis->IsTool())
             return 0.0f;
 
         if (!m_pEnv->pThis->GetAsTool()->CanActivate())
@@ -555,18 +555,18 @@ public:
 
     float   Execute()
     {
-        if (m_pEnv->pThis == NULL || !m_pEnv->pThis->IsTool())
+        if (m_pEnv->pThis == nullptr || !m_pEnv->pThis->IsTool())
             return 0.0f;
 
         if (!m_pEnv->pThis->GetAsTool()->CanActivate())
             return 0.0f;
 
         IUnitEntity *pSource(GetSourceUnit());
-        if (pSource == NULL)
+        if (pSource == nullptr)
             return 0.0f;
 
         IUnitEntity *pTarget(GetTargetUnit());
-        if (pTarget == NULL)
+        if (pTarget == nullptr)
             return 0.0f;
 
         if (DistanceSq(pSource->GetPosition().xy(), pTarget->GetPosition().xy()) > SQR(GetDistance()))
@@ -594,7 +594,7 @@ public:
     float   Execute()
     {
         IUnitEntity *pUnit(GetSourceUnit());
-        if (pUnit == NULL)
+        if (pUnit == nullptr)
             return 0.0f;
 
         if (pUnit->IsDisarmed() || !pUnit->IsAttackReady())
@@ -622,7 +622,7 @@ public:
 
     float   Execute()
     {
-        if (m_pEnv->pCombatEvent == NULL)
+        if (m_pEnv->pCombatEvent == nullptr)
             return 0.0f;
 
         if (GetSuperType() != m_pEnv->pCombatEvent->GetSuperType())
@@ -650,7 +650,7 @@ public:
 
     float   Execute()
     {
-        if (m_pEnv->pCombatEvent == NULL)
+        if (m_pEnv->pCombatEvent == nullptr)
             return 0.0f;
 
         if ((GetEffectType() & m_pEnv->pCombatEvent->GetEffectType()) == 0)
@@ -678,7 +678,7 @@ public:
 
     float   Execute()
     {
-        if (m_pEnv->pDamageEvent == NULL)
+        if (m_pEnv->pDamageEvent == nullptr)
             return 0.0f;
 
         if (GetSuperType() != m_pEnv->pDamageEvent->GetSuperType())
@@ -706,7 +706,7 @@ public:
 
     float   Execute()
     {
-        if (m_pEnv->pDamageEvent == NULL)
+        if (m_pEnv->pDamageEvent == nullptr)
             return 0.0f;
 
         if ((GetEffectType() & m_pEnv->pDamageEvent->GetEffectType()) == 0)
@@ -735,7 +735,7 @@ public:
     float   Execute()
     {
         IUnitEntity *pUnit(GetSourceUnit());
-        if (pUnit == NULL)
+        if (pUnit == nullptr)
             return 0.0f;
 
         if (GetSuperType() != pUnit->GetCurrentDamageSuperType())
@@ -764,7 +764,7 @@ public:
     float   Execute()
     {
         IUnitEntity *pUnit(GetSourceUnit());
-        if (pUnit == NULL)
+        if (pUnit == nullptr)
             return 0.0f;
 
         if ((GetEffectType() & pUnit->GetCurrentDamageEffectType()) == 0)
@@ -794,11 +794,11 @@ public:
     float   Execute()
     {
         IGameEntity *pEntity(GetEntityFromActionTarget(GetEntity()));
-        if (pEntity == NULL)
+        if (pEntity == nullptr)
             return 0.0f;
 
         IEntityTool *pTool(pEntity->GetAsTool());
-        if (pTool == NULL)
+        if (pTool == nullptr)
             return 0.0f;
 
         if ((GetEffectType() & pTool->GetCastEffectType()) == 0)
@@ -828,7 +828,7 @@ public:
     float   Execute()
     {
         IUnitEntity *pSource(GetSourceUnit());
-        if (pSource == NULL)
+        if (pSource == nullptr)
             return 0.0f;
 
         ushort unType(EntityRegistry.LookupID(GetItem()));
@@ -840,7 +840,7 @@ public:
         for (int iSlot(INVENTORY_START_ACTIVE); iSlot <= INVENTORY_END_ACTIVE; ++iSlot)
         {
             IEntityTool *pTool(pSource->GetTool(iSlot));
-            if (pTool == NULL)
+            if (pTool == nullptr)
                 continue;
 
             if (pTool->GetType() != unType)
@@ -923,11 +923,11 @@ public:
     float   Execute()
     {
         IGameEntity *pSource(GetSourceEntity());
-        if (pSource == NULL)
+        if (pSource == nullptr)
             return 0.0f;
             
         IGameEntity *pTarget(GetTargetEntity());
-        if (pTarget == NULL)
+        if (pTarget == nullptr)
             return 0.0f;
 
         IGameEntity *pInflictor(GetEntityFromActionTarget(GetInflictor()));
@@ -955,14 +955,14 @@ public:
 
         if (pTarget->IsUnit())
         {
-            if (m_pEnv->pCombatEvent != NULL)
+            if (m_pEnv->pCombatEvent != nullptr)
                 m_pEnv->pCombatEvent->AdjustDamageEvent(dmg, pTarget->GetAsUnit());
             else
             {
-                pTarget->GetAsUnit()->Action(ACTION_SCRIPT_ATTACKED_DAMAGE_EVENT, pSource->GetAsUnit(), pInflictor, NULL, &dmg);
+                pTarget->GetAsUnit()->Action(ACTION_SCRIPT_ATTACKED_DAMAGE_EVENT, pSource->GetAsUnit(), pInflictor, nullptr, &dmg);
 
                 if (pSource->IsUnit())
-                    pSource->GetAsUnit()->Action(ACTION_SCRIPT_ATTACKING_DAMAGE_EVENT, pTarget->GetAsUnit(), pInflictor, NULL, &dmg);
+                    pSource->GetAsUnit()->Action(ACTION_SCRIPT_ATTACKING_DAMAGE_EVENT, pTarget->GetAsUnit(), pInflictor, nullptr, &dmg);
             }
         }
 
@@ -995,11 +995,11 @@ public:
 
     float   Execute()
     {
-        if (m_pEnv->pCombatEvent == NULL)
+        if (m_pEnv->pCombatEvent == nullptr)
             return 0.0f;
 
         IUnitEntity *pSource(GetSourceUnit());
-        if (pSource == NULL)
+        if (pSource == nullptr)
             return 0.0f;
 
         IUnitEntity *pTarget(GetTargetUnit());
@@ -1014,7 +1014,7 @@ public:
             v2TargetPos = pSource->GetPosition().xy() + v2Dir * (GetRadius() + pSource->GetBoundsRadius());
         }
 
-        ESuperType eSuperType(GetSuperType() == SUPERTYPE_INVALID ? m_pEnv->pCombatEvent != NULL ? m_pEnv->pCombatEvent->GetSuperType() : SUPERTYPE_SPELL : GetSuperType());
+        ESuperType eSuperType(GetSuperType() == SUPERTYPE_INVALID ? m_pEnv->pCombatEvent != nullptr ? m_pEnv->pCombatEvent->GetSuperType() : SUPERTYPE_SPELL : GetSuperType());
 
         static uivector vTargets;
         vTargets.clear();
@@ -1025,7 +1025,7 @@ public:
         {
             uint uiTargetIndex(Game.GetGameIndexFromWorldIndex(*itTarget));
             IUnitEntity *pSplashTarget(Game.GetUnitEntity(uiTargetIndex));
-            if (pSplashTarget == NULL || pSplashTarget == pTarget)
+            if (pSplashTarget == nullptr || pSplashTarget == pTarget)
                 continue;
 
             if (!Game.IsValidTarget(GetTargetScheme(), GetEffectType(), pSource, pSplashTarget))
@@ -1065,7 +1065,7 @@ public:
 
     float   Execute()
     {
-        if (GetTargetUnit() == NULL)
+        if (GetTargetUnit() == nullptr)
             return 0.0f;
         
         float fHealth(Evaluate(GetValueA(), GetValueB(), GetOperator()));
@@ -1091,7 +1091,7 @@ public:
 
     float   Execute()
     {
-        if (GetTargetUnit() == NULL)
+        if (GetTargetUnit() == nullptr)
             return 0.0f;
         
         float fHealth(Evaluate(GetValueA(), GetValueB(), GetOperator()));
@@ -1118,7 +1118,7 @@ public:
 
     float   Execute()
     {
-        if (GetTargetUnit() == NULL)
+        if (GetTargetUnit() == nullptr)
             return m_pEnv->fResult;
 
         ushort unValue(Evaluate(GetValueA(), GetValueB(), GetOperator()));
@@ -1165,14 +1165,14 @@ public:
     float   Execute()
     {
         IUnitEntity *pTargetUnit(GetTargetUnit());
-        if (pTargetUnit == NULL)
+        if (pTargetUnit == nullptr)
         {
-            Console.Script << _T("^m<givegold>: ^otarget is NULL!  (Try <givegold target=\"this_entity\")") << newl;
+            Console.Script << _T("^m<givegold>: ^otarget is nullptr!  (Try <givegold target=\"this_entity\")") << newl;
             return 0.0f;
         }
 
         CPlayer* pPlayer(pTargetUnit->GetOwnerPlayer());
-        if (pPlayer == NULL)
+        if (pPlayer == nullptr)
             return 0.0f;
 
         // get the specified amount of gold in decimal units.
@@ -1209,7 +1209,7 @@ public:
     float   Execute()
     {
         IUnitEntity *pTarget(GetTargetUnit());
-        if (pTarget == NULL)
+        if (pTarget == nullptr)
             return 0.0f;
         
         float fAmount(MIN(Evaluate(GetAmount(), GetAmountB(), GetAmountOp()), pTarget->GetMaxMana() - pTarget->GetMana()));
@@ -1236,7 +1236,7 @@ public:
     float   Execute()
     {
         IUnitEntity *pTarget(GetTargetUnit());
-        if (pTarget == NULL)
+        if (pTarget == nullptr)
             return 0.0f;
 
         float fMana(MIN(pTarget->GetMana(), Evaluate(GetAmount(), GetAmountB(), GetAmountOp())));
@@ -1274,7 +1274,7 @@ public:
     float   Execute()
     {
         IUnitEntity *pTarget(GetTargetUnit());
-        if (pTarget == NULL)
+        if (pTarget == nullptr)
             return 0.0f;
 
         ushort unStateID(EntityRegistry.LookupID(GetName()));
@@ -1294,8 +1294,8 @@ public:
         uint uiDuration((GetIsChannel() || GetIsToggle()) ? -1 : INT_ROUND(GetDuration()));
         IEntityState *pState(pTarget->ApplyState(unStateID, uiLevel,
             GetContinuous() ? INVALID_TIME : Game.GetGameTime(), uiDuration, pInflictor ? pInflictor->GetIndex() : INVALID_INDEX,
-            pProxy != NULL ? pProxy->GetUniqueID() : INVALID_INDEX, eStack, pSpawner != NULL ? pSpawner->GetUniqueID() : INVALID_INDEX));
-        if (pState == NULL)
+            pProxy != nullptr ? pProxy->GetUniqueID() : INVALID_INDEX, eStack, pSpawner != nullptr ? pSpawner->GetUniqueID() : INVALID_INDEX));
+        if (pState == nullptr)
             return 0.0f;
 
         float fTimeout(GetTimeout());
@@ -1303,9 +1303,9 @@ public:
             pState->SetTimeout(Game.GetGameTime() + INT_ROUND(fTimeout));
 
         pState->AddCharges(GetCharges() * GetDynamicValue(GetChargesMultiplier()));
-        if (GetIsChannel() && m_pEnv->pThis != NULL && m_pEnv->pThis->GetAsTool() != NULL)
+        if (GetIsChannel() && m_pEnv->pThis != nullptr && m_pEnv->pThis->GetAsTool() != nullptr)
             m_pEnv->pThis->GetAsTool()->AddChannelEntity(pState->GetUniqueID());
-        else if (GetIsToggle() && m_pEnv->pThis != NULL && m_pEnv->pThis->GetAsTool() != NULL)
+        else if (GetIsToggle() && m_pEnv->pThis != nullptr && m_pEnv->pThis->GetAsTool() != nullptr)
             m_pEnv->pThis->GetAsTool()->AddToggleEntity(pState->GetUniqueID());
 
         if (GetPushEntity())
@@ -1341,7 +1341,7 @@ public:
     float   Execute()
     {
         IUnitEntity *pTarget(GetTargetUnit());
-        if (pTarget == NULL)
+        if (pTarget == nullptr)
             return 0.0f;
 
         ushort unStateID(EntityRegistry.LookupID(GetName()));
@@ -1376,7 +1376,7 @@ public:
     float   Execute()   
     {
         IUnitEntity *pSource(GetSourceUnit());
-        if (pSource == NULL)
+        if (pSource == nullptr)
             return 0.0f;
 
         CVec2f v2Origin(GetPositionFromActionTarget(GetPositionOrigin()).xy());
@@ -1386,7 +1386,7 @@ public:
 
         // Nudge position to contol where they get placed after ValidatePosition
         IGameEntity *pTarget(GetTargetEntity());
-        if (GetSpecifyAngle() && pTarget != NULL && pTarget->IsVisual())
+        if (GetSpecifyAngle() && pTarget != nullptr && pTarget->IsVisual())
         {
             CVec2f v2Dir(M_GetForwardVec2FromYaw(pTarget->GetAsVisual()->GetAngles()[YAW]));
             v2Dir.Rotate(GetAngle());
@@ -1444,7 +1444,7 @@ public:
     {
         IUnitEntity *pTarget(GetTargetUnit());
 
-        if (pTarget == NULL)
+        if (pTarget == nullptr)
             return m_pEnv->fResult;
 
         int iVariations(GetVariations());
@@ -1487,7 +1487,7 @@ public:
             evEffect.RemoveVisibilityFlags(~Game.GetVision(v2Pos.x, v2Pos.y));
 
             IUnitEntity *pOwner(GetUnitFromActionTarget(GetOwner()));
-            if (pOwner != NULL)
+            if (pOwner != nullptr)
                 evEffect.SetVisibilityFlags(VIS_SIGHTED(pOwner->GetTeam()));
         }
         
@@ -1497,108 +1497,108 @@ public:
             break;
 
         case ACTION_TARGET_SOURCE_ENTITY:
-            if (m_pEnv->pInitiator != NULL && m_pEnv->pInitiator->IsVisual())
+            if (m_pEnv->pInitiator != nullptr && m_pEnv->pInitiator->IsVisual())
                 evEffect.SetSourceEntity(m_pEnv->pInitiator->GetIndex());
-            else if (m_pEnv->pInflictor != NULL && m_pEnv->pInflictor->IsVisual())
+            else if (m_pEnv->pInflictor != nullptr && m_pEnv->pInflictor->IsVisual())
                 evEffect.SetSourceEntity(m_pEnv->pInflictor->GetIndex());
             break;
 
         case ACTION_TARGET_SOURCE_POSITION:
-            if (m_pEnv->pInitiator != NULL && m_pEnv->pInitiator->IsVisual())
+            if (m_pEnv->pInitiator != nullptr && m_pEnv->pInitiator->IsVisual())
                 evEffect.SetSourcePosition(m_pEnv->pInitiator->GetAsVisual()->GetPosition());
             break;
 
         case ACTION_TARGET_SOURCE_TARGET_OFFSET:
-            if (m_pEnv->pInitiator != NULL && m_pEnv->pInitiator->IsUnit())
+            if (m_pEnv->pInitiator != nullptr && m_pEnv->pInitiator->IsUnit())
                 evEffect.SetSourcePosition(m_pEnv->pInitiator->GetAsUnit()->GetTransformedTargetOffset());
             break;
 
         case ACTION_TARGET_SOURCE_ATTACK_OFFSET:
-            if (m_pEnv->pInitiator != NULL && m_pEnv->pInitiator->IsUnit())
+            if (m_pEnv->pInitiator != nullptr && m_pEnv->pInitiator->IsUnit())
                 evEffect.SetSourcePosition(m_pEnv->pInitiator->GetAsUnit()->GetTransformedAttackOffset());
             break;
 
         case ACTION_TARGET_SOURCE_OWNER_ENTITY:
-            if (m_pEnv->pInitiator != NULL && m_pEnv->pInitiator->GetOwner() != NULL)
+            if (m_pEnv->pInitiator != nullptr && m_pEnv->pInitiator->GetOwner() != nullptr)
                 evEffect.SetSourceEntity(m_pEnv->pInitiator->GetOwner()->GetIndex());
             break;
 
         case ACTION_TARGET_SOURCE_OWNER_POSITION:
-            if (m_pEnv->pInitiator != NULL && m_pEnv->pInitiator->GetOwner() != NULL)
+            if (m_pEnv->pInitiator != nullptr && m_pEnv->pInitiator->GetOwner() != nullptr)
                 evEffect.SetSourcePosition(m_pEnv->pInitiator->GetOwner()->GetPosition());
             break;
 
         case ACTION_TARGET_TARGET_ENTITY:
-            if (m_pEnv->pTarget != NULL && m_pEnv->pTarget->IsVisual())
+            if (m_pEnv->pTarget != nullptr && m_pEnv->pTarget->IsVisual())
                 evEffect.SetSourceEntity(m_pEnv->pTarget->GetIndex());
             break;
 
         case ACTION_TARGET_TARGET_POSITION:
-            if (m_pEnv->pTarget != NULL && m_pEnv->pTarget->IsVisual())
+            if (m_pEnv->pTarget != nullptr && m_pEnv->pTarget->IsVisual())
                 evEffect.SetSourcePosition(m_pEnv->pTarget->GetAsVisual()->GetPosition());
             else
                 evEffect.SetSourcePosition(m_pEnv->v3Target);
             break;
 
         case ACTION_TARGET_TARGET_TARGET_OFFSET:
-            if (m_pEnv->pTarget != NULL && m_pEnv->pTarget->IsUnit())
+            if (m_pEnv->pTarget != nullptr && m_pEnv->pTarget->IsUnit())
                 evEffect.SetSourcePosition(m_pEnv->pTarget->GetAsUnit()->GetTransformedTargetOffset());
             break;
 
         case ACTION_TARGET_TARGET_ATTACK_OFFSET:
-            if (m_pEnv->pTarget != NULL && m_pEnv->pTarget->IsUnit())
+            if (m_pEnv->pTarget != nullptr && m_pEnv->pTarget->IsUnit())
                 evEffect.SetSourcePosition(m_pEnv->pTarget->GetAsUnit()->GetTransformedAttackOffset());
             break;
 
         case ACTION_TARGET_TARGET_OWNER_ENTITY:
-            if (m_pEnv->pTarget != NULL && m_pEnv->pTarget->GetOwner() != NULL)
+            if (m_pEnv->pTarget != nullptr && m_pEnv->pTarget->GetOwner() != nullptr)
                 evEffect.SetSourceEntity(m_pEnv->pTarget->GetOwner()->GetIndex());
             break;
 
         case ACTION_TARGET_TARGET_OWNER_POSITION:
-            if (m_pEnv->pTarget != NULL && m_pEnv->pTarget->GetOwner() != NULL)
+            if (m_pEnv->pTarget != nullptr && m_pEnv->pTarget->GetOwner() != nullptr)
                 evEffect.SetSourcePosition(m_pEnv->pTarget->GetOwner()->GetPosition());
             break;
 
         case ACTION_TARGET_INFLICTOR_ENTITY:
-            if (m_pEnv->pInflictor != NULL && m_pEnv->pInflictor->IsVisual())
+            if (m_pEnv->pInflictor != nullptr && m_pEnv->pInflictor->IsVisual())
                 evEffect.SetSourceEntity(m_pEnv->pInflictor->GetIndex());
             break;
 
         case ACTION_TARGET_INFLICTOR_POSITION:
-            if (m_pEnv->pInflictor != NULL && m_pEnv->pInflictor->IsVisual())
+            if (m_pEnv->pInflictor != nullptr && m_pEnv->pInflictor->IsVisual())
                 evEffect.SetSourcePosition(m_pEnv->pInflictor->GetAsVisual()->GetPosition());
             break;
 
         case ACTION_TARGET_INFLICTOR_TARGET_OFFSET:
-            if (m_pEnv->pInflictor != NULL && m_pEnv->pInflictor->IsUnit())
+            if (m_pEnv->pInflictor != nullptr && m_pEnv->pInflictor->IsUnit())
                 evEffect.SetSourcePosition(m_pEnv->pInflictor->GetAsUnit()->GetTransformedTargetOffset());
             break;
 
         case ACTION_TARGET_INFLICTOR_OWNER_ENTITY:
-            if (m_pEnv->pInflictor != NULL && m_pEnv->pInflictor->GetOwner() != NULL)
+            if (m_pEnv->pInflictor != nullptr && m_pEnv->pInflictor->GetOwner() != nullptr)
                 evEffect.SetSourceEntity(m_pEnv->pInflictor->GetOwner()->GetIndex());
             break;
 
         case ACTION_TARGET_INFLICTOR_OWNER_POSITION:
-            if (m_pEnv->pInflictor != NULL && m_pEnv->pInflictor->GetOwner() != NULL)
+            if (m_pEnv->pInflictor != nullptr && m_pEnv->pInflictor->GetOwner() != nullptr)
                 evEffect.SetSourcePosition(m_pEnv->pInflictor->GetOwner()->GetPosition());
             break;
 
         case ACTION_TARGET_PROXY_ENTITY:
-            if (m_pEnv->pProxy != NULL && m_pEnv->pProxy->IsVisual())
+            if (m_pEnv->pProxy != nullptr && m_pEnv->pProxy->IsVisual())
                 evEffect.SetSourceEntity(m_pEnv->pProxy->GetIndex());
             break;
 
         case ACTION_TARGET_PROXY_POSITION:
-            if (m_pEnv->pProxy != NULL && m_pEnv->pProxy->IsVisual())
+            if (m_pEnv->pProxy != nullptr && m_pEnv->pProxy->IsVisual())
                 evEffect.SetSourcePosition(m_pEnv->pProxy->GetAsVisual()->GetPosition());
             break;
 
         case ACTION_TARGET_STACK_ENTITY:
             {
                 IGameEntity *pEntity(Game.GetEntityFromUniqueID(PeekEntity()));
-                if (pEntity != NULL && pEntity->IsVisual())
+                if (pEntity != nullptr && pEntity->IsVisual())
                     evEffect.SetSourceEntity(pEntity->GetIndex());
             }
             break;
@@ -1606,123 +1606,123 @@ public:
         case ACTION_TARGET_STACK_POSITION:
             {
                 IGameEntity *pEntity(Game.GetEntityFromUniqueID(PeekEntity()));
-                if (pEntity != NULL && pEntity->IsVisual())
+                if (pEntity != nullptr && pEntity->IsVisual())
                     evEffect.SetSourcePosition(pEntity->GetAsVisual()->GetPosition());
             }
             break;
 
         case ACTION_TARGET_THIS_ENTITY:
-            if (m_pEnv->pThis != NULL && m_pEnv->pThis->IsVisual())
+            if (m_pEnv->pThis != nullptr && m_pEnv->pThis->IsVisual())
                 evEffect.SetSourceEntity(m_pEnv->pThis->GetIndex());
             break;
 
         case ACTION_TARGET_THIS_POSITION:
-            if (m_pEnv->pThis != NULL && m_pEnv->pThis->IsVisual())
+            if (m_pEnv->pThis != nullptr && m_pEnv->pThis->IsVisual())
                 evEffect.SetSourcePosition(m_pEnv->pThis->GetAsVisual()->GetPosition());
             break;
 
         case ACTION_TARGET_THIS_TARGET_OFFSET:
-            if (m_pEnv->pThis != NULL && m_pEnv->pThis->IsUnit())
+            if (m_pEnv->pThis != nullptr && m_pEnv->pThis->IsUnit())
                 evEffect.SetSourcePosition(m_pEnv->pThis->GetAsUnit()->GetTransformedTargetOffset());
             break;
 
         case ACTION_TARGET_THIS_ATTACK_OFFSET:
-            if (m_pEnv->pThis != NULL && m_pEnv->pThis->IsUnit())
+            if (m_pEnv->pThis != nullptr && m_pEnv->pThis->IsUnit())
                 evEffect.SetSourcePosition(m_pEnv->pThis->GetAsUnit()->GetTransformedAttackOffset());
             break;
 
         case ACTION_TARGET_THIS_OWNER_ENTITY:
-            if (m_pEnv->pThis != NULL && m_pEnv->pThis->GetOwner() != NULL)
+            if (m_pEnv->pThis != nullptr && m_pEnv->pThis->GetOwner() != nullptr)
                 evEffect.SetSourceEntity(m_pEnv->pThis->GetOwner()->GetIndex());
             break;
 
         case ACTION_TARGET_THIS_OWNER_POSITION:
-            if (m_pEnv->pThis != NULL && m_pEnv->pThis->GetOwner() != NULL)
+            if (m_pEnv->pThis != nullptr && m_pEnv->pThis->GetOwner() != nullptr)
                 evEffect.SetSourcePosition(m_pEnv->pThis->GetOwner()->GetPosition());
             break;
 
         case ACTION_TARGET_THIS_INFLICTOR_ENTITY:
-            if (m_pEnv->pThis != NULL && m_pEnv->pThis->IsState() && m_pEnv->pThis->GetAsState()->GetInflictor() != NULL && m_pEnv->pThis->GetAsState()->GetInflictor()->IsVisual())
+            if (m_pEnv->pThis != nullptr && m_pEnv->pThis->IsState() && m_pEnv->pThis->GetAsState()->GetInflictor() != nullptr && m_pEnv->pThis->GetAsState()->GetInflictor()->IsVisual())
                 evEffect.SetSourceEntity(m_pEnv->pThis->GetAsState()->GetInflictor()->GetIndex());
             break;
 
         case ACTION_TARGET_THIS_INFLICTOR_POSITION:
-            if (m_pEnv->pThis != NULL && m_pEnv->pThis->IsState() && m_pEnv->pThis->GetAsState()->GetInflictor() != NULL)
+            if (m_pEnv->pThis != nullptr && m_pEnv->pThis->IsState() && m_pEnv->pThis->GetAsState()->GetInflictor() != nullptr)
                 evEffect.SetSourcePosition(m_pEnv->pThis->GetAsState()->GetInflictor()->GetAsVisual()->GetPosition());
             break;
 
         case ACTION_TARGET_THIS_SPAWNER_ENTITY:
-            if (m_pEnv->pThis != NULL && m_pEnv->pThis->IsState() && m_pEnv->pThis->GetAsState()->GetSpawner() != NULL && m_pEnv->pThis->GetAsState()->GetSpawner()->IsVisual())
+            if (m_pEnv->pThis != nullptr && m_pEnv->pThis->IsState() && m_pEnv->pThis->GetAsState()->GetSpawner() != nullptr && m_pEnv->pThis->GetAsState()->GetSpawner()->IsVisual())
                 evEffect.SetSourceEntity(m_pEnv->pThis->GetAsState()->GetInflictor()->GetIndex());
             break;
 
         case ACTION_TARGET_THIS_SPAWNER_POSITION:
-            if (m_pEnv->pThis != NULL && m_pEnv->pThis->IsState() && m_pEnv->pThis->GetAsState()->GetSpawner() != NULL)
+            if (m_pEnv->pThis != nullptr && m_pEnv->pThis->IsState() && m_pEnv->pThis->GetAsState()->GetSpawner() != nullptr)
                 evEffect.SetSourcePosition(m_pEnv->pThis->GetAsState()->GetSpawner()->GetAsVisual()->GetPosition());
             break;
 
         case ACTION_TARGET_THIS_TARGET_ENTITY:
-            if (m_pEnv->pThis != NULL && m_pEnv->pThis->IsUnit() && m_pEnv->pThis->GetAsUnit()->GetTargetEntity() != NULL)
+            if (m_pEnv->pThis != nullptr && m_pEnv->pThis->IsUnit() && m_pEnv->pThis->GetAsUnit()->GetTargetEntity() != nullptr)
                 evEffect.SetSourceEntity(m_pEnv->pThis->GetAsUnit()->GetTargetEntity()->GetIndex());
             break;
 
         case ACTION_TARGET_THIS_TARGET_POSITION:
-            if (m_pEnv->pThis != NULL && m_pEnv->pThis->IsUnit() && m_pEnv->pThis->GetAsUnit()->GetTargetEntity() != NULL)
+            if (m_pEnv->pThis != nullptr && m_pEnv->pThis->IsUnit() && m_pEnv->pThis->GetAsUnit()->GetTargetEntity() != nullptr)
                 evEffect.SetSourcePosition(m_pEnv->pThis->GetAsUnit()->GetTargetEntity()->GetPosition());
             break;
 
         case ACTION_TARGET_THIS_OWNER_TARGET_ENTITY:
-            if (m_pEnv->pThis != NULL && m_pEnv->pThis->GetOwner() != NULL && m_pEnv->pThis->GetOwner()->GetTargetEntity() != NULL)
+            if (m_pEnv->pThis != nullptr && m_pEnv->pThis->GetOwner() != nullptr && m_pEnv->pThis->GetOwner()->GetTargetEntity() != nullptr)
                 evEffect.SetSourceEntity(m_pEnv->pThis->GetOwner()->GetTargetEntity()->GetIndex());
             break;
 
         case ACTION_TARGET_THIS_OWNER_TARGET_POSITION:
-            if (m_pEnv->pThis != NULL && m_pEnv->pThis->GetOwner() != NULL && m_pEnv->pThis->GetOwner()->GetTargetEntity() != NULL)
+            if (m_pEnv->pThis != nullptr && m_pEnv->pThis->GetOwner() != nullptr && m_pEnv->pThis->GetOwner()->GetTargetEntity() != nullptr)
                 evEffect.SetSourcePosition(m_pEnv->pThis->GetOwner()->GetTargetEntity()->GetPosition());
             break;
 
         case ACTION_TARGET_THIS_PROXY_ENTITY:
-            if (m_pEnv->pThis != NULL && m_pEnv->pThis->GetProxy(0) != NULL && m_pEnv->pThis->GetProxy(0)->IsVisual())
+            if (m_pEnv->pThis != nullptr && m_pEnv->pThis->GetProxy(0) != nullptr && m_pEnv->pThis->GetProxy(0)->IsVisual())
                 evEffect.SetSourceEntity(m_pEnv->pThis->GetProxy(0)->GetIndex());
             break;
 
         case ACTION_TARGET_THIS_PROXY_POSITION:
-            if (m_pEnv->pThis != NULL && m_pEnv->pThis->GetProxy(0) != NULL && m_pEnv->pThis->GetProxy(0)->IsVisual())
+            if (m_pEnv->pThis != nullptr && m_pEnv->pThis->GetProxy(0) != nullptr && m_pEnv->pThis->GetProxy(0)->IsVisual())
                 evEffect.SetSourcePosition(m_pEnv->pThis->GetProxy(0)->GetAsVisual()->GetPosition());
             break;
 
         case ACTION_TARGET_THIS_PROXY_ENTITY1:
-            if (m_pEnv->pThis != NULL && m_pEnv->pThis->GetProxy(1) != NULL && m_pEnv->pThis->GetProxy(1)->IsVisual())
+            if (m_pEnv->pThis != nullptr && m_pEnv->pThis->GetProxy(1) != nullptr && m_pEnv->pThis->GetProxy(1)->IsVisual())
                 evEffect.SetSourceEntity(m_pEnv->pThis->GetProxy(1)->GetIndex());
             break;
 
         case ACTION_TARGET_THIS_PROXY_POSITION1:
-            if (m_pEnv->pThis != NULL && m_pEnv->pThis->GetProxy(1) != NULL && m_pEnv->pThis->GetProxy(1)->IsVisual())
+            if (m_pEnv->pThis != nullptr && m_pEnv->pThis->GetProxy(1) != nullptr && m_pEnv->pThis->GetProxy(1)->IsVisual())
                 evEffect.SetSourcePosition(m_pEnv->pThis->GetProxy(1)->GetAsVisual()->GetPosition());
             break;
 
         case ACTION_TARGET_THIS_PROXY_ENTITY2:
-            if (m_pEnv->pThis != NULL && m_pEnv->pThis->GetProxy(2) != NULL && m_pEnv->pThis->GetProxy(2)->IsVisual())
+            if (m_pEnv->pThis != nullptr && m_pEnv->pThis->GetProxy(2) != nullptr && m_pEnv->pThis->GetProxy(2)->IsVisual())
                 evEffect.SetSourceEntity(m_pEnv->pThis->GetProxy(2)->GetIndex());
             break;
 
         case ACTION_TARGET_THIS_PROXY_POSITION2:
-            if (m_pEnv->pThis != NULL && m_pEnv->pThis->GetProxy(2) != NULL && m_pEnv->pThis->GetProxy(2)->IsVisual())
+            if (m_pEnv->pThis != nullptr && m_pEnv->pThis->GetProxy(2) != nullptr && m_pEnv->pThis->GetProxy(2)->IsVisual())
                 evEffect.SetSourcePosition(m_pEnv->pThis->GetProxy(2)->GetAsVisual()->GetPosition());
             break;
 
         case ACTION_TARGET_THIS_PROXY_ENTITY3:
-            if (m_pEnv->pThis != NULL && m_pEnv->pThis->GetProxy(3) != NULL && m_pEnv->pThis->GetProxy(3)->IsVisual())
+            if (m_pEnv->pThis != nullptr && m_pEnv->pThis->GetProxy(3) != nullptr && m_pEnv->pThis->GetProxy(3)->IsVisual())
                 evEffect.SetSourceEntity(m_pEnv->pThis->GetProxy(3)->GetIndex());
             break;
 
         case ACTION_TARGET_THIS_PROXY_POSITION3:
-            if (m_pEnv->pThis != NULL && m_pEnv->pThis->GetProxy(3) != NULL && m_pEnv->pThis->GetProxy(3)->IsVisual())
+            if (m_pEnv->pThis != nullptr && m_pEnv->pThis->GetProxy(3) != nullptr && m_pEnv->pThis->GetProxy(3)->IsVisual())
                 evEffect.SetSourcePosition(m_pEnv->pThis->GetProxy(3)->GetAsVisual()->GetPosition());
             break;
 
         case ACTION_TARGET_DELTA_POSITION:
-            if (m_pEnv->pTarget != NULL && m_pEnv->pTarget->IsVisual())
+            if (m_pEnv->pTarget != nullptr && m_pEnv->pTarget->IsVisual())
                 evEffect.SetSourcePosition(m_pEnv->pTarget->GetAsVisual()->GetPosition() + m_pEnv->v3Delta);
             else
                 evEffect.SetSourcePosition(m_pEnv->v3Target + m_pEnv->v3Delta);
@@ -1745,42 +1745,42 @@ public:
             break;
 
         case ACTION_TARGET_ENT0:
-            if (m_pEnv->pEnt0 != NULL && m_pEnv->pEnt0->IsVisual())
+            if (m_pEnv->pEnt0 != nullptr && m_pEnv->pEnt0->IsVisual())
                 evEffect.SetSourceEntity(m_pEnv->pEnt0->GetIndex());
             break;
 
         case ACTION_TARGET_ENT0_POSITION:
-            if (m_pEnv->pEnt0 != NULL && m_pEnv->pEnt0->IsVisual())
+            if (m_pEnv->pEnt0 != nullptr && m_pEnv->pEnt0->IsVisual())
                 evEffect.SetSourcePosition(m_pEnv->pEnt0->GetAsVisual()->GetPosition());
             break;
 
         case ACTION_TARGET_ENT1:
-            if (m_pEnv->pEnt1 != NULL && m_pEnv->pEnt1->IsVisual())
+            if (m_pEnv->pEnt1 != nullptr && m_pEnv->pEnt1->IsVisual())
                 evEffect.SetSourceEntity(m_pEnv->pEnt1->GetIndex());
             break;
 
         case ACTION_TARGET_ENT1_POSITION:
-            if (m_pEnv->pEnt1 != NULL && m_pEnv->pEnt1->IsVisual())
+            if (m_pEnv->pEnt1 != nullptr && m_pEnv->pEnt1->IsVisual())
                 evEffect.SetSourcePosition(m_pEnv->pEnt1->GetAsVisual()->GetPosition());
             break;
 
         case ACTION_TARGET_ENT2:
-            if (m_pEnv->pEnt2 != NULL && m_pEnv->pEnt2->IsVisual())
+            if (m_pEnv->pEnt2 != nullptr && m_pEnv->pEnt2->IsVisual())
                 evEffect.SetSourceEntity(m_pEnv->pEnt2->GetIndex());
             break;
 
         case ACTION_TARGET_ENT2_POSITION:
-            if (m_pEnv->pEnt2 != NULL && m_pEnv->pEnt2->IsVisual())
+            if (m_pEnv->pEnt2 != nullptr && m_pEnv->pEnt2->IsVisual())
                 evEffect.SetSourcePosition(m_pEnv->pEnt2->GetAsVisual()->GetPosition());
             break;
 
         case ACTION_TARGET_ENT3:
-            if (m_pEnv->pEnt3 != NULL && m_pEnv->pEnt3->IsVisual())
+            if (m_pEnv->pEnt3 != nullptr && m_pEnv->pEnt3->IsVisual())
                 evEffect.SetSourceEntity(m_pEnv->pEnt3->GetIndex());
             break;
 
         case ACTION_TARGET_ENT3_POSITION:
-            if (m_pEnv->pEnt3 != NULL && m_pEnv->pEnt3->IsVisual())
+            if (m_pEnv->pEnt3 != nullptr && m_pEnv->pEnt3->IsVisual())
                 evEffect.SetSourcePosition(m_pEnv->pEnt3->GetAsVisual()->GetPosition());
             break;
         }
@@ -1791,108 +1791,108 @@ public:
             break;
 
         case ACTION_TARGET_SOURCE_ENTITY:
-            if (m_pEnv->pInitiator != NULL && m_pEnv->pInitiator->IsVisual())
+            if (m_pEnv->pInitiator != nullptr && m_pEnv->pInitiator->IsVisual())
                 evEffect.SetTargetEntity(m_pEnv->pInitiator->GetIndex());
-            else if (m_pEnv->pInflictor != NULL && m_pEnv->pInflictor->IsVisual())
+            else if (m_pEnv->pInflictor != nullptr && m_pEnv->pInflictor->IsVisual())
                 evEffect.SetTargetEntity(m_pEnv->pInflictor->GetIndex());
             break;
 
         case ACTION_TARGET_SOURCE_POSITION:
-            if (m_pEnv->pInitiator != NULL && m_pEnv->pInitiator->IsVisual())
+            if (m_pEnv->pInitiator != nullptr && m_pEnv->pInitiator->IsVisual())
                 evEffect.SetTargetPosition(m_pEnv->pInitiator->GetAsVisual()->GetPosition());
             break;
 
         case ACTION_TARGET_SOURCE_TARGET_OFFSET:
-            if (m_pEnv->pInitiator != NULL && m_pEnv->pInitiator->IsUnit())
+            if (m_pEnv->pInitiator != nullptr && m_pEnv->pInitiator->IsUnit())
                 evEffect.SetTargetPosition(m_pEnv->pInitiator->GetAsUnit()->GetTransformedTargetOffset());
             break;
 
         case ACTION_TARGET_SOURCE_ATTACK_OFFSET:
-            if (m_pEnv->pInitiator != NULL && m_pEnv->pInitiator->IsUnit())
+            if (m_pEnv->pInitiator != nullptr && m_pEnv->pInitiator->IsUnit())
                 evEffect.SetTargetPosition(m_pEnv->pInitiator->GetAsUnit()->GetTransformedAttackOffset());
             break;
 
         case ACTION_TARGET_SOURCE_OWNER_ENTITY:
-            if (m_pEnv->pInitiator != NULL && m_pEnv->pInitiator->GetOwner() != NULL)
+            if (m_pEnv->pInitiator != nullptr && m_pEnv->pInitiator->GetOwner() != nullptr)
                 evEffect.SetTargetEntity(m_pEnv->pInitiator->GetOwner()->GetIndex());
             break;
 
         case ACTION_TARGET_SOURCE_OWNER_POSITION:
-            if (m_pEnv->pInitiator != NULL && m_pEnv->pInitiator->GetOwner() != NULL)
+            if (m_pEnv->pInitiator != nullptr && m_pEnv->pInitiator->GetOwner() != nullptr)
                 evEffect.SetTargetPosition(m_pEnv->pInitiator->GetOwner()->GetPosition());
             break;
 
         case ACTION_TARGET_TARGET_ENTITY:
-            if (m_pEnv->pTarget != NULL && m_pEnv->pTarget->IsVisual())
+            if (m_pEnv->pTarget != nullptr && m_pEnv->pTarget->IsVisual())
                 evEffect.SetTargetEntity(m_pEnv->pTarget->GetIndex());
             break;
 
         case ACTION_TARGET_TARGET_POSITION:
-            if (m_pEnv->pTarget != NULL && m_pEnv->pTarget->IsVisual())
+            if (m_pEnv->pTarget != nullptr && m_pEnv->pTarget->IsVisual())
                 evEffect.SetTargetPosition(m_pEnv->pTarget->GetAsVisual()->GetPosition());
             else
                 evEffect.SetTargetPosition(m_pEnv->v3Target);
             break;
 
         case ACTION_TARGET_TARGET_TARGET_OFFSET:
-            if (m_pEnv->pTarget != NULL && m_pEnv->pTarget->IsUnit())
+            if (m_pEnv->pTarget != nullptr && m_pEnv->pTarget->IsUnit())
                 evEffect.SetTargetPosition(m_pEnv->pTarget->GetAsUnit()->GetTransformedTargetOffset());
             break;
 
         case ACTION_TARGET_TARGET_ATTACK_OFFSET:
-            if (m_pEnv->pTarget != NULL && m_pEnv->pTarget->IsUnit())
+            if (m_pEnv->pTarget != nullptr && m_pEnv->pTarget->IsUnit())
                 evEffect.SetTargetPosition(m_pEnv->pTarget->GetAsUnit()->GetTransformedAttackOffset());
             break;
 
         case ACTION_TARGET_TARGET_OWNER_ENTITY:
-            if (m_pEnv->pTarget != NULL && m_pEnv->pTarget->GetOwner() != NULL)
+            if (m_pEnv->pTarget != nullptr && m_pEnv->pTarget->GetOwner() != nullptr)
                 evEffect.SetTargetEntity(m_pEnv->pTarget->GetOwner()->GetIndex());
             break;
 
         case ACTION_TARGET_TARGET_OWNER_POSITION:
-            if (m_pEnv->pTarget != NULL && m_pEnv->pTarget->GetOwner() != NULL)
+            if (m_pEnv->pTarget != nullptr && m_pEnv->pTarget->GetOwner() != nullptr)
                 evEffect.SetTargetPosition(m_pEnv->pTarget->GetOwner()->GetPosition());
             break;
 
         case ACTION_TARGET_INFLICTOR_ENTITY:
-            if (m_pEnv->pInflictor != NULL && m_pEnv->pInflictor->IsVisual())
+            if (m_pEnv->pInflictor != nullptr && m_pEnv->pInflictor->IsVisual())
                 evEffect.SetTargetEntity(m_pEnv->pInflictor->GetIndex());
             break;
 
         case ACTION_TARGET_INFLICTOR_POSITION:
-            if (m_pEnv->pInflictor != NULL && m_pEnv->pInflictor->IsVisual())
+            if (m_pEnv->pInflictor != nullptr && m_pEnv->pInflictor->IsVisual())
                 evEffect.SetTargetPosition(m_pEnv->pInflictor->GetAsVisual()->GetPosition());
             break;
 
         case ACTION_TARGET_INFLICTOR_TARGET_OFFSET:
-            if (m_pEnv->pInflictor != NULL && m_pEnv->pInflictor->IsUnit())
+            if (m_pEnv->pInflictor != nullptr && m_pEnv->pInflictor->IsUnit())
                 evEffect.SetTargetPosition(m_pEnv->pInflictor->GetAsUnit()->GetTransformedTargetOffset());
             break;
 
         case ACTION_TARGET_INFLICTOR_OWNER_ENTITY:
-            if (m_pEnv->pInflictor != NULL && m_pEnv->pInflictor->GetOwner() != NULL)
+            if (m_pEnv->pInflictor != nullptr && m_pEnv->pInflictor->GetOwner() != nullptr)
                 evEffect.SetTargetEntity(m_pEnv->pInflictor->GetOwner()->GetIndex());
             break;
 
         case ACTION_TARGET_INFLICTOR_OWNER_POSITION:
-            if (m_pEnv->pInflictor != NULL && m_pEnv->pInflictor->GetOwner() != NULL)
+            if (m_pEnv->pInflictor != nullptr && m_pEnv->pInflictor->GetOwner() != nullptr)
                 evEffect.SetTargetPosition(m_pEnv->pInflictor->GetOwner()->GetPosition());
             break;
 
         case ACTION_TARGET_PROXY_ENTITY:
-            if (m_pEnv->pProxy != NULL && m_pEnv->pProxy->IsVisual())
+            if (m_pEnv->pProxy != nullptr && m_pEnv->pProxy->IsVisual())
                 evEffect.SetTargetEntity(m_pEnv->pProxy->GetIndex());
             break;
 
         case ACTION_TARGET_PROXY_POSITION:
-            if (m_pEnv->pProxy != NULL && m_pEnv->pProxy->IsVisual())
+            if (m_pEnv->pProxy != nullptr && m_pEnv->pProxy->IsVisual())
                 evEffect.SetTargetPosition(m_pEnv->pProxy->GetAsVisual()->GetPosition());
             break;
 
         case ACTION_TARGET_STACK_ENTITY:
             {
                 IGameEntity *pEntity(Game.GetEntityFromUniqueID(PeekEntity()));
-                if (pEntity != NULL && pEntity->IsVisual())
+                if (pEntity != nullptr && pEntity->IsVisual())
                     evEffect.SetTargetEntity(pEntity->GetIndex());
             }
             break;
@@ -1900,123 +1900,123 @@ public:
         case ACTION_TARGET_STACK_POSITION:
             {
                 IGameEntity *pEntity(Game.GetEntityFromUniqueID(PeekEntity()));
-                if (pEntity != NULL && pEntity->IsVisual())
+                if (pEntity != nullptr && pEntity->IsVisual())
                     evEffect.SetTargetPosition(pEntity->GetAsVisual()->GetPosition());
             }
             break;
 
         case ACTION_TARGET_THIS_ENTITY:
-            if (m_pEnv->pThis != NULL && m_pEnv->pThis->IsVisual())
+            if (m_pEnv->pThis != nullptr && m_pEnv->pThis->IsVisual())
                 evEffect.SetTargetEntity(m_pEnv->pThis->GetIndex());
             break;
 
         case ACTION_TARGET_THIS_POSITION:
-            if (m_pEnv->pThis != NULL && m_pEnv->pThis->IsVisual())
+            if (m_pEnv->pThis != nullptr && m_pEnv->pThis->IsVisual())
                 evEffect.SetTargetPosition(m_pEnv->pThis->GetAsVisual()->GetPosition());
             break;
 
         case ACTION_TARGET_THIS_TARGET_OFFSET:
-            if (m_pEnv->pThis != NULL && m_pEnv->pThis->IsUnit())
+            if (m_pEnv->pThis != nullptr && m_pEnv->pThis->IsUnit())
                 evEffect.SetTargetPosition(m_pEnv->pThis->GetAsUnit()->GetTransformedTargetOffset());
             break;
 
         case ACTION_TARGET_THIS_ATTACK_OFFSET:
-            if (m_pEnv->pThis != NULL && m_pEnv->pThis->IsUnit())
+            if (m_pEnv->pThis != nullptr && m_pEnv->pThis->IsUnit())
                 evEffect.SetTargetPosition(m_pEnv->pThis->GetAsUnit()->GetTransformedAttackOffset());
             break;
 
         case ACTION_TARGET_THIS_OWNER_ENTITY:
-            if (m_pEnv->pThis != NULL && m_pEnv->pThis->GetOwner() != NULL)
+            if (m_pEnv->pThis != nullptr && m_pEnv->pThis->GetOwner() != nullptr)
                 evEffect.SetTargetEntity(m_pEnv->pThis->GetOwner()->GetIndex());
             break;
 
         case ACTION_TARGET_THIS_OWNER_POSITION:
-            if (m_pEnv->pThis != NULL && m_pEnv->pThis->GetOwner() != NULL)
+            if (m_pEnv->pThis != nullptr && m_pEnv->pThis->GetOwner() != nullptr)
                 evEffect.SetTargetPosition(m_pEnv->pThis->GetOwner()->GetPosition());
             break;
 
         case ACTION_TARGET_THIS_INFLICTOR_ENTITY:
-            if (m_pEnv->pThis != NULL && m_pEnv->pThis->IsState() && m_pEnv->pThis->GetAsState()->GetInflictor() != NULL && m_pEnv->pThis->GetAsState()->GetInflictor()->IsVisual())
+            if (m_pEnv->pThis != nullptr && m_pEnv->pThis->IsState() && m_pEnv->pThis->GetAsState()->GetInflictor() != nullptr && m_pEnv->pThis->GetAsState()->GetInflictor()->IsVisual())
                 evEffect.SetTargetEntity(m_pEnv->pThis->GetAsState()->GetInflictor()->GetIndex());
             break;
 
         case ACTION_TARGET_THIS_INFLICTOR_POSITION:
-            if (m_pEnv->pThis != NULL && m_pEnv->pThis->IsState() && m_pEnv->pThis->GetAsState()->GetInflictor() != NULL)
+            if (m_pEnv->pThis != nullptr && m_pEnv->pThis->IsState() && m_pEnv->pThis->GetAsState()->GetInflictor() != nullptr)
                 evEffect.SetTargetPosition(m_pEnv->pThis->GetAsState()->GetInflictor()->GetAsVisual()->GetPosition());
             break;
 
         case ACTION_TARGET_THIS_SPAWNER_ENTITY:
-            if (m_pEnv->pThis != NULL && m_pEnv->pThis->IsState() && m_pEnv->pThis->GetAsState()->GetSpawner() != NULL && m_pEnv->pThis->GetAsState()->GetSpawner()->IsVisual())
+            if (m_pEnv->pThis != nullptr && m_pEnv->pThis->IsState() && m_pEnv->pThis->GetAsState()->GetSpawner() != nullptr && m_pEnv->pThis->GetAsState()->GetSpawner()->IsVisual())
                 evEffect.SetTargetEntity(m_pEnv->pThis->GetAsState()->GetInflictor()->GetIndex());
             break;
 
         case ACTION_TARGET_THIS_SPAWNER_POSITION:
-            if (m_pEnv->pThis != NULL && m_pEnv->pThis->IsState() && m_pEnv->pThis->GetAsState()->GetSpawner() != NULL)
+            if (m_pEnv->pThis != nullptr && m_pEnv->pThis->IsState() && m_pEnv->pThis->GetAsState()->GetSpawner() != nullptr)
                 evEffect.SetTargetPosition(m_pEnv->pThis->GetAsState()->GetSpawner()->GetAsVisual()->GetPosition());
             break;
 
         case ACTION_TARGET_THIS_TARGET_ENTITY:
-            if (m_pEnv->pThis != NULL && m_pEnv->pThis->IsUnit() && m_pEnv->pThis->GetAsUnit()->GetTargetEntity() != NULL)
+            if (m_pEnv->pThis != nullptr && m_pEnv->pThis->IsUnit() && m_pEnv->pThis->GetAsUnit()->GetTargetEntity() != nullptr)
                 evEffect.SetTargetEntity(m_pEnv->pThis->GetAsUnit()->GetTargetEntity()->GetIndex());
             break;
 
         case ACTION_TARGET_THIS_TARGET_POSITION:
-            if (m_pEnv->pThis != NULL && m_pEnv->pThis->IsUnit() && m_pEnv->pThis->GetAsUnit()->GetTargetEntity() != NULL)
+            if (m_pEnv->pThis != nullptr && m_pEnv->pThis->IsUnit() && m_pEnv->pThis->GetAsUnit()->GetTargetEntity() != nullptr)
                 evEffect.SetTargetPosition(m_pEnv->pThis->GetAsUnit()->GetTargetEntity()->GetPosition());
             break;
 
         case ACTION_TARGET_THIS_OWNER_TARGET_ENTITY:
-            if (m_pEnv->pThis != NULL && m_pEnv->pThis->GetOwner() != NULL && m_pEnv->pThis->GetOwner()->GetTargetEntity() != NULL)
+            if (m_pEnv->pThis != nullptr && m_pEnv->pThis->GetOwner() != nullptr && m_pEnv->pThis->GetOwner()->GetTargetEntity() != nullptr)
                 evEffect.SetTargetEntity(m_pEnv->pThis->GetOwner()->GetTargetEntity()->GetIndex());
             break;
 
         case ACTION_TARGET_THIS_OWNER_TARGET_POSITION:
-            if (m_pEnv->pThis != NULL && m_pEnv->pThis->GetOwner() != NULL && m_pEnv->pThis->GetOwner()->GetTargetEntity() != NULL)
+            if (m_pEnv->pThis != nullptr && m_pEnv->pThis->GetOwner() != nullptr && m_pEnv->pThis->GetOwner()->GetTargetEntity() != nullptr)
                 evEffect.SetTargetPosition(m_pEnv->pThis->GetOwner()->GetTargetEntity()->GetPosition());
             break;
 
         case ACTION_TARGET_THIS_PROXY_ENTITY:
-            if (m_pEnv->pThis != NULL && m_pEnv->pThis->GetProxy(0) != NULL && m_pEnv->pThis->GetProxy(0)->IsVisual())
+            if (m_pEnv->pThis != nullptr && m_pEnv->pThis->GetProxy(0) != nullptr && m_pEnv->pThis->GetProxy(0)->IsVisual())
                 evEffect.SetTargetEntity(m_pEnv->pThis->GetProxy(0)->GetIndex());
             break;
 
         case ACTION_TARGET_THIS_PROXY_POSITION:
-            if (m_pEnv->pThis != NULL && m_pEnv->pThis->GetProxy(0) != NULL && m_pEnv->pThis->GetProxy(0)->IsVisual())
+            if (m_pEnv->pThis != nullptr && m_pEnv->pThis->GetProxy(0) != nullptr && m_pEnv->pThis->GetProxy(0)->IsVisual())
                 evEffect.SetTargetPosition(m_pEnv->pThis->GetProxy(0)->GetAsVisual()->GetPosition());
             break;
 
         case ACTION_TARGET_THIS_PROXY_ENTITY1:
-            if (m_pEnv->pThis != NULL && m_pEnv->pThis->GetProxy(1) != NULL && m_pEnv->pThis->GetProxy(1)->IsVisual())
+            if (m_pEnv->pThis != nullptr && m_pEnv->pThis->GetProxy(1) != nullptr && m_pEnv->pThis->GetProxy(1)->IsVisual())
                 evEffect.SetTargetEntity(m_pEnv->pThis->GetProxy(1)->GetIndex());
             break;
 
         case ACTION_TARGET_THIS_PROXY_POSITION1:
-            if (m_pEnv->pThis != NULL && m_pEnv->pThis->GetProxy(1) != NULL && m_pEnv->pThis->GetProxy(1)->IsVisual())
+            if (m_pEnv->pThis != nullptr && m_pEnv->pThis->GetProxy(1) != nullptr && m_pEnv->pThis->GetProxy(1)->IsVisual())
                 evEffect.SetTargetPosition(m_pEnv->pThis->GetProxy(1)->GetAsVisual()->GetPosition());
             break;
 
         case ACTION_TARGET_THIS_PROXY_ENTITY2:
-            if (m_pEnv->pThis != NULL && m_pEnv->pThis->GetProxy(2) != NULL && m_pEnv->pThis->GetProxy(2)->IsVisual())
+            if (m_pEnv->pThis != nullptr && m_pEnv->pThis->GetProxy(2) != nullptr && m_pEnv->pThis->GetProxy(2)->IsVisual())
                 evEffect.SetTargetEntity(m_pEnv->pThis->GetProxy(2)->GetIndex());
             break;
 
         case ACTION_TARGET_THIS_PROXY_POSITION2:
-            if (m_pEnv->pThis != NULL && m_pEnv->pThis->GetProxy(2) != NULL && m_pEnv->pThis->GetProxy(2)->IsVisual())
+            if (m_pEnv->pThis != nullptr && m_pEnv->pThis->GetProxy(2) != nullptr && m_pEnv->pThis->GetProxy(2)->IsVisual())
                 evEffect.SetTargetPosition(m_pEnv->pThis->GetProxy(2)->GetAsVisual()->GetPosition());
             break;
 
         case ACTION_TARGET_THIS_PROXY_ENTITY3:
-            if (m_pEnv->pThis != NULL && m_pEnv->pThis->GetProxy(3) != NULL && m_pEnv->pThis->GetProxy(3)->IsVisual())
+            if (m_pEnv->pThis != nullptr && m_pEnv->pThis->GetProxy(3) != nullptr && m_pEnv->pThis->GetProxy(3)->IsVisual())
                 evEffect.SetTargetEntity(m_pEnv->pThis->GetProxy(3)->GetIndex());
             break;
 
         case ACTION_TARGET_THIS_PROXY_POSITION3:
-            if (m_pEnv->pThis != NULL && m_pEnv->pThis->GetProxy(3) != NULL && m_pEnv->pThis->GetProxy(3)->IsVisual())
+            if (m_pEnv->pThis != nullptr && m_pEnv->pThis->GetProxy(3) != nullptr && m_pEnv->pThis->GetProxy(3)->IsVisual())
                 evEffect.SetTargetPosition(m_pEnv->pThis->GetProxy(3)->GetAsVisual()->GetPosition());
             break;
 
         case ACTION_TARGET_DELTA_POSITION:
-            if (m_pEnv->pTarget != NULL && m_pEnv->pTarget->IsVisual())
+            if (m_pEnv->pTarget != nullptr && m_pEnv->pTarget->IsVisual())
                 evEffect.SetTargetPosition(m_pEnv->pTarget->GetAsVisual()->GetPosition() + m_pEnv->v3Delta);
             else
                 evEffect.SetTargetPosition(m_pEnv->v3Target + m_pEnv->v3Delta);
@@ -2039,42 +2039,42 @@ public:
             break;
 
         case ACTION_TARGET_ENT0:
-            if (m_pEnv->pEnt0 != NULL && m_pEnv->pEnt0->IsVisual())
+            if (m_pEnv->pEnt0 != nullptr && m_pEnv->pEnt0->IsVisual())
                 evEffect.SetTargetEntity(m_pEnv->pEnt0->GetIndex());
             break;
 
         case ACTION_TARGET_ENT0_POSITION:
-            if (m_pEnv->pEnt0 != NULL && m_pEnv->pEnt0->IsVisual())
+            if (m_pEnv->pEnt0 != nullptr && m_pEnv->pEnt0->IsVisual())
                 evEffect.SetTargetPosition(m_pEnv->pEnt0->GetAsVisual()->GetPosition());
             break;
 
         case ACTION_TARGET_ENT1:
-            if (m_pEnv->pEnt1 != NULL && m_pEnv->pEnt1->IsVisual())
+            if (m_pEnv->pEnt1 != nullptr && m_pEnv->pEnt1->IsVisual())
                 evEffect.SetTargetEntity(m_pEnv->pEnt1->GetIndex());
             break;
 
         case ACTION_TARGET_ENT1_POSITION:
-            if (m_pEnv->pEnt1 != NULL && m_pEnv->pEnt1->IsVisual())
+            if (m_pEnv->pEnt1 != nullptr && m_pEnv->pEnt1->IsVisual())
                 evEffect.SetTargetPosition(m_pEnv->pEnt1->GetAsVisual()->GetPosition());
             break;
 
         case ACTION_TARGET_ENT2:
-            if (m_pEnv->pEnt2 != NULL && m_pEnv->pEnt2->IsVisual())
+            if (m_pEnv->pEnt2 != nullptr && m_pEnv->pEnt2->IsVisual())
                 evEffect.SetTargetEntity(m_pEnv->pEnt2->GetIndex());
             break;
 
         case ACTION_TARGET_ENT2_POSITION:
-            if (m_pEnv->pEnt2 != NULL && m_pEnv->pEnt2->IsVisual())
+            if (m_pEnv->pEnt2 != nullptr && m_pEnv->pEnt2->IsVisual())
                 evEffect.SetTargetPosition(m_pEnv->pEnt2->GetAsVisual()->GetPosition());
             break;
 
         case ACTION_TARGET_ENT3:
-            if (m_pEnv->pEnt3 != NULL && m_pEnv->pEnt3->IsVisual())
+            if (m_pEnv->pEnt3 != nullptr && m_pEnv->pEnt3->IsVisual())
                 evEffect.SetTargetEntity(m_pEnv->pEnt3->GetIndex());
             break;
 
         case ACTION_TARGET_ENT3_POSITION:
-            if (m_pEnv->pEnt3 != NULL && m_pEnv->pEnt3->IsVisual())
+            if (m_pEnv->pEnt3 != nullptr && m_pEnv->pEnt3->IsVisual())
                 evEffect.SetTargetPosition(m_pEnv->pEnt3->GetAsVisual()->GetPosition());
             break;
         }
@@ -2104,10 +2104,10 @@ public:
 
     float   Execute()
     {
-        if (m_pEnv->pTarget == NULL || !m_pEnv->pTarget->IsVisual() || m_pEnv->pInflictor == NULL)
+        if (m_pEnv->pTarget == nullptr || !m_pEnv->pTarget->IsVisual() || m_pEnv->pInflictor == nullptr)
             return 0.0f;
         IAffector *pAreaAffector(m_pEnv->pInflictor->GetAsAffector());
-        if (pAreaAffector == NULL)
+        if (pAreaAffector == nullptr)
             return 0.0f;
         if (pAreaAffector->GetChainCount() >= GetCount())
             return 0.0f;
@@ -2162,13 +2162,13 @@ public:
 
     float   Execute()
     {
-        if (m_pEnv->pInitiator == NULL || !m_pEnv->pInitiator->IsUnit() || m_pEnv->pTarget == NULL || !m_pEnv->pTarget->IsUnit())
+        if (m_pEnv->pInitiator == nullptr || !m_pEnv->pInitiator->IsUnit() || m_pEnv->pTarget == nullptr || !m_pEnv->pTarget->IsUnit())
             return 0.0f;
 
-        IProjectile *pProjectile(m_pEnv->pThis != NULL ? m_pEnv->pThis->GetAsProjectile() : NULL);
-        if (pProjectile == NULL)
-            pProjectile = m_pEnv->pInflictor != NULL ? m_pEnv->pInflictor->GetAsProjectile() : NULL;
-        if (pProjectile == NULL)
+        IProjectile *pProjectile(m_pEnv->pThis != nullptr ? m_pEnv->pThis->GetAsProjectile() : nullptr);
+        if (pProjectile == nullptr)
+            pProjectile = m_pEnv->pInflictor != nullptr ? m_pEnv->pInflictor->GetAsProjectile() : nullptr;
+        if (pProjectile == nullptr)
             return 0.0f;
         if (pProjectile->GetBounceCount() >= GetCount())
             return 0.0f;
@@ -2189,7 +2189,7 @@ public:
             if (uiTargetIndex == m_pEnv->pTarget->GetIndex())
                 continue;
             IUnitEntity *pNewTarget(Game.GetUnitEntity(uiTargetIndex));
-            if (pNewTarget == NULL)
+            if (pNewTarget == nullptr)
                 continue;
             if (!Game.IsValidTarget(uiTargetScheme, pProjectile->GetEffectType(), m_pEnv->pInitiator->GetAsUnit(), pNewTarget))
                 continue;
@@ -2290,13 +2290,13 @@ public:
 
     float   Execute()
     {
-        if (m_pEnv->pInitiator == NULL || !m_pEnv->pInitiator->IsUnit() || m_pEnv->pTarget == NULL)
+        if (m_pEnv->pInitiator == nullptr || !m_pEnv->pInitiator->IsUnit() || m_pEnv->pTarget == nullptr)
             return 0.0f;
 
-        IProjectile *pProjectile(m_pEnv->pThis != NULL ? m_pEnv->pThis->GetAsProjectile() : NULL);
-        if (pProjectile == NULL)
-            pProjectile = m_pEnv->pInflictor != NULL ? m_pEnv->pInflictor->GetAsProjectile() : NULL;
-        if (pProjectile == NULL)
+        IProjectile *pProjectile(m_pEnv->pThis != nullptr ? m_pEnv->pThis->GetAsProjectile() : nullptr);
+        if (pProjectile == nullptr)
+            pProjectile = m_pEnv->pInflictor != nullptr ? m_pEnv->pInflictor->GetAsProjectile() : nullptr;
+        if (pProjectile == nullptr)
             return 0.0f;
         if (GetCount() == 0)
             return 0.0f;
@@ -2319,7 +2319,7 @@ public:
             if (uiTargetIndex == m_pEnv->pTarget->GetIndex())
                 continue;
             IUnitEntity *pNewTarget(Game.GetUnitEntity(uiTargetIndex));
-            if (pNewTarget == NULL)
+            if (pNewTarget == nullptr)
                 continue;
             if (!Game.IsValidTarget(uiTargetScheme, pProjectile->GetEffectType(), m_pEnv->pInitiator->GetAsUnit(), pNewTarget))
                 continue;
@@ -2388,13 +2388,13 @@ public:
 
     float   Execute()
     {
-        if (m_pEnv->pInitiator == NULL)
+        if (m_pEnv->pInitiator == nullptr)
             return 0.0f;
 
-        IProjectile *pProjectile(m_pEnv->pThis != NULL ? m_pEnv->pThis->GetAsProjectile() : NULL);
-        if (pProjectile == NULL)
-            pProjectile = m_pEnv->pInflictor != NULL ? m_pEnv->pInflictor->GetAsProjectile() : NULL;
-        if (pProjectile == NULL)
+        IProjectile *pProjectile(m_pEnv->pThis != nullptr ? m_pEnv->pThis->GetAsProjectile() : nullptr);
+        if (pProjectile == nullptr)
+            pProjectile = m_pEnv->pInflictor != nullptr ? m_pEnv->pInflictor->GetAsProjectile() : nullptr;
+        if (pProjectile == nullptr)
             return 0.0f;
         if (pProjectile->GetReturnCount() > 0)
             return 0.0f;
@@ -2430,15 +2430,15 @@ public:
     float   Execute()
     {
         IGameEntity *pEntity(GetEntityFromActionTarget(GetEntity()));
-        if (pEntity == NULL)
+        if (pEntity == nullptr)
             return 0.0f;
 
         IVisualEntity *pVisual(pEntity->GetAsVisual());
-        if (pVisual == NULL)
+        if (pVisual == nullptr)
             return 0.0f;
 
         IUnitEntity *pBindTarget(GetTargetUnit());
-        if (pBindTarget == NULL)
+        if (pBindTarget == nullptr)
             return 0.0f;
 
         uint uiFlags(0);
@@ -2486,11 +2486,11 @@ public:
 
     float   Execute()
     {
-        if (m_pEnv->pInitiator == NULL)
+        if (m_pEnv->pInitiator == nullptr)
             return 0.0f;
 
         IUnitEntity *pTarget(GetTargetUnit());
-        if (pTarget == NULL)
+        if (pTarget == nullptr)
             return 0.0f;
 
         pTarget->Unbind();
@@ -2534,7 +2534,7 @@ public:
     {
         IGameEntity *pSource(GetSourceEntity());
 
-        if (pSource == NULL)
+        if (pSource == nullptr)
             return 0.0f;
 
         if (GetTargetPosition() == V_ZERO)
@@ -2563,16 +2563,16 @@ public:
             return 0.0f;
 
         // Check for a persistent pet
-        if (pPlayer != NULL)
+        if (pPlayer != nullptr)
         {
             ushort unTypeID(EntityRegistry.LookupID(GetName()));
             IUnitEntity *pPet(pPlayer->GetPersistentPet(unTypeID));
-            if (pPet != NULL)
+            if (pPet != nullptr)
             {
                 IGameEntity *pOffsetSpace(GetEntityFromActionTarget(GetOffsetSpace()));
                 CVec3f v3FacingPos(GetPositionFromActionTarget(GetFacing()));
 
-                if (pOffsetSpace != NULL && pOffsetSpace->IsVisual())
+                if (pOffsetSpace != nullptr && pOffsetSpace->IsVisual())
                 {
                     CVec2f v2Offset(GetOffset());
                     v2Offset.Rotate(pOffsetSpace->GetAsVisual()->GetAngles()[YAW]);
@@ -2594,13 +2594,13 @@ public:
                 pPet->SetTeam(uiTeam);
                 pPet->SetLevel(GetLevel());
                 pPet->SetOwnerIndex(pSource->GetIndex());
-                pPet->SetProxyUID(pProxy != NULL ? pProxy->GetUniqueID() : INVALID_INDEX);
+                pPet->SetProxyUID(pProxy != nullptr ? pProxy->GetUniqueID() : INVALID_INDEX);
                 pPet->UpdateModifiers();
                 pPet->Spawn();
                 pPet->ValidatePosition(TRACE_UNIT_SPAWN);
                 
                 pPet->IncNoInterpolateSequence();
-                if (m_pEnv->pThis != NULL && m_pEnv->pThis->GetAsTool() != NULL)
+                if (m_pEnv->pThis != nullptr && m_pEnv->pThis->GetAsTool() != nullptr)
                     m_pEnv->pThis->GetAsTool()->AddPersistentPet(pPet->GetUniqueID());
                 return 0.0f;
             }
@@ -2624,16 +2624,16 @@ public:
         for (uint ui(0); ui < uiCount; ++ui)
         {
             IUnitEntity *pUnit(Game.AllocateDynamicEntity<IUnitEntity>(GetName()));
-            if (pUnit == NULL)
+            if (pUnit == nullptr)
                 continue;
 
-            if (pPlayer != NULL)
+            if (pPlayer != nullptr)
                 pPlayer->AddPet(pUnit, GetMaxActive(), INVALID_INDEX);
 
             if (GetFixedPosition())
                 pUnit->SetLocalFlags(ENT_LOCAL_FIXED_POSITION);
 
-            if (pOffsetSpace != NULL && pOffsetSpace->IsVisual())
+            if (pOffsetSpace != nullptr && pOffsetSpace->IsVisual())
             {
                 CVec2f v2Offset(GetOffset());
                 v2Offset.Rotate(pOffsetSpace->GetAsVisual()->GetAngles()[YAW]);
@@ -2655,8 +2655,8 @@ public:
             pUnit->SetTeam(uiTeam);
             pUnit->SetLevel(GetLevel());
             pUnit->SetOwnerIndex(pSource->GetIndex());
-            pUnit->SetProxyUID(pProxy != NULL ? pProxy->GetUniqueID() : INVALID_INDEX);
-            if (GetInheritModifiers() && m_pEnv->pThis != NULL)
+            pUnit->SetProxyUID(pProxy != nullptr ? pProxy->GetUniqueID() : INVALID_INDEX);
+            if (GetInheritModifiers() && m_pEnv->pThis != nullptr)
                 pUnit->SetPersistentModifierKeys(m_pEnv->pThis->GetPersistentModifierKeys());
             pUnit->UpdateModifiers();
             pUnit->SetCharges(pUnit->GetInitialCharges());
@@ -2667,21 +2667,21 @@ public:
             if (iLifetime > 0)
                 pUnit->SetLifetime(pUnit->GetSpawnTime(), uint(iLifetime));
 
-            if (pUnit->IsGadget() && pMount != NULL)
+            if (pUnit->IsGadget() && pMount != nullptr)
                 pUnit->GetAsGadget()->SetMountIndex(pMount->GetIndex());
 
-            if (pBind != NULL)
+            if (pBind != nullptr)
                 pBind->Bind(pUnit, V_ZERO, 0);
 
             pUnit->ValidatePosition(TRACE_UNIT_SPAWN);
 
-            if (pUnit->GetAsPet() != NULL && pUnit->GetAsPet()->GetIsPersistent() &&
-                m_pEnv->pThis != NULL && m_pEnv->pThis->GetAsTool() != NULL)
+            if (pUnit->GetAsPet() != nullptr && pUnit->GetAsPet()->GetIsPersistent() &&
+                m_pEnv->pThis != nullptr && m_pEnv->pThis->GetAsTool() != nullptr)
                 m_pEnv->pThis->GetAsTool()->AddPersistentPet(pUnit->GetUniqueID());
 
-            if (GetIsChannel() && m_pEnv->pThis != NULL && m_pEnv->pThis->GetAsTool() != NULL)
+            if (GetIsChannel() && m_pEnv->pThis != nullptr && m_pEnv->pThis->GetAsTool() != nullptr)
                 m_pEnv->pThis->GetAsTool()->AddChannelEntity(pUnit->GetUniqueID());
-            else if (GetIsToggle() && m_pEnv->pThis != NULL && m_pEnv->pThis->GetAsTool() != NULL)
+            else if (GetIsToggle() && m_pEnv->pThis != nullptr && m_pEnv->pThis->GetAsTool() != nullptr)
                 m_pEnv->pThis->GetAsTool()->AddToggleEntity(pUnit->GetUniqueID());
 
             if (GetPushEntity())
@@ -2740,7 +2740,7 @@ public:
         IGameEntity *pProxy(GetEntityFromActionTarget(GetProxy()));
         IGameEntity *pIgnore(GetEntityFromActionTarget(GetIgnore()));
 
-        if (m_pEnv->pInitiator == NULL || m_pEnv->pThis == NULL)
+        if (m_pEnv->pInitiator == nullptr || m_pEnv->pThis == nullptr)
             return 0.0f;
 
         CVec3f v3Position(GetTargetPosition());
@@ -2753,27 +2753,27 @@ public:
         for (int i(0); i < iCount; ++i)
         {
             IAffector *pAffector(Game.AllocateDynamicEntity<IAffector>(GetName()));
-            if (pAffector == NULL)
+            if (pAffector == nullptr)
                 return 0.0f;
 
             uint uiAttachUID(INVALID_INDEX);
-            if (GetTargetEntity() != NULL)
+            if (GetTargetEntity() != nullptr)
                 uiAttachUID = GetTargetEntity()->GetUniqueID();
 
             IUnitEntity *pFirstTarget(GetUnitFromActionTarget(GetFirstTarget()));
 
-            if (pOwner != NULL)
+            if (pOwner != nullptr)
                 pAffector->SetOwnerIndex(pOwner->GetIndex());
             pAffector->SetAttachTargetUID(uiAttachUID);
-            pAffector->SetFirstTargetIndex(pFirstTarget != NULL ? pFirstTarget->GetIndex() : INVALID_INDEX);
-            pAffector->SetProxyUID(pProxy != NULL ? pProxy->GetUniqueID() : INVALID_INDEX);
+            pAffector->SetFirstTargetIndex(pFirstTarget != nullptr ? pFirstTarget->GetIndex() : INVALID_INDEX);
+            pAffector->SetProxyUID(pProxy != nullptr ? pProxy->GetUniqueID() : INVALID_INDEX);
             pAffector->SetParam(GetParam());
             pAffector->SetPosition(v3Position);
-            pAffector->SetIgnoreUID(pIgnore != NULL ? pIgnore->GetUniqueID() : INVALID_INDEX);
+            pAffector->SetIgnoreUID(pIgnore != nullptr ? pIgnore->GetUniqueID() : INVALID_INDEX);
 
             float fYaw(GetPositionFromActionTarget(GetDirection()) != v3Position
                     ? M_YawToPosition(v3Position, GetPositionFromActionTarget(GetDirection()))
-                    : (GetTargetEntity() != NULL && GetTargetEntity()->IsVisual()) ? GetTargetEntity()->GetAsVisual()->GetAngles()[YAW] : (m_pEnv->pInitiator->IsUnit() ? m_pEnv->pInitiator->GetAsUnit()->GetAngles()[YAW] : 0.0f));
+                    : (GetTargetEntity() != nullptr && GetTargetEntity()->IsVisual()) ? GetTargetEntity()->GetAsVisual()->GetAngles()[YAW] : (m_pEnv->pInitiator->IsUnit() ? m_pEnv->pInitiator->GetAsUnit()->GetAngles()[YAW] : 0.0f));
 
             if (GetDistribute() == _T("even"))
             {
@@ -2792,9 +2792,9 @@ public:
             pAffector->UpdateModifiers(m_pEnv->pThis->GetModifierKeys());
             pAffector->Spawn();
 
-            if (GetIsChannel() && m_pEnv->pThis->GetAsTool() != NULL)
+            if (GetIsChannel() && m_pEnv->pThis->GetAsTool() != nullptr)
                 m_pEnv->pThis->GetAsTool()->AddChannelEntity(pAffector->GetUniqueID());
-            else if (GetIsToggle() && m_pEnv->pThis->GetAsTool() != NULL)
+            else if (GetIsToggle() && m_pEnv->pThis->GetAsTool() != nullptr)
                 m_pEnv->pThis->GetAsTool()->AddToggleEntity(pAffector->GetUniqueID());
 
             if (GetPushEntity())
@@ -2845,15 +2845,15 @@ public:
 
     float   Execute()
     {
-        if (m_pEnv->pThis == NULL)
+        if (m_pEnv->pThis == nullptr)
             return 0.0f;
 
         CLinearAffector *pAffector(Game.AllocateDynamicEntity<CLinearAffector>(GetName()));
-        if (pAffector == NULL)
+        if (pAffector == nullptr)
             return 0.0f;
 
         uint uiAttachUID(INVALID_INDEX);
-        if (GetTargetEntity() != NULL)
+        if (GetTargetEntity() != nullptr)
             uiAttachUID = GetTargetEntity()->GetUniqueID();
 
         IUnitEntity *pOwner(GetUnitFromActionTarget(GetOwner()));
@@ -2864,18 +2864,18 @@ public:
 
         pAffector->SetOwnerIndex(pOwner ? pOwner->GetIndex() : INVALID_INDEX);
         pAffector->SetAttachTargetUID(uiAttachUID);
-        pAffector->SetFirstTargetIndex(pFirstTarget != NULL ? pFirstTarget->GetIndex() : INVALID_INDEX);
+        pAffector->SetFirstTargetIndex(pFirstTarget != nullptr ? pFirstTarget->GetIndex() : INVALID_INDEX);
         pAffector->SetPosition(v3Pos0);
         pAffector->SetTargetPosition(v3Pos1);
         pAffector->SetAngles(v3Pos1 != v3Pos0
             ? CVec3f(0.0f, 0.0f, M_YawToPosition(v3Pos0, v3Pos1))
-            : (GetTargetEntity() != NULL && GetTargetEntity()->IsVisual()) ? GetTargetEntity()->GetAsVisual()->GetAngles() : (m_pEnv->pInitiator->IsUnit() ? m_pEnv->pInitiator->GetAsUnit()->GetAngles() : V_ZERO));
+            : (GetTargetEntity() != nullptr && GetTargetEntity()->IsVisual()) ? GetTargetEntity()->GetAsVisual()->GetAngles() : (m_pEnv->pInitiator->IsUnit() ? m_pEnv->pInitiator->GetAsUnit()->GetAngles() : V_ZERO));
         pAffector->SetLevel(GetLevelProperty() != 0 ? GetLevelProperty() : GetLevel());
         pAffector->UpdateModifiers(m_pEnv->pThis->GetModifierKeys());
         pAffector->Spawn();
 
         IEntityTool *pTool(m_pEnv->pThis->GetAsTool());
-        if (pTool != NULL)
+        if (pTool != nullptr)
         {
             if (GetIsChannel())
                 pTool->AddChannelEntity(pAffector->GetUniqueID());
@@ -2933,11 +2933,11 @@ public:
 
     float   Execute()
     {
-        if (m_pEnv->pInitiator == NULL || m_pEnv->pThis == NULL)
+        if (m_pEnv->pInitiator == nullptr || m_pEnv->pThis == nullptr)
             return 0.0f;
 
         IProjectile *pProjectile(Game.AllocateDynamicEntity<IProjectile>(GetName()));
-        if (pProjectile == NULL)
+        if (pProjectile == nullptr)
             return 0.0f;
 
         CVec3f v3Start(GetSourcePosition());
@@ -2947,12 +2947,12 @@ public:
         pProjectile->SetOwner(m_pEnv->pInitiator->GetIndex());
 
         IGameEntity *pProxy(GetEntityFromActionTarget(GetProxy()));
-        pProjectile->SetProxyUID(pProxy != NULL ? pProxy->GetUniqueID() : INVALID_INDEX);
+        pProjectile->SetProxyUID(pProxy != nullptr ? pProxy->GetUniqueID() : INVALID_INDEX);
 
         pProjectile->SetPosition(v3Start + GetOffset());
 
         IGameEntity *pOffsetSpace(GetEntityFromActionTarget(GetOffsetSpace()));
-        if (pOffsetSpace != NULL && pOffsetSpace->IsVisual())
+        if (pOffsetSpace != nullptr && pOffsetSpace->IsVisual())
         {
             CVec3f v3Offset(GetOffset());
             v3Offset.xy().Rotate(pOffsetSpace->GetAsVisual()->GetAngles()[YAW]);
@@ -2984,7 +2984,7 @@ public:
         IUnitEntity *pBindTarget(GetUnitFromActionTarget(GetBind()));
 
         IUnitEntity *pTarget(GetTargetUnit());
-        if (pTarget != NULL && pTarget != pBindTarget)
+        if (pTarget != nullptr && pTarget != pBindTarget)
         {
             pProjectile->SetTargetEntityUID(pTarget->GetUniqueID());
             pProjectile->SetTargetDisjointSequence(pTarget->GetDisjointSequence());
@@ -2999,7 +2999,7 @@ public:
 
         pProjectile->Spawn();
         
-        if (pBindTarget != NULL)
+        if (pBindTarget != nullptr)
         {
             uint uiFlags(0);
 
@@ -3017,14 +3017,14 @@ public:
             {
                 uint uiDuration(-1);
                 IEntityState *pState(pBindTarget->ApplyState(unStateID, GetLevel(), Game.GetGameTime(), uiDuration, m_pEnv->pInitiator ? m_pEnv->pInitiator->GetIndex() : INVALID_INDEX));
-                if (pState != NULL)
+                if (pState != nullptr)
                     pProjectile->AddBindState(pState->GetUniqueID());
             }
         }
 
-        if (GetIsChannel() && m_pEnv->pThis != NULL && m_pEnv->pThis->GetAsTool() != NULL)
+        if (GetIsChannel() && m_pEnv->pThis != nullptr && m_pEnv->pThis->GetAsTool() != nullptr)
             m_pEnv->pThis->GetAsTool()->AddChannelEntity(pProjectile->GetUniqueID());
-        else if (GetIsToggle() && m_pEnv->pThis != NULL && m_pEnv->pThis->GetAsTool() != NULL)
+        else if (GetIsToggle() && m_pEnv->pThis != nullptr && m_pEnv->pThis->GetAsTool() != nullptr)
             m_pEnv->pThis->GetAsTool()->AddToggleEntity(pProjectile->GetUniqueID());
 
         if (GetPushEntity())
@@ -3065,7 +3065,7 @@ public:
     {
         IUnitEntity *pAttacker(GetSourceUnit());
         IUnitEntity *pTarget(GetTargetUnit());
-        if (pAttacker == NULL || pTarget == NULL)
+        if (pAttacker == nullptr || pTarget == nullptr)
             return 0.0f;
         if (!Game.IsValidTarget(GetTargetScheme(), GetEffectType(), pAttacker, pTarget))
             return 0.0f;
@@ -3107,7 +3107,7 @@ public:
     {
         IUnitEntity *pAttacker(GetSourceUnit());
         IUnitEntity *pTarget(GetTargetUnit());
-        if (pAttacker == NULL || pTarget == NULL)
+        if (pAttacker == nullptr || pTarget == nullptr)
             return 0.0f;
         if (!Game.IsValidTarget(GetTargetScheme(), GetEffectType(), pAttacker, pTarget))
             return 0.0f;
@@ -3144,7 +3144,7 @@ public:
     {
         IUnitEntity *pAttacker(GetSourceUnit());
         IUnitEntity *pTarget(GetTargetUnit());
-        if (pAttacker == NULL || pTarget == NULL)
+        if (pAttacker == nullptr || pTarget == nullptr)
             return 0.0f;
         if (!Game.IsValidTarget(GetTargetScheme(), GetEffectType(), pAttacker, pTarget))
             return 0.0f;
@@ -3174,13 +3174,13 @@ public:
     float   Execute()
     {
         IUnitEntity *pTarget(GetTargetUnit());
-        if (pTarget != NULL)
+        if (pTarget != nullptr)
         {
             float fValue(Evaluate(GetValueA(), GetValueB(), GetOperator()));
             pTarget->AddBonusDamage(fValue);
             return fValue;
         }
-        else if (m_pEnv->pCombatEvent != NULL)
+        else if (m_pEnv->pCombatEvent != nullptr)
         {
             float fValue(Evaluate(GetValueA(), GetValueB(), GetOperator()));
             m_pEnv->pCombatEvent->AddBonusDamage(fValue);
@@ -3209,13 +3209,13 @@ public:
     float   Execute()
     {
         IUnitEntity *pTarget(GetTargetUnit());
-        if (pTarget != NULL)
+        if (pTarget != nullptr)
         {
             float fValue(Evaluate(GetValueA(), GetValueB(), GetOperator()));
             pTarget->AddBonusDamageMultiplier(fValue);
             return fValue;
         }
-        else if (m_pEnv->pCombatEvent != NULL)
+        else if (m_pEnv->pCombatEvent != nullptr)
         {
             float fValue(Evaluate(GetValueA(), GetValueB(), GetOperator()));
             m_pEnv->pCombatEvent->AddBonusDamageMultiplier(fValue);
@@ -3240,7 +3240,7 @@ public:
 
     float   Execute()
     {
-        if (GetSourceUnit() == NULL)
+        if (GetSourceUnit() == nullptr)
             return 0.0f;
 
         GetSourceUnit()->SetAttackCooldownTime(INVALID_TIME);
@@ -3263,7 +3263,7 @@ public:
 
     float   Execute()
     {
-        if (GetSourceUnit() == NULL)
+        if (GetSourceUnit() == nullptr)
             return 0.0f;
 
         if (GetValue())
@@ -3300,7 +3300,7 @@ public:
     float   Execute()
     {
         IUnitEntity *pSource(GetSourceUnit());
-        if (pSource == NULL)
+        if (pSource == nullptr)
             return 0.0f;
 
         if (GetBlock() && m_pEnv->uiRepeated > 0)
@@ -3321,7 +3321,7 @@ public:
             yQueue = QUEUE_BACK;
 
         uint uiTargetIndex(INVALID_INDEX);
-        if (GetTargetEntity() != NULL)
+        if (GetTargetEntity() != nullptr)
             uiTargetIndex = GetTargetEntity()->GetIndex();
 
         ushort unOrderName(EntityRegistry.LookupID(GetOrderName()));
@@ -3387,7 +3387,7 @@ public:
         uint uiSlot(0);
         IUnitEntity *pSource(GetSourceUnit());
 
-        if (pSource == NULL)
+        if (pSource == nullptr)
             return 0.0f;
 
         if (GetBlock() && m_pEnv->uiRepeated > 0)
@@ -3418,17 +3418,17 @@ public:
             yQueue = QUEUE_BACK;
 
         uint uiTargetIndex(INVALID_INDEX);
-        IUnitEntity *pTarget(NULL);
+        IUnitEntity *pTarget(nullptr);
 
         IEntityAbility *pAbility(pSource->GetAbility(uiSlot));
 
-        if (pAbility == NULL)
+        if (pAbility == nullptr)
             return 0.0f;
         
-        if (GetTargetUnit() != NULL)
+        if (GetTargetUnit() != nullptr)
             pTarget = GetTargetUnit();
 
-        if (pTarget != NULL && pAbility->IsValidTarget(pTarget))
+        if (pTarget != nullptr && pAbility->IsValidTarget(pTarget))
             uiTargetIndex = pTarget->GetIndex();
 
         ushort unOrderName(EntityRegistry.LookupID(GetOrderName()));
@@ -3478,17 +3478,17 @@ public:
     {
         IGameEntity *pSource(GetSourceEntity());
 
-        if (pSource == NULL)
+        if (pSource == nullptr)
             return 0.0f;
 
         IEntityItem* pItem(pSource->GetAsItem());
-        if (pItem == NULL)
+        if (pItem == nullptr)
             return 0.0f;
         
         uint uiSlot(pItem->GetSlot());
 
         IUnitEntity* pOwner(pItem->GetOwner());
-        if (pOwner == NULL)
+        if (pOwner == nullptr)
             return 0.0f;
 
         if (GetBlock() && m_pEnv->uiRepeated > 0)
@@ -3506,12 +3506,12 @@ public:
             yQueue = QUEUE_BACK;
 
         uint uiTargetIndex(INVALID_INDEX);
-        IUnitEntity *pTarget(NULL);
+        IUnitEntity *pTarget(nullptr);
 
-        if (GetTargetUnit() != NULL)
+        if (GetTargetUnit() != nullptr)
             pTarget = GetTargetUnit();
 
-        if (pTarget != NULL && pItem->IsValidTarget(pTarget))
+        if (pTarget != nullptr && pItem->IsValidTarget(pTarget))
             uiTargetIndex = pTarget->GetIndex();
 
         ushort unOrderName(EntityRegistry.LookupID(GetOrderName()));
@@ -3553,7 +3553,7 @@ public:
     float   Execute()
     {
         IUnitEntity *pTarget(GetTargetUnit());
-        if (pTarget == NULL)
+        if (pTarget == nullptr)
             return 0.0f;
 
         if (!pTarget->IsIllusion())
@@ -3584,7 +3584,7 @@ public:
         if (GetRadius() == 0.0f)
         {
             IUnitEntity *pTarget(GetTargetUnit());
-            if (pTarget == NULL || !pTarget->IsBit() || pTarget->GetType() != Prop_Tree)
+            if (pTarget == nullptr || !pTarget->IsBit() || pTarget->GetType() != Prop_Tree)
                 return 0.0f;
 
             if (GetUseAltDeathAnims())
@@ -3607,7 +3607,7 @@ public:
                 continue;
 
             IBitEntity *pTarget(Game.GetBitEntity(uiTargetIndex));
-            if (pTarget == NULL)
+            if (pTarget == nullptr)
                 continue;
 
             if (pTarget->GetType() != Prop_Tree)
@@ -3639,11 +3639,11 @@ public:
     float   Execute()
     {
         IUnitEntity *pSource(GetSourceUnit());
-        if (pSource == NULL)
+        if (pSource == nullptr)
             return 0.0f;
 
         IUnitEntity *pTarget(GetTargetUnit());
-        if (pTarget == NULL)
+        if (pTarget == nullptr)
             return 0.0f;
 
         if (pSource == pTarget)
@@ -3671,11 +3671,11 @@ public:
     float   Execute()
     {
         IUnitEntity *pSource(GetSourceUnit());
-        if (pSource == NULL)
+        if (pSource == nullptr)
             return 0.0f;
 
         IUnitEntity *pTarget(GetTargetUnit());
-        if (pTarget == NULL)
+        if (pTarget == nullptr)
             return 0.0f;
 
         pSource->RemoveSoulLink(pTarget->GetUniqueID());
@@ -3700,7 +3700,7 @@ public:
     float   Execute()
     {
         IUnitEntity *pTarget(GetTargetUnit());
-        if (pTarget == NULL)
+        if (pTarget == nullptr)
             return 0.0f;
 
         uint uiDispelType(GetType());
@@ -3709,7 +3709,7 @@ public:
         for (int i(INVENTORY_START_STATES); i <= INVENTORY_END_STATES; ++i)
         {
             IEntityState *pState(pTarget->GetState(i));
-            if (pState == NULL)
+            if (pState == nullptr)
                 continue;
             if (pState->GetEffectType() != uiDispelType)
                 continue;
@@ -3738,11 +3738,11 @@ public:
     float   Execute()
     {
         IUnitEntity *pSource(GetSourceUnit());
-        if (pSource == NULL)
+        if (pSource == nullptr)
             return 0.0f;
 
         IUnitEntity *pTarget(GetTargetUnit());
-        if (pTarget == NULL)
+        if (pTarget == nullptr)
             return 0.0f;
 
         CPlayer *pPlayer(Game.GetPlayerFromClientNumber(pSource->GetOwnerClientNumber()));
@@ -3751,7 +3751,7 @@ public:
         pTarget->SetOwnerClientNumber(pSource->GetOwnerClientNumber());
         pTarget->SetOwnerIndex(pSource->GetIndex());
 
-        if (pPlayer != NULL)
+        if (pPlayer != nullptr)
             pPlayer->AddPet(pTarget, GetMaxActive(), m_pEnv->pThis ? m_pEnv->pThis->GetUniqueID() : INVALID_INDEX);
 
         pTarget->OnTakeControl(pSource);
@@ -3777,7 +3777,7 @@ public:
     float   Execute()
     {
         IGameEntity *pEntity(GetEntityFromActionTarget(GetEntity()));
-        if (pEntity == NULL)
+        if (pEntity == nullptr)
             return 0.0f;
 
         pEntity->SetActiveModifierKey(EntityRegistry.RegisterModifier(GetName()));
@@ -3800,7 +3800,7 @@ public:
     float   Execute()
     {
         IGameEntity *pTarget(GetTargetEntity());
-        if (pTarget == NULL)
+        if (pTarget == nullptr)
             return 0.0f;
 
         if (pTarget->IsItem())
@@ -3835,7 +3835,7 @@ public:
     float   Execute()
     {
         IGameEntity *pTarget(GetTargetEntity());
-        if (pTarget == NULL)
+        if (pTarget == nullptr)
         {
             return 0.0f;
         }
@@ -3892,11 +3892,11 @@ public:
     float   Execute()
     {
         IUnitEntity *pSource(GetSourceUnit());
-        if (pSource == NULL)
+        if (pSource == nullptr)
             return 0.0f;
 
         IUnitEntity *pTarget(GetTargetUnit());
-        if (pTarget == NULL)
+        if (pTarget == nullptr)
             return 0.0f;
 
         IUnitEntity *pOwner(GetUnitFromActionTarget(GetOwner()));
@@ -3909,11 +3909,11 @@ public:
         for (uint ui(0); ui < uiCount; ++ui)
         {
             IUnitEntity *pIllusion(pSource->SpawnIllusion(GetTargetPosition(), pSource->GetAngles(), GetLifetime(), GetReceiveDamageMultiplier(), GetInflictDamageMultiplier(), GetSpawnEffect(), GetDeathEffect(), GetPlayDeathAnim(), GetInheritActions()));
-            if (pIllusion == NULL)
+            if (pIllusion == nullptr)
                 continue;
             vArrangeUnits.push_back(pIllusion);
 
-            if (pOwner != NULL)
+            if (pOwner != nullptr)
             {
                 pIllusion->SetOwnerIndex(pOwner->GetIndex());
                 pIllusion->SetOwnerClientNumber(pOwner->GetOwnerClientNumber());
@@ -3971,7 +3971,7 @@ public:
     float   Execute()
     {
         IUnitEntity *pTarget(GetTargetUnit());
-        if (pTarget == NULL)
+        if (pTarget == nullptr)
             return 0.0f;
         
         map<uint, CTeamInfo*> vTeams(Game.GetTeams());
@@ -4005,14 +4005,14 @@ public:
     {
         IUnitEntity *pTarget(GetTargetUnit());
         
-        if (pTarget == NULL)
+        if (pTarget == nullptr)
             return 0.0f;
 
         bool bReset(false);
         for (int i(INVENTORY_START_ABILITIES); i <= INVENTORY_END_ABILITIES; ++i)
         {
             IEntityTool *pAbility(pTarget->GetTool(i));
-            if (pAbility == NULL)
+            if (pAbility == nullptr)
                 continue;
 
             if (pAbility->GetCooldownEndTime() != INVALID_TIME && pAbility->GetCooldownEndTime() > Game.GetGameTime())
@@ -4057,7 +4057,7 @@ public:
         for (int i(INVENTORY_START_BACKPACK); i <= INVENTORY_END_BACKPACK; ++i)
         {
             IEntityTool *pItem(pSource->GetTool(i));
-            if (pItem == NULL)
+            if (pItem == nullptr)
                 continue;
                             
             // do not refresh items specified in the excluded property
@@ -4110,14 +4110,14 @@ public:
     {
         IUnitEntity *pTarget(GetTargetUnit());
 
-        if (pTarget == NULL)
+        if (pTarget == nullptr)
             return 0.0f;
 
         uint uiImmunity(GetImmunityType());
 
         bool bNegated(false);
 
-        if (m_pEnv->pCombatEvent != NULL)
+        if (m_pEnv->pCombatEvent != nullptr)
         {
             if (uiImmunity == 0 || Game.IsImmune(m_pEnv->pCombatEvent->GetEffectType(), uiImmunity))
             {
@@ -4157,7 +4157,7 @@ public:
         {
             IGameEntity *pEntity(GetEntityFromActionTarget(GetEntity()));
 
-            if (pEntity == NULL || !pEntity->IsTool())
+            if (pEntity == nullptr || !pEntity->IsTool())
                 return 0.0f;
 
             IEntityTool *pTool(pEntity->GetAsTool());
@@ -4172,7 +4172,7 @@ public:
         {
             IUnitEntity *pTarget(GetTargetUnit());
 
-            if (pTarget == NULL)
+            if (pTarget == nullptr)
                 return 0.0f;
 
             ushort uID(EntityRegistry.LookupID(GetToolName()));
@@ -4186,7 +4186,7 @@ public:
             {
                 IEntityTool *pTool(pTarget->GetTool(i));
 
-                if (pTool == NULL)
+                if (pTool == nullptr)
                     continue;
 
                 if (pTool->GetType() != uID)
@@ -4220,7 +4220,7 @@ public:
     {
         IGameEntity *pEntity(GetEntityFromActionTarget(GetEntity()));
 
-        if (pEntity == NULL || !pEntity->IsTool())
+        if (pEntity == nullptr || !pEntity->IsTool())
             return 0.0f;
 
         IEntityTool *pTool(pEntity->GetAsTool());
@@ -4247,7 +4247,7 @@ public:
     float   Execute()
     {
         IUnitEntity *pTarget(GetTargetUnit());
-        if (pTarget == NULL)
+        if (pTarget == nullptr)
             return 0.0f;
 
         ushort unMorphID(EntityRegistry.LookupID(GetName()));
@@ -4287,7 +4287,7 @@ public:
     float   Execute()
     {
         IUnitEntity *pTarget(GetTargetUnit());
-        if (pTarget == NULL)
+        if (pTarget == nullptr)
             return 0.0f;
 
         pTarget->IncDisjointSequence();
@@ -4310,7 +4310,7 @@ public:
     float   Execute()
     {
         IUnitEntity *pTarget(GetTargetUnit());
-        if (pTarget == NULL)
+        if (pTarget == nullptr)
             return 0.0f;
 
         pTarget->IncOrderDisjointSequence();
@@ -4333,7 +4333,7 @@ public:
     float   Execute()
     {
         IUnitEntity *pTarget(GetTargetUnit());
-        if (pTarget == NULL)
+        if (pTarget == nullptr)
             return 0.0f;
 
         pTarget->IncArmingSequence();
@@ -4356,7 +4356,7 @@ public:
     float   Execute()
     {
         IUnitEntity *pTarget(GetTargetUnit());
-        if (pTarget == NULL)
+        if (pTarget == nullptr)
             return 0.0f;
 
         pTarget->SetProtectedDeath(true);
@@ -4380,7 +4380,7 @@ public:
     float   Execute()
     {
         IUnitEntity *pTarget(GetTargetUnit());
-        if (pTarget == NULL || !pTarget->IsHero())
+        if (pTarget == nullptr || !pTarget->IsHero())
             return 0.0f;
 
         pTarget->GetAsHero()->SetRespawnTimeMultiplier(GetValue());
@@ -4404,7 +4404,7 @@ public:
     float   Execute()
     {
         IUnitEntity *pTarget(GetTargetUnit());
-        if (pTarget == NULL || !pTarget->IsHero())
+        if (pTarget == nullptr || !pTarget->IsHero())
             return 0.0f;
 
         pTarget->GetAsHero()->SetRespawnTimeBonus(INT_ROUND(GetValue()));
@@ -4430,7 +4430,7 @@ public:
     float   Execute()
     {
         IUnitEntity *pTarget(GetTargetUnit());
-        if (pTarget == NULL || !pTarget->IsHero())
+        if (pTarget == nullptr || !pTarget->IsHero())
             return 0.0f;
 
         uint uiTime(Game.GetGameTime() + Evaluate(GetValueA(), GetValueB(), GetOperator()));
@@ -4456,7 +4456,7 @@ public:
     float   Execute()
     {
         IUnitEntity *pTarget(GetTargetUnit());
-        if (pTarget == NULL || !pTarget->IsHero())
+        if (pTarget == nullptr || !pTarget->IsHero())
             return 0.0f;
 
         pTarget->GetAsHero()->SetRespawnHealthMultiplier(GetValue());
@@ -4480,7 +4480,7 @@ public:
     float   Execute()
     {
         IUnitEntity *pTarget(GetTargetUnit());
-        if (pTarget == NULL || !pTarget->IsHero())
+        if (pTarget == nullptr || !pTarget->IsHero())
             return 0.0f;
 
         pTarget->GetAsHero()->SetRespawnManaMultiplier(GetValue());
@@ -4506,7 +4506,7 @@ public:
         CVec3f v3Pos(GetPositionFromActionTarget(GetPosition()));
         IUnitEntity *pTarget(GetTargetUnit());
 
-        if (pTarget == NULL || !pTarget->IsHero())
+        if (pTarget == nullptr || !pTarget->IsHero())
             return 0.0f;
 
         pTarget->GetAsHero()->SetRespawnPosition(v3Pos);
@@ -4530,7 +4530,7 @@ public:
     float   Execute()
     {
         IUnitEntity *pTarget(GetTargetUnit());
-        if (pTarget == NULL || !pTarget->IsHero())
+        if (pTarget == nullptr || !pTarget->IsHero())
             return 0.0f;
 
         pTarget->GetAsHero()->SetGoldLossMultiplier(GetValue());
@@ -4554,7 +4554,7 @@ public:
     float   Execute()
     {
         IUnitEntity *pTarget(GetTargetUnit());
-        if (pTarget == NULL || !pTarget->IsHero())
+        if (pTarget == nullptr || !pTarget->IsHero())
             return 0.0f;
 
         pTarget->GetAsHero()->SetGoldLossBonus(INT_ROUND(GetValue()));
@@ -4582,7 +4582,7 @@ public:
     {
         IGameEntity *pEntity(GetEntityFromActionTarget(GetEntity()));
 
-        if (pEntity == NULL)
+        if (pEntity == nullptr)
             return 0.0f;
         
         if (pEntity->IsSlave())
@@ -4631,7 +4631,7 @@ public:
     {
         IGameEntity *pEntity(GetEntityFromActionTarget(GetEntity()));
 
-        if (pEntity == NULL)
+        if (pEntity == nullptr)
             return 0.0f;
 
         if (pEntity->IsSlave())
@@ -4672,7 +4672,7 @@ public:
     {
         IGameEntity *pEntity(GetEntityFromActionTarget(GetEntity()));
 
-        if (pEntity == NULL)
+        if (pEntity == nullptr)
             return 0.0f;
         
         if (pEntity->IsSlave())
@@ -4715,7 +4715,7 @@ public:
     {
         IGameEntity *pEntity(GetEntityFromActionTarget(GetEntity()));
 
-        if (pEntity == NULL)
+        if (pEntity == nullptr)
             return 0.0f;
         
         uint uiCharges(Evaluate(GetValueA(), GetValueB(), GetOperator()));
@@ -4772,7 +4772,7 @@ public:
 
         // determine where to drop the item.
         CVec3f v3Pos(V_ZERO);
-        if (pOffsetSpace != NULL && pOffsetSpace->IsVisual())
+        if (pOffsetSpace != nullptr && pOffsetSpace->IsVisual())
         {
             CVec2f v2Offset(GetOffset());
             v2Offset.Rotate(pOffsetSpace->GetAsVisual()->GetAngles()[YAW]);
@@ -4816,16 +4816,16 @@ public:
 
     float   Execute()
     {
-        if (m_pEnv->pThis == NULL)
+        if (m_pEnv->pThis == nullptr)
             return 0.0f;
 
-        IUnitEntity *pUnit(NULL);
+        IUnitEntity *pUnit(nullptr);
         if (m_pEnv->pThis->IsSlave())
             pUnit = m_pEnv->pThis->GetAsSlave()->GetOwner();
         else if (m_pEnv->pThis->IsUnit())
             pUnit = m_pEnv->pThis->GetAsUnit();
         
-        if (pUnit == NULL)
+        if (pUnit == nullptr)
             return 0.0f;
 
         pUnit->ScaleCurrentDamage(GetScale());
@@ -4849,16 +4849,16 @@ public:
 
     float   Execute()
     {
-        if (m_pEnv->pThis == NULL)
+        if (m_pEnv->pThis == nullptr)
             return 0.0f;
 
-        IUnitEntity *pUnit(NULL);
+        IUnitEntity *pUnit(nullptr);
         if (m_pEnv->pThis->IsSlave())
             pUnit = m_pEnv->pThis->GetAsSlave()->GetOwner();
         else if (m_pEnv->pThis->IsUnit())
             pUnit = m_pEnv->pThis->GetAsUnit();
         
-        if (pUnit == NULL)
+        if (pUnit == nullptr)
             return 0.0f;
 
         float fDamage(Evaluate(pUnit->GetCurrentDamage(), GetValueB(), GetOperator()));
@@ -4885,16 +4885,16 @@ public:
 
     float   Execute()
     {
-        if (m_pEnv->pThis == NULL)
+        if (m_pEnv->pThis == nullptr)
             return 0.0f;
 
-        IUnitEntity *pUnit(NULL);
+        IUnitEntity *pUnit(nullptr);
         if (m_pEnv->pThis->IsSlave())
             pUnit = m_pEnv->pThis->GetAsSlave()->GetOwner();
         else if (m_pEnv->pThis->IsUnit())
             pUnit = m_pEnv->pThis->GetAsUnit();
         
-        if (pUnit == NULL)
+        if (pUnit == nullptr)
             return 0.0f;
 
         float fDamage(Evaluate(GetValueA(), GetValueB(), GetOperator()));
@@ -4920,7 +4920,7 @@ public:
 
     float   Execute()
     {
-        if (m_pEnv->pCombatEvent == NULL)
+        if (m_pEnv->pCombatEvent == nullptr)
             return 0.0f;
 
         float fDamage(Evaluate(m_pEnv->pCombatEvent->GetTotalAdjustedDamage(), GetValueB(), GetOperator()));
@@ -4948,7 +4948,7 @@ public:
     {
         IGameEntity *pEntity(GetEntityFromActionTarget(GetEntity()));
 
-        if (pEntity == NULL)
+        if (pEntity == nullptr)
             return 0.0f;
 
         if (pEntity->IsSlave())
@@ -4956,7 +4956,7 @@ public:
             ISlaveEntity *pSlave(pEntity->GetAsSlave());
             IUnitEntity *pUnit(pSlave->GetOwner());
 
-            if (pUnit == NULL)
+            if (pUnit == nullptr)
                 return 0.0f;
 
             pSlave->AdjustAccumulator(pUnit->GetCurrentDamage() * GetScale());
@@ -4966,7 +4966,7 @@ public:
         {
             IUnitEntity *pUnit(pEntity->GetAsUnit());
 
-            if (pUnit == NULL)
+            if (pUnit == nullptr)
                 return 0.0f;
 
             pUnit->AdjustAccumulator(pUnit->GetCurrentDamage() * GetScale());
@@ -4997,7 +4997,7 @@ public:
     {
         IGameEntity *pEntity(GetEntityFromActionTarget(GetEntity()));
 
-        if (pEntity == NULL)
+        if (pEntity == nullptr)
             return 0.0f;
 
         float fValue(Evaluate(GetValueA(), GetValueB(), GetValueOp()));
@@ -5007,7 +5007,7 @@ public:
             ISlaveEntity *pSlave(pEntity->GetAsSlave());
             IUnitEntity *pUnit(pSlave->GetOwner());
 
-            if (pUnit == NULL)
+            if (pUnit == nullptr)
                 return 0.0f;
 
             pSlave->SetAccumulator(fValue);
@@ -5017,7 +5017,7 @@ public:
         {
             IUnitEntity *pUnit(pEntity->GetAsUnit());
 
-            if (pUnit == NULL)
+            if (pUnit == nullptr)
                 return 0.0f;
 
             pUnit->SetAccumulator(fValue);
@@ -5047,7 +5047,7 @@ public:
     {
         IGameEntity *pEntity(GetEntityFromActionTarget(GetEntity()));
 
-        if (pEntity == NULL)
+        if (pEntity == nullptr)
             return 0.0f;
 
         if (pEntity->IsSlave())
@@ -5055,7 +5055,7 @@ public:
             ISlaveEntity *pSlave(pEntity->GetAsSlave());
             IUnitEntity *pUnit(pSlave->GetOwner());
 
-            if (pUnit == NULL)
+            if (pUnit == nullptr)
                 return 0.0f;
 
             float fValue(Evaluate(pSlave->GetAccumulator(), GetValueB(), GetValueOp()));
@@ -5067,7 +5067,7 @@ public:
         {
             IUnitEntity *pUnit(pEntity->GetAsUnit());
 
-            if (pUnit == NULL)
+            if (pUnit == nullptr)
                 return 0.0f;
 
             float fValue(Evaluate(pUnit->GetAccumulator(), GetValueB(), GetValueOp()));
@@ -5097,13 +5097,13 @@ public:
     {
         IGameEntity *pEntity(GetEntityFromActionTarget(GetEntity()));
 
-        if (pEntity == NULL || !pEntity->IsSlave())
+        if (pEntity == nullptr || !pEntity->IsSlave())
             return 0.0f;
 
         ISlaveEntity *pSlave(pEntity->GetAsSlave());
         IUnitEntity *pUnit(pSlave->GetOwner());
 
-        if (pUnit == NULL)
+        if (pUnit == nullptr)
             return 0.0f;
 
         pSlave->SetAccumulator(pUnit->GetHealth());
@@ -5128,7 +5128,7 @@ public:
     {
         IGameEntity *pEntity(GetEntityFromActionTarget(GetEntity()));
 
-        if (pEntity == NULL)
+        if (pEntity == nullptr)
             return 0.0f;
             
         if (pEntity->IsState())
@@ -5160,13 +5160,13 @@ public:
 
     float   Execute()
     {
-        if (m_pEnv->pThis == NULL || !m_pEnv->pThis->IsSlave())
+        if (m_pEnv->pThis == nullptr || !m_pEnv->pThis->IsSlave())
             return 0.0f;
 
         ISlaveEntity *pSlave(m_pEnv->pThis->GetAsSlave());
         IUnitEntity *pUnit(pSlave->GetOwner());
 
-        if (pUnit == NULL)
+        if (pUnit == nullptr)
             return 0.0f;
 
         float fDamage(pUnit->GetCurrentDamage());
@@ -5216,7 +5216,7 @@ public:
     {
         IGameEntity *pEntity(GetEntityFromActionTarget(GetEntity()));
 
-        if (pEntity == NULL || !pEntity->IsAbilityAttribute())
+        if (pEntity == nullptr || !pEntity->IsAbilityAttribute())
             return 0.0f;
 
         pEntity->GetAsAbilityAttribute()->AdjustStrength(GetValue());
@@ -5242,7 +5242,7 @@ public:
     {
         IGameEntity *pEntity(GetEntityFromActionTarget(GetEntity()));
 
-        if (pEntity == NULL || !pEntity->IsAbilityAttribute())
+        if (pEntity == nullptr || !pEntity->IsAbilityAttribute())
             return 0.0f;
 
         pEntity->GetAsAbilityAttribute()->AdjustAgility(GetValue());
@@ -5268,7 +5268,7 @@ public:
     {
         IGameEntity *pEntity(GetEntityFromActionTarget(GetEntity()));
 
-        if (pEntity == NULL || !pEntity->IsAbilityAttribute())
+        if (pEntity == nullptr || !pEntity->IsAbilityAttribute())
             return 0.0f;
 
         pEntity->GetAsAbilityAttribute()->AdjustIntelligence(GetValue());
@@ -5290,20 +5290,20 @@ public:
 
     float   Execute()
     {
-        if (GetThis() == NULL)
+        if (GetThis() == nullptr)
             return 0.0f;
 
-        IProjectile *pProjectile(m_pEnv->pThis != NULL ? m_pEnv->pThis->GetAsProjectile() : NULL);
-        if (pProjectile == NULL)
-            pProjectile = m_pEnv->pInflictor != NULL ? m_pEnv->pInflictor->GetAsProjectile() : NULL;
-        if (pProjectile == NULL)
+        IProjectile *pProjectile(m_pEnv->pThis != nullptr ? m_pEnv->pThis->GetAsProjectile() : nullptr);
+        if (pProjectile == nullptr)
+            pProjectile = m_pEnv->pInflictor != nullptr ? m_pEnv->pInflictor->GetAsProjectile() : nullptr;
+        if (pProjectile == nullptr)
             return 0.0f;
 
         IUnitEntity *pOwner(GetThis()->GetMasterOwner());
-        if (pOwner == NULL)
+        if (pOwner == nullptr)
             return 0.0f;
 
-        if (GetTargetEntity() == NULL)
+        if (GetTargetEntity() == nullptr)
             pProjectile->Redirect(pOwner, GetThis(), GetTargetPosition());
         else
             pProjectile->Redirect(pOwner, GetThis(), GetTargetEntity()->GetAsUnit());
@@ -5329,11 +5329,11 @@ public:
     {
         IGameEntity *pEntity(GetEntityFromActionTarget(GetEntity()));
 
-        if (pEntity == NULL || !pEntity->IsState())
+        if (pEntity == nullptr || !pEntity->IsState())
             return 0.0f;
 
         IUnitEntity *pTargetUnit(GetTargetUnit());
-        if (pTargetUnit == NULL)
+        if (pTargetUnit == nullptr)
             return 0.0f;
 
         pTargetUnit->TransferState(pEntity->GetAsState());
@@ -5358,11 +5358,11 @@ public:
     float   Execute()
     {
         IUnitEntity *pSource(GetSourceUnit());
-        if (pSource == NULL)
+        if (pSource == nullptr)
             return 0.0f;
 
         CPlayer *pOwner(pSource->GetOwnerPlayer());
-        if (pOwner == NULL)
+        if (pOwner == nullptr)
             return 0.0f;
 
         pOwner->RecallPets(pSource, EntityRegistry.LookupID(GetName()));
@@ -5387,11 +5387,11 @@ public:
     float   Execute()
     {
         IUnitEntity *pSource(GetSourceUnit());
-        if (pSource == NULL)
+        if (pSource == nullptr)
             return 0.0f;
 
         CPlayer *pOwner(pSource->GetOwnerPlayer());
-        if (pOwner == NULL)
+        if (pOwner == nullptr)
             return 0.0f;
 
         pOwner->LevelPets(pSource, EntityRegistry.LookupID(GetName()), INT_FLOOR(GetValue()));
@@ -5421,14 +5421,14 @@ public:
     {
         IUnitEntity *pSource(GetSourceUnit());
         IUnitEntity *pTarget(GetTargetUnit());
-        if (pTarget == NULL)
+        if (pTarget == nullptr)
             return 0.0f;
 
         CVec2f v2Dir;
 
         if (GetPerpendicular())
         {
-            if (pSource == NULL)
+            if (pSource == nullptr)
                 return 0.0f;
 
             v2Dir = pTarget->GetPosition().xy() - GetSourcePosition().xy();
@@ -5468,10 +5468,10 @@ public:
     float   Execute()
     {
         IGameEntity *pTarget(GetTargetEntity());
-        if (pTarget == NULL)
+        if (pTarget == nullptr)
             return 0.0f;
         IEntityState *pState(pTarget->GetAsState());
-        if (pState == NULL)
+        if (pState == nullptr)
             return 0.0f;
 
         uint uiDuration(INT_ROUND(GetTime() * GetDynamicValue(GetMultiplier())));
@@ -5574,13 +5574,13 @@ public:
 
     float   Execute()
     {
-        IGameEntity *pEntity(NULL);
+        IGameEntity *pEntity(nullptr);
 
         if (GetSearchForTarget())
         {
             IUnitEntity *pSource(GetSourceUnit());
 
-            if (pSource == NULL)
+            if (pSource == nullptr)
                 return 0.0f;
 
             CVec3f v3Pos(GetPositionFromActionTarget(GetSearchOrigin()));
@@ -5612,11 +5612,11 @@ public:
                 for (uivector_it it(vEntities.begin()), itEnd(vEntities.end()); it != itEnd; ++it)
                 {
                     IVisualEntity *pSearchEntity(Game.GetEntityFromWorldIndex(*it));
-                    if (pSearchEntity == NULL)
+                    if (pSearchEntity == nullptr)
                         continue;
 
                     IUnitEntity *pSearchUnit(pSearchEntity->GetAsUnit());
-                    if (pSearchUnit == NULL || !Game.IsValidTarget(GetSearchTargetScheme(), 0, pSource, pSearchUnit, GetSearchIgnoreInvulnerable()))
+                    if (pSearchUnit == nullptr || !Game.IsValidTarget(GetSearchTargetScheme(), 0, pSource, pSearchUnit, GetSearchIgnoreInvulnerable()))
                         continue;
 
                     float fDistanceSq(DistanceSq(pSearchUnit->GetPosition().xy(), v3Pos.xy()));
@@ -5636,7 +5636,7 @@ public:
             pEntity = GetEntityFromActionTarget(GetEntity());
         }
 
-        if (pEntity == NULL)
+        if (pEntity == nullptr)
             return 0.0f;
 
         PushEntity(pEntity->GetUniqueID());
@@ -5673,11 +5673,11 @@ public:
 
     float   Execute()
     {
-        if (m_pEnv->pCombatEvent == NULL)
+        if (m_pEnv->pCombatEvent == nullptr)
             return 0.0f;
 
         CCombatActionScript *pScript(GetActionScript());
-        if (pScript == NULL)
+        if (pScript == nullptr)
             return 0.0f;
 
         CCombatActionScript &cScript(m_pEnv->pCombatEvent->AddActionScript(ACTION_SCRIPT_IMPACT, *pScript));
@@ -5700,11 +5700,11 @@ public:
 
     float   Execute()
     {
-        if (m_pEnv->pCombatEvent == NULL)
+        if (m_pEnv->pCombatEvent == nullptr)
             return 0.0f;
 
         CCombatActionScript *pScript(GetActionScript());
-        if (pScript == NULL)
+        if (pScript == nullptr)
             return 0.0f;
 
         CCombatActionScript &cScript(m_pEnv->pCombatEvent->AddActionScript(ACTION_SCRIPT_PRE_IMPACT, *pScript));
@@ -5727,11 +5727,11 @@ public:
 
     float   Execute()
     {
-        if (m_pEnv->pCombatEvent == NULL)
+        if (m_pEnv->pCombatEvent == nullptr)
             return 0.0f;
 
         CCombatActionScript *pScript(GetActionScript());
-        if (pScript == NULL)
+        if (pScript == nullptr)
             return 0.0f;
 
         CCombatActionScript &cScript(m_pEnv->pCombatEvent->AddActionScript(ACTION_SCRIPT_PRE_DAMAGE, *pScript));
@@ -5754,11 +5754,11 @@ public:
 
     float   Execute()
     {
-        if (m_pEnv->pCombatEvent == NULL)
+        if (m_pEnv->pCombatEvent == nullptr)
             return 0.0f;
 
         CCombatActionScript *pScript(GetActionScript());
-        if (pScript == NULL)
+        if (pScript == nullptr)
             return 0.0f;
 
         CCombatActionScript &cScript(m_pEnv->pCombatEvent->AddActionScript(ACTION_SCRIPT_DAMAGE_EVENT, *pScript));
@@ -5781,11 +5781,11 @@ public:
 
     float   Execute()
     {
-        if (m_pEnv->pCombatEvent == NULL)
+        if (m_pEnv->pCombatEvent == nullptr)
             return 0.0f;
 
         CCombatActionScript *pScript(GetActionScript());
-        if (pScript == NULL)
+        if (pScript == nullptr)
             return 0.0f;
 
         CCombatActionScript &cScript(m_pEnv->pCombatEvent->AddActionScript(ACTION_SCRIPT_IMPACT, *pScript));
@@ -5808,11 +5808,11 @@ public:
 
     float   Execute()
     {
-        if (m_pEnv->pCombatEvent == NULL)
+        if (m_pEnv->pCombatEvent == nullptr)
             return 0.0f;
 
         CCombatActionScript *pScript(GetActionScript());
-        if (pScript == NULL)
+        if (pScript == nullptr)
             return 0.0f;
 
         CCombatActionScript &cScript(m_pEnv->pCombatEvent->AddActionScript(ACTION_SCRIPT_IMPACT_INVALID, *pScript));
@@ -5871,11 +5871,11 @@ public:
             for (uivector_it it(vEntities.begin()), itEnd(vEntities.end()); it != itEnd; ++it)
             {
                 IVisualEntity *pSearchEntity(Game.GetEntityFromWorldIndex(*it));
-                if (pSearchEntity == NULL)
+                if (pSearchEntity == nullptr)
                     continue;
 
                 IUnitEntity *pSearchUnit(pSearchEntity->GetAsUnit());
-                if (pSearchUnit == NULL || !Game.IsValidTarget(GetTargetScheme(), 0, pSource, pSearchUnit, GetIgnoreInvulnerable()))
+                if (pSearchUnit == nullptr || !Game.IsValidTarget(GetTargetScheme(), 0, pSource, pSearchUnit, GetIgnoreInvulnerable()))
                     continue;
 
                 ++uiTargets;
@@ -5902,7 +5902,7 @@ public:
 
     float   Execute()
     {
-        if (m_pEnv->pThis == NULL || !m_pEnv->pThis->IsState())
+        if (m_pEnv->pThis == nullptr || !m_pEnv->pThis->IsState())
             return 0.0f;
 
         IEntityState *pState(m_pEnv->pThis->GetAsState());
@@ -5933,7 +5933,7 @@ public:
 
     float   Execute()
     {
-        if (m_pEnv->pThis == NULL || !m_pEnv->pThis->IsState())
+        if (m_pEnv->pThis == nullptr || !m_pEnv->pThis->IsState())
             return 0.0f;
 
         IEntityState *pState(m_pEnv->pThis->GetAsState());
@@ -5969,12 +5969,12 @@ public:
 
     float   Execute()
     {
-        IGameEntity *pProxy(NULL);
+        IGameEntity *pProxy(nullptr);
         IUnitEntity *pSource(GetSourceUnit());
 
         if (GetSearchForTarget())
         {
-            if (pSource == NULL)
+            if (pSource == nullptr)
                 return 0.0f;
 
             CVec3f v3Pos(GetPositionFromActionTarget(GetSearchOrigin()));
@@ -6006,11 +6006,11 @@ public:
                 for (uivector_it it(vEntities.begin()), itEnd(vEntities.end()); it != itEnd; ++it)
                 {
                     IVisualEntity *pSearchEntity(Game.GetEntityFromWorldIndex(*it));
-                    if (pSearchEntity == NULL)
+                    if (pSearchEntity == nullptr)
                         continue;
 
                     IUnitEntity *pSearchUnit(pSearchEntity->GetAsUnit());
-                    if (pSearchUnit == NULL || !Game.IsValidTarget(GetSearchTargetScheme(), 0, pSource, pSearchUnit, GetSearchIgnoreInvulnerable()))
+                    if (pSearchUnit == nullptr || !Game.IsValidTarget(GetSearchTargetScheme(), 0, pSource, pSearchUnit, GetSearchIgnoreInvulnerable()))
                         continue;
 
                     float fDistanceSq(DistanceSq(pSearchUnit->GetPosition().xy(), v3Pos.xy()));
@@ -6032,32 +6032,32 @@ public:
 
         IGameEntity *pEntity(GetEntityFromActionTarget(GetEntity()));
 
-        if (pEntity == NULL)
+        if (pEntity == nullptr)
             return 0.0f;
 
         if (pEntity->IsSlave())
         {
-            pEntity->GetAsSlave()->SetProxyUID(pProxy != NULL ? pProxy->GetUniqueID() : INVALID_INDEX);
+            pEntity->GetAsSlave()->SetProxyUID(pProxy != nullptr ? pProxy->GetUniqueID() : INVALID_INDEX);
             return 1.0f;
         }
         else if (pEntity->IsProjectile())
         {
-            pEntity->GetAsProjectile()->SetProxyUID(pProxy != NULL ? pProxy->GetUniqueID() : INVALID_INDEX);
+            pEntity->GetAsProjectile()->SetProxyUID(pProxy != nullptr ? pProxy->GetUniqueID() : INVALID_INDEX);
             return 1.0f;
         }
         else if (pEntity->IsAffector())
         {
-            pEntity->GetAsAffector()->SetProxyUID(pProxy != NULL ? pProxy->GetUniqueID() : INVALID_INDEX);
+            pEntity->GetAsAffector()->SetProxyUID(pProxy != nullptr ? pProxy->GetUniqueID() : INVALID_INDEX);
             return 1.0f;
         }
         else if (pEntity->IsUnit())
         {
-            pEntity->GetAsUnit()->SetProxyUID(pProxy != NULL ? pProxy->GetUniqueID() : INVALID_INDEX);
+            pEntity->GetAsUnit()->SetProxyUID(pProxy != nullptr ? pProxy->GetUniqueID() : INVALID_INDEX);
             return 1.0f;
         }
         else if (pEntity->IsOrder())
         {
-            pEntity->GetAsOrder()->SetProxyUID(GetIndex(), pProxy != NULL ? pProxy->GetUniqueID() : INVALID_INDEX);
+            pEntity->GetAsOrder()->SetProxyUID(GetIndex(), pProxy != nullptr ? pProxy->GetUniqueID() : INVALID_INDEX);
             return 1.0f;
         }
 
@@ -6082,7 +6082,7 @@ public:
     {
         IUnitEntity *pEntity(GetTargetUnit());
 
-        if (pEntity == NULL)
+        if (pEntity == nullptr)
             return 0.0f;
 
         if (pEntity->IsSlave())
@@ -6130,7 +6130,7 @@ public:
     {
         IGameEntity *pEntity(GetEntityFromActionTarget(GetEntity()));
 
-        if (pEntity == NULL)
+        if (pEntity == nullptr)
             return 0.0f;
 
         float fParam(Evaluate(GetValueA(), GetValueB(), GetOperator()));
@@ -6166,7 +6166,7 @@ public:
     {
         IGameEntity *pEntity(GetEntityFromActionTarget(GetEntity()));
 
-        if (pEntity == NULL)
+        if (pEntity == nullptr)
             return 0.0f;
 
         float fTime(ROUND(Evaluate(GetValueA(), GetValueB(), GetOperator())));
@@ -6202,13 +6202,13 @@ public:
     float   Execute()
     {
         IUnitEntity *pSource(GetSourceUnit());
-        if (pSource == NULL)
+        if (pSource == nullptr)
             return 0.0f;
 
         for (int i(INVENTORY_START_ABILITIES); i <= INVENTORY_END_ABILITIES; ++i)
         {
             IEntityAbility *pAbility(pSource->GetAbility(i));
-            if (pAbility == NULL || pAbility->GetTypeName() != GetName())
+            if (pAbility == nullptr || pAbility->GetTypeName() != GetName())
                 continue;
 
             PushEntity(pAbility->GetUniqueID());
@@ -6235,7 +6235,7 @@ public:
     float   Execute()
     {
         IGameEntity *pEntity(Game.GetEntityFromName(GetName()));
-        if (pEntity == NULL)
+        if (pEntity == nullptr)
             return 0.0f;
 
         PushEntity(pEntity->GetUniqueID());
@@ -6360,13 +6360,13 @@ public:
         if (GetEntity() != ACTION_TARGET_INVALID)
         {
             IGameEntity *pEntity(GetEntityFromActionTarget(GetEntity()));
-            if (pEntity != NULL && pEntity->IsVisual())
+            if (pEntity != nullptr && pEntity->IsVisual())
                 v3Pos = pEntity->GetAsVisual()->GetPosition();
         }
         else if (!GetName().empty())
         {
             IVisualEntity *pEntity(Game.GetEntityFromName(GetName()));
-            if (pEntity != NULL)
+            if (pEntity != nullptr)
                 v3Pos = pEntity->GetPosition();
         }
         else
@@ -6380,7 +6380,7 @@ public:
 
         IGameEntity *pOffsetSpace(GetEntityFromActionTarget(GetOffsetSpace()));
 
-        if (pOffsetSpace != NULL && pOffsetSpace->IsVisual())
+        if (pOffsetSpace != nullptr && pOffsetSpace->IsVisual())
         {
             CVec3f v3Offset(GetOffset());
             v3Offset = TransformPoint(v3Offset, CAxis(pOffsetSpace->GetAsVisual()->GetAngles()));
@@ -6425,13 +6425,13 @@ public:
         if (GetEntity() != ACTION_TARGET_INVALID)
         {
             IGameEntity *pEntity(GetEntityFromActionTarget(GetEntity()));
-            if (pEntity != NULL && pEntity->IsVisual())
+            if (pEntity != nullptr && pEntity->IsVisual())
                 v3Pos = pEntity->GetAsVisual()->GetPosition();
         }
         else if (!GetName().empty())
         {
             IVisualEntity *pEntity(Game.GetEntityFromName(GetName()));
-            if (pEntity != NULL)
+            if (pEntity != nullptr)
                 v3Pos = pEntity->GetPosition();
         }
         else
@@ -6445,7 +6445,7 @@ public:
 
         IGameEntity *pOffsetSpace(GetEntityFromActionTarget(GetOffsetSpace()));
 
-        if (pOffsetSpace != NULL && pOffsetSpace->IsVisual())
+        if (pOffsetSpace != nullptr && pOffsetSpace->IsVisual())
         {
             CVec3f v3Offset(GetOffset());
             v3Offset = TransformPoint(v3Offset, CAxis(pOffsetSpace->GetAsVisual()->GetAngles()));
@@ -6490,13 +6490,13 @@ public:
         if (GetEntity() != ACTION_TARGET_INVALID)
         {
             IGameEntity *pEntity(GetEntityFromActionTarget(GetEntity()));
-            if (pEntity != NULL && pEntity->IsVisual())
+            if (pEntity != nullptr && pEntity->IsVisual())
                 v3Pos = pEntity->GetAsVisual()->GetPosition();
         }
         else if (!GetName().empty())
         {
             IVisualEntity *pEntity(Game.GetEntityFromName(GetName()));
-            if (pEntity != NULL)
+            if (pEntity != nullptr)
                 v3Pos = pEntity->GetPosition();
         }
         else
@@ -6510,7 +6510,7 @@ public:
 
         IGameEntity *pOffsetSpace(GetEntityFromActionTarget(GetOffsetSpace()));
 
-        if (pOffsetSpace != NULL && pOffsetSpace->IsVisual())
+        if (pOffsetSpace != nullptr && pOffsetSpace->IsVisual())
         {
             CVec3f v3Offset(GetOffset());
             v3Offset = TransformPoint(v3Offset, CAxis(pOffsetSpace->GetAsVisual()->GetAngles()));
@@ -6555,13 +6555,13 @@ public:
         if (GetEntity() != ACTION_TARGET_INVALID)
         {
             IGameEntity *pEntity(GetEntityFromActionTarget(GetEntity()));
-            if (pEntity != NULL && pEntity->IsVisual())
+            if (pEntity != nullptr && pEntity->IsVisual())
                 v3Pos = pEntity->GetAsVisual()->GetPosition();
         }
         else if (!GetName().empty())
         {
             IVisualEntity *pEntity(Game.GetEntityFromName(GetName()));
-            if (pEntity != NULL)
+            if (pEntity != nullptr)
                 v3Pos = pEntity->GetPosition();
         }
         else
@@ -6575,7 +6575,7 @@ public:
 
         IGameEntity *pOffsetSpace(GetEntityFromActionTarget(GetOffsetSpace()));
 
-        if (pOffsetSpace != NULL && pOffsetSpace->IsVisual())
+        if (pOffsetSpace != nullptr && pOffsetSpace->IsVisual())
         {
             CVec3f v3Offset(GetOffset());
             v3Offset = TransformPoint(v3Offset, CAxis(pOffsetSpace->GetAsVisual()->GetAngles()));
@@ -6613,9 +6613,9 @@ public:
         else if (!GetName().empty())
             m_pEnv->pEnt0 = Game.GetEntityFromName(GetName());
         else
-            m_pEnv->pEnt0 = NULL;
+            m_pEnv->pEnt0 = nullptr;
         
-        return m_pEnv->pEnt0 != NULL ? 1.0f : 0.0f;
+        return m_pEnv->pEnt0 != nullptr ? 1.0f : 0.0f;
     }
 };
 //=============================================================================
@@ -6640,9 +6640,9 @@ public:
         else if (!GetName().empty())
             m_pEnv->pEnt1 = Game.GetEntityFromName(GetName());
         else
-            m_pEnv->pEnt1 = NULL;
+            m_pEnv->pEnt1 = nullptr;
         
-        return m_pEnv->pEnt1 != NULL ? 1.0f : 0.0f;
+        return m_pEnv->pEnt1 != nullptr ? 1.0f : 0.0f;
     }
 };
 //=============================================================================
@@ -6667,9 +6667,9 @@ public:
         else if (!GetName().empty())
             m_pEnv->pEnt2 = Game.GetEntityFromName(GetName());
         else
-            m_pEnv->pEnt2 = NULL;
+            m_pEnv->pEnt2 = nullptr;
         
-        return m_pEnv->pEnt2 != NULL ? 1.0f : 0.0f;
+        return m_pEnv->pEnt2 != nullptr ? 1.0f : 0.0f;
     }
 };
 //=============================================================================
@@ -6694,9 +6694,9 @@ public:
         else if (!GetName().empty())
             m_pEnv->pEnt3 = Game.GetEntityFromName(GetName());
         else
-            m_pEnv->pEnt3 = NULL;
+            m_pEnv->pEnt3 = nullptr;
         
-        return m_pEnv->pEnt3 != NULL ? 1.0f : 0.0f;
+        return m_pEnv->pEnt3 != nullptr ? 1.0f : 0.0f;
     }
 };
 //=============================================================================
@@ -6716,7 +6716,7 @@ public:
     float   Execute()
     {
         IUnitEntity *pSource(GetSourceUnit());
-        if (pSource == NULL)
+        if (pSource == nullptr)
             return 0.0f;
 
         pSource->SetAttackProjectile(EntityRegistry.LookupID(GetName()));
@@ -6750,7 +6750,7 @@ public:
     float   Execute()
     {
         IUnitEntity *pSource(GetSourceUnit());
-        if (pSource == NULL)
+        if (pSource == nullptr)
             return 0.0f;
 
         pSource->SetAttackActionEffect(GetEffect());
@@ -6779,7 +6779,7 @@ public:
     float   Execute()
     {
         IUnitEntity *pSource(GetSourceUnit());
-        if (pSource == NULL)
+        if (pSource == nullptr)
             return 0.0f;
 
         pSource->SetAttackImpactEffect(GetEffect());
@@ -6807,11 +6807,11 @@ public:
     float   Execute()
     {
         IGameEntity *pSource(GetSourceEntity());
-        if (pSource == NULL)
+        if (pSource == nullptr)
             return 0.0f;
 
         IProjectile *pProjectile(pSource->GetAsProjectile());
-        if (pProjectile == NULL)
+        if (pProjectile == nullptr)
             return 0.0f;
 
         pProjectile->ResetTouches();
@@ -6835,14 +6835,14 @@ public:
     float   Execute()
     {
         IUnitEntity *pSource(GetSourceUnit());
-        if (pSource == NULL)
+        if (pSource == nullptr)
             return 0.0f;
 
-        IEntityTool *pTool(NULL);
+        IEntityTool *pTool(nullptr);
 
         if (GetName().empty())
         {
-            if (m_pEnv->pThis == NULL || !m_pEnv->pThis->IsTool())
+            if (m_pEnv->pThis == nullptr || !m_pEnv->pThis->IsTool())
                 return 0.0f;
 
             pTool = m_pEnv->pThis->GetAsTool();
@@ -6854,7 +6854,7 @@ public:
             for (int i(INVENTORY_START_ACTIVE); i <= INVENTORY_END_ACTIVE; ++i)
             {
                 IEntityTool *pTestTool(pSource->GetTool(i));
-                if (pTestTool == NULL || pTestTool->GetType() != unToolID)
+                if (pTestTool == nullptr || pTestTool->GetType() != unToolID)
                     continue;
 
                 pTool = pTestTool;
@@ -6862,7 +6862,7 @@ public:
             }
         }
 
-        if (pTool == NULL)
+        if (pTool == nullptr)
             return 0.0f;
         else
             return pTool->ToggleOff() ? 1.0f : 0.0f;
@@ -6886,7 +6886,7 @@ public:
     {
         IGameEntity *pEntity(GetEntityFromActionTarget(GetEntity()));
 
-        if (pEntity == NULL)
+        if (pEntity == nullptr)
             return 0.0f;
 
         if (pEntity->IsTool())
@@ -6934,7 +6934,7 @@ public:
     {
         IUnitEntity *pSource(GetSourceUnit());
         IUnitEntity *pTarget(GetTargetUnit());
-        if (pSource == NULL || pTarget == NULL)
+        if (pSource == nullptr || pTarget == nullptr)
             return 0.0f;
 
         pSource->SetLastAggression(pTarget->GetTeam(), Game.GetGameTime());
@@ -6958,7 +6958,7 @@ public:
     {
         IUnitEntity *pSource(GetSourceUnit());
         IUnitEntity *pTarget(GetTargetUnit());
-        if (pSource == NULL || pTarget == NULL)
+        if (pSource == nullptr || pTarget == nullptr)
             return 0.0f;
 
         CBufferFixed<5> buffer;
@@ -6984,13 +6984,13 @@ public:
     float   Execute()
     {   
         IUnitEntity *pSource(GetSourceUnit());
-        if (pSource == NULL)
+        if (pSource == nullptr)
             return 0.0f;
             
         if (GetType() == _T("walkingcourier") || GetType() == _T("flyingcourier"))
         {       
             CPlayer *pPlayer(Game.GetPlayer(pSource->GetOwnerPlayer()->GetClientNumber()));
-            if (pPlayer == NULL)
+            if (pPlayer == nullptr)
                 return 0.0f;
                 
             if (pPlayer->GetChatCounter() >= sv_chatCounterFloodThreshold || !pPlayer->GetAllowChat())
@@ -6999,7 +6999,7 @@ public:
             pPlayer->IncrementChatCounter();
                                 
             CTeamInfo *pTeam(Game.GetTeam(pPlayer->GetTeam()));
-            if (pTeam != NULL)
+            if (pTeam != nullptr)
             {
                 CBufferFixed<5> buffer;
                 
@@ -7096,7 +7096,7 @@ public:
     {
         IGameEntity *pEntity(GetEntityFromActionTarget(GetEntity()));
 
-        if (pEntity == NULL)
+        if (pEntity == nullptr)
             return 0.0f;
 
         if (!pEntity->HasModifier(GetName()))
@@ -7160,7 +7160,7 @@ private:
 
     void    ImpactEntity(IUnitEntity *pTarget)
     {
-        if (pTarget == NULL)
+        if (pTarget == nullptr)
             return;
 
         map<uint, uint>::iterator itFind(m_mapImpacts.find(pTarget->GetUniqueID()));
@@ -7208,11 +7208,11 @@ public:
         if (GetGlobal())
         {
             IGameEntity *pEntity(Game.GetFirstEntity());
-            while (pEntity != NULL)
+            while (pEntity != nullptr)
             {
                 IUnitEntity *pNewTarget(pEntity->GetAsUnit());
                 pEntity = Game.GetNextEntity(pEntity);
-                if (pNewTarget == NULL)
+                if (pNewTarget == nullptr)
                     continue;
                 if (pNewTarget == pIgnore)
                     continue;
@@ -7234,7 +7234,7 @@ public:
             {
                 uint uiTargetIndex(Game.GetGameIndexFromWorldIndex(*it));
                 IUnitEntity *pNewTarget(Game.GetUnitEntity(uiTargetIndex));
-                if (pNewTarget == NULL)
+                if (pNewTarget == nullptr)
                     continue;
                 if (pNewTarget == pIgnore)
                     continue;
@@ -7256,7 +7256,7 @@ public:
         }
 
         // Always hit the first target if it hasn't been hit yet
-        if (pFirstTarget != NULL && GetTargetSelection() != TARGET_SELECT_RANDOM_POSITION)
+        if (pFirstTarget != nullptr && GetTargetSelection() != TARGET_SELECT_RANDOM_POSITION)
         {
             if (Game.IsValidTarget(GetTargetScheme(), GetEffectType(), GetSourceUnit(), pFirstTarget))
             {
@@ -7395,7 +7395,7 @@ public:
 
         IUnitEntity *pAttacker(GetSourceUnit());
         IUnitEntity *pTarget(GetTargetUnit());
-        if (pTarget == NULL)
+        if (pTarget == nullptr)
             return 0.0f;
 
         if (pTarget->GetInvulnerable())
@@ -7409,7 +7409,7 @@ public:
         fAmount *= pTarget->GetIncomingDamageMultiplier();
 
         // Combat type modifications
-        if (pAttacker != NULL)
+        if (pAttacker != nullptr)
         {
             if (eSuperType == SUPERTYPE_ATTACK)
                 fAmount *= Game.GetAttackMultiplier(pAttacker->GetCombatTypeIndex(), pTarget->GetCombatTypeIndex());
@@ -7445,24 +7445,24 @@ public:
     float   Execute()
     {
         IUnitEntity *pSource(GetSourceUnit());
-        if (pSource == NULL)
+        if (pSource == nullptr)
             return 0.0f;
 
-        if (m_pEnv->pCombatEvent == NULL)
+        if (m_pEnv->pCombatEvent == nullptr)
             return 0.0f;
 
-        CPlayer *pPlayer(m_pEnv->pCombatEvent->GetIssuedClientNumber() != -1 ? Game.GetPlayer(m_pEnv->pCombatEvent->GetIssuedClientNumber()) : NULL);
-        if (pPlayer == NULL)
+        CPlayer *pPlayer(m_pEnv->pCombatEvent->GetIssuedClientNumber() != -1 ? Game.GetPlayer(m_pEnv->pCombatEvent->GetIssuedClientNumber()) : nullptr);
+        if (pPlayer == nullptr)
             return 0.0f;
 
         IHeroEntity *pHero(pPlayer->GetHero());
-        if (pHero == NULL)
+        if (pHero == nullptr)
             return 0.0f;
 
         for (int iSlot(INVENTORY_END_BACKPACK); iSlot >= INVENTORY_START_BACKPACK; --iSlot)
         {
             IEntityItem *pItem(pSource->GetItem(iSlot));
-            if (pItem == NULL)
+            if (pItem == nullptr)
                 continue;
             if (pItem->GetPurchaserClientNumber() != -1 && pItem->GetPurchaserClientNumber() != pPlayer->GetClientNumber())
                 continue;
@@ -7492,15 +7492,15 @@ public:
 
     float   Execute()
     {
-        if (m_pEnv->pCombatEvent == NULL)
+        if (m_pEnv->pCombatEvent == nullptr)
             return 0.0f;
 
-        CPlayer *pPlayer(m_pEnv->pCombatEvent->GetIssuedClientNumber() != -1 ? Game.GetPlayer(m_pEnv->pCombatEvent->GetIssuedClientNumber()) : NULL);
-        if (pPlayer == NULL)
+        CPlayer *pPlayer(m_pEnv->pCombatEvent->GetIssuedClientNumber() != -1 ? Game.GetPlayer(m_pEnv->pCombatEvent->GetIssuedClientNumber()) : nullptr);
+        if (pPlayer == nullptr)
             return 0.0f;
 
         IHeroEntity *pHero(pPlayer->GetHero());
-        if (pHero == NULL)
+        if (pHero == nullptr)
             return 0.0f;
 
         PushEntity(pHero->GetUniqueID());
@@ -7526,11 +7526,11 @@ public:
 
     float   Execute()
     {
-        IGameEntity *pEntity(NULL);
+        IGameEntity *pEntity(nullptr);
 
         IUnitEntity *pSource(GetSourceUnit());
 
-        if (pSource == NULL)
+        if (pSource == nullptr)
             return 0.0f;
 
         CVec3f v3Pos(GetPositionFromActionTarget(GetOrigin()));
@@ -7561,11 +7561,11 @@ public:
             for (uivector_it it(vEntities.begin()), itEnd(vEntities.end()); it != itEnd; ++it)
             {
                 IVisualEntity *pSearchEntity(Game.GetEntityFromWorldIndex(*it));
-                if (pSearchEntity == NULL)
+                if (pSearchEntity == nullptr)
                     continue;
 
                 IUnitEntity *pSearchUnit(pSearchEntity->GetAsUnit());
-                if (pSearchUnit == NULL || !Game.IsValidTarget(GetTargetScheme(), 0, pSource, pSearchUnit, GetIgnoreInvulnerable()))
+                if (pSearchUnit == nullptr || !Game.IsValidTarget(GetTargetScheme(), 0, pSource, pSearchUnit, GetIgnoreInvulnerable()))
                     continue;
 
                 float fDistanceSq(DistanceSq(pSearchUnit->GetPosition().xy(), v3Pos.xy()));
@@ -7580,7 +7580,7 @@ public:
         if (uiClosestIndex != INVALID_INDEX)
             pEntity = Game.GetUnitEntity(uiClosestIndex);
         
-        if (pEntity == NULL)
+        if (pEntity == nullptr)
             return 0.0f;
 
         PushEntity(pEntity->GetUniqueID());
@@ -7607,11 +7607,11 @@ public:
     float   Execute()
     {
         IGameEntity *pEntity(GetEntityFromActionTarget(GetEntity()));
-        if (pEntity == NULL)
+        if (pEntity == nullptr)
             return 0.0f;
 
         IEntityTool *pTool(pEntity->GetAsTool());
-        if (pTool == NULL)
+        if (pTool == nullptr)
             return 0.0f;
 
         int iDuration(INT_ROUND(Evaluate(GetDurationA(), GetDurationB(), GetDurationOp())));
@@ -7637,11 +7637,11 @@ public:
     float   Execute()
     {
         IGameEntity *pEntity(GetEntityFromActionTarget(GetEntity()));
-        if (pEntity == NULL)
+        if (pEntity == nullptr)
             return 0.0f;
 
         IEntityTool *pTool(pEntity->GetAsTool());
-        if (pTool == NULL)
+        if (pTool == nullptr)
             return 0.0f;
 
         pTool->SetTimer(INVALID_TIME);
@@ -7664,7 +7664,7 @@ public:
 
     float   Execute()
     {
-        if (m_pEnv->pCombatEvent == NULL)
+        if (m_pEnv->pCombatEvent == nullptr)
             return 0.0f;
 
         m_pEnv->pCombatEvent->SetInvalid(true);
@@ -7689,7 +7689,7 @@ public:
     {
         IGameEntity *pEntity(GetEntityFromActionTarget(GetEntity()));
 
-        if (pEntity == NULL)
+        if (pEntity == nullptr)
             return 0.0f;
             
         if (pEntity->IsState())
@@ -7719,11 +7719,11 @@ public:
     float   Execute()
     {
         IGameEntity *pEntity(GetEntityFromActionTarget(GetEntity()));
-        if (pEntity == NULL)
+        if (pEntity == nullptr)
             return 0.0f;
 
         IGameEntity *pProxy(pEntity->GetProxy(GetIndex()));
-        if (pProxy == NULL)
+        if (pProxy == nullptr)
             return 0.0f;
 
         PushEntity(pProxy->GetUniqueID());
@@ -7747,11 +7747,11 @@ public:
     float   Execute()
     {
         IGameEntity *pEntity(GetEntityFromActionTarget(GetEntity()));
-        if (pEntity == NULL)
+        if (pEntity == nullptr)
             return 0.0f;
 
         IOrderEntity *pOrder(pEntity->GetAsOrder());
-        if (pOrder == NULL)
+        if (pOrder == nullptr)
             return 0.0f;
 
         pOrder->SetComplete(true);
@@ -7775,11 +7775,11 @@ public:
     float   Execute()
     {
         IGameEntity *pEntity(GetEntityFromActionTarget(GetEntity()));
-        if (pEntity == NULL)
+        if (pEntity == nullptr)
             return 0.0f;
 
         IOrderEntity *pOrder(pEntity->GetAsOrder());
-        if (pOrder == NULL)
+        if (pOrder == nullptr)
             return 0.0f;
 
         pOrder->SetCancel(true);
@@ -7827,7 +7827,7 @@ public:
 
     float   Execute()
     {
-        if (m_pEnv->pCombatEvent == NULL)
+        if (m_pEnv->pCombatEvent == nullptr)
             return 0.0f;
 
         m_pEnv->pCombatEvent->AddCritical(GetChance(), GetMultiplier());
@@ -7849,7 +7849,7 @@ public:
 
     float   Execute()
     {
-        if (m_pEnv->pCombatEvent == NULL)
+        if (m_pEnv->pCombatEvent == nullptr)
             return 0.0f;
 
         m_pEnv->pCombatEvent->ClearCriticals();
@@ -7874,13 +7874,13 @@ public:
         IUnitEntity *pSource(GetSourceUnit());
         IUnitEntity *pTarget(GetTargetUnit());
 
-        if (pSource == NULL || pTarget == NULL)
+        if (pSource == nullptr || pTarget == nullptr)
             return 0.0f;
 
         for (int i(INVENTORY_START_BACKPACK); i <= INVENTORY_END_BACKPACK; ++i)
         {
             IEntityItem *pItem(pSource->GetItem(i));
-            if (pItem == NULL)
+            if (pItem == nullptr)
                 continue;
 
             if (pItem->GetPurchaserClientNumber() != -1 && pItem->GetPurchaserClientNumber() != pSource->GetOwnerClientNumber())
@@ -7914,7 +7914,7 @@ public:
     {
         IUnitEntity *pEntity(GetUnitFromActionTarget(GetEntity()));
 
-        if (pEntity == NULL)
+        if (pEntity == nullptr)
             return 0.0f;
 
         pEntity->SetUnitFlags(UNIT_FLAG_LOCKED_BACKPACK);
@@ -7940,7 +7940,7 @@ public:
     {
         IGameEntity *pEntity(GetEntityFromActionTarget(GetEntity()));
 
-        if (pEntity == NULL || !pEntity->IsTool())
+        if (pEntity == nullptr || !pEntity->IsTool())
             return 0.0f;
 
         IEntityTool *pTool(pEntity->GetAsTool());
@@ -7969,7 +7969,7 @@ public:
     {
         IGameEntity *pEntity(GetEntityFromActionTarget(GetEntity()));
 
-        if (pEntity == NULL)
+        if (pEntity == nullptr)
             return 0.0f;
 
         uivector vModifierKeys(pEntity->GetPersistentModifierKeys());
@@ -8009,7 +8009,7 @@ public:
     {
         IGameEntity *pEntity(GetEntityFromActionTarget(GetEntity()));
 
-        if (pEntity == NULL)
+        if (pEntity == nullptr)
             return 0.0f;
 
         uivector vModifierKeys(pEntity->GetPersistentModifierKeys());
@@ -8050,7 +8050,7 @@ public:
 
         const PlayerMap &mapPlayers(Game.GetPlayerMap());
 
-        if (m_pEnv->pScriptThread != NULL)
+        if (m_pEnv->pScriptThread != nullptr)
         {
             for (PlayerMap_cit it(mapPlayers.begin()); it != mapPlayers.end(); ++it)
             {
@@ -8117,7 +8117,7 @@ public:
     float   Execute()
     {
         CTeamInfo *pTeam(Game.GetTeam(GetTeam()));
-        if (pTeam == NULL)
+        if (pTeam == nullptr)
             return 0.0f;
 
         pTeam->SetTeamSize(GetSize());
@@ -8145,7 +8145,7 @@ public:
     {
         IGameEntity *pEntity(GetEntityFromActionTarget(GetEntity()));
 
-        if (pEntity == NULL || !pEntity->IsPlayer())
+        if (pEntity == nullptr || !pEntity->IsPlayer())
             return 0.0f;
 
         CPlayer *pPlayer(pEntity->GetAsPlayer());
@@ -8174,7 +8174,7 @@ public:
     {
         IGameEntity *pEntity(GetEntityFromActionTarget(GetEntity()));
 
-        if (pEntity == NULL || !pEntity->IsPlayer())
+        if (pEntity == nullptr || !pEntity->IsPlayer())
             return 0.0f;
 
         CPlayer *pPlayer(pEntity->GetAsPlayer());
@@ -8202,7 +8202,7 @@ public:
     {
         IGameEntity *pEntity(GetEntityFromActionTarget(GetEntity()));
 
-        if (pEntity == NULL || !pEntity->IsPlayer())
+        if (pEntity == nullptr || !pEntity->IsPlayer())
             return 0.0f;
 
         CPlayer *pPlayer(pEntity->GetAsPlayer());
@@ -8272,7 +8272,7 @@ public:
 
     float   Execute()
     {
-        if (m_pEnv->pScriptThread != NULL)
+        if (m_pEnv->pScriptThread != nullptr)
         {
             while (true)
             {
@@ -8317,10 +8317,10 @@ public:
     float   Execute()
     {
         CGameInfo *pGameInfo(Game.GetGameInfo());
-        if (pGameInfo == NULL)
+        if (pGameInfo == nullptr)
             return 0.0f;
 
-        if (m_pEnv->pScriptThread != NULL)
+        if (m_pEnv->pScriptThread != nullptr)
         {
             while (pGameInfo->GetScriptValue(GetName()) == GetValue())
             {
@@ -8363,7 +8363,7 @@ public:
 
     float   Execute()
     {
-        if (m_pEnv->pScriptThread == NULL)
+        if (m_pEnv->pScriptThread == nullptr)
             return 0.0f;
 
         m_pEnv->pScriptThread->Wait(MAX(1u, GetDuration()));
@@ -8386,7 +8386,7 @@ public:
 
     float   Execute()
     {
-        if (m_pEnv->pScriptThread == NULL)
+        if (m_pEnv->pScriptThread == nullptr)
             return 0.0f;
 
         m_pEnv->pScriptThread->Wait(1);
@@ -8431,7 +8431,7 @@ public:
 
     float   Execute()
     {
-        if (m_pEnv->pScriptThread == NULL)
+        if (m_pEnv->pScriptThread == nullptr)
             return 0.0f;
 
         if (!Compare(GetValueA(), GetValueB(), GetOperator()))
@@ -8459,7 +8459,7 @@ public:
 
     float   Execute()
     {
-        if (m_pEnv->pScriptThread == NULL)
+        if (m_pEnv->pScriptThread == nullptr)
             return 0.0f;
 
         if (!EvaluateConditionalString(GetTest(), m_pEnv->pThis, m_pEnv->pInflictor, GetSourceUnit(), GetTargetUnit(), this))
@@ -8488,11 +8488,11 @@ public:
 
     float   Execute()
     {
-        if (m_pEnv->pScriptThread == NULL)
+        if (m_pEnv->pScriptThread == nullptr)
             return 0.0f;
 
         CGameInfo *pGameInfo(Game.GetGameInfo());
-        if (pGameInfo == NULL)
+        if (pGameInfo == nullptr)
             return 0.0f;
 
         if (pGameInfo->GetScriptValue(GetName()) != GetValue())
@@ -8522,7 +8522,7 @@ public:
     float   Execute()
     {
         CGameInfo *pGameInfo(Game.GetGameInfo());
-        if (pGameInfo == NULL)
+        if (pGameInfo == nullptr)
             return 0.0f;
 
         pGameInfo->SetScriptValue(GetName(), GetValue());
@@ -8548,11 +8548,11 @@ public:
     float   Execute()
     {
         IGameEntity *pNewEntity(Game.AllocateEntity(Entity_Camera));
-        if (pNewEntity == NULL)
+        if (pNewEntity == nullptr)
             return 0.0f;
 
         CEntityCamera *pCamera(pNewEntity->GetAs<CEntityCamera>());
-        if (pCamera == NULL)
+        if (pCamera == nullptr)
             return 0.0f;
 
         pCamera->SetName(GetName());
@@ -8582,12 +8582,12 @@ public:
     float   Execute()
     {
         CPlayer *pPlayer(GetEntityFromActionTargetAs<CPlayer>(GetEntity()));
-        if (pPlayer == NULL)
+        if (pPlayer == nullptr)
             return 0.0f;
 
         CEntityCamera *pCamera(GetEntityFromActionTargetAs<CEntityCamera>(GetCamera()));
 
-        pPlayer->SetCameraIndex(pCamera != NULL ? pCamera->GetIndex() : INVALID_INDEX);
+        pPlayer->SetCameraIndex(pCamera != nullptr ? pCamera->GetIndex() : INVALID_INDEX);
         return 1.0f;
     }
 };
@@ -8614,7 +8614,7 @@ public:
     float   Execute()
     {
         CEntityCamera *pCamera(GetEntityFromActionTargetAs<CEntityCamera>(GetEntity()));
-        if (pCamera == NULL)
+        if (pCamera == nullptr)
             return 0.0f;
 
         if (!GetBlock() || m_pEnv->uiRepeated == 0)
@@ -8624,13 +8624,13 @@ public:
             if (GetPositionEntity() != ACTION_TARGET_INVALID)
             {
                 IGameEntity *pEntity(GetEntityFromActionTarget(GetPositionEntity()));
-                if (pEntity != NULL && pEntity->IsVisual())
+                if (pEntity != nullptr && pEntity->IsVisual())
                     v3Pos = pEntity->GetAsVisual()->GetPosition();
             }
             else if (!GetPositionName().empty())
             {
                 IVisualEntity *pMarker(Game.GetEntityFromName(GetPositionName()));
-                if (pMarker != NULL)
+                if (pMarker != nullptr)
                     v3Pos = pMarker->GetPosition();
             }
 
@@ -8694,7 +8694,7 @@ public:
                 continue;
 
             CWorldEntity *pWorldEntity(Game.GetWorldPointer()->GetEntityByHandle(*it));
-            if (pWorldEntity == NULL)
+            if (pWorldEntity == nullptr)
                 continue;
 
             if (pWorldEntity->GetGameIndex() != INVALID_INDEX)
@@ -8703,7 +8703,7 @@ public:
                 continue;
 
             IGameEntity* pNewEnt(Game.AllocateEntity(pWorldEntity->GetType()));
-            if (pNewEnt == NULL)
+            if (pNewEnt == nullptr)
             {
                 Console.Err << _T("Failed to allocate a game entity for world entity #") + XtoA(pWorldEntity->GetIndex()) << _T(" type: ") << pWorldEntity->GetType() << newl;
                 continue;
@@ -8712,7 +8712,7 @@ public:
             pWorldEntity->SetGameIndex(pNewEnt->GetIndex());
             pNewEnt->ApplyWorldEntity(*pWorldEntity);
 
-            if (pOwner != NULL)
+            if (pOwner != nullptr)
             {
                 if (pNewEnt->IsUnit())
                     pNewEnt->GetAsUnit()->SetOwnerIndex(pOwner->GetIndex());
@@ -8792,11 +8792,11 @@ public:
     {
         IGameEntity *pEntity(GetEntityFromActionTarget(GetEntity()));
 
-        if (pEntity == NULL)
+        if (pEntity == nullptr)
             return 0.0f;
 
         CPlayer *pPlayer(GetEntityFromActionTargetAs<CPlayer>(GetPlayer()));
-        if (pPlayer == NULL)
+        if (pPlayer == nullptr)
             return 0.0f;
             
         if (pEntity->IsUnit())
@@ -8826,11 +8826,11 @@ public:
     float   Execute()
     {
         CPlayer *pPlayer(GetEntityFromActionTargetAs<CPlayer>(GetEntity()));
-        if (pPlayer == NULL)
+        if (pPlayer == nullptr)
             return 0.0f;
 
         IUnitEntity *pHero(GetUnitFromActionTarget(GetHero()));
-        if (pHero == NULL || !pHero->IsHero())
+        if (pHero == nullptr || !pHero->IsHero())
             return 0.0f;
 
         pPlayer->SetHeroIndex(pHero->GetIndex());
@@ -8855,7 +8855,7 @@ public:
     float   Execute()
     {
         IGameEntity *pEntity(GetEntityFromActionTarget(GetEntity()));
-        if (pEntity == NULL)
+        if (pEntity == nullptr)
             return 0.0f;
 
         if (pEntity->IsUnit())
@@ -8905,7 +8905,7 @@ public:
     float   Execute()
     {
         IGameEntity *pEntity(GetEntityFromActionTarget(GetEntity()));
-        if (pEntity == NULL)
+        if (pEntity == nullptr)
             return 0.0f;
 
         if (pEntity->IsHero())
@@ -8935,7 +8935,7 @@ public:
     float   Execute()
     {
         IGameEntity *pEntity(GetEntityFromActionTarget(GetEntity()));
-        if (pEntity == NULL)
+        if (pEntity == nullptr)
             return 0.0f;
 
         if (pEntity->IsPlayer())
@@ -9095,7 +9095,7 @@ public:
     float   Execute()
     {
         CGameInfo *pGameInfo(Game.GetGameInfo());
-        if (pGameInfo == NULL)
+        if (pGameInfo == nullptr)
             return 0.0f;
 
         if (pGameInfo->GetScriptValue(GetName()) != GetValue())
@@ -9123,7 +9123,7 @@ public:
     float   Execute()
     {
         CGameInfo *pGameInfo(Game.GetGameInfo());
-        if (pGameInfo == NULL)
+        if (pGameInfo == nullptr)
             return 0.0f;
 
         EGamePhase ePhase(GetPhase());
@@ -9177,7 +9177,7 @@ public:
         for (uivector_it it(vControllers.begin()), itEnd(vControllers.end()); it != itEnd; ++it)
         {
             CEntityNeutralCampController *pController(Game.GetEntityAs<CEntityNeutralCampController>(*it));
-            if (pController == NULL)
+            if (pController == nullptr)
                 continue;
 
             pController->AttemptSpawn();
@@ -9207,7 +9207,7 @@ public:
     {
         IUnitEntity *pTarget(GetTargetUnit());
 
-        if (pTarget == NULL)
+        if (pTarget == nullptr)
             return 0.0f;
 
         ushort unItemID(EntityRegistry.LookupID(GetName()));
@@ -9228,7 +9228,7 @@ public:
         for (int iSlot(iStartSlot); iSlot <= iEndSlot; ++iSlot)
         {
             IEntityItem *pItem(pTarget->GetItem(iSlot));
-            if (pItem == NULL)
+            if (pItem == nullptr)
             {
                 if (iTargetSlot == -1)
                     iTargetSlot = iSlot;
@@ -9248,16 +9248,16 @@ public:
             return 0.0f;
 
         IEntityTool *pItem(pTarget->GiveItem(iTargetSlot, unItemID, !GetRecipe()));
-        if (pItem == NULL)
+        if (pItem == nullptr)
             return 0.0f;
 
         int iResultSlot(pTarget->CheckRecipes(pItem->GetSlot()));
 
         IEntityTool *pFinalItem(pTarget->GetItem(iResultSlot));
-        if (pFinalItem == NULL)
+        if (pFinalItem == nullptr)
             return 0.0f;
 
-        if (GetPushEntity() && pFinalItem != NULL)
+        if (GetPushEntity() && pFinalItem != nullptr)
             PushEntity(pFinalItem->GetUniqueID());
 
         return 1.0f;
@@ -9279,7 +9279,7 @@ public:
     float   Execute()
     {
         IUnitEntity *pSource(GetSourceUnit());
-        if (pSource == NULL)
+        if (pSource == nullptr)
             return 0.0f;
 
         uint uiTotalItems(0);
@@ -9287,7 +9287,7 @@ public:
         for (int i(INVENTORY_START_BACKPACK); i <= INVENTORY_END_BACKPACK; ++i)
         {
             IEntityTool *pItem(pSource->GetTool(i));
-            if (pItem == NULL)
+            if (pItem == nullptr)
                 continue;
 
             IGameEntity *pOldTarget(m_pEnv->pTarget);
@@ -9324,7 +9324,7 @@ public:
     float   Execute()
     {
         IGameEntity *pEntity(GetEntityFromActionTarget(GetEntity()));
-        if (pEntity == NULL || !pEntity->IsItem())
+        if (pEntity == nullptr || !pEntity->IsItem())
             return 0.0f;
 
         pEntity->GetAsItem()->SetFlag(ENTITY_TOOL_FLAG_LOCKED);
@@ -9348,7 +9348,7 @@ public:
     float   Execute()
     {
         IGameEntity *pEntity(GetEntityFromActionTarget(GetEntity()));
-        if (pEntity == NULL || !pEntity->IsItem())
+        if (pEntity == nullptr || !pEntity->IsItem())
             return 0.0f;
 
         pEntity->GetAsItem()->ClearFlag(ENTITY_TOOL_FLAG_LOCKED);
@@ -9372,7 +9372,7 @@ public:
     float   Execute()
     {
         IUnitEntity *pUnit(GetUnitFromActionTarget(GetEntity()));
-        if (pUnit == NULL)
+        if (pUnit == nullptr)
             return 0.0f;
 
         pUnit->SetUnitFlags(UNIT_FLAG_NOT_CONTROLLABLE);
@@ -9396,7 +9396,7 @@ public:
     float   Execute()
     {
         IUnitEntity *pUnit(GetUnitFromActionTarget(GetEntity()));
-        if (pUnit == NULL)
+        if (pUnit == nullptr)
             return 0.0f;
 
         pUnit->RemoveUnitFlags(UNIT_FLAG_NOT_CONTROLLABLE);
@@ -9421,7 +9421,7 @@ public:
     float   Execute()
     {
         IGameEntity *pEntity(GetEntityFromActionTarget(GetEntity()));
-        if (pEntity == NULL || !pEntity->IsHero())
+        if (pEntity == nullptr || !pEntity->IsHero())
             return 0.0f;
 
         IGameEntity *pController(GetEntityFromActionTarget(GetController()));
@@ -9449,7 +9449,7 @@ public:
     float   Execute()
     {
         IGameEntity *pEntity(GetTargetEntity());
-        if (pEntity == NULL)
+        if (pEntity == nullptr)
             return 0.0f;
 
         if (pEntity->GetTypeName() != GetType())
@@ -9478,7 +9478,7 @@ public:
     float   Execute()
     {
         IUnitEntity *pUnit(GetTargetUnit());
-        if (pUnit == NULL)
+        if (pUnit == nullptr)
             return 0.0f;
 
         if (!pUnit->IsTargetType(GetType(), GetSourceUnit()))
@@ -9505,7 +9505,7 @@ public:
     float   Execute()
     {
         IGameEntity *pEntity(GetEntityFromActionTarget(GetEntity()));
-        if (pEntity == NULL || !pEntity->IsProjectile())
+        if (pEntity == nullptr || !pEntity->IsProjectile())
             return 0.0f;
 
         pEntity->GetAsProjectile()->ForceImpact();

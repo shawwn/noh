@@ -33,7 +33,7 @@ CWorld::CWorld(byte yHost) :
 m_bValid(true),
 m_bActive(false),
 m_yHostType(yHost),
-m_pWorldArchive(NULL),
+m_pWorldArchive(nullptr),
 m_bPreloaded(false),
 m_iSize(0),
 m_iCliffSize(4),
@@ -52,36 +52,36 @@ m_bMusicShuffle(true),
 m_iVisibilitySize(1),
 m_sFancyName(_T("untitled")),
 
-m_pHeightMap(NULL),
-m_pTileNormalMap(NULL),
-m_pVertexCliffMap(NULL),
-m_pVertexNormalMap(NULL),
-m_pVertexTangentMap(NULL),
-m_pVertexColorMap(NULL),
-m_pVertexBlockerMap(NULL),
-m_pTileCliffMap(NULL),
-m_pTileVisBlockerMap(NULL),
-m_pMaterialList(NULL),
-m_pTextureList(NULL),
-m_pTileMaterialMap(NULL),
-m_pTileFoliageMap(NULL),
-m_pTileSplitMap(NULL),
-m_pVertexFoliageMap(NULL),
-m_pWorldTree(NULL),
-m_pWorldEntityList(NULL),
-m_pWorldLightList(NULL),
-m_pWorldSoundList(NULL),
-m_pWorldOccluderList(NULL),
-m_pTexelAlphaMap(NULL),
-m_pTexelOcclusionMap(NULL),
-m_pWorldTriggerList(NULL),
-m_pNavigationMap(NULL),
-m_pNavigationGraph(NULL),
-m_pOcclusionMap(NULL),
-m_pVertexCameraHeightMap(NULL),
-m_pCliffList(NULL),
-m_pCliffVariationMap(NULL),
-m_pTileRampMap(NULL),
+m_pHeightMap(nullptr),
+m_pTileNormalMap(nullptr),
+m_pVertexCliffMap(nullptr),
+m_pVertexNormalMap(nullptr),
+m_pVertexTangentMap(nullptr),
+m_pVertexColorMap(nullptr),
+m_pVertexBlockerMap(nullptr),
+m_pTileCliffMap(nullptr),
+m_pTileVisBlockerMap(nullptr),
+m_pMaterialList(nullptr),
+m_pTextureList(nullptr),
+m_pTileMaterialMap(nullptr),
+m_pTileFoliageMap(nullptr),
+m_pTileSplitMap(nullptr),
+m_pVertexFoliageMap(nullptr),
+m_pWorldTree(nullptr),
+m_pWorldEntityList(nullptr),
+m_pWorldLightList(nullptr),
+m_pWorldSoundList(nullptr),
+m_pWorldOccluderList(nullptr),
+m_pTexelAlphaMap(nullptr),
+m_pTexelOcclusionMap(nullptr),
+m_pWorldTriggerList(nullptr),
+m_pNavigationMap(nullptr),
+m_pNavigationGraph(nullptr),
+m_pOcclusionMap(nullptr),
+m_pVertexCameraHeightMap(nullptr),
+m_pCliffList(nullptr),
+m_pCliffVariationMap(nullptr),
+m_pTileRampMap(nullptr),
 m_pWorldPaths(K2_NEW(ctx_World,  CRecyclePool)<CPath>(DEFAULT_PATH_COUNT)),
 
 m_hTerrainTypeStringTable(g_ResourceManager.Register(_T("/world/terrain/TerrainTypes.str"), RES_STRINGTABLE))
@@ -408,7 +408,7 @@ bool    CWorld::StartLoad(const tstring &sName, bool bPreload)
         }
 
         if (m_yHostType & WORLDHOST_CLIENT)
-            Vid.Notify(VID_NOTIFY_UPDATE_SHADERS, 0, 0, 0, NULL);
+            Vid.Notify(VID_NOTIFY_UPDATE_SHADERS, 0, 0, 0, nullptr);
 
         AllocateComponents();
         m_lComponentsToLoad.clear();
@@ -416,7 +416,7 @@ bool    CWorld::StartLoad(const tstring &sName, bool bPreload)
         // Add all the components to the load queue
         for (uint ui(0); ui < NUM_WORLD_COMPONENTS; ++ui)
         {
-            if (m_apWorldComponents[ui] != NULL)
+            if (m_apWorldComponents[ui] != nullptr)
                 m_lComponentsToLoad.push_back(m_apWorldComponents[ui]);
         }
 
@@ -474,7 +474,7 @@ bool    CWorld::New(const tstring &sName, int iSize, float fScale, int iTexelDen
 
         for (uint ui(0); ui < NUM_WORLD_COMPONENTS; ++ui)
         {
-            if (m_apWorldComponents[ui] == NULL)
+            if (m_apWorldComponents[ui] == nullptr)
                 continue;
 
             if (!m_apWorldComponents[ui]->Generate(this))
@@ -521,7 +521,7 @@ void    CWorld::Free()
 
     for (uint ui(0); ui < NUM_WORLD_COMPONENTS; ++ui)
     {
-        if (m_apWorldComponents[ui] == NULL)
+        if (m_apWorldComponents[ui] == nullptr)
             continue;
 
         m_apWorldComponents[ui]->Release();
@@ -535,7 +535,7 @@ void    CWorld::Free()
     if (m_yHostType & WORLDHOST_CLIENT)
         Vid.Notify(VID_NOTIFY_WORLD_DESTROYED, 0, 0, 0, this);
 
-    if (m_pWorldArchive != NULL)
+    if (m_pWorldArchive != nullptr)
     {
         if (m_pWorldArchive->IsOpen())
             m_pWorldArchive->Close();
@@ -543,7 +543,7 @@ void    CWorld::Free()
         SAFE_DELETE(m_pWorldArchive);
     }
 
-    FileManager.SetWorldArchive(NULL);
+    FileManager.SetWorldArchive(nullptr);
 
     if (m_pWorldPaths->GetNumAllocated() > 0)
         Console << m_pWorldPaths->GetNumAllocated() << _T(" paths leaked") << newl;
@@ -583,7 +583,7 @@ void    CWorld::Save(const tstring &sName)
         FileDataMap mapData;
         
         // Back up imported data to a map so it can be saved in the new archive
-        if (m_pWorldArchive != NULL)
+        if (m_pWorldArchive != nullptr)
         {
             m_pWorldArchive->GetFileList(vResourceList);
 
@@ -592,7 +592,7 @@ void    CWorld::Save(const tstring &sName)
                 if ((*it).substr(0, 10) != _T("/resources") || (*it)[(*it).length() - 1] == _T('/'))
                     continue;
 
-                char *pData(NULL);
+                char *pData(nullptr);
                 int iLen;
 
                 iLen = m_pWorldArchive->ReadFile(Filename_GetPath(m_pWorldArchive->GetPath()) + (*it), pData);
@@ -603,7 +603,7 @@ void    CWorld::Save(const tstring &sName)
                 mapData.insert(FileDataPair(*it, pair<int, char*>(iLen, pData)));
             }
 
-            FileManager.SetWorldArchive(NULL);
+            FileManager.SetWorldArchive(nullptr);
             m_pWorldArchive->Close();
             SAFE_DELETE(m_pWorldArchive);
         }
@@ -624,7 +624,7 @@ void    CWorld::Save(const tstring &sName)
         // Save each component
         for (uint ui(0); ui < NUM_WORLD_COMPONENTS; ++ui)
         {
-            if (m_apWorldComponents[ui] != NULL)
+            if (m_apWorldComponents[ui] != nullptr)
                 m_apWorldComponents[ui]->Save(hArchive);
         }
 
@@ -641,7 +641,7 @@ void    CWorld::Save(const tstring &sName)
 
         m_pWorldArchive = K2_NEW(ctx_World,  CArchive)(m_sPath);
 
-        if (m_pWorldArchive != NULL && m_pWorldArchive->IsOpen())
+        if (m_pWorldArchive != nullptr && m_pWorldArchive->IsOpen())
             FileManager.SetWorldArchive(m_pWorldArchive);
         else if (!m_pWorldArchive->IsOpen())
             SAFE_DELETE(m_pWorldArchive);
@@ -718,7 +718,7 @@ void    CWorld::Reset()
         // Reset each component
         for (uint ui(0); ui < NUM_WORLD_COMPONENTS; ++ui)
         {
-            if (m_apWorldComponents[ui] != NULL)
+            if (m_apWorldComponents[ui] != nullptr)
                 m_apWorldComponents[ui]->Restore(*m_pWorldArchive);
         }
     }
@@ -750,7 +750,7 @@ bool    CWorld::GetRegion(EWorldComponent eComponent, CRecti &recArea, void *pAr
 {
     assert(eComponent >= 0 && eComponent < NUM_WORLD_COMPONENTS);
     IWorldComponent *pComponent(GetWorldComponent(eComponent));
-    if (pComponent == NULL)
+    if (pComponent == nullptr)
         return false;
 
     return pComponent->GetRegion(recArea, pArray, iLayer);
@@ -764,7 +764,7 @@ bool    CWorld::SetRegion(EWorldComponent eComponent, CRecti &recArea, void *pAr
 {
     assert(eComponent >= 0 && eComponent < NUM_WORLD_COMPONENTS);
     IWorldComponent *pComponent(GetWorldComponent(eComponent));
-    if (pComponent == NULL)
+    if (pComponent == nullptr)
         return false;
 
     return pComponent->SetRegion(recArea, pArray, iLayer);
@@ -778,7 +778,7 @@ bool    CWorld::UpdateComponent(EWorldComponent eComponent, const CRecti &recAre
 {
     assert(eComponent >= 0 && eComponent < NUM_WORLD_COMPONENTS);
     IWorldComponent *pComponent(GetWorldComponent(eComponent));
-    if (pComponent == NULL)
+    if (pComponent == nullptr)
         return false;
 
     pComponent->Update(recArea);
@@ -991,7 +991,7 @@ void CWorld::SetWorldEntityList(CWorldEntityList *pEntityList)
 PoolHandle  CWorld::ClonePath(PoolHandle hPath) const
 {
     CPath *pPath(m_pWorldPaths->GetReferenceByHandle(hPath));
-    if (pPath == NULL)
+    if (pPath == nullptr)
         return INVALID_POOL_HANDLE;
 
     PoolHandle hNewPath(NewPath());
@@ -1073,7 +1073,7 @@ void    CWorld::GetImportedFiles(tsvector &vList)
     tsvector vResourceList;
     vList.clear();
 
-    if (m_pWorldArchive == NULL || !m_pWorldArchive->IsOpen())
+    if (m_pWorldArchive == nullptr || !m_pWorldArchive->IsOpen())
         return;
     
     m_pWorldArchive->GetFileList(vResourceList);
@@ -1098,7 +1098,7 @@ bool    CWorld::ImportFile(const tstring &sFilePath, const tstring &sPathInArchi
 {
     CFile *pFile;
 
-    if (m_pWorldArchive == NULL || !m_pWorldArchive->IsOpen())
+    if (m_pWorldArchive == nullptr || !m_pWorldArchive->IsOpen())
     {
         Console << _T("ImportFile: World archive is not properly loaded.") << newl;
         return false;
@@ -1106,7 +1106,7 @@ bool    CWorld::ImportFile(const tstring &sFilePath, const tstring &sPathInArchi
 
     pFile = FileManager.GetFile(sFilePath, FILE_READ | FILE_BINARY);
 
-    if (pFile == NULL)
+    if (pFile == nullptr)
     {
         Console << _T("ImportFile: Could not load the target file.") << newl;
         return false;
@@ -1124,7 +1124,7 @@ bool    CWorld::ImportFile(const tstring &sFilePath, const tstring &sPathInArchi
     
     pBuf = pFile->GetBuffer(uiFileLen);
 
-    if (pBuf == NULL || uiFileLen == 0)
+    if (pBuf == nullptr || uiFileLen == 0)
     {
         Console << _T("ImportFile: Could not read the target file.") << newl;
         pFile->Close();
@@ -1137,7 +1137,7 @@ bool    CWorld::ImportFile(const tstring &sFilePath, const tstring &sPathInArchi
     FileDataMap mapData;
     
     // Back up imported data to a map so it can be saved in the new archive
-    if (m_pWorldArchive != NULL)
+    if (m_pWorldArchive != nullptr)
     {
         m_pWorldArchive->GetFileList(vResourceList);
 
@@ -1146,7 +1146,7 @@ bool    CWorld::ImportFile(const tstring &sFilePath, const tstring &sPathInArchi
             if ((*it).substr(0, 10) != _T("/resources") || (*it)[(*it).length() - 1] == _T('/'))
                 continue;
 
-            char *pData(NULL);
+            char *pData(nullptr);
             int iLen;
 
             iLen = m_pWorldArchive->ReadFile(Filename_GetPath(m_pWorldArchive->GetPath()) + (*it), pData);
@@ -1157,7 +1157,7 @@ bool    CWorld::ImportFile(const tstring &sFilePath, const tstring &sPathInArchi
             mapData.insert(FileDataPair(*it, pair<int, char*>(iLen, pData)));
         }
 
-        FileManager.SetWorldArchive(NULL);
+        FileManager.SetWorldArchive(nullptr);
         m_pWorldArchive->Close();
         SAFE_DELETE(m_pWorldArchive);
     }
@@ -1178,7 +1178,7 @@ bool    CWorld::ImportFile(const tstring &sFilePath, const tstring &sPathInArchi
     // Save each component
     for (uint ui(0); ui < NUM_WORLD_COMPONENTS; ++ui)
     {
-        if (m_apWorldComponents[ui] != NULL)
+        if (m_apWorldComponents[ui] != nullptr)
             m_apWorldComponents[ui]->Save(hArchive);
     }
 
@@ -1197,7 +1197,7 @@ bool    CWorld::ImportFile(const tstring &sFilePath, const tstring &sPathInArchi
 
     m_pWorldArchive = K2_NEW(ctx_World,  CArchive)(m_sPath);
 
-    if (m_pWorldArchive != NULL && m_pWorldArchive->IsOpen())
+    if (m_pWorldArchive != nullptr && m_pWorldArchive->IsOpen())
         FileManager.SetWorldArchive(m_pWorldArchive);
     else if (!m_pWorldArchive->IsOpen())
         SAFE_DELETE(m_pWorldArchive);
@@ -1214,7 +1214,7 @@ bool    CWorld::ImportFile(const tstring &sFilePath, const tstring &sPathInArchi
   ====================*/
 bool    CWorld::DeleteImportedFile(const tstring &sPathInArchive)
 {
-    if (m_pWorldArchive == NULL || !m_pWorldArchive->IsOpen())
+    if (m_pWorldArchive == nullptr || !m_pWorldArchive->IsOpen())
     {
         Console << _T("DeleteImportedFile: World archive is not properly loaded.") << newl;
         return false;
@@ -1225,7 +1225,7 @@ bool    CWorld::DeleteImportedFile(const tstring &sPathInArchive)
     FileDataMap mapData;
     
     // Back up imported data to a map so it can be saved in the new archive
-    if (m_pWorldArchive != NULL)
+    if (m_pWorldArchive != nullptr)
     {
         m_pWorldArchive->GetFileList(vResourceList);
 
@@ -1237,7 +1237,7 @@ bool    CWorld::DeleteImportedFile(const tstring &sPathInArchive)
             if ((*it) == _T("/resources") + sPathInArchive)
                 continue;
 
-            char *pData(NULL);
+            char *pData(nullptr);
             int iLen;
 
             iLen = m_pWorldArchive->ReadFile(Filename_GetPath(m_pWorldArchive->GetPath()) + (*it), pData);
@@ -1248,7 +1248,7 @@ bool    CWorld::DeleteImportedFile(const tstring &sPathInArchive)
             mapData.insert(FileDataPair(*it, pair<int, char*>(iLen, pData)));
         }
 
-        FileManager.SetWorldArchive(NULL);
+        FileManager.SetWorldArchive(nullptr);
         m_pWorldArchive->Close();
         SAFE_DELETE(m_pWorldArchive);
     }
@@ -1269,7 +1269,7 @@ bool    CWorld::DeleteImportedFile(const tstring &sPathInArchive)
     // Save each component
     for (uint ui(0); ui < NUM_WORLD_COMPONENTS; ++ui)
     {
-        if (m_apWorldComponents[ui] != NULL)
+        if (m_apWorldComponents[ui] != nullptr)
             m_apWorldComponents[ui]->Save(hArchive);
     }
 
@@ -1286,7 +1286,7 @@ bool    CWorld::DeleteImportedFile(const tstring &sPathInArchive)
 
     m_pWorldArchive = K2_NEW(ctx_World,  CArchive)(m_sPath);
 
-    if (m_pWorldArchive != NULL && m_pWorldArchive->IsOpen())
+    if (m_pWorldArchive != nullptr && m_pWorldArchive->IsOpen())
         FileManager.SetWorldArchive(m_pWorldArchive);
     else if (!m_pWorldArchive->IsOpen())
         SAFE_DELETE(m_pWorldArchive);

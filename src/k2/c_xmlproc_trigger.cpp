@@ -27,7 +27,7 @@ namespace XMLInterface
         try
         {
             CInterface *pInterface(pObject->GetInterface());
-            if (pInterface == NULL)
+            if (pInterface == nullptr)
                 EX_ERROR(_T("Interface pointer not set for <trigger> tag"));
 
             if (!node.HasProperty(_T("name")))
@@ -35,7 +35,7 @@ namespace XMLInterface
 
             const tstring &sName(node.GetProperty(_T("name")));
             CUITrigger *pTrigger(K2_NEW(ctx_Widgets,  CUITrigger)(sName));
-            if (pTrigger != NULL)
+            if (pTrigger != nullptr)
                 pInterface->AddLocalTrigger(pTrigger);
 
             return true;

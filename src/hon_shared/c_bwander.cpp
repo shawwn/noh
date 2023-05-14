@@ -59,7 +59,7 @@ bool    CBWander::Validate()
         return false;
     }
 
-    if (m_uiTargetIndex != INVALID_INDEX && Game.GetUnitEntity(m_uiTargetIndex) == NULL)
+    if (m_uiTargetIndex != INVALID_INDEX && Game.GetUnitEntity(m_uiTargetIndex) == nullptr)
     {
         SetFlag(BSR_END);
         return false;
@@ -86,7 +86,7 @@ void    CBWander::Update()
   ====================*/
 void    CBWander::BeginBehavior()
 {
-    if (m_pSelf == NULL)
+    if (m_pSelf == nullptr)
     {
         Console << _T("CBWander: Behavior started without valid information") << newl;
         return;
@@ -109,19 +109,19 @@ void    CBWander::BeginBehavior()
   ====================*/
 void    CBWander::ThinkFrame()
 {
-    IUnitEntity *pTarget(NULL);
+    IUnitEntity *pTarget(nullptr);
 
     if (m_uiTargetIndex != INVALID_INDEX)
     {
         pTarget = Game.GetUnitEntity(m_uiTargetIndex);
-        if (pTarget == NULL)
+        if (pTarget == nullptr)
             return;
 
         m_v2Origin = pTarget->GetPosition().xy();
     }
 
     // Check for a target that has become invalid
-    if (pTarget != NULL && (pTarget->GetStatus() != ENTITY_STATUS_ACTIVE || !m_pSelf->CanSee(pTarget)))
+    if (pTarget != nullptr && (pTarget->GetStatus() != ENTITY_STATUS_ACTIVE || !m_pSelf->CanSee(pTarget)))
     {
         SetFlag(BSR_END);
         return;
@@ -142,7 +142,7 @@ void    CBWander::ThinkFrame()
     m_fDistSq = DistanceSq(v2Position, v2TargetPosition);
 
     m_fMinDistanceSq = m_pSelf->GetBounds().GetDim(X) * DIAG;
-    if (pTarget != NULL)
+    if (pTarget != nullptr)
         m_fMinDistanceSq += pTarget->GetBounds().GetDim(X) * DIAG;
     m_fMinDistanceSq *= m_fMinDistanceSq;
 
@@ -172,17 +172,17 @@ void    CBWander::ThinkFrame()
   ====================*/
 void    CBWander::MovementFrame()
 {
-    IUnitEntity *pTarget(NULL);
+    IUnitEntity *pTarget(nullptr);
 
     if (m_uiTargetIndex != INVALID_INDEX)
     {
         pTarget = Game.GetUnitEntity(m_uiTargetIndex);
-        if (pTarget == NULL)
+        if (pTarget == nullptr)
             return;
     }
 
     // Check for a target that has become invalid
-    if (pTarget != NULL && (pTarget->GetStatus() != ENTITY_STATUS_ACTIVE || !m_pSelf->CanSee(pTarget)))
+    if (pTarget != nullptr && (pTarget->GetStatus() != ENTITY_STATUS_ACTIVE || !m_pSelf->CanSee(pTarget)))
     {
         SetFlag(BSR_END);
         return;
@@ -234,17 +234,17 @@ void    CBWander::MovementFrame()
   ====================*/
 void    CBWander::ActionFrame()
 {
-    IUnitEntity *pTarget(NULL);
+    IUnitEntity *pTarget(nullptr);
 
     if (m_uiTargetIndex != INVALID_INDEX)
     {
         pTarget = Game.GetUnitEntity(m_uiTargetIndex);
-        if (pTarget == NULL)
+        if (pTarget == nullptr)
             return;
     }
 
     // Check for a target that has become invalid
-    if (pTarget != NULL && (pTarget->GetStatus() != ENTITY_STATUS_ACTIVE || !m_pSelf->CanSee(pTarget)))
+    if (pTarget != nullptr && (pTarget->GetStatus() != ENTITY_STATUS_ACTIVE || !m_pSelf->CanSee(pTarget)))
     {
         SetFlag(BSR_END);
         return;
@@ -262,7 +262,7 @@ void    CBWander::ActionFrame()
     float fDistSq(DistanceSq(v2Position, v2TargetPosition));
 
     float fMinDistanceSq(m_pSelf->GetBounds().GetDim(X) * DIAG);
-    if (pTarget != NULL)
+    if (pTarget != nullptr)
         fMinDistanceSq += pTarget->GetBounds().GetDim(X) * DIAG;
     fMinDistanceSq *= fMinDistanceSq;
 

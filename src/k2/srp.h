@@ -137,7 +137,7 @@ void srp_create_salted_verification_key( SRP_HashAlgorithm alg,
 
 /* Out: bytes_B, len_B.
  *
- * On failure, bytes_B will be set to NULL and len_B will be set to 0
+ * On failure, bytes_B will be set to nullptr and len_B will be set to 0
  *
  * The n_hex and g_hex parameters should be 0 unless SRP_NG_CUSTOM is used for ng_type
  */

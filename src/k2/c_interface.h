@@ -148,7 +148,7 @@ public:
 
     void                RegisterTemplate(CWidgetTemplate *pTemplate);
     CWidgetTemplate*    GetCurrentTemplate()                    { return m_pCurrentTemplate; }
-    void                ClearCurrentTemplate()                  { m_pCurrentTemplate = NULL; }
+    void                ClearCurrentTemplate()                  { m_pCurrentTemplate = nullptr; }
     CWidgetTemplate*    GetTemplate(const tstring &sName);
 
     void                AddWidget(IWidget *pWidget);

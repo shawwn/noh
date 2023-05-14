@@ -38,13 +38,13 @@ CWebPanel::~CWebPanel()
 CWebPanel::CWebPanel(CInterface *pInterface, IWidget *pParent, const CWidgetStyle& style, CHTTPManager* pHTTPManager) :
 CPanel(pInterface, pParent, style, WIDGET_WEBPANEL),
 m_pHTTPManager(pHTTPManager),
-m_pRequest(NULL),
+m_pRequest(nullptr),
 
 m_eState(WEBPANEL_BLANK),
-m_pStatusTrigger(NULL),
+m_pStatusTrigger(nullptr),
 m_bUseSSL(false)
 {
-    assert(m_pHTTPManager != NULL);
+    assert(m_pHTTPManager != nullptr);
 
     PROFILE("CXMLProc_webpanel::Process");
 
@@ -89,7 +89,7 @@ void    CWebPanel::SetStatusTrigger(const tstring &sName)
         return;
 
     CUITrigger *pTrigger(UITriggerRegistry.GetUITrigger(sName));
-    if (pTrigger == NULL)
+    if (pTrigger == nullptr)
     {
         Console.Warn << _T("Could not find trigger ") << QuoteStr(sName) << _T(" for form ") << QuoteStr(m_sName) << newl;
         return;
@@ -118,7 +118,7 @@ void    CWebPanel::Submit(const tsvector &vParams)
 
     m_pHTTPManager->ReleaseRequest(m_pRequest);
     m_pRequest = m_pHTTPManager->SpawnRequest();
-    if (m_pRequest == NULL)
+    if (m_pRequest == nullptr)
         return;
 
     m_pRequest->SetTargetURL(m_sTargetHost + m_sTargetURI);
@@ -148,10 +148,10 @@ void    CWebPanel::Frame(uint uiFrameLength, bool bProcessFrame)
 {
     IWidget::Frame(uiFrameLength, bProcessFrame);
 
-    if (m_pRequest == NULL)
+    if (m_pRequest == nullptr)
         return;
 
-    if (m_pStatusTrigger != NULL)
+    if (m_pStatusTrigger != nullptr)
         m_pStatusTrigger->Trigger(XtoA(m_pRequest->GetStatus()));
 
     if (m_pRequest->IsActive())
@@ -161,7 +161,7 @@ void    CWebPanel::Frame(uint uiFrameLength, bool bProcessFrame)
         ProcessResponse();
 
     m_pHTTPManager->ReleaseRequest(m_pRequest);
-    m_pRequest = NULL;
+    m_pRequest = nullptr;
 }
 
 
@@ -197,7 +197,7 @@ UI_CMD(SubmitWebPanel, 1)
     const tstring& sWebPanelName(vArgList[0]->Evaluate());
     IWidget* pWidget(UIManager.FindWidget(sWebPanelName));
 
-    if (pWidget == NULL)
+    if (pWidget == nullptr)
     {
         Console.Err << _T("SubmitWebPanel('") << sWebPanelName << _T("') - The specified web panel does not exist") << newl;
         return _T("0");

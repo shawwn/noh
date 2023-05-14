@@ -308,7 +308,7 @@ bool    CPrecipEmitter::Update(uint uiMilliseconds, ParticleTraceFn_t pfnTrace)
     {
         if (it->IsActive())
         {
-            it->Update(fDeltaTime, v3Acceleration, m_fDrag, m_fFriction, m_bCollide ? pfnTrace : NULL);
+            it->Update(fDeltaTime, v3Acceleration, m_fDrag, m_fFriction, m_bCollide ? pfnTrace : nullptr);
 
             if (it->IsDead(uiMilliseconds, bExpired))
                 it->SetActive(false);
@@ -425,7 +425,7 @@ bool    CPrecipEmitter::Update(uint uiMilliseconds, ParticleTraceFn_t pfnTrace)
                                 fAcceleration,
                                 1.0f,
                                 v3Position,
-                                NULL,
+                                nullptr,
                                 **itDef
                             );
 
@@ -574,7 +574,7 @@ bool    CPrecipEmitter::Update(uint uiMilliseconds, ParticleTraceFn_t pfnTrace)
                 fAcceleration,
                 1.0f,
                 v3Position,
-                NULL,
+                nullptr,
                 **itDef
             );
 
@@ -594,13 +594,13 @@ bool    CPrecipEmitter::Update(uint uiMilliseconds, ParticleTraceFn_t pfnTrace)
                 if (m_vParticles[m_uiFrontSlot].GetImbeddedEmitter())
                 {
                     K2_DELETE(m_vParticles[m_uiFrontSlot].GetImbeddedEmitter());
-                    m_vParticles[m_uiFrontSlot].SetImbeddedEmitter(NULL);
+                    m_vParticles[m_uiFrontSlot].SetImbeddedEmitter(nullptr);
                 }
 
                 m_uiFrontSlot = (m_uiFrontSlot + 1) % m_vParticles.size();
             }
 
-            while ((!m_vParticles[m_uiFrontSlot].IsActive() && m_vParticles[m_uiFrontSlot].GetImbeddedEmitter() == NULL) && m_uiFrontSlot != m_uiBackSlot)
+            while ((!m_vParticles[m_uiFrontSlot].IsActive() && m_vParticles[m_uiFrontSlot].GetImbeddedEmitter() == nullptr) && m_uiFrontSlot != m_uiBackSlot)
                 m_uiFrontSlot = (m_uiFrontSlot + 1) % m_vParticles.size();
         }
 

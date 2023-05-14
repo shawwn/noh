@@ -147,7 +147,7 @@ bool    IEntityTool::ReadSnapshot(CEntitySnapshot &snapshot, uint uiVersion)
 bool    IEntityTool::ServerFrameSetup()
 {
     IUnitEntity *pOwner(GetOwner());
-    if (pOwner == NULL)
+    if (pOwner == nullptr)
         return false;
 
     bool bIsReady(IsReady() || !IsActive());
@@ -182,7 +182,7 @@ bool    IEntityTool::ServerFrameSetup()
         GetSlot() >= INVENTORY_START_ACTIVE &&
         GetSlot() <= INVENTORY_END_ACTIVE)
     {
-        if (m_pDefinition != NULL)
+        if (m_pDefinition != nullptr)
             m_pDefinition->ApplyAuras(this, GetLevel());
     }
 
@@ -199,13 +199,13 @@ bool    IEntityTool::ServerFrameSetup()
     for (uivector_it it(m_vToggleEntityUID.begin()); it != m_vToggleEntityUID.end(); ++it)
     {
         IGameEntity *pEntity(Game.GetEntityFromUniqueID(*it));
-        if (pEntity == NULL)
+        if (pEntity == nullptr)
             continue;
 
         if (pEntity->IsState())
         {
             IEntityState *pState(pEntity->GetAsState());
-            if (pState == NULL)
+            if (pState == nullptr)
                 continue;
 
             pState->SetPersistentModifierKeys(GetModifierKeys());
@@ -215,7 +215,7 @@ bool    IEntityTool::ServerFrameSetup()
         else if (pEntity->IsUnit())
         {
             IUnitEntity *pUnit(pEntity->GetAsUnit());
-            if (pUnit == NULL)
+            if (pUnit == nullptr)
                 continue;
 
             pUnit->SetPersistentModifierKeys(GetModifierKeys());
@@ -224,7 +224,7 @@ bool    IEntityTool::ServerFrameSetup()
         else if (pEntity->IsAffector())
         {
             IAffector *pAffector(pEntity->GetAsAffector());
-            if (pAffector == NULL)
+            if (pAffector == nullptr)
                 continue;
 
             pAffector->UpdateModifiers(GetModifierKeys());
@@ -233,7 +233,7 @@ bool    IEntityTool::ServerFrameSetup()
         else if (pEntity->IsProjectile())
         {
             IProjectile *pProjectile(pEntity->GetAsProjectile());
-            if (pProjectile == NULL)
+            if (pProjectile == nullptr)
                 continue;
 
             pProjectile->UpdateModifiers(GetModifierKeys());
@@ -254,7 +254,7 @@ bool    IEntityTool::ServerFrameAction()
         return false;
 
     IUnitEntity *pOwner(GetOwner());
-    if (pOwner == NULL)
+    if (pOwner == nullptr)
         return true;
 
     if (m_uiTimer != INVALID_TIME && m_uiTimer <= Game.GetGameTime())
@@ -284,16 +284,16 @@ bool    IEntityTool::ServerFrameAction()
         for (uivector_it it(m_vToggleEntityUID.begin()); it != m_vToggleEntityUID.end(); ++it)
         {
             IGameEntity *pEntity(Game.GetEntityFromUniqueID(*it));
-            if (pEntity == NULL)
+            if (pEntity == nullptr)
                 continue;
             
             if (pEntity->IsState())
             {
                 IEntityState *pState(pEntity->GetAsState());
-                if (pState == NULL)
+                if (pState == nullptr)
                     continue;
                 IUnitEntity *pOwner(pState->GetOwner());
-                if (pOwner == NULL)
+                if (pOwner == nullptr)
                     continue;
 
                 pOwner->ExpireState(pState->GetSlot());
@@ -301,7 +301,7 @@ bool    IEntityTool::ServerFrameAction()
             else if (pEntity->IsUnit())
             {
                 IUnitEntity *pUnit(pEntity->GetAsUnit());
-                if (pUnit == NULL)
+                if (pUnit == nullptr)
                     continue;
 
                 pUnit->Kill();
@@ -309,7 +309,7 @@ bool    IEntityTool::ServerFrameAction()
             else if (pEntity->IsAffector())
             {
                 IAffector *pAffector(pEntity->GetAsAffector());
-                if (pAffector == NULL)
+                if (pAffector == nullptr)
                     continue;
 
                 pAffector->Expire();
@@ -317,7 +317,7 @@ bool    IEntityTool::ServerFrameAction()
             else if (pEntity->IsProjectile())
             {
                 IProjectile *pProjectile(pEntity->GetAsProjectile());
-                if (pProjectile == NULL)
+                if (pProjectile == nullptr)
                     continue;
 
                 pProjectile->Kill();
@@ -339,7 +339,7 @@ bool    IEntityTool::ServerFrameAction()
 
         if (GetChannelRange() > 0.0f)
         {
-            if (pTarget != NULL && (GetActionType() == TOOL_ACTION_TARGET_ENTITY || ((GetActionType() == TOOL_ACTION_TARGET_DUAL || GetActionType() == TOOL_ACTION_TARGET_DUAL_POSITION) && m_uiTargetUID != INVALID_INDEX)))
+            if (pTarget != nullptr && (GetActionType() == TOOL_ACTION_TARGET_ENTITY || ((GetActionType() == TOOL_ACTION_TARGET_DUAL || GetActionType() == TOOL_ACTION_TARGET_DUAL_POSITION) && m_uiTargetUID != INVALID_INDEX)))
             {
                 float fRange(pOwner->GetBounds().GetDim(X) * DIAG + GetChannelRange() + pTarget->GetBounds().GetDim(X) * DIAG);
                 
@@ -395,7 +395,7 @@ bool    IEntityTool::ServerFrameAction()
 uint    IEntityTool::GetAdjustedActionTime() const
 {
     IUnitEntity *pOwner(GetOwner());
-    if (pOwner == NULL)
+    if (pOwner == nullptr)
         return 0;
 
     uint uiBase(GetCastActionTime());
@@ -409,7 +409,7 @@ uint    IEntityTool::GetAdjustedActionTime() const
 uint    IEntityTool::GetAdjustedCastTime() const
 {
     IUnitEntity *pOwner(GetOwner());
-    if (pOwner == NULL)
+    if (pOwner == nullptr)
         return 0;
 
     uint uiBase(GetCastTime());
@@ -423,7 +423,7 @@ uint    IEntityTool::GetAdjustedCastTime() const
 bool    IEntityTool::ImpactEntity(uint uiTargetIndex, int iIssuedClientNumber, float fManaCost)
 {
     IUnitEntity *pTarget(Game.GetUnitEntity(uiTargetIndex));
-    if (pTarget == NULL)
+    if (pTarget == nullptr)
         return false;
     if ((GetActionType() == TOOL_ACTION_TARGET_ENTITY || GetActionType() == TOOL_ACTION_TARGET_DUAL || GetActionType() == TOOL_ACTION_TARGET_DUAL_POSITION) &&
         !IsValidTarget(pTarget))
@@ -554,7 +554,7 @@ bool    IEntityTool::ImpactVector(const CVec3f &v3TargetPosition, const CVec3f &
 void    IEntityTool::PlayCastEffect()
 {
     IUnitEntity *pOwner(GetOwner());
-    if (pOwner == NULL)
+    if (pOwner == nullptr)
         return;
 
     ResHandle hEffect(GetCastEffect());
@@ -574,7 +574,7 @@ void    IEntityTool::PlayCastEffect()
 void    IEntityTool::PlayActionEffect()
 {
     IUnitEntity *pOwner(GetOwner());
-    if (pOwner == NULL)
+    if (pOwner == nullptr)
         return;
 
     ResHandle hEffect(GetActionEffect());
@@ -609,7 +609,7 @@ bool    IEntityTool::IsDisabled() const
 bool    IEntityTool::CheckCost()
 {
     IUnitEntity *pOwner(GetOwner());
-    if (pOwner == NULL)
+    if (pOwner == nullptr)
         return false;
 
     CCombatEvent combat;
@@ -626,7 +626,7 @@ bool    IEntityTool::CheckCost()
 bool    IEntityTool::CheckTriggeredCost()
 {
     IUnitEntity *pOwner(GetOwner());
-    if (pOwner == NULL)
+    if (pOwner == nullptr)
         return false;
 
     CCombatEvent combat;
@@ -646,7 +646,7 @@ bool    IEntityTool::CanOrder()
         return false;
 
     IUnitEntity *pOwner(GetOwner());
-    if (pOwner == NULL)
+    if (pOwner == nullptr)
         return false;
 
     if (pOwner->GetStatus() != ENTITY_STATUS_ACTIVE)
@@ -665,7 +665,7 @@ bool    IEntityTool::CanOrder()
         return false;
 
 #if 0
-    if (GetUseProxy() && SelectProxy() == NULL)
+    if (GetUseProxy() && SelectProxy() == nullptr)
         return false;
 #endif
 
@@ -699,7 +699,7 @@ bool    IEntityTool::CanActivate()
         return false;
 
     IUnitEntity *pOwner(GetOwner());
-    if (pOwner == NULL)
+    if (pOwner == nullptr)
         return false;
 
     if (pOwner->GetStatus() != ENTITY_STATUS_ACTIVE)
@@ -718,7 +718,7 @@ bool    IEntityTool::CanActivate()
         return false;
 
 #if 0
-    if (GetUseProxy() && SelectProxy() == NULL)
+    if (GetUseProxy() && SelectProxy() == nullptr)
         return false;
 #endif
 
@@ -755,7 +755,7 @@ bool    IEntityTool::IsTargetValid(IUnitEntity *pTarget, const CVec3f &v3Target)
         for (uivector_it it(vResult.begin()); it != vResult.end(); ++it)
         {
             IUnitEntity *pUnit(Game.GetUnitEntity(Game.GetGameIndexFromWorldIndex(*it)));
-            if (pUnit == NULL)
+            if (pUnit == nullptr)
                 continue;
 
             if (!Game.IsValidTarget(GetNoTargetScheme(), GetNoCastEffectType(), GetOwner(), pUnit, GetNoTargetIgnoreInvulnerable()))
@@ -774,15 +774,15 @@ bool    IEntityTool::IsTargetValid(IUnitEntity *pTarget, const CVec3f &v3Target)
   ====================*/
 void    IEntityTool::AddActionScript(EEntityActionScript eScript, CCombatEvent &combat)
 {
-    if (m_pDefinition == NULL)
+    if (m_pDefinition == nullptr)
         return;
 
     IUnitEntity *pOwner(GetOwner());
-    if (pOwner == NULL)
+    if (pOwner == nullptr)
         return;
 
     CCombatActionScript *pScript(m_pDefinition->GetActionScript(eScript));
-    if (pScript != NULL && (!pOwner->IsIllusion() || pScript->GetPropagateToIllusions()))
+    if (pScript != nullptr && (!pOwner->IsIllusion() || pScript->GetPropagateToIllusions()))
     {
         CCombatActionScript &cScript(combat.AddActionScript(eScript, *pScript));
         cScript.SetThisUID(GetUniqueID());
@@ -797,7 +797,7 @@ void    IEntityTool::AddActionScript(EEntityActionScript eScript, CCombatEvent &
 bool    IEntityTool::Impact(IUnitEntity *pTarget, const CVec3f &v3Target, const CVec3f &v3Delta, bool bSecondary, int iIssuedClientNumber, float fManaCost)
 {
     IUnitEntity *pOwner(GetOwner());
-    if (pOwner == NULL)
+    if (pOwner == nullptr)
         return false;
 
     bool bActivated(false);
@@ -841,7 +841,7 @@ bool    IEntityTool::Impact(IUnitEntity *pTarget, const CVec3f &v3Target, const 
 
     case TOOL_ACTION_TARGET_ENTITY:
         PlayActionEffect();
-        if (pTarget != NULL)
+        if (pTarget != nullptr)
         {
             if (!GetCastProjectileName().empty())
                 bActivated = CreateProjectile(pTarget->GetIndex(), iIssuedClientNumber, fManaCost);
@@ -853,7 +853,7 @@ bool    IEntityTool::Impact(IUnitEntity *pTarget, const CVec3f &v3Target, const 
     case TOOL_ACTION_TARGET_DUAL:
     case TOOL_ACTION_TARGET_DUAL_POSITION:
         PlayActionEffect();
-        if (pTarget != NULL)
+        if (pTarget != nullptr)
         {
             if (!GetCastProjectileName().empty())
                 bActivated = CreateProjectile(pTarget->GetIndex(), iIssuedClientNumber, fManaCost);
@@ -902,11 +902,11 @@ bool    IEntityTool::Impact(IUnitEntity *pTarget, const CVec3f &v3Target, const 
         {
             PlayActionEffect();
             IGameEntity *pEntity(Game.GetFirstEntity());
-            while (pEntity != NULL)
+            while (pEntity != nullptr)
             {
                 IUnitEntity *pUnit(pEntity->GetAsUnit());
                 pEntity = Game.GetNextEntity(pEntity);
-                if (pUnit == NULL)
+                if (pUnit == nullptr)
                     continue;
 
                 if (Game.IsValidTarget(GetTargetScheme(), GetCastEffectType(), pOwner, pUnit, GetIgnoreInvulnerable()))
@@ -931,9 +931,9 @@ void    IEntityTool::ExecuteOwner(EEntityActionScript eScript, EEntityActionScri
     ExecuteActionScript(eScript, pTarget, v3Target, pCombatEvent);
 
     IUnitEntity* pOwner(GetOwner());
-    if (pOwner != NULL)
+    if (pOwner != nullptr)
     {
-        if (pTarget != NULL)
+        if (pTarget != nullptr)
             pOwner->Action(eOwnerScript, pTarget, this, pCombatEvent);
         else
             pOwner->Action(eOwnerScript, v3Target, this, pCombatEvent);
@@ -950,7 +950,7 @@ bool    IEntityTool::Activate(IUnitEntity *pTarget, const CVec3f &v3Target, cons
         return false;
 
     IUnitEntity *pOwner(GetOwner());
-    if (pOwner == NULL)
+    if (pOwner == nullptr)
         return false;
 
     float fManaCost(GetCurrentManaCost());
@@ -964,7 +964,7 @@ bool    IEntityTool::Activate(IUnitEntity *pTarget, const CVec3f &v3Target, cons
     {
         IUnitEntity *pProxy(SelectProxy());
 
-        if (pProxy == NULL)
+        if (pProxy == nullptr)
             return false;
 
         m_uiProxyUID = pProxy->GetUniqueID();
@@ -976,10 +976,10 @@ bool    IEntityTool::Activate(IUnitEntity *pTarget, const CVec3f &v3Target, cons
         pTarget = GetOwner();
 
     CVec3f v3Pos(v3Target);
-    if (pTarget != NULL && GetActionType() == TOOL_ACTION_TARGET_DUAL_POSITION)
+    if (pTarget != nullptr && GetActionType() == TOOL_ACTION_TARGET_DUAL_POSITION)
     {
         v3Pos = pTarget->GetPosition();
-        pTarget = NULL;
+        pTarget = nullptr;
     }
 
     if (!IsTargetValid(pTarget, v3Pos))
@@ -988,7 +988,7 @@ bool    IEntityTool::Activate(IUnitEntity *pTarget, const CVec3f &v3Target, cons
     // Allow inventory items to react to the action
     for (int iSlot(INVENTORY_START_ACTIVE); iSlot <= INVENTORY_END_ACTIVE; ++iSlot)
     {
-        if (pOwner->GetInventorySlot(iSlot) == NULL)
+        if (pOwner->GetInventorySlot(iSlot) == nullptr)
             continue;
 
         if (!pOwner->GetInventorySlot(iSlot)->OwnerAction())
@@ -1001,7 +1001,7 @@ bool    IEntityTool::Activate(IUnitEntity *pTarget, const CVec3f &v3Target, cons
         combat.SetManaCost(fManaCost);
         combat.SetCooldownTime(GetCurrentCooldownTime());
 
-        ExecuteActionScript(ACTION_SCRIPT_PRE_COST, pTarget, pTarget == NULL ? v3Pos : pTarget->GetPosition(), &combat);
+        ExecuteActionScript(ACTION_SCRIPT_PRE_COST, pTarget, pTarget == nullptr ? v3Pos : pTarget->GetPosition(), &combat);
         
         if (!GetNoResponse())
             pOwner->Action(ACTION_SCRIPT_ACTIVATE_PRE_COST, pTarget, this, &combat);
@@ -1030,12 +1030,12 @@ bool    IEntityTool::Activate(IUnitEntity *pTarget, const CVec3f &v3Target, cons
             pOwner->Action(ACTION_SCRIPT_ACTIVATE_PRE_IMPACT, pTarget, this, &combat);
     }
 
-    ExecuteActionScript(ACTION_SCRIPT_ACTION, pTarget, pTarget == NULL ? v3Pos : pTarget->GetPosition());
+    ExecuteActionScript(ACTION_SCRIPT_ACTION, pTarget, pTarget == nullptr ? v3Pos : pTarget->GetPosition());
 
     m_bFinished = false;
     m_bNegated = false;
 
-    m_uiActivateTargetUID = pTarget != NULL ? pTarget->GetUniqueID() : INVALID_INDEX;
+    m_uiActivateTargetUID = pTarget != nullptr ? pTarget->GetUniqueID() : INVALID_INDEX;
     m_v3ActivateTarget = v3Pos;
     m_v3ActivateDelta = v3Delta;
     m_bActivateSecondary = bSecondary;
@@ -1048,13 +1048,13 @@ bool    IEntityTool::Activate(IUnitEntity *pTarget, const CVec3f &v3Target, cons
     else
     {
         m_uiTargetUID = m_uiActivateTargetUID;
-        m_v3TargetPos = pTarget != NULL ? pTarget->GetPosition() : V3_ZERO;
+        m_v3TargetPos = pTarget != nullptr ? pTarget->GetPosition() : V3_ZERO;
     }
 
     if (bActivated)
     {
         if (GetIsChanneling() && !m_bNegated)
-            ExecuteOwner(ACTION_SCRIPT_CHANNEL_START, ACTION_SCRIPT_CHANNELING_START, pTarget, pTarget == NULL ? v3Pos : pTarget->GetPosition());
+            ExecuteOwner(ACTION_SCRIPT_CHANNEL_START, ACTION_SCRIPT_CHANNELING_START, pTarget, pTarget == nullptr ? v3Pos : pTarget->GetPosition());
 
         if (!GetIsChanneling() || !GetDeferChannelImpact())
         {
@@ -1085,7 +1085,7 @@ bool    IEntityTool::Activate(IUnitEntity *pTarget, const CVec3f &v3Target, cons
         }
 
         if (!m_bNegated)
-            ExecuteActionScript(ACTION_SCRIPT_COMPLETE, pTarget, pTarget == NULL ? v3Pos : pTarget->GetPosition());
+            ExecuteActionScript(ACTION_SCRIPT_COMPLETE, pTarget, pTarget == nullptr ? v3Pos : pTarget->GetPosition());
 
         if (IsAbility())
         {
@@ -1104,7 +1104,7 @@ bool    IEntityTool::Activate(IUnitEntity *pTarget, const CVec3f &v3Target, cons
 bool    IEntityTool::ToggleAutoCast()
 {
     IUnitEntity *pOwner(GetOwner());
-    if (pOwner == NULL)
+    if (pOwner == nullptr)
         return false;
 
     if (GetActionType() == TOOL_ACTION_ATTACK ||
@@ -1127,7 +1127,7 @@ bool    IEntityTool::ToggleAutoCast()
 bool    IEntityTool::UpdateEntity(uint uiTargetIndex)
 {
     IUnitEntity *pTarget(Game.GetUnitEntity(uiTargetIndex));
-    if (pTarget == NULL)
+    if (pTarget == nullptr)
         return false;
 
     if (GetIsChanneling())
@@ -1143,7 +1143,7 @@ bool    IEntityTool::UpdateEntity(uint uiTargetIndex)
 bool    IEntityTool::UpdatePosition(const CVec3f &v3Target)
 {
     if (GetIsChanneling())
-        ExecuteOwner(ACTION_SCRIPT_CHANNEL_FRAME, ACTION_SCRIPT_CHANNELING_FRAME, NULL, v3Target);
+        ExecuteOwner(ACTION_SCRIPT_CHANNEL_FRAME, ACTION_SCRIPT_CHANNELING_FRAME, nullptr, v3Target);
 
     return true;
 }
@@ -1196,7 +1196,7 @@ bool    IEntityTool::Update()
 bool    IEntityTool::FinishEntity(uint uiTargetIndex, bool bCancel)
 {
     IUnitEntity *pTarget(Game.GetUnitEntity(uiTargetIndex));
-    if (pTarget == NULL)
+    if (pTarget == nullptr)
         return false;
 
     if (GetIsChanneling())
@@ -1219,9 +1219,9 @@ bool    IEntityTool::FinishPosition(const CVec3f &v3Target, bool bCancel)
     if (GetIsChanneling())
     {
         if (bCancel)
-            ExecuteOwner(ACTION_SCRIPT_CHANNEL_BROKEN, ACTION_SCRIPT_CHANNELING_BROKEN, NULL, v3Target);
+            ExecuteOwner(ACTION_SCRIPT_CHANNEL_BROKEN, ACTION_SCRIPT_CHANNELING_BROKEN, nullptr, v3Target);
         else
-            ExecuteOwner(ACTION_SCRIPT_CHANNEL_END, ACTION_SCRIPT_CHANNELING_END, NULL, v3Target);
+            ExecuteOwner(ACTION_SCRIPT_CHANNEL_END, ACTION_SCRIPT_CHANNELING_END, nullptr, v3Target);
     }
 
     return true;
@@ -1234,7 +1234,7 @@ bool    IEntityTool::FinishPosition(const CVec3f &v3Target, bool bCancel)
 void    IEntityTool::Finish(bool bCancel)
 {
     IUnitEntity *pOwner(GetOwner());
-    if (pOwner == NULL)
+    if (pOwner == nullptr)
         return;
 
     if (m_bFinished)
@@ -1330,7 +1330,7 @@ void    IEntityTool::Finish(bool bCancel)
     IUnitEntity *pTarget(Game.GetUnitFromUniqueID(m_uiTargetUID));
     CVec3f v3Pos;
 
-    if (pTarget != NULL)
+    if (pTarget != nullptr)
         v3Pos = pTarget->GetPosition();
     else
         v3Pos = m_v3TargetPos;
@@ -1343,19 +1343,19 @@ void    IEntityTool::Finish(bool bCancel)
     for (uivector_it it(m_vChannelEntityUID.begin()); it != m_vChannelEntityUID.end(); ++it)
     {
         IGameEntity *pEntity(Game.GetEntityFromUniqueID(*it));
-        if (pEntity == NULL)
+        if (pEntity == nullptr)
             continue;
 
         if (pEntity->IsState())
         {
             IEntityState *pState(pEntity->GetAsState());
-            if (pState == NULL)
+            if (pState == nullptr)
                 continue;
 
             pState->ExecuteActionScript(eScript, pTarget, v3Pos);
 
             IUnitEntity *pStateOwner(pState->GetOwner());
-            if (pStateOwner == NULL)
+            if (pStateOwner == nullptr)
                 continue;
 
             pStateOwner->ExpireState(pState->GetSlot());
@@ -1363,7 +1363,7 @@ void    IEntityTool::Finish(bool bCancel)
         else if (pEntity->IsUnit())
         {
             IUnitEntity *pUnit(pEntity->GetAsUnit());
-            if (pUnit == NULL)
+            if (pUnit == nullptr)
                 continue;
 
             pUnit->ExecuteActionScript(eScript, pTarget, v3Pos);
@@ -1372,7 +1372,7 @@ void    IEntityTool::Finish(bool bCancel)
         else if (pEntity->IsAffector())
         {
             IAffector *pAffector(pEntity->GetAsAffector());
-            if (pAffector == NULL)
+            if (pAffector == nullptr)
                 continue;
 
             pAffector->ExecuteActionScript(eScript, pTarget, v3Pos);
@@ -1381,7 +1381,7 @@ void    IEntityTool::Finish(bool bCancel)
         else if (pEntity->IsProjectile())
         {
             IProjectile *pProjectile(pEntity->GetAsProjectile());
-            if (pProjectile == NULL)
+            if (pProjectile == nullptr)
                 continue;
 
             pProjectile->ExecuteActionScript(eScript, pTarget, v3Pos);
@@ -1402,11 +1402,11 @@ void    IEntityTool::Finish(bool bCancel)
   ====================*/
 bool    IEntityTool::HasActionScript(EEntityActionScript eScript)
 {
-    if (m_pDefinition == NULL)
+    if (m_pDefinition == nullptr)
         return false;
         
     CCombatActionScript* pScript(m_pDefinition->GetActionScript(eScript));
-    if (pScript == NULL)
+    if (pScript == nullptr)
         return false;
 
     return true;
@@ -1418,10 +1418,10 @@ bool    IEntityTool::HasActionScript(EEntityActionScript eScript)
 void    IEntityTool::ExecuteActionScript(EEntityActionScript eScript, IUnitEntity *pTarget, const CVec3f &v3Target, CCombatEvent *pCombatEvent)
 {
     CGameInfo *pGameInfo(Game.GetGameInfo());
-    if (pGameInfo != NULL)
+    if (pGameInfo != nullptr)
         pGameInfo->ExecuteActionScript(eScript, GetOwner(), this, pTarget, v3Target);
 
-    if (m_pDefinition == NULL)
+    if (m_pDefinition == nullptr)
         return;
         
     m_pDefinition->ExecuteActionScript(eScript, this, GetOwner(), this, pTarget, v3Target, GetProxy(0), GetLevel(), pCombatEvent);
@@ -1436,7 +1436,7 @@ bool    IEntityTool::IsReady() const
     for (uiset_cit it(m_setPersistentPetUID.begin()); it != m_setPersistentPetUID.end(); ++it)
     {
         IUnitEntity *pPet(Game.GetUnitEntity(Game.GetGameIndexFromUniqueID(*it)));
-        if (pPet == NULL)
+        if (pPet == nullptr)
             continue;
         if (pPet->GetStatus() == ENTITY_STATUS_ACTIVE)
             return false;
@@ -1461,7 +1461,7 @@ bool    IEntityTool::IsReady() const
   ====================*/
 bool    IEntityTool::IsValidTarget(IUnitEntity *pTarget)
 {
-    if (GetOwner() == NULL)
+    if (GetOwner() == nullptr)
         return false;
 
     switch (GetActionType())
@@ -1555,7 +1555,7 @@ void    IEntityTool::UpdateModifiers(const uivector &vModifiers)
 
     // Activate conditional modifiers
     IUnitEntity *pOwner(GetOwner());
-    if (pOwner == NULL)
+    if (pOwner == nullptr)
     {
         SetModifierBits(uiModifierBits);
         return;
@@ -1563,7 +1563,7 @@ void    IEntityTool::UpdateModifiers(const uivector &vModifiers)
 
     // Grab base definition
     IEntityDefinition *pDefinition(GetBaseDefinition<IEntityDefinition>());
-    if (pDefinition == NULL)
+    if (pDefinition == nullptr)
         return;
 
     const EntityModifierMap &mapModifiers(pDefinition->GetModifiers());
@@ -1630,11 +1630,11 @@ void    IEntityTool::UpdateModifiers(const uivector &vModifiers)
 IUnitEntity*    IEntityTool::SelectProxy() const
 {
     if (!GetUseProxy())
-        return NULL;
+        return nullptr;
 
     IUnitEntity *pOwner(GetOwner());
-    if (pOwner == NULL)
-        return NULL;
+    if (pOwner == nullptr)
+        return nullptr;
 
     uivector vResult;
     Game.GetEntitiesInRadius(vResult, pOwner->GetPosition().xy(), GetProxySelectionRadius(), REGION_UNIT);
@@ -1643,7 +1643,7 @@ IUnitEntity*    IEntityTool::SelectProxy() const
     for (uivector_it it(vResult.begin()); it != vResult.end(); ++it)
     {
         IUnitEntity *pUnit(Game.GetUnitEntity(Game.GetGameIndexFromWorldIndex(*it)));
-        if (pUnit == NULL)
+        if (pUnit == nullptr)
             continue;
 
         if (!Game.IsValidTarget(GetProxyTargetScheme(), GetProxyEffectType(), pOwner, pUnit, GetProxyAllowInvulnerable()))
@@ -1656,7 +1656,7 @@ IUnitEntity*    IEntityTool::SelectProxy() const
     }
 
     if (vUnits.empty())
-        return NULL;
+        return nullptr;
 
     switch (GetProxySelectionMethod())
     {
@@ -1669,7 +1669,7 @@ IUnitEntity*    IEntityTool::SelectProxy() const
 
     case TARGET_SELECT_CLOSEST:
         {
-            IUnitEntity *pProxy(NULL);
+            IUnitEntity *pProxy(nullptr);
             float fClosest(FAR_AWAY);
             for (vector<IUnitEntity*>::iterator itUnit(vUnits.begin()); itUnit != vUnits.end(); ++itUnit)
             {
@@ -1687,7 +1687,7 @@ IUnitEntity*    IEntityTool::SelectProxy() const
 
     case TARGET_SELECT_FURTHEST:
         {
-            IUnitEntity *pProxy(NULL);
+            IUnitEntity *pProxy(nullptr);
             float fFurthest(0.0f);
             for (vector<IUnitEntity*>::iterator itUnit(vUnits.begin()); itUnit != vUnits.end(); ++itUnit)
             {
@@ -1704,7 +1704,7 @@ IUnitEntity*    IEntityTool::SelectProxy() const
         break;
     }
 
-    return NULL;
+    return nullptr;
 }
 
 
@@ -1714,7 +1714,7 @@ IUnitEntity*    IEntityTool::SelectProxy() const
 void    IEntityTool::StartCooldown(uint uiTime, uint uiDuration)
 {
     IUnitEntity *pOwner(GetOwner());
-    if (pOwner != NULL)
+    if (pOwner != nullptr)
     {
         float fCooldownSpeed(pOwner->GetCooldownSpeed());
         float fCooldownReduction(MIN(pOwner->GetReducedCooldowns() - pOwner->GetIncreasedCooldowns(), 1.0f));
@@ -1732,7 +1732,7 @@ void    IEntityTool::StartCooldown(uint uiTime, uint uiDuration)
     uint uiCooldownType(GetCooldownType());
     if (uiCooldownType != 0)
     {
-        if (pOwner != NULL)
+        if (pOwner != nullptr)
             pOwner->StartCooldown(uiCooldownType, uiTime, uiDuration);
     }
 
@@ -1748,7 +1748,7 @@ void    IEntityTool::ReduceCooldown(uint uiDuration)
     IUnitEntity *pOwner(GetOwner());
 
 #if 0 // Scale cooldown reduction by cooldown speed?
-    if (pOwner != NULL)
+    if (pOwner != nullptr)
     {
         float fCooldownSpeed(pOwner->GetCooldownSpeed());
         float fCooldownReduction(MIN(pOwner->GetReducedCooldowns() - pOwner->GetIncreasedCooldowns(), 1.0f));
@@ -1768,7 +1768,7 @@ void    IEntityTool::ReduceCooldown(uint uiDuration)
     uint uiCooldownType(GetCooldownType());
     if (uiCooldownType != 0)
     {
-        if (pOwner != NULL)
+        if (pOwner != nullptr)
             pOwner->ReduceCooldown(uiCooldownType, uiDuration);
     }
 
@@ -1789,7 +1789,7 @@ void    IEntityTool::ResetCooldown()
     {
         IUnitEntity *pOwner(GetOwner());
 
-        if (pOwner != NULL)
+        if (pOwner != nullptr)
             pOwner->ResetCooldown(uiCooldownType);
     }
 
@@ -1806,7 +1806,7 @@ void    IEntityTool::UpdateApparentCooldown()
     if (uiCooldownType != 0)
     {
         IUnitEntity *pOwner(GetOwner());
-        if (pOwner != NULL)
+        if (pOwner != nullptr)
         {
             uint uiStartTime;
             uint uiDuration;
@@ -1921,7 +1921,7 @@ uint    IEntityTool::GetActualRemainingCooldownTime() const
 void    IEntityTool::Interrupt(EUnitAction eAction)
 {
     IUnitEntity *pOwner(GetOwner());
-    if (pOwner == NULL)
+    if (pOwner == nullptr)
         return;
 
     if (HasFlag(ENTITY_TOOL_FLAG_CHANNEL_ACTIVE))
@@ -1950,7 +1950,7 @@ bool    IEntityTool::IsChanneling(EUnitAction eAction)
 bool    IEntityTool::ToggleOff()
 {
     IUnitEntity *pOwner(GetOwner());
-    if (pOwner == NULL)
+    if (pOwner == nullptr)
         return false;
 
     if (GetActionType() != TOOL_ACTION_TOGGLE || !HasFlag(ENTITY_TOOL_FLAG_TOGGLE_ACTIVE))

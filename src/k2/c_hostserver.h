@@ -334,7 +334,7 @@ public:
     K2_API int                  GetNumActiveClients();
 
 #ifdef K2_CLIENT
-    uint                        GetNumConnectedClients() const      { return m_pClient != NULL ? 1 : 0; }
+    uint                        GetNumConnectedClients() const      { return m_pClient != nullptr ? 1 : 0; }
 #else
     uint                        GetNumConnectedClients() const      { return INT_SIZE(m_mapClients.size()); }
 #endif

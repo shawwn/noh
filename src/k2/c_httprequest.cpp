@@ -44,7 +44,7 @@ m_pHTTPManager(pHTTPManager),
 m_uiID(uiID),
 m_pCurlEasy(pCurlEasy),
 m_eStatus(HTTP_REQUEST_IDLE),
-m_pErrorBuffer(NULL),
+m_pErrorBuffer(nullptr),
 
 m_bReleaseOnCompletion(false),
 m_uiTimeout(http_defaultTimeout),
@@ -244,7 +244,7 @@ void    CHTTPRequest::Reset()
     m_bufferResponse.Clear();
     m_sResponse.clear();
     K2_DELETE(m_pErrorBuffer);
-    m_pErrorBuffer = NULL;
+    m_pErrorBuffer = nullptr;
     m_bReleaseOnCompletion = false;
     
     m_uiType = -1;

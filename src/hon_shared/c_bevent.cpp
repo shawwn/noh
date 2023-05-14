@@ -58,7 +58,7 @@ bool    CBEvent::Validate()
         return false;
     }
 
-    if (m_pSelf->IsIllusion() || Game.GetUnitEntity(m_uiTargetIndex) == NULL)
+    if (m_pSelf->IsIllusion() || Game.GetUnitEntity(m_uiTargetIndex) == nullptr)
     {
         SetFlag(BSR_END);
         return false;
@@ -88,7 +88,7 @@ void    CBEvent::Update()
   ====================*/
 void    CBEvent::BeginBehavior()
 {
-    if (m_pSelf == NULL)
+    if (m_pSelf == nullptr)
     {
         Console << _T("CBEvent: Behavior started without valid information") << newl;
         return;
@@ -106,7 +106,7 @@ void    CBEvent::BeginBehavior()
     if (m_unOrderEnt != INVALID_ENT_TYPE)
     {
         IOrderEntity *pOrder(Game.AllocateDynamicEntity<IOrderEntity>(m_unOrderEnt));
-        if (pOrder != NULL)
+        if (pOrder != nullptr)
         {
             m_uiOrderEntUID = pOrder->GetUniqueID();
 
@@ -117,8 +117,8 @@ void    CBEvent::BeginBehavior()
 
     IOrderEntity *pOrder(GetOrder());
     IUnitEntity *pTarget(Game.GetUnitEntity(m_uiTargetIndex));
-    if (pOrder != NULL)
-        pOrder->ExecuteActionScript(ACTION_SCRIPT_BEGIN, pTarget, pTarget != NULL ? pTarget->GetPosition() : V3_ZERO);
+    if (pOrder != nullptr)
+        pOrder->ExecuteActionScript(ACTION_SCRIPT_BEGIN, pTarget, pTarget != nullptr ? pTarget->GetPosition() : V3_ZERO);
 
     m_uiLastUpdate = INVALID_TIME;
     ClearFlag(BSR_NEW);
@@ -134,7 +134,7 @@ void    CBEvent::ThinkFrame()
         return;
 
     IUnitEntity *pTarget(Game.GetUnitEntity(m_uiTargetIndex));
-    if (pTarget == NULL)
+    if (pTarget == nullptr)
         return;
 
     // Check for a target that has become invalid
@@ -183,7 +183,7 @@ void    CBEvent::MovementFrame()
         return;
 
     IUnitEntity *pTarget(Game.GetUnitEntity(m_uiTargetIndex));
-    if (pTarget == NULL)
+    if (pTarget == nullptr)
         return;
 
     // Check for a target that has become invalid
@@ -268,7 +268,7 @@ void    CBEvent::ActionFrame()
             return;
 
     IUnitEntity *pTarget(Game.GetUnitEntity(m_uiTargetIndex));
-    if (pTarget == NULL)
+    if (pTarget == nullptr)
     {
         SetFlag(BSR_END);
         return;
@@ -283,9 +283,9 @@ void    CBEvent::ActionFrame()
     }
 
     IOrderEntity *pOrder(GetOrder());
-    if (pOrder != NULL)
+    if (pOrder != nullptr)
     {
-        pOrder->ExecuteActionScript(ACTION_SCRIPT_FRAME, pTarget, pTarget != NULL ? pTarget->GetPosition() : V3_ZERO);
+        pOrder->ExecuteActionScript(ACTION_SCRIPT_FRAME, pTarget, pTarget != nullptr ? pTarget->GetPosition() : V3_ZERO);
         if (pOrder->GetComplete())
         {
             SetFlag(BSR_END | BSR_SUCCESS);
@@ -308,8 +308,8 @@ void    CBEvent::ActionFrame()
     if (m_fDistSq > SQR(m_fRange) && fDistSq > SQR(fRange))
         return;
 
-    if (pOrder != NULL)
-        pOrder->ExecuteActionScript(ACTION_SCRIPT_COMPLETE, pTarget, pTarget != NULL ? pTarget->GetPosition() : V3_ZERO);
+    if (pOrder != nullptr)
+        pOrder->ExecuteActionScript(ACTION_SCRIPT_COMPLETE, pTarget, pTarget != nullptr ? pTarget->GetPosition() : V3_ZERO);
 
     SetFlag(BSR_END | BSR_SUCCESS);
 }
@@ -334,8 +334,8 @@ void    CBEvent::EndBehavior()
     {
         IOrderEntity *pOrder(GetOrder());
         IUnitEntity *pTarget(Game.GetUnitEntity(m_uiTargetIndex));
-        if (pOrder != NULL)
-            pOrder->ExecuteActionScript(ACTION_SCRIPT_CANCEL, pTarget, pTarget != NULL ? pTarget->GetPosition() : V3_ZERO);
+        if (pOrder != nullptr)
+            pOrder->ExecuteActionScript(ACTION_SCRIPT_CANCEL, pTarget, pTarget != nullptr ? pTarget->GetPosition() : V3_ZERO);
     }
 
     if (m_uiOrderEntUID != INVALID_INDEX)

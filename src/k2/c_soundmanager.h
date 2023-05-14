@@ -107,7 +107,7 @@ private:
 
         SPlayMusic()
             : hSample(INVALID_RESOURCE)
-            , pSound(NULL)
+            , pSound(nullptr)
             , bLoop(false)
             , bFadeIn(false)
         { }
@@ -115,7 +115,7 @@ private:
         SPlayMusic(const tstring& sFilename, bool bLoop, bool bFadeIn)
             : hSample(INVALID_RESOURCE)
             , sFilename(sFilename)
-            , pSound(NULL)
+            , pSound(nullptr)
             , bLoop(bLoop)
             , bFadeIn(bFadeIn)
         { }
@@ -350,7 +350,7 @@ public:
     void            Frame() {}
     void            Stop()  {}
 
-    FMOD::Sound*    LoadSample(const char *pData, uint zLength, int iSoundFlags)    { return NULL; }
+    FMOD::Sound*    LoadSample(const char *pData, uint zLength, int iSoundFlags)    { return nullptr; }
     void            FreeSample(FMOD::Sound *pSampleData)            {}
 
     K2_API SoundHandle  Play2DSound(ResHandle hSample, float fVolume = 1.0f, int iChannel = CHANNEL_AUTO, int iPriority = 10) {}

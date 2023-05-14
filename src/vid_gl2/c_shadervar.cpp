@@ -22,8 +22,8 @@ CShaderVar::CShaderVar(const tstring &sName, ShaderVarFn_t pfnShaderVarCmd) :
 m_sName(sName),
 m_pfnShaderVar(pfnShaderVarCmd)
 {
-    if (m_pfnShaderVar == NULL)
-        K2System.Error(_T("Tried to register a ShaderVar with a NULL function."));
+    if (m_pfnShaderVar == nullptr)
+        K2System.Error(_T("Tried to register a ShaderVar with a nullptr function."));
 
     CShaderVarRegistry::GetInstance()->Register(this);
 }

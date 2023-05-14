@@ -229,7 +229,7 @@ void    CMinimap::MouseUp(EButton button, const CVec2f &v2CursorPos)
     m_bDraggingRight = false;
 
     if (m_pInterface->GetActiveWidget() == this)
-        m_pInterface->SetActiveWidget(NULL);
+        m_pInterface->SetActiveWidget(nullptr);
 }
 
 void        Hide();
@@ -882,7 +882,7 @@ float   CMinimap::GetMinimapDrawX(float fFraction) const
 {
     float fMinimapX((fFraction + m_fWorldOffsetX) * m_fWorldPercentX);
 
-    CVec2f v2ParentPos(m_pParent != NULL ? m_pParent->GetAbsolutePos() : V2_ZERO);
+    CVec2f v2ParentPos(m_pParent != nullptr ? m_pParent->GetAbsolutePos() : V2_ZERO);
 
     return v2ParentPos.x + LERP(fMinimapX, m_recArea.left, m_recArea.right);
 }
@@ -895,7 +895,7 @@ float   CMinimap::GetMinimapDrawY(float fFraction) const
 {
     float fMinimapY((fFraction + m_fWorldOffsetY) * m_fWorldPercentY);
 
-    CVec2f v2ParentPos(m_pParent != NULL ? m_pParent->GetAbsolutePos() : V2_ZERO);
+    CVec2f v2ParentPos(m_pParent != nullptr ? m_pParent->GetAbsolutePos() : V2_ZERO);
 
     return v2ParentPos.y + LERP(fMinimapY, m_recArea.top, m_recArea.bottom);
 }
@@ -917,7 +917,7 @@ void    CMinimap::RecalculateSize()
   --------------------*/
 UI_VOID_CMD(BreakDrag, 0)
 {
-    if (pThis == NULL ||
+    if (pThis == nullptr ||
         pThis->GetType() != WIDGET_MAP)
         return;
 
@@ -931,12 +931,12 @@ UI_VOID_CMD(BreakDrag, 0)
   --------------------*/
 UI_CMD(GetMinimapDrawX, 2)
 {
-    if (pThis == NULL || pThis->GetInterface() == NULL)
+    if (pThis == nullptr || pThis->GetInterface() == nullptr)
         return _CTS("0");
 
     tstring sWidgetName(vArgList[0]->Evaluate());
     IWidget *pWidget(pThis->GetInterface()->GetWidget(sWidgetName));
-    if (pWidget == NULL)
+    if (pWidget == nullptr)
     {
         Console << _T("Widget ") << SingleQuoteStr(sWidgetName) << _T(" not found") << newl;
         return _CTS("0");
@@ -954,12 +954,12 @@ UI_CMD(GetMinimapDrawX, 2)
   --------------------*/
 UI_CMD(GetMinimapDrawY, 2)
 {
-    if (pThis == NULL || pThis->GetInterface() == NULL)
+    if (pThis == nullptr || pThis->GetInterface() == nullptr)
         return _CTS("0");
 
     tstring sWidgetName(vArgList[0]->Evaluate());
     IWidget *pWidget(pThis->GetInterface()->GetWidget(sWidgetName));
-    if (pWidget == NULL)
+    if (pWidget == nullptr)
     {
         Console << _T("Widget ") << SingleQuoteStr(sWidgetName) << _T(" not found") << newl;
         return _CTS("0");

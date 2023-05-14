@@ -116,7 +116,7 @@ void    IGadgetEntity::Spawn()
     // Abilities match the level of the gadget
     for (uint ui(INVENTORY_START_ABILITIES); ui <= INVENTORY_END_ABILITIES; ++ui)
     {
-        if (m_apInventory[ui] == NULL)
+        if (m_apInventory[ui] == nullptr)
             continue;
 
         m_apInventory[ui]->SetLevel(GetLevel());
@@ -166,7 +166,7 @@ void    IGadgetEntity::Copy(const IGameEntity &B)
 
     const IGadgetEntity *pB(B.GetAsGadget());
 
-    if (pB == NULL) 
+    if (pB == nullptr)
         return;
 
     const IGadgetEntity &C(*pB);
@@ -188,7 +188,7 @@ void    IGadgetEntity::SetLevel(uint uiLevel)
         // Abilities match the level of the gadget
         for (uint ui(INVENTORY_START_ABILITIES); ui <= INVENTORY_END_ABILITIES; ++ui)
         {
-            if (m_apInventory[ui] == NULL)
+            if (m_apInventory[ui] == nullptr)
                 continue;
 
             m_apInventory[ui]->SetLevel(GetLevel());
@@ -238,7 +238,7 @@ void    IGadgetEntity::UpdateModifiers()
     m_vModifierKeys = m_vPersistentModifierKeys;
 
     IUnitEntity *pOwner(GetOwner());
-    if (pOwner != NULL)
+    if (pOwner != nullptr)
     {
         pOwner->UpdateModifiers();
         const uivector &vOwnerModifiers(pOwner->GetModifierKeys());
@@ -252,7 +252,7 @@ void    IGadgetEntity::UpdateModifiers()
     for (int iSlot(INVENTORY_START_ACTIVE); iSlot <= INVENTORY_END_ACTIVE; ++iSlot)
     {
         ISlaveEntity *pSlave(GetSlave(iSlot));
-        if (pSlave == NULL)
+        if (pSlave == nullptr)
             continue;
 
         uint uiModifierKey(pSlave->GetModifierKey());
@@ -271,7 +271,7 @@ void    IGadgetEntity::UpdateModifiers()
     for (int iSlot(0); iSlot < INVENTORY_START_STATES; ++iSlot)
     {
         IEntityTool *pTool(GetTool(iSlot));
-        if (pTool == NULL)
+        if (pTool == nullptr)
             continue;
 
         pTool->UpdateModifiers(m_vModifierKeys);

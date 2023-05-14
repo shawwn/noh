@@ -35,7 +35,7 @@ DEFINE_ENTITY_DESC(CShopInfo, 1)
   CShopInfo::CShopInfo
   ====================*/
 CShopInfo::CShopInfo() :
-IGameEntity(NULL)
+IGameEntity(nullptr)
 {
 }
 
@@ -95,7 +95,7 @@ void    CShopInfo::AddItem(CShopItemInfo *pItem)
   ====================*/
 bool    CShopInfo::PurchaseItem(const tstring &sName)
 {
-    CShopItemInfo *pItem(NULL);
+    CShopItemInfo *pItem(nullptr);
     ItemNameMap_it it(m_mapItemNames.find(sName));
 
     if (it == m_mapItemNames.end())
@@ -103,7 +103,7 @@ bool    CShopInfo::PurchaseItem(const tstring &sName)
 
     pItem = Game.GetEntityAs<CShopItemInfo>(it->second);
 
-    if (pItem == NULL)
+    if (pItem == nullptr)
         return true;
 
     return pItem->PurchaseItem();
@@ -111,7 +111,7 @@ bool    CShopInfo::PurchaseItem(const tstring &sName)
 
 bool    CShopInfo::PurchaseItem(uint uiTypeID)
 {
-    CShopItemInfo *pItem(NULL);
+    CShopItemInfo *pItem(nullptr);
     ItemTypeMap_it it(m_mapItemTypes.find(uiTypeID));
 
     if (it == m_mapItemTypes.end())
@@ -119,7 +119,7 @@ bool    CShopInfo::PurchaseItem(uint uiTypeID)
 
     pItem = Game.GetEntityAs<CShopItemInfo>(it->second);
 
-    if (pItem == NULL)
+    if (pItem == nullptr)
         return true;
 
     return pItem->PurchaseItem();
@@ -130,7 +130,7 @@ bool    CShopInfo::PurchaseItem(uint uiTypeID)
   ====================*/
 void    CShopInfo::ReplenishItem(const tstring &sName, uint uiCharges)
 {
-    CShopItemInfo *pItem(NULL);
+    CShopItemInfo *pItem(nullptr);
     ItemNameMap_it it(m_mapItemNames.find(sName));
 
     if (it == m_mapItemNames.end())
@@ -138,7 +138,7 @@ void    CShopInfo::ReplenishItem(const tstring &sName, uint uiCharges)
 
     pItem = Game.GetEntityAs<CShopItemInfo>(it->second);
 
-    if (pItem == NULL)
+    if (pItem == nullptr)
         return;
 
     pItem->ReplenishItem(uiCharges);
@@ -146,7 +146,7 @@ void    CShopInfo::ReplenishItem(const tstring &sName, uint uiCharges)
 
 void    CShopInfo::ReplenishItem(uint uiTypeID, uint uiCharges)
 {
-    CShopItemInfo *pItem(NULL);
+    CShopItemInfo *pItem(nullptr);
     ItemTypeMap_it it(m_mapItemTypes.find(uiTypeID));
 
     if (it == m_mapItemTypes.end())
@@ -154,7 +154,7 @@ void    CShopInfo::ReplenishItem(uint uiTypeID, uint uiCharges)
 
     pItem = Game.GetEntityAs<CShopItemInfo>(it->second);
 
-    if (pItem == NULL)
+    if (pItem == nullptr)
         return;
 
     pItem->ReplenishItem(uiCharges);
@@ -166,7 +166,7 @@ void    CShopInfo::ReplenishItem(uint uiTypeID, uint uiCharges)
   ====================*/
 uint    CShopInfo::GetStockRemaining(const tstring &sName)
 {
-    CShopItemInfo *pItem(NULL);
+    CShopItemInfo *pItem(nullptr);
     ItemNameMap_it it(m_mapItemNames.find(sName));
 
     if (it == m_mapItemNames.end())
@@ -174,7 +174,7 @@ uint    CShopInfo::GetStockRemaining(const tstring &sName)
 
     pItem = Game.GetEntityAs<CShopItemInfo>(it->second);
 
-    if (pItem == NULL)
+    if (pItem == nullptr)
         return -1;
 
     return pItem->GetStockRemaining();
@@ -182,7 +182,7 @@ uint    CShopInfo::GetStockRemaining(const tstring &sName)
 
 uint    CShopInfo::GetStockRemaining(uint uiTypeID)
 {
-    CShopItemInfo *pItem(NULL);
+    CShopItemInfo *pItem(nullptr);
     ItemTypeMap_it it(m_mapItemTypes.find(uiTypeID));
 
     if (it == m_mapItemTypes.end())
@@ -190,7 +190,7 @@ uint    CShopInfo::GetStockRemaining(uint uiTypeID)
 
     pItem = Game.GetEntityAs<CShopItemInfo>(it->second);
 
-    if (pItem == NULL)
+    if (pItem == nullptr)
         return -1;
 
     return pItem->GetStockRemaining();
@@ -202,7 +202,7 @@ uint    CShopInfo::GetStockRemaining(uint uiTypeID)
   ====================*/
 uint    CShopInfo::GetRestockTimeRemaining(const tstring &sName)
 {
-    CShopItemInfo *pItem(NULL);
+    CShopItemInfo *pItem(nullptr);
     ItemNameMap_it it(m_mapItemNames.find(sName));
 
     if (it == m_mapItemNames.end())
@@ -210,7 +210,7 @@ uint    CShopInfo::GetRestockTimeRemaining(const tstring &sName)
 
     pItem = Game.GetEntityAs<CShopItemInfo>(it->second);
 
-    if (pItem == NULL)
+    if (pItem == nullptr)
         return 0;
 
     if (pItem->GetRestockTime() == INVALID_TIME || Game.GetGameTime() > pItem->GetRestockTime())
@@ -221,7 +221,7 @@ uint    CShopInfo::GetRestockTimeRemaining(const tstring &sName)
 
 uint    CShopInfo::GetRestockTimeRemaining(ushort unTypeID)
 {
-    CShopItemInfo *pItem(NULL);
+    CShopItemInfo *pItem(nullptr);
     ItemTypeMap_it it(m_mapItemTypes.find(unTypeID));
 
     if (it == m_mapItemTypes.end())
@@ -229,7 +229,7 @@ uint    CShopInfo::GetRestockTimeRemaining(ushort unTypeID)
 
     pItem = Game.GetEntityAs<CShopItemInfo>(it->second);
 
-    if (pItem == NULL)
+    if (pItem == nullptr)
         return 0;
 
     if (pItem->GetRestockTime() == INVALID_TIME || Game.GetGameTime() < pItem->GetRestockTime())

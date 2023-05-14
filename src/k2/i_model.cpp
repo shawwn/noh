@@ -78,7 +78,7 @@ void    IModel::AddSkin(const CSkin &skin)
     }
 
     CSkin *pNewSkin(K2_NEW(ctx_Resources,  CSkin)(skin));
-    if (pNewSkin == NULL)
+    if (pNewSkin == nullptr)
         return;
 
     m_vSkins.push_back(pNewSkin);
@@ -92,7 +92,7 @@ void    IModel::ClearSkins()
 {
     for (SkinVector::iterator it(m_vSkins.begin()); it != m_vSkins.end(); ++it)
     {
-        if (*it != NULL)
+        if (*it != nullptr)
             K2_DELETE(*it);
     }
 

@@ -140,7 +140,7 @@ void    IEntityItem::Spawn()
             SetFlag(ENTITY_TOOL_FLAG_ASSEMBLED);
 
             IUnitEntity *pOwner(GetOwner());
-            if (pOwner != NULL)
+            if (pOwner != nullptr)
                 ExecuteActionScript(ACTION_SCRIPT_CREATE, pOwner, pOwner->GetPosition());
         }
     }
@@ -154,7 +154,7 @@ bool    IEntityItem::ServerFrameAction()
 {
     // if an item suddenly can't be carried by its owner, then drop it.
     IUnitEntity *pOwner(GetOwner());
-    if (pOwner != NULL)
+    if (pOwner != nullptr)
     {
         if (!pOwner->CanCarryItem(this))
         {
@@ -221,7 +221,7 @@ int     IEntityItem::Assemble()
     int iNewItemSlot(-1);
 
     IUnitEntity *pOwner(GetOwner());
-    if (pOwner == NULL)
+    if (pOwner == nullptr)
         return iNewItemSlot;
 
     if (IsBorrowed() && !pOwner->CanReceiveOrdersFrom(m_iPurchaserClientNumber))
@@ -238,7 +238,7 @@ int     IEntityItem::Assemble()
         for (int iSlot(iStartSlot); iSlot <= iEndSlot; ++iSlot)
         {
             IEntityItem *pItem(pOwner->GetItem(iSlot));
-            if (pItem == NULL || pItem == this || pItem->GetType() != GetType() || pItem->HasFlag(ENTITY_TOOL_FLAG_ASSEMBLED))
+            if (pItem == nullptr || pItem == this || pItem->GetType() != GetType() || pItem->HasFlag(ENTITY_TOOL_FLAG_ASSEMBLED))
                 continue;
             if (pItem->GetPurchaserClientNumber() != -1 && pItem->GetPurchaserClientNumber() != m_iPurchaserClientNumber)
                 continue;
@@ -276,7 +276,7 @@ int     IEntityItem::Assemble()
             continue;
 
         IEntityItem *pItem(pOwner->GetItem(iSlot));
-        if (pItem == NULL || pItem == this)
+        if (pItem == nullptr || pItem == this)
         {
             iTargetSlot = iSlot;
             break;
@@ -312,7 +312,7 @@ bool    IEntityItem::IsDisabled() const
     if (GetActionType() != TOOL_ACTION_PASSIVE)
     {
         IUnitEntity *pOwner(GetOwner());
-        if (pOwner != NULL && pOwner->IsPerplexed())
+        if (pOwner != nullptr && pOwner->IsPerplexed())
             return true;
     }
 
@@ -327,12 +327,12 @@ bool    IEntityItem::CanUse() const
 {
     // Check for a valid owner
     IUnitEntity *pOwner(GetOwner());
-    if (pOwner == NULL)
+    if (pOwner == nullptr)
         return false;
 
     // If item is not bound to a player, it is free for all
     CPlayer *pPurchaser(Game.GetPlayer(m_iPurchaserClientNumber));
-    if (pPurchaser == NULL)
+    if (pPurchaser == nullptr)
         return true;
 
     // Items that are flagged can be shared by team mates
@@ -356,7 +356,7 @@ bool    IEntityItem::IsBorrowed() const
         return false;
 
     IUnitEntity *pOwner(GetOwner());
-    if (pOwner == NULL)
+    if (pOwner == nullptr)
         return false;
 
     return pOwner->GetOwnerClientNumber() != m_iPurchaserClientNumber;
@@ -408,7 +408,7 @@ bool    IEntityItem::CanStack(ushort unItemID, int iPurchaserClientNumber) const
 
 bool    IEntityItem::CanStack(IEntityItem *pItem) const
 {
-    if (pItem == NULL)
+    if (pItem == nullptr)
         return false;
 
     if (GetType() != pItem->GetType())
@@ -445,7 +445,7 @@ bool    IEntityItem::CanStack(IEntityItem *pItem) const
   ====================*/
 bool    IEntityItem::CanAccess(IUnitEntity *pUnit) const
 {
-    if (pUnit == NULL)
+    if (pUnit == nullptr)
         return false;
 
     if (!IS_ITEM_SLOT(GetSlot()))
@@ -479,16 +479,16 @@ bool    IEntityItem::CanDrop()
 CEntityChest*   IEntityItem::Drop(const CVec3f &v3Pos, bool bLoseOwnership)
 {
     IUnitEntity *pOwner(GetOwner());
-    if (pOwner == NULL)
-        return NULL;
+    if (pOwner == nullptr)
+        return nullptr;
 
     // Spawn a chest
     CEntityChest *pChest(static_cast<CEntityChest*>(Game.AllocateEntity(Entity_Chest)));
 
-    if (pChest == NULL)
+    if (pChest == nullptr)
     {
         Console.Warn << _T("Failed to create chest entity") << newl;
-        return NULL;
+        return nullptr;
     }
 
     pChest->SetPosition(v3Pos);
@@ -500,10 +500,10 @@ CEntityChest*   IEntityItem::Drop(const CVec3f &v3Pos, bool bLoseOwnership)
     int iSlot(pChest->TransferItem(pOwner->GetOwnerClientNumber(), this));
 
     IEntityItem *pChestItem(pChest->GetItem(iSlot));
-    if (pChestItem == NULL)
+    if (pChestItem == nullptr)
     {
         Game.DeleteEntity(pChest);
-        return NULL;
+        return nullptr;
     }
 
     pChestItem->ClearFlag(ENTITY_TOOL_FLAG_ACTIVE);
@@ -520,10 +520,10 @@ CEntityChest*   IEntityItem::Drop(ushort unID, const CVec3f &v3Pos)
 {
     // Spawn a chest
     CEntityChest *pChest(static_cast<CEntityChest*>(Game.AllocateEntity(Entity_Chest)));
-    if (pChest == NULL)
+    if (pChest == nullptr)
     {
         Console.Warn << _T("Failed to create chest entity") << newl;
-        return NULL;
+        return nullptr;
     }
 
     pChest->SetPosition(v3Pos);
@@ -535,10 +535,10 @@ CEntityChest*   IEntityItem::Drop(ushort unID, const CVec3f &v3Pos)
     pChest->GiveItem(INVENTORY_START_BACKPACK, unID);
 
     IEntityItem *pItem(pChest->GetItem(INVENTORY_START_BACKPACK));
-    if (pItem == NULL)
+    if (pItem == nullptr)
     {
         Game.DeleteEntity(pChest);
-        return NULL;
+        return nullptr;
     }
 
     pItem->ClearFlag(ENTITY_TOOL_FLAG_ACTIVE);
@@ -557,7 +557,7 @@ CEntityChest*   IEntityItem::Drop(ushort unID, const CVec3f &v3Pos)
 void    IEntityItem::Delete()
 {
     IUnitEntity *pOwner(GetOwner());
-    if (pOwner == NULL)
+    if (pOwner == nullptr)
         return;
 
     pOwner->RemoveItem(GetSlot());

@@ -63,7 +63,7 @@ public:
     ~CZip();
     CZip(const tstring &sFilename, bool bAppend);
 
-    bool    IsOpen() const      { return m_file.is_open() && m_pCentralDirectory != NULL; }
+    bool    IsOpen() const      { return m_file.is_open() && m_pCentralDirectory != nullptr; }
 
     bool    Open(const tstring &sPathname, bool bAppend);
     int     AddFile(const tstring &sFileName, const char *pSourceBuffer, size_t zLength, int iLevel = ZIP_DEFAULT_COMPRESSION_LEVEL, time_t t = 0, const string &sComment = "");

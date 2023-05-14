@@ -617,14 +617,14 @@ const char  *CFileDisk::GetBuffer(uint &uiSize)
             EX_ERROR(_T("Trying to retrieve buffer without opening file"));
 
         // Check if the buffer has already been filled
-        if (m_pBuffer != NULL)
+        if (m_pBuffer != nullptr)
         {
             uiSize = m_uiSize;
             return m_pBuffer;
         }
         
         m_pBuffer = K2_NEW_ARRAY(ctx_FileSystem, char, m_uiSize);
-        if (m_pBuffer == NULL)
+        if (m_pBuffer == nullptr)
             EX_ERROR(_T("Failed to allocate buffer for file: ") + m_sPath);
 
         // Allocate and fill the buffer, but preserve any existing read position
@@ -699,7 +699,7 @@ const char  *CFileDisk::GetBuffer(uint &uiSize)
     catch (CException &ex)
     {
         ex.Process(_T("CFileDisk::GetBuffer() - "), NO_THROW);
-        return NULL;
+        return nullptr;
     }
 }
 
@@ -822,7 +822,7 @@ bool    CFileDisk::WriteInt64(LONGLONG ll, bool bUseBigEndian)
   ====================*/
 uint    CFileDisk::Tell() const
 {
-    if (m_pBuffer == NULL)
+    if (m_pBuffer == nullptr)
         return m_File.tellg();
     else
         return m_uiPos;
@@ -836,7 +836,7 @@ bool    CFileDisk::Seek(uint uiOffset, ESeekOrigin eOrigin)
 {
     bool bResult;
 
-    if (m_pBuffer != NULL)
+    if (m_pBuffer != nullptr)
     {
         bResult = CFile::Seek(uiOffset, eOrigin);
 

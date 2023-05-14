@@ -84,7 +84,7 @@ public:
     tstring GetString(const tstring &sKey, const tstring &sDefault = TSNULL) const
     {
         const CPHPData *pNode(GetVar(sKey));
-        if (pNode == NULL)
+        if (pNode == nullptr)
             return sDefault;
         return pNode->GetString();
     }
@@ -118,7 +118,7 @@ public:
     int GetInteger(const tstring &sKey, int iDefault = 0) const
     {
         const CPHPData *pNode(GetVar(sKey));
-        if (pNode == NULL)
+        if (pNode == nullptr)
             return iDefault;
         return pNode->GetInteger();
     }
@@ -138,7 +138,7 @@ public:
     float   GetFloat(const tstring &sKey, float fDefault = 0.0f) const
     {
         const CPHPData *pNode(GetVar(sKey));
-        if (pNode == NULL)
+        if (pNode == nullptr)
             return fDefault;
         return pNode->GetFloat();
     }
@@ -158,7 +158,7 @@ public:
     bool    GetBool(const tstring &sKey, bool bDefault = false) const
     {
         const CPHPData *pNode(GetVar(sKey));
-        if (pNode == NULL)
+        if (pNode == nullptr)
             return bDefault;
         return pNode->GetBool();
     }
@@ -185,13 +185,13 @@ public:
             }
         }
         
-        return NULL;
+        return nullptr;
     }
 
-    bool                HasVar(const tstring &sKey) const   { return GetVar(sKey) != NULL; }
+    bool                HasVar(const tstring &sKey) const   { return GetVar(sKey) != nullptr; }
 
     size_t              GetSize() const                     { if (m_eType == PHP_ARRAY) return m_vArray.size(); if (m_eType == PHP_NULL) return 0; return 1; }
-    const CPHPData*     GetVar(size_t zOffset) const        { if (m_eType != PHP_ARRAY || zOffset >= GetSize()) return NULL; return &(m_vArray[zOffset]); }
+    const CPHPData*     GetVar(size_t zOffset) const        { if (m_eType != PHP_ARRAY || zOffset >= GetSize()) return nullptr; return &(m_vArray[zOffset]); }
     const tstring&      GetKeyName(size_t zOffset) const    { if (m_eType != PHP_ARRAY || zOffset >= GetSize()) return TSNULL; return m_vArray[zOffset].m_sKey; }
     
     K2_API  void        Print() const;

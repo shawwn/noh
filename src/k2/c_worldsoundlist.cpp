@@ -76,7 +76,7 @@ void    CWorldSoundList::Release()
 {
     for (WorldSoundsMap_it it(m_mapSounds.begin()); it != m_mapSounds.end(); ++it)
     {
-        if (it->second != NULL)
+        if (it->second != nullptr)
             K2_DELETE(it->second);
     }
 
@@ -131,7 +131,7 @@ uint    CWorldSoundList::AllocateNewSound(uint uiIndex)
             if (findit != m_mapSounds.end())
             {
                 Console.Warn << _T("Overwriting sound #") << uiIndex << newl;
-                if (findit->second != NULL)
+                if (findit->second != nullptr)
                     K2_DELETE(findit->second);
                 m_mapSounds.erase(findit);
             }
@@ -141,7 +141,7 @@ uint    CWorldSoundList::AllocateNewSound(uint uiIndex)
             EX_ERROR(_T("No available index for new sound"));
 
         CWorldSound *pNewSound(K2_NEW(ctx_World,  CWorldSound));
-        if (pNewSound == NULL)
+        if (pNewSound == nullptr)
             EX_ERROR(_T("Failed to allocate new sound"));
 
         pNewSound->SetIndex(uiIndex);
@@ -173,7 +173,7 @@ CWorldSound*    CWorldSoundList::GetSound(uint uiIndex, bool bThrow)
     catch (CException &ex)
     {
         ex.Process(_T("CWorldSoundList::GetSound() - "), bThrow);
-        return NULL;
+        return nullptr;
     }
 }
 

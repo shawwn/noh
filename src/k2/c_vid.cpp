@@ -62,7 +62,7 @@ SINGLETON_INIT(CVid)
 CVid::CVid() :
 m_iCurrentMode(-1),
 m_bInitialized(false),
-m_hVidDLL(NULL)
+m_hVidDLL(nullptr)
 {
 #ifdef _WIN32
     MemManager.Set(&m_Driver, 0, sizeof(m_Driver));
@@ -152,7 +152,7 @@ const CCamera*  CVid::GetCamera()
     if (m_bInitialized)
         return m_Driver.GetCamera();
     else
-        return NULL;
+        return nullptr;
 }
 
 
@@ -441,7 +441,7 @@ void*   CVid::GetHWnd()
     if (m_bInitialized)
         return m_Driver.GetHWnd();
     else
-        return NULL;
+        return nullptr;
 }
 
 
@@ -745,7 +745,7 @@ void    CVid::LoadVidModule(const tstring &sFileName)
     _initapis_t InitAPIs;
 
     m_hVidDLL = K2System.LoadLibrary(sFileName);
-    if (m_hVidDLL == NULL)
+    if (m_hVidDLL == nullptr)
         K2System.Error(_T("Couldn't load ") + sFileName);
 
     //find and call CL_InitAPIs to get function pointers to the client game functions
@@ -765,7 +765,7 @@ void    CVid::UnloadVidModule()
     if (m_hVidDLL)
     {
         K2System.FreeLibrary(m_hVidDLL);
-        m_hVidDLL = NULL;
+        m_hVidDLL = nullptr;
 
 #ifdef _WIN32
         MemManager.Set(&m_Driver, 0, sizeof(m_Driver));
@@ -796,7 +796,7 @@ UI_VOID_CMD(AddDisplays, 1)
         return;
 
     IListWidget *pList(static_cast<IListWidget *>(pThis));
-    if (pList == NULL)
+    if (pList == nullptr)
         return;
 
     CXMLNode::PropertyMap mapParams;
@@ -858,7 +858,7 @@ UI_VOID_CMD(AddVideoModes, 1)
         return;
 
     IListWidget *pList(static_cast<IListWidget *>(pThis));
-    if (pList == NULL)
+    if (pList == nullptr)
         return;
 
     CXMLNode::PropertyMap mapParams;
@@ -897,7 +897,7 @@ UI_VOID_CMD(AddTextureFilteringModes, 1)
         return;
 
     IListWidget *pList(static_cast<IListWidget *>(pThis));
-    if (pList == NULL)
+    if (pList == nullptr)
         return;
 
     CXMLNode::PropertyMap mapParams;
@@ -931,7 +931,7 @@ UI_VOID_CMD(AddAntiAliasingModes, 1)
         return;
 
     IListWidget *pList(static_cast<IListWidget *>(pThis));
-    if (pList == NULL)
+    if (pList == nullptr)
         return;
 
     CXMLNode::PropertyMap mapParams;
@@ -963,7 +963,7 @@ UI_VOID_CMD(AddAspectModes, 1)
         return;
 
     IListWidget *pList(static_cast<IListWidget *>(pThis));
-    if (pList == NULL)
+    if (pList == nullptr)
         return;
 
     CXMLNode::PropertyMap mapParams;
@@ -1008,7 +1008,7 @@ UI_VOID_CMD(AddResolutions, 1)
         return;
 
     IListWidget *pList(static_cast<IListWidget *>(pThis));
-    if (pList == NULL)
+    if (pList == nullptr)
         return;
 
     CXMLNode::PropertyMap mapParams;
@@ -1058,7 +1058,7 @@ UI_VOID_CMD(AddColorDepths, 1)
         return;
 
     IListWidget *pList(static_cast<IListWidget *>(pThis));
-    if (pList == NULL)
+    if (pList == nullptr)
         return;
 
     CXMLNode::PropertyMap mapParams;
@@ -1100,7 +1100,7 @@ UI_VOID_CMD(AddRefreshRates, 1)
         return;
 
     IListWidget *pList(static_cast<IListWidget *>(pThis));
-    if (pList == NULL)
+    if (pList == nullptr)
         return;
 
     CXMLNode::PropertyMap mapParams;

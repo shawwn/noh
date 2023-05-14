@@ -29,6 +29,6 @@ DEFINE_ENTITY_DESC(IShopEntity, 1)
   IShopEntity::IShopEntity
   ====================*/
 IShopEntity::IShopEntity() :
-IGameEntity(NULL)
+IGameEntity(nullptr)
 {
 }

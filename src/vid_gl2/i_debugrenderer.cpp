@@ -39,7 +39,7 @@ IDebugRenderer::IDebugRenderer()
     m_iNumActiveBones = 0;
 
     m_bObjectColor = false;
-    m_pCurrentEntity = NULL;
+    m_pCurrentEntity = nullptr;
 
     m_mWorld = g_mIdentity;
     m_mWorldRotate = g_mIdentity;

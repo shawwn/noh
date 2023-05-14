@@ -105,7 +105,7 @@ void    CActionRegistry::Unregister(IBaseInput *pAction)
             while (itBind != itButton->second.end())
             {
                 if (itBind->second.GetActionName() == sName)
-                    itBind->second.SetAction(NULL);
+                    itBind->second.SetAction(nullptr);
 
                 ++itBind;
             }
@@ -120,7 +120,7 @@ void    CActionRegistry::Unregister(IBaseInput *pAction)
             while (itBind != itAxis->second.end())
             {
                 if (itBind->second.GetActionName() == sName)
-                    itBind->second.SetAction(NULL);
+                    itBind->second.SetAction(nullptr);
 
                 ++itBind;
             }
@@ -434,10 +434,10 @@ CBind*  CActionRegistry::GetBind(EBindTable eTable, EButton eButton, int iModifi
 {
     ButtonActionMap::iterator itButton(m_mapButtons[eTable].find(eButton));
     if (itButton == m_mapButtons[eTable].end())
-        return NULL;
+        return nullptr;
 
     BindModMap::iterator itBind(itButton->second.begin());
-    CBind *pClosestBind(NULL);
+    CBind *pClosestBind(nullptr);
     while (itBind != itButton->second.end())
     {
         if (itBind->first == iModifier)
@@ -455,10 +455,10 @@ CBind*  CActionRegistry::GetBind(EBindTable eTable, EAxis eAxis, int iModifier)
 {
     AxisActionMap::iterator itAxis(m_mapAxes[eTable].find(eAxis));
     if (itAxis == m_mapAxes[eTable].end())
-        return NULL;
+        return nullptr;
 
     BindModMap::iterator itBind(itAxis->second.begin());
-    CBind *pClosestBind(NULL);
+    CBind *pClosestBind(nullptr);
     while (itBind != itAxis->second.end())
     {
         if (itBind->first == iModifier)

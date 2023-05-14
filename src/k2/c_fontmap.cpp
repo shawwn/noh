@@ -28,7 +28,7 @@
 CVAR_BOOL(  font_writeBitmaps,  false);
 CVAR_BOOL(  font_kerning,       false);
 
-IResourceLibrary    g_ResLibFontMap(RES_FONTMAP, _T("Fonts"), CFontMap::ResTypeName(), true, NULL);
+IResourceLibrary    g_ResLibFontMap(RES_FONTMAP, _T("Fonts"), CFontMap::ResTypeName(), true, nullptr);
 
 CCharacterRange g_aCharacterRanges[] =
 {
@@ -70,7 +70,7 @@ m_iNumValidGlyphs(0),
 m_iPenX(0),
 m_iPenY(0),
 
-m_pBitmap(NULL),
+m_pBitmap(nullptr),
 
 m_bDynamicResize(bDynamicResize),
 m_iBaseResolution(iBaseResolution),
@@ -116,7 +116,7 @@ bool    CFontMap::AllocateBitmap(int iTotalWidth)
             EX_ERROR(_T("Bitmap for this font is too large: ") + XtoA(iTexWidth) + _T("x") + XtoA(iTexHeight));
 
         m_pBitmap = K2_NEW(ctx_Resources,  CBitmap)(iTexWidth, iTexHeight, BITMAP_RGBA);
-        if (m_pBitmap == NULL)
+        if (m_pBitmap == nullptr)
             EX_ERROR(_T("Failed to allocate texture"));
 
         // Initial texture state
@@ -328,11 +328,11 @@ int     CFontMap::Load(uint uiIgnoreFlags, const char *pData, uint uiSize)
 
         // Get the fontface resource
         CFontFace *pFontFace(g_ResourceManager.GetFontFace(m_hFontFace));
-        if (pFontFace == NULL)
+        if (pFontFace == nullptr)
             EX_ERROR(_T("Couldn't retrieve the fontface resource"));
         m_pFace = pFontFace->GetFace();
 
-        if (m_pFace == NULL)
+        if (m_pFace == nullptr)
             EX_ERROR(_T("Couldn't retrieve the face from the fontface resource"));
 
         // Set the size parameter
@@ -501,7 +501,7 @@ float   CFontMap::GetStringWidth(const tstring &sStr)
     for (size_t z(0); z < sClean.length(); ++z)
     {
         const SCharacterMapInfo *pInfo(GetCharMapInfo(sClean[z]));
-        if (pInfo == NULL)
+        if (pInfo == nullptr)
             fLength += m_iMaxAdvance;
         else
             fLength += pInfo->m_fAdvance;

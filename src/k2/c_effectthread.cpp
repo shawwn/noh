@@ -56,8 +56,8 @@ m_pEffect(pEffect),
 m_hEffect(INVALID_RESOURCE),
 m_uiStartTime(0xffffffff),
 m_pvCmdBuffer(&m_vCmdBuffer),
-m_pSourceSkeleton(NULL),
-m_pTargetSkeleton(NULL)
+m_pSourceSkeleton(nullptr),
+m_pTargetSkeleton(nullptr)
 {
     /*      DO NOT DO THIS -- the pEffect OWNS us, we are not dependent on it! 
     m_pEffect->AddResourceWatcher(this);
@@ -83,7 +83,7 @@ m_itCurrentCmd(etSettings.m_itCurrentCmd),
 m_bActive(false),
 m_bExpire(false),
 
-m_pCamera(NULL),
+m_pCamera(nullptr),
 m_v3CameraOffset(V3_ZERO),
 m_v3CameraAngleOffset(V3_ZERO),
 
@@ -103,16 +103,16 @@ m_uiOverlayDuration(0),
 m_v4OverlayColor(V4_ZERO),
 m_hOverlayMaterial(INVALID_RESOURCE),
 
-m_pSourceSkeleton(NULL),
-m_pSourceModel(NULL),
+m_pSourceSkeleton(nullptr),
+m_pSourceModel(nullptr),
 m_v3SourcePos(CVec3f(0.0f, 0.0f, 0.0f)),
 m_aSourceAxis(),
 m_fSourceScale(1.0f),
 m_fSourceEffectScale(1.0f),
 m_bSourceVisibility(true),
 
-m_pTargetSkeleton(NULL),
-m_pTargetModel(NULL),
+m_pTargetSkeleton(nullptr),
+m_pTargetModel(nullptr),
 m_v3TargetPos(CVec3f(0.0f, 0.0f, 0.0f)),
 m_aTargetAxis(),
 m_fTargetScale(1.0f),
@@ -146,7 +146,7 @@ void    CEffectThread::Rebuild(ResHandle hResource)
 
     if (!m_pEffect || !m_pEffect->GetEffectThread())
     {
-        m_pvCmdBuffer = NULL;
+        m_pvCmdBuffer = nullptr;
         return;
     }
 
@@ -177,7 +177,7 @@ bool    CEffectThread::Execute(uint uiMilliseconds)
     if (!m_pvCmdBuffer)
     {
         // if the effect has been unregistered, then pause until it's been reloaded.
-        if (m_hEffect != INVALID_RESOURCE && g_ResourceManager.Get(m_hEffect) == NULL)
+        if (m_hEffect != INVALID_RESOURCE && g_ResourceManager.Get(m_hEffect) == nullptr)
             return false;
 
         return true;
@@ -193,7 +193,7 @@ bool    CEffectThread::Execute(uint uiMilliseconds)
 
     if (uiMilliseconds < m_uiLastUpdateTime)
     {
-        if (GetEffect() != NULL)
+        if (GetEffect() != nullptr)
             Console.Dev << _T("Rewinding effect ") << GetEffect()->GetPath() << _T(" to ") << uiMilliseconds << _T(" milliseconds") << newl;
         else
             Console.Dev << _T("Rewinding unknown effect to ") << uiMilliseconds << _T(" milliseconds") << newl;
@@ -302,7 +302,7 @@ IEffectInstance*    CEffectThread::GetInstance(const tstring &sName)
     if (findit != m_mapInstances.end())
         return findit->second;
     else
-        return NULL;
+        return nullptr;
 }
 
 
@@ -713,7 +713,7 @@ CVec3f  CEffectThread::GetRandomPositionOnSkeleton(CSkeleton *pSkeleton)
         vBoneVolumes[uiBone] = fCumVolume;
 
         CBone *pBone(pK2Model->GetBone(uiBone));
-        if (pBone == NULL)
+        if (pBone == nullptr)
         {
             Console.Warn << _T("CEffectThread::GetRandomPositionOnSkeleton() - Invalid bone") << newl;
             continue;
@@ -763,13 +763,13 @@ CVec3f  CEffectThread::GetRandomPositionOnSkeleton(CSkeleton *pSkeleton)
     SBoneState *pStart(pSkeleton->GetBoneState(ui));
     SBoneState *pEnd(pSkeleton->GetBoneState(uiParent));
 
-    if (pStart == NULL)
+    if (pStart == nullptr)
     {
         Console.Warn << _T("CEffectThread::GetRandomPositionOnSkeleton() - Accessing invalid start bone on model ") << pK2Model->GetName() << _T(", accessing bone: ") << ui << _T(", model bones: ") << pK2Model->GetNumBones() << _T(", skeleton bones: ") << pSkeleton->GetNumBones() << newl;
         return CVec3f(0.0f, 0.0f, 0.0f);
     }
 
-    if (pEnd == NULL)
+    if (pEnd == nullptr)
     {
         Console.Warn << _T("CEffectThread::GetRandomPositionOnSkeleton() - Accessing invalid end bone on model ") << pK2Model->GetName() << _T(", accessing bone: ") << uiParent << _T(", model bones: ") << pK2Model->GetNumBones() << _T(", skeleton bones: ") << pSkeleton->GetNumBones() << newl;
         return CVec3f(0.0f, 0.0f, 0.0f);
@@ -795,7 +795,7 @@ matrix43_t* CEffectThread::GetBoneTransform(CSkeleton *pSkeleton, const tstring 
             return &pSkeleton->GetBoneState(pSkeleton->GetBone(sBone))->tm_local;
     }
 
-    return NULL;
+    return nullptr;
 }
 
 

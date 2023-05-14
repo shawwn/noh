@@ -116,7 +116,7 @@ void    CSystem::GetHiddenFileList(const tstring &sPath, const tstring &sFile, b
     
     string sSearch(sFullPath + TStringToNative(sFile));
     
-    glob(sSearch.c_str(), 0, NULL, &globbuf);
+    glob(sSearch.c_str(), 0, nullptr, &globbuf);
     
     for (uint i(0); i < globbuf.gl_pathc; i++)
     {
@@ -138,7 +138,7 @@ void    CSystem::GetHiddenFileList(const tstring &sPath, const tstring &sFile, b
     
     sSearch = sFullPath + "*";
     
-    glob(sSearch.c_str(), GLOB_ONLYDIR, NULL, &globbuf);
+    glob(sSearch.c_str(), GLOB_ONLYDIR, nullptr, &globbuf);
     
     for (uint i(0); i < globbuf.gl_pathc; i++)
     {
@@ -176,7 +176,7 @@ void    CSystem::GetFileList(const tstring &sPath, const tstring &sFile, bool bR
     
     string sSearch(sFullPath + TStringToNative(sFile));
     
-    glob(sSearch.c_str(), 0, NULL, &globbuf);
+    glob(sSearch.c_str(), 0, nullptr, &globbuf);
     
     for (uint i(0); i < globbuf.gl_pathc; i++)
     {
@@ -198,7 +198,7 @@ void    CSystem::GetFileList(const tstring &sPath, const tstring &sFile, bool bR
     
     sSearch = sFullPath + "*";
     
-    glob(sSearch.c_str(), GLOB_ONLYDIR, NULL, &globbuf);
+    glob(sSearch.c_str(), GLOB_ONLYDIR, nullptr, &globbuf);
     
     for (uint i(0); i < globbuf.gl_pathc; i++)
     {
@@ -235,7 +235,7 @@ void    CSystem::GetDirList(const tstring &sPath, bool bRecurse, tsvector &vDirL
     
     string sSearch(TStringToNative(sFullPath) + "*");
     
-    glob(sSearch.c_str(), GLOB_ONLYDIR, NULL, &globbuf);
+    glob(sSearch.c_str(), GLOB_ONLYDIR, nullptr, &globbuf);
     
     for (uint i(0); i < globbuf.gl_pathc; i++)
     {
@@ -279,7 +279,7 @@ void*   CSystem::LoadLibrary(const tstring &sLibFilename)
 #endif
     
     if (sFullPath == TSNULL)
-        return NULL;
+        return nullptr;
     else
     {
         void* pLib = dlopen(TStringToNative(sFullPath).c_str(), RTLD_NOW);
@@ -423,7 +423,7 @@ bool    CSystem::Shell(const tstring &sCommand, bool bWait)
         if (*s) *s++ = 0;
     }
     
-    *pargs = NULL;
+    *pargs = nullptr;
     
     if ((pid = fork()) == -1)
     {
@@ -438,7 +438,7 @@ bool    CSystem::Shell(const tstring &sCommand, bool bWait)
     free(command);
     
     if (bWait)
-        waitpid(pid, NULL, 0);
+        waitpid(pid, nullptr, 0);
     
     return true;
 }

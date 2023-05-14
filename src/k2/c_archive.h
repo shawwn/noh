@@ -93,7 +93,7 @@ public:
     bool            DeleteCompressedFile(const tstring &sPath);
 
     const tsvector& GetFileList() const;
-    bool            HasChecksums() const                { return (m_pChecksums != NULL); }
+    bool            HasChecksums() const                { return (m_pChecksums != nullptr); }
     bool            ComputeChecksums(CChecksumTable &cChecksums, const tsvector &vFileList);
 
     // compute the checksum of all checksums (determines whether the client has loaded any files behind our back)

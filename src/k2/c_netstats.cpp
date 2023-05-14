@@ -165,7 +165,7 @@ void    CNetStats::Draw()
 
     ResHandle hFont(g_ResourceManager.LookUpName(_T("system_medium"), RES_FONTMAP));
     CFontMap *pFontMap(g_ResourceManager.GetFontMap(hFont));
-    if (pFontMap == NULL)
+    if (pFontMap == nullptr)
         return;
 
     float fLines = 4.0f;

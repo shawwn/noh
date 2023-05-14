@@ -157,7 +157,7 @@ void md6_main_compression_loop( md6_word *A,          /* working array */
 int md6_compress( md6_word *C,                               /* output */  
           md6_word *N,                                /* input */
           int r,                              /* number rounds */
-          md6_word *A /* (optional) working array, may be NULL */
+          md6_word *A /* (optional) working array, may be nullptr */
                 );
 
 
@@ -305,7 +305,7 @@ extern int md6_init( md6_state *st,             /* state to initialize */
 
 extern int md6_full_init( md6_state *st,        /* state to initialize */
               int d,                    /* hash bit length */
-              unsigned char *key,       /* OK to give NULL */
+              unsigned char *key,       /* OK to give nullptr */
               int keylen,       /* (in bytes) OK to give 0 */
               int L,     /* mode; OK to give md6_default_L */
               int r                    /* number of rounds */
@@ -317,7 +317,7 @@ extern int md6_update( md6_state *st,             /* initialized state */
                );
 
 extern int md6_final( md6_state *st,            /* initialized/updated */
-              unsigned char *hashval       /* output; NULL OK  */
+              unsigned char *hashval       /* output; nullptr OK  */
               );
 
 /* MD6 main interface routines
@@ -339,7 +339,7 @@ extern int md6_hash( int d,                         /* hash bit length */
 extern int md6_full_hash( int d,                    /* hash bit length */
               unsigned char *data,/* complete data to hash */
               md6_uint64_t databitlen,   /* its length in bits */
-              unsigned char *key,       /* OK to give NULL */
+              unsigned char *key,       /* OK to give nullptr */
               int keylen,       /* (in bytes) OK to give 0 */
               int L,     /* mode; OK to give md6_default_L */
               int r,                   /* number of rounds */

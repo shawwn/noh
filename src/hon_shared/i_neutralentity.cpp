@@ -103,7 +103,7 @@ bool    INeutralEntity::ServerFrameThink()
     if (m_uiOwnerEntityIndex == INVALID_INDEX)
     {
         // Execute NPC "think" script
-        Action(ACTION_SCRIPT_THINK, this, NULL);
+        Action(ACTION_SCRIPT_THINK, this, nullptr);
 
         if (m_cBrain.IsEmpty() && m_cBrain.GetCommandsPending() == 0)
             m_cBrain.AddCommand(UNITCMD_GUARD, false, m_v3SpawnPosition.xy(), INVALID_INDEX, uint(-1), true);
@@ -137,16 +137,16 @@ void    INeutralEntity::Die(IUnitEntity *pAttacker, ushort unKillingObjectID)
     if (m_uiSpawnControllerUID != INVALID_INDEX)
     {
         CEntityNeutralCampController *pSpawnController(Game.GetEntityFromUniqueIDAs<CEntityNeutralCampController>(m_uiSpawnControllerUID));
-        if (pSpawnController != NULL)
+        if (pSpawnController != nullptr)
             pSpawnController->CreepDied(GetUniqueID());
     }
 
     IUnitEntity::Die(pAttacker, unKillingObjectID);
 
-    if (pAttacker != NULL && IsTargetType(_T("Kongor"), pAttacker))
+    if (pAttacker != nullptr && IsTargetType(_T("Kongor"), pAttacker))
     {
         CPlayer *pPlayerKiller(Game.GetPlayerFromClientNumber(pAttacker->GetOwnerClientNumber()));
-        if (pPlayerKiller != NULL)
+        if (pPlayerKiller != nullptr)
         {
             CBufferFixed<11> buffer;
             buffer << GAME_CMD_KILL_KONGOR_MESSAGE << pPlayerKiller->GetClientNumber() << pAttacker->GetTeam() << ushort(GetGoldBountyTeam());
@@ -169,7 +169,7 @@ void    INeutralEntity::OnTakeControl(IUnitEntity *pOwner)
     if (m_uiSpawnControllerUID != INVALID_INDEX)
     {
         CEntityNeutralCampController *pSpawnController(Game.GetEntityFromUniqueIDAs<CEntityNeutralCampController>(m_uiSpawnControllerUID));
-        if (pSpawnController != NULL)
+        if (pSpawnController != nullptr)
             pSpawnController->CreepDied(GetUniqueID());
     }
 }

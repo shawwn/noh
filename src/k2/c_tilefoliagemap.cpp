@@ -32,7 +32,7 @@ CTileFoliageMap::CTileFoliageMap(EWorldComponent eComponent) :
 IWorldComponent(eComponent, _T("TileFoliageMap"))
 {
     for (int iLayer(0); iLayer < NUM_FOLIAGE_LAYERS; ++iLayer)
-        m_pFoliageTiles[iLayer] = NULL;
+        m_pFoliageTiles[iLayer] = nullptr;
 }
 
 
@@ -45,7 +45,7 @@ bool    CTileFoliageMap::Load(CArchive &archive, const CWorld *pWorld)
     {
         Release();
         m_pWorld = pWorld;
-        if (m_pWorld == NULL)
+        if (m_pWorld == nullptr)
             EX_ERROR(_T("Invalid CWorld pointer"));
 
         CFileHandle hTileFoliageMap(m_sName, FILE_READ | FILE_BINARY, archive);
@@ -69,7 +69,7 @@ bool    CTileFoliageMap::Load(CArchive &archive, const CWorld *pWorld)
         {   
             m_pFoliageTiles[iLayer] = K2_NEW_ARRAY(ctx_World, SFoliageTile, m_pWorld->GetTileArea());
             
-            if (m_pFoliageTiles[iLayer] == NULL)
+            if (m_pFoliageTiles[iLayer] == nullptr)
                 EX_ERROR(_T("Failed to allocate foliage tile array"));
 
             if (zSize == 8) // HACK: Old format
@@ -114,7 +114,7 @@ bool    CTileFoliageMap::Generate(const CWorld *pWorld)
     {
         Release();
         m_pWorld = pWorld;
-        if (m_pWorld == NULL)
+        if (m_pWorld == nullptr)
             EX_ERROR(_T("Invalid CWorld pointer"));
 
         uint iMaterialRef(m_pWorld->AddMaterial(g_ResourceManager.Register(_T("/world/foliage/materials/default.material"), RES_MATERIAL)));
@@ -124,7 +124,7 @@ bool    CTileFoliageMap::Generate(const CWorld *pWorld)
         {
             m_pFoliageTiles[iLayer] = K2_NEW_ARRAY(ctx_World, SFoliageTile, m_pWorld->GetTileArea());
             
-            if (m_pFoliageTiles[iLayer] == NULL)
+            if (m_pFoliageTiles[iLayer] == nullptr)
                 EX_ERROR(_T("Failed to allocate foliage material array"));
 
             for (int iTile(0); iTile < m_pWorld->GetTileArea(); ++iTile)
@@ -179,10 +179,10 @@ void    CTileFoliageMap::Release()
 {
     for (int iLayer(0); iLayer < NUM_FOLIAGE_LAYERS; ++iLayer)
     {
-        if (m_pFoliageTiles[iLayer] != NULL)
+        if (m_pFoliageTiles[iLayer] != nullptr)
             K2_DELETE_ARRAY(m_pFoliageTiles[iLayer]);
         
-        m_pFoliageTiles[iLayer] = NULL;
+        m_pFoliageTiles[iLayer] = nullptr;
     }
 }
 
@@ -274,7 +274,7 @@ bool    CTileFoliageMap::SetRegion(const CRecti &recArea, void *pSource, int iLa
 uint    CTileFoliageMap::GetTileMaterialID(int iX, int iY, int iLayer)
 {
     assert(iLayer >= 0 && iLayer < NUM_FOLIAGE_LAYERS);
-    assert(m_pWorld != NULL);
+    assert(m_pWorld != nullptr);
     assert(m_pWorld->IsInBounds(iX, iY, TILE_SPACE));
     return m_pFoliageTiles[iLayer][m_pWorld->GetTileIndex(iX, iY)].iMaterialRef;
 }
@@ -286,7 +286,7 @@ uint    CTileFoliageMap::GetTileMaterialID(int iX, int iY, int iLayer)
 uint    CTileFoliageMap::GetTileTextureID(int iX, int iY, int iLayer)
 {
     assert(iLayer >= 0 && iLayer < NUM_TERRAIN_LAYERS);
-    assert(m_pWorld != NULL);
+    assert(m_pWorld != nullptr);
     assert(m_pWorld->IsInBounds(iX, iY, TILE_SPACE));
     return m_pFoliageTiles[iLayer][m_pWorld->GetTileIndex(iX, iY)].iTextureRef;
 }
@@ -298,7 +298,7 @@ uint    CTileFoliageMap::GetTileTextureID(int iX, int iY, int iLayer)
 byte    CTileFoliageMap::GetNumCrossQuads(int iX, int iY, int iLayer)
 {
     assert(iLayer >= 0 && iLayer < NUM_TERRAIN_LAYERS);
-    assert(m_pWorld != NULL);
+    assert(m_pWorld != nullptr);
     assert(m_pWorld->IsInBounds(iX, iY, TILE_SPACE));
     return m_pFoliageTiles[iLayer][m_pWorld->GetTileIndex(iX, iY)].yNumCrossQuads;
 }
@@ -310,7 +310,7 @@ byte    CTileFoliageMap::GetNumCrossQuads(int iX, int iY, int iLayer)
 byte    CTileFoliageMap::GetFlags(int iX, int iY, int iLayer)
 {
     assert(iLayer >= 0 && iLayer < NUM_TERRAIN_LAYERS);
-    assert(m_pWorld != NULL);
+    assert(m_pWorld != nullptr);
     assert(m_pWorld->IsInBounds(iX, iY, TILE_SPACE));
     return m_pFoliageTiles[iLayer][m_pWorld->GetTileIndex(iX, iY)].yFlags;
 }

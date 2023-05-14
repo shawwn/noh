@@ -121,7 +121,7 @@ CConsoleOutputBuffer*   CConsoleOutputBuffer::GetInstance()
 {
     assert(!m_bReleased);
 
-    if (m_pInstance == NULL)
+    if (m_pInstance == nullptr)
     {
         m_pInstance = K2_NEW(ctx_Console,  CConsoleOutputBuffer);
         m_iRefCount = 0;
@@ -141,7 +141,7 @@ void    CConsoleOutputBuffer::Release()
     assert(m_iRefCount > 0);
 
     --m_iRefCount;
-    if (m_iRefCount == 0 && m_pInstance != NULL)
+    if (m_iRefCount == 0 && m_pInstance != nullptr)
     {
         SAFE_DELETE(m_pInstance);
         m_bReleased = true;
@@ -241,7 +241,7 @@ CConsoleNotifyBuffer*   CConsoleNotifyBuffer::GetInstance()
 {
     assert(!m_bReleased);
 
-    if (m_pInstance == NULL)
+    if (m_pInstance == nullptr)
     {
         m_pInstance = K2_NEW(ctx_Console,  CConsoleNotifyBuffer);
         m_iRefCount = 0;
@@ -261,7 +261,7 @@ void    CConsoleNotifyBuffer::Release()
     assert(m_iRefCount > 0);
 
     --m_iRefCount;
-    if (m_iRefCount == 0 && m_pInstance != NULL)
+    if (m_iRefCount == 0 && m_pInstance != nullptr)
     {
         SAFE_DELETE(m_pInstance);
         m_bReleased = true;
@@ -416,7 +416,7 @@ m_iShiftPgRows(25),
 m_iPgRows(3),
 
 m_iScriptsRunning(0),
-m_pActiveThread(NULL),
+m_pActiveThread(nullptr),
 
 m_newl(_T("\n")),
 
@@ -709,7 +709,7 @@ void    CConsole::DoCommand(const tsvector &vArgList)
             return;
 
         CConsoleElement *pElement(GetElement(vArgList[0]));
-        if (pElement == NULL)
+        if (pElement == nullptr)
             EX_MESSAGE(_T("Unknown identifier: ") + SingleQuoteStr(vArgList[0]));
 
         pElement->Execute(tsvector(itBegin, itEnd));
@@ -760,7 +760,7 @@ void    CConsole::DoPrecache(const tsvector &vArgList)
         CConsoleElement *pElement(GetElement(vArgList[0]));
 
         // If the command is registered, attempt to precache it
-        if (pElement != NULL)
+        if (pElement != nullptr)
             bFoundCmd = pElement->Precache(tsvector(itBegin, itEnd));
 
         if (!bFoundCmd)
@@ -768,7 +768,7 @@ void    CConsole::DoPrecache(const tsvector &vArgList)
             // Attempt to find a registered precache command
             pElement = GetElement(vArgList[0] + _T("_Precache"));
 
-            if (pElement != NULL && pElement->GetType() == ELEMENT_CMDPRECACHE)
+            if (pElement != nullptr && pElement->GetType() == ELEMENT_CMDPRECACHE)
                 pElement->Execute(tsvector(itBegin, itEnd));
         }
     }
@@ -1333,7 +1333,7 @@ void    CConsole::Frame()
     // Execute any commands we may have put into the command buffer
     ExecCmdBuffer();
 
-    m_pActiveThread = NULL;
+    m_pActiveThread = nullptr;
 
     ThreadList::iterator it = m_lScriptThreads.begin();
 
@@ -1677,7 +1677,7 @@ void    CConsole::Draw()
     {
         ResHandle hConsoleFont(g_ResourceManager.LookUpName(con_font, RES_FONTMAP));
         CFontMap *pFontMap(g_ResourceManager.GetFontMap(hConsoleFont));
-        if (pFontMap == NULL)
+        if (pFontMap == nullptr)
             return;
         float fCharHeight(pFontMap->GetMaxHeight());
 
@@ -1972,7 +1972,7 @@ void CCursesConsole::Draw()
         if (m_bXTerm)
         {
             curs_set(0);
-            chgat(1, A_UNDERLINE, 1, NULL);
+            chgat(1, A_UNDERLINE, 1, nullptr);
         }
         else
             curs_set(1);

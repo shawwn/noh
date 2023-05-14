@@ -43,7 +43,7 @@ m_uiDuration(INVALID_TIME),
 m_uiTargetScheme(INVALID_TARGET_SCHEME),
 m_uiEffectType(0),
 m_bIgnoreInvulnerable(false),
-m_pGadgetOwner(NULL),
+m_pGadgetOwner(nullptr),
 m_unReflexiveStateID(INVALID_ENT_TYPE),
 m_bStack(false),
 m_bNoTooltip(bNoTooltip)
@@ -124,7 +124,7 @@ m_bNoTooltip(bNoTooltip)
   ====================*/
 bool    CAuraDefinition::CanApply(IUnitEntity *pSource, IUnitEntity *pTarget) const
 {
-    if (pTarget == NULL)
+    if (pTarget == nullptr)
         return false;
 
     if (!Game.IsValidTarget(m_uiTargetScheme, m_uiEffectType, pSource, pTarget, m_bIgnoreInvulnerable))
@@ -133,7 +133,7 @@ bool    CAuraDefinition::CanApply(IUnitEntity *pSource, IUnitEntity *pTarget) co
     if (m_sCondition.empty())
         return true;
 
-    return EvaluateConditionalString(m_sCondition, NULL, NULL, pSource, pTarget, NULL);
+    return EvaluateConditionalString(m_sCondition, nullptr, nullptr, pSource, pTarget, nullptr);
 }
 
 
@@ -145,7 +145,7 @@ bool    CAuraDefinition::CanPropagate(IUnitEntity *pSource) const
     if (m_sPropagateCondition.empty())
         return true;
 
-    return EvaluateConditionalString(m_sPropagateCondition, NULL, NULL, pSource, pSource, NULL);
+    return EvaluateConditionalString(m_sPropagateCondition, nullptr, nullptr, pSource, pSource, nullptr);
 }
 
 
@@ -158,7 +158,7 @@ bool    CAuraDefinition::ApplyState(IGameEntity *pSource, IUnitEntity *pTarget, 
         return false;
 
     IEntityState *pState(pTarget->ApplyState(m_unStateID, uiLevel, INVALID_TIME, m_uiDuration, pSource->GetIndex(), INVALID_INDEX, m_bStack ? STATE_STACK_NOSELF : STATE_STACK_NONE, pSpawner ? pSpawner->GetUniqueID() : INVALID_INDEX));
-    if (pState == NULL)
+    if (pState == nullptr)
         return false;
 
     pState->SetAuraSource(pSource->GetUniqueID());
@@ -178,7 +178,7 @@ bool    CAuraDefinition::BindGadget(IGameEntity *pSource, IUnitEntity *pTarget, 
         return false;
 
     IGadgetEntity *pGadget(pTarget->AttachGadget(m_unGadgetID, uiLevel, INVALID_TIME, INVALID_TIME, m_pGadgetOwner));
-    if (pGadget == NULL)
+    if (pGadget == nullptr)
         return false;
 
     pGadget->SetAuraSource(pSource->GetUniqueID());
@@ -196,7 +196,7 @@ bool    CAuraDefinition::ApplyReflexiveState(IGameEntity *pSource, IUnitEntity *
         return false;
 
     IEntityState *pState(pTarget->ApplyState(m_unReflexiveStateID, uiLevel, INVALID_TIME, m_uiDuration, pSource->GetIndex(), INVALID_INDEX, STATE_STACK_NONE, pSpawner ? pSpawner->GetUniqueID() : INVALID_INDEX));
-    if (pState == NULL)
+    if (pState == nullptr)
         return false;
 
     pState->SetAuraSource(pSource->GetUniqueID());
@@ -227,8 +227,8 @@ void    CAuraDefinition::FetchWorkingValues(IGameEntity *pSource, uint uiLevel)
     const tstring &sReflexiveStateName(GetReflexiveStateName(uiLevel));
     m_unReflexiveStateID = sReflexiveStateName.empty() ? INVALID_ENT_TYPE : EntityRegistry.LookupID(sReflexiveStateName);
 
-    if (m_unGadgetID == INVALID_ENT_TYPE || pSource == NULL)
-        m_pGadgetOwner = NULL;
+    if (m_unGadgetID == INVALID_ENT_TYPE || pSource == nullptr)
+        m_pGadgetOwner = nullptr;
     else
         m_pGadgetOwner = pSource->IsState() ? pSource->GetAsState()->GetInflictor() : pSource->GetMasterOwner();
 }

@@ -18,7 +18,7 @@
   ====================*/
 CVertexNormalMap::CVertexNormalMap(EWorldComponent eComponent) :
 IWorldComponent(eComponent, _T("VertexNormalMap")),
-m_pVertexNormals(NULL)
+m_pVertexNormals(nullptr)
 {
 }
 
@@ -37,11 +37,11 @@ CVertexNormalMap::~CVertexNormalMap()
   ====================*/
 void    CVertexNormalMap::Release()
 {
-    m_pWorld = NULL;
+    m_pWorld = nullptr;
 
-    if (m_pVertexNormals != NULL)
+    if (m_pVertexNormals != nullptr)
         K2_DELETE_ARRAY(m_pVertexNormals);
-    m_pVertexNormals = NULL;
+    m_pVertexNormals = nullptr;
 }
 
 
@@ -66,11 +66,11 @@ bool    CVertexNormalMap::Generate(const CWorld *pWorld)
         Release();
         m_bChanged = true;
         m_pWorld = pWorld;
-        if (m_pWorld == NULL)
+        if (m_pWorld == nullptr)
             EX_ERROR(_T("CVertexNormalMap needs a valid CWorld"));
 
         m_pVertexNormals = K2_NEW_ARRAY(ctx_World, CVec3f, m_pWorld->GetGridArea());
-        if (m_pVertexNormals == NULL)
+        if (m_pVertexNormals == nullptr)
             EX_ERROR(_T("Failed to allocate memory for map data"));
 
         for (int iY(0); iY < m_pWorld->GetGridHeight(); ++iY)
@@ -176,7 +176,7 @@ void    CVertexNormalMap::CalculateVertexNormal(int iX, int iY)
     assert(iX < m_pWorld->GetGridWidth());
     assert(iY >= 0);
     assert(iY < m_pWorld->GetGridHeight());
-    assert(m_pWorld != NULL);
+    assert(m_pWorld != nullptr);
 
     CVec3f &v3Normal(m_pVertexNormals[m_pWorld->GetGridIndex(iX, iY)]);
     v3Normal.Clear();

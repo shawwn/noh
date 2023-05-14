@@ -67,11 +67,11 @@ m_uiIndex(INVALID_INDEX),
 m_unType(0),
 
 m_hModel(INVALID_RESOURCE),
-m_pSkeleton(NULL),
+m_pSkeleton(nullptr),
 
-m_pNextState(NULL),
-m_pPrevState(NULL),
-m_pCurrentState(NULL),
+m_pNextState(nullptr),
+m_pPrevState(nullptr),
+m_pCurrentState(nullptr),
 
 m_iTalkingEffectChannel(-1),
 m_iDisconnectedEffectChannel(-1),
@@ -86,7 +86,7 @@ m_hModelLinked(INVALID_RESOURCE),
 m_hNextClientEntity(INVALID_POOL_OFFSET)
 {
     for (int i(0); i < NUM_CLIENT_EFFECT_THREADS; ++i)
-        m_apEffectThread[i] = NULL;
+        m_apEffectThread[i] = nullptr;
 
     for (int i(0); i < NUM_CLIENT_SOUND_HANDLES; ++i)
         m_ahSoundHandle[i] = INVALID_INDEX;
@@ -100,9 +100,9 @@ void    CClientEntity::SetIndex(uint uiIndex)
 {
     m_uiIndex = uiIndex;
 
-    if (m_pNextState == NULL ||
-        m_pPrevState == NULL ||
-        m_pCurrentState == NULL)
+    if (m_pNextState == nullptr ||
+        m_pPrevState == nullptr ||
+        m_pCurrentState == nullptr)
         return;
 
     m_pNextState->SetIndex(m_uiIndex);
@@ -118,9 +118,9 @@ void    CClientEntity::SetType(ushort unType)
 {
     m_unType = unType;
 
-    if (m_pNextState == NULL ||
-        m_pPrevState == NULL ||
-        m_pCurrentState == NULL)
+    if (m_pNextState == nullptr ||
+        m_pPrevState == nullptr ||
+        m_pCurrentState == nullptr)
         return;
 
     m_pNextState->SetType(m_unType);
@@ -136,16 +136,16 @@ void    CClientEntity::SetSkeleton(CSkeleton *pSkeleton)
 {
     m_pSkeleton = pSkeleton;
 
-    if (m_pNextState == NULL ||
-        m_pPrevState == NULL ||
-        m_pCurrentState == NULL)
+    if (m_pNextState == nullptr ||
+        m_pPrevState == nullptr ||
+        m_pCurrentState == nullptr)
         return;
 
     m_pNextState->SetSkeleton(m_pSkeleton);
     m_pPrevState->SetSkeleton(m_pSkeleton);
     m_pCurrentState->SetSkeleton(m_pSkeleton);
 
-    if (m_pSkeleton != NULL)
+    if (m_pSkeleton != nullptr)
         m_pSkeleton->SetDefaultAnim(_CTS("idle"));
 }
 
@@ -164,7 +164,7 @@ uint    CClientEntity::GetWorldIndex() const
   ====================*/
 int     CClientEntity::GetClientID() const
 {
-    if (m_pNextState != NULL && m_pNextState->IsUnit())
+    if (m_pNextState != nullptr && m_pNextState->IsUnit())
         return m_pNextState->GetAsUnit()->GetOwnerClientNumber();
     else
         return -1;
@@ -195,44 +195,44 @@ void    CClientEntity::Free()
 
     SAFE_DELETE(m_pSkeleton);
 
-    if (m_pNextState != NULL && m_pNextState->IsGadget())
+    if (m_pNextState != nullptr && m_pNextState->IsGadget())
     {
         IGadgetEntity *pGadget(m_pNextState->GetAsGadget());
 
         CClientEntity *pOwner(GameClient.GetClientEntity(pGadget->GetMountIndex()));
-        if (pOwner != NULL && pOwner->GetNextEntity() != NULL && pOwner->GetNextEntity()->IsUnit())
+        if (pOwner != nullptr && pOwner->GetNextEntity() != nullptr && pOwner->GetNextEntity()->IsUnit())
         {
-            if (pOwner->GetNextEntity()->GetAsUnit() != NULL && 
+            if (pOwner->GetNextEntity()->GetAsUnit() != nullptr &&
                 pOwner->GetNextEntity()->GetAsUnit()->GetMount() == pGadget)
-                pOwner->GetNextEntity()->GetAsUnit()->SetMount(NULL);
-            if (pOwner->GetPrevEntity() != NULL && 
-                pOwner->GetPrevEntity()->GetAsUnit() != NULL && 
+                pOwner->GetNextEntity()->GetAsUnit()->SetMount(nullptr);
+            if (pOwner->GetPrevEntity() != nullptr &&
+                pOwner->GetPrevEntity()->GetAsUnit() != nullptr &&
                 pOwner->GetPrevEntity()->GetAsUnit()->GetMount() == pGadget)
-                pOwner->GetPrevEntity()->GetAsUnit()->SetMount(NULL);
-            if (pOwner->GetCurrentEntity() != NULL && 
-                pOwner->GetCurrentEntity()->GetAsUnit() != NULL && 
+                pOwner->GetPrevEntity()->GetAsUnit()->SetMount(nullptr);
+            if (pOwner->GetCurrentEntity() != nullptr &&
+                pOwner->GetCurrentEntity()->GetAsUnit() != nullptr &&
                 pOwner->GetCurrentEntity()->GetAsUnit()->GetMount() == pGadget)
-                pOwner->GetCurrentEntity()->GetAsUnit()->SetMount(NULL);
+                pOwner->GetCurrentEntity()->GetAsUnit()->SetMount(nullptr);
         }
     }
 
-    if (m_pNextState != NULL &&
-        m_pNextState != NULL &&
-        m_pPrevState != NULL &&
-        m_pCurrentState != NULL &&
+    if (m_pNextState != nullptr &&
+        m_pNextState != nullptr &&
+        m_pPrevState != nullptr &&
+        m_pCurrentState != nullptr &&
         m_pNextState->IsUnit())
     {
-        // Only set inventory pointers to NULL because clients already delete slaves when the entity slave snapshot is deleted
+        // Only set inventory pointers to nullptr because clients already delete slaves when the entity slave snapshot is deleted
         for (int i(0); i < MAX_INVENTORY; ++i)
         {
-            m_pNextState->GetAsUnit()->SetInventorySlot(i, NULL);
-            m_pPrevState->GetAsUnit()->SetInventorySlot(i, NULL);
-            m_pCurrentState->GetAsUnit()->SetInventorySlot(i, NULL);
+            m_pNextState->GetAsUnit()->SetInventorySlot(i, nullptr);
+            m_pPrevState->GetAsUnit()->SetInventorySlot(i, nullptr);
+            m_pCurrentState->GetAsUnit()->SetInventorySlot(i, nullptr);
         }
 
-        m_pNextState->GetAsUnit()->SetMount(NULL);
-        m_pPrevState->GetAsUnit()->SetMount(NULL);
-        m_pCurrentState->GetAsUnit()->SetMount(NULL);
+        m_pNextState->GetAsUnit()->SetMount(nullptr);
+        m_pPrevState->GetAsUnit()->SetMount(nullptr);
+        m_pCurrentState->GetAsUnit()->SetMount(nullptr);
     }
 
     SAFE_DELETE(m_pNextState);
@@ -292,14 +292,14 @@ void    CClientEntity::Initialize(IVisualEntity *pEntity)
         {
             for (int i(0); i < MAX_INVENTORY; ++i)
             {
-                if (m_pNextState) m_pNextState->GetAsUnit()->SetInventorySlot(i, NULL);
-                if (m_pPrevState) m_pPrevState->GetAsUnit()->SetInventorySlot(i, NULL);
-                if (m_pCurrentState) m_pCurrentState->GetAsUnit()->SetInventorySlot(i, NULL);
+                if (m_pNextState) m_pNextState->GetAsUnit()->SetInventorySlot(i, nullptr);
+                if (m_pPrevState) m_pPrevState->GetAsUnit()->SetInventorySlot(i, nullptr);
+                if (m_pCurrentState) m_pCurrentState->GetAsUnit()->SetInventorySlot(i, nullptr);
             }
 
-            if (m_pNextState) m_pNextState->GetAsUnit()->SetMount(NULL);
-            if (m_pPrevState) m_pPrevState->GetAsUnit()->SetMount(NULL);
-            if (m_pCurrentState) m_pCurrentState->GetAsUnit()->SetMount(NULL);
+            if (m_pNextState) m_pNextState->GetAsUnit()->SetMount(nullptr);
+            if (m_pPrevState) m_pPrevState->GetAsUnit()->SetMount(nullptr);
+            if (m_pCurrentState) m_pCurrentState->GetAsUnit()->SetMount(nullptr);
         }
 
         m_hModel = INVALID_RESOURCE;
@@ -342,23 +342,23 @@ void    CClientEntity::Initialize(IVisualEntity *pEntity)
 
         SAFE_DELETE(m_pNextState);
         m_pNextState = pNewEnt->GetAsVisual();
-        if (m_pNextState == NULL)
+        if (m_pNextState == nullptr)
             EX_ERROR(_T("Allocation failed for NextState"));
 
         SAFE_DELETE(m_pPrevState);
         pNewEnt = EntityRegistry.Allocate(pEntity->GetType());
-        if (pNewEnt == NULL)
+        if (pNewEnt == nullptr)
             EX_ERROR(_T("Allocation failed for PrevState"));
         m_pPrevState = pNewEnt->GetAsVisual();
-        if (m_pPrevState == NULL)
+        if (m_pPrevState == nullptr)
             EX_ERROR(_T("Allocation failed for PrevState"));
 
         SAFE_DELETE(m_pCurrentState);
         pNewEnt = EntityRegistry.Allocate(pEntity->GetType());
-        if (pNewEnt == NULL)
+        if (pNewEnt == nullptr)
             EX_ERROR(_T("Allocation failed for CurrentState"));
         m_pCurrentState = pNewEnt->GetAsVisual();
-        if (m_pCurrentState == NULL)
+        if (m_pCurrentState == nullptr)
             EX_ERROR(_T("Allocation failed for CurrentState"));
 
         SetIndex(pEntity->GetIndex());
@@ -468,7 +468,7 @@ void    CClientEntity::AddToScene()
 
         // Only set skeleton model on models that have animations
         CModel* pModel(g_ResourceManager.GetModel(hModel));
-        if (pModel != NULL && pModel->GetModelFile()->GetType() == MODEL_K2)
+        if (pModel != nullptr && pModel->GetModelFile()->GetType() == MODEL_K2)
         {
             CK2Model* pK2Model(static_cast<CK2Model*>(pModel->GetModelFile()));
             if (pK2Model->GetNumAnims() == 0)
@@ -476,7 +476,7 @@ void    CClientEntity::AddToScene()
         }
 
         // Update skeleton model
-        if (m_pSkeleton != NULL && m_pSkeleton->GetModel() != hModel)
+        if (m_pSkeleton != nullptr && m_pSkeleton->GetModel() != hModel)
         {
             PROFILE("Update Skeleton Model");
 
@@ -512,7 +512,7 @@ void    CClientEntity::AddToScene()
         }
 
         // Start any new animations on the skeleton
-        if (m_pSkeleton != NULL && m_pSkeleton->GetModel() != INVALID_RESOURCE)
+        if (m_pSkeleton != nullptr && m_pSkeleton->GetModel() != INVALID_RESOURCE)
         {
             PROFILE("New Animations");
 
@@ -631,7 +631,7 @@ void    CClientEntity::AddToScene()
         {
             if (m_pCurrentState->GetEffect(i) != m_ahActiveEffect[i] || 
                 m_pCurrentState->GetEffectSequence(i) != m_ayActiveEffectSequence[i] ||
-                (m_apEffectThread[i] == NULL && m_ahActiveEffect[i] != INVALID_RESOURCE))
+                (m_apEffectThread[i] == nullptr && m_ahActiveEffect[i] != INVALID_RESOURCE))
             {
                 ExpireEffect(m_apEffectThread[i]);
 
@@ -642,7 +642,7 @@ void    CClientEntity::AddToScene()
 
                 if (pEffect)
                 {
-                    if (m_pCurrentState->IsProjectile() && m_pPrevState->GetAsProjectile()->GetOriginTime() == Game.GetPrevServerTime() && Game.GetLocalPlayer() != NULL && Game.GetLocalPlayer()->CanSee(m_pPrevState))
+                    if (m_pCurrentState->IsProjectile() && m_pPrevState->GetAsProjectile()->GetOriginTime() == Game.GetPrevServerTime() && Game.GetLocalPlayer() != nullptr && Game.GetLocalPlayer()->CanSee(m_pPrevState))
                     {
                         // Hack to fix projectile trail start
                         IProjectile *pProjectile(m_pPrevState->GetAsProjectile());
@@ -651,15 +651,15 @@ void    CClientEntity::AddToScene()
 
                         m_apEffectThread[i] = pEffect->SpawnThread(uiTime);
 
-                        if (m_apEffectThread[i] != NULL)
+                        if (m_apEffectThread[i] != nullptr)
                         {
                             m_apEffectThread[i]->SetCamera(GameClient.GetCamera());
                             m_apEffectThread[i]->SetWorld(GameClient.GetWorldPointer());
 
                             m_apEffectThread[i]->SetSourceSkeleton(m_pSkeleton);
                             m_apEffectThread[i]->SetSourceModel(g_ResourceManager.GetModel(m_pCurrentState->GetModel()));
-                            m_apEffectThread[i]->SetTargetSkeleton(NULL);
-                            m_apEffectThread[i]->SetTargetModel(NULL);
+                            m_apEffectThread[i]->SetTargetSkeleton(nullptr);
+                            m_apEffectThread[i]->SetTargetModel(nullptr);
 
                             m_apEffectThread[i]->SetActive(true);
 
@@ -680,15 +680,15 @@ void    CClientEntity::AddToScene()
                     {
                         m_apEffectThread[i] = pEffect->SpawnThread(GameClient.GetGameTime());
 
-                        if (m_apEffectThread[i] != NULL)
+                        if (m_apEffectThread[i] != nullptr)
                         {
                             m_apEffectThread[i]->SetCamera(GameClient.GetCamera());
                             m_apEffectThread[i]->SetWorld(GameClient.GetWorldPointer());
 
                             m_apEffectThread[i]->SetSourceSkeleton(m_pSkeleton);
                             m_apEffectThread[i]->SetSourceModel(g_ResourceManager.GetModel(m_pCurrentState->GetModel()));
-                            m_apEffectThread[i]->SetTargetSkeleton(NULL);
-                            m_apEffectThread[i]->SetTargetModel(NULL);
+                            m_apEffectThread[i]->SetTargetSkeleton(nullptr);
+                            m_apEffectThread[i]->SetTargetModel(nullptr);
 
                             m_apEffectThread[i]->SetActive(true);
                         }
@@ -698,7 +698,7 @@ void    CClientEntity::AddToScene()
                 }
                 else
                 {
-                    m_apEffectThread[i] = NULL;
+                    m_apEffectThread[i] = nullptr;
                 }
             }
         }
@@ -713,7 +713,7 @@ void    CClientEntity::AddToScene()
             {
                 ISlaveEntity *pSlave(pUnit->GetInventorySlot(i));
 
-                if (pSlave == NULL)
+                if (pSlave == nullptr)
                     continue;
 
                 uint uiIndex(pSlave->GetIndex());
@@ -748,7 +748,7 @@ void    CClientEntity::AddToScene()
                 if (hEffect != m_ahActiveSlaveEffect[i] || 
                     ySequence != m_ayActiveSlaveEffectSequence[i] ||
                     uiIndex != m_auiActiveSlaveIndex[i] ||
-                    (m_apEffectThread[iEffectSlot] == NULL && m_ahActiveSlaveEffect[i] != INVALID_RESOURCE))
+                    (m_apEffectThread[iEffectSlot] == nullptr && m_ahActiveSlaveEffect[i] != INVALID_RESOURCE))
                 {
                     m_ahActiveSlaveEffect[i] = hEffect;
                     m_ayActiveSlaveEffectSequence[i] = ySequence;
@@ -762,7 +762,7 @@ void    CClientEntity::AddToScene()
                     {
                         m_apEffectThread[iEffectSlot] = pEffect->SpawnThread(GameClient.GetGameTime());
 
-                        if (m_apEffectThread[iEffectSlot] != NULL)
+                        if (m_apEffectThread[iEffectSlot] != nullptr)
                         {
                             m_apEffectThread[iEffectSlot]->SetCamera(GameClient.GetCamera());
                             m_apEffectThread[iEffectSlot]->SetWorld(GameClient.GetWorldPointer());
@@ -778,8 +778,8 @@ void    CClientEntity::AddToScene()
                             }
                             else
                             {
-                                m_apEffectThread[iEffectSlot]->SetTargetSkeleton(NULL);
-                                m_apEffectThread[iEffectSlot]->SetTargetModel(NULL);
+                                m_apEffectThread[iEffectSlot]->SetTargetSkeleton(nullptr);
+                                m_apEffectThread[iEffectSlot]->SetTargetModel(nullptr);
                             }
 
                             m_apEffectThread[iEffectSlot]->SetActive(true);
@@ -789,7 +789,7 @@ void    CClientEntity::AddToScene()
                     }
                     else
                     {
-                        m_apEffectThread[iEffectSlot] = NULL;
+                        m_apEffectThread[iEffectSlot] = nullptr;
                     }
                 }
             }
@@ -845,7 +845,7 @@ void    CClientEntity::AddToScene()
             ResHandle hDisconnectedEffect(GameClient.GetResource(CLIENT_RESOURCE_PLAYER_DISCONNECTED_EFFECT));
 
             CPlayer *pPlayer(GameClient.GetPlayer(pHero->GetOwnerClientNumber()));
-            if (hDisconnectedEffect != INVALID_RESOURCE && pPlayer != NULL && pPlayer->IsDisconnected())
+            if (hDisconnectedEffect != INVALID_RESOURCE && pPlayer != nullptr && pPlayer->IsDisconnected())
             {
                 if (m_iDisconnectedEffectChannel == -1)
                     m_iDisconnectedEffectChannel = StartEffect(hDisconnectedEffect, -1, 0);
@@ -926,8 +926,8 @@ void    CClientEntity::AddToScene()
                     }
                     else
                     {
-                        m_apEffectThread[i]->SetTargetSkeleton(NULL);
-                        m_apEffectThread[i]->SetTargetModel(NULL);
+                        m_apEffectThread[i]->SetTargetSkeleton(nullptr);
+                        m_apEffectThread[i]->SetTargetModel(nullptr);
                     }
                 }
             }
@@ -1048,7 +1048,7 @@ int     CClientEntity::StartEffect(ResHandle hEffect, int iChannel, int iTimeNud
     {
         for (int i(NUM_CLIENT_EFFECT_THREADS - 1); i >= NUM_EFFECT_CHANNELS + MAX_INVENTORY; --i)
         {
-            if (m_apEffectThread[i] == NULL)
+            if (m_apEffectThread[i] == nullptr)
             {
                 iChannel = i;
                 break;
@@ -1074,7 +1074,7 @@ int     CClientEntity::StartEffect(ResHandle hEffect, int iChannel, int iTimeNud
     {
         m_apEffectThread[iChannel] = pEffect->SpawnThread(GameClient.GetGameTime() + iTimeNudge);
 
-        if (m_apEffectThread[iChannel] == NULL)
+        if (m_apEffectThread[iChannel] == nullptr)
             return -1;
         
         m_apEffectThread[iChannel]->SetCamera(GameClient.GetCamera());
@@ -1082,8 +1082,8 @@ int     CClientEntity::StartEffect(ResHandle hEffect, int iChannel, int iTimeNud
 
         m_apEffectThread[iChannel]->SetSourceSkeleton(m_pSkeleton);
         m_apEffectThread[iChannel]->SetSourceModel(g_ResourceManager.GetModel(m_pNextState->GetModel()));
-        m_apEffectThread[iChannel]->SetTargetSkeleton(NULL);
-        m_apEffectThread[iChannel]->SetTargetModel(NULL);
+        m_apEffectThread[iChannel]->SetTargetSkeleton(nullptr);
+        m_apEffectThread[iChannel]->SetTargetModel(nullptr);
 
         m_apEffectThread[iChannel]->SetActive(true);
         
@@ -1129,7 +1129,7 @@ void    CClientEntity::StopEffect(int iChannel)
   ====================*/
 void    CClientEntity::ExpireEffect(CEffectThread *&pEffectThread)
 {
-    if (pEffectThread == NULL)
+    if (pEffectThread == nullptr)
         return;
 
     if (!pEffectThread->IsDeferred() && !pEffectThread->IsPersistent())
@@ -1143,7 +1143,7 @@ void    CClientEntity::ExpireEffect(CEffectThread *&pEffectThread)
 
     for (int i(NUM_CLIENT_EFFECT_THREADS - 1); i >= NUM_EFFECT_CHANNELS + MAX_INVENTORY; --i)
     {
-        if (m_apEffectThread[i] == NULL)
+        if (m_apEffectThread[i] == nullptr)
         {
             iChannel = i;
             break;
@@ -1161,11 +1161,11 @@ void    CClientEntity::ExpireEffect(CEffectThread *&pEffectThread)
     if (!m_apEffectThread[iChannel]->IsPersistent())
         m_apEffectThread[iChannel]->Expire(GameClient.GetGameTime());
 
-    m_apEffectThread[iChannel]->SetTargetSkeleton(NULL);
-    m_apEffectThread[iChannel]->SetTargetModel(NULL);
+    m_apEffectThread[iChannel]->SetTargetSkeleton(nullptr);
+    m_apEffectThread[iChannel]->SetTargetModel(nullptr);
     m_apEffectThread[iChannel]->SetActive(pEffectThread->IsPersistent());
 
-    pEffectThread = NULL;
+    pEffectThread = nullptr;
 }
 
 
@@ -1187,12 +1187,12 @@ void    CClientEntity::PassEffects()
             continue;
         }
 
-        m_apEffectThread[i]->SetCamera(NULL);
+        m_apEffectThread[i]->SetCamera(nullptr);
 
-        m_apEffectThread[i]->SetSourceSkeleton(NULL);
-        m_apEffectThread[i]->SetSourceModel(NULL);
-        m_apEffectThread[i]->SetTargetSkeleton(NULL);
-        m_apEffectThread[i]->SetTargetModel(NULL);
+        m_apEffectThread[i]->SetSourceSkeleton(nullptr);
+        m_apEffectThread[i]->SetSourceModel(nullptr);
+        m_apEffectThread[i]->SetTargetSkeleton(nullptr);
+        m_apEffectThread[i]->SetTargetModel(nullptr);
 
         if (!m_apEffectThread[i]->IsPersistent())
             m_apEffectThread[i]->Expire(GameClient.GetGameTime());
@@ -1204,11 +1204,11 @@ void    CClientEntity::PassEffects()
         ev.SetSourceEffectScale(m_pCurrentState->GetEffectScale());
         ev.SetEffect(m_apEffectThread[i]);
         ev.SetEffectActive(m_apEffectThread[i]->IsPersistent());
-        ev.SetCull(Game.GetLocalPlayer() != NULL && !Game.GetLocalPlayer()->CanSee(m_pCurrentState));
+        ev.SetCull(Game.GetLocalPlayer() != nullptr && !Game.GetLocalPlayer()->CanSee(m_pCurrentState));
         ev.Spawn();
         Game.AddEvent(ev);
 
-        m_apEffectThread[i] = NULL;
+        m_apEffectThread[i] = nullptr;
     }
 }
 

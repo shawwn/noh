@@ -186,7 +186,7 @@ CPlayer::~CPlayer()
   CPlayer::CPlayer
   ====================*/
 CPlayer::CPlayer() :
-IGameEntity(NULL),
+IGameEntity(nullptr),
 
 m_iClientNumber(-1),
 m_unNameIndex(INVALID_NETWORK_STRING),
@@ -794,7 +794,7 @@ void    CPlayer::SetAccountHistory(CPlayerAccountHistory *pAccHistory)
   ====================*/
 void    CPlayer::Initialize(CClientConnection *pClientConnection, CHostServer *pHostServer)
 {
-    if (pClientConnection == NULL || pHostServer == NULL)
+    if (pClientConnection == nullptr || pHostServer == nullptr)
         return;
 
     m_iClientNumber = pClientConnection->GetClientNum();
@@ -887,7 +887,7 @@ void    CPlayer::Initialize(CClientConnection *pClientConnection, CHostServer *p
   ====================*/
 void    CPlayer::FakeInitialize(CHostServer *pHostServer, int iClientNum, const tstring &sName)
 {
-    if (pHostServer == NULL)
+    if (pHostServer == nullptr)
         return;
 
     m_iClientNumber = iClientNum;
@@ -1007,9 +1007,9 @@ static bool PetListSort(uint a, uint b)
     if (pA == pB)
         return false;
 
-    if (pB == NULL)
+    if (pB == nullptr)
         return true;
-    if (pA == NULL)
+    if (pA == nullptr)
         return false;
 
     if (pA->GetStatus() == ENTITY_STATUS_ACTIVE && pB->GetStatus() != ENTITY_STATUS_ACTIVE)
@@ -1042,7 +1042,7 @@ bool    CPlayer::ServerFrameCleanup()
     for (uivector_it it(m_vPetUIDs.begin()); it != m_vPetUIDs.end(); ++it)
     {
         uint uiGameIndex(Game.GetGameIndexFromUniqueID(*it));
-        if (Game.GetUnitEntity(uiGameIndex) == NULL)
+        if (Game.GetUnitEntity(uiGameIndex) == nullptr)
             *it = INVALID_INDEX;
     }
 
@@ -1067,7 +1067,7 @@ bool    CPlayer::ServerFrameCleanup()
 void    CPlayer::ShareFullControl(int iClientNumber)
 {
     CTeamInfo *pTeam(Game.GetTeam(GetTeam()));
-    if (pTeam == NULL)
+    if (pTeam == nullptr)
         return;
 
     uint uiTeamIndex(pTeam->GetTeamIndexFromClientID(iClientNumber));
@@ -1085,7 +1085,7 @@ void    CPlayer::ShareFullControl(int iClientNumber)
 void    CPlayer::SharePartialControl(int iClientNumber)
 {
     CTeamInfo *pTeam(Game.GetTeam(GetTeam()));
-    if (pTeam == NULL)
+    if (pTeam == nullptr)
         return;
 
     uint uiTeamIndex(pTeam->GetTeamIndexFromClientID(iClientNumber));
@@ -1102,7 +1102,7 @@ void    CPlayer::SharePartialControl(int iClientNumber)
 void    CPlayer::UnshareFullControl(int iClientNumber)
 {
     CTeamInfo *pTeam(Game.GetTeam(GetTeam()));
-    if (pTeam == NULL)
+    if (pTeam == nullptr)
         return;
 
     uint uiTeamIndex(pTeam->GetTeamIndexFromClientID(iClientNumber));
@@ -1119,7 +1119,7 @@ void    CPlayer::UnshareFullControl(int iClientNumber)
 void    CPlayer::UnsharePartialControl(int iClientNumber)
 {
     CTeamInfo *pTeam(Game.GetTeam(GetTeam()));
-    if (pTeam == NULL)
+    if (pTeam == nullptr)
         return;
 
     uint uiTeamIndex(pTeam->GetTeamIndexFromClientID(iClientNumber));
@@ -1137,7 +1137,7 @@ void    CPlayer::UnsharePartialControl(int iClientNumber)
 bool    CPlayer::HasSharedFullControl(int iClientNumber)
 {
     CTeamInfo *pTeam(Game.GetTeam(GetTeam()));
-    if (pTeam == NULL)
+    if (pTeam == nullptr)
         return false;
 
     uint uiTeamIndex(pTeam->GetTeamIndexFromClientID(iClientNumber));
@@ -1154,7 +1154,7 @@ bool    CPlayer::HasSharedFullControl(int iClientNumber)
 bool    CPlayer::HasSharedPartialControl(int iClientNumber)
 {
     CTeamInfo *pTeam(Game.GetTeam(GetTeam()));
-    if (pTeam == NULL)
+    if (pTeam == nullptr)
         return false;
 
     uint uiTeamIndex(pTeam->GetTeamIndexFromClientID(iClientNumber));
@@ -1170,7 +1170,7 @@ bool    CPlayer::HasSharedPartialControl(int iClientNumber)
   ====================*/
 void    CPlayer::SetNoHelp(CPlayer *pPlayer, bool bEnable)
 {
-    if (pPlayer == NULL || pPlayer->GetTeam() != GetTeam())
+    if (pPlayer == nullptr || pPlayer->GetTeam() != GetTeam())
         return;
 
     if (bEnable)
@@ -1185,7 +1185,7 @@ void    CPlayer::SetNoHelp(CPlayer *pPlayer, bool bEnable)
   ====================*/
 bool    CPlayer::GetNoHelp(CPlayer *pPlayer)
 {
-    if (pPlayer == NULL)
+    if (pPlayer == nullptr)
         return false;
 
     if (pPlayer->GetTeam() != GetTeam())
@@ -1275,11 +1275,11 @@ bool    CPlayer::CanSwap(int iTeamMateIndex) const
         return false;
 
     CTeamInfo *pTeam(Game.GetTeam(GetTeam()));
-    if (pTeam == NULL)
+    if (pTeam == nullptr)
         return false;
 
     CPlayer *pPlayer(Game.GetPlayer(pTeam->GetClientIDFromTeamIndex(iTeamMateIndex)));
-    if (pPlayer == NULL)
+    if (pPlayer == nullptr)
         return false;
 
     if (!pPlayer->CanSwap())
@@ -1301,7 +1301,7 @@ bool    CPlayer::IsCurrentPicker() const
         return false;
 
     CGameInfo *pGameInfo(Game.GetGameInfo());
-    if (pGameInfo != NULL && !pGameInfo->GetAlternatePicks())
+    if (pGameInfo != nullptr && !pGameInfo->GetAlternatePicks())
         return false;
     if (Game.HasFlags(GAME_FLAG_FINAL_HERO_SELECT))
         return false;
@@ -1339,7 +1339,7 @@ void    CPlayer::SetTeam(uint uiTeamID)
   ====================*/
 void    CPlayer::AddPet(IUnitEntity *pPet, uint uiSummonMax, uint uiControllerUID)
 {
-    if (pPet == NULL)
+    if (pPet == nullptr)
         return;
 
     if (uiSummonMax > 0)
@@ -1350,7 +1350,7 @@ void    CPlayer::AddPet(IUnitEntity *pPet, uint uiSummonMax, uint uiControllerUI
         for (uivector_it it(m_vPetUIDs.begin()); it != m_vPetUIDs.end(); ++it)
         {
             IUnitEntity *pUnit(Game.GetUnitFromUniqueID(*it));
-            if (pUnit == NULL)
+            if (pUnit == nullptr)
             {
                 *it = INVALID_INDEX;
                 continue;
@@ -1403,10 +1403,10 @@ IUnitEntity*    CPlayer::GetPersistentPet(ushort unTypeID)
     for (uivector_it it(m_vPetUIDs.begin()); it != m_vPetUIDs.end(); ++it)
     {
         IGameEntity *pEntity(Game.GetEntityFromUniqueID(*it));
-        if (pEntity == NULL)
+        if (pEntity == nullptr)
             continue;
         IPetEntity *pPet(pEntity->GetAsPet());
-        if (pPet == NULL)
+        if (pPet == nullptr)
             continue;
         if (!pPet->GetIsPersistent())
             continue;
@@ -1414,7 +1414,7 @@ IUnitEntity*    CPlayer::GetPersistentPet(ushort unTypeID)
             return pPet;
     }
 
-    return NULL;
+    return nullptr;
 }
 
 
@@ -1423,13 +1423,13 @@ IUnitEntity*    CPlayer::GetPersistentPet(ushort unTypeID)
   ====================*/
 void    CPlayer::RecallPets(IUnitEntity *pCaller, ushort unPetType)
 {
-    if (pCaller == NULL)
+    if (pCaller == nullptr)
         return;
 
     for (uivector_it it(m_vPetUIDs.begin()); it != m_vPetUIDs.end(); ++it)
     {
         IUnitEntity *pPet(Game.GetUnitFromUniqueID(*it));
-        if (pPet == NULL)
+        if (pPet == nullptr)
             continue;
         if (pPet->GetType() != unPetType)
             continue;
@@ -1447,13 +1447,13 @@ void    CPlayer::RecallPets(IUnitEntity *pCaller, ushort unPetType)
   ====================*/
 void    CPlayer::LevelPets(IUnitEntity *pCaller, ushort unPetType, uint uiLevel)
 {
-    if (pCaller == NULL)
+    if (pCaller == nullptr)
         return;
 
     for (uivector_it it(m_vPetUIDs.begin()); it != m_vPetUIDs.end(); ++it)
     {
         IUnitEntity *pPet(Game.GetUnitFromUniqueID(*it));
-        if (pPet == NULL)
+        if (pPet == nullptr)
             continue;
         if (pPet->GetType() != unPetType)
             continue;
@@ -1478,14 +1478,14 @@ void    CPlayer::RewardKill()
             CBufferFixed<7> buffer;
             buffer << GAME_CMD_KILLSTREAK_MESSAGE2 << m_iClientNumber << m_yKillStreak << byte(m_uiAnnouncerVoice);
             Game.BroadcastGameData(buffer, true);
-            Game.LogAward(GAME_LOG_AWARD_KILL_STREAK, GetHero(), NULL);
+            Game.LogAward(GAME_LOG_AWARD_KILL_STREAK, GetHero(), nullptr);
         }
         else
         {
             CBufferFixed<6> buffer;
             buffer << GAME_CMD_KILLSTREAK_MESSAGE << m_iClientNumber << m_yKillStreak;
             Game.BroadcastGameData(buffer, true);
-            Game.LogAward(GAME_LOG_AWARD_KILL_STREAK, GetHero(), NULL);     
+            Game.LogAward(GAME_LOG_AWARD_KILL_STREAK, GetHero(), nullptr);
         }
     }
 
@@ -1506,7 +1506,7 @@ void    CPlayer::RewardKill()
             Game.BroadcastGameData(buffer, true, -1, 1000);
         }
 
-        Game.LogAward(GAME_LOG_AWARD_MULTI_KILL, GetHero(), NULL);
+        Game.LogAward(GAME_LOG_AWARD_MULTI_KILL, GetHero(), nullptr);
     }
     else
         m_yMultiKill = 1;
@@ -1514,7 +1514,7 @@ void    CPlayer::RewardKill()
     m_uiLastKillTime = Game.GetGameTime();
 
     CTeamInfo *pTeam(Game.GetTeam(m_uiTeamID));
-    if (pTeam == NULL)
+    if (pTeam == nullptr)
         return;
 
     pTeam->RewardKill();
@@ -1529,7 +1529,7 @@ void    CPlayer::ResetKillStreak()
     m_yKillStreak = 0;
 
     CTeamInfo *pTeam(Game.GetTeam(m_uiTeamID));
-    if (pTeam == NULL)
+    if (pTeam == nullptr)
         return;
 
     pTeam->ResetKillStreak();
@@ -1573,7 +1573,7 @@ void    CPlayer::ResetKilledBy(const int iClientNumber)
     {
         CPlayer *pVictim(Game.GetPlayerFromClientNumber(iClientNumber));
         
-        if (pVictim != NULL)
+        if (pVictim != nullptr)
         {       
             CBufferFixed<11> buffer;
             buffer << GAME_CMD_PAYBACK_MESSAGE << m_iClientNumber << pVictim->GetClientNumber() << it->second << byte(GetAnnouncerVoice());
@@ -1607,7 +1607,7 @@ void    CPlayer::UpdateKilledBy(const int iClientNumber)
     {
         CPlayer *pKiller(Game.GetPlayerFromClientNumber(iClientNumber));
         
-        if (pKiller != NULL)
+        if (pKiller != nullptr)
         {       
             CBufferFixed<11> buffer;
             buffer << GAME_CMD_RIVAL_MESSAGE << pKiller->GetClientNumber() << m_iClientNumber << it->second << byte(pKiller->GetAnnouncerVoice());
@@ -1671,7 +1671,7 @@ void    CPlayer::FinishedLoading(uint uiTime, uint uiMaxDisconnectTime)
 
     CTeamInfo *pTeam(Game.GetTeam(GetTeam()));
 
-    if (pTeam != NULL && pTeam->IsActiveTeam())
+    if (pTeam != nullptr && pTeam->IsActiveTeam())
         pTeam->UpdateVoiceTargets(m_iClientNumber);
 }
 
@@ -1714,7 +1714,7 @@ void    CPlayer::SelectHero(ushort unHeroID)
     m_unSelectedHeroID = unHeroID;
 
     CHeroDefinition *pHero(EntityRegistry.GetDefinition<CHeroDefinition>(unHeroID));
-    if (pHero != NULL)
+    if (pHero != nullptr)
     {
         if (!pHero->HasAltAvatars())
         {
@@ -1748,12 +1748,12 @@ bool    CPlayer::SpawnHero()
         return false;
 
     CTeamInfo *pTeam(Game.GetTeam(GetTeam()));
-    if (pTeam == NULL)
+    if (pTeam == nullptr)
         return false;
 
     // Spawn the unit
     IGameEntity *pNewEnt(Game.AllocateEntity(m_unSelectedHeroID));
-    if (pNewEnt == NULL || pNewEnt->GetAsHero() == NULL)
+    if (pNewEnt == nullptr || pNewEnt->GetAsHero() == nullptr)
     {
         Console.Warn << _T("Failed to spawn hero: ") << EntityRegistry.LookupName(m_unSelectedHeroID) << newl;
         return false;
@@ -1798,16 +1798,16 @@ bool    CPlayer::SpawnHero()
   ====================*/
 void    CPlayer::AssignHero(IHeroEntity *pHero)
 {
-    if (pHero != NULL && pHero->GetIndex() == m_uiHeroIndex)
+    if (pHero != nullptr && pHero->GetIndex() == m_uiHeroIndex)
         return;
-    if (pHero == NULL && m_uiHeroIndex == INVALID_INDEX)
+    if (pHero == nullptr && m_uiHeroIndex == INVALID_INDEX)
         return;
 
     CTeamInfo *pTeam(Game.GetTeam(GetTeam()));
-    if (pTeam != NULL)
+    if (pTeam != nullptr)
         pTeam->IncrementRosterChangeSequence();
 
-    if (pHero == NULL)
+    if (pHero == nullptr)
     {
         m_uiHeroIndex = INVALID_INDEX;
         return;
@@ -1826,7 +1826,7 @@ void    CPlayer::AssignHero(IHeroEntity *pHero)
 bool    CPlayer::IsIsolated() const
 {
     IHeroEntity *pHero(GetHero());
-    if (pHero == NULL)
+    if (pHero == nullptr)
         return false;
 
     return pHero->IsIsolated();
@@ -1838,7 +1838,7 @@ bool    CPlayer::IsIsolated() const
   ====================*/
 void    CPlayer::AssignStats(CGameStats *pStats)
 {
-    if (pStats == NULL)
+    if (pStats == nullptr)
     {
         m_uiStatsIndex = INVALID_INDEX;
         return;
@@ -1865,7 +1865,7 @@ float   CPlayer::GetKFactor() const
 float   CPlayer::GetMatchWinValue() const
 {
     const CTeamInfo *pTeam(Game.GetTeam(GetTeam()));
-    if (pTeam == NULL || pTeam->GetTeamID() <= TEAM_SPECTATOR || pTeam->GetTeamID() >= TEAM_INVALID)
+    if (pTeam == nullptr || pTeam->GetTeamID() <= TEAM_SPECTATOR || pTeam->GetTeamID() >= TEAM_INVALID)
         return 0;
 
     return (1.0f - pTeam->GetWinChance()) * GetKFactor();
@@ -1878,7 +1878,7 @@ float   CPlayer::GetMatchWinValue() const
 float   CPlayer::GetMatchLossValue() const
 {
     const CTeamInfo *pTeam(Game.GetTeam(GetTeam()));
-    if (pTeam == NULL || pTeam->GetTeamID() <= TEAM_SPECTATOR || pTeam->GetTeamID() >= TEAM_INVALID)
+    if (pTeam == nullptr || pTeam->GetTeamID() <= TEAM_SPECTATOR || pTeam->GetTeamID() >= TEAM_INVALID)
         return 0;
 
     return -pTeam->GetWinChance() * GetKFactor();
@@ -1892,7 +1892,7 @@ float   CPlayer::GetSkillDifferenceAdjustment() const
 {
 #if 1
     const CTeamInfo *pTeam(Game.GetTeam(GetTeam()));
-    if (pTeam == NULL || pTeam->GetTeamID() <= TEAM_SPECTATOR || pTeam->GetTeamID() >= TEAM_INVALID)
+    if (pTeam == nullptr || pTeam->GetTeamID() <= TEAM_SPECTATOR || pTeam->GetTeamID() >= TEAM_INVALID)
         return 1.0f;
 
     float fDiffFromTeamAverage(MAX(GetRank() - pTeam->GetAverageRank(), 0.0f));
@@ -1910,7 +1910,7 @@ float   CPlayer::GetSkillDifferenceAdjustment() const
 float   CPlayer::GetAdjustedMatchWinValue() const
 {
     const CTeamInfo *pTeam(Game.GetTeam(GetTeam()));
-    if (pTeam == NULL || pTeam->GetTeamID() <= TEAM_SPECTATOR || pTeam->GetTeamID() >= TEAM_INVALID)
+    if (pTeam == nullptr || pTeam->GetTeamID() <= TEAM_SPECTATOR || pTeam->GetTeamID() >= TEAM_INVALID)
         return 0.0f;
 
     float fBasePointValue((1.0f - pTeam->GetWinChance()) * GetKFactor());
@@ -1924,7 +1924,7 @@ float   CPlayer::GetAdjustedMatchWinValue() const
 float   CPlayer::GetAdjustedMatchLossValue() const
 {
     const CTeamInfo *pTeam(Game.GetTeam(GetTeam()));
-    if (pTeam == NULL || pTeam->GetTeamID() <= TEAM_SPECTATOR || pTeam->GetTeamID() >= TEAM_INVALID)
+    if (pTeam == nullptr || pTeam->GetTeamID() <= TEAM_SPECTATOR || pTeam->GetTeamID() >= TEAM_INVALID)
         return 0.0f;
 
     float fBasePointValue(-pTeam->GetWinChance() * GetKFactor());
@@ -2018,7 +2018,7 @@ void    CPlayer::Terminate()
     }   
 
     CTeamInfo *pTeam(Game.GetTeam(GetTeam()));
-    if (pTeam == NULL)
+    if (pTeam == nullptr)
         return;
         
     // Distribute gold
@@ -2027,34 +2027,34 @@ void    CPlayer::Terminate()
     for (ivector_cit itClient(vClients.begin()); itClient != vClients.end(); ++itClient)
     {
         CPlayer *pPlayer(Game.GetPlayer(*itClient));
-        if (pPlayer == NULL || pPlayer->HasFlags(PLAYER_FLAG_TERMINATED))
+        if (pPlayer == nullptr || pPlayer->HasFlags(PLAYER_FLAG_TERMINATED))
             continue;
 
-        pPlayer->GiveGold(unGold, NULL);
+        pPlayer->GiveGold(unGold, nullptr);
     }
 
     m_unGold = 0;
 
     // Remove their ownership tag on any items being carried by other units
     IGameEntity *pEntity(Game.GetFirstEntity());
-    while (pEntity != NULL)
+    while (pEntity != nullptr)
     {
         IEntityItem *pItem(pEntity->GetAsItem());
-        if (pItem != NULL && pItem->GetPurchaserClientNumber() == GetClientNumber())
+        if (pItem != nullptr && pItem->GetPurchaserClientNumber() == GetClientNumber())
             pItem->SetPurchaserClientNumber(-1);
 
         pEntity = Game.GetNextEntity(pEntity);
     }
 
     IHeroEntity *pHero(GetHero());
-    if (pHero != NULL)
+    if (pHero != nullptr)
     {
         // Drop items
         CVec3f v3HeroSpawnPos(pTeam->GetHeroSpawnPosition());
         for (int iSlot(INVENTORY_START_BACKPACK); iSlot <= INVENTORY_END_STASH; ++iSlot)
         {
             IEntityItem *pItem(pHero->GetItem(iSlot));
-            if (pItem == NULL)
+            if (pItem == nullptr)
                 continue;
 
             pItem->Drop(Game.GetTerrainPosition(v3HeroSpawnPos.xy() + M_RandomPointInCircle() * 32.0f), true);
@@ -2621,10 +2621,10 @@ void    CPlayer::Spawn()
 
     // Get a nice initial camera position
     CTeamInfo *pTeam(Game.GetTeam(m_uiTeamID));
-    if (pTeam != NULL)
+    if (pTeam != nullptr)
     {
         IVisualEntity *pBase(Game.GetVisualEntity(pTeam->GetBaseBuildingIndex()));
-        if (pBase != NULL)
+        if (pBase != nullptr)
             m_v3Position = pBase->GetPosition();
 
         ResetCamera();
@@ -2646,10 +2646,10 @@ void    CPlayer::GiveGold(ushort unGold, IUnitEntity *pSource, IUnitEntity *pTar
 
     m_unGold += unGold;
 
-    if (pTarget == NULL)
+    if (pTarget == nullptr)
         pTarget = pSource;
 
-    if (unGold > 0 && pTarget != NULL && pTarget->IsActive())
+    if (unGold > 0 && pTarget != nullptr && pTarget->IsActive())
     {
         CBufferFixed<1> buffer;
         buffer << GAME_CMD_GOLD_EVENT;
@@ -2695,7 +2695,7 @@ bool    CPlayer::SpendGold(ushort unCost)
   ====================*/
 bool    CPlayer::IsEnemy(const IUnitEntity *pOther) const
 {
-    if (pOther == NULL)
+    if (pOther == nullptr)
         return false;
     if (pOther->GetTeam() == TEAM_PASSIVE)
         return false;
@@ -2711,7 +2711,7 @@ bool    CPlayer::IsEnemy(const IUnitEntity *pOther) const
   ====================*/
 bool    CPlayer::CanSee(const IVisualEntity *pTarget) const
 {
-    if (pTarget == NULL)
+    if (pTarget == nullptr)
         return false;
 
     if (pTarget->IsStatic())
@@ -2722,17 +2722,17 @@ bool    CPlayer::CanSee(const IVisualEntity *pTarget) const
 
     const IUnitEntity *pUnit(pTarget->GetAsUnit());
 
-    if (pUnit != NULL && pUnit->GetOwnerClientNumber() == GetClientNumber())
+    if (pUnit != nullptr && pUnit->GetOwnerClientNumber() == GetClientNumber())
         return true;
     if (m_bIsolated && !pTarget->HasVisibilityFlags(VIS_PLAYER_SIGHTED(GetTeam(), GetTeamIndex())))
         return false;
     if (pTarget->GetTeam() == GetTeam())
         return true;
-    if (pUnit != NULL && pUnit->GetTeam() != GetTeam() && pUnit->GetHidden())
+    if (pUnit != nullptr && pUnit->GetTeam() != GetTeam() && pUnit->GetHidden())
         return false;
-    if (pUnit != NULL && pUnit->GetAlwaysVisible())
+    if (pUnit != nullptr && pUnit->GetAlwaysVisible())
         return true;
-    if (pUnit != NULL && pUnit->IsStealth() && !pTarget->HasVisibilityFlags(VIS_REVEALED(GetTeam())))
+    if (pUnit != nullptr && pUnit->IsStealth() && !pTarget->HasVisibilityFlags(VIS_REVEALED(GetTeam())))
         return false;
     if (pTarget->HasVisibilityFlags(VIS_SIGHTED(GetTeam())))
         return true;
@@ -2772,10 +2772,10 @@ void    CPlayer::MoveUnitsToSafety(int iClientNum)
 {
     // try to move the player's hero back to base.
     IUnitEntity *pHero(GetHero());
-    if (pHero != NULL)
+    if (pHero != nullptr)
     {
         CTeamInfo *pTeam(Game.GetTeam(pHero->GetTeam()));
-        if (pTeam != NULL)
+        if (pTeam != nullptr)
         {
             SUnitCommand cmd;
             cmd.v2Dest = pTeam->GetHeroSpawnPosition().xy();
@@ -2888,7 +2888,7 @@ bool    CPlayer::CanAccessAltAvatar(const tstring &sHero, const tstring &sAltAva
 bool    CPlayer::SetAltAvatar(const tstring &sAltAvatar)
 {
     CHeroDefinition *pHero(EntityRegistry.GetDefinition<CHeroDefinition>(m_unSelectedHeroID));
-    if (pHero == NULL)
+    if (pHero == nullptr)
         return false;
 
     // Check for selecting base definition

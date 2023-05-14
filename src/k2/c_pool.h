@@ -35,7 +35,7 @@ private:
     CPool();
     
 public:
-    ~CPool()    { Reset(); MemManager.Deallocate(m_pBuffer, "c_pool"); m_pBuffer = NULL; }
+    ~CPool()    { Reset(); MemManager.Deallocate(m_pBuffer, "c_pool"); m_pBuffer = nullptr; }
     CPool(uint uiStartSize, uint uiMaxSize);
     CPool(const CPool &C);
     CPool&  operator=(const CPool &A);

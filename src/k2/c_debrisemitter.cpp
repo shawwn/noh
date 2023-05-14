@@ -202,7 +202,7 @@ IEmitter
     pOwner,
     uiStartTime
 ),
-m_pSkeleton(NULL),
+m_pSkeleton(nullptr),
 m_tv3Color(eSettings.GetColor()),
 m_tfAlpha(eSettings.GetAlpha()),
 m_tfPitch(eSettings.GetPitch()),
@@ -283,7 +283,7 @@ m_bUseAnim(eSettings.GetUseAnim())
         m_pSkeleton->SetModel(m_hModel);
         m_pSkeleton->StartAnim(sAnim, uiStartTime, 0);
 
-        SBoneXForm *pCurrentPose(NULL);
+        SBoneXForm *pCurrentPose(nullptr);
         if (m_bAnimPose || m_bUseAnim)
         {
             m_pSkeleton->Pose(uiStartTime);
@@ -300,7 +300,7 @@ m_bUseAnim(eSettings.GetUseAnim())
         m_vDebrisState[0].v4Rotation = CVec4f(0.0f, 0.0f, 0.0f, 1.0f);
         m_vDebrisState[0].v3Velocity = V3_ZERO;
         m_vDebrisState[0].v4RotationVelocity = CVec4f(0.0f, 0.0f, 0.0f, 1.0f);
-        m_vDebrisState[0].pImbeddedEmitter = NULL;
+        m_vDebrisState[0].pImbeddedEmitter = nullptr;
 
         float fLerp(0.0f);
 
@@ -380,8 +380,8 @@ m_bUseAnim(eSettings.GetUseAnim())
             float   fAcceleration(M_Randnum(fMinAcceleration, fMaxAcceleration) * m_fLastScale);
 
             // Spawn embedded emitters
-            IEmitter *pImbeddedEmitter(NULL);
-            IEmitter *pCurrentEmitter(NULL);
+            IEmitter *pImbeddedEmitter(nullptr);
+            IEmitter *pCurrentEmitter(nullptr);
             const tsvector &vEmitters(eSettings.GetEmitters());
             if (!vEmitters.empty())
             {
@@ -395,10 +395,10 @@ m_bUseAnim(eSettings.GetUseAnim())
                 m_pParticleSystem->SetCustomAxis(AXIS_IDENTITY);
                 m_pParticleSystem->SetCustomScale(1.0f);
 
-                if (pEmitterDef != NULL)
+                if (pEmitterDef != nullptr)
                     pImbeddedEmitter = pEmitterDef->Spawn(uiStartTime + m_iDelay, m_pParticleSystem, OWNER_CUSTOM);
 
-                if (pImbeddedEmitter != NULL)
+                if (pImbeddedEmitter != nullptr)
                 {
                     ++cit;
 
@@ -406,12 +406,12 @@ m_bUseAnim(eSettings.GetUseAnim())
                     for (; cit != vEmitters.end(); ++cit)
                     {
                         IEmitterDef *pEmitterDef(pEffect->GetEmitterDef(*cit));
-                        IEmitter *pNewEmitter(NULL);
+                        IEmitter *pNewEmitter(nullptr);
 
-                        if (pEmitterDef != NULL)
+                        if (pEmitterDef != nullptr)
                             pNewEmitter = pEmitterDef->Spawn(uiStartTime + m_iDelay, m_pParticleSystem, OWNER_CUSTOM);
 
-                        if (pNewEmitter != NULL)
+                        if (pNewEmitter != nullptr)
                         {
                             pNewEmitter->SetOwner(OWNER_CUSTOM);
                             pNewEmitter->SetCustomPos(v3Position);
@@ -434,9 +434,9 @@ m_bUseAnim(eSettings.GetUseAnim())
                     m_pParticleSystem->SetCustomScale(1.0f);
                     
                     IEmitter *pNewEmitter((*it)->Spawn(uiStartTime + m_iDelay, m_pParticleSystem, OWNER_CUSTOM));
-                    if (pNewEmitter != NULL)
+                    if (pNewEmitter != nullptr)
                     {
-                        if (pCurrentEmitter == NULL)
+                        if (pCurrentEmitter == nullptr)
                         {
                             pImbeddedEmitter = pNewEmitter;
                             pCurrentEmitter = pImbeddedEmitter;
@@ -738,18 +738,18 @@ bool    CDebrisEmitter::Update(uint uiMilliseconds, ParticleTraceFn_t pfnTrace)
     float   fGravity(m_rfGravity.Evaluate(fLerp, fTime));
     CVec3f v3Acceleration(0.0f, 0.0f, fGravity * -20.0f);
 
-    UpdateSkeleton(MsToSec(uint(iDeltaTime)), v3Acceleration, m_fDrag, m_fFriction, m_bCollide ? pfnTrace : NULL);
+    UpdateSkeleton(MsToSec(uint(iDeltaTime)), v3Acceleration, m_fDrag, m_fFriction, m_bCollide ? pfnTrace : nullptr);
 
     for (uint ui(1), uiNumBones(m_pSkeleton->GetNumBones()); ui < uiNumBones; ++ui)
     {
         SDebrisState &cDebrisState(m_vDebrisState[ui]);
 
-        if (cDebrisState.pImbeddedEmitter != NULL)
+        if (cDebrisState.pImbeddedEmitter != nullptr)
         {
             if (!UpdateEmbeddedEmitter(uiMilliseconds, pfnTrace, cDebrisState.pImbeddedEmitter, cDebrisState))
             {
                 K2_DELETE(cDebrisState.pImbeddedEmitter);
-                cDebrisState.pImbeddedEmitter = NULL;
+                cDebrisState.pImbeddedEmitter = nullptr;
             }
         }
     }

@@ -54,7 +54,7 @@ private:
 
 public:
     CBind() :
-    m_pAction(NULL),
+    m_pAction(nullptr),
     m_iFlags(0)
     {}
 
@@ -67,7 +67,7 @@ public:
     {}
 
     CBind(const tstring &sAction, EActionType eType, const tstring &sParam, int iFlags) :
-    m_pAction(NULL),
+    m_pAction(nullptr),
     m_sParam(sParam),
     m_iFlags(iFlags),
     m_sActionName(sAction),

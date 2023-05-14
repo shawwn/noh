@@ -231,9 +231,9 @@ static const tstring LOCALHOST(_T("127.0.0.1"));
   CChatManager::CChatManager
   ====================*/
 CChatManager::CChatManager() :
-m_pHTTPManager(NULL),
+m_pHTTPManager(nullptr),
 
-m_pNamesRequest(NULL),
+m_pNamesRequest(nullptr),
 
 m_sockChat(_T("ChatSocket")),
 m_cDate(CDate(true)),
@@ -249,7 +249,7 @@ m_hStringTable(INVALID_RESOURCE),
 m_bPrivateGame(false),
 m_bHost(false),
 m_uiNextReconnectTime(INVALID_TIME),
-m_pRecentlyPlayed(NULL),
+m_pRecentlyPlayed(nullptr),
 m_uiMatchID(-1),
 m_bRetrievingStats(false),
 m_uiHistoryPos(0),
@@ -610,12 +610,12 @@ void    CChatManager::Init(CHTTPManager *pHTTPManager)
     m_pRecentlyPlayed = K2_NEW(ctx_Net,  CXMLDoc)();
 
     CFile *pFile(FileManager.GetFile(_T("~/recentlyplayed.xml"), FILE_READ | FILE_TEXT | FILE_ALLOW_CUSTOM));
-    if (pFile != NULL)
+    if (pFile != nullptr)
     {
         uint uiFileSize(0);
         const char *pBuffer(pFile->GetBuffer(uiFileSize));
 
-        if (pBuffer != NULL && uiFileSize > 0)
+        if (pBuffer != nullptr && uiFileSize > 0)
             m_pRecentlyPlayed->ReadBuffer(pBuffer, uiFileSize);
         else
             m_pRecentlyPlayed->NewNode(_T("recentlyplayed"));
@@ -625,7 +625,7 @@ void    CChatManager::Init(CHTTPManager *pHTTPManager)
     }
 
     pFile = FileManager.GetFile(_T("~/notes.txt"), FILE_READ | FILE_TEXT | FILE_ALLOW_CUSTOM);
-    if (pFile != NULL)
+    if (pFile != nullptr)
     {
         while (!pFile->IsEOF())
         {
@@ -827,10 +827,10 @@ void    CChatManager::ProcessAddBuddyLookupIDSuccess(SChatDBRequest *pRequest)
     CPHPData phpResponse(pRequest->pRequest->GetResponse());
 
     const CPHPData *pAccountID(phpResponse.GetVar(1));
-    if (phpResponse.GetString(_T("error")).empty() && phpResponse.GetVar(_T("error")) == NULL && pAccountID != NULL)
+    if (phpResponse.GetString(_T("error")).empty() && phpResponse.GetVar(_T("error")) == nullptr && pAccountID != nullptr)
     {
         CHTTPRequest *pHTTPRequest(m_pHTTPManager->SpawnRequest());
-        if (pHTTPRequest == NULL)
+        if (pHTTPRequest == nullptr)
             return;
 
         pHTTPRequest->SetTargetURL(m_sMasterServerURL);
@@ -849,7 +849,7 @@ void    CChatManager::ProcessAddBuddyLookupIDSuccess(SChatDBRequest *pRequest)
     {
         if (!phpResponse.GetString(_T("error")).empty())
             AddIRCChatMessage(CHAT_MESSAGE_ADD, Translate(_T("chat_failed_buddy_add_reason"), _T("target"), pRequest->sTarget, _T("reason"), phpResponse.GetString(_T("error"))));
-        else if (phpResponse.GetVar(_T("error")) != NULL)
+        else if (phpResponse.GetVar(_T("error")) != nullptr)
             AddIRCChatMessage(CHAT_MESSAGE_ADD, Translate(_T("chat_failed_buddy_add_reason"), _T("target"), pRequest->sTarget, _T("reason"), phpResponse.GetVar(_T("error"))->GetString(0)));
         else
             AddIRCChatMessage(CHAT_MESSAGE_ADD, Translate(_T("chat_failed_buddy_add"), _T("target"), pRequest->sTarget));
@@ -866,13 +866,13 @@ void    CChatManager::ProcessAddBuddySuccess(SChatDBRequest *pRequest)
 /*
     CPHPData phpResponse(pRequest->pRequest->GetResponse());
 
-    if (phpResponse.GetString(_T("error")).empty() && phpResponse.GetVar(_T("error")) == NULL)
+    if (phpResponse.GetString(_T("error")).empty() && phpResponse.GetVar(_T("error")) == nullptr)
     {
         AddBuddy(pRequest->uiTarget, pRequest->sTarget);
         AddIRCChatMessage(CHAT_MESSAGE_ADD, Translate(_T("chat_success_buddy_add"), _T("target"), pRequest->sTarget));
 
         const CPHPData *pNotify(phpResponse.GetVar(_T("notification")));
-        if (pNotify != NULL && IsConnected())
+        if (pNotify != nullptr && IsConnected())
         {
             uint uiNotify1(pNotify->GetInteger(_T("1")));
             uint uiNotify2(pNotify->GetInteger(_T("2")));
@@ -886,7 +886,7 @@ void    CChatManager::ProcessAddBuddySuccess(SChatDBRequest *pRequest)
     {
         if (!phpResponse.GetString(_T("error")).empty())
             AddIRCChatMessage(CHAT_MESSAGE_ADD, Translate(_T("chat_failed_buddy_add_reason"), _T("target"), pRequest->sTarget, _T("reason"), phpResponse.GetString(_T("error"))));
-        else if (phpResponse.GetVar(_T("error")) != NULL)
+        else if (phpResponse.GetVar(_T("error")) != nullptr)
             AddIRCChatMessage(CHAT_MESSAGE_ADD, Translate(_T("chat_failed_buddy_add_reason"), _T("target"), pRequest->sTarget, _T("reason"), phpResponse.GetVar(_T("error"))->GetString(0)));
         else
             AddIRCChatMessage(CHAT_MESSAGE_ADD, Translate(_T("chat_failed_buddy_add"), _T("target"), pRequest->sTarget));
@@ -902,14 +902,14 @@ void    CChatManager::ProcessRemoveBuddySuccess(SChatDBRequest *pRequest)
 {
     const CPHPData phpResponse(pRequest->pRequest->GetResponse());
 
-    if (CompareNoCase(phpResponse.GetString(_T("remove_buddy")), _T("OK")) == 0 && phpResponse.GetVar(_T("error")) == NULL)
+    if (CompareNoCase(phpResponse.GetString(_T("remove_buddy")), _T("OK")) == 0 && phpResponse.GetVar(_T("error")) == nullptr)
     {
         // Update our buddy list...
         RemoveBuddy(pRequest->uiTarget);
         AddIRCChatMessage(CHAT_MESSAGE_ADD, Translate(_T("chat_success_buddy_remove"), _T("target"), RemoveClanTag(pRequest->sTarget)));
 
         const CPHPData *pNotify(phpResponse.GetVar(_T("notification")));
-        if (pNotify != NULL && IsConnected())
+        if (pNotify != nullptr && IsConnected())
         {
             const uint uiNotify1(pNotify->GetInteger(_T("1")));
             const uint uiNotify2(pNotify->GetInteger(_T("2")));
@@ -933,7 +933,7 @@ void    CChatManager::ProcessClanPromoteSuccess(SChatDBRequest *pRequest)
 {
     const CPHPData phpResponse(pRequest->pRequest->GetResponse());
 
-    if (CompareNoCase(phpResponse.GetString(_T("set_rank")), _T("Member updated.")) == 0 && phpResponse.GetVar(_T("error")) == NULL)
+    if (CompareNoCase(phpResponse.GetString(_T("set_rank")), _T("Member updated.")) == 0 && phpResponse.GetVar(_T("error")) == nullptr)
     {
         // Update our clan list...
         ChatClientMap_it itFind(m_mapUserList.find(pRequest->uiTarget));
@@ -964,7 +964,7 @@ void    CChatManager::ProcessClanDemoteSuccess(SChatDBRequest *pRequest)
 {
     const CPHPData phpResponse(pRequest->pRequest->GetResponse());
 
-    if (CompareNoCase(phpResponse.GetString(_T("set_rank")), _T("Member updated.")) == 0 && phpResponse.GetVar(_T("error")) == NULL)
+    if (CompareNoCase(phpResponse.GetString(_T("set_rank")), _T("Member updated.")) == 0 && phpResponse.GetVar(_T("error")) == nullptr)
     {
         // Update our clan list...
         ChatClientMap_it itFind(m_mapUserList.find(pRequest->uiTarget));
@@ -994,7 +994,7 @@ void    CChatManager::ProcessClanRemoveSuccess(SChatDBRequest *pRequest)
 {
     const CPHPData phpResponse(pRequest->pRequest->GetResponse());
 
-    if (CompareNoCase(phpResponse.GetString(_T("set_rank")), _T("Member updated.")) == 0 && phpResponse.GetVar(_T("error")) == NULL)
+    if (CompareNoCase(phpResponse.GetString(_T("set_rank")), _T("Member updated.")) == 0 && phpResponse.GetVar(_T("error")) == nullptr)
     {
         CPacket pktSend;
         pktSend << CHAT_CMD_CLAN_REMOVE_NOTIFY << pRequest->uiTarget;
@@ -1024,17 +1024,17 @@ void    CChatManager::ProcessClanUpdateSuccess(SChatDBRequest *pRequest)
 {
     const CPHPData phpResponse(pRequest->pRequest->GetResponse());
 
-    if (phpResponse.GetString(_T("error")).empty() && phpResponse.GetVar(_T("error")) == NULL)
+    if (phpResponse.GetString(_T("error")).empty() && phpResponse.GetVar(_T("error")) == nullptr)
     {
         m_setClanList.clear();
 
         const CPHPData *pClan(phpResponse.GetVar(_T("clan_roster")));
-        if (pClan != NULL && pClan->GetVar(_T("error")) == NULL)
+        if (pClan != nullptr && pClan->GetVar(_T("error")) == nullptr)
         {
             uint uiNum(0);
             const CPHPData *pClanItem(pClan->GetVar(uiNum++));
 
-            while (pClanItem != NULL)
+            while (pClanItem != nullptr)
             {
                 tstring sRank(pClanItem->GetString(_T("rank")));
                 tstring sName(pClanItem->GetString(_T("nickname")));
@@ -1110,10 +1110,10 @@ void    CChatManager::ProcessBanLookupIDSuccess(SChatDBRequest *pRequest)
     const CPHPData phpResponse(pRequest->pRequest->GetResponse());
 
     const CPHPData *pAccountID(phpResponse.GetVar(1));
-    if (phpResponse.GetString(_T("error")).empty() && phpResponse.GetVar(_T("error")) == NULL && pAccountID != NULL)
+    if (phpResponse.GetString(_T("error")).empty() && phpResponse.GetVar(_T("error")) == nullptr && pAccountID != nullptr)
     {
         CHTTPRequest *pHTTPRequest(m_pHTTPManager->SpawnRequest());
-        if (pHTTPRequest == NULL)
+        if (pHTTPRequest == nullptr)
             return;
 
         pHTTPRequest->SetTargetURL(m_sMasterServerURL);
@@ -1133,7 +1133,7 @@ void    CChatManager::ProcessBanLookupIDSuccess(SChatDBRequest *pRequest)
     {
         if (!phpResponse.GetString(_T("error")).empty())
             AddIRCChatMessage(CHAT_MESSAGE_ADD, Translate(_T("chat_failed_banlist_add_reason"), _T("target"), pRequest->sTarget, _T("reason"), phpResponse.GetString(_T("error"))));
-        else if (phpResponse.GetVar(_T("error")) != NULL)
+        else if (phpResponse.GetVar(_T("error")) != nullptr)
             AddIRCChatMessage(CHAT_MESSAGE_ADD, Translate(_T("chat_failed_banlist_add_reason"), _T("target"), pRequest->sTarget, _T("reason"), phpResponse.GetVar(_T("error"))->GetString(0)));
         else
             AddIRCChatMessage(CHAT_MESSAGE_ADD, Translate(_T("chat_failed_banlist_add"), _T("target"), pRequest->sTarget));
@@ -1148,7 +1148,7 @@ void    CChatManager::ProcessAddBanSuccess(SChatDBRequest *pRequest)
 {
     const CPHPData phpResponse(pRequest->pRequest->GetResponse());
 
-    if (phpResponse.GetString(_T("error")).empty() && phpResponse.GetVar(_T("error")) == NULL)
+    if (phpResponse.GetString(_T("error")).empty() && phpResponse.GetVar(_T("error")) == nullptr)
     {
         AddBan(pRequest->uiTarget, pRequest->sTarget, pRequest->sText);
         AddIRCChatMessage(CHAT_MESSAGE_ADD, Translate(_T("chat_success_banlist_add"), _T("target"), pRequest->sTarget));
@@ -1157,7 +1157,7 @@ void    CChatManager::ProcessAddBanSuccess(SChatDBRequest *pRequest)
     {
         if (!phpResponse.GetString(_T("error")).empty())
             AddIRCChatMessage(CHAT_MESSAGE_ADD, Translate(_T("chat_failed_banlist_add_reason"), _T("target"), pRequest->sTarget, _T("reason"), phpResponse.GetString(_T("error"))));
-        else if (phpResponse.GetVar(_T("error")) != NULL)
+        else if (phpResponse.GetVar(_T("error")) != nullptr)
             AddIRCChatMessage(CHAT_MESSAGE_ADD, Translate(_T("chat_failed_banlist_add_reason"), _T("target"), pRequest->sTarget, _T("reason"), phpResponse.GetVar(_T("error"))->GetString(0)));
     }
 }
@@ -1170,7 +1170,7 @@ void    CChatManager::ProcessRemoveBanSuccess(SChatDBRequest *pRequest)
 {
     const CPHPData phpResponse(pRequest->pRequest->GetResponse());
 
-    if (phpResponse.GetString(_T("error")).empty() && phpResponse.GetVar(_T("error")) == NULL)
+    if (phpResponse.GetString(_T("error")).empty() && phpResponse.GetVar(_T("error")) == nullptr)
     {
         //Update our banlist...
         RemoveBan(pRequest->uiTarget);
@@ -1191,10 +1191,10 @@ void    CChatManager::ProcessIgnoreLookupIDSuccess(SChatDBRequest *pRequest)
     const CPHPData phpResponse(pRequest->pRequest->GetResponse());
 
     const CPHPData *pAccountID(phpResponse.GetVar(1));
-    if (phpResponse.GetString(_T("error")).empty() && phpResponse.GetVar(_T("error")) == NULL && pAccountID != NULL)
+    if (phpResponse.GetString(_T("error")).empty() && phpResponse.GetVar(_T("error")) == nullptr && pAccountID != nullptr)
     {
         CHTTPRequest *pHTTPRequest(m_pHTTPManager->SpawnRequest());
-        if (pHTTPRequest == NULL)
+        if (pHTTPRequest == nullptr)
             return;
 
         pHTTPRequest->SetTargetURL(m_sMasterServerURL);
@@ -1213,7 +1213,7 @@ void    CChatManager::ProcessIgnoreLookupIDSuccess(SChatDBRequest *pRequest)
     {
         if (!phpResponse.GetString(_T("error")).empty())
             AddIRCChatMessage(CHAT_MESSAGE_ADD, Translate(_T("chat_failed_ignore_add_reason"), _T("target"), pRequest->sTarget, _T("reason"), phpResponse.GetString(_T("error"))));
-        else if (phpResponse.GetVar(_T("error")) != NULL)
+        else if (phpResponse.GetVar(_T("error")) != nullptr)
             AddIRCChatMessage(CHAT_MESSAGE_ADD, Translate(_T("chat_failed_ignore_add_reason"), _T("target"), pRequest->sTarget, _T("reason"), phpResponse.GetVar(_T("error"))->GetString(0)));
         else
             AddIRCChatMessage(CHAT_MESSAGE_ADD, Translate(_T("chat_failed_ignore_add"), _T("target"), pRequest->sTarget));
@@ -1229,7 +1229,7 @@ void    CChatManager::ProcessIgnoreAddSuccess(SChatDBRequest *pRequest)
 {
     const CPHPData phpResponse(pRequest->pRequest->GetResponse());
 
-    if (phpResponse.GetString(_T("error")).empty() && phpResponse.GetVar(_T("error")) == NULL)
+    if (phpResponse.GetString(_T("error")).empty() && phpResponse.GetVar(_T("error")) == nullptr)
     {
         AddIgnore(pRequest->uiTarget, pRequest->sTarget);
         AddIRCChatMessage(CHAT_MESSAGE_ADD, Translate(_T("chat_success_ignore_add"), _T("target"), pRequest->sTarget));
@@ -1238,7 +1238,7 @@ void    CChatManager::ProcessIgnoreAddSuccess(SChatDBRequest *pRequest)
     {
         if (!phpResponse.GetString(_T("error")).empty())
             AddIRCChatMessage(CHAT_MESSAGE_ADD, Translate(_T("chat_failed_ignore_add_reason"), _T("target"), pRequest->sTarget, _T("reason"), phpResponse.GetString(_T("error"))));
-        else if (phpResponse.GetVar(_T("error")) != NULL)
+        else if (phpResponse.GetVar(_T("error")) != nullptr)
             AddIRCChatMessage(CHAT_MESSAGE_ADD, Translate(_T("chat_failed_ignore_add_reason"), _T("target"), pRequest->sTarget, _T("reason"), phpResponse.GetVar(_T("error"))->GetString(0)));
     }
 }
@@ -1251,7 +1251,7 @@ void    CChatManager::ProcessIgnoreRemoveSuccess(SChatDBRequest *pRequest)
 {
     const CPHPData phpResponse(pRequest->pRequest->GetResponse());
 
-    if (phpResponse.GetString(_T("error")).empty() && phpResponse.GetVar(_T("error")) == NULL)
+    if (phpResponse.GetString(_T("error")).empty() && phpResponse.GetVar(_T("error")) == nullptr)
     {
         // Update our ignore list...
         RemoveIgnore(pRequest->uiTarget);
@@ -1272,13 +1272,13 @@ void    CChatManager::ProcessCompleteNickSuccess(SChatDBRequest *pRequest)
     const CPHPData phpResponse(pRequest->pRequest->GetResponse());
 
     const CPHPData *pArray(phpResponse.GetVar(_T("nicks")));
-    if (pArray == NULL)
+    if (pArray == nullptr)
         return;
 
     uint uiPos(0);
     const CPHPData *pName(pArray->GetVar(uiPos));
 
-    while (pName != NULL)
+    while (pName != nullptr)
     {
         ChatAutoCompleteAdd.Trigger(pName->GetString());
         
@@ -2439,7 +2439,7 @@ void CChatManager::RequestSaveNotification(byte yType, const tstring &sParam1, c
     tstring sNotification(ConcatinateArgs(vParams, _T("|")));
     
     CHTTPRequest *pHTTPRequest(m_pHTTPManager->SpawnRequest());
-    if (pHTTPRequest == NULL)
+    if (pHTTPRequest == nullptr)
         return;     
 
     pHTTPRequest->SetTargetURL(m_sMasterServerURL);
@@ -2461,7 +2461,7 @@ void CChatManager::RequestSaveNotification(byte yType, const tstring &sParam1, c
 void CChatManager::RequestRemoveNotification(const uint uiInternalNotificationID, const uint uiExternalNotificationID)
 {
     CHTTPRequest *pHTTPRequest(m_pHTTPManager->SpawnRequest());
-    if (pHTTPRequest == NULL)
+    if (pHTTPRequest == nullptr)
         return;     
 
     pHTTPRequest->SetTargetURL(m_sMasterServerURL);
@@ -2483,7 +2483,7 @@ void CChatManager::RequestRemoveNotification(const uint uiInternalNotificationID
 void CChatManager::RequestRemoveAllNotifications()
 {
     CHTTPRequest *pHTTPRequest(m_pHTTPManager->SpawnRequest());
-    if (pHTTPRequest == NULL)
+    if (pHTTPRequest == nullptr)
         return;     
 
     pHTTPRequest->SetTargetURL(m_sMasterServerURL);
@@ -3611,7 +3611,7 @@ void    CChatManager::HandleServerInvite(CPacket &pkt)
     }
 
     CHostClient *pClient(Host.GetActiveClient());
-    if (pClient != NULL)
+    if (pClient != nullptr)
     {
         if (pClient->ServerInvite(sInviterName, iInviterAccountID, sAddressPort))
         {
@@ -4476,7 +4476,7 @@ void    CChatManager::HandleNameChange(CPacket &pkt)
         UpdateChannels();
         
         CHostClient *pClient(Host.GetActiveClient());
-        if (pClient != NULL)
+        if (pClient != nullptr)
             pClient->SetNickname(sName);
     }
 }
@@ -5363,7 +5363,7 @@ void    CChatManager::HandleNewClanMember(CPacket &pkt)
         m_setClanList.insert(uiAccountID);
 
         CHTTPRequest *pHTTPRequest(m_pHTTPManager->SpawnRequest());
-        if (pHTTPRequest == NULL)
+        if (pHTTPRequest == nullptr)
             return;
 
         pHTTPRequest->SetTargetURL(m_sMasterServerURL);
@@ -5513,7 +5513,7 @@ void    CChatManager::HandleClanRankChanged(CPacket &pkt)
 void    CChatManager::CheckClanName(const tstring &sName, const tstring &sTag)
 {
     CHTTPRequest *pHTTPRequest(m_pHTTPManager->SpawnRequest());
-    if (pHTTPRequest == NULL)
+    if (pHTTPRequest == nullptr)
         return;
 
     pHTTPRequest->SetTargetURL(m_sMasterServerURL);
@@ -5816,7 +5816,7 @@ void    CChatManager::RequestBuddyRemove(const uint uiAccountID)
 
     // Send a request to delete a buddy
     CHTTPRequest *pHTTPRequest(m_pHTTPManager->SpawnRequest());
-    if (pHTTPRequest == NULL)
+    if (pHTTPRequest == nullptr)
         return;
 
     pHTTPRequest->SetTargetURL(m_sMasterServerURL);
@@ -5853,7 +5853,7 @@ void    CChatManager::RequestBanlistAdd(const tstring &sName, const tstring &sRe
     }
 
     CHTTPRequest *pHTTPRequest(m_pHTTPManager->SpawnRequest());
-    if (pHTTPRequest == NULL)
+    if (pHTTPRequest == nullptr)
         return;
 
     pHTTPRequest->SetTargetURL(m_sMasterServerURL);
@@ -5883,7 +5883,7 @@ void    CChatManager::RequestBanlistRemove(uint uiAccountID)
 
     // Send a request to delete a ban
     CHTTPRequest *pHTTPRequest(m_pHTTPManager->SpawnRequest());
-    if (pHTTPRequest == NULL)
+    if (pHTTPRequest == nullptr)
         return;
 
     pHTTPRequest->SetTargetURL(m_sMasterServerURL);
@@ -5920,7 +5920,7 @@ void    CChatManager::RequestIgnoreAdd(const tstring &sName)
     }
 
     CHTTPRequest *pHTTPRequest(m_pHTTPManager->SpawnRequest());
-    if (pHTTPRequest == NULL)
+    if (pHTTPRequest == nullptr)
         return;
 
     pHTTPRequest->SetTargetURL(m_sMasterServerURL);
@@ -5950,7 +5950,7 @@ void    CChatManager::RequestIgnoreRemove(const uint uiAccountID)
 
     //Send a request to delete the remove
     CHTTPRequest *pHTTPRequest(m_pHTTPManager->SpawnRequest());
-    if (pHTTPRequest == NULL)
+    if (pHTTPRequest == nullptr)
         return;
 
     pHTTPRequest->SetTargetURL(m_sMasterServerURL);
@@ -5995,7 +5995,7 @@ void    CChatManager::RequestPromoteClanMember(const tstring &sName)
         }
 
         CHTTPRequest *pHTTPRequest(m_pHTTPManager->SpawnRequest());
-        if (pHTTPRequest == NULL)
+        if (pHTTPRequest == nullptr)
             return;
 
         pHTTPRequest->SetTargetURL(m_sMasterServerURL);
@@ -6047,7 +6047,7 @@ void    CChatManager::RequestDemoteClanMember(const tstring &sName)
         }
 
         CHTTPRequest *pHTTPRequest(m_pHTTPManager->SpawnRequest());
-        if (pHTTPRequest == NULL)
+        if (pHTTPRequest == nullptr)
             return;
 
         pHTTPRequest->SetTargetURL(m_sMasterServerURL);
@@ -6099,7 +6099,7 @@ void    CChatManager::RequestRemoveClanMember(const tstring &sName)
         }
 
         CHTTPRequest *pHTTPRequest(m_pHTTPManager->SpawnRequest());
-        if (pHTTPRequest == NULL)
+        if (pHTTPRequest == nullptr)
             return;
 
         pHTTPRequest->SetTargetURL(m_sMasterServerURL);
@@ -6285,7 +6285,7 @@ bool    CChatManager::CompareNames(uint uiAccountID, const tstring &sName)
 void    CChatManager::GetBanList()
 {
     CHTTPRequest *pHTTPRequest(m_pHTTPManager->SpawnRequest());
-    if (pHTTPRequest == NULL)
+    if (pHTTPRequest == nullptr)
         return;
 
     pHTTPRequest->SetTargetURL(m_sMasterServerURL);
@@ -6629,7 +6629,7 @@ void    CChatManager::InviteUser(const tstring &sName)
     if (GetStatus() >= CHAT_STATUS_JOINING_GAME)
     {
         CHostClient *pClient(Host.GetActiveClient());
-        if (pClient != NULL)
+        if (pClient != nullptr)
         {
             pClient->InviteUser(sName);
         }
@@ -6885,7 +6885,7 @@ void    CChatManager::PlaySound(const tstring &sSoundName)
 
     CStringTable *pSounds(g_ResourceManager.GetStringTable(m_hStringTable));
 
-    if (pSounds == NULL)
+    if (pSounds == nullptr)
         return;
 
     ResHandle hHandle(g_ResourceManager.Register(pSounds->Get(sSoundName), RES_SAMPLE));
@@ -6970,7 +6970,7 @@ void    CChatManager::SaveChannel(const tstring &sChannel)
         
     // this is used to save the specified channel to the db
     CHTTPRequest *pHTTPRequest(m_pHTTPManager->SpawnRequest());
-    if (pHTTPRequest == NULL)
+    if (pHTTPRequest == nullptr)
         return;
 
     pHTTPRequest->SetTargetURL(m_sMasterServerURL);
@@ -6994,7 +6994,7 @@ void    CChatManager::RemoveChannel(const tstring &sChannel)
 {
     // this is used to remove the specified channel from the db
     CHTTPRequest *pHTTPRequest(m_pHTTPManager->SpawnRequest());
-    if (pHTTPRequest == NULL)
+    if (pHTTPRequest == nullptr)
         return;
 
     pHTTPRequest->SetTargetURL(m_sMasterServerURL);
@@ -7453,7 +7453,7 @@ void    CChatManager::SaveNotes()
 {
     CFile *pFile(FileManager.GetFile(_T("~/notes.txt"), FILE_WRITE | FILE_TEXT));
 
-    if (pFile == NULL || !pFile->IsOpen())
+    if (pFile == nullptr || !pFile->IsOpen())
         return;
 
     uint uiNum(0);
@@ -8004,7 +8004,7 @@ tstring CChatManager::Translate(const tstring &sKey, const tstring &sParamName1,
 {
     CHostClient *pClient(Host.GetActiveClient());
 
-    if (pClient == NULL)
+    if (pClient == nullptr)
         return TSNULL;
 
     tsmapts mapParams;
@@ -8028,7 +8028,7 @@ tstring CChatManager::Translate(const tstring &sKey, const tsmapts &mapParams)
 {
     CHostClient *pClient(Host.GetActiveClient());
 
-    if (pClient == NULL)
+    if (pClient == nullptr)
         return TSNULL;
 
     return pClient->Translate(sKey, mapParams);
@@ -8061,7 +8061,7 @@ void    CChatManager::AutoCompleteNick(const tstring &sName)
 
 
     CHTTPRequest *pHTTPRequest(m_pHTTPManager->SpawnRequest());
-    if (pHTTPRequest == NULL)
+    if (pHTTPRequest == nullptr)
         return;
 
     pHTTPRequest->SetTargetURL(m_sMasterServerURL);
@@ -10202,7 +10202,7 @@ void    CChatManager::LeaveTMMGroup(bool bLocalOnly, const tstring &sReason)
 
     TMMLeaveGroup.Trigger(vParams, cc_forceTMMInterfaceUpdate);
 
-    Console << _T("Left TMM Group - ") << (!sReason.empty() ? sReason : _T("NULL")) << newl;
+    Console << _T("Left TMM Group - ") << (!sReason.empty() ? sReason : _T("nullptr")) << newl;
 
     if (!bLocalOnly)
     {

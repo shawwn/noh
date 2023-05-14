@@ -239,19 +239,19 @@ public:
     ~CEvaluatorToken();
     CEvaluatorToken() :
     m_bIsOperator(false),
-    m_pOperator(NULL),
-    m_pToken(NULL)
+    m_pOperator(nullptr),
+    m_pToken(nullptr)
     {}
 
     CEvaluatorToken(IOperator *pOperator) :
-    m_bIsOperator(pOperator != NULL),
+    m_bIsOperator(pOperator != nullptr),
     m_pOperator(pOperator),
-    m_pToken(NULL)
+    m_pToken(nullptr)
     {}
 
     CEvaluatorToken(CUIScriptToken *pToken) :
     m_bIsOperator(false),
-    m_pOperator(NULL),
+    m_pOperator(nullptr),
     m_pToken(pToken)
     {}
 
@@ -300,7 +300,7 @@ private:
         m_ScriptTokenPool(1, uint(-1)),
         m_bLastTokenWasValue(false),
         m_bError(false),
-        m_pActiveWidget(NULL)
+        m_pActiveWidget(nullptr)
         {}
 
         ~Environment()
@@ -357,7 +357,7 @@ private:
 public:
     ~CExpressionEvaluator() {}
 
-    CEvaluatorToken*    GetToken(const tstring &sSymbol, CEvaluatorToken *pResultToken = NULL);
+    CEvaluatorToken*    GetToken(const tstring &sSymbol, CEvaluatorToken *pResultToken = nullptr);
 
     void    RegisterOperator(IOperator *pOperator);
 

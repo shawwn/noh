@@ -219,7 +219,7 @@ void    CAnimatedImage::StartAnim(float fSpeed, uint uiForceLength)
   --------------------*/
 UI_VOID_CMD(StartAnim, 0)
 {
-    if (pThis == NULL ||
+    if (pThis == nullptr ||
         pThis->GetType() != WIDGET_ANIMATEDIMAGE)
         return;
 

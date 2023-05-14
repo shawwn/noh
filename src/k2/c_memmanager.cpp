@@ -25,7 +25,7 @@
 CMemManager *g_pMemManager(CMemManager::GetInstance());
 CK2Mutex g_cMemMutex;
 #else
-CMemManager *g_pMemManager(NULL);
+CMemManager *g_pMemManager(nullptr);
 #endif
 
 CVAR_STRINGF    (mem_font,          "system_medium",        CVAR_SAVECONFIG);
@@ -64,7 +64,7 @@ class MemManagerInitClass
   ====================*/
 const char*     CMemManager::GetStr(const char* sStr)
 {
-    if (physx::shdfnd2::gMemoryTracker == NULL)
+    if (physx::shdfnd2::gMemoryTracker == nullptr)
         return sStr;
 
     // prevent stack overflow.
@@ -134,11 +134,11 @@ void    CMemManager::Init()
     m_zMoveBytes = 0;
     m_zWriteBytes = 0;
 
-    m_pHead = NULL;
-    m_pTail = NULL;
+    m_pHead = nullptr;
+    m_pTail = nullptr;
 
-    m_pTrackHead = NULL;
-    m_pTrackTail = NULL;
+    m_pTrackHead = nullptr;
+    m_pTrackTail = nullptr;
 #endif //K2_DEBUG_MEM
 }
 
@@ -151,11 +151,11 @@ void    CMemManager::Release()
     if (m_cMicroHeapManager)
     {
         MICRO_ALLOCATOR::releaseHeapManager(m_cMicroHeapManager);
-        m_cMicroHeapManager = NULL;
+        m_cMicroHeapManager = nullptr;
     }
 
     assert(!s_bReleased);
-    if (s_pInstance != NULL)
+    if (s_pInstance != nullptr)
         free(s_pInstance);
 }
 
@@ -187,7 +187,7 @@ void*   CMemManager::Allocate(size_t z, const char *szContext, MemoryType eMemTy
 #ifdef K2_TRACK_MEM
     if (s_bTrackAllocs)
     {
-        if (szContext != NULL)
+        if (szContext != nullptr)
             TRACK_ALLOC(pResult, (uint)z, eMemType, GetStr(szContext), GetStr(szType), GetStr(szFile), nLine);
     }
 #endif
@@ -205,7 +205,7 @@ void    CMemManager::Deallocate(void *p, const char *szContext, MemoryType eMemT
 #ifdef K2_TRACK_MEM
     if (s_bTrackAllocs)
     {
-        if (szContext != NULL)
+        if (szContext != nullptr)
             TRACK_FREE(p, eMemType, GetStr(szContext), GetStr(szFile), nLine);
     }
 #endif
@@ -224,12 +224,12 @@ void    CMemManager::Deallocate(void *p, const char *szContext, MemoryType eMemT
   ====================*/
 void*   CMemManager::Allocate(size_t z, const char *szContext, MemoryType eMemType, const char *szType, const char *szFile, short nLine)
 {
-    assert(g_pMemManager != NULL);
+    assert(g_pMemManager != nullptr);
     g_cMemMutex.Lock();
 
 //    PROFILE("CMemManager::Allocate"); // TKTK 2023: This causes a crash when K2_PROFILE is enabled
 
-    if (szContext == NULL)
+    if (szContext == nullptr)
         szContext = "stl";
 
     //Validate();
@@ -242,13 +242,13 @@ void*   CMemManager::Allocate(size_t z, const char *szContext, MemoryType eMemTy
     */
 
     char *p = (char*)malloc(sizeof(SMemHeader) + z + sizeof(MEM_END_TAG));
-    assert (p != NULL);
+    assert (p != nullptr);
 
     SMemHeader *pe = (SMemHeader*)p;
     pe->uiMarker = MEM_START_TAG;
 #ifdef K2_DEBUG_MEM_EX
     Set(pe->szFile, 0, MEM_DEBUG_MAX_FILE_NAME_LENGTH);
-    if (szFile != NULL)
+    if (szFile != nullptr)
         STRNCPY_S(pe->szFile, MEM_DEBUG_MAX_FILE_NAME_LENGTH, szFile, _TRUNCATE);
     pe->nLine = nLine;
     pe->uiTimeStamp = CHost::IsAllocated() ? Host.GetTime() : 0;
@@ -256,20 +256,20 @@ void*   CMemManager::Allocate(size_t z, const char *szContext, MemoryType eMemTy
     pe->zSize = z;
     pe->pContext = szContext;
 
-    if (m_pHead != NULL)
+    if (m_pHead != nullptr)
         m_pHead->pNext = pe;
     pe->pPrev = m_pHead;
-    pe->pNext = NULL;
+    pe->pNext = nullptr;
     m_pHead = pe;
-    if (m_pTail == NULL)
+    if (m_pTail == nullptr)
         m_pTail = m_pHead;
 
-    if (m_pTrackHead != NULL)
+    if (m_pTrackHead != nullptr)
         m_pTrackHead->pTrackNext = pe;
     pe->pTrackPrev = m_pTrackHead;
-    pe->pTrackNext = NULL;
+    pe->pTrackNext = nullptr;
     m_pTrackHead = pe;
-    if (m_pTrackTail == NULL)
+    if (m_pTrackTail == nullptr)
         m_pTrackTail = m_pTrackHead;
 
     pe->uiSequence = m_uiSequence;
@@ -302,7 +302,7 @@ void    CMemManager::Deallocate(void *p, const char *szContext, MemoryType eMemT
 {
 //    PROFILE("CMemManager::Deallocate"); // TKTK 2023: This causes a crash when K2_PROFILE is enabled
 
-    if (!p) // Microsoft documentation says deallocate should simply ignore NULL pointers
+    if (!p) // Microsoft documentation says deallocate should simply ignore nullptr pointers
         return;
     
     g_cMemMutex.Lock();
@@ -318,18 +318,18 @@ void    CMemManager::Deallocate(void *p, const char *szContext, MemoryType eMemT
         K2System.DebugBreak();
     */
 
-    if (pe->pNext != NULL)
+    if (pe->pNext != nullptr)
         pe->pNext->pPrev = pe->pPrev;
-    if (pe->pPrev != NULL)
+    if (pe->pPrev != nullptr)
         pe->pPrev->pNext = pe->pNext;
     if (m_pHead == pe)
         m_pHead = pe->pPrev;
     if (m_pTail == pe)
         m_pTail = pe->pNext;
 
-    if (pe->pTrackNext != NULL)
+    if (pe->pTrackNext != nullptr)
         pe->pTrackNext->pTrackPrev = pe->pTrackPrev;
-    if (pe->pTrackPrev != NULL)
+    if (pe->pTrackPrev != nullptr)
         pe->pTrackPrev->pTrackNext = pe->pTrackNext;
     if (m_pTrackHead == pe)
         m_pTrackHead = pe->pTrackPrev;
@@ -394,7 +394,7 @@ void    CMemManager::PrintTrackingStats()
     SMemHeader *pHeader(m_pTrackTail);
     SMemHeader *pHeaderEnd(m_pTrackHead);
 
-    while (pHeader != NULL && pHeader != pHeaderEnd)
+    while (pHeader != nullptr && pHeader != pHeaderEnd)
     {
         Console.Mem << _T("#") << pHeader->uiSequence << SPACE << pHeader->pHeap->GetName() << SPACE << INT_SIZE(pHeader->zSize) << newl;
         pHeader = pHeader->pTrackNext;
@@ -417,7 +417,7 @@ void    CMemManager::PrintAllocations(const char *szHeapName, uint uiTime)
     SMemHeader *pStop(m_pHead);
     uint uiTotal(0);
     bool bFoundHeap(false);
-    if (szHeapName != NULL && strlen(szHeapName) > 0)
+    if (szHeapName != nullptr && strlen(szHeapName) > 0)
     {
         for (int i(0); i < MAX_HEAPS + NUM_RESERVED_HEAPS; ++i)
         {
@@ -431,13 +431,13 @@ void    CMemManager::PrintAllocations(const char *szHeapName, uint uiTime)
         }
     }
 
-    if (szHeapName != NULL && !bFoundHeap)
+    if (szHeapName != nullptr && !bFoundHeap)
         return;
 
     if (uiTime == -1)
         uiTime = m_uiTimeStamp;
 
-    while (pHeader != NULL && pHeader != pStop)
+    while (pHeader != nullptr && pHeader != pStop)
     {
 #ifdef K2_DEBUG_MEM_EX
         if (pHeader->uiTimeStamp >= uiTime)
@@ -468,7 +468,7 @@ void    CMemManager::PrintAllocationsNoDuplicates(const char *szHeapName, uint u
     uint uiTotal(0);
     uint uiTotalNoFile(0);
     bool bFoundHeap(false);
-    if (szHeapName != NULL && strlen(szHeapName) > 0)
+    if (szHeapName != nullptr && strlen(szHeapName) > 0)
     {
         for (int i(0); i < MAX_HEAPS + NUM_RESERVED_HEAPS; ++i)
         {
@@ -482,7 +482,7 @@ void    CMemManager::PrintAllocationsNoDuplicates(const char *szHeapName, uint u
         }
     }
 
-    if (szHeapName != NULL && !bFoundHeap)
+    if (szHeapName != nullptr && !bFoundHeap)
         return;
 
     if (uiTime == -1)
@@ -490,7 +490,7 @@ void    CMemManager::PrintAllocationsNoDuplicates(const char *szHeapName, uint u
 
     map<string, map<uint, uint> > mapAllocations;
 
-    while (pHeader != NULL && pHeader != pStop)
+    while (pHeader != nullptr && pHeader != pStop)
     {
 #ifdef K2_DEBUG_MEM_EX
         if (pHeader->uiTimeStamp >= uiTime)
@@ -550,16 +550,16 @@ void    CMemManager::ResetTracking()
     m_uiTimeStamp = Host.GetTime();
     
     SMemHeader *pHeader(m_pTrackTail);
-    while (pHeader != NULL)
+    while (pHeader != nullptr)
     {
-        if (pHeader->pTrackPrev != NULL)
-            pHeader->pTrackPrev->pTrackNext = NULL;
-        pHeader->pTrackPrev = NULL;
+        if (pHeader->pTrackPrev != nullptr)
+            pHeader->pTrackPrev->pTrackNext = nullptr;
+        pHeader->pTrackPrev = nullptr;
         pHeader = pHeader->pTrackNext;
     }
 
-    m_pTrackHead = NULL;
-    m_pTrackTail = NULL;
+    m_pTrackHead = nullptr;
+    m_pTrackTail = nullptr;
 
     ++m_uiSequence;
     
@@ -582,7 +582,7 @@ void    CMemManager::PrintSequenceAllocations(uint uiSequence)
 
     SMemHeader *pHeader(m_pTail);
 
-    while (pHeader != NULL)
+    while (pHeader != nullptr)
     {
         if (pHeader->uiSequence == uiSequence)
             Console.Mem << pHeader->pContext << SPACE << INT_SIZE(pHeader->zSize) << newl;
@@ -608,7 +608,7 @@ void    CMemManager::Draw()
 #ifdef K2_DEBUG_MEM
     ResHandle hMemFont(g_ResourceManager.LookUpName(mem_font, RES_FONTMAP));
     CFontMap *pFontMap(g_ResourceManager.GetFontMap(hMemFont));
-    if (pFontMap == NULL)
+    if (pFontMap == nullptr)
         return;
 
     const float FONT_WIDTH = pFontMap->GetFixedAdvance();
@@ -622,7 +622,7 @@ void    CMemManager::Draw()
     uint uiCount(0);
     for (uint ui(0); ui < MAX_HEAPS; ++ui)
     {
-        if (s_apHeaps[ui] != NULL)
+        if (s_apHeaps[ui] != nullptr)
             ++uiCount;
     }
 
@@ -677,7 +677,7 @@ void    CMemManager::Draw()
     for (uint ui(0); ui < MAX_HEAPS; ++ui)
     {
         CHeap *pHeap(s_apHeaps[ui]);
-        if (pHeap == NULL)
+        if (pHeap == nullptr)
             continue;
 
         tstring sName(StringToTString(pHeap->GetName()));
@@ -710,7 +710,7 @@ bool    CMemManager::Validate()
 CMemManager*    CMemManager::GetInstance()
 {
     assert(!s_bReleased);
-    if (s_pInstance == NULL)
+    if (s_pInstance == nullptr)
     {
         assert(!s_bRequested);
         s_bRequested = true;
@@ -730,8 +730,8 @@ CMemManager*    CMemManager::GetInstance()
 void*   CMemManager::Copy(void *pDest, const void *pSrc, size_t z)
 {
 #ifdef K2_DEBUG_MEM
-    assert(pDest != NULL);
-    assert(pSrc != NULL);
+    assert(pDest != nullptr);
+    assert(pSrc != nullptr);
     ++m_zCopyCount;
     m_zCopyBytes += z;
 #endif //K2_DEBUG_MEM
@@ -741,8 +741,8 @@ void*   CMemManager::Copy(void *pDest, const void *pSrc, size_t z)
 errno_t CMemManager::Copy_s(void *pDest, size_t dstSize, const void *pSrc, size_t z)
 {
 #ifdef K2_DEBUG_MEM
-    assert(pDest != NULL);
-    assert(pSrc != NULL);
+    assert(pDest != nullptr);
+    assert(pSrc != nullptr);
     ++m_zCopyCount;
     m_zCopyBytes += z;
 #endif
@@ -755,8 +755,8 @@ errno_t CMemManager::Copy_s(void *pDest, size_t dstSize, const void *pSrc, size_
 void*   CMemManager::Move(void *pDest, const void *pSrc, size_t z)
 {
 #ifdef K2_DEBUG_MEM
-    assert(pDest != NULL);
-    assert(pSrc != NULL);
+    assert(pDest != nullptr);
+    assert(pSrc != nullptr);
     ++m_zMoveCount;
     m_zMoveBytes += z;
 #endif //K2_DEBUG_MEM
@@ -770,7 +770,7 @@ void*   CMemManager::Move(void *pDest, const void *pSrc, size_t z)
 void*   CMemManager::Set(void *pDest, byte y, size_t z)
 {
 #ifdef K2_DEBUG_MEM
-    assert(pDest != NULL);
+    assert(pDest != nullptr);
     ++m_zWriteCount;
     m_zWriteBytes += z;
 #endif //K2_DEBUG_MEM
@@ -878,7 +878,7 @@ CMD(MemoryLog)
 
     bool bLogEveryAllocation(AtoB(vArgList[0]));
     bool bLogEveryFrame(AtoB(vArgList[1]));
-    assert(physx::shdfnd2::gMemoryTracker != NULL);
+    assert(physx::shdfnd2::gMemoryTracker != nullptr);
     if (physx::shdfnd2::gMemoryTracker)
         physx::shdfnd2::gMemoryTracker->setLogLevel(bLogEveryAllocation, bLogEveryFrame);
 
@@ -894,7 +894,7 @@ CMD(MemoryReport)
     if (vArgList.size() >= 1)
         bReportAllLeaks = AtoB(vArgList[0]);
 
-    assert(physx::shdfnd2::gMemoryTracker != NULL);
+    assert(physx::shdfnd2::gMemoryTracker != nullptr);
     if (physx::shdfnd2::gMemoryTracker)
         physx::shdfnd2::gMemoryTracker->detectMemoryLeaks("memreport.html", bReportAllLeaks);
 

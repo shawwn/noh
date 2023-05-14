@@ -39,7 +39,7 @@ DEFINE_ENTITY_DESC(CShopItemInfo, 1)
   CShopItemInfo::CShopItemInfo
   ====================*/
 CShopItemInfo::CShopItemInfo() :
-IGameEntity(NULL),
+IGameEntity(nullptr),
 
 m_uiRemainingStock(-1),
 m_uiNextRestockTime(INVALID_TIME),

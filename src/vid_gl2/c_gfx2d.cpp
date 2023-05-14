@@ -58,7 +58,7 @@ void    CGfx2D::Init()
     // Gui Quad buffer
     glGenBuffersARB(1, &VBGuiQuad);
     glBindBufferARB(GL_ARRAY_BUFFER_ARB, VBGuiQuad);
-    glBufferDataARB(GL_ARRAY_BUFFER_ARB, MAX_GUIQUADS * 4 * sizeof(SGuiVertex), NULL, GL_STREAM_DRAW_ARB);
+    glBufferDataARB(GL_ARRAY_BUFFER_ARB, MAX_GUIQUADS * 4 * sizeof(SGuiVertex), nullptr, GL_STREAM_DRAW_ARB);
 }
 
 
@@ -209,7 +209,7 @@ void    CGfx2D::Draw()
     glViewport(0, 0, g_CurrentVidMode.iWidth, g_CurrentVidMode.iHeight);
 
     glBindBufferARB(GL_ARRAY_BUFFER_ARB, VBGuiQuad);
-    glBufferDataARB(GL_ARRAY_BUFFER_ARB, MAX_GUIQUADS * 4 * sizeof(SGuiVertex), NULL, GL_STREAM_DRAW_ARB);
+    glBufferDataARB(GL_ARRAY_BUFFER_ARB, MAX_GUIQUADS * 4 * sizeof(SGuiVertex), nullptr, GL_STREAM_DRAW_ARB);
     SGuiVertex* pVertices((SGuiVertex*)glMapBufferARB(GL_ARRAY_BUFFER_ARB, GL_WRITE_ONLY));
 
     for (int i(0); i < iNumGuiElements; ++i)
@@ -323,9 +323,9 @@ void    CGfx2D::Draw()
 
     ResHandle hWhiteTexture(g_ResourceManager.GetWhiteTexture());
     //CTexture *pWhiteTexture(g_ResourceManager.GetTexture(hWhiteTexture));
-    //int iWhiteTextureFlags(pWhiteTexture != NULL ? pWhiteTexture->GetTextureFlags() : 0);
+    //int iWhiteTextureFlags(pWhiteTexture != nullptr ? pWhiteTexture->GetTextureFlags() : 0);
 
-    CMaterial *pMaterial(NULL);
+    CMaterial *pMaterial(nullptr);
     int iTextureStage(0);
 
     for (int i(0); i < iNumGuiElements; ++i)
@@ -447,7 +447,7 @@ void    CGfx2D::Draw()
 
                 CTexture *pTexture(g_ResourceManager.GetTexture(hTexture));
     
-                int iTextureFlags(pTexture != NULL ? pTexture->GetTextureFlags() : 0);
+                int iTextureFlags(pTexture != nullptr ? pTexture->GetTextureFlags() : 0);
 
                 if (iFlags & GUI_ADDITIVE)
                     glBlendFunc(GL_SRC_ALPHA, GL_ONE);

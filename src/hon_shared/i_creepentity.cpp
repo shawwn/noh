@@ -122,7 +122,7 @@ bool    ICreepEntity::ServerFrameThink()
     {
         CEntityCreepSpawner *pController(Game.GetEntityFromUniqueIDAs<CEntityCreepSpawner>(m_uiControllerUID));
 
-        if (pController != NULL)
+        if (pController != nullptr)
         {
             m_v2Waypoint = pController->GetLane().GetNextWaypoint(m_v3Position.xy(), m_v2Waypoint);
 
@@ -134,7 +134,7 @@ bool    ICreepEntity::ServerFrameThink()
             else
             {
                 IBehavior *pBehavior(m_cBrain.GetCurrentBehavior());
-                if (pBehavior != NULL && pBehavior->GetGoal() != m_v2Waypoint)
+                if (pBehavior != nullptr && pBehavior->GetGoal() != m_v2Waypoint)
                 {
                     m_cBrain.GetCurrentBehavior()->SetGoal(m_v2Waypoint);
                     m_cBrain.GetCurrentBehavior()->ForceUpdate();

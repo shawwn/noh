@@ -25,7 +25,7 @@
   ====================*/
 bool    xmlproc_dirlistitems(CInterface *pInterface, IWidget *pParent, const CWidgetStyle &style)
 {
-    if (pParent == NULL)
+    if (pParent == nullptr)
         return true;
 
     if (!pParent->HasFlags(WFLAG_LIST))
@@ -98,14 +98,14 @@ BEGIN_XML_REGISTRATION(dirlistitems)
 END_XML_REGISTRATION
 BEGIN_XML_PROCESSOR(dirlistitems, IWidget)
     CInterface *pInterface(pObject->GetInterface());
-    if (pInterface == NULL)
+    if (pInterface == nullptr)
     {
         Console.Err << _T("Invalid interface for <dirlistitems>") << m_sElementName << newl;
         return false;
     }
 
     CWidgetTemplate *pTemplate(pInterface->GetCurrentTemplate());
-    if (pTemplate != NULL)
+    if (pTemplate != nullptr)
     {
         pTemplate->AddChild(m_sElementName, node);
         pTemplate->EndChild();

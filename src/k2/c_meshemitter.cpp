@@ -380,20 +380,20 @@ bool    CMeshEmitter::Update(uint uiMilliseconds, ParticleTraceFn_t pfnTrace)
                 }
             }
 
-            if (it->GetImbeddedEmitter() != NULL)
+            if (it->GetImbeddedEmitter() != nullptr)
             {
                 IEmitter *pEmitter(it->GetImbeddedEmitter());
 
                 if (!UpdateEmbeddedEmitter(uiMilliseconds, pfnTrace, pEmitter, *it))
                 {
-                    if (pEmitter->GetNextEmitter() != NULL)
+                    if (pEmitter->GetNextEmitter() != nullptr)
                     {
                         it->SetImbeddedEmitter(pEmitter->GetNextEmitter());
-                        pEmitter->SetNextEmitter(NULL);
+                        pEmitter->SetNextEmitter(nullptr);
                     }
                     else
                     {
-                        it->SetImbeddedEmitter(NULL);
+                        it->SetImbeddedEmitter(nullptr);
                     }
 
                     K2_DELETE(pEmitter);
@@ -425,20 +425,20 @@ bool    CMeshEmitter::Update(uint uiMilliseconds, ParticleTraceFn_t pfnTrace)
                 }
             }
 
-            if (it->GetImbeddedEmitter() != NULL)
+            if (it->GetImbeddedEmitter() != nullptr)
             {
                 IEmitter *pEmitter(it->GetImbeddedEmitter());
 
                 if (!UpdateEmbeddedEmitter(uiMilliseconds, pfnTrace, pEmitter, *it))
                 {
-                    if (pEmitter->GetNextEmitter() != NULL)
+                    if (pEmitter->GetNextEmitter() != nullptr)
                     {
                         it->SetImbeddedEmitter(pEmitter->GetNextEmitter());
-                        pEmitter->SetNextEmitter(NULL);
+                        pEmitter->SetNextEmitter(nullptr);
                     }
                     else
                     {
-                        it->SetImbeddedEmitter(NULL);
+                        it->SetImbeddedEmitter(nullptr);
                     }
 
                     K2_DELETE(pEmitter);
@@ -463,25 +463,25 @@ bool    CMeshEmitter::Update(uint uiMilliseconds, ParticleTraceFn_t pfnTrace)
                     it->SetActive(false);
                 else
                 {
-                    it->Update(fDeltaTime, v3Acceleration, m_fDrag, m_fFriction, m_bCollide ? pfnTrace : NULL);
+                    it->Update(fDeltaTime, v3Acceleration, m_fDrag, m_fFriction, m_bCollide ? pfnTrace : nullptr);
                     m_bbBounds.AddPoint(it->GetPos());
                 }
             }
 
-            if (it->GetImbeddedEmitter() != NULL)
+            if (it->GetImbeddedEmitter() != nullptr)
             {
                 IEmitter *pEmitter(it->GetImbeddedEmitter());
 
                 if (!UpdateEmbeddedEmitter(uiMilliseconds, pfnTrace, pEmitter, *it))
                 {
-                    if (pEmitter->GetNextEmitter() != NULL)
+                    if (pEmitter->GetNextEmitter() != nullptr)
                     {
                         it->SetImbeddedEmitter(pEmitter->GetNextEmitter());
-                        pEmitter->SetNextEmitter(NULL);
+                        pEmitter->SetNextEmitter(nullptr);
                     }
                     else
                     {
-                        it->SetImbeddedEmitter(NULL);
+                        it->SetImbeddedEmitter(nullptr);
                     }
 
                     K2_DELETE(pEmitter);
@@ -732,7 +732,7 @@ bool    CMeshEmitter::Update(uint uiMilliseconds, ParticleTraceFn_t pfnTrace)
             fAcceleration,
             fLerpedScale,
             TransformPoint(v3MeshPos, aLerpedAxis, v3LerpedPos, fLerpedScale),
-            NULL,
+            nullptr,
             **itDef
         );
 

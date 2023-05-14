@@ -435,7 +435,7 @@ const IMaterialParameter*   CMaterial::GetParameter(const tstring &sName) const
     if (findit != m_mapParams.end())
         return findit->second;
     else
-        return NULL;
+        return nullptr;
 }
 //=============================================================================
 #endif //__C_MATERIAL_H__

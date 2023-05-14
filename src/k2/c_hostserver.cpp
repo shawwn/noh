@@ -124,7 +124,7 @@ CHostServer::~CHostServer()
     ClientMap_it it(m_mapClients.begin());
     while (it != m_mapClients.end())
     {
-        if (it->second != NULL)
+        if (it->second != nullptr)
             SAFE_DELETE(it->second);
 
         STL_ERASE(m_mapClients, it);
@@ -150,10 +150,10 @@ CHostServer::~CHostServer()
 CHostServer::CHostServer(CHTTPManager *pHTTPManager) :
 m_pHTTPManager(pHTTPManager),
 m_GameLib(SERVER_LIBRARY_NAME),
-m_pWorld(NULL),
+m_pWorld(nullptr),
 m_sMasterServerURL(K2System.GetMasterServerAddress() + "/server_requester.php"),
 #ifndef K2_CLIENT
-m_pChatConnection(NULL),
+m_pChatConnection(nullptr),
 #endif
 
 m_uiFrameCount(0),
@@ -169,7 +169,7 @@ m_uiSnapshotBufferPos(-1),
 m_uiServerID(-1),
 m_uiNextHeartbeat(0),
 #ifndef K2_CLIENT
-m_pHeartbeat(NULL),
+m_pHeartbeat(nullptr),
 #endif
 
 m_sockGame(_T("SERVER_GAME")),
@@ -204,7 +204,7 @@ m_uiLastUpdateCheck(INVALID_TIME),
 m_uiLastConnectRequestPeriod(INVALID_TIME),
 
 #ifdef K2_CLIENT
-m_pClient(NULL),
+m_pClient(nullptr),
 #endif
 
 m_uiBytesSent(0),
@@ -227,14 +227,14 @@ m_iLastCState(-1)
 CClientConnection*  CHostServer::GetClient(int iClientNum)
 {
 #ifdef K2_CLIENT
-    if (m_pClient != NULL && m_pClient->GetClientNum() == iClientNum)
+    if (m_pClient != nullptr && m_pClient->GetClientNum() == iClientNum)
         return m_pClient;
     else
-        return NULL;
+        return nullptr;
 #else
     ClientMap_it findit(m_mapClients.find(iClientNum));
     if (findit == m_mapClients.end())
-        return NULL;
+        return nullptr;
 
     return findit->second;
 #endif
@@ -247,7 +247,7 @@ CClientConnection*  CHostServer::GetClient(int iClientNum)
 bool    CHostServer::HasClient(int iClientNum)
 {
 #ifdef K2_CLIENT
-    return m_pClient != NULL && m_pClient->GetClientNum() == iClientNum;
+    return m_pClient != nullptr && m_pClient->GetClientNum() == iClientNum;
 #else
     return m_mapClients.find(iClientNum) != m_mapClients.end();
 #endif
@@ -260,14 +260,14 @@ bool    CHostServer::HasClient(int iClientNum)
 int     CHostServer::GetClientNumber(int iAccountID)
 {
 #ifdef K2_CLIENT
-    if (m_pClient != NULL && m_pClient->IsConnected() && m_pClient->GetAccountID() == iAccountID)
+    if (m_pClient != nullptr && m_pClient->IsConnected() && m_pClient->GetAccountID() == iAccountID)
         return m_pClient->GetClientNum();
     else
         return -1;
 #else
     for (ClientMap_it it(m_mapClients.begin()); it != m_mapClients.end(); ++it)
     {
-        if (it->second == NULL || !it->second->IsConnected())
+        if (it->second == nullptr || !it->second->IsConnected())
             continue;
 
         if (it->second->GetAccountID() == iAccountID)
@@ -281,14 +281,14 @@ int     CHostServer::GetClientNumber(int iAccountID)
 int     CHostServer::GetClientNumber(const tstring &sName)
 {
 #ifdef K2_CLIENT
-    if (m_pClient != NULL && m_pClient->IsConnected() && CompareNoCase(m_pClient->GetName(), sName) == 0)
+    if (m_pClient != nullptr && m_pClient->IsConnected() && CompareNoCase(m_pClient->GetName(), sName) == 0)
         return m_pClient->GetClientNum();
     else
         return -1;
 #else
     for (ClientMap_it it(m_mapClients.begin()); it != m_mapClients.end(); ++it)
     {
-        if (it->second == NULL || !it->second->IsConnected())
+        if (it->second == nullptr || !it->second->IsConnected())
             continue;
 
         if (CompareNoCase(it->second->GetName(), sName) == 0)
@@ -308,7 +308,7 @@ iset    CHostServer::GetAccountIDs()
     iset setIDs;
 
 #ifdef K2_CLIENT
-    if (m_pClient != NULL)
+    if (m_pClient != nullptr)
         setIDs.insert(m_pClient->GetAccountID());
 #else
     for (ClientMap_it it(m_mapClients.begin()); it != m_mapClients.end(); ++it)
@@ -376,7 +376,7 @@ int     CHostServer::GenerateClientID(ushort unConnectionID)
   ====================*/
 void    CHostServer::ReauthorizeClient(CClientConnection *pClient)
 {
-    if (pClient == NULL)
+    if (pClient == nullptr)
         return;
 
 #ifndef K2_CLIENT
@@ -403,12 +403,12 @@ void    CHostServer::ReauthorizeClient(CClientConnection *pClient)
   ====================*/
 bool    CHostServer::AddClient(const tstring &sAddress, ushort unPort, CPacket &pkt)
 {
-    CClientConnection *pNewClient(NULL);
+    CClientConnection *pNewClient(nullptr);
 
     try
     {
 #ifdef K2_CLIENT
-        if (m_pClient != NULL)
+        if (m_pClient != nullptr)
             EX_ERROR(_T("rejected_invalid_request"));
 #endif
 
@@ -488,7 +488,7 @@ bool    CHostServer::AddClient(const tstring &sAddress, ushort unPort, CPacket &
             EX_ERROR(_T("rejected_invalid_request"));
 
         // First connection to an idle server is automatically promoted to host
-        if (m_pWorld != NULL && 
+        if (m_pWorld != nullptr &&
             !m_pWorld->IsLoaded() &&
             !svr_requireAuthentication &&
             m_mapClients.empty() &&
@@ -519,7 +519,7 @@ bool    CHostServer::AddClient(const tstring &sAddress, ushort unPort, CPacket &
         }
 
         // No match keys for matches that have already started
-        if (m_pWorld != NULL && m_pWorld->IsLoaded())
+        if (m_pWorld != nullptr && m_pWorld->IsLoaded())
             sMatchKey.clear();
 
         // Check for a name conflict
@@ -550,7 +550,7 @@ bool    CHostServer::AddClient(const tstring &sAddress, ushort unPort, CPacket &
             it = m_vProvisionalClients.begin();
         }
 
-        if (m_pWorld != NULL && 
+        if (m_pWorld != nullptr &&
             !m_pWorld->IsLoaded() &&
             (!m_mapClients.empty() ||
             !m_vProvisionalClients.empty()))
@@ -565,7 +565,7 @@ bool    CHostServer::AddClient(const tstring &sAddress, ushort unPort, CPacket &
 
         // Create a new client connection
         pNewClient = K2_NEW(ctx_HostServer,  CClientConnection)(this, Host.GetHTTPManager(), sAddress, unPort, m_sockGame);
-        if (pNewClient == NULL)
+        if (pNewClient == nullptr)
             EX_ERROR(_T("rejected_server_error"));
         
         pNewClient->SetConnectionID(unConnectionID);
@@ -629,14 +629,14 @@ void    CHostServer::RejectConnection(const tstring &sAddress, ushort unPort, co
   ====================*/
 void    CHostServer::RemoveClient(int iClientNum, const tstring &sReason)
 {
-    if (m_pClient == NULL || m_pClient->GetClientNum() != iClientNum)
+    if (m_pClient == nullptr || m_pClient->GetClientNum() != iClientNum)
         return;
 
     Console.Server << _T("Client has been removed.") << newl;
 
     m_GameLib.RemoveClient(iClientNum, sReason);
 
-    if (m_pClient != NULL)
+    if (m_pClient != nullptr)
         SAFE_DELETE(m_pClient);
 
     Console.AddCmdBuffer(_T("StopServer"));
@@ -650,7 +650,7 @@ ClientMap_it    CHostServer::RemoveClient(ClientMap_it itClient, const tstring &
     if (itClient == m_mapClients.end())
         return itClient;
 
-    if (itClient->second != NULL)
+    if (itClient->second != nullptr)
     {
         int iClientNum(itClient->second->GetClientNum());
 
@@ -667,7 +667,7 @@ ClientMap_it    CHostServer::RemoveClient(ClientMap_it itClient, const tstring &
         }
 
         // Immediately send a new heartbeat if this is an idle server when a client disconnects
-        if (GetWorld() == NULL || !GetWorld()->IsLoaded())
+        if (GetWorld() == nullptr || !GetWorld()->IsLoaded())
             m_uiNextHeartbeat = 0;
     }
 
@@ -691,10 +691,10 @@ void    CHostServer::RemoveClient(int iClientNum, const tstring &sReason)
 CClientConnection*  CHostServer::GetClientConnection(const tstring &sAddress, ushort unConnectionID)
 {
 #ifdef K2_CLIENT
-    if (m_pClient != NULL && m_pClient->GetAddress() == sAddress && m_pClient->GetConnectionID() == unConnectionID)
+    if (m_pClient != nullptr && m_pClient->GetAddress() == sAddress && m_pClient->GetConnectionID() == unConnectionID)
         return m_pClient;
     else
-        return NULL;
+        return nullptr;
 #else
     // Check connected clients
     for (ClientMap_it it(m_mapClients.begin()); it != m_mapClients.end(); ++it)
@@ -710,7 +710,7 @@ CClientConnection*  CHostServer::GetClientConnection(const tstring &sAddress, us
             return *it;
     }
 
-    return NULL;
+    return nullptr;
 #endif
 }
 
@@ -798,7 +798,7 @@ void    CHostServer::ReadPackets()
         // Check if this is from a connected client
         ushort unConnectionID(pkt.GetConnectionID());
         CClientConnection *pClient(GetClientConnection(m_sockGame.GetRecvAddrName(), unConnectionID));
-        if (pClient != NULL)
+        if (pClient != nullptr)
         {
             pClient->CheckPort(m_sockGame.GetRecvPort());
             pClient->ProcessPacket(pkt);
@@ -835,7 +835,7 @@ void    CHostServer::ReadPackets()
                 pktInfo.WriteString(svr_name);
                 pktInfo.WriteByte(GetNumConnectedClients());
                 pktInfo.WriteByte(GetMaxPlayers());
-                pktInfo.WriteString(m_pWorld == NULL ? TSNULL : m_pWorld->GetName());
+                pktInfo.WriteString(m_pWorld == nullptr ? TSNULL : m_pWorld->GetName());
                 pktInfo.WriteString(K2System.GetVersionString());
                 pktInfo.WriteByte(byte(GetServerAccess()));
                 pktInfo.WriteByte(byte(m_iTier));               
@@ -953,7 +953,7 @@ void    CHostServer::ReadPackets()
 
                 bProcessed = true;
 
-                if (m_pWorld != NULL && m_pWorld->IsLoaded() || m_pWorld->IsLoading())
+                if (m_pWorld != nullptr && m_pWorld->IsLoaded() || m_pWorld->IsLoading())
                 {
                     Console << _T("Ignoring NETCMD_CREATE_TOURN_MATCH because a match is already loaded") << newl;
                     break;
@@ -994,7 +994,7 @@ void    CHostServer::ReadPackets()
 
     // Process any newly valid out of sequence reliable packets
 #ifdef K2_CLIENT
-    if (m_pClient != NULL)
+    if (m_pClient != nullptr)
     {
         m_pClient->ProcessOutOfSequencePackets();
         if (!m_pClient->IsConnected())
@@ -1022,7 +1022,7 @@ void    CHostServer::UpdateClients()
 
     // Send data back to each client and make sure they haven't timed out
 #ifdef K2_CLIENT
-    if (m_pClient != NULL && m_pClient->IsConnected())
+    if (m_pClient != nullptr && m_pClient->IsConnected())
         m_pClient->WriteClientPackets(svr_gameFPS);
 #else
     for (ClientMap_it it(m_mapClients.begin()); it != m_mapClients.end();)
@@ -1117,7 +1117,7 @@ void    CHostServer::SendStateString(int iClientNum, ushort unID)
             return;
 
         CClientConnection *pClient(GetClient(iClientNum));
-        if (pClient == NULL)
+        if (pClient == nullptr)
             return;
 
         pClient->AddStringToUpdateQueue(unID, GetStateString(unID));
@@ -1155,7 +1155,7 @@ void    CHostServer::UpdateStateStrings()
             ssLastTransmitCvars.GetDifference(ssTransmitCvarsDiff);
 
 #ifdef K2_CLIENT
-            if (m_pClient != NULL)
+            if (m_pClient != nullptr)
                 m_pClient->AddStringToUpdateQueue(STATE_STRING_CVAR_SETTINGS, ssTransmitCvarsDiff);
 #else
             for (ClientMap_it it(m_mapClients.begin()); it != m_mapClients.end(); ++it)
@@ -1179,7 +1179,7 @@ void    CHostServer::UpdateStateStrings()
             ssLastServerInfo.GetDifference(ssServerInfoDiff);
             
 #ifdef K2_CLIENT
-            if (m_pClient != NULL)
+            if (m_pClient != nullptr)
                 m_pClient->AddStringToUpdateQueue(STATE_STRING_CVAR_SETTINGS, ssServerInfoDiff);
 #else
             for (ClientMap_it it(m_mapClients.begin()); it != m_mapClients.end(); ++it)
@@ -1203,7 +1203,7 @@ void    CHostServer::UpdateStateStrings()
             ssLastNetworkResources.GetDifference(ssNetworkResourcesDiff);
             
 #ifdef K2_CLIENT
-            if (m_pClient != NULL)
+            if (m_pClient != nullptr)
                 m_pClient->AddStringToUpdateQueue(STATE_STRING_RESOURCES, ssNetworkResourcesDiff);
 #else
             for (ClientMap_it it(m_mapClients.begin()); it != m_mapClients.end(); ++it)
@@ -1227,7 +1227,7 @@ void    CHostServer::UpdateStateStrings()
             ssNetworkStrings.GetDifference(ssNetworkStringsDiff);
             
 #ifdef K2_CLIENT
-            if (m_pClient != NULL)
+            if (m_pClient != nullptr)
                 m_pClient->AddStringToUpdateQueue(STATE_STRING_ENTITIES, ssNetworkStringsDiff);
 #else
             for (ClientMap_it it(m_mapClients.begin()); it != m_mapClients.end(); ++it)
@@ -1250,7 +1250,7 @@ void    CHostServer::UpdateStateStrings()
             m_vStateBlockModCounts[unID] = itBlock->GetModifiedCount();
 
 #ifdef K2_CLIENT
-            if (m_pClient != NULL)
+            if (m_pClient != nullptr)
                 if (itBlock->GetModifiedCount() != m_pClient->GetStateBlockModCount(unID))
                 {
                     m_pClient->AddBlockToUpdateQueue(unID, *itBlock);
@@ -1315,7 +1315,7 @@ void    CHostServer::SendStateBlock(int iClientNum, ushort unID)
             return;
 
         CClientConnection *pClient(GetClient(iClientNum));
-        if (pClient == NULL)
+        if (pClient == nullptr)
             return;
 
         pClient->AddBlockToUpdateQueue(unID, GetStateBlock(unID));
@@ -1348,7 +1348,7 @@ bool    CHostServer::RequestSessionCookie(bool bNew)
     Console << _T("Requesting new session cookie") << newl;
 
     CHTTPRequest *pNewSessionRequest(Host.GetHTTPManager()->SpawnRequest());
-    if (pNewSessionRequest == NULL)
+    if (pNewSessionRequest == nullptr)
         return false;
 
     pNewSessionRequest->SetTargetURL(m_sMasterServerURL);
@@ -1375,10 +1375,10 @@ bool    CHostServer::RequestSessionCookie(bool bNew)
     }
 
     const CPHPData *pError(phpResponse.GetVar(_T("error")));
-    if (pError != NULL)
+    if (pError != nullptr)
     {
         const CPHPData *pErrorCode(pError->GetVar(0));
-        Console << _T("Session cookie request failed: ") << (pErrorCode == NULL ? _T("Unknown error") : pErrorCode->GetString()) << newl;
+        Console << _T("Session cookie request failed: ") << (pErrorCode == nullptr ? _T("Unknown error") : pErrorCode->GetString()) << newl;
         Host.GetHTTPManager()->ReleaseRequest(pNewSessionRequest);
         m_sSessionCookie.clear();
         return false;
@@ -1439,7 +1439,7 @@ void    CHostServer::SendHeartbeat()
     if (!svr_broadcast || m_bUpdating)
         return;
 
-    if (m_pHeartbeat != NULL && !m_pHeartbeat->IsActive())
+    if (m_pHeartbeat != nullptr && !m_pHeartbeat->IsActive())
     {
         if (m_pHeartbeat->WasSuccessful())
         {
@@ -1462,7 +1462,7 @@ void    CHostServer::SendHeartbeat()
                 Console << _T("Heartbeat: ") << _T("Failed to authenticate B1") << newl;
 
                 // Reinitialize match heartbeat if required
-                if (Host.IsSleeping() || GetWorld() == NULL || !GetWorld()->IsLoaded())
+                if (Host.IsSleeping() || GetWorld() == nullptr || !GetWorld()->IsLoaded())
                 {
                     Console << _T("Resetting session cookie...") << newl;
 
@@ -1483,14 +1483,14 @@ void    CHostServer::SendHeartbeat()
 
                     m_GameLib.Reset();
 
-                    if (GetWorld() != NULL)
+                    if (GetWorld() != nullptr)
                         GetWorld()->Free();
                 }
             }
         }
 
         m_pHTTPManager->ReleaseRequest(m_pHeartbeat);
-        m_pHeartbeat = NULL;
+        m_pHeartbeat = nullptr;
     }
 
     if (m_uiServerTime + m_uiPauseTime < m_uiNextHeartbeat)
@@ -1518,10 +1518,10 @@ void    CHostServer::SendHeartbeat()
     }
 
     tstring sMap;
-    if (GetWorld() != NULL)
+    if (GetWorld() != nullptr)
         sMap = GetWorld()->GetName();
 
-    if (m_pHeartbeat != NULL)
+    if (m_pHeartbeat != nullptr)
     {
         switch (m_pHeartbeat->GetStatus())
         {
@@ -1532,11 +1532,11 @@ void    CHostServer::SendHeartbeat()
         }
         
         m_pHTTPManager->ReleaseRequest(m_pHeartbeat);
-        m_pHeartbeat = NULL;
+        m_pHeartbeat = nullptr;
     }
 
     m_pHeartbeat = m_pHTTPManager->SpawnRequest();
-    if (m_pHeartbeat == NULL)
+    if (m_pHeartbeat == nullptr)
         return;
 
     m_pHeartbeat->SetTargetURL(m_sMasterServerURL);
@@ -1558,7 +1558,7 @@ void    CHostServer::SendHeartbeat()
         iNewCState = 0;
         m_pHeartbeat->AddVariable(_T("c_state"), iNewCState);
     }
-    else if (GetWorld() == NULL || !GetWorld()->IsLoaded())
+    else if (GetWorld() == nullptr || !GetWorld()->IsLoaded())
     {
         iNewCState = 1;
         m_pHeartbeat->AddVariable(_T("c_state"), iNewCState);
@@ -1617,9 +1617,9 @@ byte    CHostServer::GetServerStatus() const
     else if (m_bGameLoading)
         return SERVER_STATUS_LOADING;
 #ifndef K2_CLIENT
-    else if ((GetWorld() == NULL || !GetWorld()->IsLoaded()) && GetNumConnectedClients() == 0 && m_vProvisionalClients.empty())
+    else if ((GetWorld() == nullptr || !GetWorld()->IsLoaded()) && GetNumConnectedClients() == 0 && m_vProvisionalClients.empty())
 #else
-    else if ((GetWorld() == NULL || !GetWorld()->IsLoaded()) && GetNumConnectedClients() == 0)
+    else if ((GetWorld() == nullptr || !GetWorld()->IsLoaded()) && GetNumConnectedClients() == 0)
 #endif
         return SERVER_STATUS_IDLE;
     else
@@ -1728,7 +1728,7 @@ void    CHostServer::SendShutdown()
         return;
 
     CHTTPRequest *pShutdowRequest(m_pHTTPManager->SpawnRequest());
-    if (pShutdowRequest == NULL)
+    if (pShutdowRequest == nullptr)
         return;
 
     pShutdowRequest->SetTargetURL(m_sMasterServerURL);
@@ -1746,7 +1746,7 @@ void    CHostServer::SendShutdown()
 void    CHostServer::SendGameData(int iClient, const IBuffer &buffer, bool bReliable)
 {
 #ifdef K2_CLIENT
-    if (m_pClient != NULL && m_pClient->GetClientNum() == iClient)
+    if (m_pClient != nullptr && m_pClient->GetClientNum() == iClient)
     {
         buffer.Rewind();
         m_pClient->SendGameData(buffer, bReliable);
@@ -1771,7 +1771,7 @@ void    CHostServer::SendGameData(int iClient, const IBuffer &buffer, bool bReli
 void    CHostServer::BroadcastGameData(const IBuffer &buffer, bool bReliable, int iExcludeClient)
 {
 #ifdef K2_CLIENT
-    if (m_pClient != NULL)
+    if (m_pClient != nullptr)
     {
         buffer.Rewind();
         m_pClient->SendGameData(buffer, bReliable);
@@ -1912,7 +1912,7 @@ bool    CHostServer::Init(bool bPractice, bool bLocal)
 
         // Allocate a CWorld
         m_pWorld = K2_NEW(ctx_HostServer,  CWorld)(WORLDHOST_SERVER);
-        if (m_pWorld == NULL)
+        if (m_pWorld == nullptr)
             EX_ERROR(_T("Failed to allocate a CWorld"));
         if (!m_pWorld->IsValid())
             EX_ERROR(_T("Failure constructing CWorld"));
@@ -2061,7 +2061,7 @@ bool    CHostServer::StartGame(const tstring &sName, const tstring &sGameSetting
     // Drop the clients out of the "ready" state so that they won't receive the world
     // load request until they have accked any state changes
 #ifdef K2_CLIENT
-    if (m_pClient != NULL)
+    if (m_pClient != nullptr)
         m_pClient->ResynchStateData();
 #else
     for (ClientMap_it it(m_mapClients.begin()); it != m_mapClients.end(); ++it)
@@ -2275,7 +2275,7 @@ void    CHostServer::Frame(uint uiHostFrameLength, bool bClientReady)
         }
 
         // Issue a console warning if the frame time is too long
-        if (uiHostFrameLength > m_uiFrameLength && m_uiFrameCount > 0 && !(m_bHasManager && (m_pWorld == NULL || !m_pWorld->IsLoaded())))
+        if (uiHostFrameLength > m_uiFrameLength && m_uiFrameCount > 0 && !(m_bHasManager && (m_pWorld == nullptr || !m_pWorld->IsLoaded())))
         {
             if (K2System.IsDedicatedServer() || svr_hitchWarning)
             {
@@ -2349,7 +2349,7 @@ void    CHostServer::Frame(uint uiHostFrameLength, bool bClientReady)
 
         // Try to send fragmented updates, even if it's not time for a new server frame
 #ifdef K2_CLIENT
-        if (m_pClient != NULL)
+        if (m_pClient != nullptr)
         {
             m_pClient->WriteSnapshotFragments();
             m_pClient->SendPackets(svr_gameFPS);
@@ -2491,7 +2491,7 @@ void    CHostServer::Frame(uint uiHostFrameLength, bool bClientReady)
 int     CHostServer::GetNumActiveClients()
 {
 #ifdef K2_CLIENT
-    if (m_pClient != NULL && m_pClient->GetConnectionState() == CLIENT_CONNECTION_STATE_IN_GAME && m_pClient->GetAccountID() != -1)
+    if (m_pClient != nullptr && m_pClient->GetConnectionState() == CLIENT_CONNECTION_STATE_IN_GAME && m_pClient->GetAccountID() != -1)
         return 1;
     else
         return 0;
@@ -2540,7 +2540,7 @@ void    CHostServer::StartGame(uint uiMatchID)
         CPacket pkt;
         pkt.WriteByte(NETCMD_MANAGER_MATCH_START);
         pkt.WriteInt(uiMatchID);
-        pkt.WriteString(m_pWorld != NULL && m_pWorld->IsLoaded() ? m_pWorld->GetName() : TSNULL);
+        pkt.WriteString(m_pWorld != nullptr && m_pWorld->IsLoaded() ? m_pWorld->GetName() : TSNULL);
         
         m_GameLib.GetServerInfo(pkt);
 
@@ -2607,7 +2607,7 @@ void    CHostServer::EndGame(const tstring &sReplayHost, const tstring &sReplayD
     m_mapClientNumbers.clear();
 
 #ifdef K2_CLIENT
-    if (m_pClient != NULL)
+    if (m_pClient != nullptr)
     {
         m_pClient->Disconnect(sReason);
         SAFE_DELETE(m_pClient);
@@ -2723,7 +2723,7 @@ void    CHostServer::PerformUpdate()
 
     m_GameLib.SetGamePointer();
     m_GameLib.UnloadWorld();
-    if (m_pWorld != NULL)
+    if (m_pWorld != nullptr)
         m_pWorld->Free();
 
     // NOTE: GetRunningProcesses() gets all running PIDs
@@ -2804,7 +2804,7 @@ void    CHostServer::SetStateString(ushort unID, const string &sStr)
     m_GameLib.SetGamePointer();
     m_GameLib.StateStringChanged(unID, ssNew);
 #ifdef K2_CLIENT
-    if (m_pClient != NULL)
+    if (m_pClient != nullptr)
         m_pClient->AddStringToUpdateQueue(unID, ssDiff);
 #else
     for (ClientMap_it it(m_mapClients.begin()); it != m_mapClients.end(); ++it)
@@ -2829,7 +2829,7 @@ void    CHostServer::SetStateBlock(ushort unID, const IBuffer &buffer)
     m_GameLib.SetGamePointer();
     m_GameLib.StateBlockChanged(unID, buffer);
 #ifdef K2_CLIENT
-    if (m_pClient != NULL)
+    if (m_pClient != nullptr)
         m_pClient->AddBlockToUpdateQueue(unID, block);
 #else
     for (ClientMap_it it(m_mapClients.begin()); it != m_mapClients.end(); ++it)
@@ -2858,7 +2858,7 @@ void    CHostServer::AddPseudoClient()
 #ifndef K2_CLIENT
     // Create a new client connection
     CClientConnection *pNewClient(K2_NEW(ctx_HostServer,  CClientConnection)(this, m_pHTTPManager, TSNULL, 0, m_sockGame));
-    if (pNewClient == NULL)
+    if (pNewClient == nullptr)
         EX_ERROR(_T("Failed to allocate a new CClientConnection"));
 
     m_mapClients[pNewClient->GetClientNum()] = pNewClient;
@@ -2982,7 +2982,7 @@ void    CHostServer::KillServer()
 #endif
 
     m_GameLib.Reset();
-    if (GetWorld() != NULL)
+    if (GetWorld() != nullptr)
         GetWorld()->Free();
 }
 
@@ -3023,7 +3023,7 @@ CMD(SetServerRecvBuffer)
   --------------------*/
 CMD(ListClients)
 {
-    if (Host.GetServer() == NULL)
+    if (Host.GetServer() == nullptr)
         return false;
 
     Host.GetServer()->ListClients();
@@ -3038,7 +3038,7 @@ CMD(ListClients)
   --------------------*/
 CMD(ListProvisionalClients)
 {
-    if (Host.GetServer() == NULL)
+    if (Host.GetServer() == nullptr)
         return false;
 
     Host.GetServer()->ListProvisionalClients();
@@ -3053,7 +3053,7 @@ CMD(ListProvisionalClients)
   --------------------*/
 CMD(CreateGame)
 {
-    if (Host.GetServer() == NULL)
+    if (Host.GetServer() == nullptr)
     {
         Console.Err << _T("No active server") << newl;
         return false;
@@ -3075,7 +3075,7 @@ CMD(CreateGame)
 CMD(Kick)
 {
     CHostServer *pServer(Host.GetServer());
-    if (pServer == NULL)
+    if (pServer == nullptr)
         return false;
 
     if (vArgList.empty())
@@ -3106,7 +3106,7 @@ CMD(Kick)
 CMD(Ban)
 {
     CHostServer *pServer(Host.GetServer());
-    if (pServer == NULL)
+    if (pServer == nullptr)
         return false;
 
     if (vArgList.empty())
@@ -3137,7 +3137,7 @@ CMD(Ban)
 CMD(AddPseudoClient)
 {
     CHostServer *pServer(Host.GetServer());
-    if (pServer == NULL)
+    if (pServer == nullptr)
         return false;
 
     pServer->AddPseudoClient();
@@ -3153,7 +3153,7 @@ CMD(AddPseudoClient)
 CMD(PrintServerSessionCookie)
 {
     CHostServer *pServer(Host.GetServer());
-    if (pServer == NULL)
+    if (pServer == nullptr)
         return false;
 
     Console << pServer->GetSessionCookie() << newl;
@@ -3169,7 +3169,7 @@ CMD(PrintServerSessionCookie)
 CMD(ResetServerSessionCookie)
 {
     CHostServer *pServer(Host.GetServer());
-    if (pServer == NULL)
+    if (pServer == nullptr)
         return false;
     
     pServer->RequestSessionCookie(true);
@@ -3185,7 +3185,7 @@ CMD(ResetServerSessionCookie)
 CMD(BreakServerSessionCookie)
 {
     CHostServer *pServer(Host.GetServer());
-    if (pServer == NULL)
+    if (pServer == nullptr)
         return false;
     
     pServer->BreakSessionCookie();
@@ -3200,7 +3200,7 @@ CMD(BreakServerSessionCookie)
 CMD(ServerUnpause)
 {
     CHostServer *pServer(Host.GetServer());
-    if (pServer == NULL)
+    if (pServer == nullptr)
         return false;
     
     pServer->SetPaused(false);
@@ -3214,7 +3214,7 @@ CMD(ServerUnpause)
 CMD(ServerPause)
 {
     CHostServer *pServer(Host.GetServer());
-    if (pServer == NULL)
+    if (pServer == nullptr)
         return false;
     
     pServer->SetPaused(true);
@@ -3228,7 +3228,7 @@ CMD(ServerPause)
 CMD(KillServer)
 {
     CHostServer *pServer(Host.GetServer());
-    if (pServer == NULL)
+    if (pServer == nullptr)
         return false;
     
     pServer->KillServer();

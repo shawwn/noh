@@ -186,7 +186,7 @@ m_bExclusive(false),
 m_bHasBaseModifier(false),
 m_bAltAvatar(false)
 {
-    m_vActionScripts.resize(NUM_ACTION_SCRIPTS, NULL);
+    m_vActionScripts.resize(NUM_ACTION_SCRIPTS, nullptr);
 }
 
 
@@ -218,8 +218,8 @@ void    IEntityDefinition::SetTypeID(ushort unTypeID)
 CCombatActionScript*        IEntityDefinition::NewActionScript(EEntityActionScript eScript, int iPriority, bool bPropagateToIllusions, bool bActivateOnBounces)
 {
     CCombatActionScript *pNewScript(K2_NEW(ctx_Game,   CCombatActionScript)(eScript, iPriority, bPropagateToIllusions, bActivateOnBounces, m_uiModifierID));
-    if (pNewScript == NULL)
-        return NULL;
+    if (pNewScript == nullptr)
+        return nullptr;
 
     m_vActionScripts[eScript] = pNewScript;
     return pNewScript;
@@ -245,24 +245,24 @@ float   IEntityDefinition::ExecuteActionScript(
 {
     PROFILE("IEntityDefinition::ExecuteActionScript");
 
-    if (pEntity != NULL)
+    if (pEntity != nullptr)
     {
         IEntityDefinition *pModifier(GetModifiedDefinition(pEntity->GetModifierBits()));
-        if (pModifier != NULL && pModifier != this)
+        if (pModifier != nullptr && pModifier != this)
         {
             return pModifier->ExecuteActionScript(eScript, pEntity, pInitiator, pInflictor, pTarget, v3Target, pProxy, uiLevel);
         }
     }
 
     CCombatActionScript *pScript(GetActionScript(eScript));
-    if (pScript == NULL)
+    if (pScript == nullptr)
         return fDefault;
 
-    if (pEntity != NULL && !pScript->GetPropagateToIllusions())
+    if (pEntity != nullptr && !pScript->GetPropagateToIllusions())
     {
         IGameEntity *pCheck(pEntity);
 
-        while (pCheck != NULL)
+        while (pCheck != nullptr)
         {
             if (pCheck->IsUnit() && pCheck->GetAsUnit()->IsIllusion())
                 return fDefault;
@@ -273,7 +273,7 @@ float   IEntityDefinition::ExecuteActionScript(
 
     pScript->SetThisUID(pEntity->GetUniqueID());
     pScript->SetLevel(uiLevel);
-    return pScript->Execute(pInflictor, pInitiator, pTarget, v3Target, pProxy, pCombatEvent, pDamageEvent, NULL, v3Delta, fDefault);
+    return pScript->Execute(pInflictor, pInitiator, pTarget, v3Target, pProxy, pCombatEvent, pDamageEvent, nullptr, v3Delta, fDefault);
 }
 
 
@@ -283,7 +283,7 @@ float   IEntityDefinition::ExecuteActionScript(
 CCombatActionScript*    IEntityDefinition::GetActionScript(EEntityActionScript eScript, ushort unModifierBits)
 {
     IEntityDefinition *pModifier(GetModifiedDefinition(unModifierBits));
-    if (pModifier != NULL && pModifier != this)
+    if (pModifier != nullptr && pModifier != this)
         return pModifier->GetActionScript(eScript);
     else
         return GetActionScript(eScript);
@@ -295,7 +295,7 @@ CCombatActionScript*    IEntityDefinition::GetActionScript(EEntityActionScript e
   ====================*/
 const tstring&  IEntityDefinition::GetEffectDescription(EEntityActionScript eScript)
 {
-    if (m_vActionScripts[eScript] == NULL)
+    if (m_vActionScripts[eScript] == nullptr)
         return TSNULL;
 
     return m_vActionScripts[eScript]->GetEffectDescription();
@@ -304,7 +304,7 @@ const tstring&  IEntityDefinition::GetEffectDescription(EEntityActionScript eScr
 const tstring&  IEntityDefinition::GetEffectDescription(EEntityActionScript eScript, ushort unModifierBits)
 {   
     IEntityDefinition *pModifier(GetModifiedDefinition(unModifierBits));
-    if (pModifier != NULL && pModifier != this)
+    if (pModifier != nullptr && pModifier != this)
         return pModifier->GetEffectDescription(eScript);
     else
         return GetEffectDescription(eScript);
@@ -316,7 +316,7 @@ const tstring&  IEntityDefinition::GetEffectDescription(EEntityActionScript eScr
   ====================*/
 uint    IEntityDefinition::GetEffectDescriptionIndex(EEntityActionScript eScript)
 {
-    if (m_vActionScripts[eScript] == NULL)
+    if (m_vActionScripts[eScript] == nullptr)
         return INVALID_INDEX;
 
     return m_vActionScripts[eScript]->GetEffectDescriptionIndex();
@@ -328,7 +328,7 @@ uint    IEntityDefinition::GetEffectDescriptionIndex(EEntityActionScript eScript
   ====================*/
 int     IEntityDefinition::GetActionScriptPriority(EEntityActionScript eScript)
 {
-    if (m_vActionScripts[eScript] == NULL)
+    if (m_vActionScripts[eScript] == nullptr)
         return 0;
 
     return m_vActionScripts[eScript]->GetScriptPriority();
@@ -337,7 +337,7 @@ int     IEntityDefinition::GetActionScriptPriority(EEntityActionScript eScript)
 int     IEntityDefinition::GetActionScriptPriority(EEntityActionScript eScript, ushort unModifierBits)
 {
     IEntityDefinition *pModifier(GetModifiedDefinition(unModifierBits));
-    if (pModifier != NULL && pModifier != this)
+    if (pModifier != nullptr && pModifier != this)
         return pModifier->GetActionScriptPriority(eScript);
     else
         return GetActionScriptPriority(eScript);
@@ -351,13 +351,13 @@ void    IEntityDefinition::ApplyAuras(IGameEntity *pSource, uint uiLevel)
 {
     PROFILE("IEntityDefinition::ApplyAuras");
 
-    if (pSource == NULL)
+    if (pSource == nullptr)
         return;
 
 #if 0
     // Check modifiers
     IEntityDefinition *pModifier(GetModifiedDefinition(pSource->GetModifierBits()));
-    if (pModifier != NULL && pModifier != this)
+    if (pModifier != nullptr && pModifier != this)
     {
         pModifier->ApplyAuras(pSource, uiLevel);
         return;
@@ -369,13 +369,13 @@ void    IEntityDefinition::ApplyAuras(IGameEntity *pSource, uint uiLevel)
 
     // Get owner
     IUnitEntity *pOwner(pSource->GetAsUnit());
-    if (pOwner == NULL)
+    if (pOwner == nullptr)
     {
-        if (pSource->GetAsSlave() == NULL)
+        if (pSource->GetAsSlave() == nullptr)
             return;
 
         pOwner = pSource->GetAsSlave()->GetOwner();
-        if (pOwner == NULL)
+        if (pOwner == nullptr)
             return;
     }
 
@@ -473,7 +473,7 @@ void    IEntityDefinition::PrecacheV(EPrecacheScheme eScheme, const tstring &sMo
     for (uint uiScript(0); uiScript < NUM_ACTION_SCRIPTS; ++uiScript)
     {
         CCombatActionScript *pScript(m_vActionScripts[uiScript]);
-        if (pScript == NULL || pScript->GetModifierID() != m_uiModifierID)
+        if (pScript == nullptr || pScript->GetModifierID() != m_uiModifierID)
             continue;
 
         pScript->Precache(eScheme, sModifier);
@@ -505,7 +505,7 @@ void    IEntityDefinition::GetPrecacheListV(EPrecacheScheme eScheme, const tstri
         for (uint uiScript(0); uiScript < NUM_ACTION_SCRIPTS; ++uiScript)
         {
             CCombatActionScript *pScript(m_vActionScripts[uiScript]);
-            if (pScript == NULL || pScript->GetModifierID() != m_uiModifierID)
+            if (pScript == nullptr || pScript->GetModifierID() != m_uiModifierID)
                 continue;
 
             pScript->GetPrecacheList(eScheme, sModifier, deqPrecache);
@@ -539,7 +539,7 @@ void    IEntityDefinition::Precache(EPrecacheScheme eScheme, const tstring &sMod
 
             IEntityDefinition *pModifiedDefinition(GetModifiedDefinition(GetModifierBit(uiModifierID)));
 
-            if (pModifiedDefinition != NULL && pModifiedDefinition != this && pModifiedDefinition->GetAltAvatar())
+            if (pModifiedDefinition != nullptr && pModifiedDefinition != this && pModifiedDefinition->GetAltAvatar())
             {
                 pModifiedDefinition->Precache(eScheme, sModifier);
                 return;
@@ -568,7 +568,7 @@ void    IEntityDefinition::GetPrecacheList(EPrecacheScheme eScheme, const tstrin
 
             IEntityDefinition *pModifiedDefinition(GetModifiedDefinition(GetModifierBit(uiModifierID)));
 
-            if (pModifiedDefinition != NULL && pModifiedDefinition != this && pModifiedDefinition->GetAltAvatar())
+            if (pModifiedDefinition != nullptr && pModifiedDefinition != this && pModifiedDefinition->GetAltAvatar())
             {
                 pModifiedDefinition->GetPrecacheList(eScheme, sModifier, deqPrecache);
                 return;
@@ -602,7 +602,7 @@ void    IEntityDefinition::PostProcess()
     for (uint uiScript(0); uiScript < NUM_ACTION_SCRIPTS; ++uiScript)
     {
         CCombatActionScript *pScript(m_vActionScripts[uiScript]);
-        if (pScript == NULL)
+        if (pScript == nullptr)
             continue;
 
         pScript->FetchEffectDescription(m_sName);
@@ -653,10 +653,10 @@ void    IEntityDefinition::ImportDefinition(IEntityDefinition *pDefinition)
 {
     for (uint uiScript(0); uiScript < NUM_ACTION_SCRIPTS; ++uiScript)
     {
-        if (pDefinition->m_vActionScripts[uiScript] == NULL)
+        if (pDefinition->m_vActionScripts[uiScript] == nullptr)
             continue;
 
-        if (m_vActionScripts[uiScript] != NULL && GetPriority() > pDefinition->GetPriority())
+        if (m_vActionScripts[uiScript] != nullptr && GetPriority() > pDefinition->GetPriority())
             continue;
 
         m_vActionScripts[uiScript] = pDefinition->m_vActionScripts[uiScript];
@@ -674,7 +674,7 @@ void    IEntityDefinition::ImportDefinition(IEntityDefinition *pDefinition)
 IEntityDefinition*  IEntityDefinition::GenerateMergedModifier(ushort unModifierBits)
 {
     if (unModifierBits == 0)
-        return NULL;
+        return nullptr;
 
     IEntityDefinition *pMergedDef(GetCopy());
 

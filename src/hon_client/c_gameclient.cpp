@@ -297,9 +297,9 @@ CGameClient::~CGameClient()
   CGameClient::CGameClient
   ====================*/
 CGameClient::CGameClient() : IGame(_T("client")),
-m_pHostClient(NULL),
-m_pClientEntityDirectory(NULL),
-m_pInterfaceManager(NULL),
+m_pHostClient(nullptr),
+m_pClientEntityDirectory(nullptr),
+m_pInterfaceManager(nullptr),
 m_pCamera(K2_NEW(ctx_GameClient,   CCamera)),
 
 m_v3CameraPosition(V3_ZERO),
@@ -316,8 +316,8 @@ m_bShowLobby(false),
 m_uiLastGamePhase(GAME_PHASE_IDLE),
 m_eLastInterface(CG_INTERFACE_INVALID),
 
-m_pLocalPlayer(NULL),
-m_pCurrentEntity(NULL),
+m_pLocalPlayer(nullptr),
+m_pCurrentEntity(nullptr),
 m_pClientCommander(K2_NEW(ctx_GameClient,   CClientCommander)),
 
 m_bStartedLoadingResources(false),
@@ -330,7 +330,7 @@ m_uiTotalWorldThings(0),
 
 m_hMinimapReference(INVALID_RESOURCE),
 m_hMinimapTexture(INVALID_RESOURCE),
-m_pMinimapBitmap(NULL),
+m_pMinimapBitmap(nullptr),
 m_hLoadingTexture(INVALID_RESOURCE),
 
 m_v3CameraEffectAngleOffset(V3_ZERO),
@@ -348,7 +348,7 @@ m_bPingEffectActive(false),
 m_uiWeatherEffectCounter(0),
 
 m_uiItemCursorIndex(INVALID_INDEX),
-m_pFogofWarBitmap(NULL),
+m_pFogofWarBitmap(nullptr),
 m_uiLastFogofWarUpdate(INVALID_TIME),
 m_cVisRaster(SQR(RASTER_BUFFER_SPAN)),
 m_cOccRaster(SQR(RASTER_BUFFER_SPAN)),
@@ -359,9 +359,9 @@ m_uiLevelupIndex(INVALID_INDEX),
 
 m_unLastHeroType(INVALID_ENT_TYPE),
 m_bDownloadingReplay(false),
-m_pReplayDownload(NULL),
+m_pReplayDownload(nullptr),
 m_bProcessedFirstSnapshot(false),
-m_pReplaySpectator(NULL),
+m_pReplaySpectator(nullptr),
 
 m_uiDelayHeroLoading(0),
 
@@ -377,7 +377,7 @@ m_bStartedLoadingEntityResources(false)
     m_pReplayDownload = K2_NEW(ctx_GameClient,   CFileHTTP);
 
     for (int i(0); i < NUM_CLIENT_GAME_EFFECT_THREADS; ++i)
-        m_apEffectThreads[i] = NULL;
+        m_apEffectThreads[i] = nullptr;
 
     for (int i(0); i < NUM_CLIENT_SOUND_HANDLES; ++i)
         m_ahSoundHandle[i] = INVALID_INDEX;
@@ -398,7 +398,7 @@ bool    CGameClient::Initialize(CHostClient *pHostClient)
     {
         // Get pointer to host
         m_pHostClient = pHostClient;
-        if (m_pHostClient == NULL)
+        if (m_pHostClient == nullptr)
             EX_ERROR(_T("Invalid CHostClient"));
 
         // Setup IGame members
@@ -407,7 +407,7 @@ bool    CGameClient::Initialize(CHostClient *pHostClient)
         Validate();
 
         // Create a camera
-        if (m_pCamera == NULL)
+        if (m_pCamera == nullptr)
             EX_ERROR(_T("Failed to allocate a CCamera"));
         m_pCamera->DefaultCamera(float(Vid.GetScreenW()), float(Vid.GetScreenH()));
 
@@ -454,7 +454,7 @@ bool    CGameClient::Initialize(CHostClient *pHostClient)
 void    CGameClient::Reinitialize()
 {
     SetGameTime(0);
-    SetGameInfo(NULL);
+    SetGameInfo(nullptr);
 
     m_v3CameraPosition = V3_ZERO;
     m_v3CameraAngles = V3_ZERO;
@@ -464,8 +464,8 @@ void    CGameClient::Reinitialize()
     m_bShowMenu = false;
     m_bShowLobby = false;
 
-    m_pLocalPlayer = NULL;
-    m_pCurrentEntity = NULL;
+    m_pLocalPlayer = nullptr;
+    m_pCurrentEntity = nullptr;
 
     m_v3CameraEffectAngleOffset = V3_ZERO;
     m_v3CameraEffectOffset = V3_ZERO;
@@ -516,11 +516,11 @@ void    CGameClient::Reinitialize()
     Input.SetCursorConstraint(CURSOR_GAME, CRectf(0.0f, 0.0f, 0.0f, 0.0f));
 
     CWorld *pWorld(GetWorldPointer());
-    if (pWorld != NULL)
+    if (pWorld != nullptr)
         pWorld->SetVisibilitySize(int(g_fogofwarSize));
 
     m_bProcessedFirstSnapshot = false;
-    m_pReplaySpectator = NULL;
+    m_pReplaySpectator = nullptr;
 
     UIManager.RemoveOverlayInterface(_T("game_replay_control"));
 
@@ -589,7 +589,7 @@ void    CGameClient::StartLoadingWorld()
     SAFE_DELETE(m_pFogofWarBitmap);
     m_pFogofWarBitmap = K2_NEW(ctx_GameClient,   CBitmap)(m_cVisibilityMap.GetWidth(), m_cVisibilityMap.GetHeight(), BITMAP_ALPHA);
 
-    Vid.Notify(VID_NOTIFY_FOG_OF_WAR, m_cVisibilityMap.GetWidth(), m_cVisibilityMap.GetHeight(), int(g_fogofwarSize), NULL);
+    Vid.Notify(VID_NOTIFY_FOG_OF_WAR, m_cVisibilityMap.GetWidth(), m_cVisibilityMap.GetHeight(), int(g_fogofwarSize), nullptr);
 
     StopWorldSounds();
     K2SoundManager.MuteSFX(true);
@@ -663,7 +663,7 @@ void    CGameClient::SpawnNextWorldEntity()
                 break;
 
             CWorldEntity *pWorldEntity(GameClient.GetWorldPointer()->GetEntityByHandle(uiHandle));
-            if (pWorldEntity == NULL)
+            if (pWorldEntity == nullptr)
             {
                 Console << _T("Failed world entity lookup") << newl;
                 break;
@@ -698,7 +698,7 @@ void    CGameClient::SpawnNextWorldEntity()
                 GameClient.Precache(pWorldEntity->GetProperty(_T("target0")), PRECACHE_ALL, TSNULL);
 
             IGameEntity* pNew(m_pClientEntityDirectory->AllocateLocal(uiID));
-            if (pNew == NULL)
+            if (pNew == nullptr)
             {
                 Console.Err << _T("Failed to allocate a client-side game entity for world entity #") << pWorldEntity->GetIndex() << newl;
                 break;
@@ -729,7 +729,7 @@ void    CGameClient::SpawnNextWorldEntity()
             if (pNew->IsVisual())
             {
                 CClientEntity* pNewClientEnt(m_pClientEntityDirectory->GetClientEntity(pNew->GetIndex()));
-                if (pNewClientEnt == NULL)
+                if (pNewClientEnt == nullptr)
                 {
                     Console.Err << _T("Failed to allocate a client game entity for world entity #") << pWorldEntity->GetIndex() << newl;
                     break;
@@ -747,7 +747,7 @@ void    CGameClient::SpawnNextWorldEntity()
         {
             IGameEntity* pNew(m_pClientEntityDirectory->AllocateLocal(Light_Static));
             CClientEntity* pNewClientEnt(m_pClientEntityDirectory->GetClientEntity(pNew->GetIndex()));
-            if (pNewClientEnt == NULL)
+            if (pNewClientEnt == nullptr)
             {
                 Console.Err << _T("Failed to allocate a light for world light #") << thing.m_uiGameIndex << newl;
                 break;
@@ -761,7 +761,7 @@ void    CGameClient::SpawnNextWorldEntity()
             }
 
             ILight *pLight(pNextEnt->GetAsLight());
-            if (pLight == NULL)
+            if (pLight == nullptr)
             {
                 m_pClientEntityDirectory->Delete(pNextEnt);
                 break;
@@ -796,11 +796,11 @@ void    CGameClient::SpawnNextWorldEntity()
     case WORLD_THING_BIT_ENTITY:
         {
             CWorldEntity *pWorldEntity(GetWorldEntity(thing.m_uiWorldIndex));
-            if (pWorldEntity == NULL)
+            if (pWorldEntity == nullptr)
                 break;
 
             IGameEntity *pEntity(m_pClientEntityDirectory->Allocate(thing.m_uiGameIndex, pWorldEntity->GetType()));
-            if (pEntity == NULL)
+            if (pEntity == nullptr)
                 break;
 
             pWorldEntity->SetGameIndex(thing.m_uiGameIndex);
@@ -810,7 +810,7 @@ void    CGameClient::SpawnNextWorldEntity()
             pEntity->Validate();
 
             IBitEntity *pBit(pEntity->GetAsBit());
-            if (pBit != NULL)
+            if (pBit != nullptr)
             {
                 pBit->SetBitIndex(thing.m_uiBitIndex);
                 m_pClientEntityDirectory->AddBitEntity(pEntity->GetAsBit());
@@ -847,7 +847,7 @@ void    CGameClient::StartPreloadingWorld()
     SAFE_DELETE(m_pFogofWarBitmap);
     m_pFogofWarBitmap = K2_NEW(ctx_GameClient,   CBitmap)(m_cVisibilityMap.GetWidth(), m_cVisibilityMap.GetHeight(), BITMAP_ALPHA);
 
-    Vid.Notify(VID_NOTIFY_FOG_OF_WAR, m_cVisibilityMap.GetWidth(), m_cVisibilityMap.GetHeight(), int(g_fogofwarSize), NULL);
+    Vid.Notify(VID_NOTIFY_FOG_OF_WAR, m_cVisibilityMap.GetWidth(), m_cVisibilityMap.GetHeight(), int(g_fogofwarSize), nullptr);
 
     StopWorldSounds();
     K2SoundManager.MuteSFX(true);
@@ -904,7 +904,7 @@ void    CGameClient::PrecacheNextWorldEntity()
                 break;
 
             CWorldEntity *pWorldEntity(GameClient.GetWorldPointer()->GetEntityByHandle(uiHandle));
-            if (pWorldEntity == NULL)
+            if (pWorldEntity == nullptr)
             {
                 Console << _T("Failed world entity lookup") << newl;
                 break;
@@ -989,7 +989,7 @@ void    CGameClient::PrecacheNextWorldEntity()
 tstring     CGameClient::GetVoicePath(const tstring &sSet, const tstring &sKey)
 {
     CStringTable *pClientSounds(g_ResourceManager.GetStringTable(m_hClientSounds));
-    if (pClientSounds == NULL)
+    if (pClientSounds == nullptr)
         return TSNULL;
 
     tstring sMessage(pClientSounds->Get(sKey));
@@ -1053,7 +1053,7 @@ ResHandle   CGameClient::LookupAnnouncerVoiceSample(const tstring &sSet, const t
     ResHandle hSound(g_ResourceManager.LookUpPath(GetVoicePath(sSet, sKey)));
 
     IResource *pResource(g_ResourceManager.Get(hSound));
-    if (pResource == NULL || pResource->HasFlags(RES_LOAD_FAILED))
+    if (pResource == nullptr || pResource->HasFlags(RES_LOAD_FAILED))
         hSound = INVALID_RESOURCE;
 
     if (hSound == INVALID_RESOURCE && !sSet.empty())
@@ -1081,7 +1081,7 @@ void    CGameClient::StartLoadingResources()
                 continue;
 
             IEntityDefinition *pDefinition(EntityRegistry.GetDefinition<IEntityDefinition>(sHero));
-            if (pDefinition == NULL)
+            if (pDefinition == nullptr)
                 continue;
 
             const tstring &sAvatar(cPlayerInfo.GetProperty(_T("avatar"), TSNULL));
@@ -1200,7 +1200,7 @@ void    CGameClient::StartLoadingResources()
 
     // Dynamic entity definitions
     CStateBlock *pEntityStateBlock(m_pHostClient->GetStateBlock(STATE_BLOCK_ENTITY_TYPES));
-    if (pEntityStateBlock != NULL)
+    if (pEntityStateBlock != nullptr)
     {
         IBuffer &cDynamicEntities(pEntityStateBlock->GetBuffer());
         cDynamicEntities.Rewind();
@@ -1270,7 +1270,7 @@ void    CGameClient::LoadNextResource()
         if (resource.m_eID != CLIENT_RESOURCE_UNTRACKED)
         {
             CInterface *pInterface(UIManager.GetInterface(m_ahResources[resource.m_eID]));
-            if (pInterface != NULL)
+            if (pInterface != nullptr)
                 pInterface->Show();
         }
         break;
@@ -1294,7 +1294,7 @@ void    CGameClient::LoadNextResource()
     {
         static CEntityStringTableWatcher s_EntityStringTableWatcher;
         CStringTable *pEntityStringTable(g_ResourceManager.GetStringTable(m_ahResources[resource.m_eID]));
-        if (pEntityStringTable != NULL)
+        if (pEntityStringTable != nullptr)
             g_ResourceManager.AddResourceWatcher(&s_EntityStringTableWatcher, m_ahResources[resource.m_eID]);
     }
 
@@ -1307,7 +1307,7 @@ void    CGameClient::LoadNextResource()
             EntityRegistry.PrecacheScripts();
 
             CGameMechanics *pGameMechanics(GameClient.GetGameMechanics());
-            if (pGameMechanics != NULL)
+            if (pGameMechanics != nullptr)
                 pGameMechanics->PostLoad();
 
             PostProcessEntities();
@@ -1400,12 +1400,12 @@ void    CGameClient::StartLoadingEntityResources()
 
         // Get the terrain types
         CWorld* pWorld(GetWorldPointer());
-        CStringTable* pTerrainTypesStrTable(pWorld ? pWorld->GetTerrainTypesTable() : NULL);
-        assert(pWorld != NULL && pTerrainTypesStrTable != NULL);
+        CStringTable* pTerrainTypesStrTable(pWorld ? pWorld->GetTerrainTypesTable() : nullptr);
+        assert(pWorld != nullptr && pTerrainTypesStrTable != nullptr);
         bool bErr(true);
-        if (pWorld != NULL)
+        if (pWorld != nullptr)
         {
-            if (pTerrainTypesStrTable != NULL)
+            if (pTerrainTypesStrTable != nullptr)
             {
                 // Get the terrain types from the terraintypes stringtable
                 pTerrainTypesStrTable->GetValues(setTerrainTypes);
@@ -1422,7 +1422,7 @@ void    CGameClient::StartLoadingEntityResources()
                 PoolHandle hEntity(*it);
 
                 CWorldEntity* pEntity(pWorld->GetEntityByHandle(hEntity));
-                if (pEntity == NULL)
+                if (pEntity == nullptr)
                     continue;
 
                 const tstring &sTerrainType(pEntity->GetProperty(_T("effecttype")));
@@ -1539,7 +1539,7 @@ void    CGameClient::FrameDownloadingReplay()
 
     if (m_pReplayDownload->IsOpen())
     {
-        if (m_pReplayDownload->GetFileTarget() != NULL)
+        if (m_pReplayDownload->GetFileTarget() != nullptr)
             m_pReplayDownload->GetFileTarget()->Close();
 
         m_bDownloadingReplay = false;
@@ -1918,7 +1918,7 @@ void    CGameClient::LoadHeroesFrame()
         g_ResourceInfo.SetGameContextCategoryLoaded(_T("heroes"), false);
 
         int iSelfTeam(TEAM_INVALID);
-        if (m_pLocalPlayer != NULL)
+        if (m_pLocalPlayer != nullptr)
             iSelfTeam = m_pLocalPlayer->GetTeam();
 
         m_zTotalHeroesToLoad =  0;
@@ -1935,7 +1935,7 @@ void    CGameClient::LoadHeroesFrame()
                 continue;
 
             EPrecacheScheme eScheme(PRECACHE_ALL);
-            if (m_pLocalPlayer != NULL && m_pLocalPlayer->GetTeam() == TEAM_SPECTATOR)
+            if (m_pLocalPlayer != nullptr && m_pLocalPlayer->GetTeam() == TEAM_SPECTATOR)
                 eScheme = PRECACHE_ALL;
             else if (pPlayer == m_pLocalPlayer)
                 eScheme = PRECACHE_SELF;
@@ -1946,10 +1946,10 @@ void    CGameClient::LoadHeroesFrame()
 
             CHeroDefinition *pBaseHeroDef(EntityRegistry.GetDefinition<CHeroDefinition>(unHeroID));
             CHeroDefinition *pHeroDef = pBaseHeroDef;
-            if (pHeroDef != NULL && pPlayer->HasSelectedAvatar())
+            if (pHeroDef != nullptr && pPlayer->HasSelectedAvatar())
                 pHeroDef = static_cast<CHeroDefinition*>(pHeroDef->GetModifiedDefinition(pPlayer->GetSelectedAvatar()));
 
-            if (pHeroDef == NULL)
+            if (pHeroDef == nullptr)
                 pHeroDef = pBaseHeroDef;
 
             GetPrecacheList(pHeroDef->GetName(), eScheme, EntityRegistry.LookupModifierKey(pHeroDef->GetModifierID()), m_deqHeroesToLoad);
@@ -2115,7 +2115,7 @@ void    CGameClient::SetupFrame()
   ====================*/
 bool    CGameClient::InterfaceNeedsUpdate()
 {
-    if (UIManager.GetActiveInterface() == NULL)
+    if (UIManager.GetActiveInterface() == nullptr)
         return false;
 
     bool bUpdate(UIManager.GetActiveInterface()->NeedsRefresh());
@@ -2145,7 +2145,7 @@ EGameInterface  CGameClient::GetCurrentInterface() const
     if (GetGamePhase() < GAME_PHASE_HERO_BAN)
         return CG_INTERFACE_LOBBY;
 
-    if (m_pLocalPlayer == NULL)
+    if (m_pLocalPlayer == nullptr)
         return CG_INTERFACE_LOBBY;
 
     if (GetGamePhase() == GAME_PHASE_HERO_LOADING || !IsFinishedLoadingHeroes())
@@ -2154,7 +2154,7 @@ EGameInterface  CGameClient::GetCurrentInterface() const
     if (GetGamePhase() < GAME_PHASE_PRE_MATCH)
         return CG_INTERFACE_HERO_SELECT;
 
-    if (m_pLocalPlayer->GetHero() == NULL && m_pLocalPlayer->GetTeam() != TEAM_SPECTATOR && !GetGameInfo()->GetNoHeroSelect())
+    if (m_pLocalPlayer->GetHero() == nullptr && m_pLocalPlayer->GetTeam() != TEAM_SPECTATOR && !GetGameInfo()->GetNoHeroSelect())
         return CG_INTERFACE_HERO_SELECT;
 
     return m_pLocalPlayer->GetTeam() == TEAM_SPECTATOR ? CG_INTERFACE_GAME_SPECTATOR : CG_INTERFACE_GAME;
@@ -2169,7 +2169,7 @@ void    CGameClient::UpdateCamera()
     if (m_pLocalPlayer->GetCameraIndex() != INVALID_INDEX)
     {
         IGameEntity *pEntity(GetEntity(m_pLocalPlayer->GetCameraIndex()));
-        if (pEntity != NULL && pEntity->IsType<CEntityCamera>())
+        if (pEntity != nullptr && pEntity->IsType<CEntityCamera>())
         {
             CEntityCamera *pCamera(pEntity->GetAs<CEntityCamera>());
 
@@ -2186,7 +2186,7 @@ void    CGameClient::UpdateCamera()
             if (Center || PortraitCenter)
             {
                 IUnitEntity *pUnit(m_pLocalPlayer->GetTeam() == TEAM_SPECTATOR ? m_pClientCommander->GetSelectedInfoEntity() : m_pClientCommander->GetSelectedControlEntity());
-                if (pUnit != NULL)
+                if (pUnit != nullptr)
                 {
                     GameClient.GetCurrentSnapshot()->SetAngles(M_GetAnglesFromForwardVec(pUnit->GetPosition() - GameClient.GetCurrentSnapshot()->GetCameraPosition()));
                 }
@@ -2194,10 +2194,10 @@ void    CGameClient::UpdateCamera()
             else if (CenterInfo || PortraitCenterInfo)
             {
                 IUnitEntity *pUnit(m_pClientCommander->GetSelectedInfoEntity());
-                if (pUnit == NULL)
+                if (pUnit == nullptr)
                     pUnit = m_pClientCommander->GetSelectedControlEntity();
 
-                if (pUnit != NULL)
+                if (pUnit != nullptr)
                 {
                     GameClient.GetCurrentSnapshot()->SetAngles(M_GetAnglesFromForwardVec(pUnit->GetPosition() - GameClient.GetCurrentSnapshot()->GetCameraPosition()));
                 }
@@ -2208,7 +2208,7 @@ void    CGameClient::UpdateCamera()
             if (!cg_altLockCamera && (Center || PortraitCenter || cg_lockCamera || cg_lockCameraGame))
             {
                 IUnitEntity *pUnit(m_pLocalPlayer->GetTeam() == TEAM_SPECTATOR ? m_pClientCommander->GetSelectedInfoEntity() : m_pClientCommander->GetSelectedControlEntity());
-                if (pUnit != NULL)
+                if (pUnit != nullptr)
                 {
                     CVec3f v3CenterPos(pUnit->GetPosition());
 
@@ -2219,7 +2219,7 @@ void    CGameClient::UpdateCamera()
             else if (cg_altLockCamera && (cg_lockCameraGame^Center || PortraitCenter || cg_lockCamera))
             {
                 IUnitEntity *pUnit(m_pLocalPlayer->GetTeam() == TEAM_SPECTATOR ? m_pClientCommander->GetSelectedInfoEntity() : m_pClientCommander->GetSelectedControlEntity());
-                if (pUnit != NULL)
+                if (pUnit != nullptr)
                 {
                     bool bIsMouseOverGui(false);
                     int WType(WIDGET_INVALID);
@@ -2282,10 +2282,10 @@ void    CGameClient::UpdateCamera()
             else if (CenterInfo || PortraitCenterInfo)
             {
                 IUnitEntity *pUnit(m_pClientCommander->GetSelectedInfoEntity());
-                if (pUnit == NULL)
+                if (pUnit == nullptr)
                     pUnit = m_pClientCommander->GetSelectedControlEntity();
 
-                if (pUnit != NULL)
+                if (pUnit != nullptr)
                 {
                     CVec3f v3CenterPos(pUnit->GetPosition());
 
@@ -2303,10 +2303,10 @@ void    CGameClient::UpdateCamera()
 
         int iWinningTeam(GetWinningTeam());
         CTeamInfo *pTeam(GetTeam(iWinningTeam ^ 3));
-        if (pTeam != NULL)
+        if (pTeam != nullptr)
         {
             IBuildingEntity *pTargetBuilding(GetBuildingEntity(pTeam->GetBaseBuildingIndex()));
-            if (pTargetBuilding != NULL)
+            if (pTargetBuilding != nullptr)
                 v3CamTarget = pTargetBuilding->GetPosition();
         }
 
@@ -2396,7 +2396,7 @@ void    CGameClient::ActiveFrame()
     if (m_bJustStartedGame)
     {
         CHostClient *pClient(Host.GetActiveClient());
-        if (pClient != NULL)
+        if (pClient != nullptr)
         {
             pClient->ClearServerList();
         }
@@ -2450,13 +2450,13 @@ void    CGameClient::ActiveFrame()
         m_pClientEntityDirectory->Rewind();
     }
 
-    if (m_pHostClient->GetState() != CLIENT_STATE_IN_GAME || m_pLocalPlayer == NULL)
+    if (m_pHostClient->GetState() != CLIENT_STATE_IN_GAME || m_pLocalPlayer == nullptr)
     {
         // This is very bad if it ever happens...
         if (m_pHostClient->GetState() != CLIENT_STATE_IN_GAME)
             Console.Err << _T("Client state invalid! State: ") << XtoA(m_pHostClient->GetState()) << newl;
 
-        if (m_pLocalPlayer == NULL)
+        if (m_pLocalPlayer == nullptr)
             Console.Err << _T("Local client invalid!") << newl;
 
         Draw2D.SetColor(BLACK);
@@ -2477,7 +2477,7 @@ void    CGameClient::ActiveFrame()
     if (m_uiItemCursorIndex != INVALID_INDEX)
     {
         IGameEntity *pItem(GetEntity(m_uiItemCursorIndex));
-        if (pItem == NULL || !pItem->IsItem())
+        if (pItem == nullptr || !pItem->IsItem())
             m_uiItemCursorIndex = INVALID_INDEX;
     }
 
@@ -2516,7 +2516,7 @@ void    CGameClient::ActiveFrame()
                 {
                     m_CurrentClientSnapshot.SetButton(GAME_CMDR_BUTTON_MOUSELOOK, g_bMouseLook);
 
-                    if (m_pLocalPlayer != NULL)
+                    if (m_pLocalPlayer != nullptr)
                         m_pLocalPlayer->PrepareClientSnapshot(m_CurrentClientSnapshot);
 
                     m_pClientCommander->PrepareClientSnapshot(m_CurrentClientSnapshot);
@@ -2549,7 +2549,7 @@ void    CGameClient::ActiveFrame()
     Draw2D.Clear();
 
     // Local client
-    if (m_pLocalPlayer != NULL)
+    if (m_pLocalPlayer != nullptr)
     {
         PROFILE("Local client");
 
@@ -2627,7 +2627,7 @@ void    CGameClient::ActiveFrame()
     m_pInterfaceManager->Update();
 
     CInterface *pActiveInterface(UIManager.GetActiveInterface());
-    if (pActiveInterface != NULL)
+    if (pActiveInterface != nullptr)
     {
         float fWidth(pActiveInterface->GetSceneWidth());
         float fHeight(pActiveInterface->GetSceneHeight());
@@ -2827,7 +2827,7 @@ void    CGameClient::EndedFrame()
     Draw2D.Clear();
 
     // Camera
-    if (m_pLocalPlayer != NULL)
+    if (m_pLocalPlayer != nullptr)
         m_pLocalPlayer->SetupCamera(*m_pCamera, m_pLocalPlayer->GetPosition(), m_pLocalPlayer->GetAngles());
 
     CVec3f v3CamStart(m_pCamera->GetOrigin());
@@ -2837,10 +2837,10 @@ void    CGameClient::EndedFrame()
     CAxis axisTarget(V_ZERO);
     int iWinningTeam(GetWinningTeam());
     CTeamInfo *pTeam(GetTeam(iWinningTeam ^ 3));
-    if (pTeam != NULL)
+    if (pTeam != nullptr)
     {
         IBuildingEntity *pTargetBuilding(GetBuildingEntity(pTeam->GetBaseBuildingIndex()));
-        if (pTargetBuilding != NULL)
+        if (pTargetBuilding != nullptr)
         {
             v3CamTarget = pTargetBuilding->GetPosition();
             axisTarget = CAxis(pTargetBuilding->GetAngles());
@@ -2864,7 +2864,7 @@ void    CGameClient::EndedFrame()
     m_pCamera->SetTime(MsToSec(GetGameTime()));
     m_pCamera->SetWidth(float(Vid.GetScreenW()));
     m_pCamera->SetHeight(float(Vid.GetScreenH()));
-    m_pCamera->SetFovXCalc(m_pLocalPlayer == NULL ? ICvar::GetFloat(_T("cam_fov")) : 90.0f);
+    m_pCamera->SetFovXCalc(m_pLocalPlayer == nullptr ? ICvar::GetFloat(_T("cam_fov")) : 90.0f);
     m_pCamera->RemoveFlags(CAM_FOG_OF_WAR | CAM_NO_FOG);
 
     // Interface updates
@@ -2984,7 +2984,7 @@ void    CGameClient::WriteConnectionInfo()
     if (!m_pHostClient)
         return;
     
-    if (GetGameInfo() == NULL)
+    if (GetGameInfo() == nullptr)
         return;
     
     m_pHostClient->SetReconnect(m_pHostClient->GetConnectedAddress(), GetGameInfo()->GetMatchID());
@@ -3215,12 +3215,12 @@ void    CGameClient::DumpSnapshot(CSnapshot &snapshot)
 
             ushort unType(entSnapshot.GetType());
 
-            // If the type is NULL, the entity is dead and should be removed
+            // If the type is nullptr, the entity is dead and should be removed
             if (unType == 0)
                 continue;
 
             const SEntityDesc* pTypeDesc(EntityRegistry.GetTypeDesc(unType));
-            if (pTypeDesc == NULL)
+            if (pTypeDesc == nullptr)
             {
                 bError = true;
                 Console << _T("Unknown new entity type, bad snapshot") << newl;
@@ -3249,12 +3249,12 @@ void    CGameClient::DumpSnapshot(CSnapshot &snapshot)
             else
                 Console << _T("Update") << newl;
 
-            // If the type is NULL, the entity is dead and should be removed
+            // If the type is nullptr, the entity is dead and should be removed
             if (unType == 0)
                 continue;
 
             const SEntityDesc* pTypeDesc(EntityRegistry.GetTypeDesc(unType));
-            if (pTypeDesc == NULL)
+            if (pTypeDesc == nullptr)
             {
                 bError = true;
                 Console << _T("Unknown updated entity type, bad snapshot") << newl;
@@ -3307,7 +3307,7 @@ bool    CGameClient::ProcessSnapshot(CSnapshot &snapshot)
     try
     {
         // Setup replay spectator
-        if (ReplayManager.IsPlaying() && m_pReplaySpectator == NULL)
+        if (ReplayManager.IsPlaying() && m_pReplaySpectator == nullptr)
         {
             m_pReplaySpectator = m_pClientEntityDirectory->AllocateLocal(Player)->GetAsPlayer();
             m_pReplaySpectator->SetTeam(TEAM_SPECTATOR);
@@ -3459,12 +3459,12 @@ bool    CGameClient::ProcessSnapshot(CSnapshot &snapshot)
 
                 ushort unType(entSnapshot.GetType());
 
-                // If the type is NULL, the entity is dead and should be removed
+                // If the type is nullptr, the entity is dead and should be removed
                 if (unType == 0)
                     continue;
 
                 const SEntityDesc* pTypeDesc(bReplay ? ReplayManager.GetCompatTypeDesc(unType) : EntityRegistry.GetTypeDesc(unType));
-                if (pTypeDesc == NULL)
+                if (pTypeDesc == nullptr)
                     EX_ERROR(_T("Unknown new entity type, bad snapshot"));
 
                 entSnapshot.ReadBody(snapshot.GetReceivedBuffer(), *pTypeDesc->pFieldTypes, pTypeDesc->uiSize, pTypeDesc->pBaseline);
@@ -3482,7 +3482,7 @@ bool    CGameClient::ProcessSnapshot(CSnapshot &snapshot)
                 CEntitySnapshot *pBaseSnapshot(CEntitySnapshot::GetByHandle(citBase->second));
                 ushort unType(entSnapshot.GetTypeChange() ? entSnapshot.GetType() : pBaseSnapshot->GetType());
 
-                // If the type is NULL, the entity is dead and should be removed
+                // If the type is nullptr, the entity is dead and should be removed
                 if (unType == 0)
                 {
                     CEntitySnapshot::DeleteByHandle(citBase->second);
@@ -3491,7 +3491,7 @@ bool    CGameClient::ProcessSnapshot(CSnapshot &snapshot)
                 }               
 
                 const SEntityDesc* pTypeDesc(bReplay ? ReplayManager.GetCompatTypeDesc(unType) : EntityRegistry.GetTypeDesc(unType));
-                if (pTypeDesc == NULL)
+                if (pTypeDesc == nullptr)
                     EX_ERROR(_T("Unknown updated entity type, bad snapshot"));
 
                 if (entSnapshot.GetTypeChange())
@@ -3543,15 +3543,15 @@ bool    CGameClient::ProcessSnapshot(CSnapshot &snapshot)
                     IEntityState *pState(pEntity->GetAsState());
 
                     CClientEntity *pOwner(GetClientEntity(pState->GetOwnerIndex()));
-                    if (pOwner != NULL && 
-                        pOwner->GetNextEntity() != NULL && 
-                        pOwner->GetPrevEntity() != NULL && 
-                        pOwner->GetCurrentEntity() != NULL && 
+                    if (pOwner != nullptr &&
+                        pOwner->GetNextEntity() != nullptr &&
+                        pOwner->GetPrevEntity() != nullptr &&
+                        pOwner->GetCurrentEntity() != nullptr &&
                         pOwner->GetNextEntity()->IsUnit())
                     {
-                        if (pOwner->GetNextEntity()->GetAsUnit() != NULL) pOwner->GetNextEntity()->GetAsUnit()->RemoveState(pState);
-                        if (pOwner->GetPrevEntity()->GetAsUnit() != NULL) pOwner->GetPrevEntity()->GetAsUnit()->RemoveState(pState);
-                        if (pOwner->GetCurrentEntity()->GetAsUnit() != NULL) pOwner->GetCurrentEntity()->GetAsUnit()->RemoveState(pState);
+                        if (pOwner->GetNextEntity()->GetAsUnit() != nullptr) pOwner->GetNextEntity()->GetAsUnit()->RemoveState(pState);
+                        if (pOwner->GetPrevEntity()->GetAsUnit() != nullptr) pOwner->GetPrevEntity()->GetAsUnit()->RemoveState(pState);
+                        if (pOwner->GetCurrentEntity()->GetAsUnit() != nullptr) pOwner->GetCurrentEntity()->GetAsUnit()->RemoveState(pState);
                     }
                 }
                 else if (pEntity->IsTool())
@@ -3559,50 +3559,50 @@ bool    CGameClient::ProcessSnapshot(CSnapshot &snapshot)
                     IEntityTool *pItem(pEntity->GetAsTool());
 
                     CClientEntity *pOwner(GetClientEntity(pItem->GetOwnerIndex()));
-                    if (pOwner != NULL && pOwner->GetNextEntity() != NULL && pOwner->GetNextEntity()->IsUnit())
+                    if (pOwner != nullptr && pOwner->GetNextEntity() != nullptr && pOwner->GetNextEntity()->IsUnit())
                     {
-                        if (pOwner->GetNextEntity()->GetAsUnit() != NULL &&
+                        if (pOwner->GetNextEntity()->GetAsUnit() != nullptr &&
                             pOwner->GetNextEntity()->GetAsUnit()->GetTool(pItem->GetSlot()) == pItem)
-                            pOwner->GetNextEntity()->GetAsUnit()->SetInventorySlot(pItem->GetSlot(), NULL);
-                        if (pOwner->GetPrevEntity() != NULL && 
-                            pOwner->GetPrevEntity()->GetAsUnit() != NULL && 
+                            pOwner->GetNextEntity()->GetAsUnit()->SetInventorySlot(pItem->GetSlot(), nullptr);
+                        if (pOwner->GetPrevEntity() != nullptr &&
+                            pOwner->GetPrevEntity()->GetAsUnit() != nullptr &&
                             pOwner->GetPrevEntity()->GetAsUnit()->GetTool(pItem->GetSlot()) == pItem)
-                            pOwner->GetPrevEntity()->GetAsUnit()->SetInventorySlot(pItem->GetSlot(), NULL);
-                        if (pOwner->GetCurrentEntity() != NULL && 
-                            pOwner->GetCurrentEntity()->GetAsUnit() != NULL &&
+                            pOwner->GetPrevEntity()->GetAsUnit()->SetInventorySlot(pItem->GetSlot(), nullptr);
+                        if (pOwner->GetCurrentEntity() != nullptr &&
+                            pOwner->GetCurrentEntity()->GetAsUnit() != nullptr &&
                             pOwner->GetCurrentEntity()->GetAsUnit()->GetTool(pItem->GetSlot()) == pItem)
-                            pOwner->GetCurrentEntity()->GetAsUnit()->SetInventorySlot(pItem->GetSlot(), NULL);
+                            pOwner->GetCurrentEntity()->GetAsUnit()->SetInventorySlot(pItem->GetSlot(), nullptr);
                     }
                 }
                 else if (pEntity->GetType() == Player)
                 {
                     if (pEntity == m_pLocalPlayer)
-                        m_pLocalPlayer = NULL;
+                        m_pLocalPlayer = nullptr;
                 }
                 else if (pEntity->IsGadget())
                 {
                     IGadgetEntity *pGadget(pEntity->GetAsGadget());
 
                     CClientEntity *pOwner(GetClientEntity(pGadget->GetMountIndex()));
-                    if (pOwner != NULL && pOwner->GetNextEntity() != NULL && pOwner->GetNextEntity()->IsUnit())
+                    if (pOwner != nullptr && pOwner->GetNextEntity() != nullptr && pOwner->GetNextEntity()->IsUnit())
                     {
-                        if (pOwner->GetNextEntity()->GetAsUnit() != NULL &&
+                        if (pOwner->GetNextEntity()->GetAsUnit() != nullptr &&
                             pOwner->GetNextEntity()->GetAsUnit()->GetMount() == pGadget)
-                            pOwner->GetNextEntity()->GetAsUnit()->SetMount(NULL);
-                        if (pOwner->GetPrevEntity() != NULL && 
-                            pOwner->GetPrevEntity()->GetAsUnit() != NULL && 
+                            pOwner->GetNextEntity()->GetAsUnit()->SetMount(nullptr);
+                        if (pOwner->GetPrevEntity() != nullptr &&
+                            pOwner->GetPrevEntity()->GetAsUnit() != nullptr &&
                             pOwner->GetPrevEntity()->GetAsUnit()->GetMount() == pGadget)
-                            pOwner->GetPrevEntity()->GetAsUnit()->SetMount(NULL);
-                        if (pOwner->GetCurrentEntity() != NULL && 
-                            pOwner->GetCurrentEntity()->GetAsUnit() != NULL && 
+                            pOwner->GetPrevEntity()->GetAsUnit()->SetMount(nullptr);
+                        if (pOwner->GetCurrentEntity() != nullptr &&
+                            pOwner->GetCurrentEntity()->GetAsUnit() != nullptr &&
                             pOwner->GetCurrentEntity()->GetAsUnit()->GetMount() == pGadget)
-                            pOwner->GetCurrentEntity()->GetAsUnit()->SetMount(NULL);
+                            pOwner->GetCurrentEntity()->GetAsUnit()->SetMount(nullptr);
                     }
                 }
             }
 
             // If the client does not have an entry for this entity, allocate a new one
-            if (pEntity == NULL)
+            if (pEntity == nullptr)
             {
                 pEntity = m_pClientEntityDirectory->Allocate(pEntitySnapshot->GetIndex(), pEntitySnapshot->GetType());
 
@@ -3610,7 +3610,7 @@ bool    CGameClient::ProcessSnapshot(CSnapshot &snapshot)
                 pEntity->ReadSnapshot(*pEntitySnapshot, pEntitySnapshot->GetVersion());
                 pEntity->UpdateDefinition();
 
-                if (cg_replayPrecacheAll && ReplayManager.IsPlaying() && pEntity->GetDefinition<IEntityDefinition>() != NULL)
+                if (cg_replayPrecacheAll && ReplayManager.IsPlaying() && pEntity->GetDefinition<IEntityDefinition>() != nullptr)
                     pEntity->GetDefinition<IEntityDefinition>()->Precache(PRECACHE_ALL, _T("All"));
 
                 pEntity->Spawn();
@@ -3647,7 +3647,7 @@ bool    CGameClient::ProcessSnapshot(CSnapshot &snapshot)
                 pEntity->ReadSnapshot(*pEntitySnapshot, pEntitySnapshot->GetVersion());
                 pEntity->UpdateDefinition();
 
-                if (cg_replayPrecacheAll && ReplayManager.IsPlaying() && pEntity->GetDefinition<IEntityDefinition>() != NULL)
+                if (cg_replayPrecacheAll && ReplayManager.IsPlaying() && pEntity->GetDefinition<IEntityDefinition>() != nullptr)
                     pEntity->GetDefinition<IEntityDefinition>()->Precache(PRECACHE_ALL, _T("All"));
                 
                 pEntity->Spawn();
@@ -3662,7 +3662,7 @@ bool    CGameClient::ProcessSnapshot(CSnapshot &snapshot)
                 if (pEntity->IsUnit() && bWasUnit)
                 {
                     CClientEntity *pUnit(GetClientEntity(pEntity->GetIndex()));
-                    if (pUnit != NULL && pUnit->GetNextEntity()->IsUnit())
+                    if (pUnit != nullptr && pUnit->GetNextEntity()->IsUnit())
                     {
                         for (int i(0); i < MAX_INVENTORY; ++i)
                         {
@@ -3706,7 +3706,7 @@ bool    CGameClient::ProcessSnapshot(CSnapshot &snapshot)
                         pEntity->ReadSnapshot(*pEntitySnapshot, pEntitySnapshot->GetVersion());
                         pEntity->UpdateDefinition();
 
-                        if (cg_replayPrecacheAll && ReplayManager.IsPlaying() && pEntity->GetDefinition<IEntityDefinition>() != NULL)
+                        if (cg_replayPrecacheAll && ReplayManager.IsPlaying() && pEntity->GetDefinition<IEntityDefinition>() != nullptr)
                             pEntity->GetDefinition<IEntityDefinition>()->Precache(PRECACHE_ALL, _T("All"));
                         
                         pEntity->Spawn();
@@ -3719,7 +3719,7 @@ bool    CGameClient::ProcessSnapshot(CSnapshot &snapshot)
                         if (pEntity->IsUnit() && bWasUnit)
                         {
                             CClientEntity *pUnit(GetClientEntity(pEntity->GetIndex()));
-                            if (pUnit != NULL && pUnit->GetNextEntity()->IsUnit())
+                            if (pUnit != nullptr && pUnit->GetNextEntity()->IsUnit())
                             {
                                 for (int i(0); i < MAX_INVENTORY; ++i)
                                 {
@@ -3764,7 +3764,7 @@ bool    CGameClient::ProcessSnapshot(CSnapshot &snapshot)
                 CTeamInfo *pTeamInfo(static_cast<CTeamInfo *>(pEntity));
                 CTeamInfo *pOldTeamInfo(Game.GetTeam(pTeamInfo->GetTeamID()));
 
-                if (pOldTeamInfo == NULL)
+                if (pOldTeamInfo == nullptr)
                 {
                     Game.SetTeam(pTeamInfo->GetTeamID(), pTeamInfo);
                 }
@@ -3792,11 +3792,11 @@ bool    CGameClient::ProcessSnapshot(CSnapshot &snapshot)
 
                 CTeamInfo *pTeam(GetTeam(pItem->GetTeam()));
 
-                if (pTeam != NULL)
+                if (pTeam != nullptr)
                 {
                     CShopInfo *pShop(pTeam->GetShopInfo());
 
-                    if (pShop != NULL)
+                    if (pShop != nullptr)
                         pShop->AddItem(pItem);
                 }
 
@@ -3832,15 +3832,15 @@ bool    CGameClient::ProcessSnapshot(CSnapshot &snapshot)
                 IEntityState *pState(pEntity->GetAsState());
 
                 CClientEntity *pOwner(GetClientEntity(pState->GetOwnerIndex()));
-                if (pOwner != NULL && 
-                    pOwner->GetNextEntity() != NULL && 
-                    pOwner->GetPrevEntity() != NULL && 
-                    pOwner->GetCurrentEntity() != NULL && 
+                if (pOwner != nullptr &&
+                    pOwner->GetNextEntity() != nullptr &&
+                    pOwner->GetPrevEntity() != nullptr &&
+                    pOwner->GetCurrentEntity() != nullptr &&
                     pOwner->GetNextEntity()->IsUnit())
                 {
-                    if (pOwner->GetNextEntity()->GetAsUnit() != NULL) pOwner->GetNextEntity()->GetAsUnit()->AddState(pState);
-                    if (pOwner->GetPrevEntity()->GetAsUnit() != NULL) pOwner->GetPrevEntity()->GetAsUnit()->AddState(pState);
-                    if (pOwner->GetCurrentEntity()->GetAsUnit() != NULL) pOwner->GetCurrentEntity()->GetAsUnit()->AddState(pState);
+                    if (pOwner->GetNextEntity()->GetAsUnit() != nullptr) pOwner->GetNextEntity()->GetAsUnit()->AddState(pState);
+                    if (pOwner->GetPrevEntity()->GetAsUnit() != nullptr) pOwner->GetPrevEntity()->GetAsUnit()->AddState(pState);
+                    if (pOwner->GetCurrentEntity()->GetAsUnit() != nullptr) pOwner->GetCurrentEntity()->GetAsUnit()->AddState(pState);
                 }
                 continue;
             }
@@ -3849,15 +3849,15 @@ bool    CGameClient::ProcessSnapshot(CSnapshot &snapshot)
                 IEntityTool *pItem(pEntity->GetAsTool());
 
                 CClientEntity *pOwner(GetClientEntity(pItem->GetOwnerIndex()));
-                if (pOwner != NULL && 
-                    pOwner->GetNextEntity() != NULL && 
-                    pOwner->GetPrevEntity() != NULL && 
-                    pOwner->GetCurrentEntity() != NULL && 
+                if (pOwner != nullptr &&
+                    pOwner->GetNextEntity() != nullptr &&
+                    pOwner->GetPrevEntity() != nullptr &&
+                    pOwner->GetCurrentEntity() != nullptr &&
                     pOwner->GetNextEntity()->IsUnit())
                 {
-                    if (pOwner->GetNextEntity()->GetAsUnit() != NULL) pOwner->GetNextEntity()->GetAsUnit()->SetInventorySlot(pItem->GetSlot(), pItem);
-                    if (pOwner->GetPrevEntity()->GetAsUnit() != NULL) pOwner->GetPrevEntity()->GetAsUnit()->SetInventorySlot(pItem->GetSlot(), pItem);
-                    if (pOwner->GetCurrentEntity()->GetAsUnit() != NULL) pOwner->GetCurrentEntity()->GetAsUnit()->SetInventorySlot(pItem->GetSlot(), pItem);
+                    if (pOwner->GetNextEntity()->GetAsUnit() != nullptr) pOwner->GetNextEntity()->GetAsUnit()->SetInventorySlot(pItem->GetSlot(), pItem);
+                    if (pOwner->GetPrevEntity()->GetAsUnit() != nullptr) pOwner->GetPrevEntity()->GetAsUnit()->SetInventorySlot(pItem->GetSlot(), pItem);
+                    if (pOwner->GetCurrentEntity()->GetAsUnit() != nullptr) pOwner->GetCurrentEntity()->GetAsUnit()->SetInventorySlot(pItem->GetSlot(), pItem);
                 }
                 continue;
             }
@@ -3866,15 +3866,15 @@ bool    CGameClient::ProcessSnapshot(CSnapshot &snapshot)
                 IGadgetEntity *pGadget(pEntity->GetAsGadget());
 
                 CClientEntity *pOwner(GetClientEntity(pGadget->GetMountIndex()));
-                if (pOwner != NULL && 
-                    pOwner->GetNextEntity() != NULL && 
-                    pOwner->GetPrevEntity() != NULL && 
-                    pOwner->GetCurrentEntity() != NULL && 
+                if (pOwner != nullptr &&
+                    pOwner->GetNextEntity() != nullptr &&
+                    pOwner->GetPrevEntity() != nullptr &&
+                    pOwner->GetCurrentEntity() != nullptr &&
                     pOwner->GetNextEntity()->IsUnit())
                 {
-                    if (pOwner->GetNextEntity()->GetAsUnit() != NULL) pOwner->GetNextEntity()->GetAsUnit()->SetMount(pGadget);
-                    if (pOwner->GetPrevEntity()->GetAsUnit() != NULL) pOwner->GetPrevEntity()->GetAsUnit()->SetMount(pGadget);
-                    if (pOwner->GetCurrentEntity()->GetAsUnit() != NULL) pOwner->GetCurrentEntity()->GetAsUnit()->SetMount(pGadget);
+                    if (pOwner->GetNextEntity()->GetAsUnit() != nullptr) pOwner->GetNextEntity()->GetAsUnit()->SetMount(pGadget);
+                    if (pOwner->GetPrevEntity()->GetAsUnit() != nullptr) pOwner->GetPrevEntity()->GetAsUnit()->SetMount(pGadget);
+                    if (pOwner->GetCurrentEntity()->GetAsUnit() != nullptr) pOwner->GetCurrentEntity()->GetAsUnit()->SetMount(pGadget);
                 }
             }
 
@@ -3895,7 +3895,7 @@ bool    CGameClient::ProcessSnapshot(CSnapshot &snapshot)
         {
             SetReplayClient(replay_client);
 
-            if (m_pLocalPlayer == NULL && !m_mapClients.empty())
+            if (m_pLocalPlayer == nullptr && !m_mapClients.empty())
             {
                 PlayerMap_it itClient(m_mapClients.begin());
 
@@ -3995,19 +3995,19 @@ bool    CGameClient::ProcessGameData(CPacket &pkt)
                 break;
 
             CPlayer *pSender(GetPlayer(iSender));
-            if (pSender == NULL || Host.IsIgnored(pSender->GetName()) || ChatManager.GetIgnoreChat() == CHAT_IGNORE_ALL || ChatManager.GetIgnoreChat() == CHAT_IGNORE_EVERYONE || (ChatManager.GetIgnoreChat() == CHAT_IGNORE_ENEMY_ALL && GetLocalPlayer()->GetTeam() != pSender->GetTeam()))
+            if (pSender == nullptr || Host.IsIgnored(pSender->GetName()) || ChatManager.GetIgnoreChat() == CHAT_IGNORE_ALL || ChatManager.GetIgnoreChat() == CHAT_IGNORE_EVERYONE || (ChatManager.GetIgnoreChat() == CHAT_IGNORE_ENEMY_ALL && GetLocalPlayer()->GetTeam() != pSender->GetTeam()))
                 break;
                 
             tsmapts mapTokens;
             tstring sHeroName(_T("No Hero"));
 
-            if (pSender->GetHero() != NULL)
+            if (pSender->GetHero() != nullptr)
                 sHeroName = pSender->GetHero()->GetDisplayName();
             else if (pSender->HasSelectedHero())
             {
                 CHeroDefinition *pHeroDef(EntityRegistry.GetDefinition<CHeroDefinition>(pSender->GetSelectedHero()));
 
-                if (pHeroDef != NULL)
+                if (pHeroDef != nullptr)
                     sHeroName = pHeroDef->GetDisplayName();
             }
 
@@ -4052,19 +4052,19 @@ bool    CGameClient::ProcessGameData(CPacket &pkt)
                 break;
 
             CPlayer *pSender(GetPlayer(iSender));
-            if (pSender == NULL || Host.IsIgnored(pSender->GetName()) || ChatManager.GetIgnoreChat() == CHAT_IGNORE_TEAM || ChatManager.GetIgnoreChat() == CHAT_IGNORE_EVERYONE)
+            if (pSender == nullptr || Host.IsIgnored(pSender->GetName()) || ChatManager.GetIgnoreChat() == CHAT_IGNORE_TEAM || ChatManager.GetIgnoreChat() == CHAT_IGNORE_EVERYONE)
                 break;
 
             tsmapts mapTokens;
             tstring sHeroName(_T("No Hero"));
 
-            if (pSender->GetHero() != NULL)
+            if (pSender->GetHero() != nullptr)
                 sHeroName = pSender->GetHero()->GetDisplayName();
             else if (pSender->HasSelectedHero())
             {
                 CHeroDefinition *pHeroDef(EntityRegistry.GetDefinition<CHeroDefinition>(pSender->GetSelectedHero()));
 
-                if (pHeroDef != NULL)
+                if (pHeroDef != nullptr)
                     sHeroName = pHeroDef->GetDisplayName();
             }
 
@@ -4144,14 +4144,14 @@ bool    CGameClient::ProcessGameData(CPacket &pkt)
                 break;
 
             const CPopup *pPopup(GetPopup(yType));
-            if (pPopup == NULL)
+            if (pPopup == nullptr)
                 break;
 
             CVec4f v4Color(pPopup->GetColor());
             if (pPopup->GetUsePlayerColor())
             {
                 CPlayer *pPlayer(GetPlayerFromClientNumber(yPlayer));
-                if (pPlayer != NULL)
+                if (pPlayer != nullptr)
                     v4Color = pPlayer->GetColor();
             }
 
@@ -4167,7 +4167,7 @@ bool    CGameClient::ProcessGameData(CPacket &pkt)
             int iClientNum(pkt.ReadByte());
 
             CPlayer *pPlayer(GetPlayerFromClientNumber(iClientNum));
-            if (pPlayer == NULL)
+            if (pPlayer == nullptr)
                 break;
 
             CVec4f v4Color(pPlayer->GetColor());
@@ -4206,7 +4206,7 @@ bool    CGameClient::ProcessGameData(CPacket &pkt)
                 break;
 
             IUnitEntity* pUnit(Game.GetUnitEntity(uiTargetUnit));
-            if (pUnit == NULL)
+            if (pUnit == nullptr)
                 break;
 
             CPlayer* pPlayer(Game.GetPlayerFromClientNumber(yPlayer));
@@ -4238,18 +4238,18 @@ bool    CGameClient::ProcessGameData(CPacket &pkt)
             else if (pLocalPlayer->IsEnemy(pUnit) && pUnit->IsHero())
             {
                 sMode = _T("Attack ");
-                tstring sUnitPlayerColor(GetInlineColorString<tstring>(pUnit->GetOwnerPlayer() != NULL ? pUnit->GetOwnerPlayer()->GetColor() : WHITE));
-                sUnitPlayerName = sUnitPlayerColor + _T("(") + (pUnit->GetOwnerPlayer() != NULL ? pUnit->GetOwnerPlayer()->GetName() : TSNULL) + _T(")");
+                tstring sUnitPlayerColor(GetInlineColorString<tstring>(pUnit->GetOwnerPlayer() != nullptr ? pUnit->GetOwnerPlayer()->GetColor() : WHITE));
+                sUnitPlayerName = sUnitPlayerColor + _T("(") + (pUnit->GetOwnerPlayer() != nullptr ? pUnit->GetOwnerPlayer()->GetName() : TSNULL) + _T(")");
             }
 
             tsmapts mapTokens;
-            mapTokens[_T("player_name")] = (pPlayer != NULL ? pPlayer->GetName() : TSNULL);
-            mapTokens[_T("player_hero_name")] = (pPlayer->GetHero() != NULL ? pPlayer->GetHero()->GetDisplayName() : TSNULL);
-            mapTokens[_T("unit_name")] = (pUnit != NULL ? pUnit->GetDisplayName() : TSNULL);
+            mapTokens[_T("player_name")] = (pPlayer != nullptr ? pPlayer->GetName() : TSNULL);
+            mapTokens[_T("player_hero_name")] = (pPlayer->GetHero() != nullptr ? pPlayer->GetHero()->GetDisplayName() : TSNULL);
+            mapTokens[_T("unit_name")] = (pUnit != nullptr ? pUnit->GetDisplayName() : TSNULL);
             mapTokens[_T("unit_player_name")] = sUnitPlayerName;
-            mapTokens[_T("player_color")] = GetInlineColorString<tstring>(pPlayer != NULL ? pPlayer->GetColor() : WHITE);
-            mapTokens[_T("player_team_color")] = GetInlineColorString<tstring>(pPlayer != NULL ? pPlayer->GetHero()->GetTeamColor(pLocalPlayer) : WHITE);
-            mapTokens[_T("unit_team_color")] = GetInlineColorString<tstring>(pUnit != NULL ? pUnit->GetTeamColor(pLocalPlayer) : WHITE);
+            mapTokens[_T("player_color")] = GetInlineColorString<tstring>(pPlayer != nullptr ? pPlayer->GetColor() : WHITE);
+            mapTokens[_T("player_team_color")] = GetInlineColorString<tstring>(pPlayer != nullptr ? pPlayer->GetHero()->GetTeamColor(pLocalPlayer) : WHITE);
+            mapTokens[_T("unit_team_color")] = GetInlineColorString<tstring>(pUnit != nullptr ? pUnit->GetTeamColor(pLocalPlayer) : WHITE);
             mapTokens[_T("mode")] = sMode;
 
             const tstring &sMessage(GetGameMessage(_T("ping_target"), mapTokens));
@@ -4268,7 +4268,7 @@ bool    CGameClient::ProcessGameData(CPacket &pkt)
             {
                 uint uiIndex(pkt.ReadInt());
                 IBuildingEntity *pBuilding(GetBuildingEntity(uiIndex));
-                if (pBuilding == NULL)
+                if (pBuilding == nullptr)
                     continue;
 
                 pBuilding->MinimapFlash(RED, cg_buildingAttackAlertTime);
@@ -4291,7 +4291,7 @@ bool    CGameClient::ProcessGameData(CPacket &pkt)
 
             if (!cg_muteAnnouncerVoice)
             {
-                if (m_pLocalPlayer != NULL)
+                if (m_pLocalPlayer != nullptr)
                 {
                     tsvector vParams(2);
                     vParams[0] = _T("0");
@@ -4323,7 +4323,7 @@ bool    CGameClient::ProcessGameData(CPacket &pkt)
             m_pInterfaceManager->SaveSpectatorPlayers();
 
             if (!ReplayManager.IsPlaying())
-                ChatManager.ShowPostGameStats(Game.GetGameInfo() != NULL ? Game.GetGameInfo()->GetMatchID() : INVALID_INDEX);
+                ChatManager.ShowPostGameStats(Game.GetGameInfo() != nullptr ? Game.GetGameInfo()->GetMatchID() : INVALID_INDEX);
         }
         break;
 
@@ -4335,7 +4335,7 @@ bool    CGameClient::ProcessGameData(CPacket &pkt)
             
             CPlayer *pPlayer(GetLocalPlayer());
 
-            if (pPlayer == NULL)
+            if (pPlayer == nullptr)
                 break;
             
             ICvar *pPath;
@@ -4348,7 +4348,7 @@ bool    CGameClient::ProcessGameData(CPacket &pkt)
             {
                 CTeamInfo *pTeam(GetTeam(pPlayer->GetTeam()));
 
-                if (pTeam == NULL)
+                if (pTeam == nullptr)
                     break;
                 
                 tstring sSetting(_T("DestroyedSoundPath"));
@@ -4402,11 +4402,11 @@ bool    CGameClient::ProcessGameData(CPacket &pkt)
                 uiUnitIndex = INVALID_INDEX;
 
             CClientEntity *pClEntity(GetClientEntity(uiUnitIndex));
-            if (pClEntity == NULL)
+            if (pClEntity == nullptr)
                 break;
 
             IUnitEntity *pUnit(GetUnitEntity(uiUnitIndex));
-            if (pUnit == NULL)
+            if (pUnit == nullptr)
                 break;
 
             if (GetGameTime() - GetLastConfirmMoveSoundTime() > cg_unitVoiceResponsesDelay)
@@ -4433,11 +4433,11 @@ bool    CGameClient::ProcessGameData(CPacket &pkt)
                 uiUnitIndex = INVALID_INDEX;
 
             CClientEntity *pClEntity(GetClientEntity(uiUnitIndex));
-            if (pClEntity == NULL)
+            if (pClEntity == nullptr)
                 break;
 
             IUnitEntity *pUnit(GetUnitEntity(uiUnitIndex));
-            if (pUnit == NULL)
+            if (pUnit == nullptr)
                 break;
 
             if (GetGameTime() - GetLastConfirmAttackSoundTime() > cg_unitVoiceResponsesDelay)
@@ -4495,10 +4495,10 @@ bool    CGameClient::ProcessGameData(CPacket &pkt)
         {
             uint uiEntIndex(pkt.ReadShort());
 
-            if (m_pLocalPlayer == NULL)
+            if (m_pLocalPlayer == nullptr)
                 break;
             CPlayer *pLocalPlayer(m_pLocalPlayer);
-            if (pLocalPlayer == NULL)
+            if (pLocalPlayer == nullptr)
                 break;
 
             IVisualEntity *pEntity(GetVisualEntity(uiEntIndex));
@@ -4525,16 +4525,16 @@ bool    CGameClient::ProcessGameData(CPacket &pkt)
             CPlayer *pVictim(GetPlayer(iVictim));
 
             tsmapts mapTokens;
-            mapTokens[_T("killer")] = (pKiller != NULL ? pKiller->GetName() : TSNULL);
-            mapTokens[_T("victim")] = (pVictim != NULL ? pVictim->GetName() : TSNULL);
-            mapTokens[_T("killer_color")] = GetInlineColorString<tstring>(pKiller != NULL ? pKiller->GetColor() : WHITE);
-            mapTokens[_T("victim_color")] = GetInlineColorString<tstring>(pVictim != NULL ? pVictim->GetColor() : WHITE);
+            mapTokens[_T("killer")] = (pKiller != nullptr ? pKiller->GetName() : TSNULL);
+            mapTokens[_T("victim")] = (pVictim != nullptr ? pVictim->GetName() : TSNULL);
+            mapTokens[_T("killer_color")] = GetInlineColorString<tstring>(pKiller != nullptr ? pKiller->GetColor() : WHITE);
+            mapTokens[_T("victim_color")] = GetInlineColorString<tstring>(pVictim != nullptr ? pVictim->GetColor() : WHITE);
             mapTokens[_T("gold")] = XtoA(unGold);
 
             for (byte y(0); y < yAssists; ++y)
             {
                 CPlayer *pPlayer(GetPlayer(vAssists[y]));
-                if (pPlayer == NULL)
+                if (pPlayer == nullptr)
                     continue;
 
                 mapTokens[_T("assist") + XtoA(y)] = pPlayer->GetName();
@@ -4548,39 +4548,39 @@ bool    CGameClient::ProcessGameData(CPacket &pkt)
                 ChatManager.AddGameChatMessage(CHAT_MESSAGE_ADD, sMessage);
                 
 
-            if (pVictim != NULL)
+            if (pVictim != nullptr)
             {
                 IHeroEntity *pHero(pVictim->GetHero());
 
-                if (pHero != NULL && pHero->IsVisibleOnMap(GetLocalPlayer()))
+                if (pHero != nullptr && pHero->IsVisibleOnMap(GetLocalPlayer()))
                     Ping(PING_KILL_HERO, pHero->GetPosition().x, pHero->GetPosition().y, pHero->GetOwnerClientNumber());
             }
 
             tsvector vParams(8);
-            vParams[0] = pKiller != NULL ? pKiller->GetName() : TSNULL;
-            vParams[1] = pVictim != NULL ? pVictim->GetName() : TSNULL;
+            vParams[0] = pKiller != nullptr ? pKiller->GetName() : TSNULL;
+            vParams[1] = pVictim != nullptr ? pVictim->GetName() : TSNULL;
 
-            if (m_pLocalPlayer == NULL || m_pLocalPlayer->GetTeam() == TEAM_SPECTATOR)
+            if (m_pLocalPlayer == nullptr || m_pLocalPlayer->GetTeam() == TEAM_SPECTATOR)
             {
-                vParams[2] = XtoA(pKiller != NULL && pKiller->GetTeam() == 1);
-                vParams[3] = XtoA(pVictim != NULL && pVictim->GetTeam() == 1);
+                vParams[2] = XtoA(pKiller != nullptr && pKiller->GetTeam() == 1);
+                vParams[3] = XtoA(pVictim != nullptr && pVictim->GetTeam() == 1);
             }
             else
             {
-                vParams[2] = XtoA(pKiller != NULL && pKiller->GetTeam() == m_pLocalPlayer->GetTeam());
-                vParams[3] = XtoA(pVictim != NULL && pVictim->GetTeam() == m_pLocalPlayer->GetTeam());
+                vParams[2] = XtoA(pKiller != nullptr && pKiller->GetTeam() == m_pLocalPlayer->GetTeam());
+                vParams[3] = XtoA(pVictim != nullptr && pVictim->GetTeam() == m_pLocalPlayer->GetTeam());
             }
 
-            vParams[4] = XtoA(pKiller != NULL ? pKiller->GetColor() : WHITE);
-            vParams[5] = XtoA(pVictim != NULL ? pVictim->GetColor() : WHITE);
+            vParams[4] = XtoA(pKiller != nullptr ? pKiller->GetColor() : WHITE);
+            vParams[5] = XtoA(pVictim != nullptr ? pVictim->GetColor() : WHITE);
 
-            IHeroEntity *pKillerHero(pKiller != NULL ? pKiller->GetHero() : NULL);
-            IHeroEntity *pVictimHero(pVictim != NULL ? pVictim->GetHero() : NULL);
+            IHeroEntity *pKillerHero(pKiller != nullptr ? pKiller->GetHero() : nullptr);
+            IHeroEntity *pVictimHero(pVictim != nullptr ? pVictim->GetHero() : nullptr);
 
-            vParams[6] = pKillerHero != NULL ? pKillerHero->GetIconPath() : TSNULL;
-            vParams[7] = pVictimHero != NULL ? pVictimHero->GetIconPath() : TSNULL;
+            vParams[6] = pKillerHero != nullptr ? pKillerHero->GetIconPath() : TSNULL;
+            vParams[7] = pVictimHero != nullptr ? pVictimHero->GetIconPath() : TSNULL;
 
-            if (pKillerHero != NULL && pVictimHero != NULL)
+            if (pKillerHero != nullptr && pVictimHero != nullptr)
                 EventKill.Trigger(vParams);
         }
         break;
@@ -4594,21 +4594,21 @@ bool    CGameClient::ProcessGameData(CPacket &pkt)
             CPlayer *pVictim(GetPlayer(iVictim));
 
             tsmapts mapTokens;
-            mapTokens[_T("killer")] = (pKiller != NULL ? pKiller->GetName() : TSNULL);
-            mapTokens[_T("victim")] = (pVictim != NULL ? pVictim->GetName() : TSNULL);
-            mapTokens[_T("killer_color")] = GetInlineColorString<tstring>(pKiller != NULL ? pKiller->GetColor() : WHITE);
-            mapTokens[_T("victim_color")] = GetInlineColorString<tstring>(pVictim != NULL ? pVictim->GetColor() : WHITE);
+            mapTokens[_T("killer")] = (pKiller != nullptr ? pKiller->GetName() : TSNULL);
+            mapTokens[_T("victim")] = (pVictim != nullptr ? pVictim->GetName() : TSNULL);
+            mapTokens[_T("killer_color")] = GetInlineColorString<tstring>(pKiller != nullptr ? pKiller->GetColor() : WHITE);
+            mapTokens[_T("victim_color")] = GetInlineColorString<tstring>(pVictim != nullptr ? pVictim->GetColor() : WHITE);
 
             const tstring &sMessage(GetGameMessage(_T("deny"), mapTokens));
             Console.Std << sMessage << newl;
             if (cg_drawMessages)
                 ChatManager.AddGameChatMessage(CHAT_MESSAGE_ADD, sMessage);
 
-            if (pVictim != NULL)
+            if (pVictim != nullptr)
             {
                 IHeroEntity *pHero(pVictim->GetHero());
 
-                if (pHero != NULL && pHero->IsVisibleOnMap(GetLocalPlayer()))
+                if (pHero != nullptr && pHero->IsVisibleOnMap(GetLocalPlayer()))
                     Ping(PING_KILL_HERO, pHero->GetPosition().x, pHero->GetPosition().y, pHero->GetOwnerClientNumber());
             }
         }
@@ -4649,7 +4649,7 @@ bool    CGameClient::ProcessGameData(CPacket &pkt)
             else
             {
                 CPlayer *pPlayer(GetPlayer(iClientNumber));
-                if (pPlayer == NULL)
+                if (pPlayer == nullptr)
                     break;
 
                 sKey = _CTS("hero_ban");
@@ -4658,7 +4658,7 @@ bool    CGameClient::ProcessGameData(CPacket &pkt)
             }
 
             CHeroDefinition *pHeroDef(EntityRegistry.GetDefinition<CHeroDefinition>(unHero));
-            if (pHeroDef == NULL)
+            if (pHeroDef == nullptr)
                 break;
 
             mapTokens[_CTS("hero_name")] = pHeroDef->GetDisplayName();
@@ -4687,12 +4687,12 @@ bool    CGameClient::ProcessGameData(CPacket &pkt)
             }
             
             CPlayer *pKiller(GetPlayer(iKiller));
-            if (pKiller == NULL)
+            if (pKiller == nullptr)
                 break;          
 
             tsmapts mapTokens;
-            mapTokens[_T("killer")] = (pKiller != NULL ? pKiller->GetName() : TSNULL);
-            mapTokens[_T("killer_color")] = GetInlineColorString<tstring>(pKiller != NULL ? pKiller->GetColor() : WHITE);
+            mapTokens[_T("killer")] = (pKiller != nullptr ? pKiller->GetName() : TSNULL);
+            mapTokens[_T("killer_color")] = GetInlineColorString<tstring>(pKiller != nullptr ? pKiller->GetColor() : WHITE);
             mapTokens[_T("gold")] = XtoA(unGold);
 
             const tstring &sMessage(GetGameMessage(_T("first_kill"), mapTokens));
@@ -4743,8 +4743,8 @@ bool    CGameClient::ProcessGameData(CPacket &pkt)
             if (!sKey.empty())
             {
                 tsmapts mapTokens;
-                mapTokens[_T("killer")] = (pKiller != NULL ? pKiller->GetName() : TSNULL);
-                mapTokens[_T("killer_color")] = GetInlineColorString<tstring>(pKiller != NULL ? pKiller->GetColor() : WHITE);
+                mapTokens[_T("killer")] = (pKiller != nullptr ? pKiller->GetName() : TSNULL);
+                mapTokens[_T("killer_color")] = GetInlineColorString<tstring>(pKiller != nullptr ? pKiller->GetColor() : WHITE);
 
                 const tstring &sMessage(GetGameMessage(sKey, mapTokens));
                 Console.Std << sMessage << newl;
@@ -4773,12 +4773,12 @@ bool    CGameClient::ProcessGameData(CPacket &pkt)
             ushort unGold(pkt.ReadShort(0));
 
             CPlayer *pKiller(GetPlayer(iKiller));
-            tstring sKillerName(pKiller != NULL ? pKiller->GetName() : TSNULL);
-            tstring sKillerColor(GetInlineColorString<tstring>(pKiller != NULL ? pKiller->GetColor() : WHITE));
+            tstring sKillerName(pKiller != nullptr ? pKiller->GetName() : TSNULL);
+            tstring sKillerColor(GetInlineColorString<tstring>(pKiller != nullptr ? pKiller->GetColor() : WHITE));
 
             CPlayer *pVictim(GetPlayer(iVictim));
-            tstring sVictimName(pVictim != NULL ? pVictim->GetName() : TSNULL);
-            tstring sVictimColor(GetInlineColorString<tstring>(pVictim != NULL ? pVictim->GetColor() : WHITE));
+            tstring sVictimName(pVictim != nullptr ? pVictim->GetName() : TSNULL);
+            tstring sVictimColor(GetInlineColorString<tstring>(pVictim != nullptr ? pVictim->GetColor() : WHITE));
 
             tstring sKey;
             
@@ -4826,11 +4826,11 @@ bool    CGameClient::ProcessGameData(CPacket &pkt)
                     ChatManager.AddGameChatMessage(CHAT_MESSAGE_ADD, sMessage);
             }
 
-            if (pVictim != NULL)
+            if (pVictim != nullptr)
             {
                 IHeroEntity *pHero(pVictim->GetHero());
 
-                if (pHero != NULL && pHero->IsVisibleOnMap(GetLocalPlayer()))
+                if (pHero != nullptr && pHero->IsVisibleOnMap(GetLocalPlayer()))
                     Ping(PING_KILL_HERO, pHero->GetPosition().x, pHero->GetPosition().y, pHero->GetOwnerClientNumber());
             }
         }
@@ -4851,8 +4851,8 @@ bool    CGameClient::ProcessGameData(CPacket &pkt)
             }           
 
             CPlayer *pKiller(GetPlayer(iKiller));
-            tstring sKillerName(pKiller != NULL ? pKiller->GetName() : TSNULL);
-            CVec4f v4KillerColor(pKiller != NULL ? pKiller->GetColor() : WHITE);
+            tstring sKillerName(pKiller != nullptr ? pKiller->GetName() : TSNULL);
+            CVec4f v4KillerColor(pKiller != nullptr ? pKiller->GetColor() : WHITE);
             tstring sKillerColor(_T("^") +
                 XtoA(INT_ROUND(v4KillerColor[R] * 9)) + 
                 XtoA(INT_ROUND(v4KillerColor[G] * 9)) +
@@ -4903,8 +4903,8 @@ bool    CGameClient::ProcessGameData(CPacket &pkt)
             uint uiIndex(pkt.ReadInt(INVALID_INDEX));
 
             CPlayer *pKiller(GetPlayer(iKiller));
-            tstring sKillerName(pKiller != NULL ? pKiller->GetName() : TSNULL);
-            CVec4f v4KillerColor(pKiller != NULL ? pKiller->GetColor() : WHITE);
+            tstring sKillerName(pKiller != nullptr ? pKiller->GetName() : TSNULL);
+            CVec4f v4KillerColor(pKiller != nullptr ? pKiller->GetColor() : WHITE);
             tstring sKillerColor(_T("^") +
                 XtoA(INT_ROUND(v4KillerColor[R] * 9)) + 
                 XtoA(INT_ROUND(v4KillerColor[G] * 9)) +
@@ -4912,7 +4912,7 @@ bool    CGameClient::ProcessGameData(CPacket &pkt)
 
             tstring sRewardName(_T("Someone"));
             CTeamInfo *pTeam(GetTeam(uiRewardTeam));
-            if (pTeam != NULL)
+            if (pTeam != nullptr)
                 sRewardName = pTeam->GetName();
 
             CVec4f v4RewardColor(uiRewardTeam == TEAM_1 ? LEGION_RED : uiRewardTeam == TEAM_2 ? HELLBOURNE_GREEN : WHITE);
@@ -4934,7 +4934,7 @@ bool    CGameClient::ProcessGameData(CPacket &pkt)
 
             IBuildingEntity *pBuilding(Game.GetBuildingEntity(uiIndex));
 
-            if (pBuilding != NULL)
+            if (pBuilding != nullptr)
             {
                 if (GetLocalPlayer()->GetTeam() == pBuilding->GetTeam())
                     Ping(PING_ALLY_BUILDING_KILL, pBuilding->GetPosition().x, pBuilding->GetPosition().y, -1);
@@ -4959,8 +4959,8 @@ bool    CGameClient::ProcessGameData(CPacket &pkt)
             }
 
             CPlayer *pPlayer(GetPlayer(iPlayer));
-            tstring sPlayerName(pPlayer != NULL ? pPlayer->GetName() : TSNULL);
-            CVec4f v4PlayerColor(pPlayer != NULL ? pPlayer->GetColor() : WHITE);
+            tstring sPlayerName(pPlayer != nullptr ? pPlayer->GetName() : TSNULL);
+            CVec4f v4PlayerColor(pPlayer != nullptr ? pPlayer->GetColor() : WHITE);
             tstring sPlayerColor(_T("^") +
                 XtoA(INT_ROUND(v4PlayerColor[R] * 9)) + 
                 XtoA(INT_ROUND(v4PlayerColor[G] * 9)) +
@@ -4989,7 +4989,7 @@ bool    CGameClient::ProcessGameData(CPacket &pkt)
 
             IBuildingEntity *pBuilding(Game.GetBuildingEntity(uiIndex));
 
-            if (pBuilding != NULL)
+            if (pBuilding != nullptr)
                 Ping(PING_ALERT, pBuilding->GetPosition().x, pBuilding->GetPosition().y, -1);
         }
         break;
@@ -5008,15 +5008,15 @@ bool    CGameClient::ProcessGameData(CPacket &pkt)
             int iVictim(pkt.ReadInt(-1));
             uint uiIndex(pkt.ReadInt(INVALID_INDEX));           
             
-            CPlayer *pKiller(NULL);
+            CPlayer *pKiller(nullptr);
             
             if (yCmd == GAME_CMD_KILL_COURIER_MESSAGE)
                 pKiller = GetPlayer(iKiller);
             else
                 pKiller = GetPlayer(yKiller);           
             
-            tstring sKillerName(pKiller != NULL ? pKiller->GetName() : TSNULL);
-            CVec4f v4KillerColor(pKiller != NULL ? pKiller->GetColor() : WHITE);                                    
+            tstring sKillerName(pKiller != nullptr ? pKiller->GetName() : TSNULL);
+            CVec4f v4KillerColor(pKiller != nullptr ? pKiller->GetColor() : WHITE);
             
             if (yCmd == GAME_CMD_KILL_COURIER_MESSAGE2)
             {
@@ -5044,8 +5044,8 @@ bool    CGameClient::ProcessGameData(CPacket &pkt)
                 XtoA(INT_ROUND(v4KillerColor[B] * 9)));
             
             CPlayer *pVictim(GetPlayer(iVictim));
-            tstring sVictimName(pVictim != NULL ? pVictim->GetName() : TSNULL);
-            CVec4f v4VictimColor(pVictim != NULL ? pVictim->GetColor() : WHITE);
+            tstring sVictimName(pVictim != nullptr ? pVictim->GetName() : TSNULL);
+            CVec4f v4VictimColor(pVictim != nullptr ? pVictim->GetColor() : WHITE);
             tstring sVictimColor(_T("^") +
                 XtoA(INT_ROUND(v4VictimColor[R] * 9)) + 
                 XtoA(INT_ROUND(v4VictimColor[G] * 9)) +
@@ -5066,7 +5066,7 @@ bool    CGameClient::ProcessGameData(CPacket &pkt)
 
             // Even though the courier isn't a building, these green/red building kill indicators look nice, and calling 
             // the default PING_ALERT doesn't show the minimap ping for some reason (it just plays the noise) - JT
-            if (pUnit != NULL)
+            if (pUnit != nullptr)
             {
                 if (GetLocalPlayer()->GetTeam() == pUnit->GetTeam())
                     Ping(PING_ALLY_BUILDING_KILL, pUnit->GetPosition().x, pUnit->GetPosition().y, -1);
@@ -5103,7 +5103,7 @@ bool    CGameClient::ProcessGameData(CPacket &pkt)
 
             tstring sKillerName(_T("Someone"));
             CTeamInfo *pTeam(GetTeam(uiKillerTeam));
-            if (pTeam != NULL)
+            if (pTeam != nullptr)
                 sKillerName = pTeam->GetName();
 
             CVec4f v4KillerColor(uiKillerTeam == TEAM_1 ? LEGION_RED : uiKillerTeam == TEAM_2 ? CVec4f(HELLBOURNE_GREEN) : WHITE);
@@ -5113,8 +5113,8 @@ bool    CGameClient::ProcessGameData(CPacket &pkt)
                 XtoA(INT_ROUND(v4KillerColor[B] * 9)));
 
             CPlayer *pVictim(GetPlayer(iVictim));
-            tstring sVictimName(pVictim != NULL ? pVictim->GetName() : TSNULL);
-            CVec4f v4VictimColor(pVictim != NULL ? pVictim->GetColor() : WHITE);
+            tstring sVictimName(pVictim != nullptr ? pVictim->GetName() : TSNULL);
+            CVec4f v4VictimColor(pVictim != nullptr ? pVictim->GetColor() : WHITE);
             tstring sVictimColor(_T("^") +
                 XtoA(INT_ROUND(v4VictimColor[R] * 9)) + 
                 XtoA(INT_ROUND(v4VictimColor[G] * 9)) +
@@ -5130,11 +5130,11 @@ bool    CGameClient::ProcessGameData(CPacket &pkt)
             if (cg_drawMessages)
                 ChatManager.AddGameChatMessage(CHAT_MESSAGE_ADD, sMessage);
 
-            if (pVictim != NULL)
+            if (pVictim != nullptr)
             {
                 IHeroEntity *pHero(pVictim->GetHero());
 
-                if (pHero != NULL && pHero->IsVisibleOnMap(GetLocalPlayer()))
+                if (pHero != nullptr && pHero->IsVisibleOnMap(GetLocalPlayer()))
                     Ping(PING_KILL_HERO, pHero->GetPosition().x, pHero->GetPosition().y, pHero->GetOwnerClientNumber());
             }
         }
@@ -5145,8 +5145,8 @@ bool    CGameClient::ProcessGameData(CPacket &pkt)
             int iVictim(pkt.ReadInt(-1));
 
             CPlayer *pVictim(GetPlayer(iVictim));
-            tstring sVictimName(pVictim != NULL ? pVictim->GetName() : TSNULL);
-            CVec4f v4VictimColor(pVictim != NULL ? pVictim->GetColor() : WHITE);
+            tstring sVictimName(pVictim != nullptr ? pVictim->GetName() : TSNULL);
+            CVec4f v4VictimColor(pVictim != nullptr ? pVictim->GetColor() : WHITE);
             tstring sVictimColor(_T("^") +
                 XtoA(INT_ROUND(v4VictimColor[R] * 9)) + 
                 XtoA(INT_ROUND(v4VictimColor[G] * 9)) +
@@ -5160,11 +5160,11 @@ bool    CGameClient::ProcessGameData(CPacket &pkt)
             if (cg_drawMessages)
                 ChatManager.AddGameChatMessage(CHAT_MESSAGE_ADD, sMessage);
 
-            if (pVictim != NULL)
+            if (pVictim != nullptr)
             {
                 IHeroEntity *pHero(pVictim->GetHero());
 
-                if (pHero != NULL && pHero->IsVisibleOnMap(GetLocalPlayer()))
+                if (pHero != nullptr && pHero->IsVisibleOnMap(GetLocalPlayer()))
                     Ping(PING_KILL_HERO, pHero->GetPosition().x, pHero->GetPosition().y, pHero->GetOwnerClientNumber());
             }
         }
@@ -5175,8 +5175,8 @@ bool    CGameClient::ProcessGameData(CPacket &pkt)
             int iVictim(pkt.ReadInt(-1));
 
             CPlayer *pVictim(GetPlayer(iVictim));
-            tstring sVictimName(pVictim != NULL ? pVictim->GetName() : TSNULL);
-            CVec4f v4VictimColor(pVictim != NULL ? pVictim->GetColor() : WHITE);
+            tstring sVictimName(pVictim != nullptr ? pVictim->GetName() : TSNULL);
+            CVec4f v4VictimColor(pVictim != nullptr ? pVictim->GetColor() : WHITE);
             tstring sVictimColor(_T("^") +
                 XtoA(INT_ROUND(v4VictimColor[R] * 9)) + 
                 XtoA(INT_ROUND(v4VictimColor[G] * 9)) +
@@ -5197,8 +5197,8 @@ bool    CGameClient::ProcessGameData(CPacket &pkt)
             int iVictim(pkt.ReadInt(-1));
 
             CPlayer *pVictim(GetPlayer(iVictim));
-            tstring sVictimName(pVictim != NULL ? pVictim->GetName() : TSNULL);
-            CVec4f v4VictimColor(pVictim != NULL ? pVictim->GetColor() : WHITE);
+            tstring sVictimName(pVictim != nullptr ? pVictim->GetName() : TSNULL);
+            CVec4f v4VictimColor(pVictim != nullptr ? pVictim->GetColor() : WHITE);
             tstring sVictimColor(_T("^") +
                 XtoA(INT_ROUND(v4VictimColor[R] * 9)) + 
                 XtoA(INT_ROUND(v4VictimColor[G] * 9)) +
@@ -5212,11 +5212,11 @@ bool    CGameClient::ProcessGameData(CPacket &pkt)
             if (cg_drawMessages)
                 ChatManager.AddGameChatMessage(CHAT_MESSAGE_ADD, sMessage);
 
-            if (pVictim != NULL)
+            if (pVictim != nullptr)
             {
                 IHeroEntity *pHero(pVictim->GetHero());
 
-                if (pHero != NULL && pHero->IsVisibleOnMap(GetLocalPlayer()))
+                if (pHero != nullptr && pHero->IsVisibleOnMap(GetLocalPlayer()))
                     Ping(PING_KILL_HERO, pHero->GetPosition().x, pHero->GetPosition().y, pHero->GetOwnerClientNumber());
             }
         }
@@ -5227,8 +5227,8 @@ bool    CGameClient::ProcessGameData(CPacket &pkt)
             int iVictim(pkt.ReadInt(-1));
 
             CPlayer *pVictim(GetPlayer(iVictim));
-            tstring sVictimName(pVictim != NULL ? pVictim->GetName() : TSNULL);
-            CVec4f v4VictimColor(pVictim != NULL ? pVictim->GetColor() : WHITE);
+            tstring sVictimName(pVictim != nullptr ? pVictim->GetName() : TSNULL);
+            CVec4f v4VictimColor(pVictim != nullptr ? pVictim->GetColor() : WHITE);
             tstring sVictimColor(_T("^") +
                 XtoA(INT_ROUND(v4VictimColor[R] * 9)) + 
                 XtoA(INT_ROUND(v4VictimColor[G] * 9)) +
@@ -5244,7 +5244,7 @@ bool    CGameClient::ProcessGameData(CPacket &pkt)
             
             IHeroEntity *pHero(pVictim->GetHero());
 
-            if (pHero != NULL && pHero->IsVisibleOnMap(GetLocalPlayer()))
+            if (pHero != nullptr && pHero->IsVisibleOnMap(GetLocalPlayer()))
                 Ping(PING_KILL_HERO, pHero->GetPosition().x, pHero->GetPosition().y, pHero->GetOwnerClientNumber());
         }
         break;
@@ -5257,7 +5257,7 @@ bool    CGameClient::ProcessGameData(CPacket &pkt)
 
             tstring sKillerName(_T("Someone"));
             CTeamInfo *pTeam(GetTeam(uiKillerTeam));
-            if (pTeam != NULL)
+            if (pTeam != nullptr)
                 sKillerName = pTeam->GetName();
 
             CVec4f v4KillerColor(uiKillerTeam == TEAM_1 ? LEGION_RED : uiKillerTeam == TEAM_2 ? CVec4f(HELLBOURNE_GREEN) : WHITE);
@@ -5277,7 +5277,7 @@ bool    CGameClient::ProcessGameData(CPacket &pkt)
 
             IBuildingEntity *pBuilding(Game.GetBuildingEntity(uiIndex));
 
-            if (pBuilding != NULL)
+            if (pBuilding != nullptr)
             {
                 if (GetLocalPlayer()->GetTeam() == pBuilding->GetTeam())
                     Ping(PING_ALLY_BUILDING_KILL, pBuilding->GetPosition().x, pBuilding->GetPosition().y, -1);
@@ -5294,7 +5294,7 @@ bool    CGameClient::ProcessGameData(CPacket &pkt)
 
             tstring sDenierName(_T("Someone"));
             CTeamInfo *pTeam(GetTeam(uiDenyingTeam));
-            if (pTeam != NULL)
+            if (pTeam != nullptr)
                 sDenierName = pTeam->GetName();
 
             CVec4f v4DenierColor(uiDenyingTeam == TEAM_1 ? LEGION_RED : uiDenyingTeam == TEAM_2 ? CVec4f(HELLBOURNE_GREEN) : WHITE);
@@ -5316,7 +5316,7 @@ bool    CGameClient::ProcessGameData(CPacket &pkt)
 
             IBuildingEntity *pBuilding(Game.GetBuildingEntity(uiIndex));
 
-            if (pBuilding != NULL)
+            if (pBuilding != nullptr)
                 Ping(PING_ALERT, pBuilding->GetPosition().x, pBuilding->GetPosition().y, -1);
         }
         break;
@@ -5328,8 +5328,8 @@ bool    CGameClient::ProcessGameData(CPacket &pkt)
             ushort unGold(pkt.ReadShort(0));
 
             CPlayer *pKiller(GetPlayer(iKiller));
-            tstring sKillerName(pKiller != NULL ? pKiller->GetName() : TSNULL);
-            CVec4f v4KillerColor(pKiller != NULL ? pKiller->GetColor() : WHITE);
+            tstring sKillerName(pKiller != nullptr ? pKiller->GetName() : TSNULL);
+            CVec4f v4KillerColor(pKiller != nullptr ? pKiller->GetColor() : WHITE);
             tstring sKillerColor(_T("^") +
                 XtoA(INT_ROUND(v4KillerColor[R] * 9)) + 
                 XtoA(INT_ROUND(v4KillerColor[G] * 9)) +
@@ -5337,7 +5337,7 @@ bool    CGameClient::ProcessGameData(CPacket &pkt)
 
             tstring sRewardName(_T("Someone"));
             CTeamInfo *pTeam(GetTeam(uiRewardTeam));
-            if (pTeam != NULL)
+            if (pTeam != nullptr)
                 sRewardName = pTeam->GetName();
 
             CVec4f v4RewardColor(uiRewardTeam == TEAM_1 ? LEGION_RED : uiRewardTeam == TEAM_2 ? CVec4f(HELLBOURNE_GREEN) : WHITE);
@@ -5390,14 +5390,14 @@ bool    CGameClient::ProcessGameData(CPacket &pkt)
             byte yShareFlags(pkt.ReadByte(byte(-1)));
             
             CPlayer *pPlayer(GetPlayer(iSharingClient));
-            if (pPlayer == NULL)
+            if (pPlayer == nullptr)
                 break;
 
             if (yShareFlags > 3)
                 break;
 
-            tstring sPlayerName(pPlayer != NULL ? pPlayer->GetName() : TSNULL);
-            CVec4f v4PlayerColor(pPlayer != NULL ? pPlayer->GetColor() : WHITE);
+            tstring sPlayerName(pPlayer != nullptr ? pPlayer->GetName() : TSNULL);
+            CVec4f v4PlayerColor(pPlayer != nullptr ? pPlayer->GetColor() : WHITE);
             tstring sPlayerColor(_T("^") +
                 XtoA(INT_ROUND(v4PlayerColor[R] * 9)) + 
                 XtoA(INT_ROUND(v4PlayerColor[G] * 9)) +
@@ -5419,15 +5419,15 @@ bool    CGameClient::ProcessGameData(CPacket &pkt)
             ushort unPowerupType(pkt.ReadShort(INVALID_ENT_TYPE));
 
             CPowerupDefinition *pPowerupDef(EntityRegistry.GetDefinition<CPowerupDefinition>(unPowerupType));
-            if (pPowerupDef == NULL)
+            if (pPowerupDef == nullptr)
                 break;
 
             if (!cg_muteAnnouncerVoice && pPowerupDef->GetTouchSound() != INVALID_RESOURCE)
                 K2SoundManager.Play2DSound(pPowerupDef->GetTouchSound());
 
             CPlayer *pPlayer(GetPlayer(iPickupClient));
-            tstring sPlayerName(pPlayer != NULL ? pPlayer->GetName() : TSNULL);
-            CVec4f v4PlayerColor(pPlayer != NULL ? pPlayer->GetColor() : WHITE);
+            tstring sPlayerName(pPlayer != nullptr ? pPlayer->GetName() : TSNULL);
+            CVec4f v4PlayerColor(pPlayer != nullptr ? pPlayer->GetColor() : WHITE);
             tstring sPlayerColor(_T("^") +
                 XtoA(INT_ROUND(v4PlayerColor[R] * 9)) + 
                 XtoA(INT_ROUND(v4PlayerColor[G] * 9)) +
@@ -5461,7 +5461,7 @@ bool    CGameClient::ProcessGameData(CPacket &pkt)
 
             tstring sKillerTeamName(_T("Someone"));
             CTeamInfo *pKillerTeam(GetTeam(uiKillerTeam));
-            if (pKillerTeam != NULL)
+            if (pKillerTeam != nullptr)
                 sKillerTeamName = pKillerTeam->GetName();
 
             CVec4f v4KillerColor(uiKillerTeam == TEAM_1 ? LEGION_RED : uiKillerTeam == TEAM_2 ? CVec4f(HELLBOURNE_GREEN) : WHITE);
@@ -5469,7 +5469,7 @@ bool    CGameClient::ProcessGameData(CPacket &pkt)
 
             tstring sVictimTeamName(_T("Someone"));
             CTeamInfo *pVictimTeam(GetTeam(uiVictimTeam));
-            if (pVictimTeam != NULL)
+            if (pVictimTeam != nullptr)
                 sVictimTeamName = pVictimTeam->GetName();
 
             CVec4f v4VictimColor(uiVictimTeam == TEAM_1 ? LEGION_RED : uiVictimTeam == TEAM_2 ? CVec4f(HELLBOURNE_GREEN) : WHITE);
@@ -5494,7 +5494,7 @@ bool    CGameClient::ProcessGameData(CPacket &pkt)
 
             tstring sTeamName(_T("Someone"));
             CTeamInfo *pTeam(GetTeam(uiTeam));
-            if (pTeam != NULL)
+            if (pTeam != nullptr)
                 sTeamName = pTeam->GetName();
 
             CVec4f v4Color(uiTeam == TEAM_1 ? LEGION_RED : uiTeam == TEAM_2 ? CVec4f(HELLBOURNE_GREEN) : WHITE); 
@@ -5526,7 +5526,7 @@ bool    CGameClient::ProcessGameData(CPacket &pkt)
             pkt.ReadInt();  // Deprecated
 
             CPlayer *pPlayer(GetPlayer(iClientNumber));
-            if (pPlayer == NULL)
+            if (pPlayer == nullptr)
                 break;
 
             tsmapts mapTokens;
@@ -5550,7 +5550,7 @@ bool    CGameClient::ProcessGameData(CPacket &pkt)
             int iClientNumber(pkt.ReadInt(-1));
 
             CPlayer *pPlayer(GetPlayer(iClientNumber));
-            if (pPlayer == NULL)
+            if (pPlayer == nullptr)
                 break;
 
             tsmapts mapTokens;
@@ -5577,7 +5577,7 @@ bool    CGameClient::ProcessGameData(CPacket &pkt)
             int iClientNumber(pkt.ReadInt(-1));
 
             CPlayer *pPlayer(GetPlayer(iClientNumber));
-            if (pPlayer == NULL)
+            if (pPlayer == nullptr)
                 break;
 
             tsmapts mapTokens;
@@ -5605,7 +5605,7 @@ bool    CGameClient::ProcessGameData(CPacket &pkt)
             uint uiTotalDisconnectedTime(pkt.ReadInt());
 
             CPlayer *pPlayer(GetPlayer(iClientNumber));
-            if (pPlayer == NULL)
+            if (pPlayer == nullptr)
                 break;
 
             tsmapts mapTokens;
@@ -5634,7 +5634,7 @@ bool    CGameClient::ProcessGameData(CPacket &pkt)
             ushort unHero(pkt.ReadShort(INVALID_ENT_TYPE));
 
             CPlayer *pPlayer(GetPlayer(iClientNumber));
-            if (pPlayer == NULL)
+            if (pPlayer == nullptr)
                 break;
 
             CHeroDefinition *pHeroDef(EntityRegistry.GetDefinition<CHeroDefinition>(unHero));
@@ -5642,12 +5642,12 @@ bool    CGameClient::ProcessGameData(CPacket &pkt)
             tsmapts mapTokens;
             mapTokens[_CTS("player")] = pPlayer->GetName();
             mapTokens[_CTS("player_color")] = GetInlineColorString<tstring>(pPlayer->GetColor());
-            mapTokens[_CTS("hero_name")] = pHeroDef != NULL ? pHeroDef->GetDisplayName() : TSNULL;
+            mapTokens[_CTS("hero_name")] = pHeroDef != nullptr ? pHeroDef->GetDisplayName() : TSNULL;
 
             if (m_ahResources[CLIENT_RESOURCE_HERO_SELECT_SAMPLE] != INVALID_RESOURCE)
                 m_deqHeroAnnouncements.push_back(m_ahResources[CLIENT_RESOURCE_HERO_SELECT_SAMPLE]);
 
-            if (pHeroDef != NULL && !cg_muteAnnouncerVoice)
+            if (pHeroDef != nullptr && !cg_muteAnnouncerVoice)
             {           
                 pHeroDef->PrecacheAnnouncerSound();
                 ResHandle hAnnouncement(pHeroDef->GetAnnouncerSound());
@@ -5656,7 +5656,7 @@ bool    CGameClient::ProcessGameData(CPacket &pkt)
             }
 
             tstring sMessage;
-            if (pHeroDef != NULL)
+            if (pHeroDef != nullptr)
                 sMessage = GetGameMessage(_CTS("hero_pick"), mapTokens);
             else
             {
@@ -5674,11 +5674,11 @@ bool    CGameClient::ProcessGameData(CPacket &pkt)
             ushort unHero(pkt.ReadShort(INVALID_ENT_TYPE));
 
             CPlayer *pPlayer(GetPlayer(iClientNumber));
-            if (pPlayer == NULL)
+            if (pPlayer == nullptr)
                 break;
 
             CHeroDefinition *pHeroDef(EntityRegistry.GetDefinition<CHeroDefinition>(unHero));
-            if (pHeroDef == NULL)
+            if (pHeroDef == nullptr)
                 break;
 
             pPlayer->SelectPotentialHero(unHero);
@@ -5691,7 +5691,7 @@ bool    CGameClient::ProcessGameData(CPacket &pkt)
             ushort unHero(pkt.ReadShort(INVALID_ENT_TYPE));
 
             CPlayer *pPlayer(GetPlayer(iClientNumber));
-            if (pPlayer == NULL)
+            if (pPlayer == nullptr)
                 break;
 
             CHeroDefinition *pHeroDef(EntityRegistry.GetDefinition<CHeroDefinition>(unHero));
@@ -5706,7 +5706,7 @@ bool    CGameClient::ProcessGameData(CPacket &pkt)
                 if (m_ahResources[CLIENT_RESOURCE_HERO_SELECT_SAMPLE] != INVALID_RESOURCE)
                     m_deqHeroAnnouncements.push_back(m_ahResources[CLIENT_RESOURCE_HERO_SELECT_SAMPLE]);
 
-                if (pHeroDef != NULL && !cg_muteAnnouncerVoice && !HasGameOptions(GAME_OPTION_FORCE_RANDOM))
+                if (pHeroDef != nullptr && !cg_muteAnnouncerVoice && !HasGameOptions(GAME_OPTION_FORCE_RANDOM))
                 {
                     pHeroDef->PrecacheAnnouncerSound();
                     ResHandle hAnnouncement(pHeroDef->GetAnnouncerSound());
@@ -5716,7 +5716,7 @@ bool    CGameClient::ProcessGameData(CPacket &pkt)
             }
 
             tstring sMessage;
-            if (pHeroDef != NULL)
+            if (pHeroDef != nullptr)
                 sMessage = GetGameMessage(_CTS("hero_random"), mapTokens);
             else
             {
@@ -5734,7 +5734,7 @@ bool    CGameClient::ProcessGameData(CPacket &pkt)
             ushort unHero(pkt.ReadShort(INVALID_ENT_TYPE));
 
             CPlayer *pPlayer(GetPlayer(iClientNumber));
-            if (pPlayer == NULL)
+            if (pPlayer == nullptr)
                 break;
 
             CHeroDefinition *pHeroDef(EntityRegistry.GetDefinition<CHeroDefinition>(unHero));
@@ -5742,10 +5742,10 @@ bool    CGameClient::ProcessGameData(CPacket &pkt)
             tsmapts mapTokens;
             mapTokens[_CTS("player")] = pPlayer->GetName();
             mapTokens[_CTS("player_color")] = GetInlineColorString<tstring>(pPlayer->GetColor());
-            mapTokens[_CTS("hero_name")] = pHeroDef != NULL ? pHeroDef->GetDisplayName() : TSNULL;
+            mapTokens[_CTS("hero_name")] = pHeroDef != nullptr ? pHeroDef->GetDisplayName() : TSNULL;
 
             tstring sMessage;
-            if (pHeroDef != NULL)
+            if (pHeroDef != nullptr)
                 sMessage = GetGameMessage(_CTS("hero_repick"), mapTokens);
             else
             {
@@ -5763,11 +5763,11 @@ bool    CGameClient::ProcessGameData(CPacket &pkt)
             int iClientNumber2(pkt.ReadInt(-1));
 
             CPlayer *pPlayer(GetPlayer(iClientNumber));
-            if (pPlayer == NULL)
+            if (pPlayer == nullptr)
                 break;
 
             CPlayer *pPlayer2(GetPlayer(iClientNumber2));
-            if (pPlayer2 == NULL)
+            if (pPlayer2 == nullptr)
                 break;
 
             tsmapts mapTokens;
@@ -5787,7 +5787,7 @@ bool    CGameClient::ProcessGameData(CPacket &pkt)
             int iClientNumber(pkt.ReadInt(-1));
 
             CPlayer *pPlayer(GetPlayer(iClientNumber));
-            if (pPlayer == NULL)
+            if (pPlayer == nullptr)
                 break;
 
             tsmapts mapTokens;
@@ -5813,7 +5813,7 @@ bool    CGameClient::ProcessGameData(CPacket &pkt)
             int iClientNumber(pkt.ReadInt(-1));
 
             CPlayer *pPlayer(GetPlayer(iClientNumber));
-            if (pPlayer == NULL)
+            if (pPlayer == nullptr)
                 break;
 
             tsmapts mapTokens;
@@ -5831,7 +5831,7 @@ bool    CGameClient::ProcessGameData(CPacket &pkt)
             int iClientNumber(pkt.ReadInt(-1));
 
             CPlayer *pPlayer(GetPlayer(iClientNumber));
-            if (pPlayer == NULL)
+            if (pPlayer == nullptr)
                 break;
 
             tsmapts mapTokens;
@@ -5851,7 +5851,7 @@ bool    CGameClient::ProcessGameData(CPacket &pkt)
             int iTarget(pkt.ReadInt(-1));
 
             CPlayer *pPlayer(GetPlayer(iClientNumber));
-            if (pPlayer == NULL)
+            if (pPlayer == nullptr)
                 break;
 
             tstring sBaseMessage(_CTS("vote_called"));
@@ -5946,7 +5946,7 @@ bool    CGameClient::ProcessGameData(CPacket &pkt)
             int iTeam(pkt.ReadInt(TEAM_INVALID));
 
             CTeamInfo *pTeam(GetTeam(iTeam));
-            if (pTeam == NULL)
+            if (pTeam == nullptr)
                 break;
 
             tsmapts mapTokens;
@@ -6070,7 +6070,7 @@ bool    CGameClient::ProcessGameData(CPacket &pkt)
 
             IBuildingEntity *pBuilding(Game.GetBuildingEntity(uiIndex));
 
-            if (pBuilding != NULL)
+            if (pBuilding != nullptr)
                 Ping(PING_BUILDING_ATTACK, pBuilding->GetPosition().x, pBuilding->GetPosition().y, -1);
         }
         break;
@@ -6111,11 +6111,11 @@ bool    CGameClient::ProcessGameData(CPacket &pkt)
                 break;
 
             CClientEntity *pClEntity(GetClientEntity(uiUnitIndex));
-            if (pClEntity == NULL)
+            if (pClEntity == nullptr)
                 break;
 
             IUnitEntity *pUnit(GetUnitEntity(uiUnitIndex));
-            if (pUnit == NULL)
+            if (pUnit == nullptr)
                 break;
 
             ResHandle hSample(pUnit->GetTauntedSound());
@@ -6136,11 +6136,11 @@ bool    CGameClient::ProcessGameData(CPacket &pkt)
                 break;
 
             CClientEntity *pClEntity(GetClientEntity(uiUnitIndex));
-            if (pClEntity == NULL)
+            if (pClEntity == nullptr)
                 break;
 
             IUnitEntity *pUnit(GetUnitEntity(uiUnitIndex));
-            if (pUnit == NULL)
+            if (pUnit == nullptr)
                 break;
 
             ResHandle hSample(pUnit->GetTauntKillSound());
@@ -6158,7 +6158,7 @@ bool    CGameClient::ProcessGameData(CPacket &pkt)
             uint uiIndex(pkt.ReadInt(INVALID_INDEX));
             ushort unLength(pkt.ReadShort());
             IGameEntity *pEntity(GetEntity(uiIndex));
-            if (pEntity == NULL)
+            if (pEntity == nullptr)
             {
                 Console.Warn << _CTS("Bad entity #") << uiIndex << _CTS(" in GAME_CMD_EXTENDED_ENTITY_DATA message") << newl;
                 pkt.Advance(unLength);
@@ -6167,11 +6167,11 @@ bool    CGameClient::ProcessGameData(CPacket &pkt)
             {
                 pEntity->ReadExtendedData(pkt);
 
-                if (pEntity->GetAsStats() != NULL)
+                if (pEntity->GetAsStats() != nullptr)
                 {
                     CPlayer *pPlayer(Game.GetPlayer(pEntity->GetAsStats()->GetPlayerClientID()));
 
-                    if (pPlayer != NULL)
+                    if (pPlayer != nullptr)
                         m_pInterfaceManager->StoreEndGamePlayerStats(pPlayer);
                 }
             }
@@ -6191,11 +6191,11 @@ bool    CGameClient::ProcessGameData(CPacket &pkt)
                 uiActivator = INVALID_INDEX;
 
             CClientEntity *pClEntity(GetClientEntity(uiIndex));
-            if (pClEntity == NULL)
+            if (pClEntity == nullptr)
                 break;
 
             IUnitEntity *pUnit(GetUnitEntity(uiIndex));
-            if (pUnit == NULL)
+            if (pUnit == nullptr)
                 break;
 
             if (pUnit->IsBuilding() && pUnit->GetAsBuilding()->GetIsShop())
@@ -6211,16 +6211,16 @@ bool    CGameClient::ProcessGameData(CPacket &pkt)
                 uiIndex = INVALID_INDEX;
 
             CClientEntity *pClEntity(GetClientEntity(uiIndex));
-            if (pClEntity == NULL)
+            if (pClEntity == nullptr)
                 break;
 
             IUnitEntity *pUnit(GetUnitEntity(uiIndex));
-            if (pUnit == NULL)
+            if (pUnit == nullptr)
                 break;
 
             if (Game.GetActiveControlEntity() == uiIndex)
                 EventActiveLevelup.Trigger(TSNULL);
-            if (m_pLocalPlayer != NULL && m_pLocalPlayer->GetHeroIndex() == uiIndex)
+            if (m_pLocalPlayer != nullptr && m_pLocalPlayer->GetHeroIndex() == uiIndex)
                 EventHeroLevelup.Trigger(TSNULL);
         }
         break;
@@ -6233,16 +6233,16 @@ bool    CGameClient::ProcessGameData(CPacket &pkt)
                 uiIndex = INVALID_INDEX;
 
             CClientEntity *pClEntity(GetClientEntity(uiIndex));
-            if (pClEntity == NULL)
+            if (pClEntity == nullptr)
                 break;
 
             IUnitEntity *pUnit(GetUnitEntity(uiIndex));
-            if (pUnit == NULL)
+            if (pUnit == nullptr)
                 break;
 
             if (Game.GetActiveControlEntity() == uiIndex)
                 EventActiveExperience.Trigger(TSNULL);
-            if (m_pLocalPlayer != NULL && m_pLocalPlayer->GetHeroIndex() == uiIndex)
+            if (m_pLocalPlayer != nullptr && m_pLocalPlayer->GetHeroIndex() == uiIndex)
                 EventHeroExperience.Trigger(TSNULL);
         }
         break;
@@ -6262,11 +6262,11 @@ bool    CGameClient::ProcessGameData(CPacket &pkt)
                 uiIndex = INVALID_INDEX;
 
             CClientEntity *pClEntity(GetClientEntity(uiIndex));
-            if (pClEntity == NULL)
+            if (pClEntity == nullptr)
                 break;
 
             IUnitEntity *pUnit(GetUnitEntity(uiIndex));
-            if (pUnit == NULL)
+            if (pUnit == nullptr)
                 break;
 
             if (Game.GetActiveControlEntity() != uiIndex)
@@ -6335,11 +6335,11 @@ bool    CGameClient::ProcessGameData(CPacket &pkt)
                 uiIndex = INVALID_INDEX;
 
             CClientEntity *pClEntity(GetClientEntity(uiIndex));
-            if (pClEntity == NULL)
+            if (pClEntity == nullptr)
                 break;
 
             IUnitEntity *pUnit(GetUnitEntity(uiIndex));
-            if (pUnit == NULL)
+            if (pUnit == nullptr)
                 break;
 
             if (Game.GetActiveControlEntity() != uiIndex)
@@ -6457,7 +6457,7 @@ bool    CGameClient::ProcessGameData(CPacket &pkt)
             int iPlayer(pkt.ReadInt());
 
             CPlayer *pPlayer(GetPlayer(iPlayer));
-            if (pPlayer == NULL)
+            if (pPlayer == nullptr)
                 break;
 
             tsmapts mapTokens;
@@ -6486,7 +6486,7 @@ bool    CGameClient::ProcessGameData(CPacket &pkt)
             int iPlayer(pkt.ReadInt());
 
             CPlayer *pPlayer(GetPlayer(iPlayer));
-            if (pPlayer == NULL)
+            if (pPlayer == nullptr)
                 break;
 
             tsmapts mapTokens;
@@ -6537,7 +6537,7 @@ bool    CGameClient::ProcessGameData(CPacket &pkt)
             int iClientNumber(pkt.ReadInt(-1));
 
             CPlayer *pPlayer(GetPlayer(iClientNumber));
-            if (pPlayer == NULL)
+            if (pPlayer == nullptr)
                 break;
 
             tsmapts mapTokens;
@@ -6555,7 +6555,7 @@ bool    CGameClient::ProcessGameData(CPacket &pkt)
             int iClientNumber(pkt.ReadInt(-1));
 
             CPlayer *pPlayer(GetPlayer(iClientNumber));
-            if (pPlayer == NULL)
+            if (pPlayer == nullptr)
                 break;
 
             tsmapts mapTokens;
@@ -6573,7 +6573,7 @@ bool    CGameClient::ProcessGameData(CPacket &pkt)
             int iClientNumber(pkt.ReadInt(-1));
 
             CPlayer *pPlayer(GetPlayer(iClientNumber));
-            if (pPlayer == NULL)
+            if (pPlayer == nullptr)
                 break;
 
             tsmapts mapTokens;
@@ -6655,7 +6655,7 @@ bool    CGameClient::ProcessGameData(CPacket &pkt)
 
             IBuildingEntity *pBuilding(Game.GetBuildingEntity(uiBuildingIndex));
 
-            if (pBuilding != NULL)
+            if (pBuilding != nullptr)
             {
                 if (GetLocalPlayer()->GetTeam() == pBuilding->GetTeam())
                     Ping(PING_ALLY_BUILDING_KILL, pBuilding->GetPosition().x, pBuilding->GetPosition().y, -1);
@@ -6670,7 +6670,7 @@ bool    CGameClient::ProcessGameData(CPacket &pkt)
             int iClientNumber(pkt.ReadInt(-1));
 
             CPlayer *pPlayer(GetPlayer(iClientNumber));
-            if (pPlayer == NULL)
+            if (pPlayer == nullptr)
                 break;
 
             tsmapts mapTokens;
@@ -6705,7 +6705,7 @@ bool    CGameClient::ProcessGameData(CPacket &pkt)
             tstring sParam(WStringToTString(pkt.ReadWString()));
 
             CUITrigger *pUITrigger(UITriggerRegistry.GetUITrigger(sName));
-            if (pUITrigger != NULL)
+            if (pUITrigger != nullptr)
                 pUITrigger->Trigger(sParam);
         }
         break;
@@ -6787,7 +6787,7 @@ bool    CGameClient::ProcessGameData(CPacket &pkt)
             int iPlayer(pkt.ReadInt());
 
             CPlayer *pPlayer(GetPlayer(iPlayer));
-            if (pPlayer == NULL)
+            if (pPlayer == nullptr)
                 break;
 
             tsmapts mapTokens;
@@ -6806,7 +6806,7 @@ bool    CGameClient::ProcessGameData(CPacket &pkt)
             int iPlayer(pkt.ReadInt());
 
             CPlayer *pPlayer(GetPlayer(iPlayer));
-            if (pPlayer == NULL)
+            if (pPlayer == nullptr)
                 break;
 
             tsmapts mapTokens;
@@ -6830,7 +6830,7 @@ bool    CGameClient::ProcessGameData(CPacket &pkt)
             int iPlayer(pkt.ReadInt());
 
             CPlayer *pPlayer(GetPlayer(iPlayer));
-            if (pPlayer == NULL)
+            if (pPlayer == nullptr)
                 break;
 
             if (yIsReferee != byte(-1))
@@ -6882,7 +6882,7 @@ bool    CGameClient::ProcessGameData(CPacket &pkt)
             int iClientNumber(pkt.ReadInt(-1));
 
             CPlayer *pPlayer(GetPlayer(iClientNumber));
-            if (pPlayer == NULL)
+            if (pPlayer == nullptr)
                 break;
 
             tsmapts mapTokens;
@@ -6902,7 +6902,7 @@ bool    CGameClient::ProcessGameData(CPacket &pkt)
             uint uiTeam(pkt.ReadInt(-1));
 
             CGameInfo* pGameInfo(Game.GetGameInfo());
-            if (pGameInfo != NULL)
+            if (pGameInfo != nullptr)
             {
                 pGameInfo->SetFirstBanTeam(uiTeam);
 
@@ -6943,7 +6943,7 @@ bool    CGameClient::ProcessGameData(CPacket &pkt)
             {
                 int iPlayer(iPlayerList[i]);
                 CPlayer *pPlayer(GetPlayer(iPlayer));
-                if (pPlayer == NULL)
+                if (pPlayer == nullptr)
                     continue;
 
                 tsmapts mapTokens;
@@ -6968,7 +6968,7 @@ bool    CGameClient::ProcessGameData(CPacket &pkt)
 
             // Notify our clientcommander of the new pet
             CClientCommander *pCommander(GetClientCommander());
-            if (pCommander != NULL)
+            if (pCommander != nullptr)
                 pCommander->OnPetAdded(uiPetIndex);
         }
         break;
@@ -6989,8 +6989,8 @@ bool    CGameClient::ProcessGameData(CPacket &pkt)
                 ushort uiPing(pkt.ReadShort());
 
                 CPlayer* pPlayer(Game.GetPlayer(iClientNum));
-                assert(pPlayer != NULL);
-                if (pPlayer == NULL)
+                assert(pPlayer != nullptr);
+                if (pPlayer == nullptr)
                     continue;
 
                 tsmapts mapTokens;
@@ -7018,7 +7018,7 @@ bool    CGameClient::ProcessGameData(CPacket &pkt)
             CPlayer *pKiller(GetPlayer(iKiller));
             CPlayer *pVictim(GetPlayer(iVictim));
             
-            if (pKiller == NULL || pVictim == NULL)
+            if (pKiller == nullptr || pVictim == nullptr)
                 break;
                 
             const tstring sKillerName(pKiller->GetName());
@@ -7070,7 +7070,7 @@ bool    CGameClient::ProcessGameData(CPacket &pkt)
             CPlayer *pKiller(GetPlayer(iKiller));
             CPlayer *pVictim(GetPlayer(iVictim));
             
-            if (pKiller == NULL || pVictim == NULL)
+            if (pKiller == nullptr || pVictim == nullptr)
                 break;
                 
             const tstring sKillerName(pKiller->GetName());
@@ -7275,7 +7275,7 @@ void    CGameClient::Cancel()
     }
 
     CClientCommander *pCommander(GetClientCommander());
-    if (pCommander != NULL)
+    if (pCommander != nullptr)
         pCommander->Cancel(Input.GetCursorPos());
 }
 
@@ -7380,7 +7380,7 @@ void    CGameClient::PlaySoundStationary(const tstring &sSound, int iChannel, fl
     if (hSample == INVALID_RESOURCE || !m_pCurrentEntity)
         return;
 
-    K2SoundManager.PlaySFXSound(hSample, &m_pCurrentEntity->GetCurrentEntity()->GetPosition(), NULL, fVolume, fFalloff);
+    K2SoundManager.PlaySFXSound(hSample, &m_pCurrentEntity->GetCurrentEntity()->GetPosition(), nullptr, fVolume, fFalloff);
 }
 
 
@@ -7529,7 +7529,7 @@ IVisualEntity*  CGameClient::GetClientEntityNext(uint uiIndex) const
   ====================*/
 CPlayer*    CGameClient::GetPlayerByName(const tstring &sName) const
 {
-    return NULL;
+    return nullptr;
 }
 
 
@@ -7540,7 +7540,7 @@ uint    CGameClient::GetNumClients() const
 {
     uint uiNumPlayers(0);
 
-    if (m_pClientEntityDirectory == NULL)
+    if (m_pClientEntityDirectory == nullptr)
         return 0;
 
     for (PlayerMap::const_iterator it(m_mapClients.begin()); it != m_mapClients.end(); ++it)
@@ -7558,7 +7558,7 @@ void    CGameClient::UpdateMinimap()
 {
     PROFILE("CGameClient::UpdateMinimap");
 
-    if (m_pLocalPlayer == NULL)
+    if (m_pLocalPlayer == nullptr)
         return;
 
     // Limit minimap updates to cg_minimapFPS
@@ -7606,7 +7606,7 @@ void    CGameClient::UpdateMinimap()
                     continue;
 
                 IUnitEntity *pUnit(pClEnt->GetCurrentEntity()->GetAsUnit());
-                if (pUnit == NULL)
+                if (pUnit == nullptr)
                     continue;
                 if (pTeam->IsTeamTarget(pUnit->GetIndex()))
                     continue;
@@ -7621,7 +7621,7 @@ void    CGameClient::UpdateMinimap()
         for (CClientEntity *pClEnt(m_pClientEntityDirectory->GetFirstClientEntity()); pClEnt != pEnd; pClEnt = pClEnt->GetNextClientEntity())
         {
             IVisualEntity *pEntity(pClEnt->GetCurrentEntity());
-            if (pEntity == NULL)
+            if (pEntity == nullptr)
                 continue;
             if (pEntity->GetType() != Entity_NeutralCampController &&
                 pEntity->GetType() != Entity_BossController)
@@ -7636,7 +7636,7 @@ void    CGameClient::UpdateMinimap()
         {
             CTeamInfo* pTeam(m_pLocalPlayer->GetTeamInfo());
             IBuildingEntity *pBuilding(pClEnt->GetCurrentEntity()->GetAsBuilding());
-            if (pBuilding == NULL)
+            if (pBuilding == nullptr)
                 continue;
             if (pTeam->IsTeamTarget(pBuilding->GetIndex()))
             {
@@ -7656,7 +7656,7 @@ void    CGameClient::UpdateMinimap()
         for (CClientEntity *pClEnt(m_pClientEntityDirectory->GetFirstClientEntity()); pClEnt != pEnd; pClEnt = pClEnt->GetNextClientEntity())
         {
             IUnitEntity *pUnit(pClEnt->GetCurrentEntity()->GetAsUnit());
-            if (pUnit == NULL || pUnit->IsHero())
+            if (pUnit == nullptr || pUnit->IsHero())
                 continue;
 
             if (pUnit->IsGadget())
@@ -7681,7 +7681,7 @@ void    CGameClient::UpdateMinimap()
         for (CClientEntity *pClEnt(m_pClientEntityDirectory->GetFirstClientEntity()); pClEnt != pEnd; pClEnt = pClEnt->GetNextClientEntity())
         {
             IHeroEntity *pHero(pClEnt->GetCurrentEntity()->GetAsHero());
-            if (pHero == NULL || m_pLocalPlayer->IsEnemy(pHero))
+            if (pHero == nullptr || m_pLocalPlayer->IsEnemy(pHero))
                 continue;
             if (pHero->GetIndex() == m_uiMinimapHoverUnit)
             {
@@ -7703,7 +7703,7 @@ void    CGameClient::UpdateMinimap()
         {
             CTeamInfo* pTeam(m_pLocalPlayer->GetTeamInfo());
             IHeroEntity *pHero(pClEnt->GetCurrentEntity()->GetAsHero());
-            if (pHero == NULL || !m_pLocalPlayer->IsEnemy(pHero))
+            if (pHero == nullptr || !m_pLocalPlayer->IsEnemy(pHero))
                 continue;
             if (pTeam->IsTeamTarget(pHero->GetIndex()))
             {
@@ -7761,7 +7761,7 @@ void    CGameClient::UpdateMinimap()
     }
 
     // Draw view box
-    if (m_pLocalPlayer != NULL && Game.GetGamePhase() >= GAME_PHASE_PRE_MATCH)
+    if (m_pLocalPlayer != nullptr && Game.GetGamePhase() >= GAME_PHASE_PRE_MATCH)
         m_pLocalPlayer->DrawViewBox(Minimap, *m_pCamera);
 
     UpdateMinimapPings();
@@ -8084,7 +8084,7 @@ void    CGameClient::ForceInterfaceRefresh()
 void    CEntityStringTableWatcher::Rebuild(ResHandle hResource)
 {
     CGameMechanics *pGameMechanics(GameClient.GetGameMechanics());
-    if (pGameMechanics != NULL)
+    if (pGameMechanics != nullptr)
         pGameMechanics->PostLoad();
 
     GameClient.PostProcessEntities();
@@ -8101,7 +8101,7 @@ void    CGameClient::DrawAreaCast()
     // Hover highlight
     if (cg_hoverHighlight)
     {
-        if (pHoverUnit != NULL)
+        if (pHoverUnit != nullptr)
         {
             pHoverUnit->SetHighlightFrame();
             pHoverUnit->SetHighlightColor(pHoverUnit->GetSelectionColor(m_pLocalPlayer) * cg_hoverHighlightStrength + CVec4f(cg_hoverHighlightBase, 1.0f));
@@ -8124,8 +8124,8 @@ void    CGameClient::DrawAreaCast()
     }
 
     IUnitEntity *pUnit(m_pClientCommander->GetSelectedControlEntity());
-    IEntityTool *pItem(NULL);
-    if (pUnit == NULL || (pItem = pUnit->GetTool(m_pClientCommander->GetActiveSlot())) == NULL)
+    IEntityTool *pItem(nullptr);
+    if (pUnit == nullptr || (pItem = pUnit->GetTool(m_pClientCommander->GetActiveSlot())) == nullptr)
         return;
 
     //if (!pItem->IsReady())
@@ -8143,7 +8143,7 @@ void    CGameClient::DrawAreaCast()
         for (uivector_it it(vResult.begin()); it != vResult.end(); ++it)
         {
             IUnitEntity *pUnit(GameClient.GetUnitEntity(GameClient.GetGameIndexFromWorldIndex(*it)));
-            if (pUnit == NULL)
+            if (pUnit == nullptr)
                 continue;
 
             if (!Game.IsValidTarget(pItem->GetTargetScheme(), pItem->GetCastEffectType(), pItem->GetOwner(), pUnit, false))
@@ -8162,7 +8162,7 @@ void    CGameClient::DrawAreaCast()
         for (uivector_it it(vResult.begin()); it != vResult.end(); ++it)
         {
             IUnitEntity *pUnit(GameClient.GetUnitEntity(GameClient.GetGameIndexFromWorldIndex(*it)));
-            if (pUnit == NULL)
+            if (pUnit == nullptr)
                 continue;
 
             if (!Game.IsValidTarget(pItem->GetTargetScheme(), pItem->GetCastEffectType(), pItem->GetOwner(), pUnit, false))
@@ -8186,7 +8186,7 @@ void    CGameClient::DrawAreaCast()
         for (uivector_it it(vResult.begin()); it != vResult.end(); ++it)
         {
             IUnitEntity *pUnit(GameClient.GetUnitEntity(GameClient.GetGameIndexFromWorldIndex(*it)));
-            if (pUnit == NULL)
+            if (pUnit == nullptr)
                 continue;
 
             if (!Game.IsValidTarget(pItem->GetNoTargetScheme(), pItem->GetNoCastEffectType(), pItem->GetOwner(), pUnit, false))
@@ -8200,7 +8200,7 @@ void    CGameClient::DrawAreaCast()
         ResHandle hMaterial(pItem ? pItem->GetNoTargetMaterial() : INVALID_RESOURCE);
 
         if (bInvalidTarget &&
-            pItem != NULL &&
+            pItem != nullptr &&
             pItem->GetNoTargetRadius() > 0.0f &&
             hMaterial != INVALID_RESOURCE &&
             (pItem->GetActionType() == TOOL_ACTION_TARGET_POSITION ||
@@ -8273,7 +8273,7 @@ void    CGameClient::DrawVoiceInfo()
 
         pPlayer = GetClientEntityCurrent(it->first);
 
-        if (pPlayer == NULL)
+        if (pPlayer == nullptr)
         {
             STL_ERASE(m_mapVoiceMarkers, it);
             continue;
@@ -8299,12 +8299,12 @@ void    CGameClient::DrawVoiceInfo()
         {
             pPlayer = GetPlayer(it->first);
 
-            if (pPlayer == NULL)
+            if (pPlayer == nullptr)
                 continue;
 
             pPlayer = GetClientEntityCurrent(pPlayer->GetIndex());
 
-            if (pPlayer == NULL)
+            if (pPlayer == nullptr)
                 continue;
 
             cRect = CRectf(0.0f, 0.0f, float(Vid.GetScreenW()), float(Vid.GetScreenH()));
@@ -8324,10 +8324,10 @@ void    CGameClient::DrawVoiceInfo()
     {
         pPlayer = GetPlayer();
 
-        if (pPlayer != NULL)
+        if (pPlayer != nullptr)
             pPlayer = GetClientEntityCurrent(pPlayer->GetIndex());
 
-        if (pPlayer != NULL)
+        if (pPlayer != nullptr)
         {
             cRect = CRectf(0.0f, 0.0f, float(Vid.GetScreenW()), float(Vid.GetScreenH()));
             v3EntPos = pPlayer->GetPosition() + CVec3f(0.0f, 0.0f, g_ResourceManager.GetModelBounds(pPlayer->GetModelHandle()).GetMax().z * pPlayer->GetScale());
@@ -8351,7 +8351,7 @@ void    CGameClient::DrawAltInfo()
 {
     PROFILE("CGameClient::DrawAltInfo");
 
-    if (m_pLocalPlayer == NULL)
+    if (m_pLocalPlayer == nullptr)
         return;
 
     // Aquire the interfaces
@@ -8360,10 +8360,10 @@ void    CGameClient::DrawAltInfo()
     CInterface *pInterfaceHero(UIManager.GetInterface(m_ahResources[CLIENT_RESOURCE_ALT_INFO_HERO_INTERFACE]));
     CInterface *pInterfaceBuilding(UIManager.GetInterface(m_ahResources[CLIENT_RESOURCE_ALT_INFO_BUILDING_INTERFACE]));
 
-    if (pInterfaceGeneric == NULL ||
-        pInterfaceCreep == NULL ||
-        pInterfaceHero == NULL ||
-        pInterfaceBuilding == NULL)
+    if (pInterfaceGeneric == nullptr ||
+        pInterfaceCreep == nullptr ||
+        pInterfaceHero == nullptr ||
+        pInterfaceBuilding == nullptr)
         return;
 
     CRectf cRect(m_pCamera->GetX(), m_pCamera->GetY(), m_pCamera->GetX() + m_pCamera->GetWidth(), m_pCamera->GetY() + m_pCamera->GetHeight());
@@ -8377,8 +8377,8 @@ void    CGameClient::DrawAltInfo()
         CClientEntity *pEnd(m_pClientEntityDirectory->GetFirstLocalClientEntity());
         for (CClientEntity *pClEnt(m_pClientEntityDirectory->GetFirstClientEntity()); pClEnt != pEnd; pClEnt = pClEnt->GetNextClientEntity())
         {
-            IUnitEntity *pUnit(pClEnt->GetCurrentEntity() ? pClEnt->GetCurrentEntity()->GetAsUnit() : NULL);
-            if (pUnit == NULL)
+            IUnitEntity *pUnit(pClEnt->GetCurrentEntity() ? pClEnt->GetCurrentEntity()->GetAsUnit() : nullptr);
+            if (pUnit == nullptr)
                 continue;
             if (pUnit->GetTeam() == TEAM_PASSIVE)
                 continue;
@@ -8402,7 +8402,7 @@ void    CGameClient::DrawAltInfo()
     for (uiset_cit it(setHoverEntities.begin()); it != setHoverEntities.end(); ++it)
     {
         IUnitEntity *pUnit(GetUnitEntity(*it));
-        if (pUnit == NULL)
+        if (pUnit == nullptr)
             continue;
         if (pUnit->GetStatus() != ENTITY_STATUS_ACTIVE)
             continue;
@@ -8423,7 +8423,7 @@ void    CGameClient::DrawAltInfo()
     {
         IUnitEntity *pEntity(*it);
         
-        if (pEntity == NULL)
+        if (pEntity == nullptr)
             continue;
 
         float fOffset;
@@ -8546,9 +8546,9 @@ void    CGameClient::DrawAltInfo()
 
         pInterface->SetAlwaysUpdate(true);
 
-        if (pPlayer != NULL)
+        if (pPlayer != nullptr)
             m_pInterfaceManager->Trigger(eTriggerPlayer, pPlayer->GetName());
-        else if (pTeam != NULL)
+        else if (pTeam != nullptr)
             m_pInterfaceManager->Trigger(eTriggerPlayer, pTeam->GetName());
         else
             m_pInterfaceManager->Trigger(eTriggerPlayer, TSNULL);
@@ -8572,9 +8572,9 @@ void    CGameClient::DrawAltInfo()
 
         static tsvector vColor(2);
         vColor[0] = XtoA(pEntity->GetSelectionColor(m_pLocalPlayer));
-        if (pPlayer != NULL)
+        if (pPlayer != nullptr)
             vColor[1] = XtoA(pPlayer->GetColor());
-        else if (pTeam != NULL)
+        else if (pTeam != nullptr)
             vColor[1] = XtoA(pTeam->GetColor());
         else
             vColor[1] = XtoA(WHITE);
@@ -8632,7 +8632,7 @@ void    CGameClient::DrawAltInfo()
                 if (pLocalPlayer && pLocalPlayer->IsEnemy(pEntity))
                 {
                     IHeroEntity* pHero(pLocalPlayer->GetHero());
-                    if (pHero != NULL)
+                    if (pHero != nullptr)
                     {
                         CVec3f vCreepPos(pEntity->GetPosition());
                         CWorldEntity* pWorldHeroEntity(Game.GetWorldEntity(pHero->GetWorldIndex()));
@@ -8751,7 +8751,7 @@ void    CGameClient::DrawPopupMessages()
         }
 
         IUnitEntity *pEntity(GetUnitEntity(it->uiEntityIndex));
-        if (pEntity == NULL)
+        if (pEntity == nullptr)
         {
             it = m_vPopupMessage.erase(it);
             continue;
@@ -8886,7 +8886,7 @@ void    CGameClient::PrecacheEntities()
         AddResourceToLoadingQueue(CLIENT_RESOURCE_UNTRACKED, EntityRegistry.LookupName(*it), RES_ENTITY_DEF);
 
         CShopDefinition *pShop(EntityRegistry.GetDefinition<CShopDefinition>(*it));
-        if (pShop == NULL)
+        if (pShop == nullptr)
             continue;
 
         const tsvector &vsItems(pShop->GetItems());
@@ -8919,7 +8919,7 @@ void    CGameClient::DrawFogofWar()
 {
     PROFILE("CGameClient::DrawFogofWar");
 
-    if (m_pLocalPlayer == NULL)
+    if (m_pLocalPlayer == nullptr)
     {
         Vid.RenderFogofWar(1.0f, false, 0.0f);
         return;
@@ -8947,7 +8947,7 @@ void    CGameClient::DrawFogofWar()
             {
                 IVisualEntity *pCurrent(pClEnt->GetCurrentEntity());
 
-                if (pCurrent == NULL || !pCurrent->IsUnit())
+                if (pCurrent == nullptr || !pCurrent->IsUnit())
                     continue;
 
                 IUnitEntity *pCurrentUnit(pCurrent->GetAsUnit());
@@ -9095,8 +9095,8 @@ int     CGameClient::StartClientGameEffect(ResHandle hEffect, int iChannel, int 
         return -1;
 
     CEffect* pEffect(g_ResourceManager.GetEffect(hEffect));
-    assert(pEffect != NULL);
-    if (pEffect == NULL)
+    assert(pEffect != nullptr);
+    if (pEffect == nullptr)
         return -1;
 
     // Search from an unused effect slot
@@ -9118,7 +9118,7 @@ int     CGameClient::StartClientGameEffect(ResHandle hEffect, int iChannel, int 
     if (m_apEffectThreads[iChannel])
     {
         K2_DELETE(m_apEffectThreads[iChannel]);
-        m_apEffectThreads[iChannel] = NULL;
+        m_apEffectThreads[iChannel] = nullptr;
     }
 
     if (pEffect)
@@ -9128,10 +9128,10 @@ int     CGameClient::StartClientGameEffect(ResHandle hEffect, int iChannel, int 
         m_apEffectThreads[iChannel]->SetCamera(GameClient.GetCamera());
         m_apEffectThreads[iChannel]->SetWorld(GameClient.GetWorldPointer());
 
-        m_apEffectThreads[iChannel]->SetSourceSkeleton(NULL);
-        m_apEffectThreads[iChannel]->SetSourceModel(NULL);
-        m_apEffectThreads[iChannel]->SetTargetSkeleton(NULL);
-        m_apEffectThreads[iChannel]->SetTargetModel(NULL);
+        m_apEffectThreads[iChannel]->SetSourceSkeleton(nullptr);
+        m_apEffectThreads[iChannel]->SetSourceModel(nullptr);
+        m_apEffectThreads[iChannel]->SetTargetSkeleton(nullptr);
+        m_apEffectThreads[iChannel]->SetTargetModel(nullptr);
 
         m_apEffectThreads[iChannel]->SetActive(true);
 
@@ -9143,7 +9143,7 @@ int     CGameClient::StartClientGameEffect(ResHandle hEffect, int iChannel, int 
         {
             // Effect finished, so delete it
             K2_DELETE(m_apEffectThreads[iChannel]);
-            m_apEffectThreads[iChannel] = NULL;
+            m_apEffectThreads[iChannel] = nullptr;
         }
     }
 
@@ -9162,7 +9162,7 @@ void    CGameClient::StopClientGameEffect(int iChannel)
     if (m_apEffectThreads[iChannel])
     {
         K2_DELETE(m_apEffectThreads[iChannel]);
-        m_apEffectThreads[iChannel] = NULL;
+        m_apEffectThreads[iChannel] = nullptr;
     }
 }
 
@@ -9210,7 +9210,7 @@ void    CGameClient::AddClientGameEffects()
         {
             // Effect finished, so delete it
             K2_DELETE(m_apEffectThreads[i]);
-            m_apEffectThreads[i] = NULL;
+            m_apEffectThreads[i] = nullptr;
         }
         else
         {
@@ -9314,7 +9314,7 @@ void    CGameClient::SendClientSnapshot()
         if (m_uiSnapshotBufferPos >= m_vServerSnapshots.size())
             m_uiSnapshotBufferPos = 0;
 
-        const CSnapshot *pSnapshot(m_vServerSnapshots[m_uiSnapshotBufferPos] != INVALID_POOL_HANDLE ? CSnapshot::GetByHandle(m_vServerSnapshots[m_uiSnapshotBufferPos]) : NULL);
+        const CSnapshot *pSnapshot(m_vServerSnapshots[m_uiSnapshotBufferPos] != INVALID_POOL_HANDLE ? CSnapshot::GetByHandle(m_vServerSnapshots[m_uiSnapshotBufferPos]) : nullptr);
 
         if (pSnapshot && pSnapshot->IsValid() && pSnapshot->GetFrameNumber() >= m_pHostClient->GetLastAckedServerFrame())
         {
@@ -9332,7 +9332,7 @@ void    CGameClient::SendClientSnapshot()
         m_vServerSnapshots[m_uiSnapshotBufferPos] = CSnapshot::Allocate(m_CurrentServerSnapshot);
     }
 
-    const CSnapshot *pSnapshot(m_vServerSnapshots[m_uiSnapshotBufferPos] != INVALID_POOL_HANDLE ? CSnapshot::GetByHandle(m_vServerSnapshots[m_uiSnapshotBufferPos]) : NULL);
+    const CSnapshot *pSnapshot(m_vServerSnapshots[m_uiSnapshotBufferPos] != INVALID_POOL_HANDLE ? CSnapshot::GetByHandle(m_vServerSnapshots[m_uiSnapshotBufferPos]) : nullptr);
     
     m_CurrentClientSnapshot.Update(GetGameTime(), GetFrameLength(), pSnapshot ? pSnapshot->GetFrameNumber() : 0);
     m_PendingClientSnapshot.Merge(m_CurrentClientSnapshot);
@@ -9497,11 +9497,11 @@ void    CGameClient::RenderSelectedPlayerView(uint uiPlayerIndex)
     if (!pip_show)
         return;
 
-    if (m_pClientCommander == NULL)
+    if (m_pClientCommander == nullptr)
         return;
 
     IUnitEntity *pUnit(m_pClientCommander->GetSelectedControlEntity());
-    if (pUnit == NULL)
+    if (pUnit == nullptr)
         return;
 
     CCamera camPip(*m_pCamera);
@@ -9540,16 +9540,16 @@ void    CGameClient::DrawSelectedStats()
         return;
 
     IUnitEntity *pUnit(m_pClientCommander->GetSelectedInfoEntity());
-    if (pUnit == NULL)
+    if (pUnit == nullptr)
     {
         pUnit = m_pClientCommander->GetSelectedControlEntity();
-        if (pUnit == NULL)
+        if (pUnit == nullptr)
             return;
     }
 
     ResHandle hFont(g_ResourceManager.LookUpName(_T("system_small"), RES_FONTMAP));
     CFontMap *pFontMap(g_ResourceManager.GetFontMap(hFont));
-    if (pFontMap == NULL)
+    if (pFontMap == nullptr)
         return;
     
     const float fLines(28.0f);
@@ -9733,7 +9733,7 @@ void    CGameClient::UpdateTeamRosters()
     for (int iTeam(0); iTeam <= 2; ++iTeam)
     {
         CTeamInfo *pTeam(GameClient.GetTeam(iTeam));
-        if (pTeam == NULL)
+        if (pTeam == nullptr)
             continue;
 
         ivector &vClients(pTeam->GetClientList());
@@ -9745,7 +9745,7 @@ void    CGameClient::UpdateTeamRosters()
         CPlayer *pClient(it->second);
 
         CTeamInfo *pTeam(GameClient.GetTeam(pClient->GetTeam()));
-        if (pTeam == NULL)
+        if (pTeam == nullptr)
             continue;
 
         if (pClient->GetTeamIndex() < 0)
@@ -9844,7 +9844,7 @@ int     CGameClient::GetConnectedClientCount(int iTeam)
     }
 
     CTeamInfo *pTeam(GetTeam(iTeam));
-    if (pTeam == NULL)
+    if (pTeam == nullptr)
         return 0;
 
     return pTeam->GetNumClients();
@@ -9857,7 +9857,7 @@ int     CGameClient::GetConnectedClientCount(int iTeam)
 void    CGameClient::RemoveClient(int iClientNum)
 {
     if (m_pLocalPlayer && m_pLocalPlayer->GetClientNumber() == iClientNum)
-        m_pLocalPlayer = NULL;
+        m_pLocalPlayer = nullptr;
 
     m_mapClients.erase(iClientNum);
     UpdateTeamRosters();
@@ -9881,13 +9881,13 @@ void    CGameClient::PrimaryAction(int iSlot)
         return;
 
     IEntityItem *pItem(pUnit->GetItem(iSlot));
-    if (pItem != NULL)
+    if (pItem != nullptr)
     {
         if (!pItem->HasFlag(ENTITY_TOOL_FLAG_ASSEMBLED))
         {
             ushort unShop(GetShop(pItem->GetTypeName()));
             CShopDefinition *pShop(EntityRegistry.GetDefinition<CShopDefinition>(unShop));
-            if (pShop != NULL)
+            if (pShop != nullptr)
             {
                 if (m_pInterfaceManager->IsShopVisible() &&
                     GetActiveShop() == EntityRegistry.LookupName(unShop) &&
@@ -9921,7 +9921,7 @@ void    CGameClient::SecondaryAction(int iSlot)
         return;
 
     IEntityItem *pItem(pUnit->GetItem(iSlot));
-    if (pItem == NULL || !pItem->CanDrop() || pItem->HasFlag(ENTITY_TOOL_FLAG_LOCKED))
+    if (pItem == nullptr || !pItem->CanDrop() || pItem->HasFlag(ENTITY_TOOL_FLAG_LOCKED))
         return;
 
     if (Input.IsCtrlDown() && !Input.IsShiftDown() && pItem->GetNoStash())
@@ -9977,7 +9977,7 @@ void    CGameClient::ItemPlace(int iSlot)
     bool bFromStash(pItem->GetSlot() >= INVENTORY_START_STASH && pItem->GetSlot() <= INVENTORY_END_STASH);
     bool bToStash(iSlot >= INVENTORY_START_STASH && iSlot <= INVENTORY_END_STASH);
 
-    if (pBlockingItem != NULL)
+    if (pBlockingItem != nullptr)
     {
         if (bToStash && pBlockingItem->GetNoStash())
             return;
@@ -10008,24 +10008,24 @@ void    CGameClient::PrimaryActionStash(int iSlot)
         return;
 
     IUnitEntity *pUnit(GetUnitEntity(uiUnitIndex));
-    if (pUnit == NULL)
+    if (pUnit == nullptr)
         return;
 
     IUnitEntity *pStash(m_pLocalPlayer->GetHero());
-    if (pStash == NULL)
+    if (pStash == nullptr)
         return;
 
     if (iSlot < 0 || iSlot > INVENTORY_STASH_SIZE)
         return;
 
     IEntityItem *pItem(pStash->GetItem(iSlot + INVENTORY_START_STASH));
-    if (pItem != NULL)
+    if (pItem != nullptr)
     {
         if (!pItem->HasFlag(ENTITY_TOOL_FLAG_ASSEMBLED))
         {
             ushort unShop(GetShop(pItem->GetTypeName()));
             CShopDefinition *pShop(EntityRegistry.GetDefinition<CShopDefinition>(unShop));
-            if (pShop != NULL)
+            if (pShop != nullptr)
             {
                 if (m_pInterfaceManager->IsShopVisible() &&
                     GetActiveShop() == EntityRegistry.LookupName(unShop) &&
@@ -10055,22 +10055,22 @@ void    CGameClient::PrimaryActionStash(int iSlot)
   ====================*/
 void    CGameClient::SecondaryActionStash(int iSlot)
 {
-    if (m_pClientCommander == NULL)
+    if (m_pClientCommander == nullptr)
         return;
 
     IUnitEntity *pUnit(GetUnitEntity(m_pClientCommander->GetSelectedControlEntityIndex()));
-    if (pUnit == NULL)
+    if (pUnit == nullptr)
         return;
 
     IUnitEntity *pStash(m_pLocalPlayer->GetHero());
-    if (pStash == NULL)
+    if (pStash == nullptr)
         return;
 
     if (iSlot < 0 || iSlot > INVENTORY_STASH_SIZE)
         return;
     
     IEntityItem *pItem(pStash->GetItem(INVENTORY_START_STASH + iSlot));
-    if (pItem == NULL)
+    if (pItem == nullptr)
         return;
 
     if (pUnit->GetStashAccess())
@@ -10096,22 +10096,22 @@ void    CGameClient::SecondaryActionStash(int iSlot)
   ====================*/
 void    CGameClient::ItemPlaceStash(int iSlot)
 {
-    if (m_pClientCommander == NULL)
+    if (m_pClientCommander == nullptr)
         return;
 
     IGameEntity *pEntity(GameClient.GetEntity(m_uiItemCursorIndex));
-    if (pEntity == NULL)
+    if (pEntity == nullptr)
         return;
     IEntityItem *pItem(pEntity->GetAsItem());
-    if (pItem == NULL)
+    if (pItem == nullptr)
         return;
 
     IUnitEntity *pUnit(GetUnitEntity(m_pClientCommander->GetSelectedControlEntityIndex()));
-    if (pUnit == NULL || (!pUnit->GetStashAccess() && pUnit->GetShopAccess().empty()))
+    if (pUnit == nullptr || (!pUnit->GetStashAccess() && pUnit->GetShopAccess().empty()))
         return;
 
     IUnitEntity *pStash(m_pLocalPlayer->GetHero());
-    if (pStash == NULL)
+    if (pStash == nullptr)
         return;
 
     if (pItem->GetOwner() != pUnit && !(IS_STASH_SLOT(pItem->GetSlot()) && pItem->GetOwner() == pStash))
@@ -10125,7 +10125,7 @@ void    CGameClient::ItemPlaceStash(int iSlot)
     {
         for (int iTry(INVENTORY_START_STASH); iTry <= INVENTORY_STASH_PROVISIONAL; ++iTry)
         {
-            if (pStash->GetItem(iTry) == NULL)
+            if (pStash->GetItem(iTry) == nullptr)
             {
                 iSlot = iTry - INVENTORY_START_STASH;
                 break;
@@ -10151,28 +10151,28 @@ void    CGameClient::ItemPlaceStash(int iSlot)
   ====================*/
 void    CGameClient::ItemTakeFromStash(int iSlot)
 {
-    if (m_pClientCommander == NULL)
+    if (m_pClientCommander == nullptr)
         return;
 
     IGameEntity *pEntity(GameClient.GetEntity(m_uiItemCursorIndex));
-    if (pEntity == NULL)
+    if (pEntity == nullptr)
         return;
     IEntityItem *pItem(pEntity->GetAsItem());
-    if (pItem == NULL)
+    if (pItem == nullptr)
         return;
 
     if (pItem->GetSlot() < INVENTORY_START_STASH || pItem->GetSlot() > INVENTORY_END_STASH)
         return;
 
     IUnitEntity *pStash(m_pLocalPlayer->GetHero());
-    if (pStash == NULL)
+    if (pStash == nullptr)
         return;
 
     if (pItem->GetOwner() != pStash)
         return;
 
     IUnitEntity *pUnit(GetUnitEntity(m_pClientCommander->GetSelectedControlEntityIndex()));
-    if (pUnit == NULL || !pUnit->GetStashAccess() || !pUnit->GetCanCarryItems())
+    if (pUnit == nullptr || !pUnit->GetStashAccess() || !pUnit->GetCanCarryItems())
         return;
 
     // Find a free slot
@@ -10180,7 +10180,7 @@ void    CGameClient::ItemTakeFromStash(int iSlot)
     {
         for (int iTry(INVENTORY_START_BACKPACK); iTry <= INVENTORY_BACKPACK_PROVISIONAL; ++iTry)
         {
-            if (pUnit->GetItem(iTry) == NULL)
+            if (pUnit->GetItem(iTry) == nullptr)
             {
                 iSlot = iTry - INVENTORY_START_BACKPACK;
                 break;
@@ -10206,7 +10206,7 @@ void    CGameClient::ItemTakeFromStash(int iSlot)
   ====================*/
 void    CGameClient::ItemPlaceHero()
 {
-    if (m_pClientCommander == NULL)
+    if (m_pClientCommander == nullptr)
         return;
 
     if (m_uiItemCursorIndex == INVALID_INDEX)
@@ -10229,7 +10229,7 @@ void    CGameClient::ItemPlaceHero()
         return;
 
     IHeroEntity *pHero(m_pLocalPlayer->GetHero());
-    if (pHero != NULL && pHero->GetCanCarryItems())
+    if (pHero != nullptr && pHero->GetCanCarryItems())
     {
         m_pClientCommander->GiveOrder(CMDR_ORDER_GIVEITEM, pHero->GetIndex(), Input.IsButtonDown(BUTTON_SHIFT) ? Input.IsButtonDown(BUTTON_CTRL) ? QUEUE_FRONT : QUEUE_BACK : QUEUE_NONE, m_uiItemCursorIndex);
         m_uiItemCursorIndex = INVALID_INDEX;
@@ -10242,7 +10242,7 @@ void    CGameClient::ItemPlaceHero()
   ====================*/
 void    CGameClient::ItemPlaceEntity(uint uiIndex)
 {
-    if (m_pClientCommander == NULL)
+    if (m_pClientCommander == nullptr)
         return;
 
     if (m_uiItemCursorIndex == INVALID_INDEX)
@@ -10265,7 +10265,7 @@ void    CGameClient::ItemPlaceEntity(uint uiIndex)
         return;
 
     IUnitEntity *pTargetUnit(Game.GetUnitEntity(uiIndex));
-    if (pTargetUnit != NULL && pTargetUnit->GetCanCarryItems())
+    if (pTargetUnit != nullptr && pTargetUnit->GetCanCarryItems())
     {
         m_pClientCommander->GiveOrder(CMDR_ORDER_GIVEITEM, pTargetUnit->GetIndex(), Input.IsButtonDown(BUTTON_SHIFT) ? Input.IsButtonDown(BUTTON_CTRL) ? QUEUE_FRONT : QUEUE_BACK : QUEUE_NONE, m_uiItemCursorIndex);
         m_uiItemCursorIndex = INVALID_INDEX;
@@ -10278,18 +10278,18 @@ void    CGameClient::ItemPlaceEntity(uint uiIndex)
   ====================*/
 void    CGameClient::ItemPlaceSelected(int iSlot)
 {
-    if (m_pClientCommander == NULL)
+    if (m_pClientCommander == nullptr)
         return;
 
     IGameEntity *pEntity(GameClient.GetEntity(m_uiItemCursorIndex));
-    if (pEntity == NULL)
+    if (pEntity == nullptr)
         return;
     IEntityItem *pItem(pEntity->GetAsItem());
-    if (pItem == NULL)
+    if (pItem == nullptr)
         return;
 
     IUnitEntity *pUnit(GetUnitEntity(m_pClientCommander->GetSelectedControlEntityIndex()));
-    if (pUnit == NULL)
+    if (pUnit == nullptr)
         return;
 
     if (pItem->GetOwner() != pUnit)
@@ -10303,7 +10303,7 @@ void    CGameClient::ItemPlaceSelected(int iSlot)
     if (cit != setSelection.end())
     {
         IUnitEntity *pSelectedUnit(GetUnitEntity(*cit));
-        if (pSelectedUnit != NULL && pSelectedUnit->GetCanCarryItems())
+        if (pSelectedUnit != nullptr && pSelectedUnit->GetCanCarryItems())
         {
             m_pClientCommander->GiveOrder(CMDR_ORDER_GIVEITEM, pSelectedUnit->GetIndex(), Input.IsButtonDown(BUTTON_SHIFT) ? Input.IsButtonDown(BUTTON_CTRL) ? QUEUE_FRONT : QUEUE_BACK : QUEUE_NONE, m_uiItemCursorIndex);
             m_uiItemCursorIndex = INVALID_INDEX;
@@ -10318,7 +10318,7 @@ void    CGameClient::ItemPlaceSelected(int iSlot)
 void    CGameClient::ItemSell(int iSlot)
 {
     CClientCommander *pCommander(GameClient.GetClientCommander());
-    if (pCommander == NULL)
+    if (pCommander == nullptr)
         return;
 
     uint uiUnitIndex(pCommander->GetSelectedControlEntityIndex());
@@ -10328,7 +10328,7 @@ void    CGameClient::ItemSell(int iSlot)
     if (iSlot == -1)
     {
         IGameEntity *pEntity(GetEntity(GameClient.GetItemCursorIndex()));
-        if (pEntity != NULL && pEntity->IsItem())
+        if (pEntity != nullptr && pEntity->IsItem())
             iSlot = pEntity->GetAsItem()->GetSlot();
 
         SetItemCursorIndex(INVALID_INDEX);
@@ -10348,7 +10348,7 @@ void    CGameClient::ItemSell(int iSlot)
 void    CGameClient::ItemDisassemble(int iSlot)
 {
     CClientCommander *pCommander(GameClient.GetClientCommander());
-    if (pCommander == NULL)
+    if (pCommander == nullptr)
         return;
 
     uint uiUnitIndex(pCommander->GetSelectedControlEntityIndex());
@@ -10415,11 +10415,11 @@ void    CGameClient::StateBlockChanged(uint uiID, const CStateBlock &block)
                 uint uiWorldIndex(cBitEntityMap.ReadShort());
 
                 CWorldEntity *pWorldEntity(GetWorldEntity(uiWorldIndex));
-                if (pWorldEntity == NULL)
+                if (pWorldEntity == nullptr)
                     continue;
 
                 IGameEntity *pEntity(m_pClientEntityDirectory->Allocate(uiGameIndex, pWorldEntity->GetType()));
-                if (pEntity == NULL)
+                if (pEntity == nullptr)
                     continue;
 
                 pWorldEntity->SetGameIndex(uiGameIndex);
@@ -10429,7 +10429,7 @@ void    CGameClient::StateBlockChanged(uint uiID, const CStateBlock &block)
                 pEntity->Validate();
 
                 IBitEntity *pBit(pEntity->GetAsBit());
-                if (pBit != NULL)
+                if (pBit != nullptr)
                 {
                     pBit->SetBitIndex(ui);
                     m_pClientEntityDirectory->AddBitEntity(pEntity->GetAsBit());
@@ -10629,14 +10629,14 @@ void    CGameClient::DrawSelectedPath()
         return;
 
     IUnitEntity *pUnitClient(m_pClientCommander->GetSelectedInfoEntity());
-    if (pUnitClient == NULL)
+    if (pUnitClient == nullptr)
     {
         pUnitClient = m_pClientCommander->GetSelectedControlEntity();
-        if (pUnitClient == NULL)
+        if (pUnitClient == nullptr)
             return;
     }
 
-    if (Host.GetServer() == NULL)
+    if (Host.GetServer() == nullptr)
         return;
 
     IUnitEntity *pUnitServer(static_cast<IUnitEntity *>(Host.GetServer()->GetEntity(pUnitClient->GetIndex())));
@@ -10648,7 +10648,7 @@ void    CGameClient::DrawSelectedPath()
     CPath *pPath(pWorld->AccessPath(hPath));
 
     // Unsmoothed path
-    if (pPath != NULL)
+    if (pPath != nullptr)
     {
         PathResult &vecInfoPath(pPath->GetSimpleResult());
         uint uiCount(uint(vecInfoPath.size()));
@@ -10697,7 +10697,7 @@ void    CGameClient::DrawSelectedPath()
     }
 
     // Smoothed path
-    if (pPath != NULL)
+    if (pPath != nullptr)
     {
         PathResult &vecPath(pPath->GetSmoothResult());
         uint uiCount(uint(vecPath.size()));
@@ -10715,7 +10715,7 @@ void    CGameClient::DrawSelectedPath()
     }
 
     // Goal
-    if (pPath != NULL)
+    if (pPath != nullptr)
     {
         CVec2f v2Goal(pPath->GetGoal());
 
@@ -10748,7 +10748,7 @@ void    CGameClient::DrawSelectedPath()
 void    CGameClient::AddSelectionRingToScene(uint uiIndex, const CVec3f &v3Pos, float fSize, uint uiOrderTime)
 {
     CPlayer *pLocalPlayer(GetLocalPlayer());
-    if (pLocalPlayer == NULL)
+    if (pLocalPlayer == nullptr)
         return;
 
     if (fSize <= 0.0f)
@@ -10833,7 +10833,7 @@ void    CGameClient::RenderWorldEntities()
                 if (pWorldEnt->GetSurfFlags() & SURF_TREE)
                 {
                     IVisualEntity *pTree(GetVisualEntity(pWorldEnt->GetGameIndex()));
-                    if (pTree != NULL)
+                    if (pTree != nullptr)
                     {
                         if (pTree->IsHighlighted())
                             cEntry.cEntity.color *= pTree->GetHighlightColor();
@@ -10856,7 +10856,7 @@ void    CGameClient::GetPrecacheList(const tstring &sName, EPrecacheScheme eSche
         return;
 
     IEntityDefinition *pDefinition(EntityRegistry.GetDefinition<IEntityDefinition>(sName));
-    if (pDefinition == NULL)
+    if (pDefinition == nullptr)
         return;
 
     pDefinition->GetPrecacheList(eScheme, sModifier, deqPrecache);
@@ -10909,12 +10909,12 @@ bool    CGameClient::ParticleTrace(const CVec3f &v3Start, const CVec3f &v3End, C
   ====================*/
 bool    CGameClient::CanAccessShop(const tstring &sShop)
 {
-    if (m_pLocalPlayer != NULL && m_pLocalPlayer->GetTeam() == TEAM_SPECTATOR)
+    if (m_pLocalPlayer != nullptr && m_pLocalPlayer->GetTeam() == TEAM_SPECTATOR)
         return true;
 
     IUnitEntity *pControl(m_pClientCommander->GetSelectedControlEntity());
 
-    if (pControl == NULL)
+    if (pControl == nullptr)
         return false;
 
     return pControl->CanAccessShop(sShop);
@@ -10928,12 +10928,12 @@ bool    CGameClient::CanAccessShop(const tstring &sShop)
   ====================*/
 bool    CGameClient::CanAccessLocalShop(const tstring &sShop)
 {
-    if (m_pLocalPlayer != NULL && m_pLocalPlayer->GetTeam() == TEAM_SPECTATOR)
+    if (m_pLocalPlayer != nullptr && m_pLocalPlayer->GetTeam() == TEAM_SPECTATOR)
         return true;
 
     IUnitEntity *pControl(m_pClientCommander->GetSelectedControlEntity());
 
-    if (pControl == NULL)
+    if (pControl == nullptr)
         return false;
 
     return pControl->CanAccessLocalShop(sShop);
@@ -10947,12 +10947,12 @@ bool    CGameClient::CanAccessLocalShop(const tstring &sShop)
   ====================*/
 bool    CGameClient::CanAccessItem(const tstring &sItem)
 {
-    if (m_pLocalPlayer != NULL && m_pLocalPlayer->GetTeam() == TEAM_SPECTATOR)
+    if (m_pLocalPlayer != nullptr && m_pLocalPlayer->GetTeam() == TEAM_SPECTATOR)
         return true;
 
     IUnitEntity *pControl(m_pClientCommander->GetSelectedControlEntity());
 
-    if (pControl == NULL)
+    if (pControl == nullptr)
         return false;
 
     return pControl->CanAccessItem(sItem);
@@ -10966,12 +10966,12 @@ bool    CGameClient::CanAccessItem(const tstring &sItem)
   ====================*/
 bool    CGameClient::CanAccessItemLocal(const tstring &sItem)
 {
-    if (m_pLocalPlayer != NULL && m_pLocalPlayer->GetTeam() == TEAM_SPECTATOR)
+    if (m_pLocalPlayer != nullptr && m_pLocalPlayer->GetTeam() == TEAM_SPECTATOR)
         return true;
 
     IUnitEntity *pControl(m_pClientCommander->GetSelectedControlEntity());
 
-    if (pControl == NULL)
+    if (pControl == nullptr)
         return false;
 
     return pControl->CanAccessItemLocal(sItem);
@@ -10985,17 +10985,17 @@ uint    CGameClient::GetItemRestockTime(const tstring &sItem)
 {
     CPlayer *pLocalPlayer(GetLocalPlayer());
 
-    if (pLocalPlayer == NULL)
+    if (pLocalPlayer == nullptr)
         return 0;
 
     CTeamInfo *pTeam(GetTeam(pLocalPlayer->GetTeam()));
 
-    if (pTeam == NULL)
+    if (pTeam == nullptr)
         return 0;
 
     CShopInfo *pShop(pTeam->GetShopInfo());
 
-    if (pShop == NULL)
+    if (pShop == nullptr)
         return 0;
 
     return pShop->GetRestockTimeRemaining(sItem);
@@ -11009,17 +11009,17 @@ uint    CGameClient::GetItemStock(const tstring &sItem)
 {
     CPlayer *pLocalPlayer(GetLocalPlayer());
 
-    if (pLocalPlayer == NULL)
+    if (pLocalPlayer == nullptr)
         return -1;
 
     CTeamInfo *pTeam(GetTeam(pLocalPlayer->GetTeam()));
 
-    if (pTeam == NULL)
+    if (pTeam == nullptr)
         return -1;
 
     CShopInfo *pShop(pTeam->GetShopInfo());
 
-    if (pShop == NULL)
+    if (pShop == nullptr)
         return -1;
 
     return pShop->GetStockRemaining(sItem);
@@ -11045,7 +11045,7 @@ ushort  CGameClient::GetShop(const tstring &sItem)
     for (vector<ushort>::iterator it(vShops.begin()), itEnd(vShops.end()); it != itEnd; ++it)
     {
         CShopDefinition *pShop(EntityRegistry.GetDefinition<CShopDefinition>(*it));
-        if (pShop == NULL)
+        if (pShop == nullptr)
             continue;
 
         if (pShop->GetOrder() < iBestShopOrder)
@@ -11083,7 +11083,7 @@ void    CGameClient::GetUsedIn(const tstring &sItem, vector<ushort> &vUsedIn)
     for (vector<ushort>::iterator itItem(vItems.begin()), itEnd(vItems.end()); itItem != itEnd; ++itItem)
     {
         CItemDefinition *pItem(EntityRegistry.GetDefinition<CItemDefinition>(*itItem));
-        if (pItem == NULL)
+        if (pItem == nullptr)
             continue;
 
         for (uint ui(0); ui < pItem->GetComponentsSize(); ++ui)
@@ -11117,7 +11117,7 @@ void    CGameClient::SendCreateGameRequest(const tstring &sName, const tstring &
 tstring     CGameClient::GetGameMessage(const tstring &sKey, const tsmapts &mapTokens)
 {
     CStringTable *pGameMessages(g_ResourceManager.GetStringTable(m_ahResources[CLIENT_RESOURCE_GAME_MESSAGE_TABLE]));
-    if (pGameMessages == NULL)
+    if (pGameMessages == nullptr)
         return TSNULL;
 
     tstring sMessage(pGameMessages->Get(sKey));
@@ -11175,7 +11175,7 @@ tstring     CGameClient::GetGameMessage(const tstring &sKey, const tsmapts &mapT
 const tstring&  CGameClient::GetEntityString(const tstring &sKey) const
 {
     CStringTable *pEntityStrings(g_ResourceManager.GetStringTable(m_ahResources[CLIENT_RESOURCE_ENTITY_STRING_TABLE]));
-    if (pEntityStrings == NULL)
+    if (pEntityStrings == nullptr)
         return TSNULL;
 
     return pEntityStrings->Get(sKey);
@@ -11184,7 +11184,7 @@ const tstring&  CGameClient::GetEntityString(const tstring &sKey) const
 const tstring&  CGameClient::GetEntityString(uint uiIndex) const
 {
     CStringTable *pEntityStrings(g_ResourceManager.GetStringTable(m_ahResources[CLIENT_RESOURCE_ENTITY_STRING_TABLE]));
-    if (pEntityStrings == NULL)
+    if (pEntityStrings == nullptr)
         return TSNULL;
 
     return pEntityStrings->Get(uiIndex);
@@ -11197,7 +11197,7 @@ const tstring&  CGameClient::GetEntityString(uint uiIndex) const
 uint    CGameClient::GetEntityStringIndex(const tstring &sKey) const
 {
     CStringTable *pEntityStrings(g_ResourceManager.GetStringTable(m_ahResources[CLIENT_RESOURCE_ENTITY_STRING_TABLE]));
-    if (pEntityStrings == NULL)
+    if (pEntityStrings == nullptr)
         return INVALID_INDEX;
 
     return pEntityStrings->GetIndex(sKey);
@@ -11226,7 +11226,7 @@ bool    CGameClient::LevelupAbility(byte ySlot)
         return false;
 
     IHeroEntity *pHero(GetHeroEntity(uiUnitIndex));
-    if (pHero != NULL)
+    if (pHero != nullptr)
     {
         if (pHero->GetAvailablePoints() == 1)
             SetLevelup(false);
@@ -11308,11 +11308,11 @@ bool    CGameClient::Purchase(int iSlot)
         return false;
 
     CShopDefinition *pShop(EntityRegistry.GetDefinition<CShopDefinition>(unShop));
-    if (pShop == NULL)
+    if (pShop == nullptr)
         return false;
 
     CItemDefinition *pItem(EntityRegistry.GetDefinition<CItemDefinition>(pShop->GetItem(iSlot)));
-    if (pItem == NULL)
+    if (pItem == nullptr)
         return false;
 
     const tstring &sName(pItem->GetName());
@@ -11407,7 +11407,7 @@ bool    CGameClient::PurchaseComponent(int iSlot, int iVariation)
         return false;
 
     CItemDefinition *pRecipeItem(EntityRegistry.GetDefinition<CItemDefinition>(GetActiveRecipe()));
-    if (pRecipeItem == NULL)
+    if (pRecipeItem == nullptr)
         return false;
 
     uint uiComponentList(iVariation);
@@ -11425,7 +11425,7 @@ bool    CGameClient::PurchaseComponent(int iSlot, int iVariation)
         return false;
 
     CItemDefinition *pItem(EntityRegistry.GetDefinition<CItemDefinition>(unID));
-    if (pItem == NULL)
+    if (pItem == nullptr)
         return false;
 
     // TODO: Do the modifiers a different way
@@ -11481,7 +11481,7 @@ bool    CGameClient::PurchaseAllComponents(const tstring sName)
         return false;
         
     CItemDefinition *pRecipeItem(EntityRegistry.GetDefinition<CItemDefinition>(sName));
-    if (pRecipeItem == NULL)
+    if (pRecipeItem == nullptr)
         return false;
         
     // not sure why this is always 0, but it is associated with iVariation in Shop()
@@ -11493,7 +11493,7 @@ bool    CGameClient::PurchaseAllComponents(const tstring sName)
         return false;
         
     CItemDefinition *pItem(EntityRegistry.GetDefinition<CItemDefinition>(unID));
-    if (pItem == NULL)
+    if (pItem == nullptr)
         return false;
         
     tsmapts mapTokens;
@@ -11527,7 +11527,7 @@ bool    CGameClient::PurchaseAllComponents(const tstring sName)
             
         // take the entity ID and lookup the entity definition of the component
         pItem = EntityRegistry.GetDefinition<CItemDefinition>(unID);
-        if (pItem == NULL)
+        if (pItem == nullptr)
             return false;                   
             
         mapTokens[_T("item")] = pItem->GetDisplayName();
@@ -11579,7 +11579,7 @@ bool    CGameClient::PurchaseUsedIn(int iSlot)
         return false;
 
     CItemDefinition *pItem(EntityRegistry.GetDefinition<CItemDefinition>(unID));
-    if (pItem == NULL)
+    if (pItem == nullptr)
         return false;
 
     // TODO: Do the modifiers a different way
@@ -11626,7 +11626,7 @@ void    CGameClient::Shop(int iSlot)
         for (vector<ushort>::iterator it(vShops.begin()), itEnd(vShops.end()); it != itEnd; ++it)
         {
             CShopDefinition *pShop(EntityRegistry.GetDefinition<CShopDefinition>(*it));
-            if (pShop == NULL)
+            if (pShop == nullptr)
                 continue;
 
             if (pShop->GetSlot() == iSlot)
@@ -11642,7 +11642,7 @@ void    CGameClient::Shop(int iSlot)
         int iVariation(0);
 
         CItemDefinition *pRecipeItem(EntityRegistry.GetDefinition<CItemDefinition>(GetActiveRecipe()));
-        if (pRecipeItem == NULL)
+        if (pRecipeItem == nullptr)
             return;
 
         uint uiComponentList(iVariation);
@@ -11681,7 +11681,7 @@ void    CGameClient::Ping(byte yType, float fX, float fY, int iClientNumber)
     m_v3LastEvent = Game.GetTerrainPosition(CVec2f(fX, fY));
 
     const CPing *pPing(GetPing(yType));
-    if (pPing == NULL)
+    if (pPing == nullptr)
         return;
 
     CPlayer *pPlayer(GetPlayerFromClientNumber(iClientNumber));
@@ -11690,7 +11690,7 @@ void    CGameClient::Ping(byte yType, float fX, float fY, int iClientNumber)
     vMapEffect[0] = pPing->GetEffectPath();
     vMapEffect[1] = XtoA(fX / Game.GetWorldWidth());
     vMapEffect[2] = XtoA(fY / Game.GetWorldHeight());
-    vMapEffect[3] = (pPlayer != NULL && pPing->GetUsePlayerColor() ? XtoA(pPlayer->GetColor()) : XtoA(pPing->GetColor()));
+    vMapEffect[3] = (pPlayer != nullptr && pPing->GetUsePlayerColor() ? XtoA(pPlayer->GetColor()) : XtoA(pPing->GetColor()));
 
     MapEffect.Trigger(vMapEffect);
 }
@@ -11703,7 +11703,7 @@ void    CGameClient::UpdateRecommendedItems()
 {
     IHeroEntity *pHero(m_pLocalPlayer->GetHero());
 
-    if (pHero == NULL)
+    if (pHero == nullptr)
         return;
 
     if (pHero->GetType() == m_unLastHeroType)
@@ -11712,7 +11712,7 @@ void    CGameClient::UpdateRecommendedItems()
     // Hero has changed, update items in recommended shops
     CHeroDefinition *pHeroDef(EntityRegistry.GetDefinition<CHeroDefinition>(pHero->GetType()));
 
-    if (pHeroDef == NULL)
+    if (pHeroDef == nullptr)
         return;
 
     m_unLastHeroType = pHero->GetType();
@@ -11724,7 +11724,7 @@ void    CGameClient::UpdateRecommendedItems()
     {
         CShopDefinition *pShop(EntityRegistry.GetDefinition<CShopDefinition>(*it));
 
-        if (pShop == NULL || !pShop->GetRecommendedItems())
+        if (pShop == nullptr || !pShop->GetRecommendedItems())
             continue;
 
         pShop->ClearItems();
@@ -11744,7 +11744,7 @@ bool    CGameClient::DownloadReplay(const tstring &sUrl)
 
     CFile *pFile(FileManager.GetFile(_T("~/replays/") + Filename_StripPath(sUrl), FILE_WRITE | FILE_BINARY));
 
-    if (pFile == NULL)
+    if (pFile == nullptr)
         return false;
 
     if (!pFile->IsOpen())

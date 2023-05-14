@@ -35,7 +35,7 @@ BEGIN_XML_REGISTRATION(brushlistitems)
 END_XML_REGISTRATION
 BEGIN_XML_PROCESSOR(brushlistitems, IWidget)
     CInterface *pInterface(pObject->GetInterface());
-    if (pInterface == NULL)
+    if (pInterface == nullptr)
     {
         Console.Err << _T("Invalid interface for <dirlistitems>") << m_sElementName << newl;
         return false;

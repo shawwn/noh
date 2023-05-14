@@ -189,9 +189,9 @@ public:
     ~CServerList();
     CServerList(CHTTPManager *pHTTPManager) :
     m_pHTTPManager(pHTTPManager),
-    m_pRequest(NULL),
+    m_pRequest(nullptr),
     m_sockBrowser(_T("Server list")),
-    m_pClient(NULL),
+    m_pClient(nullptr),
     m_fRequestAccumulator(0.0f),
     m_uiReconnectExpireTime(INVALID_TIME),
     m_uiPlayerCount(0),

@@ -19,7 +19,7 @@
   ====================*/
 CTileVisBlockerMap::CTileVisBlockerMap(EWorldComponent eComponent) :
 IWorldComponent(eComponent, _T("TileVisBlockerMap")),
-m_pTileVisBlockers(NULL)
+m_pTileVisBlockers(nullptr)
 {
 }
 
@@ -38,11 +38,11 @@ CTileVisBlockerMap::~CTileVisBlockerMap()
   ====================*/
 void    CTileVisBlockerMap::Release()
 {
-    m_pWorld = NULL;
+    m_pWorld = nullptr;
 
-    if (m_pTileVisBlockers != NULL)
+    if (m_pTileVisBlockers != nullptr)
         K2_DELETE_ARRAY(m_pTileVisBlockers);
-    m_pTileVisBlockers = NULL;
+    m_pTileVisBlockers = nullptr;
 }
 
 
@@ -81,9 +81,9 @@ bool    CTileVisBlockerMap::Load(CArchive &archive, const CWorld *pWorld)
     }
     catch (CException &ex)
     {
-        if (m_pTileVisBlockers != NULL)
+        if (m_pTileVisBlockers != nullptr)
             K2_DELETE_ARRAY(m_pTileVisBlockers);
-        m_pTileVisBlockers = NULL;
+        m_pTileVisBlockers = nullptr;
 
         ex.Process(_T("CTileVisBlockerMap::Load() - "), NO_THROW);
         return false;
@@ -106,11 +106,11 @@ bool    CTileVisBlockerMap::Generate(const CWorld *pWorld)
 
         m_bChanged = true;
         m_pWorld = pWorld;
-        if (m_pWorld == NULL)
+        if (m_pWorld == nullptr)
             EX_ERROR(_T("CTileVisBlockerMap needs a valid CWorld"));
 
         m_pTileVisBlockers = K2_NEW_ARRAY(ctx_World, byte, m_pWorld->GetTileArea());
-        if (m_pTileVisBlockers == NULL)
+        if (m_pTileVisBlockers == nullptr)
             EX_ERROR(_T("Failed to allocate memory for VisibilityMap"));
 
         for (int i(0); i < m_pWorld->GetTileArea(); ++i)

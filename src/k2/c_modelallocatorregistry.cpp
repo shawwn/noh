@@ -46,7 +46,7 @@ IModel* CModelAllocatorRegistry::Allocate(const tstring &sType)
     if (findit == m_mapAllocators.end())
     {
         Console.Warn << _T("ModelAllocator of type ") << sType << _T(" is not registered.") << newl;
-        return NULL;
+        return nullptr;
     }
 
     return findit->second->Allocate();

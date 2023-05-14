@@ -57,7 +57,7 @@ IRenderer()
 
     m_bObjectColor = true;
     m_vObjectColor = SceneManager.GetSkyColor();
-    m_pCurrentEntity = NULL;
+    m_pCurrentEntity = nullptr;
 
     m_mWorld = g_mIdentity;
     m_mWorldRotate = g_mIdentity;

@@ -16,7 +16,7 @@
 //=============================================================================
 // Definitions
 //=============================================================================
-K2_API  CScript *g_pCurrentScript(NULL);
+K2_API  CScript *g_pCurrentScript(nullptr);
 //=============================================================================
 
 /*====================
@@ -38,7 +38,7 @@ m_dwNextExecuteTime(0),
 m_bIncrement(true),
 m_bStoringCvars(false)
 {
-    if (mapParams != NULL)
+    if (mapParams != nullptr)
         m_mapParams = (*mapParams);
 }
 
@@ -273,7 +273,7 @@ void    CScript::AddParameter(const tstring &sName, const tstring &sValue)
   --------------------*/
 FUNCTION(GetScriptParam)
 {
-    if (vArgList.size() < 1 || g_pCurrentScript == NULL)
+    if (vArgList.size() < 1 || g_pCurrentScript == nullptr)
         return _T("");
 
     return g_pCurrentScript->GetParameter(vArgList[0]);

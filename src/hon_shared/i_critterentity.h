@@ -39,7 +39,7 @@ public:
     virtual bool        ServerFrameThink();
 
     virtual void        Spawn();
-    virtual void        Die(IUnitEntity *pAttacker = NULL, ushort unKillingObjectID = INVALID_ENT_TYPE);
+    virtual void        Die(IUnitEntity *pAttacker = nullptr, ushort unKillingObjectID = INVALID_ENT_TYPE);
 };
 //=============================================================================
 

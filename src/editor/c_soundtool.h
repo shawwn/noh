@@ -50,7 +50,7 @@ public:
     uiIndex(INVALID_INDEX),
     fFraction(FAR_AWAY),
     v3EndPos(0.0f, 0.0f, 0.0f),
-    pSound(NULL)
+    pSound(nullptr)
     {}
 
     void    Clear()
@@ -58,7 +58,7 @@ public:
         uiIndex = INVALID_INDEX;
         fFraction = FAR_AWAY;
         v3EndPos.Clear();
-        pSound = NULL;
+        pSound = nullptr;
     }
 };
 //=============================================================================

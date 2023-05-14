@@ -19,7 +19,7 @@
  ====================*/
 bool    IWorldComponent::Save(CArchive &archive)
 {
-    IBuffer *pBuffer(NULL);
+    IBuffer *pBuffer(nullptr);
 
     // This means someone forgot to set the filename in the derived components constructor
     assert(m_sName != _T(""));
@@ -27,7 +27,7 @@ bool    IWorldComponent::Save(CArchive &archive)
     try
     {
         pBuffer = K2_NEW(ctx_World,  CBufferDynamic);
-        if (pBuffer == NULL)
+        if (pBuffer == nullptr)
             EX_ERROR(_T("Failed to allocate buffer"));
 
         if (!Serialize(pBuffer))
@@ -40,7 +40,7 @@ bool    IWorldComponent::Save(CArchive &archive)
     }
     catch (CException &ex)
     {
-        if (pBuffer != NULL)
+        if (pBuffer != nullptr)
             K2_DELETE(pBuffer);
 
         ex.Process(_T("IBlockComponent::Save() - "), NO_THROW);

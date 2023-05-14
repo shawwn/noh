@@ -42,8 +42,8 @@ CScriptThread*  CScriptDirectory::SpawnThread(const tstring &sName, uint uiTime)
     PROFILE("CScriptDirectory::SpawnThread");
 
     CScriptThread *pDefinition(EntityRegistry.GetScriptDefinition(sName));
-    if (pDefinition == NULL)
-        return NULL;
+    if (pDefinition == nullptr)
+        return nullptr;
 
     if (script_debug)
         Console.Dev << _T("ThreadStart(") << SingleQuoteStr(pDefinition->GetName()) << _T(", ") << uiTime << _T(")") << newl;
@@ -59,7 +59,7 @@ CScriptThread*  CScriptDirectory::SpawnThread(const tstring &sName, uint uiTime)
     {
         // Delete thread immediately if it finishes without blocking
         K2_DELETE(pNewThread);
-        return NULL;
+        return nullptr;
     }
 }
 

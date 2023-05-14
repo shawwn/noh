@@ -320,7 +320,7 @@ struct SChatWidget
     tstring             sChannel;
 
     SChatWidget(CTextBuffer *pBuffer, bool bIsGameChat, tstring sChannelName) :
-    refWidget(NULL),
+    refWidget(nullptr),
     bGameChat(bIsGameChat),
     sChannel(sChannelName)
     {

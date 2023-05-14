@@ -23,7 +23,7 @@ typedef unsigned long   Cardinal;
 EXTERN_CVAR_BOOL(sys_grabInput);
 
 // display info
-SX11Info            *g_pX11Info(NULL);
+SX11Info            *g_pX11Info(nullptr);
 
 // X Atoms that will be used
 Atom    XA__NET_WM_NAME;
@@ -90,7 +90,7 @@ public:
     void        SwapBuffers();
     int         GetAAModes(SAAMode AAModes[MAX_AA_MODES]);
     int         GetBpp();
-} *g_pGLX(NULL);
+} *g_pGLX(nullptr);
 
 void CGLX::SetFBConfig()
 {
@@ -122,16 +122,16 @@ void CGLX::DestroyContext()
 {
     if (m_Context)
         glXDestroyContext(m_pDisplay, m_Context);
-    m_Context = NULL;
+    m_Context = nullptr;
 }
 
 CGLX::CGLX(Display *pDisplay) :
 m_pDisplay(pDisplay),
-m_pConfigs(NULL),
-m_CurrentConfig(NULL),
+m_pConfigs(nullptr),
+m_CurrentConfig(nullptr),
 m_iNumConfigs(0),
-m_SharedContext(NULL),
-m_Context(NULL),
+m_SharedContext(nullptr),
+m_Context(nullptr),
 m_Drawable(None),
 m_iSwapInterval(false)
 {
@@ -142,9 +142,9 @@ m_iSwapInterval(false)
     const char *szVersion((const char*)glXGetClientString(m_pDisplay, GLX_VERSION));
     const char *szVendor((const char*)glXGetClientString(m_pDisplay, GLX_VENDOR));
     
-    Console.Video << _T("GLX Version: ") << (szVersion ? szVersion : "NULL") << newl;
-    Console.Video << _T("GLX Vendor: ") << (szVendor ? szVendor : "NULL") << newl;
-    Console.Video << _T("GLX Extensions: ") << (szExtensions ? szExtensions : "NULL") << newl;
+    Console.Video << _T("GLX Version: ") << (szVersion ? szVersion : "nullptr") << newl;
+    Console.Video << _T("GLX Vendor: ") << (szVendor ? szVendor : "nullptr") << newl;
+    Console.Video << _T("GLX Extensions: ") << (szExtensions ? szExtensions : "nullptr") << newl;
     
     if (iMajor >= 1 && iMinor >= 3)
     {
@@ -191,7 +191,7 @@ m_iSwapInterval(false)
     m_CurrentConfig = m_pConfigs[0];
     
     // create shared context
-    if (!(m_SharedContext = CreateNewContext(m_pDisplay, m_CurrentConfig, GLX_RGBA_TYPE, NULL, True)))
+    if (!(m_SharedContext = CreateNewContext(m_pDisplay, m_CurrentConfig, GLX_RGBA_TYPE, nullptr, True)))
         EX_FATAL(_T("Unable to create shared OpenGL context"));
 }
 
@@ -243,7 +243,7 @@ void CGLX::SetSwapInterval(int iSwapInterval)
 {
     if (m_iSwapInterval && !iSwapInterval)
     {
-        glXMakeCurrent(m_pDisplay, None, NULL);
+        glXMakeCurrent(m_pDisplay, None, nullptr);
         DestroyContext();
     }
     m_iSwapInterval = iSwapInterval;
@@ -270,7 +270,7 @@ void CGLX::MakeCurrent(GLXDrawable Drawable)
             glDisable(GL_MULTISAMPLE);
     }
     else
-        glXMakeCurrent(m_pDisplay, m_Drawable, NULL);
+        glXMakeCurrent(m_pDisplay, m_Drawable, nullptr);
 }
 
 void CGLX::SwapBuffers()
@@ -347,7 +347,7 @@ public:
     virtual void    SetMode(SVidMode &Mode) = 0;
     virtual void    Reset() = 0;
     virtual CRecti  GetDisplayBounds(const tstring &sDisplay) = 0;
-} *g_pDisplayManager(NULL);
+} *g_pDisplayManager(nullptr);
 
 
 // XNVCtrl + XRandR 1.1
@@ -579,7 +579,7 @@ int CXNVCtrl::ParseMetaMode(const char *szMetaMode, MetaMode &Mode)
             }
         }
         
-        if (ModeComponent.sModeLineName.compare("NULL") != 0)
+        if (ModeComponent.sModeLineName.compare("nullptr") != 0)
         {
             // fill in the width, height, and refresh from the modeline
             DisplayMap::iterator itFind(m_mapDisplays.find(StringToTString(ModeComponent.sDisplay)));
@@ -631,8 +631,8 @@ void CXNVCtrl::GetMetaModes()
             {
                 if (it != Mode.begin())
                     Console.Video << _T(", ");
-                if (it->sModeLineName.compare("NULL") == 0)
-                    Console.Video << it->sDisplay << _T(": NULL");
+                if (it->sModeLineName.compare("nullptr") == 0)
+                    Console.Video << it->sDisplay << _T(": nullptr");
                 else
                     Console.Video << it->sDisplay << _T(": ") << it->sModeLineName << ParenStr(XtoA(it->iWidth) + _T("x") + XtoA(it->iHeight) + _T("@") + XtoA(it->iRefresh) + _T("Hz")) << _T(" @") << XtoA(it->aiPanDomain[0]) << _T("x") << XtoA(it->aiPanDomain[1]) << _T(" ") << XtoA(it->aiOffset[0], FMT_SIGN) << XtoA(it->aiOffset[1], FMT_SIGN);
             }
@@ -657,7 +657,7 @@ void CXNVCtrl::SetMetaMode(int iId, int iRefresh)
     int aiBounds[4] = { 0 }; // left, top, right, bottom
     for (MetaMode::iterator it(itFind->second.begin()); it != itFind->second.end(); ++it)
     {
-        if (it->sModeLineName.compare("NULL") == 0)
+        if (it->sModeLineName.compare("nullptr") == 0)
             continue;
         if (it->aiOffset[0] < aiBounds[0])
             aiBounds[0] = it->aiOffset[0];
@@ -721,8 +721,8 @@ int CXNVCtrl::AddMetaMode(MetaMode &Mode)
             sNewMetaMode += ",";
         if (!it->sDisplay.empty())
             sNewMetaMode += it->sDisplay + ":";
-        if (it->sModeLineName.compare("NULL") == 0)
-            sNewMetaMode += "NULL";
+        if (it->sModeLineName.compare("nullptr") == 0)
+            sNewMetaMode += "nullptr";
         else
         {
             string sModeLineName(GetModeLine(it->sDisplay, it->iWidth, it->iHeight, it->iRefresh));
@@ -937,7 +937,7 @@ void CXNVCtrl::SetMode(SVidMode &Mode)
             }
             else if (vid_blankOtherDisplays)
             {
-                it->sModeLineName = "NULL";
+                it->sModeLineName = "nullptr";
                 it->iWidth = it->iHeight = it->iRefresh = it->aiPanDomain[0] = it->aiPanDomain[1] = 0;
             }
         }
@@ -1088,7 +1088,7 @@ CRecti CXNVCtrl::GetDisplayBounds(const tstring &sDisplay)
     {
         if (it->sDisplay.compare(TStringToString(sDisplay)) != 0)
             continue;
-        if (it->sModeLineName.compare("NULL") == 0)
+        if (it->sModeLineName.compare("nullptr") == 0)
             continue;
         return CRecti(it->aiOffset[0], it->aiOffset[1], it->iWidth, it->iHeight);
     }
@@ -1260,7 +1260,7 @@ void CXRandR::SetConfig(vector<SCrtcConfig> &vConfig)
             }
         }
         if (iWidth > iNewWidth || iHeight > iNewHeight || bOutputsChanged)
-            SetCrtcConfig(m_pDisplay, m_pResources, it->first, CurrentTime, 0, 0, None, RR_Rotate_0, NULL, 0);
+            SetCrtcConfig(m_pDisplay, m_pResources, it->first, CurrentTime, 0, 0, None, RR_Rotate_0, nullptr, 0);
     }
     
     // set new screen size
@@ -1283,7 +1283,7 @@ void CXRandR::SetConfig(vector<SCrtcConfig> &vConfig)
 
 CXRandR::CXRandR(Display *pDisplay) :
 m_pDisplay(pDisplay),
-m_pResources(NULL)
+m_pResources(nullptr)
 {
     int i;
     
@@ -1671,7 +1671,7 @@ public:
 
 CXRandR11::CXRandR11(Display *pDisplay) :
 m_pDisplay(pDisplay),
-m_pScreenConfig(NULL)
+m_pScreenConfig(nullptr)
 {
     int i;
     
@@ -1953,8 +1953,8 @@ public:
 
 CFallbackDisplayManager::CFallbackDisplayManager(Display *pDisplay) :
 m_pDisplay(pDisplay),
-m_pLib(NULL),
-m_pScreenInfo(NULL)
+m_pLib(nullptr),
+m_pScreenInfo(nullptr)
 {
     int i;
         
@@ -1974,7 +1974,7 @@ m_pScreenInfo(NULL)
             }
             else
             {
-                m_pLib = NULL;
+                m_pLib = nullptr;
             }
 #undef DLSYM
         }
@@ -2129,7 +2129,7 @@ public:
     virtual void    SetWindow(Window Win) = 0;
     virtual void    Draw() {}
     virtual ~ICursor() {}
-} *g_pCursor(NULL);
+} *g_pCursor(nullptr);
 
 // Xcursor hardware cursor
 class CXCursor : public ICursor
@@ -2161,7 +2161,7 @@ public:
 
 CXCursor::CXCursor(Display *pDisplay) :
 m_pDisplay(pDisplay),
-m_pLib(NULL),
+m_pLib(nullptr),
 m_CurrentCursor(None),
 m_BlankCursor(None),
 m_Window(None),
@@ -2229,11 +2229,11 @@ void CXCursor::Set(ResHandle hCursor)
     }
     
     CCursor *pCursor(g_ResourceManager.GetCursor(hCursor));
-    if (pCursor == NULL)
+    if (pCursor == nullptr)
         return Hide();
     
     CBitmap *pBitmap(pCursor->GetBitmapPointer());
-    if (pBitmap == NULL)
+    if (pBitmap == nullptr)
         return Hide();
     
     XcursorImage *pImage = Create(pBitmap->GetWidth(), pBitmap->GetHeight());
@@ -2319,14 +2319,14 @@ void CGLCursor::Set(ResHandle hCursor)
         return Show();
     
     CCursor *pCursor(g_ResourceManager.GetCursor(hCursor));
-    if (pCursor == NULL)
+    if (pCursor == nullptr)
         return Hide();
     
     ResHandle hTexture(g_ResourceManager.LookUpName(pCursor->GetName(), RES_TEXTURE));
     if (hTexture == INVALID_RESOURCE)
     {
         CBitmap *pBitmap(pCursor->GetBitmapPointer());
-        if (pBitmap == NULL)
+        if (pBitmap == nullptr)
             return Hide();
         hTexture = g_ResourceManager.Register(K2_NEW(global,    CTexture)(pCursor->GetName(), pBitmap, TEXTURE_2D, TEX_FULL_QUALITY, TEXFMT_A8R8G8B8), RES_TEXTURE);
     }
@@ -2381,7 +2381,7 @@ public:
     
     Colormap    GetColormap(XVisualInfo *pVisualInfo);
     void        SetGamma(float fGamma);
-} *g_pColormapManager(NULL);
+} *g_pColormapManager(nullptr);
 
 void CColormapManager::UpdateColors()
 {
@@ -2491,7 +2491,7 @@ public:
     void    CreateWindow(int iX, int iY, int iWidth, int iHeight, bool bFullscreen);
     void    MoveResizeWindow(int iX, int iY, int iWidth, int iHeight);
     void    DestroyWindow();
-} *g_pWindowManager(NULL);
+} *g_pWindowManager(nullptr);
 
 
 CWindowManager::CWindowManager(SX11Info *pX11Info) :
@@ -2637,9 +2637,9 @@ void CWindowManager::CreateWindow(int iX, int iY, int iWidth, int iHeight, bool 
 #ifdef UNICODE
     // input method
     if (m_pX11Info->im)
-        m_pX11Info->ic = XCreateIC(m_pX11Info->im, XNClientWindow, m_pX11Info->win, XNFocusWindow, m_pX11Info->win, XNInputStyle, XIMPreeditNothing | XIMStatusNothing, XNResourceName, m_pX11Info->res_name, XNResourceClass, m_pX11Info->res_class, NULL);
+        m_pX11Info->ic = XCreateIC(m_pX11Info->im, XNClientWindow, m_pX11Info->win, XNFocusWindow, m_pX11Info->win, XNInputStyle, XIMPreeditNothing | XIMStatusNothing, XNResourceName, m_pX11Info->res_name, XNResourceClass, m_pX11Info->res_class, nullptr);
     else
-        m_pX11Info->ic = NULL;
+        m_pX11Info->ic = nullptr;
 #endif
     
     // map the window
@@ -2682,7 +2682,7 @@ void CWindowManager::DestroyWindow()
 #ifdef UNICODE
     if (m_pX11Info->ic)
         XDestroyIC(m_pX11Info->ic);
-    m_pX11Info->ic = NULL;
+    m_pX11Info->ic = nullptr;
 #endif
     if (m_pX11Info->win != None)
         XDestroyWindow(m_pX11Info->dpy, m_pX11Info->win);

@@ -24,66 +24,66 @@ IGameEntity*    ICombatAction::GetEntityFromActionTarget(EActionTarget eTarget) 
 {
     switch (eTarget)
     {
-    case ACTION_TARGET_INVALID:                     return NULL;
+    case ACTION_TARGET_INVALID:                     return nullptr;
     case ACTION_TARGET_SOURCE_ENTITY:               return m_pEnv->pInitiator;
-    case ACTION_TARGET_SOURCE_POSITION:             return NULL;
-    case ACTION_TARGET_SOURCE_TARGET_OFFSET:        return NULL;
-    case ACTION_TARGET_SOURCE_ATTACK_OFFSET:        return NULL;
-    case ACTION_TARGET_SOURCE_OWNER_ENTITY:         return m_pEnv->pInitiator ? m_pEnv->pInitiator->GetOwner() : NULL;
-    case ACTION_TARGET_SOURCE_OWNER_POSITION:       return NULL;
+    case ACTION_TARGET_SOURCE_POSITION:             return nullptr;
+    case ACTION_TARGET_SOURCE_TARGET_OFFSET:        return nullptr;
+    case ACTION_TARGET_SOURCE_ATTACK_OFFSET:        return nullptr;
+    case ACTION_TARGET_SOURCE_OWNER_ENTITY:         return m_pEnv->pInitiator ? m_pEnv->pInitiator->GetOwner() : nullptr;
+    case ACTION_TARGET_SOURCE_OWNER_POSITION:       return nullptr;
     case ACTION_TARGET_TARGET_ENTITY:               return m_pEnv->pTarget;
-    case ACTION_TARGET_TARGET_POSITION:             return NULL;
-    case ACTION_TARGET_TARGET_TARGET_OFFSET:        return NULL;
-    case ACTION_TARGET_TARGET_ATTACK_OFFSET:        return NULL;
-    case ACTION_TARGET_TARGET_OWNER_ENTITY:         return m_pEnv->pTarget ? m_pEnv->pTarget->GetOwner() : NULL;
-    case ACTION_TARGET_TARGET_OWNER_POSITION:       return NULL;
+    case ACTION_TARGET_TARGET_POSITION:             return nullptr;
+    case ACTION_TARGET_TARGET_TARGET_OFFSET:        return nullptr;
+    case ACTION_TARGET_TARGET_ATTACK_OFFSET:        return nullptr;
+    case ACTION_TARGET_TARGET_OWNER_ENTITY:         return m_pEnv->pTarget ? m_pEnv->pTarget->GetOwner() : nullptr;
+    case ACTION_TARGET_TARGET_OWNER_POSITION:       return nullptr;
     case ACTION_TARGET_INFLICTOR_ENTITY:            return m_pEnv->pInflictor;
-    case ACTION_TARGET_INFLICTOR_POSITION:          return NULL;
-    case ACTION_TARGET_INFLICTOR_TARGET_OFFSET:     return NULL;
-    case ACTION_TARGET_INFLICTOR_OWNER_ENTITY:      return m_pEnv->pInflictor ? m_pEnv->pInflictor->GetOwner() : NULL;
-    case ACTION_TARGET_INFLICTOR_OWNER_POSITION:    return NULL;
+    case ACTION_TARGET_INFLICTOR_POSITION:          return nullptr;
+    case ACTION_TARGET_INFLICTOR_TARGET_OFFSET:     return nullptr;
+    case ACTION_TARGET_INFLICTOR_OWNER_ENTITY:      return m_pEnv->pInflictor ? m_pEnv->pInflictor->GetOwner() : nullptr;
+    case ACTION_TARGET_INFLICTOR_OWNER_POSITION:    return nullptr;
     case ACTION_TARGET_PROXY_ENTITY:                return m_pEnv->pProxy;
-    case ACTION_TARGET_PROXY_POSITION:              return NULL;
+    case ACTION_TARGET_PROXY_POSITION:              return nullptr;
     case ACTION_TARGET_STACK_ENTITY:                return Game.GetEntityFromUniqueID(PeekEntity());
-    case ACTION_TARGET_STACK_POSITION:              return NULL;
+    case ACTION_TARGET_STACK_POSITION:              return nullptr;
     case ACTION_TARGET_THIS_ENTITY:                 return m_pEnv->pThis;
-    case ACTION_TARGET_THIS_POSITION:               return NULL;
-    case ACTION_TARGET_THIS_TARGET_OFFSET:          return NULL;
-    case ACTION_TARGET_THIS_ATTACK_OFFSET:          return NULL;
-    case ACTION_TARGET_THIS_OWNER_ENTITY:           return m_pEnv->pThis ? m_pEnv->pThis->GetOwner() : NULL;
-    case ACTION_TARGET_THIS_OWNER_POSITION:         return NULL;
-    case ACTION_TARGET_THIS_INFLICTOR_ENTITY:       return m_pEnv->pThis && m_pEnv->pThis->IsState() ? m_pEnv->pThis->GetAsState()->GetInflictor() : NULL;
-    case ACTION_TARGET_THIS_INFLICTOR_POSITION:     return NULL;
-    case ACTION_TARGET_THIS_SPAWNER_ENTITY:         return m_pEnv->pThis && m_pEnv->pThis->IsState() ? m_pEnv->pThis->GetAsState()->GetSpawner() : NULL;
-    case ACTION_TARGET_THIS_SPAWNER_POSITION:       return NULL;
-    case ACTION_TARGET_THIS_TARGET_ENTITY:          return m_pEnv->pThis && m_pEnv->pThis->IsUnit() ? Game.GetEntity(m_pEnv->pThis->GetAsUnit()->GetTargetIndex()) : NULL;
-    case ACTION_TARGET_THIS_TARGET_POSITION:        return NULL;
-    case ACTION_TARGET_THIS_OWNER_TARGET_ENTITY:    return m_pEnv->pThis && m_pEnv->pThis->GetOwner() && m_pEnv->pThis->GetOwner()->IsUnit() ? Game.GetEntity(m_pEnv->pThis->GetOwner()->GetAsUnit()->GetTargetIndex()) : NULL;
-    case ACTION_TARGET_THIS_OWNER_TARGET_POSITION:  return NULL;
-    case ACTION_TARGET_THIS_PROXY_ENTITY:           return m_pEnv->pThis ? m_pEnv->pThis->GetProxy(0) : NULL;
-    case ACTION_TARGET_THIS_PROXY_POSITION:         return NULL;
-    case ACTION_TARGET_THIS_PROXY_ENTITY1:          return m_pEnv->pThis ? m_pEnv->pThis->GetProxy(1) : NULL;
-    case ACTION_TARGET_THIS_PROXY_POSITION1:        return NULL;
-    case ACTION_TARGET_THIS_PROXY_ENTITY2:          return m_pEnv->pThis ? m_pEnv->pThis->GetProxy(2) : NULL;
-    case ACTION_TARGET_THIS_PROXY_POSITION2:        return NULL;
-    case ACTION_TARGET_THIS_PROXY_ENTITY3:          return m_pEnv->pThis ? m_pEnv->pThis->GetProxy(3) : NULL;
-    case ACTION_TARGET_THIS_PROXY_POSITION3:        return NULL;
-    case ACTION_TARGET_DELTA_POSITION:              return NULL;
-    case ACTION_TARGET_POS0:                        return NULL;
-    case ACTION_TARGET_POS1:                        return NULL;
-    case ACTION_TARGET_POS2:                        return NULL;
-    case ACTION_TARGET_POS3:                        return NULL;
+    case ACTION_TARGET_THIS_POSITION:               return nullptr;
+    case ACTION_TARGET_THIS_TARGET_OFFSET:          return nullptr;
+    case ACTION_TARGET_THIS_ATTACK_OFFSET:          return nullptr;
+    case ACTION_TARGET_THIS_OWNER_ENTITY:           return m_pEnv->pThis ? m_pEnv->pThis->GetOwner() : nullptr;
+    case ACTION_TARGET_THIS_OWNER_POSITION:         return nullptr;
+    case ACTION_TARGET_THIS_INFLICTOR_ENTITY:       return m_pEnv->pThis && m_pEnv->pThis->IsState() ? m_pEnv->pThis->GetAsState()->GetInflictor() : nullptr;
+    case ACTION_TARGET_THIS_INFLICTOR_POSITION:     return nullptr;
+    case ACTION_TARGET_THIS_SPAWNER_ENTITY:         return m_pEnv->pThis && m_pEnv->pThis->IsState() ? m_pEnv->pThis->GetAsState()->GetSpawner() : nullptr;
+    case ACTION_TARGET_THIS_SPAWNER_POSITION:       return nullptr;
+    case ACTION_TARGET_THIS_TARGET_ENTITY:          return m_pEnv->pThis && m_pEnv->pThis->IsUnit() ? Game.GetEntity(m_pEnv->pThis->GetAsUnit()->GetTargetIndex()) : nullptr;
+    case ACTION_TARGET_THIS_TARGET_POSITION:        return nullptr;
+    case ACTION_TARGET_THIS_OWNER_TARGET_ENTITY:    return m_pEnv->pThis && m_pEnv->pThis->GetOwner() && m_pEnv->pThis->GetOwner()->IsUnit() ? Game.GetEntity(m_pEnv->pThis->GetOwner()->GetAsUnit()->GetTargetIndex()) : nullptr;
+    case ACTION_TARGET_THIS_OWNER_TARGET_POSITION:  return nullptr;
+    case ACTION_TARGET_THIS_PROXY_ENTITY:           return m_pEnv->pThis ? m_pEnv->pThis->GetProxy(0) : nullptr;
+    case ACTION_TARGET_THIS_PROXY_POSITION:         return nullptr;
+    case ACTION_TARGET_THIS_PROXY_ENTITY1:          return m_pEnv->pThis ? m_pEnv->pThis->GetProxy(1) : nullptr;
+    case ACTION_TARGET_THIS_PROXY_POSITION1:        return nullptr;
+    case ACTION_TARGET_THIS_PROXY_ENTITY2:          return m_pEnv->pThis ? m_pEnv->pThis->GetProxy(2) : nullptr;
+    case ACTION_TARGET_THIS_PROXY_POSITION2:        return nullptr;
+    case ACTION_TARGET_THIS_PROXY_ENTITY3:          return m_pEnv->pThis ? m_pEnv->pThis->GetProxy(3) : nullptr;
+    case ACTION_TARGET_THIS_PROXY_POSITION3:        return nullptr;
+    case ACTION_TARGET_DELTA_POSITION:              return nullptr;
+    case ACTION_TARGET_POS0:                        return nullptr;
+    case ACTION_TARGET_POS1:                        return nullptr;
+    case ACTION_TARGET_POS2:                        return nullptr;
+    case ACTION_TARGET_POS3:                        return nullptr;
     case ACTION_TARGET_ENT0:                        return m_pEnv->pEnt0;
-    case ACTION_TARGET_ENT0_POSITION:               return NULL;
+    case ACTION_TARGET_ENT0_POSITION:               return nullptr;
     case ACTION_TARGET_ENT1:                        return m_pEnv->pEnt1;
-    case ACTION_TARGET_ENT1_POSITION:               return NULL;
+    case ACTION_TARGET_ENT1_POSITION:               return nullptr;
     case ACTION_TARGET_ENT2:                        return m_pEnv->pEnt2;
-    case ACTION_TARGET_ENT2_POSITION:               return NULL;
+    case ACTION_TARGET_ENT2_POSITION:               return nullptr;
     case ACTION_TARGET_ENT3:                        return m_pEnv->pEnt3;
-    case ACTION_TARGET_ENT3_POSITION:               return NULL;
+    case ACTION_TARGET_ENT3_POSITION:               return nullptr;
     }
 
-    return NULL;
+    return nullptr;
 }
 
 
@@ -93,8 +93,8 @@ IGameEntity*    ICombatAction::GetEntityFromActionTarget(EActionTarget eTarget) 
 IUnitEntity*    ICombatAction::GetUnitFromActionTarget(EActionTarget eTarget) const
 {
     IGameEntity *pEntity(GetEntityFromActionTarget(eTarget));
-    if (pEntity == NULL)
-        return NULL;
+    if (pEntity == nullptr)
+        return nullptr;
 
     return pEntity->GetAsUnit();
 }
@@ -112,13 +112,13 @@ CVec3f  ICombatAction::GetPositionFromActionTarget(EActionTarget eTarget) const
 
     case ACTION_TARGET_SOURCE_ENTITY:
     case ACTION_TARGET_SOURCE_POSITION:
-        if (m_pEnv->pInitiator == NULL || !m_pEnv->pInitiator->GetAsVisual())
+        if (m_pEnv->pInitiator == nullptr || !m_pEnv->pInitiator->GetAsVisual())
             return V_ZERO;
         else
             return m_pEnv->pInitiator->GetAsVisual()->GetPosition();
 
     case ACTION_TARGET_SOURCE_ATTACK_OFFSET:
-        if (m_pEnv->pInitiator == NULL)
+        if (m_pEnv->pInitiator == nullptr)
             return V_ZERO;
         else if (m_pEnv->pInitiator->IsUnit())
             return m_pEnv->pInitiator->GetAsUnit()->GetPosition() + m_pEnv->pInitiator->GetAsUnit()->GetAttackOffset();
@@ -128,7 +128,7 @@ CVec3f  ICombatAction::GetPositionFromActionTarget(EActionTarget eTarget) const
             return V_ZERO;
             
     case ACTION_TARGET_SOURCE_TARGET_OFFSET:
-        if (m_pEnv->pInitiator == NULL)
+        if (m_pEnv->pInitiator == nullptr)
             return V_ZERO;
         else if (m_pEnv->pInitiator->IsUnit())
             return m_pEnv->pInitiator->GetAsUnit()->GetPosition() + m_pEnv->pInitiator->GetAsUnit()->GetTargetOffset();
@@ -139,15 +139,15 @@ CVec3f  ICombatAction::GetPositionFromActionTarget(EActionTarget eTarget) const
 
     case ACTION_TARGET_SOURCE_OWNER_ENTITY:
     case ACTION_TARGET_SOURCE_OWNER_POSITION:
-        if (m_pEnv->pInitiator == NULL)
+        if (m_pEnv->pInitiator == nullptr)
             return V_ZERO;
-        else if (m_pEnv->pInitiator->GetOwner() == NULL)
+        else if (m_pEnv->pInitiator->GetOwner() == nullptr)
             return V_ZERO;
         else
             return m_pEnv->pInitiator->GetOwner()->GetPosition();
 
     case ACTION_TARGET_TARGET_ENTITY:
-        if (m_pEnv->pTarget == NULL || !m_pEnv->pTarget->IsVisual())
+        if (m_pEnv->pTarget == nullptr || !m_pEnv->pTarget->IsVisual())
             return V_ZERO;
         return m_pEnv->pTarget->GetAsVisual()->GetPosition();
 
@@ -155,7 +155,7 @@ CVec3f  ICombatAction::GetPositionFromActionTarget(EActionTarget eTarget) const
         return m_pEnv->v3Target;
 
     case ACTION_TARGET_TARGET_ATTACK_OFFSET:
-        if (m_pEnv->pTarget == NULL)
+        if (m_pEnv->pTarget == nullptr)
             return V_ZERO;
         else if (m_pEnv->pTarget->IsUnit())
             return m_pEnv->pTarget->GetAsUnit()->GetTransformedAttackOffset();
@@ -165,7 +165,7 @@ CVec3f  ICombatAction::GetPositionFromActionTarget(EActionTarget eTarget) const
             return V_ZERO;
 
     case ACTION_TARGET_TARGET_TARGET_OFFSET: // ROFL!
-        if (m_pEnv->pTarget == NULL)
+        if (m_pEnv->pTarget == nullptr)
             return V_ZERO;
         else if (m_pEnv->pTarget->IsUnit())
             return m_pEnv->pTarget->GetAsUnit()->GetTransformedTargetOffset();
@@ -176,33 +176,33 @@ CVec3f  ICombatAction::GetPositionFromActionTarget(EActionTarget eTarget) const
 
     case ACTION_TARGET_TARGET_OWNER_ENTITY:
     case ACTION_TARGET_TARGET_OWNER_POSITION:
-        if (m_pEnv->pTarget == NULL)
+        if (m_pEnv->pTarget == nullptr)
             return V_ZERO;
-        else if (m_pEnv->pTarget->GetOwner() == NULL)
+        else if (m_pEnv->pTarget->GetOwner() == nullptr)
             return V_ZERO;
         else
             return m_pEnv->pTarget->GetOwner()->GetPosition();
 
     case ACTION_TARGET_INFLICTOR_ENTITY:
     case ACTION_TARGET_INFLICTOR_POSITION:
-        if (m_pEnv->pInflictor == NULL || !m_pEnv->pInflictor->IsVisual())
+        if (m_pEnv->pInflictor == nullptr || !m_pEnv->pInflictor->IsVisual())
             return V_ZERO;
         return m_pEnv->pInflictor->GetAsVisual()->GetPosition();
 
     case ACTION_TARGET_INFLICTOR_TARGET_OFFSET:
-        if (m_pEnv->pInflictor == NULL || !m_pEnv->pInflictor->IsUnit())
+        if (m_pEnv->pInflictor == nullptr || !m_pEnv->pInflictor->IsUnit())
             return V_ZERO;
         return m_pEnv->pInflictor->GetAsUnit()->GetTransformedTargetOffset();
 
     case ACTION_TARGET_INFLICTOR_OWNER_ENTITY:
     case ACTION_TARGET_INFLICTOR_OWNER_POSITION:
-        if (m_pEnv->pInflictor == NULL || !m_pEnv->pInflictor->IsUnit() || m_pEnv->pInflictor->GetAsUnit()->GetOwner() == NULL)
+        if (m_pEnv->pInflictor == nullptr || !m_pEnv->pInflictor->IsUnit() || m_pEnv->pInflictor->GetAsUnit()->GetOwner() == nullptr)
             return V_ZERO;
         return m_pEnv->pInflictor->GetAsUnit()->GetOwner()->GetPosition();
 
     case ACTION_TARGET_PROXY_ENTITY:
     case ACTION_TARGET_PROXY_POSITION:
-        if (m_pEnv->pProxy == NULL || !m_pEnv->pProxy->IsVisual())
+        if (m_pEnv->pProxy == nullptr || !m_pEnv->pProxy->IsVisual())
             return V_ZERO;
         return m_pEnv->pProxy->GetAsVisual()->GetPosition();
 
@@ -210,7 +210,7 @@ CVec3f  ICombatAction::GetPositionFromActionTarget(EActionTarget eTarget) const
     case ACTION_TARGET_STACK_POSITION:
         {
             IGameEntity *pEntity(Game.GetEntityFromUniqueID(PeekEntity()));
-            if (pEntity == NULL || !pEntity->IsVisual())
+            if (pEntity == nullptr || !pEntity->IsVisual())
                 return V_ZERO;
 
             return pEntity->GetAsVisual()->GetPosition();
@@ -218,42 +218,42 @@ CVec3f  ICombatAction::GetPositionFromActionTarget(EActionTarget eTarget) const
 
     case ACTION_TARGET_THIS_ENTITY:
     case ACTION_TARGET_THIS_POSITION:
-        if (m_pEnv->pThis == NULL || m_pEnv->pThis->GetAsVisual() == NULL)
+        if (m_pEnv->pThis == nullptr || m_pEnv->pThis->GetAsVisual() == nullptr)
             return V_ZERO;
         return m_pEnv->pThis->GetAsVisual()->GetPosition();
 
     case ACTION_TARGET_THIS_TARGET_OFFSET:
-        if (m_pEnv->pThis == NULL || m_pEnv->pThis->GetAsUnit() == NULL)
+        if (m_pEnv->pThis == nullptr || m_pEnv->pThis->GetAsUnit() == nullptr)
             return V_ZERO;
         return m_pEnv->pThis->GetAsUnit()->GetTransformedTargetOffset();
 
     case ACTION_TARGET_THIS_ATTACK_OFFSET:
-        if (m_pEnv->pThis == NULL || m_pEnv->pThis->GetAsUnit() == NULL)
+        if (m_pEnv->pThis == nullptr || m_pEnv->pThis->GetAsUnit() == nullptr)
             return V_ZERO;
         return m_pEnv->pThis->GetAsUnit()->GetTransformedAttackOffset();
 
     case ACTION_TARGET_THIS_OWNER_ENTITY:
     case ACTION_TARGET_THIS_OWNER_POSITION:
-        if (m_pEnv->pThis == NULL || m_pEnv->pThis->GetOwner() == NULL)
+        if (m_pEnv->pThis == nullptr || m_pEnv->pThis->GetOwner() == nullptr)
             return V_ZERO;
         return m_pEnv->pThis->GetOwner()->GetPosition();
 
     case ACTION_TARGET_THIS_INFLICTOR_ENTITY:
     case ACTION_TARGET_THIS_INFLICTOR_POSITION:
-        if (m_pEnv->pThis == NULL ||
-            m_pEnv->pThis->GetAsState() == NULL ||
-            m_pEnv->pThis->GetAsState()->GetInflictor() == NULL ||
-            m_pEnv->pThis->GetAsState()->GetInflictor()->GetAsVisual() == NULL)
+        if (m_pEnv->pThis == nullptr ||
+            m_pEnv->pThis->GetAsState() == nullptr ||
+            m_pEnv->pThis->GetAsState()->GetInflictor() == nullptr ||
+            m_pEnv->pThis->GetAsState()->GetInflictor()->GetAsVisual() == nullptr)
             return V_ZERO;
 
         return m_pEnv->pThis->GetAsState()->GetInflictor()->GetAsVisual()->GetPosition();
 
     case ACTION_TARGET_THIS_SPAWNER_ENTITY:
     case ACTION_TARGET_THIS_SPAWNER_POSITION:
-        if (m_pEnv->pThis == NULL ||
-            m_pEnv->pThis->GetAsState() == NULL ||
-            m_pEnv->pThis->GetAsState()->GetInflictor() == NULL ||
-            m_pEnv->pThis->GetAsState()->GetInflictor()->GetAsVisual() == NULL)
+        if (m_pEnv->pThis == nullptr ||
+            m_pEnv->pThis->GetAsState() == nullptr ||
+            m_pEnv->pThis->GetAsState()->GetInflictor() == nullptr ||
+            m_pEnv->pThis->GetAsState()->GetInflictor()->GetAsVisual() == nullptr)
             return V_ZERO;
 
         return m_pEnv->pThis->GetAsState()->GetSpawner()->GetAsVisual()->GetPosition();
@@ -261,11 +261,11 @@ CVec3f  ICombatAction::GetPositionFromActionTarget(EActionTarget eTarget) const
     case ACTION_TARGET_THIS_TARGET_ENTITY:
     case ACTION_TARGET_THIS_TARGET_POSITION:
         {
-            if (m_pEnv->pThis == NULL || !m_pEnv->pThis->IsUnit())
+            if (m_pEnv->pThis == nullptr || !m_pEnv->pThis->IsUnit())
                 return V_ZERO;
 
             IUnitEntity *pTarget(Game.GetUnitEntity(m_pEnv->pThis->GetAsUnit()->GetTargetIndex()));
-            if (pTarget == NULL)
+            if (pTarget == nullptr)
                 return V_ZERO;
 
             return pTarget->GetPosition();
@@ -274,11 +274,11 @@ CVec3f  ICombatAction::GetPositionFromActionTarget(EActionTarget eTarget) const
     case ACTION_TARGET_THIS_OWNER_TARGET_ENTITY:
     case ACTION_TARGET_THIS_OWNER_TARGET_POSITION:
         {
-            if (m_pEnv->pThis == NULL || !m_pEnv->pThis->GetOwner()->IsUnit())
+            if (m_pEnv->pThis == nullptr || !m_pEnv->pThis->GetOwner()->IsUnit())
                 return V_ZERO;
 
             IUnitEntity *pTarget(Game.GetUnitEntity(m_pEnv->pThis->GetOwner()->GetAsUnit()->GetTargetIndex()));
-            if (pTarget == NULL)
+            if (pTarget == nullptr)
                 return V_ZERO;
 
             return pTarget->GetPosition();
@@ -286,36 +286,36 @@ CVec3f  ICombatAction::GetPositionFromActionTarget(EActionTarget eTarget) const
 
     case ACTION_TARGET_THIS_PROXY_ENTITY:
     case ACTION_TARGET_THIS_PROXY_POSITION:
-        if (m_pEnv->pThis == NULL ||
-            m_pEnv->pThis->GetProxy(0) == NULL ||
-            m_pEnv->pThis->GetProxy(0)->GetAsVisual() == NULL)
+        if (m_pEnv->pThis == nullptr ||
+            m_pEnv->pThis->GetProxy(0) == nullptr ||
+            m_pEnv->pThis->GetProxy(0)->GetAsVisual() == nullptr)
             return V_ZERO;
 
         return m_pEnv->pThis->GetProxy(0)->GetAsVisual()->GetPosition();
 
     case ACTION_TARGET_THIS_PROXY_ENTITY1:
     case ACTION_TARGET_THIS_PROXY_POSITION1:
-        if (m_pEnv->pThis == NULL ||
-            m_pEnv->pThis->GetProxy(1) == NULL ||
-            m_pEnv->pThis->GetProxy(1)->GetAsVisual() == NULL)
+        if (m_pEnv->pThis == nullptr ||
+            m_pEnv->pThis->GetProxy(1) == nullptr ||
+            m_pEnv->pThis->GetProxy(1)->GetAsVisual() == nullptr)
             return V_ZERO;
 
         return m_pEnv->pThis->GetProxy(1)->GetAsVisual()->GetPosition();
 
     case ACTION_TARGET_THIS_PROXY_ENTITY2:
     case ACTION_TARGET_THIS_PROXY_POSITION2:
-        if (m_pEnv->pThis == NULL ||
-            m_pEnv->pThis->GetProxy(2) == NULL ||
-            m_pEnv->pThis->GetProxy(2)->GetAsVisual() == NULL)
+        if (m_pEnv->pThis == nullptr ||
+            m_pEnv->pThis->GetProxy(2) == nullptr ||
+            m_pEnv->pThis->GetProxy(2)->GetAsVisual() == nullptr)
             return V_ZERO;
 
         return m_pEnv->pThis->GetProxy(2)->GetAsVisual()->GetPosition();
 
     case ACTION_TARGET_THIS_PROXY_ENTITY3:
     case ACTION_TARGET_THIS_PROXY_POSITION3:
-        if (m_pEnv->pThis == NULL ||
-            m_pEnv->pThis->GetProxy(3) == NULL ||
-            m_pEnv->pThis->GetProxy(3)->GetAsVisual() == NULL)
+        if (m_pEnv->pThis == nullptr ||
+            m_pEnv->pThis->GetProxy(3) == nullptr ||
+            m_pEnv->pThis->GetProxy(3)->GetAsVisual() == nullptr)
             return V_ZERO;
 
         return m_pEnv->pThis->GetProxy(3)->GetAsVisual()->GetPosition();
@@ -337,28 +337,28 @@ CVec3f  ICombatAction::GetPositionFromActionTarget(EActionTarget eTarget) const
 
     case ACTION_TARGET_ENT0:
     case ACTION_TARGET_ENT0_POSITION:
-        if (m_pEnv->pEnt0 == NULL || !m_pEnv->pEnt0->GetAsVisual())
+        if (m_pEnv->pEnt0 == nullptr || !m_pEnv->pEnt0->GetAsVisual())
             return V_ZERO;
         else
             return m_pEnv->pEnt0->GetAsVisual()->GetPosition();
 
     case ACTION_TARGET_ENT1:
     case ACTION_TARGET_ENT1_POSITION:
-        if (m_pEnv->pEnt1 == NULL || !m_pEnv->pEnt1->GetAsVisual())
+        if (m_pEnv->pEnt1 == nullptr || !m_pEnv->pEnt1->GetAsVisual())
             return V_ZERO;
         else
             return m_pEnv->pEnt1->GetAsVisual()->GetPosition();
 
     case ACTION_TARGET_ENT2:
     case ACTION_TARGET_ENT2_POSITION:
-        if (m_pEnv->pEnt2 == NULL || !m_pEnv->pEnt2->GetAsVisual())
+        if (m_pEnv->pEnt2 == nullptr || !m_pEnv->pEnt2->GetAsVisual())
             return V_ZERO;
         else
             return m_pEnv->pEnt2->GetAsVisual()->GetPosition();
 
     case ACTION_TARGET_ENT3:
     case ACTION_TARGET_ENT3_POSITION:
-        if (m_pEnv->pEnt3 == NULL || !m_pEnv->pEnt3->GetAsVisual())
+        if (m_pEnv->pEnt3 == nullptr || !m_pEnv->pEnt3->GetAsVisual())
             return V_ZERO;
         else
             return m_pEnv->pEnt3->GetAsVisual()->GetPosition();
@@ -402,7 +402,7 @@ float   ICombatAction::GetDynamicValue(EDynamicActionValue eMultiplier) const
         return MsToSec(Game.GetFrameLength());
     
     case DYNAMIC_VALUE_CHARGES:
-        if (m_pEnv->pThis == NULL)
+        if (m_pEnv->pThis == nullptr)
             return 0.0f;
 
         if (m_pEnv->pThis->IsSlave())
@@ -415,7 +415,7 @@ float   ICombatAction::GetDynamicValue(EDynamicActionValue eMultiplier) const
     case DYNAMIC_VALUE_LIFETIME_REMAINING:
         {
             uint uiExpireTime(INVALID_TIME);
-            if (m_pEnv->pThis != NULL && m_pEnv->pThis->IsState())
+            if (m_pEnv->pThis != nullptr && m_pEnv->pThis->IsState())
                 uiExpireTime = m_pEnv->pThis->GetAsState()->GetExpireTime();
 
             if (uiExpireTime == INVALID_TIME || uiExpireTime <= Game.GetGameTime())
@@ -427,12 +427,12 @@ float   ICombatAction::GetDynamicValue(EDynamicActionValue eMultiplier) const
 
     case DYNAMIC_VALUE_HEALTH_LOST:
         {
-            ISlaveEntity *pSlave(m_pEnv->pThis != NULL ? m_pEnv->pThis->GetAsSlave() : NULL);
-            if (pSlave == NULL)
+            ISlaveEntity *pSlave(m_pEnv->pThis != nullptr ? m_pEnv->pThis->GetAsSlave() : nullptr);
+            if (pSlave == nullptr)
                 return 0.0f;
 
             IUnitEntity *pOwner(pSlave->GetOwner());
-            if (pOwner != NULL)
+            if (pOwner != nullptr)
                 return MAX(pSlave->GetAccumulator() - pOwner->GetHealth(), 0.0f);
 
             return 0.0f;
@@ -441,12 +441,12 @@ float   ICombatAction::GetDynamicValue(EDynamicActionValue eMultiplier) const
 
     case DYNAMIC_VALUE_MOVEMENT:
         {
-            ISlaveEntity *pSlave(m_pEnv->pThis != NULL ? m_pEnv->pThis->GetAsSlave() : NULL);
-            if (pSlave == NULL)
+            ISlaveEntity *pSlave(m_pEnv->pThis != nullptr ? m_pEnv->pThis->GetAsSlave() : nullptr);
+            if (pSlave == nullptr)
                 return 0.0f;
 
             IUnitEntity *pOwner(pSlave->GetOwner());
-            if (pOwner != NULL)
+            if (pOwner != nullptr)
                 return pOwner->GetMovementDistance();
 
             return 0.0f;
@@ -455,7 +455,7 @@ float   ICombatAction::GetDynamicValue(EDynamicActionValue eMultiplier) const
 
     case DYNAMIC_VALUE_ACCUMULATOR:
         {
-            if (m_pEnv->pThis == NULL)
+            if (m_pEnv->pThis == nullptr)
                 return 0.0f;
             else if (m_pEnv->pThis->IsSlave())
                 return m_pEnv->pThis->GetAsSlave()->GetAccumulator();
@@ -468,7 +468,7 @@ float   ICombatAction::GetDynamicValue(EDynamicActionValue eMultiplier) const
 
     case DYNAMIC_VALUE_PARAM:
         {
-            if (m_pEnv->pThis == NULL)
+            if (m_pEnv->pThis == nullptr)
                 return 0.0f;
             else if (m_pEnv->pThis->IsAffector())
                 return m_pEnv->pThis->GetAsAffector()->GetParam();
@@ -481,7 +481,7 @@ float   ICombatAction::GetDynamicValue(EDynamicActionValue eMultiplier) const
 
     case DYNAMIC_VALUE_LIFETIME:
         {
-            if (m_pEnv->pThis == NULL)
+            if (m_pEnv->pThis == nullptr)
                 return 0.0f;
             else if (m_pEnv->pThis->IsState())
                 return m_pEnv->pThis->GetAsState()->GetRemainingLifetime();
@@ -494,7 +494,7 @@ float   ICombatAction::GetDynamicValue(EDynamicActionValue eMultiplier) const
 
     case DYNAMIC_VALUE_TEAM:
         {
-            if (m_pEnv->pThis == NULL)
+            if (m_pEnv->pThis == nullptr)
                 return float(int(INVALID_TIME));
             else if (m_pEnv->pThis->IsUnit())
                 return float(int(m_pEnv->pThis->GetAsUnit()->GetTeam()));
@@ -509,31 +509,31 @@ float   ICombatAction::GetDynamicValue(EDynamicActionValue eMultiplier) const
     case DYNAMIC_VALUE_APPLIED_DAMAGE:
         return m_pEnv->pCombatEvent ? m_pEnv->pCombatEvent->GetAppliedDamage() : 0.0f;
 
-    case DYNAMIC_VALUE_TARGET_DAMAGE: return (GetTargetUnit() != NULL) ? GetTargetUnit()->GetCurrentDamage() : 0.0f; break;
-    case DYNAMIC_VALUE_TARGET_HEALTH: return (GetTargetUnit() != NULL) ? GetTargetUnit()->GetHealth() : 0.0f; break;
-    case DYNAMIC_VALUE_TARGET_HEALTH_PERCENT: return (GetTargetUnit() != NULL) ? GetTargetUnit()->GetHealthPercent() : 0.0f; break;
-    case DYNAMIC_VALUE_TARGET_TOTAL_HEALTH: return (GetTargetUnit() != NULL) ? GetTargetUnit()->GetMaxHealth() : 0.0f; break;
-    case DYNAMIC_VALUE_TARGET_MISSING_HEALTH: return (GetTargetUnit() != NULL) ? GetTargetUnit()->GetMaxHealth() - GetTargetUnit()->GetHealth() : 0.0f; break;
-    case DYNAMIC_VALUE_TARGET_MISSING_HEALTH_PERCENT: return (GetTargetUnit() != NULL) ? 1.0f - GetTargetUnit()->GetHealthPercent() : 0.0f; break;
-    case DYNAMIC_VALUE_TARGET_MANA: return (GetTargetUnit() != NULL) ? GetTargetUnit()->GetMana() : 0.0f; break;
-    case DYNAMIC_VALUE_TARGET_MANA_PERCENT: return (GetTargetUnit() != NULL) ? GetTargetUnit()->GetManaPercent() : 0.0f; break;
-    case DYNAMIC_VALUE_TARGET_TOTAL_MANA: return (GetTargetUnit() != NULL) ? GetTargetUnit()->GetMaxMana() : 0.0f; break;
-    case DYNAMIC_VALUE_TARGET_MISSING_MANA: return (GetTargetUnit() != NULL) ? GetTargetUnit()->GetMaxMana() - GetTargetUnit()->GetMana() : 0.0f; break;
-    case DYNAMIC_VALUE_TARGET_MISSING_MANA_PERCENT: return (GetTargetUnit() != NULL) ? 1.0f - GetTargetUnit()->GetManaPercent() : 0.0f; break;
-    case DYNAMIC_VALUE_TARGET_STRENGTH: return (GetTargetEntity()->GetAsHero() != NULL) ? GetTargetEntity()->GetAsHero()->GetStrength() : 0.0f; break;
-    case DYNAMIC_VALUE_TARGET_AGILITY: return (GetTargetEntity()->GetAsHero() != NULL) ? GetTargetEntity()->GetAsHero()->GetAgility() : 0.0f; break;
-    case DYNAMIC_VALUE_TARGET_INTELLIGENCE: return (GetTargetEntity()->GetAsHero() != NULL) ? GetTargetEntity()->GetAsHero()->GetIntelligence() : 0.0f; break;
-    case DYNAMIC_VALUE_TARGET_ATTACKSPEED: return (GetTargetUnit() != NULL) ? GetTargetUnit()->GetAttackSpeed() : 1.0f; break;
-    case DYNAMIC_VALUE_TARGET_CASTSPEED: return (GetTargetUnit() != NULL) ? GetTargetUnit()->GetCastSpeed() : 1.0f; break;
-    case DYNAMIC_VALUE_TARGET_MOVESPEED: return (GetTargetUnit() != NULL) ? GetTargetUnit()->GetMoveSpeed() : 0.0f; break;
-    case DYNAMIC_VALUE_TARGET_ATTACKACTIONTIME: return (GetTargetUnit() != NULL) ? GetTargetUnit()->GetAdjustedAttackActionTime() : 1.0f; break;
-    case DYNAMIC_VALUE_TARGET_ATTACKDURATION: return (GetTargetUnit() != NULL) ? GetTargetUnit()->GetAdjustedAttackDuration() : 1.0f; break;
-    case DYNAMIC_VALUE_TARGET_ATTACKCOOLDOWN: return (GetTargetUnit() != NULL) ? GetTargetUnit()->GetAdjustedAttackCooldown() : 1.0f; break;
+    case DYNAMIC_VALUE_TARGET_DAMAGE: return (GetTargetUnit() != nullptr) ? GetTargetUnit()->GetCurrentDamage() : 0.0f; break;
+    case DYNAMIC_VALUE_TARGET_HEALTH: return (GetTargetUnit() != nullptr) ? GetTargetUnit()->GetHealth() : 0.0f; break;
+    case DYNAMIC_VALUE_TARGET_HEALTH_PERCENT: return (GetTargetUnit() != nullptr) ? GetTargetUnit()->GetHealthPercent() : 0.0f; break;
+    case DYNAMIC_VALUE_TARGET_TOTAL_HEALTH: return (GetTargetUnit() != nullptr) ? GetTargetUnit()->GetMaxHealth() : 0.0f; break;
+    case DYNAMIC_VALUE_TARGET_MISSING_HEALTH: return (GetTargetUnit() != nullptr) ? GetTargetUnit()->GetMaxHealth() - GetTargetUnit()->GetHealth() : 0.0f; break;
+    case DYNAMIC_VALUE_TARGET_MISSING_HEALTH_PERCENT: return (GetTargetUnit() != nullptr) ? 1.0f - GetTargetUnit()->GetHealthPercent() : 0.0f; break;
+    case DYNAMIC_VALUE_TARGET_MANA: return (GetTargetUnit() != nullptr) ? GetTargetUnit()->GetMana() : 0.0f; break;
+    case DYNAMIC_VALUE_TARGET_MANA_PERCENT: return (GetTargetUnit() != nullptr) ? GetTargetUnit()->GetManaPercent() : 0.0f; break;
+    case DYNAMIC_VALUE_TARGET_TOTAL_MANA: return (GetTargetUnit() != nullptr) ? GetTargetUnit()->GetMaxMana() : 0.0f; break;
+    case DYNAMIC_VALUE_TARGET_MISSING_MANA: return (GetTargetUnit() != nullptr) ? GetTargetUnit()->GetMaxMana() - GetTargetUnit()->GetMana() : 0.0f; break;
+    case DYNAMIC_VALUE_TARGET_MISSING_MANA_PERCENT: return (GetTargetUnit() != nullptr) ? 1.0f - GetTargetUnit()->GetManaPercent() : 0.0f; break;
+    case DYNAMIC_VALUE_TARGET_STRENGTH: return (GetTargetEntity()->GetAsHero() != nullptr) ? GetTargetEntity()->GetAsHero()->GetStrength() : 0.0f; break;
+    case DYNAMIC_VALUE_TARGET_AGILITY: return (GetTargetEntity()->GetAsHero() != nullptr) ? GetTargetEntity()->GetAsHero()->GetAgility() : 0.0f; break;
+    case DYNAMIC_VALUE_TARGET_INTELLIGENCE: return (GetTargetEntity()->GetAsHero() != nullptr) ? GetTargetEntity()->GetAsHero()->GetIntelligence() : 0.0f; break;
+    case DYNAMIC_VALUE_TARGET_ATTACKSPEED: return (GetTargetUnit() != nullptr) ? GetTargetUnit()->GetAttackSpeed() : 1.0f; break;
+    case DYNAMIC_VALUE_TARGET_CASTSPEED: return (GetTargetUnit() != nullptr) ? GetTargetUnit()->GetCastSpeed() : 1.0f; break;
+    case DYNAMIC_VALUE_TARGET_MOVESPEED: return (GetTargetUnit() != nullptr) ? GetTargetUnit()->GetMoveSpeed() : 0.0f; break;
+    case DYNAMIC_VALUE_TARGET_ATTACKACTIONTIME: return (GetTargetUnit() != nullptr) ? GetTargetUnit()->GetAdjustedAttackActionTime() : 1.0f; break;
+    case DYNAMIC_VALUE_TARGET_ATTACKDURATION: return (GetTargetUnit() != nullptr) ? GetTargetUnit()->GetAdjustedAttackDuration() : 1.0f; break;
+    case DYNAMIC_VALUE_TARGET_ATTACKCOOLDOWN: return (GetTargetUnit() != nullptr) ? GetTargetUnit()->GetAdjustedAttackCooldown() : 1.0f; break;
     
     case DYNAMIC_VALUE_TARGET_ATTACKDAMAGE:
         {
             IUnitEntity *pTarget(GetTargetUnit());
-            if (pTarget == NULL)
+            if (pTarget == nullptr)
                 return 0.0f;
             
             float fBaseDamage(pTarget->GetBaseDamage());
@@ -548,7 +548,7 @@ float   ICombatAction::GetDynamicValue(EDynamicActionValue eMultiplier) const
         {
             IGameEntity *pTarget(GetTargetEntity());
 
-            if (pTarget == NULL)
+            if (pTarget == nullptr)
                 return 0.0f;
             else if (pTarget->IsSlave())
                 return pTarget->GetAsSlave()->GetAccumulator();
@@ -563,7 +563,7 @@ float   ICombatAction::GetDynamicValue(EDynamicActionValue eMultiplier) const
         {
             IGameEntity *pTarget(GetTargetEntity());
 
-            if (pTarget == NULL)
+            if (pTarget == nullptr)
                 return 0.0f;
             else if (pTarget->IsState())
                 return pTarget->GetAsState()->GetRemainingLifetime();
@@ -578,7 +578,7 @@ float   ICombatAction::GetDynamicValue(EDynamicActionValue eMultiplier) const
         {
             IGameEntity *pTarget(GetTargetEntity());
 
-            if (pTarget == NULL)
+            if (pTarget == nullptr)
                 return float(int(INVALID_TIME));
             else if (pTarget->IsUnit())
                 return float(int(pTarget->GetAsUnit()->GetTeam()));
@@ -589,31 +589,31 @@ float   ICombatAction::GetDynamicValue(EDynamicActionValue eMultiplier) const
         }
         break;
     
-    case DYNAMIC_VALUE_SOURCE_DAMAGE: return (GetSourceUnit() != NULL) ? GetSourceUnit()->GetCurrentDamage() : 0.0f; break;
-    case DYNAMIC_VALUE_SOURCE_HEALTH: return (GetSourceUnit() != NULL) ? GetSourceUnit()->GetHealth() : 0.0f; break;
-    case DYNAMIC_VALUE_SOURCE_HEALTH_PERCENT: return (GetSourceUnit() != NULL) ? GetSourceUnit()->GetHealthPercent() : 0.0f; break;
-    case DYNAMIC_VALUE_SOURCE_TOTAL_HEALTH: return (GetSourceUnit() != NULL) ? GetSourceUnit()->GetMaxHealth() : 0.0f; break;
-    case DYNAMIC_VALUE_SOURCE_MISSING_HEALTH: return (GetSourceUnit() != NULL) ? GetSourceUnit()->GetMaxHealth() - GetSourceUnit()->GetHealth() : 0.0f; break;
-    case DYNAMIC_VALUE_SOURCE_MISSING_HEALTH_PERCENT: return (GetSourceUnit() != NULL) ? 1.0f - GetSourceUnit()->GetHealthPercent() : 0.0f; break;
-    case DYNAMIC_VALUE_SOURCE_MANA: return (GetSourceUnit() != NULL) ? GetSourceUnit()->GetMana() : 0.0f; break;
-    case DYNAMIC_VALUE_SOURCE_MANA_PERCENT: return (GetSourceUnit() != NULL) ? GetSourceUnit()->GetManaPercent() : 0.0f; break;
-    case DYNAMIC_VALUE_SOURCE_TOTAL_MANA: return (GetSourceUnit() != NULL) ? GetSourceUnit()->GetMaxMana() : 0.0f; break;
-    case DYNAMIC_VALUE_SOURCE_MISSING_MANA: return (GetSourceUnit() != NULL) ? GetSourceUnit()->GetMaxMana() - GetSourceUnit()->GetMana() : 0.0f; break;
-    case DYNAMIC_VALUE_SOURCE_MISSING_MANA_PERCENT: return (GetSourceUnit() != NULL) ? 1.0f - GetSourceUnit()->GetManaPercent() : 0.0f; break;
-    case DYNAMIC_VALUE_SOURCE_STRENGTH: return (GetSourceEntity()->GetAsHero() != NULL) ? GetSourceEntity()->GetAsHero()->GetStrength() : 0.0f; break;
-    case DYNAMIC_VALUE_SOURCE_AGILITY: return (GetSourceEntity()->GetAsHero() != NULL) ? GetSourceEntity()->GetAsHero()->GetAgility() : 0.0f; break;
-    case DYNAMIC_VALUE_SOURCE_INTELLIGENCE: return (GetSourceEntity()->GetAsHero() != NULL) ? GetSourceEntity()->GetAsHero()->GetIntelligence() : 0.0f; break;
-    case DYNAMIC_VALUE_SOURCE_ATTACKSPEED: return (GetSourceUnit() != NULL) ? GetSourceUnit()->GetAttackSpeed() : 1.0f; break;
-    case DYNAMIC_VALUE_SOURCE_CASTSPEED: return (GetSourceUnit() != NULL) ? GetSourceUnit()->GetCastSpeed() : 1.0f; break;
-    case DYNAMIC_VALUE_SOURCE_MOVESPEED: return (GetSourceUnit() != NULL) ? GetSourceUnit()->GetMoveSpeed() : 0.0f; break;
-    case DYNAMIC_VALUE_SOURCE_ATTACKACTIONTIME: return (GetSourceUnit() != NULL) ? GetSourceUnit()->GetAdjustedAttackActionTime() : 1.0f; break;
-    case DYNAMIC_VALUE_SOURCE_ATTACKDURATION: return (GetSourceUnit() != NULL) ? GetSourceUnit()->GetAdjustedAttackDuration() : 1.0f; break;
-    case DYNAMIC_VALUE_SOURCE_ATTACKCOOLDOWN: return (GetSourceUnit() != NULL) ? GetSourceUnit()->GetAdjustedAttackCooldown() : 1.0f; break;
+    case DYNAMIC_VALUE_SOURCE_DAMAGE: return (GetSourceUnit() != nullptr) ? GetSourceUnit()->GetCurrentDamage() : 0.0f; break;
+    case DYNAMIC_VALUE_SOURCE_HEALTH: return (GetSourceUnit() != nullptr) ? GetSourceUnit()->GetHealth() : 0.0f; break;
+    case DYNAMIC_VALUE_SOURCE_HEALTH_PERCENT: return (GetSourceUnit() != nullptr) ? GetSourceUnit()->GetHealthPercent() : 0.0f; break;
+    case DYNAMIC_VALUE_SOURCE_TOTAL_HEALTH: return (GetSourceUnit() != nullptr) ? GetSourceUnit()->GetMaxHealth() : 0.0f; break;
+    case DYNAMIC_VALUE_SOURCE_MISSING_HEALTH: return (GetSourceUnit() != nullptr) ? GetSourceUnit()->GetMaxHealth() - GetSourceUnit()->GetHealth() : 0.0f; break;
+    case DYNAMIC_VALUE_SOURCE_MISSING_HEALTH_PERCENT: return (GetSourceUnit() != nullptr) ? 1.0f - GetSourceUnit()->GetHealthPercent() : 0.0f; break;
+    case DYNAMIC_VALUE_SOURCE_MANA: return (GetSourceUnit() != nullptr) ? GetSourceUnit()->GetMana() : 0.0f; break;
+    case DYNAMIC_VALUE_SOURCE_MANA_PERCENT: return (GetSourceUnit() != nullptr) ? GetSourceUnit()->GetManaPercent() : 0.0f; break;
+    case DYNAMIC_VALUE_SOURCE_TOTAL_MANA: return (GetSourceUnit() != nullptr) ? GetSourceUnit()->GetMaxMana() : 0.0f; break;
+    case DYNAMIC_VALUE_SOURCE_MISSING_MANA: return (GetSourceUnit() != nullptr) ? GetSourceUnit()->GetMaxMana() - GetSourceUnit()->GetMana() : 0.0f; break;
+    case DYNAMIC_VALUE_SOURCE_MISSING_MANA_PERCENT: return (GetSourceUnit() != nullptr) ? 1.0f - GetSourceUnit()->GetManaPercent() : 0.0f; break;
+    case DYNAMIC_VALUE_SOURCE_STRENGTH: return (GetSourceEntity()->GetAsHero() != nullptr) ? GetSourceEntity()->GetAsHero()->GetStrength() : 0.0f; break;
+    case DYNAMIC_VALUE_SOURCE_AGILITY: return (GetSourceEntity()->GetAsHero() != nullptr) ? GetSourceEntity()->GetAsHero()->GetAgility() : 0.0f; break;
+    case DYNAMIC_VALUE_SOURCE_INTELLIGENCE: return (GetSourceEntity()->GetAsHero() != nullptr) ? GetSourceEntity()->GetAsHero()->GetIntelligence() : 0.0f; break;
+    case DYNAMIC_VALUE_SOURCE_ATTACKSPEED: return (GetSourceUnit() != nullptr) ? GetSourceUnit()->GetAttackSpeed() : 1.0f; break;
+    case DYNAMIC_VALUE_SOURCE_CASTSPEED: return (GetSourceUnit() != nullptr) ? GetSourceUnit()->GetCastSpeed() : 1.0f; break;
+    case DYNAMIC_VALUE_SOURCE_MOVESPEED: return (GetSourceUnit() != nullptr) ? GetSourceUnit()->GetMoveSpeed() : 0.0f; break;
+    case DYNAMIC_VALUE_SOURCE_ATTACKACTIONTIME: return (GetSourceUnit() != nullptr) ? GetSourceUnit()->GetAdjustedAttackActionTime() : 1.0f; break;
+    case DYNAMIC_VALUE_SOURCE_ATTACKDURATION: return (GetSourceUnit() != nullptr) ? GetSourceUnit()->GetAdjustedAttackDuration() : 1.0f; break;
+    case DYNAMIC_VALUE_SOURCE_ATTACKCOOLDOWN: return (GetSourceUnit() != nullptr) ? GetSourceUnit()->GetAdjustedAttackCooldown() : 1.0f; break;
     
     case DYNAMIC_VALUE_SOURCE_ATTACKDAMAGE:
         {
             IUnitEntity *pSource(GetSourceUnit());
-            if (pSource == NULL)
+            if (pSource == nullptr)
                 return 0.0f;
             
             float fBaseDamage(pSource->GetBaseDamage());
@@ -628,7 +628,7 @@ float   ICombatAction::GetDynamicValue(EDynamicActionValue eMultiplier) const
         {
             IGameEntity *pSource(GetSourceEntity());
 
-            if (pSource == NULL)
+            if (pSource == nullptr)
                 return 0.0f;
             else if (pSource->IsSlave())
                 return pSource->GetAsSlave()->GetAccumulator();
@@ -643,7 +643,7 @@ float   ICombatAction::GetDynamicValue(EDynamicActionValue eMultiplier) const
         {
             IGameEntity *pSource(GetSourceEntity());
 
-            if (pSource == NULL)
+            if (pSource == nullptr)
                 return 0.0f;
             else if (pSource->IsState())
                 return pSource->GetAsState()->GetRemainingLifetime();
@@ -658,7 +658,7 @@ float   ICombatAction::GetDynamicValue(EDynamicActionValue eMultiplier) const
         {
             IGameEntity *pSource(GetSourceEntity());
 
-            if (pSource == NULL)
+            if (pSource == nullptr)
                 return float(int(INVALID_TIME));
             else if (pSource->IsUnit())
                 return float(int(pSource->GetAsUnit()->GetTeam()));
@@ -671,33 +671,33 @@ float   ICombatAction::GetDynamicValue(EDynamicActionValue eMultiplier) const
 
     case DYNAMIC_VALUE_OWNER_COUNTER:
         {
-            ISlaveEntity *pSlave(m_pEnv->pThis != NULL ? m_pEnv->pThis->GetAsSlave() : NULL);
-            if (pSlave == NULL)
+            ISlaveEntity *pSlave(m_pEnv->pThis != nullptr ? m_pEnv->pThis->GetAsSlave() : nullptr);
+            if (pSlave == nullptr)
                 return 0.0f;
 
             IUnitEntity *pOwner(pSlave->GetOwner());
-            if (pOwner != NULL)
+            if (pOwner != nullptr)
                 return pOwner->GetCounter();
 
             return 0.0f;
         }
         break;
 
-    case DYNAMIC_VALUE_SOURCE_ENTITY: return (GetSourceEntity() != NULL) ? GetSourceEntity()->GetUniqueID() : 0.0f; break;
-    case DYNAMIC_VALUE_TARGET_ENTITY: return (GetTargetEntity() != NULL) ? GetTargetEntity()->GetUniqueID() : 0.0f; break;
-    case DYNAMIC_VALUE_INFLICTOR_ENTITY: return (m_pEnv->pInflictor != NULL) ? m_pEnv->pInflictor->GetUniqueID() : 0.0f; break;
-    case DYNAMIC_VALUE_PROXY_ENTITY: return (m_pEnv->pProxy != NULL) ? m_pEnv->pProxy->GetUniqueID() : 0.0f; break;
-    case DYNAMIC_VALUE_STACK_ENTITY: return (Game.GetEntityFromUniqueID(PeekEntity()) != NULL) ? PeekEntity() : 0.0f; break;
-    case DYNAMIC_VALUE_THIS_PROXY_ENTITY: return (m_pEnv->pThis != NULL && m_pEnv->pThis->GetProxy(0) != NULL) ? m_pEnv->pThis->GetProxy(0)->GetUniqueID() : 0.0f; break;
+    case DYNAMIC_VALUE_SOURCE_ENTITY: return (GetSourceEntity() != nullptr) ? GetSourceEntity()->GetUniqueID() : 0.0f; break;
+    case DYNAMIC_VALUE_TARGET_ENTITY: return (GetTargetEntity() != nullptr) ? GetTargetEntity()->GetUniqueID() : 0.0f; break;
+    case DYNAMIC_VALUE_INFLICTOR_ENTITY: return (m_pEnv->pInflictor != nullptr) ? m_pEnv->pInflictor->GetUniqueID() : 0.0f; break;
+    case DYNAMIC_VALUE_PROXY_ENTITY: return (m_pEnv->pProxy != nullptr) ? m_pEnv->pProxy->GetUniqueID() : 0.0f; break;
+    case DYNAMIC_VALUE_STACK_ENTITY: return (Game.GetEntityFromUniqueID(PeekEntity()) != nullptr) ? PeekEntity() : 0.0f; break;
+    case DYNAMIC_VALUE_THIS_PROXY_ENTITY: return (m_pEnv->pThis != nullptr && m_pEnv->pThis->GetProxy(0) != nullptr) ? m_pEnv->pThis->GetProxy(0)->GetUniqueID() : 0.0f; break;
 
     case DYNAMIC_VALUE_OWNER_ENTITY:
         {
-            ISlaveEntity *pSlave(m_pEnv->pThis != NULL ? m_pEnv->pThis->GetAsSlave() : NULL);
-            if (pSlave == NULL)
+            ISlaveEntity *pSlave(m_pEnv->pThis != nullptr ? m_pEnv->pThis->GetAsSlave() : nullptr);
+            if (pSlave == nullptr)
                 return 0.0f;
 
             IUnitEntity *pOwner(pSlave->GetOwner());
-            if (pOwner != NULL)
+            if (pOwner != nullptr)
                 return pOwner->GetUniqueID();
 
             return 0.0f;
@@ -705,7 +705,7 @@ float   ICombatAction::GetDynamicValue(EDynamicActionValue eMultiplier) const
         break;
 
     case DYNAMIC_VALUE_TIME: return (Game.GetGamePhase() == GAME_PHASE_ACTIVE) ? Game.GetGameTime() - Game.GetPhaseStartTime() : 0.0f; break;
-    case DYNAMIC_VALUE_CASTDURATION: return (m_pEnv->pInflictor != NULL && m_pEnv->pInflictor->IsTool()) ? m_pEnv->pInflictor->GetAsTool()->GetAdjustedCastTime() : 0.0f; break;
+    case DYNAMIC_VALUE_CASTDURATION: return (m_pEnv->pInflictor != nullptr && m_pEnv->pInflictor->IsTool()) ? m_pEnv->pInflictor->GetAsTool()->GetAdjustedCastTime() : 0.0f; break;
     case DYNAMIC_VALUE_LEVEL: return m_pEnv->uiLevel; break;
 
     case DYNAMIC_COMBAT_TARGET: return m_pEnv->pCombatEvent ? m_pEnv->pCombatEvent->GetTarget() : INVALID_INDEX;
@@ -753,30 +753,30 @@ void    ICombatAction::SetDynamicValue(EDynamicActionValue eMultiplier, float fV
 {
     switch (eMultiplier)
     {
-    case DYNAMIC_VALUE_TOTAL_ADJUSTED_DAMAGE: if (m_pEnv->pCombatEvent != NULL) m_pEnv->pCombatEvent->SetTotalAdjustedDamage(fValue); break;
+    case DYNAMIC_VALUE_TOTAL_ADJUSTED_DAMAGE: if (m_pEnv->pCombatEvent != nullptr) m_pEnv->pCombatEvent->SetTotalAdjustedDamage(fValue); break;
 
-    case DYNAMIC_COMBAT_BASEDAMAGE: if (m_pEnv->pCombatEvent != NULL) m_pEnv->pCombatEvent->SetBaseDamage(fValue); break;
-    case DYNAMIC_COMBAT_ADDITIONALDAMAGE: if (m_pEnv->pCombatEvent != NULL) m_pEnv->pCombatEvent->SetAdditionalDamage(fValue); break;
-    case DYNAMIC_COMBAT_DAMAGEMULTIPLIER: if (m_pEnv->pCombatEvent != NULL) m_pEnv->pCombatEvent->SetDamageMultiplier(fValue); break;
-    case DYNAMIC_COMBAT_BONUSDAMAGE: if (m_pEnv->pCombatEvent != NULL) m_pEnv->pCombatEvent->SetBonusDamage(fValue); break;
-    case DYNAMIC_COMBAT_BONUSMULTIPLIER: if (m_pEnv->pCombatEvent != NULL) m_pEnv->pCombatEvent->SetBonusMultiplier(fValue); break;
-    case DYNAMIC_COMBAT_LIFESTEAL: if (m_pEnv->pCombatEvent != NULL) m_pEnv->pCombatEvent->SetLifeSteal(fValue); break;
-    case DYNAMIC_COMBAT_EVASION: if (m_pEnv->pCombatEvent != NULL) m_pEnv->pCombatEvent->SetEvasion(fValue); break;
-    case DYNAMIC_COMBAT_MISSCHANCE: if (m_pEnv->pCombatEvent != NULL) m_pEnv->pCombatEvent->SetMissChance(fValue); break;
-    case DYNAMIC_COMBAT_NONLETHAL: if (m_pEnv->pCombatEvent != NULL) m_pEnv->pCombatEvent->SetNonLethal(fValue != 0.0f); break;
-    case DYNAMIC_COMBAT_TRUESTRIKE: if (m_pEnv->pCombatEvent != NULL) m_pEnv->pCombatEvent->SetTrueStrike(fValue != 0.0f); break;
-    case DYNAMIC_COMBAT_NEGATED: if (m_pEnv->pCombatEvent != NULL) m_pEnv->pCombatEvent->SetNegated(fValue != 0.0f); break;
-    case DYNAMIC_COMBAT_DEFLECTION: if (m_pEnv->pCombatEvent != NULL) m_pEnv->pCombatEvent->SetDeflection(fValue); break;
-    case DYNAMIC_COMBAT_MANACOST: if (m_pEnv->pCombatEvent != NULL) m_pEnv->pCombatEvent->SetManaCost(fValue); break;
-    case DYNAMIC_COMBAT_COOLDOWNTIME: if (m_pEnv->pCombatEvent != NULL) m_pEnv->pCombatEvent->SetCooldownTime(INT_ROUND(fValue)); break;
-    case DYNAMIC_COMBAT_ATTACKABILITY: if (m_pEnv->pCombatEvent != NULL) m_pEnv->pCombatEvent->SetAttackAbility(fValue != 0.0f); break;
-    case DYNAMIC_COMBAT_ARMORPIERCE: if (m_pEnv->pCombatEvent != NULL) m_pEnv->pCombatEvent->SetArmorPierce(fValue); break;
-    case DYNAMIC_COMBAT_MAGICARMORPIERCE: if (m_pEnv->pCombatEvent != NULL) m_pEnv->pCombatEvent->SetMagicArmorPierce(fValue); break;
+    case DYNAMIC_COMBAT_BASEDAMAGE: if (m_pEnv->pCombatEvent != nullptr) m_pEnv->pCombatEvent->SetBaseDamage(fValue); break;
+    case DYNAMIC_COMBAT_ADDITIONALDAMAGE: if (m_pEnv->pCombatEvent != nullptr) m_pEnv->pCombatEvent->SetAdditionalDamage(fValue); break;
+    case DYNAMIC_COMBAT_DAMAGEMULTIPLIER: if (m_pEnv->pCombatEvent != nullptr) m_pEnv->pCombatEvent->SetDamageMultiplier(fValue); break;
+    case DYNAMIC_COMBAT_BONUSDAMAGE: if (m_pEnv->pCombatEvent != nullptr) m_pEnv->pCombatEvent->SetBonusDamage(fValue); break;
+    case DYNAMIC_COMBAT_BONUSMULTIPLIER: if (m_pEnv->pCombatEvent != nullptr) m_pEnv->pCombatEvent->SetBonusMultiplier(fValue); break;
+    case DYNAMIC_COMBAT_LIFESTEAL: if (m_pEnv->pCombatEvent != nullptr) m_pEnv->pCombatEvent->SetLifeSteal(fValue); break;
+    case DYNAMIC_COMBAT_EVASION: if (m_pEnv->pCombatEvent != nullptr) m_pEnv->pCombatEvent->SetEvasion(fValue); break;
+    case DYNAMIC_COMBAT_MISSCHANCE: if (m_pEnv->pCombatEvent != nullptr) m_pEnv->pCombatEvent->SetMissChance(fValue); break;
+    case DYNAMIC_COMBAT_NONLETHAL: if (m_pEnv->pCombatEvent != nullptr) m_pEnv->pCombatEvent->SetNonLethal(fValue != 0.0f); break;
+    case DYNAMIC_COMBAT_TRUESTRIKE: if (m_pEnv->pCombatEvent != nullptr) m_pEnv->pCombatEvent->SetTrueStrike(fValue != 0.0f); break;
+    case DYNAMIC_COMBAT_NEGATED: if (m_pEnv->pCombatEvent != nullptr) m_pEnv->pCombatEvent->SetNegated(fValue != 0.0f); break;
+    case DYNAMIC_COMBAT_DEFLECTION: if (m_pEnv->pCombatEvent != nullptr) m_pEnv->pCombatEvent->SetDeflection(fValue); break;
+    case DYNAMIC_COMBAT_MANACOST: if (m_pEnv->pCombatEvent != nullptr) m_pEnv->pCombatEvent->SetManaCost(fValue); break;
+    case DYNAMIC_COMBAT_COOLDOWNTIME: if (m_pEnv->pCombatEvent != nullptr) m_pEnv->pCombatEvent->SetCooldownTime(INT_ROUND(fValue)); break;
+    case DYNAMIC_COMBAT_ATTACKABILITY: if (m_pEnv->pCombatEvent != nullptr) m_pEnv->pCombatEvent->SetAttackAbility(fValue != 0.0f); break;
+    case DYNAMIC_COMBAT_ARMORPIERCE: if (m_pEnv->pCombatEvent != nullptr) m_pEnv->pCombatEvent->SetArmorPierce(fValue); break;
+    case DYNAMIC_COMBAT_MAGICARMORPIERCE: if (m_pEnv->pCombatEvent != nullptr) m_pEnv->pCombatEvent->SetMagicArmorPierce(fValue); break;
 
-    case DYNAMIC_DAMAGE_ATTEMPTED: if (m_pEnv->pDamageEvent != NULL) m_pEnv->pDamageEvent->SetAmount(fValue); break;
-    case DYNAMIC_DAMAGE_DEFLECTION: if (m_pEnv->pDamageEvent != NULL) m_pEnv->pDamageEvent->SetDeflection(fValue); break;
-    case DYNAMIC_DAMAGE_ARMORPIERCE: if (m_pEnv->pDamageEvent != NULL) m_pEnv->pDamageEvent->SetArmorPierce(fValue); break;
-    case DYNAMIC_DAMAGE_MAGICARMORPIERCE: if (m_pEnv->pDamageEvent != NULL) m_pEnv->pDamageEvent->SetMagicArmorPierce(fValue); break;
+    case DYNAMIC_DAMAGE_ATTEMPTED: if (m_pEnv->pDamageEvent != nullptr) m_pEnv->pDamageEvent->SetAmount(fValue); break;
+    case DYNAMIC_DAMAGE_DEFLECTION: if (m_pEnv->pDamageEvent != nullptr) m_pEnv->pDamageEvent->SetDeflection(fValue); break;
+    case DYNAMIC_DAMAGE_ARMORPIERCE: if (m_pEnv->pDamageEvent != nullptr) m_pEnv->pDamageEvent->SetArmorPierce(fValue); break;
+    case DYNAMIC_DAMAGE_MAGICARMORPIERCE: if (m_pEnv->pDamageEvent != nullptr) m_pEnv->pDamageEvent->SetMagicArmorPierce(fValue); break;
 
     default: break;
     }
@@ -790,10 +790,10 @@ void    ICombatAction::SetDynamicEffectType(EDynamicActionValue eMultiplier, uin
 {
     switch (eMultiplier)
     {
-    case DYNAMIC_COMBAT_EFFECTTYPE: if (m_pEnv->pCombatEvent != NULL) m_pEnv->pCombatEvent->SetEffectType(uiEffectType); break;
-    case DYNAMIC_COMBAT_DAMAGETYPE: if (m_pEnv->pCombatEvent != NULL) m_pEnv->pCombatEvent->SetDamageType(uiEffectType); break;
+    case DYNAMIC_COMBAT_EFFECTTYPE: if (m_pEnv->pCombatEvent != nullptr) m_pEnv->pCombatEvent->SetEffectType(uiEffectType); break;
+    case DYNAMIC_COMBAT_DAMAGETYPE: if (m_pEnv->pCombatEvent != nullptr) m_pEnv->pCombatEvent->SetDamageType(uiEffectType); break;
 
-    case DYNAMIC_DAMAGE_EFFECTTYPE: if (m_pEnv->pDamageEvent != NULL) m_pEnv->pDamageEvent->SetEffectType(uiEffectType); break;
+    case DYNAMIC_DAMAGE_EFFECTTYPE: if (m_pEnv->pDamageEvent != nullptr) m_pEnv->pDamageEvent->SetEffectType(uiEffectType); break;
 
     default: break;
     }
@@ -870,8 +870,8 @@ bool    ICombatAction::Compare(float fA, float fB, EActionCmpOperator eOp) const
 IUnitEntity*    ICombatAction::GetSourceUnit() const
 {
     IGameEntity *pEntity(GetSourceEntity());
-    if (pEntity == NULL)
-        return NULL;
+    if (pEntity == nullptr)
+        return nullptr;
 
     return pEntity->GetAsUnit();
 }
@@ -883,8 +883,8 @@ IUnitEntity*    ICombatAction::GetSourceUnit() const
 IUnitEntity*    ICombatAction::GetTargetUnit() const
 {
     IGameEntity *pEntity(GetTargetEntity());
-    if (pEntity == NULL)
-        return NULL;
+    if (pEntity == nullptr)
+        return nullptr;
     
     return pEntity->GetAsUnit();
 }
@@ -951,16 +951,16 @@ float   CCombatActionScript::Execute(IGameEntity *pInflictor, IGameEntity *pInit
     cEnv.v3Pos1.Clear();
     cEnv.v3Pos2.Clear();
     cEnv.v3Pos3.Clear();
-    cEnv.pEnt0 = NULL;
-    cEnv.pEnt1 = NULL;
-    cEnv.pEnt2 = NULL;
-    cEnv.pEnt3 = NULL;
+    cEnv.pEnt0 = nullptr;
+    cEnv.pEnt1 = nullptr;
+    cEnv.pEnt2 = nullptr;
+    cEnv.pEnt3 = nullptr;
 
     cEnv.bStall = false;
     cEnv.bTerminate = false;
     cEnv.uiRepeated = 0;
     cEnv.uiTracker = 0;
-    cEnv.pNext = NULL;
+    cEnv.pNext = nullptr;
     
     ExecuteActions(cEnv);
 
@@ -973,7 +973,7 @@ float   CCombatActionScript::Execute(IGameEntity *pInflictor, IGameEntity *pInit
   ====================*/
 void    CCombatActionScript::ExecuteActions(SCombatActionEnv &cEnv)
 {
-    if (cEnv.pScriptThread != NULL)
+    if (cEnv.pScriptThread != nullptr)
     {
         if (cEnv.pScriptThread->GetWaitTime() != 0)
             return;
@@ -1027,9 +1027,9 @@ void    CCombatActionScript::ExecuteActions(SCombatActionEnv &cEnv)
   ====================*/
 void    ICombatActionBranch::ExecuteActions()
 {
-    if (m_pEnv->pScriptThread != NULL)
+    if (m_pEnv->pScriptThread != nullptr)
     {
-        if (m_pEnv->pNext == NULL)
+        if (m_pEnv->pNext == nullptr)
         {
             m_pEnv->pNext = K2_NEW(ctx_Game,   SCombatActionEnv)(*m_pEnv);
             m_pEnv->pNext->citAct = m_script.GetActions().begin();
@@ -1048,7 +1048,7 @@ void    ICombatActionBranch::ExecuteActions()
         if (m_pEnv->pNext->citAct == m_script.GetActions().end())
         {
             K2_DELETE(m_pEnv->pNext);
-            m_pEnv->pNext = NULL;
+            m_pEnv->pNext = nullptr;
         }
     }
     else
@@ -1089,37 +1089,37 @@ bool    EvaluateConditionalString(const tstring &sTest, IGameEntity *pThis, IGam
     if (vTokens.size() < 1)
         return false;
 
-    if ((TStringCompare(vTokens[0], _T("canactivate")) == 0 && pThis != NULL && pThis->IsTool() && pThis->GetAsTool()->CanActivate()) ||
-        (TStringCompare(vTokens[0], _T("isready")) == 0 && pThis != NULL && pThis->IsTool() && pThis->GetAsTool()->IsReady()) ||
-        (TStringCompare(vTokens[0], _T("istoggled")) == 0 && pThis != NULL && pThis->IsTool() && pThis->GetAsTool()->HasFlag(ENTITY_TOOL_FLAG_TOGGLE_ACTIVE)) ||
-        (TStringCompare(vTokens[0], _T("owner")) == 0 && pSource != NULL && pTarget != NULL && pSource->GetOwner() == pTarget) ||
-        (TStringCompare(vTokens[0], _T("not_owner")) == 0 && pSource != NULL && pTarget != NULL && pSource->GetOwner() != pTarget) ||
-        (TStringCompare(vTokens[0], _T("inflictor")) == 0 && pThis != NULL && pTarget != NULL && pThis->IsState() && pThis->GetAsState()->GetInflictor() == pTarget) ||
-        (TStringCompare(vTokens[0], _T("not_inflictor")) == 0 && pThis != NULL && pTarget != NULL && pThis->IsState() && pThis->GetAsState()->GetInflictor() == pTarget) ||
-        (TStringCompare(vTokens[0], _T("ally")) == 0 && pSource != NULL && pTarget != NULL && pSource->GetTeam() == pTarget->GetTeam()) ||
-        (TStringCompare(vTokens[0], _T("enemy")) == 0 && pSource != NULL && pTarget != NULL && pSource->GetTeam() != pTarget->GetTeam()) ||
-        (TStringCompare(vTokens[0], _T("return")) == 0 && pThis != NULL && pThis->IsProjectile() && pThis->GetAsProjectile()->GetReturnCount() > 0) ||
-        (TStringCompare(vTokens[0], _T("return")) == 0 && pInflictor != NULL && pInflictor->IsProjectile() && pInflictor->GetAsProjectile()->GetReturnCount() > 0) ||
-        (TStringCompare(vTokens[0], _T("not_return")) == 0 && pThis != NULL && pThis->IsProjectile() && pThis->GetAsProjectile()->GetReturnCount() == 0) ||
-        (TStringCompare(vTokens[0], _T("not_return")) == 0 && pInflictor != NULL && pInflictor->IsProjectile() && pInflictor->GetAsProjectile()->GetReturnCount() == 0) ||
-        (TStringCompare(vTokens[0], _T("redirect")) == 0 && pThis != NULL && pThis->IsProjectile() && pThis->GetAsProjectile()->GetRedirectCount() > 0) ||
-        (TStringCompare(vTokens[0], _T("redirect")) == 0 && pInflictor != NULL && pInflictor->IsProjectile() && pInflictor->GetAsProjectile()->GetRedirectCount() > 0) ||
-        (TStringCompare(vTokens[0], _T("not_redirect")) == 0 && pThis != NULL && pThis->IsProjectile() && pThis->GetAsProjectile()->GetRedirectCount() == 0) ||
-        (TStringCompare(vTokens[0], _T("not_redirect")) == 0 && pInflictor != NULL && pInflictor->IsProjectile() && pInflictor->GetAsProjectile()->GetRedirectCount() == 0) ||
-        (TStringCompare(vTokens[0], _T("bound")) == 0 && pThis != NULL && pThis->IsProjectile() && pThis->GetAsProjectile()->HasBinds()) ||
-        (TStringCompare(vTokens[0], _T("bound")) == 0 && pInflictor != NULL && pInflictor->IsProjectile() && pInflictor->GetAsProjectile()->HasBinds()) ||
-        (TStringCompare(vTokens[0], _T("not_bound")) == 0 && pThis != NULL && pThis->IsProjectile() && !pThis->GetAsProjectile()->HasBinds()) ||
-        (TStringCompare(vTokens[0], _T("not_bound")) == 0 && pInflictor != NULL && pInflictor->IsProjectile() && !pInflictor->GetAsProjectile()->HasBinds()) ||
-        (TStringCompare(vTokens[0], _T("isattacking")) == 0 && pSource != NULL && pSource->IsAttacking()) ||
-        (TStringCompare(vTokens[0], _T("not_isattacking")) == 0 && pSource != NULL && !pSource->IsAttacking()) ||
-        (TStringCompare(vTokens[0], _T("hastarget")) == 0 && pSource != NULL && Game.GetUnitEntity(pSource->GetTargetIndex()) != NULL) ||
-        (TStringCompare(vTokens[0], _T("not_hastarget")) == 0 && pSource != NULL && Game.GetUnitEntity(pSource->GetTargetIndex()) == NULL) ||
-        (TStringCompare(vTokens[0], _T("stealthed")) == 0 && pTarget != NULL && pTarget->IsStealth(false)) ||
-        (TStringCompare(vTokens[0], _T("not_stealthed")) == 0 && pTarget != NULL && !pTarget->IsStealth(false)) ||
-        (TStringCompare(vTokens[0], _T("illusion")) == 0 && pTarget != NULL && pTarget->IsIllusion()) ||
-        (TStringCompare(vTokens[0], _T("not_illusion")) == 0 && pTarget != NULL && !pTarget->IsIllusion()) ||
-        (TStringCompare(vTokens[0], _T("hasorder")) == 0 && pTarget != NULL && !pTarget->GetBrain().IsEmpty() && !pTarget->GetBrain().GetCurrentBehavior()->GetDefault()) ||
-        (TStringCompare(vTokens[0], _T("not_hasorder")) == 0 && pTarget != NULL && (pTarget->GetBrain().IsEmpty() || pTarget->GetBrain().GetCurrentBehavior()->GetDefault()))
+    if ((TStringCompare(vTokens[0], _T("canactivate")) == 0 && pThis != nullptr && pThis->IsTool() && pThis->GetAsTool()->CanActivate()) ||
+        (TStringCompare(vTokens[0], _T("isready")) == 0 && pThis != nullptr && pThis->IsTool() && pThis->GetAsTool()->IsReady()) ||
+        (TStringCompare(vTokens[0], _T("istoggled")) == 0 && pThis != nullptr && pThis->IsTool() && pThis->GetAsTool()->HasFlag(ENTITY_TOOL_FLAG_TOGGLE_ACTIVE)) ||
+        (TStringCompare(vTokens[0], _T("owner")) == 0 && pSource != nullptr && pTarget != nullptr && pSource->GetOwner() == pTarget) ||
+        (TStringCompare(vTokens[0], _T("not_owner")) == 0 && pSource != nullptr && pTarget != nullptr && pSource->GetOwner() != pTarget) ||
+        (TStringCompare(vTokens[0], _T("inflictor")) == 0 && pThis != nullptr && pTarget != nullptr && pThis->IsState() && pThis->GetAsState()->GetInflictor() == pTarget) ||
+        (TStringCompare(vTokens[0], _T("not_inflictor")) == 0 && pThis != nullptr && pTarget != nullptr && pThis->IsState() && pThis->GetAsState()->GetInflictor() == pTarget) ||
+        (TStringCompare(vTokens[0], _T("ally")) == 0 && pSource != nullptr && pTarget != nullptr && pSource->GetTeam() == pTarget->GetTeam()) ||
+        (TStringCompare(vTokens[0], _T("enemy")) == 0 && pSource != nullptr && pTarget != nullptr && pSource->GetTeam() != pTarget->GetTeam()) ||
+        (TStringCompare(vTokens[0], _T("return")) == 0 && pThis != nullptr && pThis->IsProjectile() && pThis->GetAsProjectile()->GetReturnCount() > 0) ||
+        (TStringCompare(vTokens[0], _T("return")) == 0 && pInflictor != nullptr && pInflictor->IsProjectile() && pInflictor->GetAsProjectile()->GetReturnCount() > 0) ||
+        (TStringCompare(vTokens[0], _T("not_return")) == 0 && pThis != nullptr && pThis->IsProjectile() && pThis->GetAsProjectile()->GetReturnCount() == 0) ||
+        (TStringCompare(vTokens[0], _T("not_return")) == 0 && pInflictor != nullptr && pInflictor->IsProjectile() && pInflictor->GetAsProjectile()->GetReturnCount() == 0) ||
+        (TStringCompare(vTokens[0], _T("redirect")) == 0 && pThis != nullptr && pThis->IsProjectile() && pThis->GetAsProjectile()->GetRedirectCount() > 0) ||
+        (TStringCompare(vTokens[0], _T("redirect")) == 0 && pInflictor != nullptr && pInflictor->IsProjectile() && pInflictor->GetAsProjectile()->GetRedirectCount() > 0) ||
+        (TStringCompare(vTokens[0], _T("not_redirect")) == 0 && pThis != nullptr && pThis->IsProjectile() && pThis->GetAsProjectile()->GetRedirectCount() == 0) ||
+        (TStringCompare(vTokens[0], _T("not_redirect")) == 0 && pInflictor != nullptr && pInflictor->IsProjectile() && pInflictor->GetAsProjectile()->GetRedirectCount() == 0) ||
+        (TStringCompare(vTokens[0], _T("bound")) == 0 && pThis != nullptr && pThis->IsProjectile() && pThis->GetAsProjectile()->HasBinds()) ||
+        (TStringCompare(vTokens[0], _T("bound")) == 0 && pInflictor != nullptr && pInflictor->IsProjectile() && pInflictor->GetAsProjectile()->HasBinds()) ||
+        (TStringCompare(vTokens[0], _T("not_bound")) == 0 && pThis != nullptr && pThis->IsProjectile() && !pThis->GetAsProjectile()->HasBinds()) ||
+        (TStringCompare(vTokens[0], _T("not_bound")) == 0 && pInflictor != nullptr && pInflictor->IsProjectile() && !pInflictor->GetAsProjectile()->HasBinds()) ||
+        (TStringCompare(vTokens[0], _T("isattacking")) == 0 && pSource != nullptr && pSource->IsAttacking()) ||
+        (TStringCompare(vTokens[0], _T("not_isattacking")) == 0 && pSource != nullptr && !pSource->IsAttacking()) ||
+        (TStringCompare(vTokens[0], _T("hastarget")) == 0 && pSource != nullptr && Game.GetUnitEntity(pSource->GetTargetIndex()) != nullptr) ||
+        (TStringCompare(vTokens[0], _T("not_hastarget")) == 0 && pSource != nullptr && Game.GetUnitEntity(pSource->GetTargetIndex()) == nullptr) ||
+        (TStringCompare(vTokens[0], _T("stealthed")) == 0 && pTarget != nullptr && pTarget->IsStealth(false)) ||
+        (TStringCompare(vTokens[0], _T("not_stealthed")) == 0 && pTarget != nullptr && !pTarget->IsStealth(false)) ||
+        (TStringCompare(vTokens[0], _T("illusion")) == 0 && pTarget != nullptr && pTarget->IsIllusion()) ||
+        (TStringCompare(vTokens[0], _T("not_illusion")) == 0 && pTarget != nullptr && !pTarget->IsIllusion()) ||
+        (TStringCompare(vTokens[0], _T("hasorder")) == 0 && pTarget != nullptr && !pTarget->GetBrain().IsEmpty() && !pTarget->GetBrain().GetCurrentBehavior()->GetDefault()) ||
+        (TStringCompare(vTokens[0], _T("not_hasorder")) == 0 && pTarget != nullptr && (pTarget->GetBrain().IsEmpty() || pTarget->GetBrain().GetCurrentBehavior()->GetDefault()))
         )
     {
         return true;
@@ -1130,40 +1130,40 @@ bool    EvaluateConditionalString(const tstring &sTest, IGameEntity *pThis, IGam
 
     if (TStringCompare(vTokens[0], _T("entity_type")) == 0)
     {
-        if (pTarget != NULL && pTarget->GetTypeName() == vTokens[1])
+        if (pTarget != nullptr && pTarget->GetTypeName() == vTokens[1])
             return true;
-        else if (pThis != NULL && pThis->GetTypeName() == vTokens[1])
+        else if (pThis != nullptr && pThis->GetTypeName() == vTokens[1])
             return true;
     }
     else if (TStringCompare(vTokens[0], _T("not_entity_type")) == 0)
     {
-        if (pTarget != NULL && pTarget->GetTypeName() != vTokens[1])
+        if (pTarget != nullptr && pTarget->GetTypeName() != vTokens[1])
             return true;
-        else if (pInflictor != NULL && pInflictor->GetTypeName() != vTokens[1])
+        else if (pInflictor != nullptr && pInflictor->GetTypeName() != vTokens[1])
             return true;
     }
     else if (TStringCompare(vTokens[0], _T("target_type")) == 0)
     {
-        if (pTarget != NULL && pTarget->IsTargetType(vTokens[1], pSource))
+        if (pTarget != nullptr && pTarget->IsTargetType(vTokens[1], pSource))
             return true;
     }
     else if (TStringCompare(vTokens[0], _T("not_target_type")) == 0)
     {
-        if (pTarget == NULL || !pTarget->IsTargetType(vTokens[1], pSource))
+        if (pTarget == nullptr || !pTarget->IsTargetType(vTokens[1], pSource))
             return true;
     }
     else if (TStringCompare(vTokens[0], _T("modifier")) == 0)
     {
-        if (pThis != NULL && pThis->HasModifier(vTokens[1]))
+        if (pThis != nullptr && pThis->HasModifier(vTokens[1]))
             return true;
     }
     else if (TStringCompare(vTokens[0], _T("hasproperty")) == 0)
     {
-        ISlaveEntity *pSlave(pInflictor ? pInflictor->GetAsSlave() : NULL);
-        if (pSlave == NULL)
-            pSlave = pThis ? pThis->GetAsSlave() : NULL;
+        ISlaveEntity *pSlave(pInflictor ? pInflictor->GetAsSlave() : nullptr);
+        if (pSlave == nullptr)
+            pSlave = pThis ? pThis->GetAsSlave() : nullptr;
 
-        if (pSlave != NULL)
+        if (pSlave != nullptr)
         {
             if (TStringCompare(vTokens[1], _T("silenced")) == 0 && pSlave->GetAsSlave()->GetSilenced())
                 return true;
@@ -1195,11 +1195,11 @@ bool    EvaluateConditionalString(const tstring &sTest, IGameEntity *pThis, IGam
     }
     else if (TStringCompare(vTokens[0], _T("not_hasproperty")) == 0)
     {
-        ISlaveEntity *pSlave(pInflictor ? pInflictor->GetAsSlave() : NULL);
-        if (pSlave == NULL)
-            pSlave = pThis ? pThis->GetAsSlave() : NULL;
+        ISlaveEntity *pSlave(pInflictor ? pInflictor->GetAsSlave() : nullptr);
+        if (pSlave == nullptr)
+            pSlave = pThis ? pThis->GetAsSlave() : nullptr;
 
-        if (pSlave != NULL)
+        if (pSlave != nullptr)
         {
             if (TStringCompare(vTokens[1], _T("silenced")) == 0 && pSlave->GetAsSlave()->GetSilenced())
                 return false;
@@ -1231,7 +1231,7 @@ bool    EvaluateConditionalString(const tstring &sTest, IGameEntity *pThis, IGam
     }
     else if (TStringCompare(vTokens[0], _T("hastrait")) == 0)
     {
-        if (pTarget != NULL)
+        if (pTarget != nullptr)
         {
             if (TStringCompare(vTokens[1], _T("silenced")) == 0 && pTarget->GetAsUnit()->IsSilenced())
                 return true;
@@ -1263,7 +1263,7 @@ bool    EvaluateConditionalString(const tstring &sTest, IGameEntity *pThis, IGam
     }
     else if (TStringCompare(vTokens[0], _T("not_hastrait")) == 0)
     {
-        if (pTarget != NULL)
+        if (pTarget != nullptr)
         {
             if (TStringCompare(vTokens[1], _T("silenced")) == 0 && pTarget->GetAsUnit()->IsSilenced())
                 return false;
@@ -1296,13 +1296,13 @@ bool    EvaluateConditionalString(const tstring &sTest, IGameEntity *pThis, IGam
     else if (TStringCompare(vTokens[0], _T("hasstate")) == 0)
     {
         ushort unStateID(EntityRegistry.LookupID(vTokens[1]));
-        if (pTarget != NULL && pTarget->IsUnit() && unStateID != INVALID_ENT_TYPE && pTarget->HasState(unStateID))
+        if (pTarget != nullptr && pTarget->IsUnit() && unStateID != INVALID_ENT_TYPE && pTarget->HasState(unStateID))
             return true;
     }
     else if (TStringCompare(vTokens[0], _T("not_hasstate")) == 0)
     {
         ushort unStateID(EntityRegistry.LookupID(vTokens[1]));
-        if (pTarget != NULL && pTarget->IsUnit() && unStateID != INVALID_ENT_TYPE && !pTarget->HasState(unStateID))
+        if (pTarget != nullptr && pTarget->IsUnit() && unStateID != INVALID_ENT_TYPE && !pTarget->HasState(unStateID))
             return true;
     }
     else if (TStringCompare(vTokens[0], _T("hasorderseq")) == 0)
@@ -1333,7 +1333,7 @@ bool    EvaluateConditionalString(const tstring &sTest, IGameEntity *pThis, IGam
     if (vTokens.size() < 3)
         return false;
 
-    if (vTokens[0] == _T("proximity") && pSource != NULL)
+    if (vTokens[0] == _T("proximity") && pSource != nullptr)
     {
         float fRange(AtoF(vTokens[2]));
 
@@ -1342,7 +1342,7 @@ bool    EvaluateConditionalString(const tstring &sTest, IGameEntity *pThis, IGam
         for (uivector_it it(vResult.begin()); it != vResult.end(); ++it)
         {
             IUnitEntity *pUnit(Game.GetUnitEntity(Game.GetGameIndexFromWorldIndex(*it)));
-            if (pUnit == NULL)
+            if (pUnit == nullptr)
                 continue;
             if (Game.IsValidTarget(Game.LookupTargetScheme(vTokens[1]), 0, pSource, pUnit, true))
                 return true;
@@ -1350,7 +1350,7 @@ bool    EvaluateConditionalString(const tstring &sTest, IGameEntity *pThis, IGam
 
         return false;
     }
-    else if (vTokens[0] == _T("no_proximity") && pSource != NULL)
+    else if (vTokens[0] == _T("no_proximity") && pSource != nullptr)
     {
         float fRange(AtoF(vTokens[2]));
 
@@ -1359,7 +1359,7 @@ bool    EvaluateConditionalString(const tstring &sTest, IGameEntity *pThis, IGam
         for (uivector_it it(vResult.begin()); it != vResult.end(); ++it)
         {
             IUnitEntity *pUnit(Game.GetUnitEntity(Game.GetGameIndexFromWorldIndex(*it)));
-            if (pUnit == NULL)
+            if (pUnit == nullptr)
                 continue;
             if (Game.IsValidTarget(Game.LookupTargetScheme(vTokens[1]), 0, pSource, pUnit, true))
                 return false;
@@ -1369,7 +1369,7 @@ bool    EvaluateConditionalString(const tstring &sTest, IGameEntity *pThis, IGam
     }
 
     float fA(0.0f);
-    if (vTokens[0] == _T("target_angle") && pTarget != NULL && pSource != NULL)
+    if (vTokens[0] == _T("target_angle") && pTarget != nullptr && pSource != nullptr)
     {
         CAxis axisTarget(pTarget->GetAngles());
         CVec2f v2TargetDir(axisTarget.Forward2d());
@@ -1377,7 +1377,7 @@ bool    EvaluateConditionalString(const tstring &sTest, IGameEntity *pThis, IGam
         v2AttackDir.Normalize();
         fA = RAD2DEG(acos(CLAMP(DotProduct(v2TargetDir, v2AttackDir), -1.0f, 1.0f)));
     }
-    else if (vTokens[0] == _T("back_impact_angle") && pTarget != NULL && pSource != NULL)
+    else if (vTokens[0] == _T("back_impact_angle") && pTarget != nullptr && pSource != nullptr)
     {
         CAxis axisSource(pSource->GetAngles());
         CVec2f v2SourceDir(axisSource.Forward2d());
@@ -1385,7 +1385,7 @@ bool    EvaluateConditionalString(const tstring &sTest, IGameEntity *pThis, IGam
         v2AttackDir.Normalize();
         fA = RAD2DEG(acos(CLAMP(DotProduct(v2SourceDir, v2AttackDir), -1.0f, 1.0f)));
     }
-    else if (vTokens[0] == _T("facing_angle") && pTarget != NULL && pSource != NULL)
+    else if (vTokens[0] == _T("facing_angle") && pTarget != nullptr && pSource != nullptr)
     {
         CAxis axisSource(pSource->GetAngles());
         CVec2f v2SourceDir(axisSource.Forward2d());
@@ -1393,85 +1393,85 @@ bool    EvaluateConditionalString(const tstring &sTest, IGameEntity *pThis, IGam
         CVec2f v2TargetDir(axisTarget.Forward2d());
         fA = RAD2DEG(acos(CLAMP(DotProduct(v2SourceDir, v2TargetDir), -1.0f, 1.0f)));
     }
-    else if (vTokens[0] == _T("distance") && pTarget != NULL && pSource != NULL)
+    else if (vTokens[0] == _T("distance") && pTarget != nullptr && pSource != nullptr)
     {
         fA = Distance(pSource->GetPosition().xy(), pTarget->GetPosition().xy());
     }
-    else if (vTokens[0] == _T("target_health_percent") && pTarget != NULL)
+    else if (vTokens[0] == _T("target_health_percent") && pTarget != nullptr)
     {
         fA = pTarget->GetHealthPercent();
     }
-    else if (vTokens[0] == _T("target_mana_percent") && pTarget != NULL)
+    else if (vTokens[0] == _T("target_mana_percent") && pTarget != nullptr)
     {
         fA = pTarget->GetManaPercent();
     }
-    else if (vTokens[0] == _T("target_health") && pTarget != NULL)
+    else if (vTokens[0] == _T("target_health") && pTarget != nullptr)
     {
         fA = pTarget->GetHealth();
     }
-    else if (vTokens[0] == _T("target_mana") && pTarget != NULL)
+    else if (vTokens[0] == _T("target_mana") && pTarget != nullptr)
     {
         fA = pTarget->GetMana();
     }
-        else if (vTokens[0] == _T("target_accumulator") && pTarget != NULL)
+        else if (vTokens[0] == _T("target_accumulator") && pTarget != nullptr)
     {
         if (pTarget->IsSlave())
             fA = pTarget->GetAsSlave()->GetAccumulator();
         else if (pTarget->IsUnit())
             fA = pTarget->GetAsUnit()->GetAccumulator();
     }
-    else if (vTokens[0] == _T("source_health_percent") && pSource != NULL)
+    else if (vTokens[0] == _T("source_health_percent") && pSource != nullptr)
     {
         fA = pSource->GetHealthPercent();
     }
-    else if (vTokens[0] == _T("source_mana_percent") && pSource != NULL)
+    else if (vTokens[0] == _T("source_mana_percent") && pSource != nullptr)
     {
         fA = pSource->GetManaPercent();
     }
-    else if (vTokens[0] == _T("source_health") && pSource != NULL)
+    else if (vTokens[0] == _T("source_health") && pSource != nullptr)
     {
         fA = pSource->GetHealth();
     }
-    else if (vTokens[0] == _T("source_mana") && pSource != NULL)
+    else if (vTokens[0] == _T("source_mana") && pSource != nullptr)
     {
         fA = pSource->GetMana();
     }
-    else if (vTokens[0] == _T("source_accumulator") && pSource != NULL)
+    else if (vTokens[0] == _T("source_accumulator") && pSource != nullptr)
     {
         if (pSource->IsSlave())
             fA = pSource->GetAsSlave()->GetAccumulator();
         else if (pSource->IsUnit())
             fA = pSource->GetAsUnit()->GetAccumulator();
     }
-    else if (vTokens[0] == _T("charges") && pThis != NULL)
+    else if (vTokens[0] == _T("charges") && pThis != nullptr)
     {
         if (pThis->IsSlave())
             fA = pThis->GetAsSlave()->GetCharges();
         else if (pThis->IsProjectile())
             fA = pThis->GetAsProjectile()->GetCharges();
     }
-    else if (vTokens[0] == _T("accumulator") && pThis != NULL)
+    else if (vTokens[0] == _T("accumulator") && pThis != nullptr)
     {
         if (pThis->IsSlave())
             fA = pThis->GetAsSlave()->GetAccumulator();
         else if (pThis->IsUnit())
             fA = pThis->GetAsUnit()->GetAccumulator();
     }
-    else if (vTokens[0] == _T("param") && pThis != NULL && pThis->IsAffector())
+    else if (vTokens[0] == _T("param") && pThis != nullptr && pThis->IsAffector())
     {
         fA = pThis->GetAsAffector()->GetParam();
     }
-    else if (vTokens[0] == _T("bounce_count") && pThis != NULL && pThis->IsProjectile())
+    else if (vTokens[0] == _T("bounce_count") && pThis != nullptr && pThis->IsProjectile())
     {
         fA = pThis->GetAsProjectile()->GetBounceCount();
     }
-    else if (vTokens[0] == _T("bounce_count") && pInflictor != NULL && pInflictor->IsProjectile())
+    else if (vTokens[0] == _T("bounce_count") && pInflictor != nullptr && pInflictor->IsProjectile())
     {
         fA = pInflictor->GetAsProjectile()->GetBounceCount();
     }
     else
     {
-        if (pAction == NULL)
+        if (pAction == nullptr)
         {
             fA = AtoF(vTokens[0]);
         }
@@ -1487,7 +1487,7 @@ bool    EvaluateConditionalString(const tstring &sTest, IGameEntity *pThis, IGam
 
     float fB(0.0f);
 
-    if (pAction == NULL)
+    if (pAction == nullptr)
     {
         fB = AtoF(vTokens[2]);
     }

@@ -93,7 +93,7 @@ public:
     virtual bool                Write(const void *pBuffer, uint uiSize) = 0;
     virtual bool                Read(void *pBuffer, uint uiSize) const = 0;
 
-    virtual char*               Lock(uint uiSize)           { return NULL; }
+    virtual char*               Lock(uint uiSize)           { return nullptr; }
     //virtual inline bool           Advance(uint uiSize) const  { return false; }
     virtual bool                WriteBytes(byte yValue, uint uiSize)    { return false; }
 
@@ -466,7 +466,7 @@ inline
 char*   IBuffer::Duplicate(uint uiOffset, uint uiLength)
 {
     if (uiLength <= 0)
-        return NULL;
+        return nullptr;
 
     if (uiOffset + uiLength > m_uiEnd)
         uiLength = m_uiEnd - uiOffset;
@@ -484,7 +484,7 @@ inline
 const char* IBuffer::Get(uint uiOffset) const
 {
     if (uiOffset >= m_uiEnd)
-        return NULL;
+        return nullptr;
 
     return &m_pBuffer[uiOffset];
 }
@@ -819,7 +819,7 @@ private:
 public:
     CBufferFixed()              { Init(0); m_pBuffer = m_pFixedBuffer; m_uiSize = BUFFER_SIZE; }
     CBufferFixed(const CBufferFixed &buffer);
-    ~CBufferFixed()             { m_pBuffer = NULL; }
+    ~CBufferFixed()             { m_pBuffer = nullptr; }
 
     bool    Append(const void *pBuffer, uint uiSize);
     bool    Write(const void *pBuffer, uint uiSize);
@@ -862,7 +862,7 @@ bool    CBufferFixed<BUFFER_SIZE>::Write(const void *pBuffer, uint uiSize)
         return true;
     }
 
-    if (pBuffer == NULL)
+    if (pBuffer == nullptr)
         return false;
 
     uint uiCopyLen(uiSize);
@@ -981,7 +981,7 @@ char*   CBufferFixed<BUFFER_SIZE>::Lock(uint uiSize)
     }
 
     if (uiSize == 0)
-        return NULL;
+        return nullptr;
 
     char *pBuffer(&m_pBuffer[m_uiEnd]);
     m_uiEnd += uiSize;

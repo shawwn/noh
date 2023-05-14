@@ -117,7 +117,7 @@ void    CFoliageRenderer::Setup(EMaterialPhase ePhase)
     }
 
     m_bObjectColor = false;
-    m_pCurrentEntity = NULL;
+    m_pCurrentEntity = nullptr;
 
     m_mWorld = g_mIdentity;
     m_mWorldRotate = g_mIdentity;
@@ -215,7 +215,7 @@ void    CFoliageRenderer::RenderChunk(EMaterialPhase ePhase)
             GfxMaterials->BindAttributes(g_mapFoliageAttributes, sizeof(SFoliageVertex));
 
             glBindBufferARB(GL_ELEMENT_ARRAY_BUFFER, oChunk.pArrays[iLayer][n]->uiIB[iDir]);
-            glDrawElements(GL_TRIANGLES, oChunk.pArrays[iLayer][n]->iNumFoliageQuads * 2 * 3, GL_UNSIGNED_SHORT, NULL);
+            glDrawElements(GL_TRIANGLES, oChunk.pArrays[iLayer][n]->iNumFoliageQuads * 2 * 3, GL_UNSIGNED_SHORT, nullptr);
 
             GfxMaterials->UnbindAttributes();
 

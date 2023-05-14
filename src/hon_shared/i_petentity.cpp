@@ -28,7 +28,7 @@ void    IPetEntity::Spawn()
     // Pet's abilities match the level of the pet
     for (uint ui(INVENTORY_START_ABILITIES); ui <= INVENTORY_END_ABILITIES; ++ui)
     {
-        if (m_apInventory[ui] == NULL)
+        if (m_apInventory[ui] == nullptr)
             continue;
 
         m_apInventory[ui]->SetLevel(GetLevel());
@@ -77,7 +77,7 @@ bool    IPetEntity::ServerFrameCleanup()
 void    IPetEntity::UpdateModifiers()
 {
     IUnitEntity *pOwner(GetOwner());
-    if (pOwner != NULL && GetIsPersistent())
+    if (pOwner != nullptr && GetIsPersistent())
     {
         pOwner->UpdateModifiers();
         m_vPersistentModifierKeys = pOwner->GetModifierKeys();
@@ -102,16 +102,16 @@ void    IPetEntity::Die(IUnitEntity *pAttacker, ushort unKillingObjectID)
 
     CPlayer *pPlayerOwner(Game.GetPlayerFromClientNumber(GetOwnerClientNumber()));
 
-    if (pAttacker != NULL && !GetProtectedDeath())
+    if (pAttacker != nullptr && !GetProtectedDeath())
     {
         CPlayer *pPlayerKiller(Game.GetPlayerFromClientNumber(pAttacker->GetOwnerClientNumber()));      
                 
         if (IsTargetType(_T("Courier"), pAttacker))
         {
-            if (pPlayerKiller != NULL)
+            if (pPlayerKiller != nullptr)
             {
                 // It was a player who killed the courier
-                if (pPlayerOwner != NULL)
+                if (pPlayerOwner != nullptr)
                 {
                     CBufferFixed<13> buffer;
                     buffer << GAME_CMD_KILL_COURIER_MESSAGE << pPlayerKiller->GetClientNumber() << pPlayerOwner->GetClientNumber() << GetIndex();
@@ -155,7 +155,7 @@ void    IPetEntity::SetLevel(uint uiLevel)
         // Abilities match the level of the gadget
         for (uint ui(INVENTORY_START_ABILITIES); ui <= INVENTORY_END_ABILITIES; ++ui)
         {
-            if (m_apInventory[ui] == NULL)
+            if (m_apInventory[ui] == nullptr)
                 continue;
 
             m_apInventory[ui]->SetLevel(GetLevel());

@@ -362,7 +362,7 @@ void    CVoiceServer::AddVoiceClient(CClientConnection *pClient)
 
     for (VoiceClientMap_it it(m_mapVoiceClients.begin()); it != m_mapVoiceClients.end(); it++)
     {
-        if (it->second->pClient == NULL)
+        if (it->second->pClient == nullptr)
             continue;
 
         pktSendNew << NETCMD_NEW_VOICE_CLIENT << pVoice->iClientID << m_yNextVoiceID;

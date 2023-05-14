@@ -27,7 +27,7 @@ namespace XMLInterface
         try
         {
             CInterface *pInterface(pObject->GetInterface());
-            if (pInterface == NULL)
+            if (pInterface == nullptr)
                 EX_ERROR(_T("Interface pointer not set for <form> tag"));
 
             if (!node.HasProperty(_T("name")))
@@ -64,7 +64,7 @@ namespace XMLInterface
                 pForm->SetResultParam(ui, node.GetProperty(sParam));
             }
 
-            if (pForm != NULL)
+            if (pForm != nullptr)
                 pInterface->AddForm(pForm);
 
             return true;

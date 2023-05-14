@@ -33,9 +33,9 @@ CScrollbar::~CScrollbar()
   ====================*/
 CScrollbar::CScrollbar(CInterface *pInterface, IWidget *pParent, const CWidgetStyle& style) :
 IWidget(pInterface, pParent, WIDGET_SCROLLBAR, style, false),
-m_pSlider(NULL),
-m_pButtonMin(NULL),
-m_pButtonMax(NULL),
+m_pSlider(nullptr),
+m_pButtonMin(nullptr),
+m_pButtonMax(nullptr),
 m_fIncrement(1.0f)
 {
     SetFlags(WFLAG_NO_DRAW | WFLAG_INTERACTIVE);

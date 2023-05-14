@@ -20,7 +20,7 @@ typedef list<IWidget *>         WatcherList;
 typedef WatcherList::iterator   WatcherList_it;
 
 // Declaration macros
-#define UI_TRIGGER(name) CUITrigger name(_T(#name));
+#define UI_TRIGGER(name) CUITrigger name(_T(#name))
 //=============================================================================
 
 //=============================================================================

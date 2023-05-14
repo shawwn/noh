@@ -335,7 +335,7 @@ void    CReplayManager::StopRecording()
         m_hReplayData.Close();
 
         CGameInfo *pGameInfo(Game.GetGameInfo());
-        if (pGameInfo != NULL)
+        if (pGameInfo != nullptr)
         {
             tstring sHost;
             const PlayerMap &mapPlayers(Game.GetPlayerMap());
@@ -369,7 +369,7 @@ void    CReplayManager::StopRecording()
                 xmlInfo.AddProperty("host", sHost);
                 
                 CTeamInfo *pWinner(Game.GetTeam(Game.GetWinningTeam()));
-                xmlInfo.AddProperty("winner", pWinner != NULL ? pWinner->GetName() : TSNULL);
+                xmlInfo.AddProperty("winner", pWinner != nullptr ? pWinner->GetName() : TSNULL);
                 
                 xmlInfo.AddProperty("date", pGameInfo->GetServerDate());
                 xmlInfo.AddProperty("time", pGameInfo->GetServerTime());
@@ -387,7 +387,7 @@ void    CReplayManager::StopRecording()
                         xmlInfo.AddProperty("team", XtoA(it->second->GetTeam()));
                         xmlInfo.AddProperty("teamindex", XtoA(it->second->GetTeamIndex()));
 
-                        if (pHero != NULL)
+                        if (pHero != nullptr)
                         {
                             xmlInfo.AddProperty("heroname", pHero->GetTypeName());
                             xmlInfo.AddProperty("heroicon", pHero->GetIconPath());
@@ -965,12 +965,12 @@ void    CReplayManager::ReadSnapshot(int iFrame, CBufferBit &cBuffer)
 
             ushort unType(entSnapshot.GetType());
 
-            // If the type is NULL, the entity is dead and should be removed
+            // If the type is nullptr, the entity is dead and should be removed
             if (unType == 0)
                 continue;
 
             const SReplayEntityDesc* pTypeDesc(GetTypeDesc(unType));
-            if (pTypeDesc == NULL)
+            if (pTypeDesc == nullptr)
                 EX_ERROR(_T("Unknown entity type, bad snapshot"));
 
             entSnapshot.ReadBody(snapshot.GetReceivedBuffer(), pTypeDesc->cFieldTypes, pTypeDesc->uiSize, &pTypeDesc->cBaseline);
@@ -987,7 +987,7 @@ void    CReplayManager::ReadSnapshot(int iFrame, CBufferBit &cBuffer)
             CEntitySnapshot *pBaseSnapshot(CEntitySnapshot::GetByHandle(citBase->second));
             ushort unType(entSnapshot.GetTypeChange() ? entSnapshot.GetType() : pBaseSnapshot->GetType());
 
-            // If the type is NULL, the entity is dead and should be removed
+            // If the type is nullptr, the entity is dead and should be removed
             if (unType == 0)
             {
                 CEntitySnapshot::DeleteByHandle(citBase->second);
@@ -996,7 +996,7 @@ void    CReplayManager::ReadSnapshot(int iFrame, CBufferBit &cBuffer)
             }
 
             const SReplayEntityDesc* pTypeDesc(GetTypeDesc(unType));
-            if (pTypeDesc == NULL)
+            if (pTypeDesc == nullptr)
                 EX_ERROR(_T("Unknown entity type, bad snapshot"));
 
             if (entSnapshot.GetTypeChange())
@@ -1631,7 +1631,7 @@ void    CReplayManager::Profile(const tstring &sFilename, int iClient)
         while (!bError)
         {
             uint uiEntitySnapshotStartPos(cBuffer.GetReadPos());
-            const SEntityDesc* pTypeDesc(NULL);
+            const SEntityDesc* pTypeDesc(nullptr);
 
             // Grab a "shell" entity snapshot from the the frame snapshot.
             // The data will be filled in once we know the type.
@@ -1690,7 +1690,7 @@ void    CReplayManager::Profile(const tstring &sFilename, int iClient)
 
                 const CDynamicEntityAllocator *pDynamicAllocator(EntityRegistry.GetDynamicAllocator(unType));
 
-                SProfileEntitySnapshot &cEntityProfile(pDynamicAllocator != NULL ? mapProfileEntityDynamic[pDynamicAllocator->GetBaseType()] : mapProfileEntity[unType]);
+                SProfileEntitySnapshot &cEntityProfile(pDynamicAllocator != nullptr ? mapProfileEntityDynamic[pDynamicAllocator->GetBaseType()] : mapProfileEntity[unType]);
 
                 ++iNumEntitySnapshots;
 
@@ -1701,7 +1701,7 @@ void    CReplayManager::Profile(const tstring &sFilename, int iClient)
                 iEntityHeaderBytes += uiHeaderBytes;
                 cEntityProfile.uiHeaderBytes += uiHeaderBytes;
 
-                // If the type is NULL, the entity is dead and should be removed
+                // If the type is nullptr, the entity is dead and should be removed
                 if (unType == 0)
                 {
                     uint uiSnapshotBytes(cReceivedBuffer.GetReadPos() - uiEntitySnapshotStartPos);
@@ -1712,7 +1712,7 @@ void    CReplayManager::Profile(const tstring &sFilename, int iClient)
                 }
 
                 pTypeDesc = EntityRegistry.GetTypeDesc(unType);
-                if (pTypeDesc == NULL)
+                if (pTypeDesc == nullptr)
                 {
                     Console.Err << _T("Unknown entity type, bad snapshot") << newl;
                     bError = true;
@@ -1753,7 +1753,7 @@ void    CReplayManager::Profile(const tstring &sFilename, int iClient)
 
                 const CDynamicEntityAllocator *pDynamicAllocator(EntityRegistry.GetDynamicAllocator(unType));
 
-                SProfileEntitySnapshot &cEntityProfile(pDynamicAllocator != NULL ? mapProfileEntityDynamic[pDynamicAllocator->GetBaseType()] : mapProfileEntity[unType]);
+                SProfileEntitySnapshot &cEntityProfile(pDynamicAllocator != nullptr ? mapProfileEntityDynamic[pDynamicAllocator->GetBaseType()] : mapProfileEntity[unType]);
 
                 ++iNumEntitySnapshots;
 
@@ -1764,7 +1764,7 @@ void    CReplayManager::Profile(const tstring &sFilename, int iClient)
                 iEntityHeaderBytes += uiHeaderBytes;
                 cEntityProfile.uiHeaderBytes += uiHeaderBytes;
 
-                // If the type is NULL, the entity is dead and should be removed
+                // If the type is nullptr, the entity is dead and should be removed
                 if (unType == 0)
                 {
                     uint uiSnapshotBytes(cReceivedBuffer.GetReadPos() - uiEntitySnapshotStartPos);
@@ -1778,7 +1778,7 @@ void    CReplayManager::Profile(const tstring &sFilename, int iClient)
                 }
 
                 pTypeDesc = EntityRegistry.GetTypeDesc(unType);
-                if (pTypeDesc == NULL)
+                if (pTypeDesc == nullptr)
                 {
                     Console.Err << _T("Unknown entity type, bad snapshot") << newl;
                     bError = true;
@@ -1949,7 +1949,7 @@ void    CReplayManager::Profile(const tstring &sFilename, int iClient)
     for (map<ushort, tstring>::iterator it(mapEntities.begin()); it != mapEntities.end(); ++it)
     {
         const CDynamicEntityAllocator *pDynamicAllocator(EntityRegistry.GetDynamicAllocator(it->first));
-        if (pDynamicAllocator == NULL)
+        if (pDynamicAllocator == nullptr)
             continue;
 
         mapBaseNames[pDynamicAllocator->GetBaseType()] = pDynamicAllocator->GetBaseTypeName();
@@ -2325,7 +2325,7 @@ void    CReplayManager::GenerateKeyFrames()
         // Translate entities
         while (!bError)
         {
-            const SReplayEntityDesc* pTypeDesc(NULL);
+            const SReplayEntityDesc* pTypeDesc(nullptr);
 
             // Grab a "shell" entity snapshot from the the frame snapshot.
             // The data will be filled in once we know the type.
@@ -2380,12 +2380,12 @@ void    CReplayManager::GenerateKeyFrames()
 
                 ushort unType(entSnapshot.GetType());
 
-                // If the type is NULL, the entity is dead and should be removed
+                // If the type is nullptr, the entity is dead and should be removed
                 if (unType == 0)
                     continue;
 
                 pTypeDesc = GetTypeDesc(unType);
-                if (pTypeDesc == NULL)
+                if (pTypeDesc == nullptr)
                 {
                     Console.Err << _T("Unknown entity type, bad snapshot") << newl;
                     bError = true;
@@ -2407,7 +2407,7 @@ void    CReplayManager::GenerateKeyFrames()
                 CEntitySnapshot *pBaseSnapshot(CEntitySnapshot::GetByHandle(citBase->second));
                 ushort unType(entSnapshot.GetTypeChange() ? entSnapshot.GetType() : pBaseSnapshot->GetType());
 
-                // If the type is NULL, the entity is dead and should be removed
+                // If the type is nullptr, the entity is dead and should be removed
                 if (unType == 0)
                 {
                     CEntitySnapshot::DeleteByHandle(citBase->second);
@@ -2416,7 +2416,7 @@ void    CReplayManager::GenerateKeyFrames()
                 }
 
                 pTypeDesc = GetTypeDesc(unType);
-                if (pTypeDesc == NULL)
+                if (pTypeDesc == nullptr)
                 {
                     Console.Err << _T("Unknown entity type, bad snapshot") << newl;
                     bError = true;
@@ -2709,7 +2709,7 @@ void    CReplayManager::Encode(const tstring &sInFilename, const tstring &sOutFi
         // Translate entities
         while (!bError)
         {
-            const TypeVector *pTypeVector(NULL);
+            const TypeVector *pTypeVector(nullptr);
 
             // Grab a "shell" entity snapshot from the the frame snapshot.
             // The data will be filled in once we know the type.
@@ -2728,12 +2728,12 @@ void    CReplayManager::Encode(const tstring &sInFilename, const tstring &sOutFi
 
                 ushort unType(entSnapshot.GetType());
 
-                // If the type is NULL, the entity is dead and should be removed
+                // If the type is nullptr, the entity is dead and should be removed
                 if (unType == 0)
                     continue;
 
                 pTypeVector = EntityRegistry.GetTypeVector(unType);
-                if (pTypeVector == NULL)
+                if (pTypeVector == nullptr)
                 {
                     Console.Err << _T("Unknown entity type, bad snapshot") << newl;
                     bError = true;
@@ -2753,7 +2753,7 @@ void    CReplayManager::Encode(const tstring &sInFilename, const tstring &sOutFi
                 CEntitySnapshot *pBaseSnapshot(CEntitySnapshot::GetByHandle(citBase->second));
                 ushort unType(entSnapshot.GetTypeChange() ? entSnapshot.GetType() : pBaseSnapshot->GetType());
 
-                // If the type is NULL, the entity is dead and should be removed
+                // If the type is nullptr, the entity is dead and should be removed
                 if (unType == 0)
                 {
                     CEntitySnapshot::DeleteByHandle(citBase->second);
@@ -2762,7 +2762,7 @@ void    CReplayManager::Encode(const tstring &sInFilename, const tstring &sOutFi
                 }
 
                 pTypeVector = EntityRegistry.GetTypeVector(unType);
-                if (pTypeVector == NULL)
+                if (pTypeVector == nullptr)
                 {
                     Console.Err << _T("Unknown entity type, bad snapshot") << newl;
                     bError = true;
@@ -3056,7 +3056,7 @@ void    CReplayManager::Encode2(const tstring &sInFilename, const tstring &sOutF
         // Translate entities
         while (!bError)
         {
-            const TypeVector *pTypeVector(NULL);
+            const TypeVector *pTypeVector(nullptr);
 
             // Grab a "shell" entity snapshot from the the frame snapshot.
             // The data will be filled in once we know the type.
@@ -3096,12 +3096,12 @@ void    CReplayManager::Encode2(const tstring &sInFilename, const tstring &sOutF
 
                 ushort unType(entSnapshot.GetType());
 
-                // If the type is NULL, the entity is dead and should be removed
+                // If the type is nullptr, the entity is dead and should be removed
                 if (unType == 0)
                     continue;
 
                 pTypeVector = EntityRegistry.GetTypeVector(unType);
-                if (pTypeVector == NULL)
+                if (pTypeVector == nullptr)
                 {
                     Console.Err << _T("Unknown entity type, bad snapshot") << newl;
                     bError = true;
@@ -3121,7 +3121,7 @@ void    CReplayManager::Encode2(const tstring &sInFilename, const tstring &sOutF
                 CEntitySnapshot *pBaseSnapshot(CEntitySnapshot::GetByHandle(citBase->second));
                 ushort unType(entSnapshot.GetTypeChange() ? entSnapshot.GetType() : pBaseSnapshot->GetType());
 
-                // If the type is NULL, the entity is dead and should be removed
+                // If the type is nullptr, the entity is dead and should be removed
                 if (unType == 0)
                 {
                     CEntitySnapshot::DeleteByHandle(citBase->second);
@@ -3130,7 +3130,7 @@ void    CReplayManager::Encode2(const tstring &sInFilename, const tstring &sOutF
                 }
 
                 pTypeVector = EntityRegistry.GetTypeVector(unType);
-                if (pTypeVector == NULL)
+                if (pTypeVector == nullptr)
                 {
                     Console.Err << _T("Unknown entity type, bad snapshot") << newl;
                     bError = true;
@@ -3368,7 +3368,7 @@ const SReplayEntityDesc*    CReplayManager::GetTypeDesc(ushort unType) const
     catch (CException &ex)
     {
         ex.Process(_T("CEntityRegistry::GetTypeDesc() - "), NO_THROW);
-        return NULL;
+        return nullptr;
     }
 }
 
@@ -3404,7 +3404,7 @@ const SEntityDesc*  CReplayManager::GetCompatTypeDesc(ushort unType) const
     catch (CException &ex)
     {
         ex.Process(_T("CEntityRegistry::GetTypeDesc() - "), NO_THROW);
-        return NULL;
+        return nullptr;
     }
 }
 

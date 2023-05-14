@@ -106,7 +106,7 @@ bool    CBAbility::Validate()
     }
 
     m_pAbility = m_pSelf->GetTool(m_iInventorySlot);
-    if (m_pAbility == NULL)
+    if (m_pAbility == nullptr)
     {
         SetFlag(BSR_END);
         return false;
@@ -117,7 +117,7 @@ bool    CBAbility::Validate()
     else
         m_bInheritMovement = m_pAbility->GetInheritMovement();
 
-    if (Game.GetUnitEntity(m_uiTargetIndex) == NULL)
+    if (Game.GetUnitEntity(m_uiTargetIndex) == nullptr)
     {
         if (IsTargeted())
         {
@@ -156,7 +156,7 @@ void    CBAbility::Update()
   ====================*/
 void    CBAbility::BeginBehavior()
 {
-    if (m_pSelf == NULL || m_pAbility == NULL)
+    if (m_pSelf == nullptr || m_pAbility == nullptr)
     {
         Console << _T("CBAbility: Behavior started without valid information") << newl;
         return;
@@ -166,7 +166,7 @@ void    CBAbility::BeginBehavior()
     if (IsTargeted())
     {
         IUnitEntity *pTarget(Game.GetUnitEntity(m_uiTargetIndex));
-        if (pTarget == NULL ||
+        if (pTarget == nullptr ||
             !m_pAbility->IsValidTarget(pTarget) ||
             pTarget->GetStatus() == ENTITY_STATUS_DORMANT ||
             !m_pSelf->CanSee(pTarget))
@@ -191,7 +191,7 @@ void    CBAbility::BeginBehavior()
     {
         // Check for a target that started out invalid
         IUnitEntity *pTarget(Game.GetUnitEntity(m_uiTargetIndex));
-        if (pTarget == NULL ||
+        if (pTarget == nullptr ||
             pTarget->GetStatus() == ENTITY_STATUS_DORMANT ||
             !m_pSelf->CanSee(pTarget))
         {
@@ -227,7 +227,7 @@ void    CBAbility::ThinkFramePrimary()
         
     m_fRange = m_pSelf->GetBounds().GetDim(X) * DIAG + m_pAbility->GetRange();
 
-    IUnitEntity *pTarget(NULL);
+    IUnitEntity *pTarget(nullptr);
     switch (m_pAbility->GetActionType())
     {
     case TOOL_ACTION_PASSIVE:
@@ -250,7 +250,7 @@ void    CBAbility::ThinkFramePrimary()
         if (m_uiTargetIndex != INVALID_INDEX)
         {
             pTarget = Game.GetUnitEntity(m_uiTargetIndex);
-            if (pTarget != NULL && m_pSelf->CanSee(pTarget))
+            if (pTarget != nullptr && m_pSelf->CanSee(pTarget))
             {
                 m_v2TargetPosition = pTarget->GetPosition().xy();
                 m_v2ApproachPosition = pTarget->GetApproachPosition(m_pSelf->GetPosition(), m_pSelf->GetBounds()).xy();
@@ -279,7 +279,7 @@ void    CBAbility::ThinkFramePrimary()
             if (m_pAbility->GetRange() == 0.0f)
                 m_fRange = m_pSelf->GetBounds().GetDim(X) * DIAG + m_pSelf->GetAttackRange();
 
-            if (pTarget != NULL && m_pSelf->CanSee(pTarget))
+            if (pTarget != nullptr && m_pSelf->CanSee(pTarget))
             {
                 m_v2TargetPosition = pTarget->GetPosition().xy();
                 m_v2ApproachPosition = pTarget->GetApproachPosition(m_pSelf->GetPosition(), m_pSelf->GetBounds()).xy();
@@ -450,11 +450,11 @@ void    CBAbility::MovementFrame()
         uiNavFlags &= ~NAVIGATION_UNIT;
         uiNavFlags &= ~NAVIGATION_ANTI;
 
-        vector<PoolHandle> *pBlockers(NULL);
+        vector<PoolHandle> *pBlockers(nullptr);
         if (m_uiTargetIndex != INVALID_INDEX)
         {
             IUnitEntity *pTarget(Game.GetUnitEntity(m_uiTargetIndex));
-            if (pTarget != NULL && m_v2TargetPosition == pTarget->GetBlockPosition())
+            if (pTarget != nullptr && m_v2TargetPosition == pTarget->GetBlockPosition())
                 pBlockers = &pTarget->GetPathBlockers();
         }
 
@@ -467,7 +467,7 @@ void    CBAbility::MovementFrame()
             m_hRangePath = Game.FindPath(m_pSelf->GetPosition().xy(), m_pSelf->GetBounds().GetDim(X) * 0.5f, uiNavFlags, m_v2TargetPosition, 0.0f, pBlockers);
 
             CPath *pPath(Game.AccessPath(m_hRangePath));
-            if (pPath != NULL)
+            if (pPath != nullptr)
                 m_fDistSq = SQR(pPath->GetLength(m_pSelf->GetPosition().xy()));
         }
     }
@@ -574,7 +574,7 @@ bool    CBAbility::ActionFramePrimary(CVec3f &v3TargetPosition)
     CVec3f v3Position(m_pSelf->GetPosition());
     float fRange(m_pSelf->GetBounds().GetDim(X) * DIAG + m_pAbility->GetRange());
     
-    IUnitEntity *pTarget(NULL);
+    IUnitEntity *pTarget(nullptr);
         
     switch (m_pAbility->GetActionType())
     {
@@ -602,7 +602,7 @@ bool    CBAbility::ActionFramePrimary(CVec3f &v3TargetPosition)
         if (m_uiTargetIndex != INVALID_INDEX)
         {
             pTarget = Game.GetUnitEntity(m_uiTargetIndex);
-            if (pTarget != NULL && m_bSight)
+            if (pTarget != nullptr && m_bSight)
             {
                 v3TargetPosition = pTarget->GetPosition();
                 fRange += pTarget->GetBounds().GetDim(X) * DIAG;
@@ -629,7 +629,7 @@ bool    CBAbility::ActionFramePrimary(CVec3f &v3TargetPosition)
         if (~GetFlags() & BSR_SECONDARY)
         {
             pTarget = Game.GetUnitEntity(m_uiTargetIndex);
-            if (pTarget != NULL && m_bSight)
+            if (pTarget != nullptr && m_bSight)
             {
                 v3TargetPosition = pTarget->GetPosition();
                 fRange += pTarget->GetBounds().GetDim(X) * DIAG;
@@ -657,7 +657,7 @@ bool    CBAbility::ActionFramePrimary(CVec3f &v3TargetPosition)
     if (m_pAbility->GetUsePathForRange())
     {
         CPath *pPath(Game.AccessPath(m_hRangePath));
-        if (pPath != NULL)
+        if (pPath != nullptr)
             fDistSq = SQR(pPath->GetLength(v3Position.xy()));
     }
     else
@@ -732,7 +732,7 @@ bool    CBAbility::ActionFramePrimary(CVec3f &v3TargetPosition)
     // Validate target at start of cast if this is a targeted ability
     if (IsTargeted())
     {
-        if (pTarget == NULL ||
+        if (pTarget == nullptr ||
             !m_bSight ||
             !m_pAbility->IsValidTarget(pTarget))
         {
@@ -847,7 +847,7 @@ void    CBAbility::EndBehavior()
   ====================*/
 bool    CBAbility::IsChanneling() const
 {
-    if (m_pAbility != NULL && m_pAbility->IsChanneling(UNIT_ACTION_CAST))
+    if (m_pAbility != nullptr && m_pAbility->IsChanneling(UNIT_ACTION_CAST))
         return true;
 
     return false;

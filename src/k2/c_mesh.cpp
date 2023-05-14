@@ -16,7 +16,7 @@
   CMesh::CMesh
   ====================*/
 CMesh::CMesh() :
-m_pModel(NULL),
+m_pModel(nullptr),
 m_fCumArea(0.0f),
 m_vFaceAreas(0),
 
@@ -25,15 +25,15 @@ flags(0),
 surfflags(0),
 renderflags(0),
 numFaces(0),
-faceList(NULL),
+faceList(nullptr),
 num_verts(0),
 num_uv_channels(0),
 num_color_channels(0),
-verts(NULL),
-normals(NULL),
-linkPool(NULL),
-blendedLinks(NULL),
-singleLinks(NULL),
+verts(nullptr),
+normals(nullptr),
+linkPool(nullptr),
+blendedLinks(nullptr),
+singleLinks(nullptr),
 bonelink(0),
 sbuffer(-1),
 dbuffer(-1),
@@ -47,13 +47,13 @@ vertexDecl(0)
 
     for (int n = 0; n < MAX_UV_CHANNELS; ++n)
     {
-        tverts[n] = NULL;
-        tangents[n] = NULL;
-        signs[n] = NULL;
+        tverts[n] = nullptr;
+        tangents[n] = nullptr;
+        signs[n] = nullptr;
     }
 
     for (int n = 0; n < MAX_VERTEX_COLOR_CHANNELS; ++n)
-        colors[n] = NULL;
+        colors[n] = nullptr;
 }
 
 
@@ -83,7 +83,7 @@ void    CMesh::PostLoad()
 
     for (int n = 0; n < MAX_UV_CHANNELS; ++n)
     {
-        if (tverts[n] != NULL)
+        if (tverts[n] != nullptr)
             ++num_uv_channels;
 
         //SAFE_DELETE_ARRAY(tverts[n]);
@@ -92,7 +92,7 @@ void    CMesh::PostLoad()
 
     for (int n = 0; n < MAX_VERTEX_COLOR_CHANNELS; ++n)
     {
-        if (colors[n] != NULL)
+        if (colors[n] != nullptr)
             ++num_color_channels;
 
         //SAFE_DELETE_ARRAY(colors[n]);

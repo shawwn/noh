@@ -36,7 +36,7 @@ SERVER_CMD(Damage)
     float fDamage(AtoF(vArgList[1]));
 
     IUnitEntity *pTarget(GameServer.GetUnitEntity(uiIndex));
-    if (pTarget == NULL)
+    if (pTarget == nullptr)
         return false;
 
     CDamageEvent dmg;
@@ -58,7 +58,7 @@ SERVER_CMD(Kill)
     uint uiIndex(AtoI(vArgList[0]));
 
     IUnitEntity *pTarget(GameServer.GetUnitEntity(uiIndex));
-    if (pTarget == NULL)
+    if (pTarget == nullptr)
         return false;
 
     pTarget->Kill();
@@ -72,10 +72,10 @@ SERVER_CMD(Kill)
 SERVER_CMD(Armageddon)
 {
     IGameEntity *pEnt(Game.GetFirstEntity());
-    while (pEnt != NULL)
+    while (pEnt != nullptr)
     {
         IUnitEntity *pUnit(pEnt->GetAsUnit());
-        if (pUnit != NULL && !pUnit->IsBuilding() && !pUnit->IsBit())
+        if (pUnit != nullptr && !pUnit->IsBuilding() && !pUnit->IsBit())
             pUnit->Kill();
 
         pEnt = Game.GetNextEntity(pEnt);
@@ -97,7 +97,7 @@ SERVER_CMD(GiveExp)
     float fExperience(AtoF(vArgList[1]));
 
     IHeroEntity *pTarget(GameServer.GetHeroEntity(uiIndex));
-    if (pTarget == NULL)
+    if (pTarget == nullptr)
         return false;
 
     pTarget->GiveExperience(fExperience);
@@ -116,7 +116,7 @@ SERVER_CMD(LevelUp)
     uint uiIndex(AtoI(vArgList[0]));
 
     IHeroEntity *pTarget(GameServer.GetHeroEntity(uiIndex));
-    if (pTarget == NULL)
+    if (pTarget == nullptr)
         return false;
 
     float fExperience(pTarget->GetExperienceForNextLevel() - pTarget->GetExperience());
@@ -136,7 +136,7 @@ SERVER_CMD(LevelMax)
     uint uiIndex(AtoI(vArgList[0]));
 
     IHeroEntity *pTarget(GameServer.GetHeroEntity(uiIndex));
-    if (pTarget == NULL)
+    if (pTarget == nullptr)
         return false;
 
     float fExperience(pTarget->GetExperienceForLevel(GameServer.GetHeroMaxLevel()));
@@ -145,7 +145,7 @@ SERVER_CMD(LevelMax)
     for (int iSlot(INVENTORY_START_ABILITIES); iSlot <= INVENTORY_END_ABILITIES; ++iSlot)
     {
         IEntityAbility *pAbility(pTarget->GetAbility(iSlot));
-        if (pAbility == NULL)
+        if (pAbility == nullptr)
             continue;
 
         while (pAbility->CanLevelUp())
@@ -168,7 +168,7 @@ SERVER_CMD(ResetExp)
 
     uint uiIndex(AtoI(vArgList[0]));
     IHeroEntity *pTarget(GameServer.GetHeroEntity(uiIndex));
-    if (pTarget == NULL)
+    if (pTarget == nullptr)
         return false;
 
     pTarget->ResetExperience();
@@ -187,7 +187,7 @@ SERVER_CMD(GiveGold)
     int iClientNum(AtoI(vArgList[0]));
     ushort unGold(AtoI(vArgList[1]));
     CPlayer *pPlayer(GameServer.GetPlayerFromClientNumber(iClientNum));
-    if (pPlayer == NULL)
+    if (pPlayer == nullptr)
         return false;
         
     pPlayer->GiveGold(unGold, pPlayer->GetHero());
@@ -207,7 +207,7 @@ SERVER_CMD(TakeGold)
     int iClientNum(AtoI(vArgList[0]));
     ushort unGold(AtoI(vArgList[1]));
     CPlayer *pPlayer(GameServer.GetPlayerFromClientNumber(iClientNum));
-    if (pPlayer == NULL)
+    if (pPlayer == nullptr)
         return false;
         
     pPlayer->TakeGold(unGold);
@@ -231,7 +231,7 @@ SERVER_CMD(Refresh)
     }
 
     IUnitEntity *pTarget(GameServer.GetUnitEntity(uiIndex));
-    if (pTarget == NULL)
+    if (pTarget == nullptr)
         return false;
 
     pTarget->SetHealth(pTarget->GetMaxHealth());
@@ -240,7 +240,7 @@ SERVER_CMD(Refresh)
     for (int i(INVENTORY_START_ABILITIES); i <= INVENTORY_END_BACKPACK; ++i)
     {
         IEntityTool *pItem(pTarget->GetTool(i));
-        if (pItem == NULL)
+        if (pItem == nullptr)
             continue;
 
         pItem->ResetCooldown();
@@ -268,7 +268,7 @@ SERVER_CMD(Stun)
     }
 
     IUnitEntity *pTarget(GameServer.GetUnitEntity(uiIndex));
-    if (pTarget == NULL)
+    if (pTarget == nullptr)
         return false;
 
     pTarget->ApplyState(EntityRegistry.LookupID(_T("State_Stunned")), 1, Game.GetGameTime(), 5000);
@@ -293,7 +293,7 @@ SERVER_CMD(Silence)
     }
 
     IUnitEntity *pTarget(GameServer.GetUnitEntity(uiIndex));
-    if (pTarget == NULL)
+    if (pTarget == nullptr)
         return false;
 
     pTarget->ApplyState(EntityRegistry.LookupID(_T("State_Defiler_Ability2")), 1, Game.GetGameTime(), 5000);
@@ -318,7 +318,7 @@ SERVER_CMD(Ministun)
     }
 
     IUnitEntity *pTarget(GameServer.GetUnitEntity(uiIndex));
-    if (pTarget == NULL)
+    if (pTarget == nullptr)
         return false;
 
     pTarget->ApplyState(EntityRegistry.LookupID(_T("State_Stunned")), 1, Game.GetGameTime(), 100);
@@ -336,7 +336,7 @@ SERVER_CMD(GiveItem)
         return false;
 
     IUnitEntity *pTarget(GameServer.GetUnitEntity(AtoI(vArgList[0])));
-    if (pTarget == NULL)
+    if (pTarget == nullptr)
         return false;
 
     ushort unItemID(EntityRegistry.LookupID(vArgList[1]));
@@ -345,7 +345,7 @@ SERVER_CMD(GiveItem)
     for (int iSlot(INVENTORY_START_BACKPACK); iSlot <= INVENTORY_END_BACKPACK; ++iSlot)
     {
         IEntityItem *pItem(pTarget->GetItem(iSlot));
-        if (pItem == NULL)
+        if (pItem == nullptr)
         {
             if (iTargetSlot == -1)
                 iTargetSlot = iSlot;
@@ -404,11 +404,11 @@ SERVER_CMD(MorphHero)
 
     int iClientNum(AtoI(vArgList[0]));
     CPlayer *pPlayer(GameServer.GetPlayerFromClientNumber(iClientNum));
-    if (pPlayer == NULL)
+    if (pPlayer == nullptr)
         return false;
 
     IHeroEntity *pHero(pPlayer->GetHero());
-    if (pHero == NULL)
+    if (pHero == nullptr)
         return true;
 
     pHero->MorphDynamicType(EntityRegistry.LookupID(vArgList[1]));
@@ -431,23 +431,23 @@ SERVER_CMD(SpawnUnit)
         return false;
 
     IGameEntity *pTarget(GameServer.GetEntityFromName(vArgList[1]));
-    if (pTarget == NULL || !pTarget->IsVisual())
+    if (pTarget == nullptr || !pTarget->IsVisual())
         return false;
     CVec3f v3Position(pTarget->GetAsVisual()->GetPosition());
 
     int iClientNum(AtoI(vArgList[2]));
     CPlayer *pPlayer(GameServer.GetPlayerFromClientNumber(iClientNum));
-    if (pPlayer == NULL)
+    if (pPlayer == nullptr)
         return false;
 
     int iTeam(CLAMP(AtoI(vArgList[3]), 0, 2));
 
     IGameEntity *pNewEntity(GameServer.AllocateEntity(unUnitID));
-    if (pNewEntity == NULL)
+    if (pNewEntity == nullptr)
         return false;
 
     IUnitEntity *pUnit(pNewEntity->GetAsUnit());
-    if (pUnit == NULL)
+    if (pUnit == nullptr)
     {
         GameServer.DeleteEntity(pNewEntity);
         return false;
@@ -485,11 +485,11 @@ SERVER_CMD(SpawnUnit2)
     int iTeam(CLAMP(AtoI(vArgList[2]), int(TEAM_NEUTRAL), 2));
 
     IGameEntity *pNewEntity(GameServer.AllocateEntity(unUnitID));
-    if (pNewEntity == NULL)
+    if (pNewEntity == nullptr)
         return false;
 
     IUnitEntity *pUnit(pNewEntity->GetAsUnit());
-    if (pUnit == NULL)
+    if (pUnit == nullptr)
     {
         GameServer.DeleteEntity(pNewEntity);
         return false;
@@ -510,7 +510,7 @@ SERVER_CMD(SpawnUnit2)
         pUnit->SetPersistentModifierKeys(vModifierKeys);
     }
 
-    if (pPlayer != NULL)
+    if (pPlayer != nullptr)
         pPlayer->AddPet(pUnit, 0, INVALID_INDEX);
 
     pUnit->Spawn();
@@ -613,10 +613,10 @@ SERVER_CMD(SpawnCreeps)
 SERVER_CMD(KillCreeps)
 {
     IGameEntity *pEnt(Game.GetFirstEntity());
-    while (pEnt != NULL)
+    while (pEnt != nullptr)
     {
         ICreepEntity *pCreep(pEnt->GetAsCreep());
-        if (pCreep != NULL)
+        if (pCreep != nullptr)
             pCreep->Kill();
 
         pEnt = Game.GetNextEntity(pEnt);
@@ -669,7 +669,7 @@ SERVER_CMD(SpawnNeutrals)
     for (uivector_it it(vControllers.begin()), itEnd(vControllers.end()); it != itEnd; ++it)
     {
         CEntityNeutralCampController *pController(Game.GetEntityAs<CEntityNeutralCampController>(*it));
-        if (pController == NULL)
+        if (pController == nullptr)
             continue;
 
         pController->AttemptSpawn();
@@ -692,7 +692,7 @@ SERVER_CMD(SpawnKongor)
     for (uivector_it it(vControllers.begin()), itEnd(vControllers.end()); it != itEnd; ++it)
     {
         CEntityBossController *pController(Game.GetEntityAs<CEntityBossController>(*it));
-        if (pController == NULL)
+        if (pController == nullptr)
             continue;
 
         pController->AttemptSpawn();
@@ -733,10 +733,10 @@ SERVER_CMD(Demote)
     }
 
     CPlayer *pPlayer(GameServer.GetPlayer(iClientNum));
-    if (pPlayer != NULL)
+    if (pPlayer != nullptr)
         pPlayer->RemoveFlags(PLAYER_FLAG_HOST);
     CClientConnection *pClient(GameServer.GetHostServer()->GetClient(iClientNum));
-    if (pClient != NULL)
+    if (pClient != nullptr)
         pClient->RemoveFlags(CLIENT_CONNECTION_LOCAL);
     GameServer.ChangeTeam(iClientNum, TEAM_INVALID);
     return true;
@@ -825,7 +825,7 @@ SERVER_CMD(ListPlayers)
 
         Console << XtoA(itPlayer->first, FMT_NONE, 2) << SPACE;
 
-        if (pPlayer == NULL)
+        if (pPlayer == nullptr)
         {
             Console << XtoA(_CTS("Invalid"), FMT_NONE, 12) << newl;
             continue;

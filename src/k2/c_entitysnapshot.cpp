@@ -33,8 +33,8 @@ m_uiVersion(0),
 m_uiPublicSequence(0),
 m_uiUniqueID(INVALID_INDEX),
 m_yTransmitFlagBytes(0),
-m_pFieldTypes(NULL),
-m_pBaseline(NULL)
+m_pFieldTypes(nullptr),
+m_pBaseline(nullptr)
 {
     m_cTransmitFlags.Clear();
 }
@@ -99,9 +99,9 @@ void    CEntitySnapshot::Clear()
     m_uiUniqueID = -1;
     m_uiReadIndex = 0;
     m_unType = 0;
-    m_pFieldTypes = NULL;
+    m_pFieldTypes = nullptr;
     m_uiTypeSize = 0;
-    m_pBaseline = NULL;
+    m_pBaseline = nullptr;
 }
 
 
@@ -578,7 +578,7 @@ void    CEntitySnapshot::DiffFrom(const CEntitySnapshot &base, CEntitySnapshot &
         result.m_unType = m_unType;
         result.SetFieldTypes(m_pFieldTypes, m_uiTypeSize);
 
-        const CEntitySnapshot *pBase(NULL);
+        const CEntitySnapshot *pBase(nullptr);
 
         if (base.m_unType != m_unType || m_uiUniqueID != base.m_uiUniqueID)
         {
@@ -1335,5 +1335,5 @@ const char* CEntitySnapshot::GetField(uint uiFieldIndex) const
         }
     }
 
-    return NULL;
+    return nullptr;
 }

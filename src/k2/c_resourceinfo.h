@@ -234,7 +234,7 @@ public:
     void                CalcOrphanedResources();
 
     // printing.
-    K2_API void         PrintContext(CConsoleStream& cStream, const tstring &sCtxName, const tstring &sWildcardChildren = _T("*"), SResContext* pCtx = NULL);
+    K2_API void         PrintContext(CConsoleStream& cStream, const tstring &sCtxName, const tstring &sWildcardChildren = _T("*"), SResContext* pCtx = nullptr);
 
     // various console commands.
     K2_API bool         ExecCommand(const tstring &sCommand, const tsvector& vArgs = tsvector());

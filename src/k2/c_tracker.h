@@ -66,7 +66,7 @@ private:
 
 public:
     ~CTracker();
-    CTracker() : m_bActive(false), m_pImbeddedEmitter(NULL) {};
+    CTracker() : m_bActive(false), m_pImbeddedEmitter(nullptr) {};
 
     void Spawn
     (

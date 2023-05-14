@@ -33,7 +33,7 @@
 //=============================================================================
 // Definitions
 //=============================================================================
-CVAR_BOOLEX     (ui_drawGrid,           false,  CVAR_SAVECONFIG, NULL);
+CVAR_BOOLEX     (ui_drawGrid,           false,  CVAR_SAVECONFIG, nullptr);
 CVAR_BOOL       (ui_draw,               true);
 CVAR_BOOL       (ui_debugHoverWidget,   false);
 CVAR_BOOL       (ui_reloadInterfaces,   false);
@@ -96,7 +96,7 @@ ResHandle   CUIManager::LoadInterface(const tstring &sFilename)
         return hInterface;
 
     CInterfaceResource *pInterface(g_ResourceManager.GetInterface(hInterface));
-    if (pInterface->GetInterface() == NULL)
+    if (pInterface->GetInterface() == nullptr)
     {
         Console.Warn << _T("Failed loading interface: ") << sFilename << newl;
         return hInterface;
@@ -127,7 +127,7 @@ ResHandle   CUIManager::LoadInterface(const tstring &sFilename)
 void    CUIManager::UnloadInterface(ResHandle hInterface)
 {
     CInterface *pInterface(GetInterface(hInterface));
-    if (pInterface == NULL)
+    if (pInterface == nullptr)
         return;
 
     UnloadInterface(pInterface->GetName());
@@ -180,8 +180,8 @@ void    CUIManager::ReloadInterface(const tstring &sName)
 CInterface* CUIManager::GetInterface(ResHandle handle) const
 {
     CInterfaceResource *pInterface(g_ResourceManager.GetInterface(handle));
-    if (pInterface == NULL)
-        return NULL;
+    if (pInterface == nullptr)
+        return nullptr;
 
     return pInterface->GetInterface();
 }
@@ -190,7 +190,7 @@ CInterface* CUIManager::GetInterface(const tstring &sName) const
 {
     InterfaceMap_cit itFind(m_mapInterfaces.find(sName));
     if (itFind == m_mapInterfaces.end())
-        return NULL;
+        return nullptr;
 
     return GetInterface(itFind->second);
 }
@@ -202,7 +202,7 @@ CInterface* CUIManager::GetInterface(const tstring &sName) const
 CInterface* CUIManager::GetActiveInterface() const
 {
     if (m_itActiveInterface == m_mapInterfaces.end())
-        return NULL;
+        return nullptr;
 
     return GetInterface(m_itActiveInterface->second);
 }
@@ -214,7 +214,7 @@ CInterface* CUIManager::GetActiveInterface() const
 CInterface* CUIManager::GetSavedActiveInterface() const
 {
     if (m_itSavedActiveInterface == m_mapInterfaces.end())
-        return NULL;
+        return nullptr;
 
     return GetInterface(m_itSavedActiveInterface->second);
 }
@@ -280,7 +280,7 @@ void    CUIManager::SetActiveInterface(const tstring &sName)
         if (m_itActiveInterface != m_mapInterfaces.end() && GetInterface(m_itActiveInterface->second))
         {
             CInterface *pInterface(GetActiveInterface());
-            if (pInterface != NULL)
+            if (pInterface != nullptr)
                 pInterface->DoEvent(WEVENT_HIDE);
         }
 
@@ -293,7 +293,7 @@ void    CUIManager::SetActiveInterface(const tstring &sName)
 
         m_itActiveInterface = itFind;
         CInterface *pInterface(GetActiveInterface());
-        if (pInterface != NULL)
+        if (pInterface != nullptr)
         {
             if  (ui_debugInterface)
                 Console.UI << _T("Show - ") << sName << newl;
@@ -335,7 +335,7 @@ bool    CUIManager::AddOverlayInterface(const tstring &sName)
         
         CInterface *pInterface(GetInterface(itFind->second));
 
-        if (pInterface != NULL)
+        if (pInterface != nullptr)
         {
             pInterface->SetAlwaysUpdate(true);
             pInterface->DoEvent(WEVENT_SHOW);
@@ -361,7 +361,7 @@ void    CUIManager::RemoveOverlayInterface(const tstring &sName)
         {
             CInterface *pInterface(GetInterface((*it)->second));
 
-            if (pInterface != NULL)
+            if (pInterface != nullptr)
             {
                 pInterface->DoEvent(WEVENT_HIDE);
                 pInterface->SetAlwaysUpdate(false);
@@ -383,7 +383,7 @@ void    CUIManager::ClearOverlayInterfaces()
     {
         CInterface *pInterface(GetInterface((*it)->second));
 
-        if (pInterface != NULL)
+        if (pInterface != nullptr)
         {
             pInterface->DoEvent(WEVENT_HIDE);
             pInterface->SetAlwaysUpdate(false);
@@ -404,7 +404,7 @@ void    CUIManager::UnloadTempInterfaces()
     while (it != m_mapInterfaces.end())
     {
         CInterface *pInterface(GetInterface(it->second));
-        if (pInterface == NULL || !pInterface->GetTemp())
+        if (pInterface == nullptr || !pInterface->GetTemp())
         {
             ++it;
             continue;
@@ -468,7 +468,7 @@ void    CUIManager::PrintInterfaceList() const
 IWidget*    CUIManager::FindWidget(const tstring &sName)
 {
     CInterface *pInterface(GetActiveInterface());
-    IWidget *pWidget(NULL);
+    IWidget *pWidget(nullptr);
 
     if (!pInterface || !(pWidget = pInterface->GetWidget(sName)))
     {
@@ -535,7 +535,7 @@ void    CUIManager::ProcessInput()
 
             CInterface *pInterface(GetActiveInterface());
 
-            if (pInterface != NULL && pInterface->GetActiveWidget() != NULL)
+            if (pInterface != nullptr && pInterface->GetActiveWidget() != nullptr)
                 Input.ExecuteBinds(BINDTABLE_UI, 0);
 
             ProcessInput();
@@ -555,7 +555,7 @@ void    CUIManager::ProcessInput()
 
         CInterface *pInterface(GetActiveInterface());
 
-        if (pInterface != NULL && pInterface->GetActiveWidget() != NULL)
+        if (pInterface != nullptr && pInterface->GetActiveWidget() != nullptr)
             Input.ExecuteBinds(BINDTABLE_UI, 0);
 
         Input.ExecuteBinds(BINDTABLE_UI, 0);
@@ -565,7 +565,7 @@ void    CUIManager::ProcessInput()
         Input.ExecuteBinds(BINDTABLE_UI, 0);
     }
 
-    if (GetActiveInterface() == NULL)
+    if (GetActiveInterface() == nullptr)
         return;
 
     InputDeque deqUnused;
@@ -664,7 +664,7 @@ void    CUIManager::LostInterface(CInterface *pInterface)
 bool    CUIManager::ProcessInputCursor(const CVec2f &v2Pos)
 {
     CInterface *pInterface(GetActiveInterface());
-    if (pInterface != NULL && pInterface->ProcessInputCursor(v2Pos))
+    if (pInterface != nullptr && pInterface->ProcessInputCursor(v2Pos))
         return true;
 
     return false;
@@ -677,7 +677,7 @@ bool    CUIManager::ProcessInputCursor(const CVec2f &v2Pos)
 bool    CUIManager::ProcessInputMouseButton(const CVec2f &v2CursorPos, EButton button, float fValue)
 {
     CInterface *pInterface(GetActiveInterface());
-    if (pInterface != NULL && pInterface->ProcessInputMouseButton(v2CursorPos, button, fValue))
+    if (pInterface != nullptr && pInterface->ProcessInputMouseButton(v2CursorPos, button, fValue))
         return true;
     return false;
 }
@@ -688,15 +688,15 @@ bool    CUIManager::ProcessInputMouseButton(const CVec2f &v2CursorPos, EButton b
   ====================*/
 bool    CUIManager::ProcessInputButton(EButton eButton, bool bDown, bool bPressed)
 {
-    if (bPressed && GetActiveInterface()->GetActiveWidget() == NULL)
+    if (bPressed && GetActiveInterface()->GetActiveWidget() == nullptr)
     {
         CInterface *pInterface(GetActiveInterface());
-        if (pInterface != NULL && pInterface->ProcessHotKeys(eButton))
+        if (pInterface != nullptr && pInterface->ProcessHotKeys(eButton))
             return true;
     }
 
     IWidget *pWidget(GetActiveInterface()->GetActiveWidget());
-    if (pWidget == NULL || !pWidget->IsAbsoluteEnabled() || !pWidget->IsAbsoluteVisible())
+    if (pWidget == nullptr || !pWidget->IsAbsoluteEnabled() || !pWidget->IsAbsoluteVisible())
         return false;
 
     if (!bDown)
@@ -714,10 +714,10 @@ bool    CUIManager::ProcessInputButton(EButton eButton, bool bDown, bool bPresse
             IWidget *pNewWidget;
             pNewWidget = GetActiveInterface()->GetNextTabWidget(pWidget->GetTabOrder());
 
-            if (pNewWidget != NULL)
+            if (pNewWidget != nullptr)
             {
                 CInterface *pInterface(GetActiveInterface());
-                if (pInterface != NULL)
+                if (pInterface != nullptr)
                     pInterface->SetActiveWidget(pNewWidget);
                 return true;
             }
@@ -729,10 +729,10 @@ bool    CUIManager::ProcessInputButton(EButton eButton, bool bDown, bool bPresse
             IWidget *pNewWidget;
             pNewWidget = GetActiveInterface()->GetPrevTabWidget(pWidget->GetTabOrder());
 
-            if (pNewWidget != NULL)
+            if (pNewWidget != nullptr)
             {
                 CInterface *pInterface(GetActiveInterface());
-                if (pInterface != NULL)
+                if (pInterface != nullptr)
                     pInterface->SetActiveWidget(pNewWidget);
                 return true;
             }
@@ -751,11 +751,11 @@ bool    CUIManager::ProcessInputButton(EButton eButton, bool bDown, bool bPresse
 bool    CUIManager::ProcessInputChar(TCHAR c)
 {
     CInterface *pInterface(GetActiveInterface());
-    if (pInterface == NULL)
+    if (pInterface == nullptr)
         return false;
 
     IWidget *pWidget(pInterface->GetActiveWidget());
-    if (pWidget == NULL || !pWidget->IsAbsoluteVisible())
+    if (pWidget == nullptr || !pWidget->IsAbsoluteVisible())
         return false;
 
     if (c == 9) //tab
@@ -775,7 +775,7 @@ bool    CUIManager::ProcessInputChar(TCHAR c)
 uint    CUIManager::GetMinimapHoverUnit()
 {
     CInterface *pInterface(GetActiveInterface());
-    if (pInterface != NULL)
+    if (pInterface != nullptr)
         return pInterface->GetMinimapHoverUnit();
 
     return -1;
@@ -787,12 +787,12 @@ uint    CUIManager::GetMinimapHoverUnit()
   ====================*/
 tstring CUIManager::GetCopyString()
 {
-    if (GetActiveInterface() == NULL)
+    if (GetActiveInterface() == nullptr)
         return _T("");
 
     IWidget *pWidget(GetActiveInterface()->GetActiveWidget());
 
-    if (pWidget == NULL)
+    if (pWidget == nullptr)
         return _T("");
 
     return pWidget->GetCopyString();
@@ -804,12 +804,12 @@ tstring CUIManager::GetCopyString()
   ====================*/
 void    CUIManager::PasteString(const tstring &sString)
 {
-    if (GetActiveInterface() == NULL)
+    if (GetActiveInterface() == nullptr)
         return;
 
     IWidget *pWidget(GetActiveInterface()->GetActiveWidget());
 
-    if (pWidget == NULL)
+    if (pWidget == nullptr)
         return;
 
     pWidget->PasteString(sString);
@@ -829,7 +829,7 @@ void    CUIManager::Frame(uint uiFrameLength)
         Console.Execute(_T("ReloadInterfaces"));
     }
 
-    if (GetActiveInterface() == NULL)
+    if (GetActiveInterface() == nullptr)
     {
         if (!m_lOverlayInterfaces.empty())
         {
@@ -897,7 +897,7 @@ void    CUIManager::Frame(uint uiFrameLength)
         deque<IWidget*> deqWidgets;
 
         IWidget *pWidget(GetActiveInterface()->GetHoverWidget());
-        while (pWidget != NULL)
+        while (pWidget != nullptr)
         {
             deqWidgets.push_front(pWidget);
             pWidget = pWidget->GetParent();
@@ -960,12 +960,12 @@ void    CUIManager::Frame(uint uiFrameLength)
         m_itSavedActiveInterface = m_mapInterfaces.end();
     }
 
-    if (GetActiveInterface()->GetHoverWidget() != NULL && GetActiveInterface()->GetHoverWidget()->GetType() != WIDGET_INTERFACE)
+    if (GetActiveInterface()->GetHoverWidget() != nullptr && GetActiveInterface()->GetHoverWidget()->GetType() != WIDGET_INTERFACE)
         Input.SetCursorHidden(CURSOR_UI, BOOL_FALSE);
     else
         Input.SetCursorHidden(CURSOR_UI, BOOL_NOT_SET);
 
-    if (GetActiveInterface()->GetHoverWidget() != NULL && GetActiveInterface()->GetHoverWidget()->GetType() == WIDGET_TEXTBOX)
+    if (GetActiveInterface()->GetHoverWidget() != nullptr && GetActiveInterface()->GetHoverWidget()->GetType() == WIDGET_TEXTBOX)
         Input.SetCursor(CURSOR_UI, g_ResourceManager.Register(_T("/core/cursors/text.cursor"), RES_K2CURSOR));
     else
         Input.SetCursor(CURSOR_UI, INVALID_RESOURCE);
@@ -1024,12 +1024,12 @@ void    CUIManager::ResizeAllInterfaces(float fWidth, float fHeight)
     {
         CInterface *pInterface(GetInterface(it->second));
 
-        if (pInterface != NULL)
+        if (pInterface != nullptr)
             pInterface->ResizeInterface(fWidth, fHeight);
     }
 
     CInterface *pInterface(GetSavedActiveInterface());
-    if (pInterface != NULL)
+    if (pInterface != nullptr)
     {
         pInterface->Hide();
         pInterface->Show();
@@ -1039,7 +1039,7 @@ void    CUIManager::ResizeAllInterfaces(float fWidth, float fHeight)
     {
         pInterface = GetInterface((*it)->second);
 
-        if (pInterface != NULL)
+        if (pInterface != nullptr)
         {
             pInterface->Hide();
             pInterface->Show();
@@ -1059,7 +1059,7 @@ void    CUIManager::ResizeInterface(const tstring &sInterface, float fWidth, flo
     {
         CInterface *pInterface(GetInterface(it->second));
 
-        if (pInterface != NULL)
+        if (pInterface != nullptr)
             pInterface->ResizeInterface(fWidth, fHeight);
     }
 }
@@ -1082,15 +1082,15 @@ void    CUIManager::ProcessDeferedReloads()
   ====================*/
 bool    CUIManager::NeedsRefresh()
 {
-    CInterface *pInterface(NULL);
+    CInterface *pInterface(nullptr);
 
     if (m_itSavedActiveInterface != m_mapInterfaces.end())
         pInterface = GetInterface(m_itSavedActiveInterface->second);
 
-    if (pInterface == NULL && m_itActiveInterface != m_mapInterfaces.end())
+    if (pInterface == nullptr && m_itActiveInterface != m_mapInterfaces.end())
         pInterface = GetInterface(m_itActiveInterface->second);
 
-    if (pInterface != NULL && pInterface->NeedsRefresh())
+    if (pInterface != nullptr && pInterface->NeedsRefresh())
         return true;
 
     bool bRefresh(false);
@@ -1099,7 +1099,7 @@ bool    CUIManager::NeedsRefresh()
     {
         pInterface = GetInterface((*it)->second);
 
-        if (pInterface == NULL)
+        if (pInterface == nullptr)
             continue;
 
         bRefresh = pInterface->NeedsRefresh();
@@ -1114,22 +1114,22 @@ bool    CUIManager::NeedsRefresh()
   ====================*/
 void    CUIManager::ResetRefresh()
 {
-    CInterface *pInterface(NULL);
+    CInterface *pInterface(nullptr);
 
     if (m_itSavedActiveInterface != m_mapInterfaces.end())
         pInterface = GetInterface(m_itSavedActiveInterface->second);
 
-    if (pInterface == NULL && m_itActiveInterface != m_mapInterfaces.end())
+    if (pInterface == nullptr && m_itActiveInterface != m_mapInterfaces.end())
         pInterface = GetInterface(m_itActiveInterface->second);
 
-    if (pInterface != NULL)
+    if (pInterface != nullptr)
         pInterface->NeedsRefresh(false);
 
     for (OverlayList_it it(m_lOverlayInterfaces.begin()); it != m_lOverlayInterfaces.end(); it++)
     {
         pInterface = GetInterface((*it)->second);
 
-        if (pInterface == NULL)
+        if (pInterface == nullptr)
             continue;
 
         pInterface->NeedsRefresh(false);
@@ -1143,7 +1143,7 @@ void    CUIManager::ResetRefresh()
 tstring CUIManager::Translate(const tstring &sKey, const tsmapts &mapTokens)
 {
     CStringTable *pStringTable(g_ResourceManager.GetStringTable(m_hStringTable));
-    if (pStringTable == NULL)
+    if (pStringTable == nullptr)
         return TSNULL;
 
     tstring sMessage(pStringTable->Get(sKey));
@@ -1347,7 +1347,7 @@ CMD(ShowWidget)
             EX_MESSAGE(_T("syntax: ShowWidget <widget name>"));
 
         IWidget *pWidget(UIManager.FindWidget(vArgList[0]));
-        if (pWidget == NULL)
+        if (pWidget == nullptr)
             EX_WARN(_T("Widget ") + vArgList[0] + _T(" not found"));
 
         pWidget->Show();
@@ -1372,7 +1372,7 @@ CMD(HideWidget)
             EX_MESSAGE(_T("syntax: HideWidget <widget name>"));
 
         IWidget *pWidget(UIManager.FindWidget(vArgList[0]));
-        if (pWidget == NULL)
+        if (pWidget == nullptr)
             EX_WARN(_T("Widget ") + vArgList[0] + _T(" not found"));
 
         pWidget->Hide();
@@ -1542,12 +1542,12 @@ UI_VOID_CMD(SetFocusName, 1)
 {
     CInterface *pInterface(pThis->GetInterface());
 
-    if (pInterface == NULL)
+    if (pInterface == nullptr)
         return;
 
     IWidget *pWidget(pInterface->GetWidget(vArgList[0]->Evaluate()));
 
-    if (pWidget == NULL)
+    if (pWidget == nullptr)
         return;
 
     pInterface->SetActiveWidget(pWidget);
@@ -1572,8 +1572,8 @@ UI_VOID_CMD(SetActiveWidget, 0)
 
     tstring sWidgetName(vArgList[0]->Evaluate());
 
-    if (sWidgetName == _T("NULL"))
-        pInterface->SetActiveWidget(NULL);
+    if (sWidgetName == _T("nullptr"))
+        pInterface->SetActiveWidget(nullptr);
     else
         pInterface->SetActiveWidget(pInterface->GetWidget(sWidgetName));
 }
@@ -1628,7 +1628,7 @@ UI_VOID_CMD(EnableWidget, 0)
     if (vArgList.size() > 0)
         pWidget = pWidget->GetInterface()->GetWidget(vArgList[0]->Evaluate());
 
-    if (pWidget == NULL)
+    if (pWidget == nullptr)
         return;
 
     pWidget->Enable();
@@ -1648,7 +1648,7 @@ UI_VOID_CMD(DisableWidget, 0)
     if (vArgList.size() > 0)
         pWidget = pWidget->GetInterface()->GetWidget(vArgList[0]->Evaluate());
 
-    if (pWidget == NULL)
+    if (pWidget == nullptr)
         return;
 
     pWidget->Disable();
@@ -1756,10 +1756,10 @@ UI_CMD(WidgetExists, 1)
 {
     CInterface *pInterface(pThis->GetInterface());
 
-    if (pInterface == NULL)
+    if (pInterface == nullptr)
         return _T("0");
 
-    return XtoA(pInterface->GetWidget(vArgList[0]->Evaluate()) != NULL, true);
+    return XtoA(pInterface->GetWidget(vArgList[0]->Evaluate()) != nullptr, true);
 }
 
 

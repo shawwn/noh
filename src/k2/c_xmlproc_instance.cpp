@@ -48,12 +48,12 @@ BEGIN_XML_PROCESSOR(instance, IWidget)
     try
     {
         CInterface *pInterface(pObject->GetInterface());
-        if (pInterface == NULL)
+        if (pInterface == nullptr)
             EX_ERROR(_T("Interface pointer not set for <instance> tag"));
 
         CWidgetTemplate *pTemplate(pInterface->GetCurrentTemplate());
 
-        if (pTemplate == NULL)
+        if (pTemplate == nullptr)
         {
             if (!node.HasProperty(_T("name")))
             {
@@ -64,7 +64,7 @@ BEGIN_XML_PROCESSOR(instance, IWidget)
 
             const tstring &sName(node.GetProperty(_T("name")));
             CWidgetTemplate* pTemplate(pInterface->GetTemplate(sName));
-            if (pTemplate == NULL)
+            if (pTemplate == nullptr)
                 EX_ERROR(_T("No template exists for: ") + sName);
 
             CWidgetStyle style(pInterface, node);

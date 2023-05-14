@@ -214,7 +214,7 @@ bool    CGfxShaders::LoadVertexShader(const tstring &sName, int &iIndex)
             {
                 szBuffer
             };
-            glShaderSourceARB(uiShader, 1, pszSources, NULL);
+            glShaderSourceARB(uiShader, 1, pszSources, nullptr);
         }
         else
         {
@@ -223,7 +223,7 @@ bool    CGfxShaders::LoadVertexShader(const tstring &sName, int &iIndex)
                 szMacros,
                 szBuffer
             };
-            glShaderSourceARB(uiShader, 2, pszSources, NULL);
+            glShaderSourceARB(uiShader, 2, pszSources, nullptr);
         }
         glCompileShaderARB(uiShader);
 
@@ -243,7 +243,7 @@ bool    CGfxShaders::LoadVertexShader(const tstring &sName, int &iIndex)
             {
                 char *szLog(K2_NEW_ARRAY(ctx_GL2, char, iLogLength));
 
-                glGetInfoLogARB(uiShader, iLogLength, NULL, szLog);
+                glGetInfoLogARB(uiShader, iLogLength, nullptr, szLog);
 
                 Console.Err << szLog;
 
@@ -396,7 +396,7 @@ bool    CGfxShaders::LoadPixelShader(const tstring &sName, int &iIndex)
             {
                 szBuffer
             };
-            glShaderSourceARB(uiShader, 1, pszSources, NULL);
+            glShaderSourceARB(uiShader, 1, pszSources, nullptr);
         }
         else
         {
@@ -405,7 +405,7 @@ bool    CGfxShaders::LoadPixelShader(const tstring &sName, int &iIndex)
                 szMacros,
                 szBuffer
             };
-            glShaderSourceARB(uiShader, 2, pszSources, NULL);
+            glShaderSourceARB(uiShader, 2, pszSources, nullptr);
         }
         
         glCompileShaderARB(uiShader);
@@ -429,7 +429,7 @@ bool    CGfxShaders::LoadPixelShader(const tstring &sName, int &iIndex)
             {
                 char *szLog(K2_NEW_ARRAY(ctx_GL2, char, iLogLength));
 
-                glGetInfoLogARB(uiShader, iLogLength, NULL, szLog);
+                glGetInfoLogARB(uiShader, iLogLength, nullptr, szLog);
 
                 if (szLog[iLogLength - 1] == _T(' ')) // Because ATI is retarded
                     szLog[iLogLength - 1] = _T('\n');
@@ -622,7 +622,7 @@ bool    CGfxShaders::LinkShaderProgram(int iVertexShader, int iPixelShader, int 
             {
                 char *szLog(K2_NEW_ARRAY(ctx_GL2, char, iLogLength));
         
-                glGetInfoLogARB(uiProgram, iLogLength, NULL, szLog);
+                glGetInfoLogARB(uiProgram, iLogLength, nullptr, szLog);
         
                 Console.Err << _T("CGfxShaders::LinkShaderProgram") << newl;
         
@@ -802,7 +802,7 @@ bool    CGfxShaders::LinkShaderProgram(int iVertexShader, int iPixelShader, int 
             break;
         default:
             cUniform.eTextureType = GL_NONE;
-            cUniform.pShaderVar = NULL;
+            cUniform.pShaderVar = nullptr;
             break;
         }
     }

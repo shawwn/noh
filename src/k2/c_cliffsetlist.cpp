@@ -44,7 +44,7 @@ bool    CCliffList::Load(CArchive &archive, const CWorld *pWorld)
     try
     {
         m_pWorld = pWorld;
-        if (m_pWorld == NULL)
+        if (m_pWorld == nullptr)
             EX_ERROR(_T("Invalid CWorld"));
 
         CFileHandle hCliffList(m_sName, FILE_READ | FILE_BINARY, archive);
@@ -78,7 +78,7 @@ bool    CCliffList::Generate(const CWorld *pWorld)
         Release();
 
         m_pWorld = pWorld;
-        if (m_pWorld == NULL)
+        if (m_pWorld == nullptr)
             EX_ERROR(_T("Invalid CWorld"));
 
         return true;
@@ -123,7 +123,7 @@ bool    CCliffList::Serialize(IBuffer *pBuffer)
   ====================*/
 void    CCliffList::Release()
 {
-    m_pWorld = NULL;
+    m_pWorld = nullptr;
 
     m_mapCliffs.clear();
     m_mapResHandles.clear();

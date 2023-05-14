@@ -23,7 +23,7 @@ BEGIN_XML_PROCESSOR(style, IWidget)
     try
     {
         CInterface *pInterface(pObject->GetInterface());
-        if (pInterface == NULL)
+        if (pInterface == nullptr)
             EX_ERROR(_T("Interface pointer not set for <style> tag"));
 
         if (!node.HasProperty(_T("name")))

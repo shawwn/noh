@@ -58,7 +58,7 @@ struct SOutputLine
     CConsoleStream* pStream;
 
     SOutputLine() :
-    pStream(NULL)
+    pStream(nullptr)
     {
     }
 
@@ -319,7 +319,7 @@ public:
     CConsoleStream  Std, Dev, Err, Warn, Net, Server, Client, UI, Perf, Mem, AI, Video, ServerGame, ClientGame, Res, GroupVoice, GroupVoiceDebug, Script;
     
     void                    SetDefaultStream(CConsoleStream &stream)    { m_pDefaultStream = &stream; }
-    CConsoleStream&         DefaultStream()                         { assert(m_pDefaultStream != NULL); return *m_pDefaultStream; }
+    CConsoleStream&         DefaultStream()                         { assert(m_pDefaultStream != nullptr); return *m_pDefaultStream; }
 
     const tstring&          GetNewl() const                         { return m_newl; }
 
@@ -352,7 +352,7 @@ public:
 
     K2_API void             DoCommand(const tsvector &vArgList);
     K2_API void             Execute(const tstring &sCmdLine);
-    K2_API bool             ExecuteScript(const tstring &sData, bool bFile = true, tsmapts *mapParams = NULL);
+    K2_API bool             ExecuteScript(const tstring &sData, bool bFile = true, tsmapts *mapParams = nullptr);
     bool                    CallScript(const tstring &sFilename);
     void                    GotoScriptLabel(const tstring &sLabel);
     void                    PauseScript(dword dwMilliseconds);

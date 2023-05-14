@@ -87,7 +87,7 @@ CTeamInfo::~CTeamInfo()
   CTeamInfo::CTeamInfo
   ====================*/
 CTeamInfo::CTeamInfo() :
-IGameEntity(NULL),
+IGameEntity(nullptr),
 
 m_bRosterChanged(true),
 m_uiRosterChangeSequence(0),
@@ -369,10 +369,10 @@ void    CTeamInfo::GameStart()
     for (ivector_it it(m_vClients.begin()), itEnd(m_vClients.end()); it != itEnd; ++it)
     {
         CPlayer *pClient(Game.GetPlayer(*it));
-        if (pClient == NULL)
+        if (pClient == nullptr)
             continue;
 
-        pClient->GiveGold(unGoldPerPlayer, NULL);
+        pClient->GiveGold(unGoldPerPlayer, nullptr);
         pClient->AdjustStat(PLAYER_STAT_STARTING_GOLD, unGoldPerPlayer);
     }
 
@@ -454,7 +454,7 @@ void    CTeamInfo::AddClient(int iClientNumber, uint uiSlot)
             return;
 
         CPlayer *pClient(Game.GetPlayer(iClientNumber));
-        if (pClient == NULL)
+        if (pClient == nullptr)
             EX_WARN(_T("Could not retrieve an entity for client: ") + XtoA(iClientNumber));
 
         // Reset team related data for this player
@@ -487,7 +487,7 @@ void    CTeamInfo::AddClient(int iClientNumber, uint uiSlot)
   ====================*/
 void    CTeamInfo::AssignStats(CGameStats *pStats)
 {
-    if (pStats == NULL)
+    if (pStats == nullptr)
     {
         m_uiStatsIndex = INVALID_INDEX;
         return;
@@ -528,7 +528,7 @@ uint    CTeamInfo::GetNumClients() const
     uint uiCount(0);
     for (ivector_cit it(m_vClients.begin()); it != m_vClients.end(); ++it)
     {
-        if (Game.GetPlayer(*it) != NULL)
+        if (Game.GetPlayer(*it) != nullptr)
             ++uiCount;
     }
     
@@ -545,7 +545,7 @@ tstring CTeamInfo::GetClientName(uint uiTeamIndex)
         return _T("");
 
     CPlayer *pClient(Game.GetPlayer(m_vClients[uiTeamIndex]));
-    if (pClient == NULL)
+    if (pClient == nullptr)
         return _T("");
 
     return pClient->GetName();
@@ -587,14 +587,14 @@ CPlayer*    CTeamInfo::GetCaptain() const
     for (uint ui(0); ui < m_vClients.size(); ++ui)
     {
         CPlayer *pPlayer(Game.GetPlayer(m_vClients[ui]));
-        if (pPlayer == NULL)
+        if (pPlayer == nullptr)
             continue;
         
         if (pPlayer->HasFlags(PLAYER_FLAG_IS_CAPTAIN))
             return pPlayer;
     }
 
-    return NULL;
+    return nullptr;
 }
 
 
@@ -627,7 +627,7 @@ bool    CTeamInfo::HasBuilding(const tstring &sName) const
         for (uiset_cit cit(m_setBuildingUIDs.begin()); cit != m_setBuildingUIDs.end(); ++cit)
         {
             IUnitEntity *pEntity(Game.GetUnitFromUniqueID(*cit));
-            if (pEntity == NULL)
+            if (pEntity == nullptr)
                 continue;
 
             if (pEntity->GetType() == unType && pEntity->GetStatus() == ENTITY_STATUS_ACTIVE && pEntity->GetTeam() == GetTeamID())
@@ -652,7 +652,7 @@ uint    CTeamInfo::GetBuildingCount(const tstring &sUnitType) const
     for (uiset_cit cit(m_setBuildingUIDs.begin()); cit != m_setBuildingUIDs.end(); ++cit)
     {
         IUnitEntity *pEntity(Game.GetUnitFromUniqueID(*cit));
-        if (pEntity == NULL)
+        if (pEntity == nullptr)
             continue;
         if (pEntity->GetTeam() != GetTeamID())
             continue;
@@ -707,7 +707,7 @@ void    CTeamInfo::PassiveIncome()
 
     // Retrieve game info
     CGameInfo *pGameInfo(Game.GetGameInfo());
-    if (pGameInfo == NULL)
+    if (pGameInfo == nullptr)
         return;
 
     // Count number of players on the team (all and currently active)
@@ -716,7 +716,7 @@ void    CTeamInfo::PassiveIncome()
     for (ivector_it itClient(m_vClients.begin()), itEnd(m_vClients.end()); itClient != itEnd; ++itClient)
     {
         CPlayer *pPlayer(Game.GetPlayer(*itClient));
-        if (pPlayer == NULL)
+        if (pPlayer == nullptr)
             continue;
 
         ++uiTeamSize;
@@ -740,10 +740,10 @@ void    CTeamInfo::PassiveIncome()
         for (ivector_it itClient(m_vClients.begin()), itEnd(m_vClients.end()); itClient != itEnd; ++itClient)
         {
             CPlayer *pPlayer(Game.GetPlayer(*itClient));
-            if (pPlayer == NULL || pPlayer->HasFlags(PLAYER_FLAG_TERMINATED))
+            if (pPlayer == nullptr || pPlayer->HasFlags(PLAYER_FLAG_TERMINATED))
                 continue;
 
-            pPlayer->GiveGold(pGameInfo->GetGoldPerTick(), NULL);
+            pPlayer->GiveGold(pGameInfo->GetGoldPerTick(), nullptr);
             pPlayer->GetGoldReport()->AddPassiveGoldEarned(pGameInfo->GetGoldPerTick());
         }
 
@@ -808,7 +808,7 @@ bool    CTeamInfo::ServerFrameMovement()
 bool    CTeamInfo::ServerFrameCleanup()
 {
     IBuildingEntity *pBuilding(Game.GetBuildingEntity(m_uiBaseBuildingIndex));
-    if (pBuilding != NULL)
+    if (pBuilding != nullptr)
         m_fBaseHealthPercent = pBuilding->GetHealthPercent();
 
     return true;
@@ -825,7 +825,7 @@ bool    CTeamInfo::IsFullyLoaded() const
     for (uint ui(0); ui < m_vClients.size(); ++ui)
     {
         CPlayer *pPlayer(Game.GetPlayerFromClientNumber(m_vClients[ui]));
-        if (pPlayer == NULL)
+        if (pPlayer == nullptr)
             continue;
 
         if (pPlayer->HasFlags(PLAYER_FLAG_LOADING | PLAYER_FLAG_DISCONNECTED))
@@ -847,7 +847,7 @@ bool    CTeamInfo::CanJoinTeam(int iClientNumber, uint uiSlot)
         return false;
 
     CPlayer *pPlayer(Game.GetPlayer(iClientNumber));
-    if (pPlayer == NULL)
+    if (pPlayer == nullptr)
         return false;
 
     // Check if the requested slot
@@ -885,7 +885,7 @@ int     CTeamInfo::GetNumActiveClients()
     for (ivector_it it(m_vClients.begin()), itEnd(m_vClients.end()); it != itEnd; ++it)
     {
         CPlayer *pClient(Game.GetPlayer(*it));
-        if (pClient == NULL || pClient->HasFlags(PLAYER_FLAG_TERMINATED))
+        if (pClient == nullptr || pClient->HasFlags(PLAYER_FLAG_TERMINATED))
             continue;
 
         ++iActiveClients;
@@ -905,7 +905,7 @@ int     CTeamInfo::GetNumConnectedClients()
     for (ivector_it it(m_vClients.begin()), itEnd(m_vClients.end()); it != itEnd; ++it)
     {
         CPlayer *pClient(Game.GetPlayer(*it));
-        if (pClient == NULL || pClient->HasFlags(PLAYER_FLAG_TERMINATED) || pClient->HasFlags(PLAYER_FLAG_DISCONNECTED))
+        if (pClient == nullptr || pClient->HasFlags(PLAYER_FLAG_TERMINATED) || pClient->HasFlags(PLAYER_FLAG_DISCONNECTED))
             continue;
 
         ++iConnectedClients;
@@ -920,7 +920,7 @@ int     CTeamInfo::GetNumConnectedClients()
   ====================*/
 void    CTeamInfo::SetHeroSpawnPosition(IUnitEntity *pUnit) const
 {
-    if (pUnit == NULL)
+    if (pUnit == nullptr)
         return;
 
     // Get a list of all active spawn points
@@ -935,7 +935,7 @@ void    CTeamInfo::SetHeroSpawnPosition(IUnitEntity *pUnit) const
     {
         CTriggerSpawnPoint *pSpawnPoint(Game.GetEntityAs<CTriggerSpawnPoint>(*it));
 
-        if (pSpawnPoint == NULL)
+        if (pSpawnPoint == nullptr)
             continue;
         if (pSpawnPoint->GetTeam() != GetTeamID())
             continue;
@@ -953,7 +953,7 @@ void    CTeamInfo::SetHeroSpawnPosition(IUnitEntity *pUnit) const
     {
         // Get base building
         IBuildingEntity *pBaseBuilding(Game.GetBuildingEntity(GetBaseBuildingIndex()));
-        if (pBaseBuilding == NULL)
+        if (pBaseBuilding == nullptr)
             return;
 
         v3Center = pBaseBuilding->GetPosition();
@@ -1027,7 +1027,7 @@ CVec3f  CTeamInfo::GetHeroSpawnPosition() const
     {
         CTriggerSpawnPoint *pSpawnPoint(Game.GetEntityAs<CTriggerSpawnPoint>(*it));
 
-        if (pSpawnPoint == NULL)
+        if (pSpawnPoint == nullptr)
             continue;
         if (pSpawnPoint->GetTeam() != GetTeamID())
             continue;
@@ -1040,7 +1040,7 @@ CVec3f  CTeamInfo::GetHeroSpawnPosition() const
     {
         // Get base building
         IBuildingEntity *pBaseBuilding(Game.GetBuildingEntity(GetBaseBuildingIndex()));
-        if (pBaseBuilding == NULL)
+        if (pBaseBuilding == nullptr)
         {
             assert(false);
             Console.Warn << "GetHeroSpawnPosition() failed: Failed to locate the base building!" << newl;
@@ -1068,17 +1068,17 @@ IUnitEntity*    CTeamInfo::SpawnCreep(const tstring &sName, IVisualEntity *pSpaw
 
     // Lookup entity
     if (sName.empty())
-        return NULL;
+        return nullptr;
 
     if (!pSpawnPoint)
-        return NULL;
+        return nullptr;
 
     // Spawn the unit
     ICreepEntity *pCreep(Game.AllocateDynamicEntity<ICreepEntity>(sName));
-    if (pCreep == NULL)
+    if (pCreep == nullptr)
     {
         Console.Warn << _T("Failed to spawn creep: ") << sName << newl;
-        return NULL;
+        return nullptr;
     }
 
     CVec3f v3Angles(pSpawnPoint->GetAngles());
@@ -1137,11 +1137,11 @@ bool    CTeamInfo::AreAllDead() const
     for (ivector_cit itPlayer(m_vClients.begin()); itPlayer != m_vClients.end(); ++itPlayer)
     {
         CPlayer *pPlayer(Game.GetPlayer(*itPlayer));
-        if (pPlayer == NULL)
+        if (pPlayer == nullptr)
             continue;
 
         IHeroEntity *pHero(pPlayer->GetHero());
-        if (pHero == NULL || pHero->GetStatus() != ENTITY_STATUS_ACTIVE)
+        if (pHero == nullptr || pHero->GetStatus() != ENTITY_STATUS_ACTIVE)
             continue;
 
         return false;
@@ -1159,11 +1159,11 @@ bool    CTeamInfo::AreAllAlive() const
     for (ivector_cit itPlayer(m_vClients.begin()); itPlayer != m_vClients.end(); ++itPlayer)
     {
         CPlayer *pPlayer(Game.GetPlayer(*itPlayer));
-        if (pPlayer == NULL)
+        if (pPlayer == nullptr)
             continue;
 
         IHeroEntity *pHero(pPlayer->GetHero());
-        if (pHero == NULL || pHero->GetStatus() == ENTITY_STATUS_ACTIVE)
+        if (pHero == nullptr || pHero->GetStatus() == ENTITY_STATUS_ACTIVE)
             continue;
 
         return false;
@@ -1181,7 +1181,7 @@ void    CTeamInfo::GiveGold(ushort unGold)
     for (ivector_it itClient(m_vClients.begin()); itClient != m_vClients.end(); ++itClient)
     {
         CPlayer *pPlayer(Game.GetPlayer(*itClient));
-        if (pPlayer == NULL || pPlayer->HasFlags(PLAYER_FLAG_TERMINATED))
+        if (pPlayer == nullptr || pPlayer->HasFlags(PLAYER_FLAG_TERMINATED))
             continue;
 
         pPlayer->GiveGold(unGold, pPlayer->GetHero());
@@ -1207,7 +1207,7 @@ float   CTeamInfo::GetRank() const
     for (ivector_cit itClient(m_vClients.begin()); itClient != m_vClients.end(); ++itClient)
     {
         CPlayer *pPlayer(Game.GetPlayer(*itClient));
-        if (pPlayer == NULL)
+        if (pPlayer == nullptr)
             continue;
 
         fRank += pow(MAX(pPlayer->GetRank(), 0.01f), psf_teamRankWeighting);
@@ -1230,7 +1230,7 @@ float   CTeamInfo::GetAverageRank() const
     for (ivector_cit itClient(m_vClients.begin()); itClient != m_vClients.end(); ++itClient)
     {
         CPlayer *pPlayer(Game.GetPlayer(*itClient));
-        if (pPlayer == NULL)
+        if (pPlayer == nullptr)
             continue;
 
         fRank += pPlayer->GetRank();
@@ -1246,20 +1246,20 @@ float   CTeamInfo::GetAverageRank() const
   ====================*/
 bool    CTeamInfo::CanSee(const IVisualEntity *pTarget) const
 {
-    if (pTarget == NULL)
+    if (pTarget == nullptr)
         return false;
 
     const IUnitEntity *pUnit(pTarget->GetAsUnit());
 
     if (pTarget->GetTeam() == GetTeamID())
         return true;
-    if (pUnit != NULL && pUnit->GetAlwaysTransmitData())
+    if (pUnit != nullptr && pUnit->GetAlwaysTransmitData())
         return true;
-    if (pUnit != NULL && pUnit->GetTeam() != GetTeamID() && pUnit->GetHidden())
+    if (pUnit != nullptr && pUnit->GetTeam() != GetTeamID() && pUnit->GetHidden())
         return false;
-    if (pUnit != NULL && pUnit->GetAlwaysVisible())
+    if (pUnit != nullptr && pUnit->GetAlwaysVisible())
         return true;
-    if (pUnit != NULL && pUnit->IsStealth() && !pTarget->HasVisibilityFlags(VIS_REVEALED(GetTeamID())))
+    if (pUnit != nullptr && pUnit->IsStealth() && !pTarget->HasVisibilityFlags(VIS_REVEALED(GetTeamID())))
         return false;
     if (pTarget->HasVisibilityFlags(VIS_SIGHTED(GetTeamID())))
         return true;
@@ -1283,7 +1283,7 @@ void    CTeamInfo::RegisterShopInfo(uint uiIndex)
 CShopInfo*  CTeamInfo::GetShopInfo()
 {
     if (m_uiShopInfoIndex == INVALID_INDEX)
-        return NULL;
+        return nullptr;
 
     return Game.GetEntityAs<CShopInfo>(m_uiShopInfoIndex);
 }
@@ -1299,7 +1299,7 @@ uint    CTeamInfo::GetTeamStat(EPlayerStat eStat) const
     for (ivector_cit it(m_vClients.begin()), itEnd(m_vClients.end()); it != itEnd; ++it)
     {
         CPlayer *pPlayer(Game.GetPlayer(*it));
-        if (pPlayer == NULL)
+        if (pPlayer == nullptr)
             continue;
 
         uiTotal += pPlayer->GetStat(eStat);
@@ -1319,11 +1319,11 @@ float   CTeamInfo::GetExperienceEarned() const
     for (ivector_cit it(m_vClients.begin()), itEnd(m_vClients.end()); it != itEnd; ++it)
     {
         CPlayer *pPlayer(Game.GetPlayer(*it));
-        if (pPlayer == NULL)
+        if (pPlayer == nullptr)
             continue;
 
         IHeroEntity *pHero(pPlayer->GetHero());
-        if (pHero == NULL)
+        if (pHero == nullptr)
             continue;
 
         fTotal += pHero->GetExperience();
@@ -1343,7 +1343,7 @@ uint    CTeamInfo::GetGoldEarned() const
     for (ivector_cit it(m_vClients.begin()), itEnd(m_vClients.end()); it != itEnd; ++it)
     {
         CPlayer *pPlayer(Game.GetPlayer(*it));
-        if (pPlayer == NULL)
+        if (pPlayer == nullptr)
             continue;
 
         uiTotal += pPlayer->GetGoldEarned();
@@ -1364,11 +1364,11 @@ float   CTeamInfo::GetHeroAlivePercent()
     for (ivector_cit it(m_vClients.begin()), itEnd(m_vClients.end()); it != itEnd; ++it)
     {
         CPlayer *pPlayer(Game.GetPlayer(*it));
-        if (pPlayer == NULL)
+        if (pPlayer == nullptr)
             continue;
 
         IHeroEntity *pHero(pPlayer->GetHero());
-        if (pHero == NULL)
+        if (pHero == nullptr)
             continue;
 
         ++iTotalHeroes;

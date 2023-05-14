@@ -17,7 +17,7 @@
   ====================*/
 void    ParseString(tstring sStr, tsvector &vArgList, SSeperator seperatorList[])
 {
-    for (int index(0); seperatorList[index].pfnAction != NULL; ++index)
+    for (int index(0); seperatorList[index].pfnAction != nullptr; ++index)
     {
         size_t zPos = 0;
 

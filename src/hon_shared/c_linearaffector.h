@@ -62,7 +62,7 @@ public:
 
     void            SetAttachTargetUID(uint uiUID)      { m_uiAttachTargetUID = uiUID; }
     uint            GetAttachTargetUID() const          { return m_uiAttachTargetUID; }
-    IUnitEntity*    GetAttachTarget() const             { IGameEntity *pEntity(Game.GetEntityFromUniqueID(m_uiAttachTargetUID)); return (pEntity ? pEntity->GetAsUnit() : NULL);}
+    IUnitEntity*    GetAttachTarget() const             { IGameEntity *pEntity(Game.GetEntityFromUniqueID(m_uiAttachTargetUID)); return (pEntity ? pEntity->GetAsUnit() : nullptr);}
 
     void            SetFirstTargetIndex(uint uiIndex)   { m_uiFirstTargetIndex = uiIndex; }
 

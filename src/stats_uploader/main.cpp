@@ -89,7 +89,7 @@ int main(int argc, char *argv[])
                 strncpy_s(szCommand, sCommand.c_str(), 2048);
 
                 cout << "Uploading replay: " << sReplayFile.c_str() << endl;
-                CreateProcess(NULL, szCommand, NULL, NULL, FALSE, 0, NULL, NULL, &startInfo, &procInfo);
+                CreateProcess(nullptr, szCommand, nullptr, nullptr, FALSE, 0, nullptr, nullptr, &startInfo, &procInfo);
                 DWORD dwResult(WaitForSingleObject(procInfo.hProcess, 15 * 60 * 1000));
                 if (dwResult != WAIT_OBJECT_0)
                 {
@@ -174,7 +174,7 @@ int main(int argc, char *argv[])
             strncpy_s(szCommand, sCommand.c_str(), 2048);
 
             cout << "Sending stats" << endl;
-            CreateProcess(NULL, szCommand, NULL, NULL, FALSE, 0, NULL, NULL, &startInfo, &procInfo);
+            CreateProcess(nullptr, szCommand, nullptr, nullptr, FALSE, 0, nullptr, nullptr, &startInfo, &procInfo);
             DWORD dwResult(WaitForSingleObject(procInfo.hProcess, 15 * 60 * 1000));
             if (dwResult != WAIT_OBJECT_0)
             {

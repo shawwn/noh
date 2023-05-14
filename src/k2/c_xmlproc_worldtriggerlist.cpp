@@ -34,4 +34,4 @@ BEGIN_XML_PROCESSOR(trigger, CWorldTriggerList)
     }
 
     pObject->RegisterNewScript(node.GetProperty(_T("name")), node.GetProperty(_T("content")));
-END_XML_PROCESSOR(NULL)
+END_XML_PROCESSOR(nullptr)

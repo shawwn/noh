@@ -180,10 +180,10 @@ public:
     virtual const TypeVector*           GetTypeVector() const   { return &T::GetTypeVector(); }
     virtual const SEntityDesc*          GetTypeDesc() const     { return T::GetStaticTypeDesc(); }
     virtual uint                        GetVersion() const      { return T::GetVersion(); }
-    virtual void                        ClientPrecache(EPrecacheScheme eScheme, const tstring &sModifier) const { T::ClientPrecache(NULL, eScheme, sModifier); }
-    virtual void                        ServerPrecache(EPrecacheScheme eScheme, const tstring &sModifier) const { T::ServerPrecache(NULL, eScheme, sModifier); }
-    virtual void                        PostProcess() const     { T::PostProcess(NULL); }
-    virtual IGameEntity::CEntityConfig* GetEntityConfig() const { return NULL; }
+    virtual void                        ClientPrecache(EPrecacheScheme eScheme, const tstring &sModifier) const { T::ClientPrecache(nullptr, eScheme, sModifier); }
+    virtual void                        ServerPrecache(EPrecacheScheme eScheme, const tstring &sModifier) const { T::ServerPrecache(nullptr, eScheme, sModifier); }
+    virtual void                        PostProcess() const     { T::PostProcess(nullptr); }
+    virtual IGameEntity::CEntityConfig* GetEntityConfig() const { return nullptr; }
 };
 //=============================================================================
 
@@ -196,7 +196,7 @@ IGameEntity*    CEntityAllocator<T>::Allocate() const
     try
     {
         T* pNewEnt(K2_NEW(ctx_Game,    T)());
-        if (pNewEnt == NULL)
+        if (pNewEnt == nullptr)
             EX_ERROR(_T("Allocation failed"));
 
         pNewEnt->SetTypeName(m_sName);
@@ -208,7 +208,7 @@ IGameEntity*    CEntityAllocator<T>::Allocate() const
     catch (CException &ex)
     {
         ex.Process(_T("CEntityAllocator::Allocate() - "), NO_THROW);
-        return NULL;
+        return nullptr;
     }
 }
 
@@ -262,7 +262,7 @@ IGameEntity*    CEntityAllocator2<T>::Allocate() const
     try
     {
         T* pNewEnt(K2_NEW(ctx_Game,    T)());
-        if (pNewEnt == NULL)
+        if (pNewEnt == nullptr)
             EX_ERROR(_T("Allocation failed"));
 
         pNewEnt->SetTypeName(m_sName);
@@ -274,7 +274,7 @@ IGameEntity*    CEntityAllocator2<T>::Allocate() const
     catch (CException &ex)
     {
         ex.Process(_T("CEntityAllocator::Allocate() - "), NO_THROW);
-        return NULL;
+        return nullptr;
     }
 }
 
@@ -313,9 +313,9 @@ public:
     virtual const TypeVector*       GetTypeVector() const   { return &T::GetTypeVector(); }
     virtual const SEntityDesc*      GetTypeDesc() const     { return T::GetStaticTypeDesc(); }
     virtual uint                    GetVersion() const      { return T::GetVersion(); }
-    virtual void                    ClientPrecache(EPrecacheScheme eScheme, const tstring &sModifier) const { T::ClientPrecache(NULL, eScheme, sModifier); }
-    virtual void                    ServerPrecache(EPrecacheScheme eScheme, const tstring &sModifier) const { T::ServerPrecache(NULL, eScheme, sModifier); }
-    virtual void                    PostProcess() const     { T::PostProcess(NULL); }
+    virtual void                    ClientPrecache(EPrecacheScheme eScheme, const tstring &sModifier) const { T::ClientPrecache(nullptr, eScheme, sModifier); }
+    virtual void                    ServerPrecache(EPrecacheScheme eScheme, const tstring &sModifier) const { T::ServerPrecache(nullptr, eScheme, sModifier); }
+    virtual void                    PostProcess() const     { T::PostProcess(nullptr); }
 };
 //=============================================================================
 
@@ -340,29 +340,29 @@ public:
     ResHandle                   GetDefinitionHandle() const { return m_hDefinition; }
 
     const IBaseEntityAllocator* GetBaseAllocator() const    { return m_pBaseAllocator; }
-    const TypeVector*           GetTypeVector() const       { return m_pBaseAllocator != NULL ? m_pBaseAllocator->GetTypeVector() : NULL; }
-    const SEntityDesc*          GetTypeDesc() const         { return m_pBaseAllocator != NULL ? m_pBaseAllocator->GetTypeDesc() : NULL; }
-    uint                        GetVersion() const          { return m_pBaseAllocator != NULL ? m_pBaseAllocator->GetVersion() : 0; }
-    const tstring&              GetBaseTypeName() const     { return m_pBaseAllocator != NULL ? m_pBaseAllocator->GetBaseTypeName() : TSNULL; }
-    uint                        GetBaseType() const         { return m_pBaseAllocator != NULL ? m_pBaseAllocator->GetBaseType() : ENTITY_BASE_TYPE_INVALID; }
-    const CEntitySnapshot*      GetBaseline() const         { return m_pBaseAllocator != NULL ? m_pBaseAllocator->GetBaseline() : NULL; }
-    void                        ClientPrecache(EPrecacheScheme eScheme, const tstring &sModifier) const     { if (m_pBaseAllocator != NULL) m_pBaseAllocator->ClientPrecache(eScheme, sModifier); }
-    void                        ServerPrecache(EPrecacheScheme eScheme, const tstring &sModifier) const     { if (m_pBaseAllocator != NULL) m_pBaseAllocator->ServerPrecache(eScheme, sModifier); }
-    void                        PostProcess() const         { if (m_pBaseAllocator != NULL) m_pBaseAllocator->PostProcess(); }
+    const TypeVector*           GetTypeVector() const       { return m_pBaseAllocator != nullptr ? m_pBaseAllocator->GetTypeVector() : nullptr; }
+    const SEntityDesc*          GetTypeDesc() const         { return m_pBaseAllocator != nullptr ? m_pBaseAllocator->GetTypeDesc() : nullptr; }
+    uint                        GetVersion() const          { return m_pBaseAllocator != nullptr ? m_pBaseAllocator->GetVersion() : 0; }
+    const tstring&              GetBaseTypeName() const     { return m_pBaseAllocator != nullptr ? m_pBaseAllocator->GetBaseTypeName() : TSNULL; }
+    uint                        GetBaseType() const         { return m_pBaseAllocator != nullptr ? m_pBaseAllocator->GetBaseType() : ENTITY_BASE_TYPE_INVALID; }
+    const CEntitySnapshot*      GetBaseline() const         { return m_pBaseAllocator != nullptr ? m_pBaseAllocator->GetBaseline() : nullptr; }
+    void                        ClientPrecache(EPrecacheScheme eScheme, const tstring &sModifier) const     { if (m_pBaseAllocator != nullptr) m_pBaseAllocator->ClientPrecache(eScheme, sModifier); }
+    void                        ServerPrecache(EPrecacheScheme eScheme, const tstring &sModifier) const     { if (m_pBaseAllocator != nullptr) m_pBaseAllocator->ServerPrecache(eScheme, sModifier); }
+    void                        PostProcess() const         { if (m_pBaseAllocator != nullptr) m_pBaseAllocator->PostProcess(); }
 
     IGameEntity*    Allocate() const
     {
-        if (m_pBaseAllocator == NULL)
+        if (m_pBaseAllocator == nullptr)
         {
             Console << _T("Allocate failed for entity type: ") << m_sName << newl;
-            return NULL;
+            return nullptr;
         }
 
         IGameEntity *pNewEnt(m_pBaseAllocator->Allocate());
-        if (pNewEnt == NULL)
+        if (pNewEnt == nullptr)
         {
             Console << _T("Allocate failed for entity type: ") << m_sName << newl;
-            return NULL;
+            return nullptr;
         }
 
         pNewEnt->SetTypeName(m_sName);
@@ -452,11 +452,11 @@ public:
     T*  GetDefinition(ushort unTypeID)
     {
         if (unTypeID == INVALID_ENT_TYPE)
-            return NULL;
+            return nullptr;
 
         DynamicEntityTypeIDMap::iterator itFind(m_mapDynamicTypeIDs.find(unTypeID));
         if (itFind == m_mapDynamicTypeIDs.end())
-            return NULL;
+            return nullptr;
 
         // Type 1 must fully contain Type 2
         uint uiType1(itFind->second.GetBaseType());
@@ -467,11 +467,11 @@ public:
             (GET_ENTITY_BASE_TYPE2(uiType2) != 0 && GET_ENTITY_BASE_TYPE2(uiType1) != GET_ENTITY_BASE_TYPE2(uiType2)) ||
             (GET_ENTITY_BASE_TYPE3(uiType2) != 0 && GET_ENTITY_BASE_TYPE3(uiType1) != GET_ENTITY_BASE_TYPE3(uiType2)) ||
             (GET_ENTITY_BASE_TYPE4(uiType2) != 0 && GET_ENTITY_BASE_TYPE4(uiType1) != GET_ENTITY_BASE_TYPE4(uiType2)))
-            return NULL;
+            return nullptr;
 
         CEntityDefinitionResource *pResource(GetEntityDef(itFind->second.GetDefinitionHandle()));
-        if (pResource == NULL)
-            return NULL;
+        if (pResource == nullptr)
+            return nullptr;
 
         return pResource->GetDefinition<T>();
     }

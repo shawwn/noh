@@ -16,7 +16,7 @@ class CBlockPool
     uint m_uiPow2BytesPerBlock;
 
 public:
-    CBlockPool() : m_ayBuffer(NULL), m_ayAvailable(NULL) { }
+    CBlockPool() : m_ayBuffer(nullptr), m_ayAvailable(nullptr) { }
     ~CBlockPool() { ReleaseAll(); }
 
     uint    GetElements() const             { return m_uiElements; }
@@ -24,7 +24,7 @@ public:
 
     void    Init(uint uiElements, uint uiPow2OfBytesPerBlock)
     {
-        if (m_ayBuffer != NULL)
+        if (m_ayBuffer != nullptr)
         {
             Console << _T("BlockPool already initialized.") << newl;
             return;
@@ -70,7 +70,7 @@ public:
         }
 
         // failed to allocate a block of the requested size
-        return NULL;
+        return nullptr;
     };
 
     template <typename _T>
@@ -99,7 +99,7 @@ public:
         }
 
         // failed to allocate a block of the requested size
-        return NULL;
+        return nullptr;
     };
 
     template <typename _T>

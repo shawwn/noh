@@ -206,9 +206,9 @@ void    CClip::CalcQuatKeys()
 
         cKeys.num_keys = iNumKeys;
 
-        pMotion->keys_pitch.keys = NULL;
-        pMotion->keys_roll.keys = NULL;
-        pMotion->keys_yaw.keys = NULL;
+        pMotion->keys_pitch.keys = nullptr;
+        pMotion->keys_roll.keys = nullptr;
+        pMotion->keys_yaw.keys = nullptr;
 
         pMotion->keys_pitch.num_keys = 0;
         pMotion->keys_roll.num_keys = 0;
@@ -305,7 +305,7 @@ void    CClip::FixClip()
     for (int n(0); n < int(m_vMotions.size()); ++n)
     {
         SFloatKeys *keys = &m_vMotions[n].keys_scaley;
-        if (keys->keys == NULL)
+        if (keys->keys == nullptr)
         {
             keys->keys = K2_NEW_ARRAY(ctx_Models, float, 1);
             keys->keys[0] = 1.0f;
@@ -313,7 +313,7 @@ void    CClip::FixClip()
         }
 
         keys = &m_vMotions[n].keys_scalez;
-        if (keys->keys == NULL)
+        if (keys->keys == nullptr)
         {
             keys->keys = K2_NEW_ARRAY(ctx_Models, float, 1);
             keys->keys[0] = 1.0f;

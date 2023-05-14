@@ -162,7 +162,7 @@ CSmartGameUITrigger::~CSmartGameUITrigger()
 CSmartGameUITrigger::CSmartGameUITrigger(const tstring &sName, uint uiCount) :
 m_uiCount(uiCount),
 m_bDumb(false),
-m_vTriggers(uiCount, NULL),
+m_vTriggers(uiCount, nullptr),
 m_vTriggerOwner(uiCount, false),
 m_vbValue(uiCount, false),
 m_vunValue(uiCount, 0),
@@ -180,7 +180,7 @@ m_vUpdateSequence(uiCount, uint(-1))
     {
         tstring sNameIndex(sName + ((uiCount > 1) ? XtoA(uiIndex) : TSNULL));
         m_vTriggers[uiIndex] = UITriggerRegistry.GetUITrigger(sNameIndex);
-        if (m_vTriggers[uiIndex] == NULL)
+        if (m_vTriggers[uiIndex] == nullptr)
         {
             m_vTriggers[uiIndex] = K2_NEW(ctx_GameClient,   CUITrigger)(sNameIndex);
             m_vTriggerOwner[uiIndex] = true;
@@ -301,7 +301,7 @@ tstring     XtoA(const CBuildMultiLevelText &cText)
 #define TRIGGERFN(type, pre) \
 void    CSmartGameUITrigger::Trigger(type pre##Value, uint uiIndex, uint uiUpdateSequence) \
 { \
-    if (uiIndex >= m_vTriggers.size() || m_vTriggers[uiIndex] == NULL) \
+    if (uiIndex >= m_vTriggers.size() || m_vTriggers[uiIndex] == nullptr) \
         return; \
 \
     if (!m_bDumb && m_v##pre##Value[uiIndex] == pre##Value && m_vUpdateSequence[uiIndex] == uiUpdateSequence) \
@@ -325,7 +325,7 @@ TRIGGERFN(const CBuildMultiLevelText&, mlt)
 
 void    CSmartGameUITrigger::Trigger(const tsvector& vValue, uint uiIndex, uint uiUpdateSequence)
 {
-    if (uiIndex >= m_vTriggers.size() || m_vTriggers[uiIndex] == NULL)
+    if (uiIndex >= m_vTriggers.size() || m_vTriggers[uiIndex] == nullptr)
         return;
 
     if (!m_bDumb && m_vvValue[uiIndex] == vValue && m_vUpdateSequence[uiIndex] == uiUpdateSequence)
@@ -342,7 +342,7 @@ void    CSmartGameUITrigger::Trigger(const tsvector& vValue, uint uiIndex, uint 
   ====================*/
 void    CSmartGameUITrigger::Execute(const tstring &sScript, uint uiIndex)
 {
-    if (uiIndex >= m_vTriggers.size() || m_vTriggers[uiIndex] == NULL)
+    if (uiIndex >= m_vTriggers.size() || m_vTriggers[uiIndex] == nullptr)
         return;
 
     m_vTriggers[uiIndex]->Execute(sScript);
@@ -365,7 +365,7 @@ CGameInterfaceManager::~CGameInterfaceManager()
     for (int i(0); i < NUM_UITRIGGERS; ++i)
         SAFE_DELETE(m_vTriggers[i]);
 
-    for (map<ResHandle, uint>::iterator it(s_mapInterfaceReferenceCount.begin()); it != s_mapInterfaceReferenceCount.end(); )
+    for (map<ResHandle, uint>::iterator it(s_mapInterfaceReferenceCount.begin()); it != s_mapInterfaceReferenceCount.end(); ) // NOLINT(modernize-use-auto)
     {
         if (it->second == 0)
         {
@@ -398,7 +398,7 @@ CGameInterfaceManager::CGameInterfaceManager() :
 m_bCursorHidden(false),
 m_bDisplayShop(false),
 m_bLockShop(false),
-m_vTriggers(NUM_UITRIGGERS, NULL),
+m_vTriggers(NUM_UITRIGGERS, nullptr),
 m_sMainInterface(_T("main")),
 m_uiUpdateSequence(0),
 m_uiLastUpdateSequence(0),
@@ -410,10 +410,10 @@ m_bEntitiesLoaded(false),
 m_uiLoadPos(0),
 m_iReplayURLTesting(-1),
 
-m_pStatsRequest(NULL),
-m_pMatchInfoRequest(NULL),
-m_pTournamentRequest(NULL),
-m_pRecentMatchesRequest(NULL),
+m_pStatsRequest(nullptr),
+m_pMatchInfoRequest(nullptr),
+m_pTournamentRequest(nullptr),
+m_pRecentMatchesRequest(nullptr),
 m_uiPrevPhase(GAME_PHASE_INVALID),
 m_uiPrevPhaseTime(INVALID_TIME),
 m_uiScoreState(0),
@@ -943,12 +943,12 @@ m_uiQueuedMatchInfoRequest(INVALID_INDEX)
     AddTrigger(UITRIGGER_SYSTEM_TIME, _T("SystemTime"));
     AddTrigger(UITRIGGER_GOLD_REPORT, _T("GoldReport"));
 
-    for (int i(0); i < MAX_DISPLAY_TEAMS; i++)
+    for (auto & m_vLastGameStatsPlayer : m_vLastGameStatsPlayers)
     {
-        for (int x(0); x < MAX_DISPLAY_PLAYERSPERTEAM; x++)
+        for (auto & x : m_vLastGameStatsPlayer)
         {
-            m_vLastGameStatsPlayers[i][x].clear();
-            m_vLastGameStatsPlayers[i][x].resize(57);
+            x.clear();
+            x.resize(57);
         }
     }
 }
@@ -988,20 +988,20 @@ void    CGameInterfaceManager::LoadMainInterfaces()
 
     tsvector vInterfaceList;
 #if TKTK // TKTK 2023: Should we try to get the fe2 UI working?
-    vInterfaceList.push_back(_T("/ui/fe2/main.interface"));
-    vInterfaceList.push_back(_T("/ui/fe2/loading.interface"));
-    vInterfaceList.push_back(_T("/ui/fe2/loading_matchmaking_preload.interface"));
-    vInterfaceList.push_back(_T("/ui/fe2/loading_matchmaking_connecting.interface"));
+    vInterfaceList.emplace_back(_T("/ui/fe2/main.interface"));
+    vInterfaceList.emplace_back(_T("/ui/fe2/loading.interface"));
+    vInterfaceList.emplace_back(_T("/ui/fe2/loading_matchmaking_preload.interface"));
+    vInterfaceList.emplace_back(_T("/ui/fe2/loading_matchmaking_connecting.interface"));
 #else
-    vInterfaceList.push_back(_T("/ui/main.interface"));
-    vInterfaceList.push_back(_T("/ui/loading.interface"));
-    vInterfaceList.push_back(_T("/ui/game_loading.interface"));
+    vInterfaceList.emplace_back(_T("/ui/main.interface"));
+    vInterfaceList.emplace_back(_T("/ui/loading.interface"));
+    vInterfaceList.emplace_back(_T("/ui/game_loading.interface"));
 #endif
-    vInterfaceList.push_back(_T("/ui/main_popup.interface"));
+    vInterfaceList.emplace_back(_T("/ui/main_popup.interface"));
 
-    for (tsvector_it it(vInterfaceList.begin()); it != vInterfaceList.end(); ++it)
+    for (tstring & sFilename : vInterfaceList)
     {
-        ResHandle hInterface(UIManager.LoadInterface(*it));
+        ResHandle hInterface(UIManager.LoadInterface(sFilename));
         if (hInterface != INVALID_RESOURCE)
             ++s_mapInterfaceReferenceCount[hInterface];
     }
@@ -1047,14 +1047,14 @@ void    CGameInterfaceManager::UpdateLobby()
 
     CPlayer *pLocalPlayer(GameClient.GetLocalPlayer());
 
-    bool bIsHost(pLocalPlayer != NULL && pLocalPlayer->HasFlags(PLAYER_FLAG_HOST));
+    bool bIsHost(pLocalPlayer != nullptr && pLocalPlayer->HasFlags(PLAYER_FLAG_HOST));
 
     // Lobby status
     static tsvector vStatus(4);
     vStatus[0] = XtoA(GameClient.GetGamePhase() == GAME_PHASE_IDLE && GameClient.IsConnected());    // Is server idle TODO: Handle this better, somehow...
     vStatus[1] = XtoA(bIsHost); // Is host
-    vStatus[2] = XtoA(Game.GetGameInfo() != NULL && Game.GetGameInfo()->HasGameOptions(GAME_OPTION_AUTOBALANCE_TEAMS)); // Don't show locking for autobalance mode
-    vStatus[3] = XtoA(Game.GetGameInfo() != NULL && !Game.GetGameInfo()->HasGameOptions(GAME_OPTION_TOURNAMENT_RULES)); // Don't allow tournament rules games to be made public.
+    vStatus[2] = XtoA(Game.GetGameInfo() != nullptr && Game.GetGameInfo()->HasGameOptions(GAME_OPTION_AUTOBALANCE_TEAMS)); // Don't show locking for autobalance mode
+    vStatus[3] = XtoA(Game.GetGameInfo() != nullptr && !Game.GetGameInfo()->HasGameOptions(GAME_OPTION_TOURNAMENT_RULES)); // Don't allow tournament rules games to be made public.
     Trigger(UITRIGGER_LOBBY_STATUS, vStatus);
 
     static tsvector vCountdown(2);
@@ -1085,10 +1085,10 @@ void    CGameInterfaceManager::UpdateLobby()
     // Spectators
     uint uiRefereeCount(0);
     CTeamInfo *pTeam(GameClient.GetTeam(TEAM_SPECTATOR));
-    if (pTeam != NULL)
+    if (pTeam != nullptr)
     {
         // Team info
-        vTeamInfo[0] = XtoA(pLocalPlayer == NULL ? false : bAllowTeamChanges && pTeam->CanJoinTeam(pLocalPlayer->GetClientNumber()));   // Can join
+        vTeamInfo[0] = XtoA(pLocalPlayer != nullptr && bAllowTeamChanges && pTeam->CanJoinTeam(pLocalPlayer->GetClientNumber()));   // Can join
         vTeamInfo[1] = XtoA(pTeam->GetNumClients());                                                            // Player count
         vTeamInfo[2] = XtoA(GameClient.GetMaxSpectators());                                                     // Max players
         vTeamInfo[3] = XtoA(0);                                                                                 // Win chance
@@ -1101,8 +1101,8 @@ void    CGameInterfaceManager::UpdateLobby()
             bRosterChanged = true;
             pTeam->AckowledgeRosterChange();
 
-            for (tsvector_it it(vPlayerInfo.begin()); it != vPlayerInfo.end(); ++it)
-                it->clear();
+            for (auto & it : vPlayerInfo)
+                it.clear();
             vPlayerInfo[0] = _T("-1");
             Trigger(UITRIGGER_LOBBY_SPECTATORS, vPlayerInfo);
 
@@ -1110,16 +1110,16 @@ void    CGameInterfaceManager::UpdateLobby()
             for (uint uiTeamIndex(0); uiTeamIndex < pTeam->GetTeamSize(); ++uiTeamIndex)
             {
                 CPlayer *pPlayer(pTeam->GetPlayer(uiTeamIndex));
-                if (pPlayer == NULL || pPlayer->IsDisconnected())
+                if (pPlayer == nullptr || pPlayer->IsDisconnected())
                     continue;
 
                 vPlayerInfo[0] = XtoA(pPlayer->GetClientNumber());                                                                  // Client number
                 vPlayerInfo[1] = pPlayer->GetName();                                                                                // Name
                 vPlayerInfo[2] = XtoA(pPlayer->GetColor());                                                                         // Color
                 vPlayerInfo[3] = XtoA(pPlayer->HasFlags(PLAYER_FLAG_HOST));                                                         // Is host
-                vPlayerInfo[4] = XtoA(pPlayer->CanBeKicked() && pLocalPlayer != NULL && pLocalPlayer->CanKick());                   // Can be kicked
+                vPlayerInfo[4] = XtoA(pPlayer->CanBeKicked() && pLocalPlayer != nullptr && pLocalPlayer->CanKick());                   // Can be kicked
                 vPlayerInfo[5] = XtoA(pPlayer->IsReferee());                                                                        // Is referee
-                vPlayerInfo[6] = XtoA(pLocalPlayer != NULL && pLocalPlayer->HasFlags(PLAYER_FLAG_HOST) && pPlayer != pLocalPlayer); // Can be promoted
+                vPlayerInfo[6] = XtoA(pLocalPlayer != nullptr && pLocalPlayer->HasFlags(PLAYER_FLAG_HOST) && pPlayer != pLocalPlayer); // Can be promoted
                 vPlayerInfo[7] = pPlayer->GetColorName();                                                                           // Color name
                 vPlayerInfo[8] = XtoA(pPlayer == pLocalPlayer);                                                                     // Is local player
                 vPlayerInfo[9] = XtoA(pPlayer->GetAccountID());                                                                     // Account ID
@@ -1136,8 +1136,8 @@ void    CGameInterfaceManager::UpdateLobby()
             }
 
             // Trigger empty settings if not all ref slots are full
-            for (tsvector_it it(vReferee.begin()); it != vReferee.end(); ++it)
-                it->clear();
+            for (auto & it : vReferee)
+                it.clear();
             vReferee[0] = _T("-1");
             for (uint ui(uiRefereeCount); ui < MAX_TOTAL_REFEREES; ++ui)
                 Trigger(UITRIGGER_LOBBY_REFEREE, vReferee, ui);
@@ -1167,7 +1167,7 @@ void    CGameInterfaceManager::UpdateLobby()
     for (uint uiTeam(1); uiTeam <= 2; ++uiTeam)
     {
         CTeamInfo *pTeam(GameClient.GetTeam(uiTeam));
-        if (pTeam == NULL)
+        if (pTeam == nullptr)
         {
             // Team info
             vTeamInfo[0] = XtoA(false);                         // Can join
@@ -1188,7 +1188,7 @@ void    CGameInterfaceManager::UpdateLobby()
                 vPlayerInfo[7] = CPlayer::GetColorName(uiPlayerIndex);
                 vPlayerInfo[15] = XtoA(false);
                 vPlayerInfo[17] = XtoA(pLocalPlayer ? pLocalPlayer->HasFlags(PLAYER_FLAG_HOST) : false);
-                vPlayerInfo[21] = XtoA(Game.GetGameInfo() != NULL && Game.GetGameInfo()->HasGameOptions(GAME_OPTION_AUTOBALANCE_TEAMS));
+                vPlayerInfo[21] = XtoA(Game.GetGameInfo() != nullptr && Game.GetGameInfo()->HasGameOptions(GAME_OPTION_AUTOBALANCE_TEAMS));
                 Trigger(UITRIGGER_LOBBY_PLAYER_INFO, vPlayerInfo, uiPlayerIndex);
                 ++uiPlayerIndex;
 
@@ -1205,7 +1205,7 @@ void    CGameInterfaceManager::UpdateLobby()
             bRosterChanged = true;
         }
 
-        bool bCanJoinTeam(pLocalPlayer == NULL ? false : bAllowTeamChanges && pTeam->CanJoinTeam(pLocalPlayer->GetClientNumber()));
+        bool bCanJoinTeam(pLocalPlayer == nullptr ? false : bAllowTeamChanges && pTeam->CanJoinTeam(pLocalPlayer->GetClientNumber()));
 
         // Team info
         vTeamInfo[0] = XtoA(bCanJoinTeam);                                      // Can join
@@ -1220,7 +1220,7 @@ void    CGameInterfaceManager::UpdateLobby()
         for (uint uiTeamIndex(0); uiTeamIndex < MAX_DISPLAY_PLAYERSPERTEAM; ++uiTeamIndex)
         {
             CPlayer *pPlayer(pTeam->GetPlayer(uiTeamIndex));
-            if (pPlayer == NULL)
+            if (pPlayer == nullptr)
             {
                 for (tsvector_it it(vPlayerInfo.begin()); it != vPlayerInfo.end(); ++it)
                     it->clear();
@@ -1229,7 +1229,7 @@ void    CGameInterfaceManager::UpdateLobby()
                 vPlayerInfo[7] = CPlayer::GetColorName(uiPlayerIndex);
                 vPlayerInfo[15] = XtoA(pTeam->IsSlotLocked(uiTeamIndex));
                 vPlayerInfo[17] = XtoA(pLocalPlayer ? pLocalPlayer->HasFlags(PLAYER_FLAG_HOST) : false);
-                vPlayerInfo[21] = XtoA(Game.GetGameInfo() != NULL && Game.GetGameInfo()->HasGameOptions(GAME_OPTION_AUTOBALANCE_TEAMS));
+                vPlayerInfo[21] = XtoA(Game.GetGameInfo() != nullptr && Game.GetGameInfo()->HasGameOptions(GAME_OPTION_AUTOBALANCE_TEAMS));
                 Trigger(UITRIGGER_LOBBY_PLAYER_INFO, vPlayerInfo, uiPlayerIndex);
                 ++uiPlayerIndex;
 
@@ -1242,9 +1242,9 @@ void    CGameInterfaceManager::UpdateLobby()
             vPlayerInfo[1] = pPlayer->GetName();                                                                                // Name
             vPlayerInfo[2] = XtoA(pPlayer->GetColor());                                                                         // Color
             vPlayerInfo[3] = XtoA(pPlayer->HasFlags(PLAYER_FLAG_HOST));                                                         // Is host
-            vPlayerInfo[4] = XtoA(pPlayer->CanBeKicked() && pLocalPlayer != NULL && pLocalPlayer->CanKick());                   // Can be kicked
+            vPlayerInfo[4] = XtoA(pPlayer->CanBeKicked() && pLocalPlayer != nullptr && pLocalPlayer->CanKick());                   // Can be kicked
             vPlayerInfo[5] = XtoA(pPlayer->IsReferee());                                                                        // Is referee
-            vPlayerInfo[6] = XtoA(pLocalPlayer != NULL && pLocalPlayer->HasFlags(PLAYER_FLAG_HOST) && pPlayer != pLocalPlayer); // Can be promoted
+            vPlayerInfo[6] = XtoA(pLocalPlayer != nullptr && pLocalPlayer->HasFlags(PLAYER_FLAG_HOST) && pPlayer != pLocalPlayer); // Can be promoted
             vPlayerInfo[7] = pPlayer->GetColorName();                                                                           // Color
             vPlayerInfo[8] = XtoA(pPlayer == pLocalPlayer);                                                                     // Is local player
             vPlayerInfo[9] = XtoA(pPlayer->GetAccountID());                                                                     // Account ID
@@ -1259,7 +1259,7 @@ void    CGameInterfaceManager::UpdateLobby()
             vPlayerInfo[18] = XtoA(pLocalPlayer ? pLocalPlayer->GetTeam() == uiTeam: false);                                    // Is local player on this team
             vPlayerInfo[19] = XtoA(pPlayer->HasFlags(PLAYER_FLAG_STAFF));
             vPlayerInfo[20] = XtoA(pPlayer->HasFlags(PLAYER_FLAG_PREMIUM));
-            vPlayerInfo[21] = XtoA(Game.GetGameInfo() != NULL && Game.GetGameInfo()->HasGameOptions(GAME_OPTION_AUTOBALANCE_TEAMS));    // Don't show locking for autobalance mode
+            vPlayerInfo[21] = XtoA(Game.GetGameInfo() != nullptr && Game.GetGameInfo()->HasGameOptions(GAME_OPTION_AUTOBALANCE_TEAMS));    // Don't show locking for autobalance mode
                 //Extra Account info
             vPlayerInfo[22] = XtoA(pPlayer->GetAccountWins());
             vPlayerInfo[23] = XtoA(pPlayer->GetAccountLosses());
@@ -1328,7 +1328,7 @@ void    CGameInterfaceManager::UpdateLobby()
                 Trigger(UITRIGGER_LOBBY_BUDDY, 0, uiPlayerIndex);
 
             // Voice status: -2 not ally, -1 muted, 0 silent, 1 talking
-            if (pLocalPlayer != NULL && pLocalPlayer->GetTeam() != pPlayer->GetTeam())
+            if (pLocalPlayer != nullptr && pLocalPlayer->GetTeam() != pPlayer->GetTeam())
                 Trigger(UITRIGGER_LOBBY_VOICE, -2, uiPlayerIndex);
             else if (VoiceManager.IsClientMuted(pPlayer->GetClientNumber()))
                 Trigger(UITRIGGER_LOBBY_VOICE, -1, uiPlayerIndex);
@@ -1387,12 +1387,12 @@ void    CGameInterfaceManager::UpdateLobby()
 
     // Fill remaining expected slots with null entries
     CGameInfo *pGameInfo(Game.GetGameInfo());
-    if (pGameInfo != NULL && pGameInfo->HasFlags(GAME_FLAG_ARRANGED))
+    if (pGameInfo != nullptr && pGameInfo->HasFlags(GAME_FLAG_ARRANGED))
     {
         CTeamInfo *pTeam1(Game.GetTeam(TEAM_1));
         CTeamInfo *pTeam2(Game.GetTeam(TEAM_2));
 
-        uint uiExpectedPlayers((pTeam1 != NULL ? pTeam1->GetTeamSize() : 0) + (pTeam2 != NULL ? pTeam2->GetTeamSize() : 0));
+        uint uiExpectedPlayers((pTeam1 != nullptr ? pTeam1->GetTeamSize() : 0) + (pTeam2 != nullptr ? pTeam2->GetTeamSize() : 0));
 
         for (uint ui(uiPlayerMapIndex); ui < uiExpectedPlayers; ++ui)
         {
@@ -1420,17 +1420,17 @@ void    CGameInterfaceManager::UpdateLobby()
         Trigger(UITRIGGER_LOBBY_PLAYER_LIST, vPlayerList, ui);
 
     static tsvector vGameInfo(12);
-    vGameInfo[0] = pGameInfo == NULL ? TSNULL : CGameInfo::GetGameModeString(pGameInfo->GetGameMode());
-    vGameInfo[1] = pGameInfo == NULL ? TSNULL : CGameInfo::GetGameOptionsString(pGameInfo->GetGameOptions());
-    vGameInfo[2] = pGameInfo == NULL ? TSNULL : pGameInfo->HasFlags(GAME_FLAG_SOLO) ? GameClient.GetGameMessage(_CTS("game_info_practice")) : pGameInfo->GetServerName();
-    vGameInfo[3] = GameClient.GetWorldPointer() == NULL ? TSNULL : GameClient.GetWorldPointer()->GetFancyName();
+    vGameInfo[0] = pGameInfo == nullptr ? TSNULL : CGameInfo::GetGameModeString(pGameInfo->GetGameMode());
+    vGameInfo[1] = pGameInfo == nullptr ? TSNULL : CGameInfo::GetGameOptionsString(pGameInfo->GetGameOptions());
+    vGameInfo[2] = pGameInfo == nullptr ? TSNULL : pGameInfo->HasFlags(GAME_FLAG_SOLO) ? GameClient.GetGameMessage(_CTS("game_info_practice")) : pGameInfo->GetServerName();
+    vGameInfo[3] = GameClient.GetWorldPointer() == nullptr ? TSNULL : GameClient.GetWorldPointer()->GetFancyName();
     vGameInfo[4] = XtoA(GameClient.GetConnectedClientCount());
-    vGameInfo[5] = pGameInfo == NULL ? TSNULL : pGameInfo->HasFlags(GAME_FLAG_SOLO) ? XtoA(1) : XtoA(pGameInfo->GetTeamSize() * 2 + pGameInfo->GetMaxSpectators() + pGameInfo->GetMaxReferees());
-    vGameInfo[6] = pLocalPlayer == NULL ? TSNULL : XtoA(pLocalPlayer->GetPing());
-    vGameInfo[7] = pGameInfo == NULL ? TSNULL : pGameInfo->GetGameName();
-    vGameInfo[8] = XtoA(pGameInfo == NULL ? -1 : int(pGameInfo->GetMatchID()));
+    vGameInfo[5] = pGameInfo == nullptr ? TSNULL : pGameInfo->HasFlags(GAME_FLAG_SOLO) ? XtoA(1) : XtoA(pGameInfo->GetTeamSize() * 2 + pGameInfo->GetMaxSpectators() + pGameInfo->GetMaxReferees());
+    vGameInfo[6] = pLocalPlayer == nullptr ? TSNULL : XtoA(pLocalPlayer->GetPing());
+    vGameInfo[7] = pGameInfo == nullptr ? TSNULL : pGameInfo->GetGameName();
+    vGameInfo[8] = XtoA(pGameInfo == nullptr ? -1 : int(pGameInfo->GetMatchID()));
     vGameInfo[9] = sHost;
-    vGameInfo[10] = XtoA(Game.GetGameInfo() != NULL && Game.GetGameInfo()->HasGameOptions(GAME_OPTION_AUTOBALANCE_TEAMS));  // Don't show locking for autobalance mode
+    vGameInfo[10] = XtoA(Game.GetGameInfo() != nullptr && Game.GetGameInfo()->HasGameOptions(GAME_OPTION_AUTOBALANCE_TEAMS));  // Don't show locking for autobalance mode
     vGameInfo[11] = GameClient.GetServerVersion();
     Trigger(UITRIGGER_LOBBY_GAME_INFO, vGameInfo);
 }
@@ -1471,13 +1471,13 @@ void    CGameInterfaceManager::UpdateHeroSelect()
     Trigger(UITRIGGER_HERO_SELECT_TIMER, vTimer);
 
     CPlayer *pLocalPlayer(GameClient.GetLocalPlayer());
-    if (pLocalPlayer == NULL)
+    if (pLocalPlayer == nullptr)
         return;
 
     // Match settings
     static tsvector vGeneralInfo(16);
     CGameInfo *pGameInfo(Game.GetGameInfo());
-    if (pGameInfo == NULL)
+    if (pGameInfo == nullptr)
     {
         for (tsvector_it it(vGeneralInfo.begin()); it != vGeneralInfo.end(); ++it)
             it->clear();
@@ -1535,7 +1535,7 @@ void    CGameInterfaceManager::UpdateHeroSelect()
     for (uint uiTeam(1); uiTeam <= 2; ++uiTeam)
     {
         CTeamInfo *pTeam(GameClient.GetTeam(uiTeam));
-        if (pTeam == NULL)
+        if (pTeam == nullptr)
             continue;
 
         Trigger(UITRIGGER_HERO_SELECT_EXTRA_TIME, pTeam->GetStat(TEAM_STAT_TOWER_KILLS), uiTeam - 1);
@@ -1545,7 +1545,7 @@ void    CGameInterfaceManager::UpdateHeroSelect()
         for (uint uiTeamIndex(0); uiTeamIndex < MAX_DISPLAY_PLAYERSPERTEAM; ++uiTeamIndex)
         {
             CPlayer *pPlayer(GameClient.GetPlayer(pTeam->GetClientIDFromTeamIndex(uiTeamIndex)));
-            if (pPlayer == NULL)
+            if (pPlayer == nullptr)
             {
                 for (tsvector_it it(vPlayerInfo.begin()); it != vPlayerInfo.end(); ++it)
                     it->clear();
@@ -1559,14 +1559,14 @@ void    CGameInterfaceManager::UpdateHeroSelect()
             bool bIsPotentialHero(false);
             CHeroDefinition *pHeroDef(EntityRegistry.GetDefinition<CHeroDefinition>(pPlayer->GetSelectedHero()));
             CHeroDefinition *pBaseHeroDef(pHeroDef);
-            if (pHeroDef == NULL)
+            if (pHeroDef == nullptr)
             {
                 pHeroDef = (EntityRegistry.GetDefinition<CHeroDefinition>(pPlayer->GetPotentialHero()));
-                if (pHeroDef != NULL)
+                if (pHeroDef != nullptr)
                     bIsPotentialHero = true;
             }
 
-            if (pHeroDef != NULL && pPlayer->HasSelectedAvatar())
+            if (pHeroDef != nullptr && pPlayer->HasSelectedAvatar())
                 pHeroDef = static_cast<CHeroDefinition*>(pHeroDef->GetModifiedDefinition(pPlayer->GetSelectedAvatar()));
 
             vPlayerInfo[0] = XtoA(uiTeamIndex);                                             // Team index
@@ -1597,7 +1597,7 @@ void    CGameInterfaceManager::UpdateHeroSelect()
             vPlayerInfo[25] = XtoA(bIsPotentialHero);                                       // Is Potential Hero
             vPlayerInfo[26] = XtoA(pPlayer->HasSelectedHero());                             // Has selected a hero
             vPlayerInfo[27] = XtoA(pBaseHeroDef ? pBaseHeroDef->HasAltAvatars() : false);   // Has alt avatars
-            vPlayerInfo[28] = XtoA(pHeroDef == NULL && pPlayer->GetBlindPick());            // Blind pick?
+            vPlayerInfo[28] = XtoA(pHeroDef == nullptr && pPlayer->GetBlindPick());            // Blind pick?
             Trigger(UITRIGGER_HERO_SELECT_PLAYER_INFO, vPlayerInfo, uiPlayerIndex);
 
             ++uiPlayerIndex;
@@ -1638,7 +1638,7 @@ void    CGameInterfaceManager::UpdateHeroSelect()
             byte yStatus(uiHeroIndex >= vHeroList.size() ? HERO_LIST_NOT_AVAILABLE : vHeroList[uiHeroIndex].second);
 
             CHeroDefinition *pDefinition(EntityRegistry.GetDefinition<CHeroDefinition>(unHeroID));
-            if (pDefinition == NULL)
+            if (pDefinition == nullptr)
             {
                 for (tsvector_it it(vHero.begin()); it != vHero.end(); ++it)
                     it->clear();
@@ -1690,11 +1690,11 @@ void    CGameInterfaceManager::UpdateHeroSelect()
                     break;
                 }
 
-                CAbilityDefinition *pAbility(NULL);
+                CAbilityDefinition *pAbility(nullptr);
 
 #define ABILITY_INFO(index) \
                 pAbility = EntityRegistry.GetDefinition<CAbilityDefinition>(pDefinition->GetInventory##index(0)); \
-                if (pAbility != NULL) \
+                if (pAbility != nullptr) \
                 { \
                     vHero[13 + ((index) * 4)] = pAbility->GetDisplayName(); \
                     vHero[14 + ((index) * 4)] = pAbility->GetIconPath(0); \
@@ -1744,7 +1744,7 @@ void    CGameInterfaceManager::UpdateHeroSelect()
     }
 
     CHeroDefinition *pBaseDefinition(EntityRegistry.GetDefinition<CHeroDefinition>(unAvatarHero));
-    if (pBaseDefinition != NULL)
+    if (pBaseDefinition != nullptr)
     {
         // Base definition
         {
@@ -1839,7 +1839,7 @@ void    CGameInterfaceManager::UpdateHeroSelect()
 #if 0
             SAvatarInfo avatarInfo;
 
-            if (pAvatarInfo == NULL)
+            if (pAvatarInfo == nullptr)
             {
                 avatarInfo.sName = pAltDefinition->GetName() + _T(".") + sModifierName;
                 avatarInfo.sCName = pAltDefinition->GetName() + _T(".") + sModifierName;
@@ -1848,7 +1848,7 @@ void    CGameInterfaceManager::UpdateHeroSelect()
                 pAvatarInfo = &avatarInfo;
             }
 #else
-            if (pAvatarInfo == NULL)
+            if (pAvatarInfo == nullptr)
                 continue;
 #endif
 
@@ -1922,7 +1922,7 @@ void    CGameInterfaceManager::UpdateScores()
     for (uint uiTeam(0); uiTeam < MAX_DISPLAY_TEAMS; ++uiTeam)
     {
         CTeamInfo *pTeam(GameClient.GetTeam(uiTeam + 1));
-        if (pTeam == NULL)
+        if (pTeam == nullptr)
             continue;
 
         int iTotalPlayers(0);
@@ -1934,11 +1934,11 @@ void    CGameInterfaceManager::UpdateScores()
         {
             CPlayer *pClient(GameClient.GetPlayer(pTeam->GetClientIDFromTeamIndex(uiPlayer)));
 
-            if (pClient == NULL)
+            if (pClient == nullptr)
                 continue;
 
             IHeroEntity *pHero(pClient->GetHero());
-            if (pHero == NULL)
+            if (pHero == nullptr)
             {
                 vPlayer[0] = pClient->GetName();
                 vPlayer[1] = _T("No hero");
@@ -2008,11 +2008,11 @@ void    CGameInterfaceManager::UpdateScores()
 void    CGameInterfaceManager::UpdateVoiceChat()
 {
     CPlayer *pLocalPlayer(Game.GetLocalPlayer());
-    if (pLocalPlayer == NULL)
+    if (pLocalPlayer == nullptr)
         return;
 
     CTeamInfo *pTeam(Game.GetTeam(pLocalPlayer->GetTeam()));
-    if (pTeam == NULL || !pTeam->IsActiveTeam())
+    if (pTeam == nullptr || !pTeam->IsActiveTeam())
         return;
 
     for (uint uiPlayerTeamIndex(0); uiPlayerTeamIndex < MAX_DISPLAY_PLAYERSPERTEAM; ++uiPlayerTeamIndex)
@@ -2021,7 +2021,7 @@ void    CGameInterfaceManager::UpdateVoiceChat()
 
         tsvector vParams(5);
 
-        if (pPlayer == NULL)
+        if (pPlayer == nullptr)
         {
             vParams[0] = _T("0");
             vParams[1] = _T("invisible");
@@ -2101,7 +2101,7 @@ void    CGameInterfaceManager::Update()
     CGameInfo *pGameInfo(GameClient.GetGameInfo());
 
     Trigger(UITRIGGER_HOST_TIME, Host.GetTime());
-    Trigger(UITRIGGER_MAIN_DEV, bool(cg_dev) || (pGameInfo != NULL && pGameInfo->HasFlags(GAME_FLAG_SOLO) && !pGameInfo->GetNoDev()));
+    Trigger(UITRIGGER_MAIN_DEV, bool(cg_dev) || (pGameInfo != nullptr && pGameInfo->HasFlags(GAME_FLAG_SOLO) && !pGameInfo->GetNoDev()));
 
     UpdateCursor();
 
@@ -2154,11 +2154,11 @@ void    CGameInterfaceManager::Update()
 
     uint uiTeam(0);
     CPlayer *pLocalPlayer(GameClient.GetLocalPlayer());
-    if (pLocalPlayer != NULL)
+    if (pLocalPlayer != nullptr)
         uiTeam = pLocalPlayer->GetTeam();
 
     ChatManager.SetPrivateGame(GameClient.GetServerAccess() != ACCESS_PUBLIC);
-    ChatManager.SetHost(pLocalPlayer != NULL && pLocalPlayer->HasFlags(PLAYER_FLAG_HOST));
+    ChatManager.SetHost(pLocalPlayer != nullptr && pLocalPlayer->HasFlags(PLAYER_FLAG_HOST));
 
     switch (m_eCurrentInterface)
     {
@@ -2275,8 +2275,8 @@ void    CGameInterfaceManager::Update()
     if (Game.GetGameTime() - m_uiLastBuildingAttackAlertTime > cg_buildingAttackAlertTime)
     {
         tsvector vParams;
-        vParams.push_back(_T("false"));
-        vParams.push_back(_T(""));
+        vParams.emplace_back(_T("false"));
+        vParams.emplace_back(_T(""));
         Trigger(UITRIGGER_BUILDING_ATTACK_ALERT, vParams);
     }
 
@@ -2490,12 +2490,12 @@ void    CGameInterfaceManager::UpdateLogin()
     CGameInfo *pGameInfo(Game.GetGameInfo());
 
     // Don't display lobbies in arranged matches
-    if (pGameInfo != NULL && pGameInfo->HasFlags(GAME_FLAG_ARRANGED) && Game.GetGamePhase() == GAME_PHASE_WAITING_FOR_PLAYERS)
+    if (pGameInfo != nullptr && pGameInfo->HasFlags(GAME_FLAG_ARRANGED) && Game.GetGamePhase() == GAME_PHASE_WAITING_FOR_PLAYERS)
         Trigger(UITRIGGER_GAME_PHASE, GAME_PHASE_IDLE);
     else
         Trigger(UITRIGGER_GAME_PHASE, Game.GetGamePhase());
 
-    if (pGameInfo != NULL && pGameInfo->HasFlags(GAME_FLAG_ARRANGED))
+    if (pGameInfo != nullptr && pGameInfo->HasFlags(GAME_FLAG_ARRANGED))
         Trigger(UITRIGGER_TMM_GAME_PHASE, Game.GetGamePhase());
     else
         Trigger(UITRIGGER_TMM_GAME_PHASE, GAME_PHASE_IDLE);
@@ -2550,7 +2550,7 @@ void    CGameInterfaceManager::UpdateGameOver()
     // Match info
     tsvector vMatchInfo(6);
     CGameInfo *pGameInfo(GameClient.GetGameInfo());
-    if (pGameInfo == NULL)
+    if (pGameInfo == nullptr)
     {
         for (tsvector_it it(vMatchInfo.begin()); it != vMatchInfo.end(); ++it)
             it->clear();
@@ -2574,10 +2574,10 @@ void    CGameInterfaceManager::UpdateGameOver()
             it->clear();
 
         CTeamInfo *pTeam(GameClient.GetTeam(uiTeam));
-        if (pTeam == NULL)
+        if (pTeam == nullptr)
             continue;
 
-        vTeamStats[0] = XtoA(pGameInfo == NULL ? 0 : pGameInfo->GetMatchLength());  // Time
+        vTeamStats[0] = XtoA(pGameInfo == nullptr ? 0 : pGameInfo->GetMatchLength());  // Time
         vTeamStats[1] = XtoA(pTeam->GetTotalExperience());                          // Experience
         vTeamStats[2] = XtoA(pTeam->GetTotalDeaths());                              // Deaths
         vTeamStats[3] = XtoA(pTeam->GetTotalHeroKills());                           // Hero Kills
@@ -2615,7 +2615,7 @@ void    CGameInterfaceManager::UpdateGameOver()
             vPlayerStats[0] = _T("-1");
 
             CPlayer *pPlayer(pTeam->GetPlayer(uiPlayerTeamIndex));
-            if (pPlayer != NULL)
+            if (pPlayer != nullptr)
             {
                 vPlayerStats[0] = XtoA(pPlayer->GetClientNumber());             // Client number
                 vPlayerStats[1] = XtoA(pPlayer == GameClient.GetLocalPlayer()); // Is local player
@@ -2631,7 +2631,7 @@ void    CGameInterfaceManager::UpdateGameOver()
                 }
 
                 CGameStats *pStats(pPlayer->GetStats());
-                if (pStats != NULL)
+                if (pStats != nullptr)
                 {
                     vPlayerStats[6] = XtoA(pStats->GetHeroKills());     // Hero kills
                     vPlayerStats[7] = XtoA(pStats->GetDeaths());        // Deaths
@@ -2658,7 +2658,7 @@ void    CGameInterfaceManager::UpdateGameMenu()
     static tsvector vPlayerInfo(18);
 
     CPlayer *pLocalPlayer(Game.GetLocalPlayer());
-    if (pLocalPlayer == NULL)
+    if (pLocalPlayer == nullptr)
         return;
 
     Trigger(UITRIGGER_CAN_LEAVE, Game.CanLeave(pLocalPlayer->GetTeam()));
@@ -2666,12 +2666,12 @@ void    CGameInterfaceManager::UpdateGameMenu()
     for (int iTeam(1); iTeam <= 2; ++iTeam)
     {
         CTeamInfo *pTeam(Game.GetTeam(iTeam));
-        if (pTeam != NULL)
+        if (pTeam != nullptr)
         {
             for (uint uiTeamIndex(0); uiTeamIndex < MAX_DISPLAY_PLAYERSPERTEAM; ++uiTeamIndex)
             {
                 CPlayer *pPlayer(pTeam->GetPlayer(uiTeamIndex));
-                if (pPlayer == NULL)
+                if (pPlayer == nullptr)
                 {
                     vPlayerInfo[0] = _T("-1");
                     Trigger(UITRIGGER_MENU_PLAYER_INFO, vPlayerInfo, ((iTeam - 1) * MAX_DISPLAY_PLAYERSPERTEAM) + uiTeamIndex);
@@ -3029,7 +3029,7 @@ void    CGameInterfaceManager::BuildBonusesString(CStateDefinition *pDefinition,
     }
 
     IEntityDefinition *pModifiedDefinition(pDefinition->GetModifiedDefinition(uiModifier));
-    if (pModifiedDefinition != NULL)
+    if (pModifiedDefinition != nullptr)
         pDefinition = static_cast<CStateDefinition *>(pModifiedDefinition);
 
     sStr.clear();
@@ -3246,7 +3246,7 @@ void    CGameInterfaceManager::BuildBonusesString(CStateDefinition *pDefinition,
 void    CGameInterfaceManager::BuildMultiLevelBonusesString(ISlaveEntity *pSlave, tstring &sStr, int &iLines)
 {
     ISlaveDefinition *pDefinition(pSlave->GetDefinition<ISlaveDefinition>());
-    if (pDefinition == NULL)
+    if (pDefinition == nullptr)
         return;
 
     uint uiLevel(pSlave->GetLevel());
@@ -3280,7 +3280,7 @@ void    CGameInterfaceManager::BuildMultiLevelBonusesString(ISlaveDefinition *pD
     }
 
     IEntityDefinition *pModifiedDefinition(pDefinition->GetModifiedDefinition(uiModifier));
-    if (pModifiedDefinition != NULL)
+    if (pModifiedDefinition != nullptr)
         pDefinition = static_cast<ISlaveDefinition *>(pModifiedDefinition);
 
     uint uiLevelIndex(MAX(1u, uiLevel) - 1);
@@ -3781,12 +3781,12 @@ void    CGameInterfaceManager::UpdateActiveInventory(IUnitEntity *pUnit, int iSt
     PROFILE("CGameInterfaceManager::UpdateActiveInventory");
 
     CClientCommander *pCommander(GameClient.GetClientCommander());
-    if (pCommander == NULL)
+    if (pCommander == nullptr)
         return;
 
     CPlayer *pLocalPlayer(GameClient.GetLocalPlayer());
 
-    if (pUnit == NULL)
+    if (pUnit == nullptr)
     {
         for (int iSlot(iStartSlot); iSlot <= iEndSlot; ++iSlot)
         {
@@ -3809,14 +3809,14 @@ void    CGameInterfaceManager::UpdateActiveInventory(IUnitEntity *pUnit, int iSt
         if (iSlot < INVENTORY_START_STATES || iSlot > INVENTORY_END_STATES)
             iDisplaySlot = iSlot;
 
-        if (pSlave != NULL && pSlave->IsAbility() && pSlave->GetAsAbility()->GetSubSlot() != -1)
+        if (pSlave != nullptr && pSlave->IsAbility() && pSlave->GetAsAbility()->GetSubSlot() != -1)
         {
             int iSubSlot(pSlave->GetAsAbility()->GetSubSlot());
             pSlave = pUnit->GetSlave(iSubSlot);
             pTool = pUnit->GetTool(iSubSlot);
         }
 
-        if (pSlave == NULL)
+        if (pSlave == nullptr)
         {
             Trigger(UITRIGGER_ACTIVE_INVENTORY_EXISTS, false, iDisplaySlot);
             Trigger(UITRIGGER_ACTIVE_INVENTORY_INTERFACE, _CTS("single"), iDisplaySlot);
@@ -3825,7 +3825,7 @@ void    CGameInterfaceManager::UpdateActiveInventory(IUnitEntity *pUnit, int iSt
         }
 
         IEntityState *pState(pSlave->GetAsState());
-        if (pState != NULL && pState->GetIsHidden())
+        if (pState != nullptr && pState->GetIsHidden())
             continue;
 
         ISlaveDefinition *pDefinition(pSlave->GetActiveDefinition<ISlaveDefinition>());
@@ -3837,33 +3837,33 @@ void    CGameInterfaceManager::UpdateActiveInventory(IUnitEntity *pUnit, int iSt
         else
             Trigger(UITRIGGER_ACTIVE_INVENTORY_INTERFACE, _CTS("single"), iDisplaySlot);
 
-        bool bCanActive(pTool != NULL && pTool->GetActionType() != TOOL_ACTION_PASSIVE && !(pTool->GetLevel() < 1 && pTool->GetMaxLevel() > 0));
+        bool bCanActive(pTool != nullptr && pTool->GetActionType() != TOOL_ACTION_PASSIVE && !(pTool->GetLevel() < 1 && pTool->GetMaxLevel() > 0));
 
         Trigger(UITRIGGER_ACTIVE_INVENTORY_ICON, pSlave->GetIconPath(), iDisplaySlot);
-        Trigger(UITRIGGER_ACTIVE_INVENTORY_RECIPE, pTool == NULL || (!pTool->HasFlag(ENTITY_TOOL_FLAG_ASSEMBLED) && pTool->IsItem()), iDisplaySlot);
+        Trigger(UITRIGGER_ACTIVE_INVENTORY_RECIPE, pTool == nullptr || (!pTool->HasFlag(ENTITY_TOOL_FLAG_ASSEMBLED) && pTool->IsItem()), iDisplaySlot);
         Trigger(UITRIGGER_ACTIVE_INVENTORY_CAN_ACTIVATE, bCanActive, iDisplaySlot);
 
         // normal status, active, silenced, low mana, in use, level, can level up, max level
         static tsvector vStatus(12);
         vStatus[0] = XtoA(pTool ? pTool->CanActivate() : false);
-        vStatus[1] = XtoA(pTool != NULL && (pTool->HasFlag(ENTITY_TOOL_FLAG_TOGGLE_ACTIVE) || pTool->HasFlag(ENTITY_TOOL_FLAG_CHANNEL_ACTIVE)));
+        vStatus[1] = XtoA(pTool != nullptr && (pTool->HasFlag(ENTITY_TOOL_FLAG_TOGGLE_ACTIVE) || pTool->HasFlag(ENTITY_TOOL_FLAG_CHANNEL_ACTIVE)));
         vStatus[2] = XtoA(pTool ? (pTool->IsDisabled() || (pUnit->IsStunned() && !pTool->GetNoStun())) : false);
-        vStatus[3] = XtoA(pTool != NULL && !pUnit->IsFreeCast() && ((pTool->GetManaCost() != 0.0f && pTool->GetManaCost() > pUnit->GetMana()) || (pTool->GetTriggeredManaCost() != 0.0f && pTool->GetTriggeredManaCost() > pUnit->GetMana()) || pTool->HasFlag(ENTITY_TOOL_FLAG_INVALID_COST) || !pTool->CheckTriggeredCost()) && pUnit->GetStatus() == ENTITY_STATUS_ACTIVE);
-        vStatus[4] = XtoA(pTool != NULL && pTool->HasFlag(ENTITY_TOOL_FLAG_IN_USE));
+        vStatus[3] = XtoA(pTool != nullptr && !pUnit->IsFreeCast() && ((pTool->GetManaCost() != 0.0f && pTool->GetManaCost() > pUnit->GetMana()) || (pTool->GetTriggeredManaCost() != 0.0f && pTool->GetTriggeredManaCost() > pUnit->GetMana()) || pTool->HasFlag(ENTITY_TOOL_FLAG_INVALID_COST) || !pTool->CheckTriggeredCost()) && pUnit->GetStatus() == ENTITY_STATUS_ACTIVE);
+        vStatus[4] = XtoA(pTool != nullptr && pTool->HasFlag(ENTITY_TOOL_FLAG_IN_USE));
         vStatus[5] = XtoA(pSlave->GetLevel());
-        vStatus[6] = XtoA(pTool != NULL && pTool->CanLevelUp());
+        vStatus[6] = XtoA(pTool != nullptr && pTool->CanLevelUp());
 
         if (pSlave->IsState())
             vStatus[7] = pSlave->GetAsState()->GetDisplayLevel() ? _CTS("1") : _CTS("0");
-        else if (pTool == NULL || (!pTool->HasFlag(ENTITY_TOOL_FLAG_ASSEMBLED) && pTool->IsItem()))
+        else if (pTool == nullptr || (!pTool->HasFlag(ENTITY_TOOL_FLAG_ASSEMBLED) && pTool->IsItem()))
             vStatus[7] = _CTS("0");
         else
             vStatus[7] = XtoA(pTool->GetMaxLevel());
 
         vStatus[8] = XtoA(pCommander->GetActiveSlot() == iSlot);
-        vStatus[9] = XtoA(pTool != NULL && pTool->IsItem() && pTool->GetAsItem()->GetAllowSharing());
-        vStatus[10] = XtoA(pTool != NULL && pTool->IsItem() && pTool->GetAsItem()->IsBorrowed());
-        vStatus[11] = XtoA(pLocalPlayer != NULL && pUnit->GetTeam() == pLocalPlayer->GetTeam());
+        vStatus[9] = XtoA(pTool != nullptr && pTool->IsItem() && pTool->GetAsItem()->GetAllowSharing());
+        vStatus[10] = XtoA(pTool != nullptr && pTool->IsItem() && pTool->GetAsItem()->IsBorrowed());
+        vStatus[11] = XtoA(pLocalPlayer != nullptr && pUnit->GetTeam() == pLocalPlayer->GetTeam());
 
         Trigger(UITRIGGER_ACTIVE_INVENTORY_STATUS, vStatus, iDisplaySlot);
 
@@ -3872,7 +3872,7 @@ void    CGameInterfaceManager::UpdateActiveInventory(IUnitEntity *pUnit, int iSt
         for (uint ui(0); ui < vState.size(); ++ui)
             vState[ui].clear();
 
-        if (pState != NULL)
+        if (pState != nullptr)
         {
             vState[0] = _CTS("true");
             vState[1] = XtoA(GameClient.IsDebuff(pState->GetEffectType()));
@@ -3889,7 +3889,7 @@ void    CGameInterfaceManager::UpdateActiveInventory(IUnitEntity *pUnit, int iSt
         vCooldown[2] = XtoA(pTool ? pTool->GetRemainingCooldownPercent() : 0.0f);
         Trigger(UITRIGGER_ACTIVE_INVENTORY_COOLDOWN, vCooldown, iDisplaySlot);
 
-        if (pTool != NULL && pTool->GetTimer() != INVALID_TIME)
+        if (pTool != nullptr && pTool->GetTimer() != INVALID_TIME)
         {
             uint uiTimer;
             if (pTool->GetTimer() > Game.GetGameTime())
@@ -3928,12 +3928,12 @@ void    CGameInterfaceManager::UpdateActiveInventory(IUnitEntity *pUnit, int iSt
         Trigger(UITRIGGER_ACTIVE_INVENTORY_DESCRIPTION_B, CBuildText(pSlave->GetDescription2Index(), MAX(1u, pSlave->GetLevel()) - 1), iDisplaySlot);
 
         vDescription[2] = XtoA(pTool ? pTool->GetManaCost() : 0.0f);
-        vDescription[3] = XtoA(pTool != NULL && pTool->IsItem() ? pTool->GetAsItem()->GetValue() : 0);
+        vDescription[3] = XtoA(pTool != nullptr && pTool->IsItem() ? pTool->GetAsItem()->GetValue() : 0);
 
         vDescription[4].clear();
         vDescription[5].clear();
 
-        if (pTool != NULL && bCanActive)
+        if (pTool != nullptr && bCanActive)
         {
             if (pTool->GetActionType() == TOOL_ACTION_TOGGLE)
                 vDescription[6] = GameClient.GetGameMessage(_CTS("action_toggle"));
@@ -3969,7 +3969,7 @@ void    CGameInterfaceManager::UpdateActiveInventory(IUnitEntity *pUnit, int iSt
             vDescription[6].clear();
         }
 
-        if (pTool != NULL)
+        if (pTool != nullptr)
         {
             vDescription[7] = Game.GetTargetSchemeDisplayName(pTool->GetTargetScheme());
             vDescription[8] = Game.GetEffectTypeString(pTool->GetCastEffectType());
@@ -3977,7 +3977,7 @@ void    CGameInterfaceManager::UpdateActiveInventory(IUnitEntity *pUnit, int iSt
             vDescription[10] = XtoA(pTool->GetTargetRadius(), 0, 0, 0, 1);
             vDescription[11] = XtoA(bCanActive);
 
-            if (pItem != NULL && !pItem->CanUse())
+            if (pItem != nullptr && !pItem->CanUse())
             {
                 CPlayer *pPurchaser(GameClient.GetPlayer(pItem->GetPurchaserClientNumber()));
 
@@ -3985,7 +3985,7 @@ void    CGameInterfaceManager::UpdateActiveInventory(IUnitEntity *pUnit, int iSt
                 s_mapTokens[_CTS("name")] = pPurchaser ? pPurchaser->GetName() : TSNULL;
                 vDescription[12] = GameClient.GetGameMessage(_CTS("activate_item_no_share"), s_mapTokens);
             }
-            else if (pItem != NULL && pItem->IsBorrowed())
+            else if (pItem != nullptr && pItem->IsBorrowed())
             {
                 CPlayer *pPurchaser(GameClient.GetPlayer(pItem->GetPurchaserClientNumber()));
 
@@ -4038,8 +4038,8 @@ void    CGameInterfaceManager::UpdateActiveInventory(IUnitEntity *pUnit, int iSt
 
         Trigger(UITRIGGER_ACTIVE_INVENTORY_DESCRIPTION, vDescription, iDisplaySlot);
 
-        Trigger(UITRIGGER_ACTIVE_INVENTORY_DURATION, pState != NULL && pState->GetExpireTime() != INVALID_TIME ? pState->GetExpireTime() - Game.GetGameTime() : 0, iDisplaySlot);
-        Trigger(UITRIGGER_ACTIVE_INVENTORY_DURATION_PERCENT, pState != NULL && pState->GetExpireTime() != INVALID_TIME ? pState->GetRemainingLifetimePercent() : 0.0f, iDisplaySlot);
+        Trigger(UITRIGGER_ACTIVE_INVENTORY_DURATION, pState != nullptr && pState->GetExpireTime() != INVALID_TIME ? pState->GetExpireTime() - Game.GetGameTime() : 0, iDisplaySlot);
+        Trigger(UITRIGGER_ACTIVE_INVENTORY_DURATION_PERCENT, pState != nullptr && pState->GetExpireTime() != INVALID_TIME ? pState->GetRemainingLifetimePercent() : 0.0f, iDisplaySlot);
 
         // Build passive bonus list
         static tsvector vPassiveEffect(2);
@@ -4050,7 +4050,7 @@ void    CGameInterfaceManager::UpdateActiveInventory(IUnitEntity *pUnit, int iSt
 
         Trigger(UITRIGGER_ACTIVE_INVENTORY_PASSIVE_EFFECT, vPassiveEffect, iDisplaySlot);
 
-        if (pTool != NULL)
+        if (pTool != nullptr)
         {
             static tsvector vHotkeys(3);
 
@@ -4058,7 +4058,7 @@ void    CGameInterfaceManager::UpdateActiveInventory(IUnitEntity *pUnit, int iSt
 
             int iAbilitySlot(-1);
             IEntityAbility *pAbility(pUnit->GetAbility(iSlot));
-            if (pAbility != NULL && pAbility->GetKeySlot() != -1)
+            if (pAbility != nullptr && pAbility->GetKeySlot() != -1)
                 iAbilitySlot = pAbility->GetKeySlot();
 
             if (iAbilitySlot == -1)
@@ -4090,11 +4090,11 @@ void    CGameInterfaceManager::UpdateActiveInventory(IUnitEntity *pUnit, int iSt
         for (int i(0); i < 7; ++i)
             vAura[i].clear();
 
-        if (pTool != NULL)
+        if (pTool != nullptr)
         {
             if (pTool->GetLevel() > 0 || pTool->GetMaxLevel() == 0)
             {
-                if (pDefinition != NULL)
+                if (pDefinition != nullptr)
                 {
                     const AuraList &cAuraList(pDefinition->GetAuraList());
 
@@ -4102,7 +4102,7 @@ void    CGameInterfaceManager::UpdateActiveInventory(IUnitEntity *pUnit, int iSt
                     {
                         CStateDefinition *pAuraStateDef(EntityRegistry.GetDefinition<CStateDefinition>(cAuraList.front().GetStateName(pTool->GetLevel())));
 
-                        if (pAuraStateDef != NULL)
+                        if (pAuraStateDef != nullptr)
                         {
                             if (cAuraList.front().GetNoTooltip())
                                 vAura[0] = _CTS("false");
@@ -4129,12 +4129,12 @@ void    CGameInterfaceManager::UpdateActiveInventory(IUnitEntity *pUnit, int iSt
         for (uint ui(0); ui < vStatusEffect.size(); ++ui)
             vStatusEffect[ui].clear();
 
-        if (pTool != NULL)
+        if (pTool != nullptr)
         {
             if (pTool->GetLevel() > 0 || pTool->GetMaxLevel() == 0)
             {
                 CStateDefinition *pStateDef(EntityRegistry.GetDefinition<CStateDefinition>(pTool->GetStatusEffectTooltip()));
-                if (pStateDef != NULL)
+                if (pStateDef != nullptr)
                 {
                     vStatusEffect[0] = pTool->GetStatusEffectHeader();
 
@@ -4150,12 +4150,12 @@ void    CGameInterfaceManager::UpdateActiveInventory(IUnitEntity *pUnit, int iSt
         for (uint ui(0); ui < vStatusEffect.size(); ++ui)
             vStatusEffect[ui].clear();
 
-        if (pTool != NULL)
+        if (pTool != nullptr)
         {
             if (pTool->GetLevel() > 0 || pTool->GetMaxLevel() == 0)
             {
                 CStateDefinition *pStateDef(EntityRegistry.GetDefinition<CStateDefinition>(pTool->GetStatusEffectTooltip2()));
-                if (pStateDef != NULL)
+                if (pStateDef != nullptr)
                 {
                     vStatusEffect[0] = pTool->GetStatusEffectHeader2();
 
@@ -4173,7 +4173,7 @@ void    CGameInterfaceManager::UpdateActiveInventory(IUnitEntity *pUnit, int iSt
         uint uiDisplayIndex(0);
         const uint NUM_DISPLAY_TRIGGERS(1);
 
-        if (pTool != NULL)
+        if (pTool != nullptr)
         {
             if (pTool->GetLevel() > 0 || pTool->GetMaxLevel() == 0)
             {
@@ -4228,10 +4228,10 @@ void    CGameInterfaceManager::UpdateHeroInventory(IUnitEntity *pUnit, int iStar
     PROFILE("CGameInterfaceManager::UpdateHeroInventory");
 
     CClientCommander *pCommander(GameClient.GetClientCommander());
-    if (pCommander == NULL)
+    if (pCommander == nullptr)
         return;
 
-    if (pUnit == NULL)
+    if (pUnit == nullptr)
     {
         for (int iSlot(iStartSlot); iSlot <= iEndSlot; ++iSlot)
         {
@@ -4253,14 +4253,14 @@ void    CGameInterfaceManager::UpdateHeroInventory(IUnitEntity *pUnit, int iStar
         if (iSlot < INVENTORY_START_STATES || iSlot > INVENTORY_END_STATES)
             iDisplaySlot = iSlot;
 
-        if (pSlave != NULL && pSlave->IsAbility() && pSlave->GetAsAbility()->GetSubSlot() != -1)
+        if (pSlave != nullptr && pSlave->IsAbility() && pSlave->GetAsAbility()->GetSubSlot() != -1)
         {
             int iSubSlot(pSlave->GetAsAbility()->GetSubSlot());
             pSlave = pUnit->GetSlave(iSubSlot);
             pTool = pUnit->GetTool(iSubSlot);
         }
 
-        if (pSlave == NULL)
+        if (pSlave == nullptr)
         {
             Trigger(UITRIGGER_HERO_INVENTORY_EXISTS, false, iDisplaySlot);
             Trigger(UITRIGGER_HERO_INVENTORY_INTERFACE, _CTS("single"), iDisplaySlot);
@@ -4269,7 +4269,7 @@ void    CGameInterfaceManager::UpdateHeroInventory(IUnitEntity *pUnit, int iStar
         }
 
         IEntityState *pState(pSlave->GetAsState());
-        if (pState != NULL && pState->GetIsHidden())
+        if (pState != nullptr && pState->GetIsHidden())
             continue;
 
         ISlaveDefinition *pDefinition(pSlave->GetDefinition<ISlaveDefinition>());
@@ -4281,7 +4281,7 @@ void    CGameInterfaceManager::UpdateHeroInventory(IUnitEntity *pUnit, int iStar
         else
             Trigger(UITRIGGER_HERO_INVENTORY_INTERFACE, _CTS("single"), iDisplaySlot);
 
-        bool bCanActive(pTool != NULL && pTool->GetActionType() != TOOL_ACTION_PASSIVE && !(pTool->GetLevel() < 1 && pTool->GetMaxLevel() > 0));
+        bool bCanActive(pTool != nullptr && pTool->GetActionType() != TOOL_ACTION_PASSIVE && !(pTool->GetLevel() < 1 && pTool->GetMaxLevel() > 0));
 
         Trigger(UITRIGGER_HERO_INVENTORY_ICON, pSlave->GetIconPath(), iDisplaySlot);
         Trigger(UITRIGGER_HERO_INVENTORY_CAN_ACTIVATE, bCanActive, iDisplaySlot);
@@ -4289,23 +4289,23 @@ void    CGameInterfaceManager::UpdateHeroInventory(IUnitEntity *pUnit, int iStar
         // normal status, active, silenced, low mana, in use, level, can level up, max level
         static tsvector vStatus(11);
         vStatus[0] = XtoA(pTool ? pTool->CanActivate() : false);
-        vStatus[1] = XtoA(pTool != NULL && (pTool->HasFlag(ENTITY_TOOL_FLAG_TOGGLE_ACTIVE) || pTool->HasFlag(ENTITY_TOOL_FLAG_CHANNEL_ACTIVE)));
+        vStatus[1] = XtoA(pTool != nullptr && (pTool->HasFlag(ENTITY_TOOL_FLAG_TOGGLE_ACTIVE) || pTool->HasFlag(ENTITY_TOOL_FLAG_CHANNEL_ACTIVE)));
         vStatus[2] = XtoA(pTool ? (pTool->IsDisabled() || (pUnit->IsStunned() && !pTool->GetNoStun())) : false);
-        vStatus[3] = XtoA(pTool != NULL && pTool->GetManaCost() != 0.0f && !pUnit->IsFreeCast() && pTool->GetManaCost() > pUnit->GetMana() && pUnit->GetStatus() == ENTITY_STATUS_ACTIVE);
-        vStatus[4] = XtoA(pTool != NULL && pTool->HasFlag(ENTITY_TOOL_FLAG_IN_USE));
+        vStatus[3] = XtoA(pTool != nullptr && pTool->GetManaCost() != 0.0f && !pUnit->IsFreeCast() && pTool->GetManaCost() > pUnit->GetMana() && pUnit->GetStatus() == ENTITY_STATUS_ACTIVE);
+        vStatus[4] = XtoA(pTool != nullptr && pTool->HasFlag(ENTITY_TOOL_FLAG_IN_USE));
         vStatus[5] = XtoA(pSlave->GetLevel());
-        vStatus[6] = XtoA(pTool != NULL && pTool->CanLevelUp());
+        vStatus[6] = XtoA(pTool != nullptr && pTool->CanLevelUp());
 
         if (pSlave->IsState())
             vStatus[7] = pSlave->GetAsState()->GetDisplayLevel() ? _CTS("1") : _CTS("0");
-        else if (pTool == NULL || (!pTool->HasFlag(ENTITY_TOOL_FLAG_ASSEMBLED) && pTool->IsItem()))
+        else if (pTool == nullptr || (!pTool->HasFlag(ENTITY_TOOL_FLAG_ASSEMBLED) && pTool->IsItem()))
             vStatus[7] = _CTS("0");
         else
             vStatus[7] = XtoA(pTool->GetMaxLevel());
 
         vStatus[8] = XtoA(pCommander->GetActiveSlot() == iSlot);
-        vStatus[9] = XtoA(pTool != NULL && pTool->IsItem() && pTool->GetAsItem()->GetAllowSharing());
-        vStatus[10] = XtoA(pTool != NULL && pTool->IsItem() && pTool->GetAsItem()->IsBorrowed());
+        vStatus[9] = XtoA(pTool != nullptr && pTool->IsItem() && pTool->GetAsItem()->GetAllowSharing());
+        vStatus[10] = XtoA(pTool != nullptr && pTool->IsItem() && pTool->GetAsItem()->IsBorrowed());
 
         Trigger(UITRIGGER_HERO_INVENTORY_STATUS, vStatus, iDisplaySlot);
 
@@ -4343,12 +4343,12 @@ void    CGameInterfaceManager::UpdateHeroInventory(IUnitEntity *pUnit, int iStar
         BuildText(pSlave->GetDescription2(), MAX(1u, pSlave->GetLevel()) - 1, vDescription[16]);
 
         vDescription[2] = XtoA(pTool ? pTool->GetManaCost() : 0.0f);
-        vDescription[3] = XtoA(pTool != NULL && pTool->IsItem() ? pTool->GetAsItem()->GetValue() : 0);
+        vDescription[3] = XtoA(pTool != nullptr && pTool->IsItem() ? pTool->GetAsItem()->GetValue() : 0);
 
         vDescription[4].clear();
         vDescription[5].clear();
 
-        if (pTool != NULL && bCanActive)
+        if (pTool != nullptr && bCanActive)
         {
             if (pTool->GetActionType() == TOOL_ACTION_TOGGLE)
                 vDescription[6] = GameClient.GetGameMessage(_CTS("action_toggle"));
@@ -4384,7 +4384,7 @@ void    CGameInterfaceManager::UpdateHeroInventory(IUnitEntity *pUnit, int iStar
             vDescription[6].clear();
         }
 
-        if (pTool != NULL)
+        if (pTool != nullptr)
         {
             vDescription[7] = Game.GetTargetSchemeDisplayName(pTool->GetTargetScheme());
             vDescription[8] = Game.GetEffectTypeString(pTool->GetCastEffectType());
@@ -4436,7 +4436,7 @@ void    CGameInterfaceManager::UpdateHeroInventory(IUnitEntity *pUnit, int iStar
 
         Trigger(UITRIGGER_HERO_INVENTORY_DESCRIPTION, vDescription, iDisplaySlot);
 
-        Trigger(UITRIGGER_HERO_INVENTORY_DURATION, pState != NULL && pState->GetExpireTime() != INVALID_TIME ? pState->GetExpireTime() - Game.GetGameTime() : 0, iDisplaySlot);
+        Trigger(UITRIGGER_HERO_INVENTORY_DURATION, pState != nullptr && pState->GetExpireTime() != INVALID_TIME ? pState->GetExpireTime() - Game.GetGameTime() : 0, iDisplaySlot);
 
         // Build passive bonus list
         static tsvector vPassiveEffect(2);
@@ -4447,7 +4447,7 @@ void    CGameInterfaceManager::UpdateHeroInventory(IUnitEntity *pUnit, int iStar
 
         Trigger(UITRIGGER_HERO_INVENTORY_PASSIVE_EFFECT, vPassiveEffect, iDisplaySlot);
 
-        if (pTool != NULL)
+        if (pTool != nullptr)
         {
             static tsvector vHotkeys(3);
 
@@ -4478,11 +4478,11 @@ void    CGameInterfaceManager::UpdateHeroInventory(IUnitEntity *pUnit, int iStar
         for (int i(0); i < 7; ++i)
             vAura[i].clear();
 
-        if (pTool != NULL)
+        if (pTool != nullptr)
         {
             if (pTool->GetLevel() > 0 || pTool->GetMaxLevel() == 0)
             {
-                if (pDefinition != NULL)
+                if (pDefinition != nullptr)
                 {
                     const AuraList &cAuraList(pDefinition->GetAuraList());
 
@@ -4490,7 +4490,7 @@ void    CGameInterfaceManager::UpdateHeroInventory(IUnitEntity *pUnit, int iStar
                     {
                         CStateDefinition *pAuraStateDef(EntityRegistry.GetDefinition<CStateDefinition>(cAuraList.front().GetStateName(pTool->GetLevel())));
 
-                        if (pAuraStateDef != NULL)
+                        if (pAuraStateDef != nullptr)
                         {
                             vAura[0] = _CTS("true");
 
@@ -4514,12 +4514,12 @@ void    CGameInterfaceManager::UpdateHeroInventory(IUnitEntity *pUnit, int iStar
         for (uint ui(0); ui < vStatusEffect.size(); ++ui)
             vStatusEffect[ui].clear();
 
-        if (pTool != NULL)
+        if (pTool != nullptr)
         {
             if (pTool->GetLevel() > 0 || pTool->GetMaxLevel() == 0)
             {
                 CStateDefinition *pStateDef(EntityRegistry.GetDefinition<CStateDefinition>(pTool->GetStatusEffectTooltip()));
-                if (pStateDef != NULL)
+                if (pStateDef != nullptr)
                 {
                     vStatusEffect[0] = pTool->GetStatusEffectHeader();
 
@@ -4535,12 +4535,12 @@ void    CGameInterfaceManager::UpdateHeroInventory(IUnitEntity *pUnit, int iStar
         for (uint ui(0); ui < vStatusEffect.size(); ++ui)
             vStatusEffect[ui].clear();
 
-        if (pTool != NULL)
+        if (pTool != nullptr)
         {
             if (pTool->GetLevel() > 0 || pTool->GetMaxLevel() == 0)
             {
                 CStateDefinition *pStateDef(EntityRegistry.GetDefinition<CStateDefinition>(pTool->GetStatusEffectTooltip2()));
-                if (pStateDef != NULL)
+                if (pStateDef != nullptr)
                 {
                     vStatusEffect[0] = pTool->GetStatusEffectHeader2();
 
@@ -4559,7 +4559,7 @@ void    CGameInterfaceManager::UpdateHeroInventory(IUnitEntity *pUnit, int iStar
 
         const uint NUM_DISPLAY_TRIGGERS(1);
 
-        if (pTool != NULL)
+        if (pTool != nullptr)
         {
             if (pTool->GetLevel() > 0 || pTool->GetMaxLevel() == 0)
             {
@@ -4606,7 +4606,7 @@ void    CGameInterfaceManager::UpdateActiveAttackModifiers(IUnitEntity *pUnit)
 {
     static tsvector vAttackModifier(5);
 
-    if (pUnit == NULL)
+    if (pUnit == nullptr)
     {
         for (tsvector_it it(vAttackModifier.begin()); it != vAttackModifier.end(); ++it)
             it->clear();
@@ -4624,7 +4624,7 @@ void    CGameInterfaceManager::UpdateActiveAttackModifiers(IUnitEntity *pUnit)
     {
         ISlaveEntity *pSlave(pUnit->GetSlave(iSlot));
 
-        if (pSlave == NULL)
+        if (pSlave == nullptr)
             continue;
         if (!pSlave->IsActive())
             continue;
@@ -4633,7 +4633,7 @@ void    CGameInterfaceManager::UpdateActiveAttackModifiers(IUnitEntity *pUnit)
         if (uiModBit != 0)
         {
             ISlaveDefinition *pAttackModifierDefinition(pSlave->GetDefinition<ISlaveDefinition>(uiModBit));
-            if (pAttackModifierDefinition != NULL)
+            if (pAttackModifierDefinition != nullptr)
             {
                 vAttackModifier[0] = pAttackModifierDefinition->GetDisplayName();
                 vAttackModifier[1] = pAttackModifierDefinition->GetIconPath(pSlave->GetLevel());
@@ -4664,11 +4664,11 @@ void    CGameInterfaceManager::UpdateLevelUp(IUnitEntity *pUnit, int iStartSlot,
 {
     PROFILE("CGameInterfaceManager::UpdateLevelUp");
 
-    if (pUnit == NULL)
+    if (pUnit == nullptr)
         return;
 
     CClientCommander *pCommander(GameClient.GetClientCommander());
-    if (pCommander == NULL)
+    if (pCommander == nullptr)
         return;
 
     uivector vModifierKeys;
@@ -4677,13 +4677,13 @@ void    CGameInterfaceManager::UpdateLevelUp(IUnitEntity *pUnit, int iStartSlot,
     for (int iSlot(iStartSlot); iSlot <= iEndSlot; ++iSlot)
     {
         IEntityTool *pTool(pUnit->GetTool(iSlot));
-        if (pTool == NULL)
+        if (pTool == nullptr)
         {
             continue;
         }
 
         IToolDefinition *pDefinition(pTool->GetDefinition<IToolDefinition>());
-        if (pDefinition == NULL)
+        if (pDefinition == nullptr)
             continue;
 
         uint uiLevel(pTool->GetLevel());
@@ -4866,7 +4866,7 @@ void    CGameInterfaceManager::UpdateLevelUp(IUnitEntity *pUnit, int iStartSlot,
         {
             CStateDefinition *pAuraStateDef(EntityRegistry.GetDefinition<CStateDefinition>(cAuraList.front().GetStateName(0)));
 
-            if (pAuraStateDef != NULL)
+            if (pAuraStateDef != nullptr)
             {
                 if (cAuraList.front().GetNoTooltip())
                     vAura[0] = _CTS("false");
@@ -4893,7 +4893,7 @@ void    CGameInterfaceManager::UpdateLevelUp(IUnitEntity *pUnit, int iStartSlot,
                 vStatusEffect[ui].clear();
 
             CStateDefinition *pStateDef(EntityRegistry.GetDefinition<CStateDefinition>(pDefinition->GetStatusEffectTooltip(0)));
-            if (pStateDef != NULL)
+            if (pStateDef != nullptr)
             {
                 vStatusEffect[0] = pDefinition->GetStatusEffectHeader();
 
@@ -4910,7 +4910,7 @@ void    CGameInterfaceManager::UpdateLevelUp(IUnitEntity *pUnit, int iStartSlot,
                 vStatusEffect[ui].clear();
 
             CStateDefinition *pStateDef(EntityRegistry.GetDefinition<CStateDefinition>(pDefinition->GetStatusEffectTooltip2(0)));
-            if (pStateDef != NULL)
+            if (pStateDef != nullptr)
             {
                 vStatusEffect[0] = pDefinition->GetStatusEffectHeader2();
 
@@ -4969,7 +4969,7 @@ void    CGameInterfaceManager::UpdateSelectedInventory(IUnitEntity *pUnit, int i
 {
     PROFILE("CGameInterfaceManager::UpdateSelectedInventory");
 
-    if (pUnit == NULL)
+    if (pUnit == nullptr)
     {
         for (int iSlot(iStartSlot); iSlot <= iEndSlot; ++iSlot)
         {
@@ -4992,7 +4992,7 @@ void    CGameInterfaceManager::UpdateSelectedInventory(IUnitEntity *pUnit, int i
         if (iSlot < INVENTORY_START_STATES || iSlot > INVENTORY_END_STATES)
             iDisplaySlot = iSlot;
 
-        if (pSlave == NULL)
+        if (pSlave == nullptr)
         {
             Trigger(UITRIGGER_SELECTED_INVENTORY_EXISTS, false, iDisplaySlot);
             Trigger(UITRIGGER_SELECTED_INVENTORY_INTERFACE, _CTS("single"), iDisplaySlot);
@@ -5001,7 +5001,7 @@ void    CGameInterfaceManager::UpdateSelectedInventory(IUnitEntity *pUnit, int i
         }
 
         IEntityState *pState(pSlave->GetAsState());
-        if (pState != NULL && pState->GetIsHidden())
+        if (pState != nullptr && pState->GetIsHidden())
             continue;
 
         ISlaveDefinition *pDefinition(pSlave->GetDefinition<ISlaveDefinition>());
@@ -5013,30 +5013,30 @@ void    CGameInterfaceManager::UpdateSelectedInventory(IUnitEntity *pUnit, int i
         else
             Trigger(UITRIGGER_SELECTED_INVENTORY_INTERFACE, _CTS("single"), iDisplaySlot);
 
-        bool bCanActive(pTool != NULL && pTool->GetActionType() != TOOL_ACTION_PASSIVE && !(pTool->GetLevel() < 1 && pTool->GetMaxLevel() > 0));
+        bool bCanActive(pTool != nullptr && pTool->GetActionType() != TOOL_ACTION_PASSIVE && !(pTool->GetLevel() < 1 && pTool->GetMaxLevel() > 0));
 
         Trigger(UITRIGGER_SELECTED_INVENTORY_ICON, pSlave->GetIconPath(), iDisplaySlot);
-        Trigger(UITRIGGER_SELECTED_INVENTORY_RECIPE, pTool == NULL || (!pTool->HasFlag(ENTITY_TOOL_FLAG_ASSEMBLED) && pTool->IsItem()), iDisplaySlot);
+        Trigger(UITRIGGER_SELECTED_INVENTORY_RECIPE, pTool == nullptr || (!pTool->HasFlag(ENTITY_TOOL_FLAG_ASSEMBLED) && pTool->IsItem()), iDisplaySlot);
         Trigger(UITRIGGER_SELECTED_INVENTORY_CAN_ACTIVATE, bCanActive, iDisplaySlot);
 
         // active, silenced, low mana, level
         static tsvector vStatus(9);
-        vStatus[0] = XtoA(pTool != NULL && (pTool->HasFlag(ENTITY_TOOL_FLAG_TOGGLE_ACTIVE) || pTool->HasFlag(ENTITY_TOOL_FLAG_CHANNEL_ACTIVE)));
+        vStatus[0] = XtoA(pTool != nullptr && (pTool->HasFlag(ENTITY_TOOL_FLAG_TOGGLE_ACTIVE) || pTool->HasFlag(ENTITY_TOOL_FLAG_CHANNEL_ACTIVE)));
         vStatus[1] = XtoA(pTool ? (pTool->IsDisabled() || (pUnit->IsStunned() && !pTool->GetNoStun())) : false);
-        vStatus[2] = XtoA(pTool != NULL && !pUnit->IsFreeCast() && ((pTool->GetManaCost() != 0.0f && pTool->GetManaCost() > pUnit->GetMana()) || (pTool->GetTriggeredManaCost() != 0.0f && pTool->GetTriggeredManaCost() > pUnit->GetMana()) || pTool->HasFlag(ENTITY_TOOL_FLAG_INVALID_COST) || !pTool->CheckTriggeredCost()) && pUnit->GetStatus() == ENTITY_STATUS_ACTIVE);
+        vStatus[2] = XtoA(pTool != nullptr && !pUnit->IsFreeCast() && ((pTool->GetManaCost() != 0.0f && pTool->GetManaCost() > pUnit->GetMana()) || (pTool->GetTriggeredManaCost() != 0.0f && pTool->GetTriggeredManaCost() > pUnit->GetMana()) || pTool->HasFlag(ENTITY_TOOL_FLAG_INVALID_COST) || !pTool->CheckTriggeredCost()) && pUnit->GetStatus() == ENTITY_STATUS_ACTIVE);
         vStatus[3] = XtoA(pSlave->GetLevel());
         
         if (pSlave->IsState())
             vStatus[4] = pSlave->GetAsState()->GetDisplayLevel() ? _CTS("1") : _CTS("0");
-        else if (pTool == NULL || (!pTool->HasFlag(ENTITY_TOOL_FLAG_ASSEMBLED) && pTool->IsItem()))
+        else if (pTool == nullptr || (!pTool->HasFlag(ENTITY_TOOL_FLAG_ASSEMBLED) && pTool->IsItem()))
             vStatus[4] = _CTS("0");
         else
             vStatus[4] = XtoA(pTool->GetMaxLevel());
         
         vStatus[5] = XtoA(pTool ? pTool->CanActivate() : false);
-        vStatus[6] = XtoA(pTool != NULL && pTool->HasFlag(ENTITY_TOOL_FLAG_IN_USE));
-        vStatus[7] = XtoA(pTool != NULL && pTool->IsItem() && pTool->GetAsItem()->GetAllowSharing());
-        vStatus[8] = XtoA(pTool != NULL && pTool->IsItem() && pTool->GetAsItem()->IsBorrowed());
+        vStatus[6] = XtoA(pTool != nullptr && pTool->HasFlag(ENTITY_TOOL_FLAG_IN_USE));
+        vStatus[7] = XtoA(pTool != nullptr && pTool->IsItem() && pTool->GetAsItem()->GetAllowSharing());
+        vStatus[8] = XtoA(pTool != nullptr && pTool->IsItem() && pTool->GetAsItem()->IsBorrowed());
 
         Trigger(UITRIGGER_SELECTED_INVENTORY_STATUS, vStatus, iDisplaySlot);
 
@@ -5045,7 +5045,7 @@ void    CGameInterfaceManager::UpdateSelectedInventory(IUnitEntity *pUnit, int i
         for (uint ui(0); ui < vState.size(); ++ui)
             vState[ui].clear();
 
-        if (pState != NULL)
+        if (pState != nullptr)
         {
             vState[0] = _CTS("true");
             vState[1] = XtoA(GameClient.IsDebuff(pState->GetEffectType()));
@@ -5062,7 +5062,7 @@ void    CGameInterfaceManager::UpdateSelectedInventory(IUnitEntity *pUnit, int i
         vCooldown[2] = XtoA(pTool ? pTool->GetRemainingCooldownPercent() : 0.0f);
         Trigger(UITRIGGER_SELECTED_INVENTORY_COOLDOWN, vCooldown, iDisplaySlot);
 
-        if (pTool != NULL && pTool->GetTimer() != INVALID_TIME)
+        if (pTool != nullptr && pTool->GetTimer() != INVALID_TIME)
         {
             uint uiTimer;
             if (pTool->GetTimer() > Game.GetGameTime())
@@ -5099,13 +5099,13 @@ void    CGameInterfaceManager::UpdateSelectedInventory(IUnitEntity *pUnit, int i
         BuildText(pSlave->GetDescription2(), MAX(1u, pSlave->GetLevel()) - 1, vDescription[16]);
 
         vDescription[2] = XtoA(pTool ? pTool->GetManaCost() : 0.0f);
-        vDescription[3] = XtoA(pTool != NULL && pTool->IsItem() ? pTool->GetAsItem()->GetValue() : 0);
+        vDescription[3] = XtoA(pTool != nullptr && pTool->IsItem() ? pTool->GetAsItem()->GetValue() : 0);
 
         // Build passive bonus list
         vDescription[4].clear();
         vDescription[5].clear();
 
-        if (pTool != NULL)
+        if (pTool != nullptr)
         {
             if (pTool->GetActionType() == TOOL_ACTION_TOGGLE)
                 vDescription[6] = GameClient.GetGameMessage(_CTS("action_toggle"));
@@ -5141,7 +5141,7 @@ void    CGameInterfaceManager::UpdateSelectedInventory(IUnitEntity *pUnit, int i
             vDescription[6].clear();
         }
 
-        if (pTool != NULL)
+        if (pTool != nullptr)
         {
             vDescription[7] = Game.GetTargetSchemeDisplayName(pTool->GetTargetScheme());
             vDescription[8] = Game.GetEffectTypeString(pTool->GetCastEffectType());
@@ -5149,7 +5149,7 @@ void    CGameInterfaceManager::UpdateSelectedInventory(IUnitEntity *pUnit, int i
             vDescription[10] = XtoA(pTool->GetTargetRadius(), 0, 0, 0, 1);
             vDescription[11] = XtoA(pTool->GetActionType() != TOOL_ACTION_PASSIVE && !(pTool->GetLevel() < 1 && pTool->GetMaxLevel() > 0));
 
-            if (pItem != NULL && !pItem->CanUse())
+            if (pItem != nullptr && !pItem->CanUse())
             {
                 CPlayer *pPurchaser(GameClient.GetPlayer(pItem->GetPurchaserClientNumber()));
 
@@ -5157,7 +5157,7 @@ void    CGameInterfaceManager::UpdateSelectedInventory(IUnitEntity *pUnit, int i
                 s_mapTokens[_CTS("name")] = pPurchaser ? pPurchaser->GetName() : TSNULL;
                 vDescription[12] = GameClient.GetGameMessage(_CTS("activate_item_no_share"), s_mapTokens);
             }
-            else if (pItem != NULL && pItem->IsBorrowed())
+            else if (pItem != nullptr && pItem->IsBorrowed())
             {
                 CPlayer *pPurchaser(GameClient.GetPlayer(pItem->GetPurchaserClientNumber()));
 
@@ -5199,8 +5199,8 @@ void    CGameInterfaceManager::UpdateSelectedInventory(IUnitEntity *pUnit, int i
 
         Trigger(UITRIGGER_SELECTED_INVENTORY_DESCRIPTION, vDescription, iDisplaySlot);
 
-        Trigger(UITRIGGER_SELECTED_INVENTORY_DURATION, pState != NULL && pState->GetExpireTime() != INVALID_TIME ? pState->GetExpireTime() - Game.GetGameTime() : 0, iDisplaySlot);
-        Trigger(UITRIGGER_SELECTED_INVENTORY_DURATION_PERCENT, pState != NULL && pState->GetExpireTime() != INVALID_TIME ? pState->GetRemainingLifetimePercent() : 0.0f, iDisplaySlot);
+        Trigger(UITRIGGER_SELECTED_INVENTORY_DURATION, pState != nullptr && pState->GetExpireTime() != INVALID_TIME ? pState->GetExpireTime() - Game.GetGameTime() : 0, iDisplaySlot);
+        Trigger(UITRIGGER_SELECTED_INVENTORY_DURATION_PERCENT, pState != nullptr && pState->GetExpireTime() != INVALID_TIME ? pState->GetRemainingLifetimePercent() : 0.0f, iDisplaySlot);
 
         // Build passive bonus list
         static tsvector vPassiveEffect(2);
@@ -5211,7 +5211,7 @@ void    CGameInterfaceManager::UpdateSelectedInventory(IUnitEntity *pUnit, int i
 
         Trigger(UITRIGGER_SELECTED_INVENTORY_PASSIVE_EFFECT, vPassiveEffect, iDisplaySlot);
 
-        if (pTool != NULL)
+        if (pTool != nullptr)
         {
             static tsvector vAura(7);
             for (int i(0); i < 7; ++i)
@@ -5219,7 +5219,7 @@ void    CGameInterfaceManager::UpdateSelectedInventory(IUnitEntity *pUnit, int i
 
             if (pTool->GetLevel() > 0 || pTool->GetMaxLevel() == 0)
             {
-                if (pDefinition != NULL)
+                if (pDefinition != nullptr)
                 {
                     const AuraList &cAuraList(pDefinition->GetAuraList());
 
@@ -5227,7 +5227,7 @@ void    CGameInterfaceManager::UpdateSelectedInventory(IUnitEntity *pUnit, int i
                     {
                         CStateDefinition *pAuraStateDef(EntityRegistry.GetDefinition<CStateDefinition>(cAuraList.front().GetStateName(pTool->GetLevel())));
 
-                        if (pAuraStateDef != NULL)
+                        if (pAuraStateDef != nullptr)
                         {
                             vAura[0] = _CTS("true");
 
@@ -5247,7 +5247,7 @@ void    CGameInterfaceManager::UpdateSelectedInventory(IUnitEntity *pUnit, int i
             Trigger(UITRIGGER_SELECTED_INVENTORY_AURA, vAura, iDisplaySlot);
         }
 
-        if (pTool != NULL)
+        if (pTool != nullptr)
         {
             static tsvector vStatusEffect(3);
             for (uint ui(0); ui < vStatusEffect.size(); ++ui)
@@ -5256,7 +5256,7 @@ void    CGameInterfaceManager::UpdateSelectedInventory(IUnitEntity *pUnit, int i
             if (pTool->GetLevel() > 0 || pTool->GetMaxLevel() == 0)
             {
                 CStateDefinition *pStateDef(EntityRegistry.GetDefinition<CStateDefinition>(pTool->GetStatusEffectTooltip()));
-                if (pStateDef != NULL)
+                if (pStateDef != nullptr)
                 {
                     vStatusEffect[0] = pTool->GetStatusEffectHeader();
 
@@ -5274,7 +5274,7 @@ void    CGameInterfaceManager::UpdateSelectedInventory(IUnitEntity *pUnit, int i
             if (pTool->GetLevel() > 0 || pTool->GetMaxLevel() == 0)
             {
                 CStateDefinition *pStateDef(EntityRegistry.GetDefinition<CStateDefinition>(pTool->GetStatusEffectTooltip2()));
-                if (pStateDef != NULL)
+                if (pStateDef != nullptr)
                 {
                     vStatusEffect[0] = pTool->GetStatusEffectHeader2();
 
@@ -5287,7 +5287,7 @@ void    CGameInterfaceManager::UpdateSelectedInventory(IUnitEntity *pUnit, int i
             Trigger(UITRIGGER_SELECTED_INVENTORY_STATUS_EFFECTB, vStatusEffect, iDisplaySlot);
         }
 
-        if (pTool == NULL || pTool->GetLevel() > 0 || pTool->GetMaxLevel() == 0)
+        if (pTool == nullptr || pTool->GetLevel() > 0 || pTool->GetMaxLevel() == 0)
         {
             static tsvector vTriggeredEffect(3);
             uint uiTriggerIndex(0);
@@ -5342,7 +5342,7 @@ void    CGameInterfaceManager::UpdateSelectedInventory(IUnitEntity *pUnit, int i
 void    CGameInterfaceManager::UpdateCommander()
 {
     CClientCommander *pCommander(GameClient.GetClientCommander());
-    if (pCommander == NULL)
+    if (pCommander == nullptr)
         return;
 
     Trigger(UITRIGGER_KEY_MODIFIER1, pCommander->GetModifier1());
@@ -5358,13 +5358,13 @@ void    CGameInterfaceManager::UpdatePlayer()
     PROFILE("CGameInterfaceManager::UpdatePlayer");
 
     CGameInfo *pGameInfo(Game.GetGameInfo());
-    Trigger(UITRIGGER_STATS_STATUS, g_aStatsStatusNames[pGameInfo != NULL ? pGameInfo->GetStatsStatus() : STATS_NULL]);
+    Trigger(UITRIGGER_STATS_STATUS, g_aStatsStatusNames[pGameInfo != nullptr ? pGameInfo->GetStatsStatus() : STATS_NULL]);
 
     CPlayer *pPlayer(GameClient.GetLocalPlayer());
-    if (pPlayer == NULL)
+    if (pPlayer == nullptr)
         return;
     CClientCommander *pCommander(GameClient.GetClientCommander());
-    if (pCommander == NULL)
+    if (pCommander == nullptr)
         return;
 
     static tsvector vPlayerInfo(2);
@@ -5411,7 +5411,7 @@ void    CGameInterfaceManager::UpdatePlayer()
     Trigger(UITRIGGER_SHOP_ACTIVE, m_bDisplayShop);
 
     IUnitEntity *pSelectedUnit(pCommander->GetSelectedControlEntity());
-    if (pSelectedUnit == NULL)
+    if (pSelectedUnit == nullptr)
     {
         Trigger(UITRIGGER_PLAYER_CAN_SHOP, false);
     }
@@ -5435,10 +5435,10 @@ void    CGameInterfaceManager::UpdatePlayer()
 
     // Team 1 base health
     CTeamInfo *pTeam(Game.GetTeam(1));
-    if (pTeam != NULL)
+    if (pTeam != nullptr)
     {
         IBuildingEntity *pBase(GameClient.GetBuildingEntity(pTeam->GetBaseBuildingIndex()));
-        if (pBase != NULL)
+        if (pBase != nullptr)
         {
             Trigger(UITRIGGER_BASE_HEALTH, pTeam->GetBaseHealthPercent(), 0);
             Trigger(UITRIGGER_BASE_HEALTH_VISIBLE, pBase->GetLastDamageTime() + 5000 > Game.GetGameTime(), 0);
@@ -5447,10 +5447,10 @@ void    CGameInterfaceManager::UpdatePlayer()
 
     // Team 2 base health
     pTeam = GameClient.GetTeam(2);
-    if (pTeam != NULL)
+    if (pTeam != nullptr)
     {
         IBuildingEntity *pBase(GameClient.GetBuildingEntity(pTeam->GetBaseBuildingIndex()));
-        if (pBase != NULL)
+        if (pBase != nullptr)
         {
             Trigger(UITRIGGER_BASE_HEALTH, pTeam->GetBaseHealthPercent(), 1);
             Trigger(UITRIGGER_BASE_HEALTH_VISIBLE, pBase->GetLastDamageTime() + 5000 > Game.GetGameTime(), 1);
@@ -5472,7 +5472,7 @@ void    CGameInterfaceManager::UpdateHero()
     PROFILE("CGameInterfaceManager::UpdateHero");
 
     CPlayer *pPlayer(GameClient.GetLocalPlayer());
-    if (pPlayer == NULL)
+    if (pPlayer == nullptr)
         return;
 
     IHeroEntity *pHero(pPlayer->GetHero());
@@ -5511,7 +5511,7 @@ void    CGameInterfaceManager::UpdateHero()
     Trigger(UITRIGGER_HERO_MANAREGEN, vManaRegen);
 
     static tsvector vRespawn(3);
-    if (pHero != NULL && pHero->GetRespawnTime() != INVALID_TIME)
+    if (pHero != nullptr && pHero->GetRespawnTime() != INVALID_TIME)
     {
         vRespawn[0] = XtoA(MAX(int(pHero->GetRemainingRespawnTime() - GameClient.GetServerFrameLength()), 0));
         vRespawn[1] = XtoA(pHero->GetRespawnDuration());
@@ -5536,7 +5536,7 @@ void    CGameInterfaceManager::UpdateHero()
 #if 0 // This is the wrong place for this...
     bool bForced(false);
 
-    if (pHero != NULL && pHero->GetBrain().GetCurrentBehavior() != NULL && pHero->GetBrain().GetCurrentBehavior()->IsForced())
+    if (pHero != nullptr && pHero->GetBrain().GetCurrentBehavior() != nullptr && pHero->GetBrain().GetCurrentBehavior()->IsForced())
         bForced = true;
 
     Trigger(UITRIGGER_COMMAND_ENABLED_MOVE, pHero ? !bForced && !pHero->IsImmobilized() : false);
@@ -5564,11 +5564,11 @@ void    CGameInterfaceManager::UpdateAllies()
     PROFILE("CGameInterfaceManager::UpdateAllies");
 
     CPlayer *pLocalPlayer(GameClient.GetLocalPlayer());
-    if (pLocalPlayer == NULL)
+    if (pLocalPlayer == nullptr)
         return;
 
     CTeamInfo *pTeam(GameClient.GetTeam(pLocalPlayer->GetTeam()));
-    if (pTeam == NULL)
+    if (pTeam == nullptr)
         return;
 
     Trigger(UITRIGGER_ALLY_DISPLAY, bool(cg_displayAllies));
@@ -5578,11 +5578,11 @@ void    CGameInterfaceManager::UpdateAllies()
     {
         CPlayer *pClient(GameClient.GetPlayer(pTeam->GetClientIDFromTeamIndex(uiPlayer)));
 
-        if (pClient == NULL || pClient == pLocalPlayer || pClient->HasFlags(PLAYER_FLAG_TERMINATED))
+        if (pClient == nullptr || pClient == pLocalPlayer || pClient->HasFlags(PLAYER_FLAG_TERMINATED))
             continue;
 
         IHeroEntity *pHero(pClient->GetHero());
-        if (pHero == NULL)
+        if (pHero == nullptr)
             continue;
 
         Trigger(UITRIGGER_ALLY_EXISTS, true, uiTotalPlayers);
@@ -5615,7 +5615,7 @@ void    CGameInterfaceManager::UpdateAllies()
         Trigger(UITRIGGER_ALLY_STATUS, pHero->GetStatus() == ENTITY_STATUS_ACTIVE, uiTotalPlayers);
 
         static tsvector vRespawn(3);
-        if (pHero != NULL && pHero->GetRespawnTime() != INVALID_TIME)
+        if (pHero != nullptr && pHero->GetRespawnTime() != INVALID_TIME)
         {
             vRespawn[0] = XtoA(MAX(int(pHero->GetRemainingRespawnTime() - GameClient.GetServerFrameLength()), 0));
             vRespawn[1] = XtoA(pHero->GetRespawnDuration());
@@ -5700,13 +5700,13 @@ void    CGameInterfaceManager::UpdateAllyAbility(IUnitEntity *pUnit, int iSlot, 
 
     IEntityTool *pTool(pUnit->GetTool(iSlot));
 
-    if (pTool != NULL && pTool->IsAbility() && pTool->GetAsAbility()->GetSubSlot() != -1)
+    if (pTool != nullptr && pTool->IsAbility() && pTool->GetAsAbility()->GetSubSlot() != -1)
     {
         int iSubSlot(pTool->GetAsAbility()->GetSubSlot());
         pTool = pUnit->GetTool(iSubSlot);
     }
 
-    if (pTool == NULL)
+    if (pTool == nullptr)
     {
         static tsvector vInfoClear(12);
         vInfoClear[0] = _CTS("false");
@@ -5742,9 +5742,9 @@ void    CGameInterfaceManager::UpdateActiveUnit(IUnitEntity *pUnit)
 {
     PROFILE("CGameInterfaceManager::UpdateActiveUnit");
 
-    IHeroEntity *pHero(pUnit ? pUnit->GetAsHero() : NULL);
-    //IGadgetEntity *pGadget(pUnit ? pUnit->GetAsGadget() : NULL);
-    CPlayer *pOwner(pUnit ? pUnit->GetOwnerPlayer() : NULL);
+    IHeroEntity *pHero(pUnit ? pUnit->GetAsHero() : nullptr);
+    //IGadgetEntity *pGadget(pUnit ? pUnit->GetAsGadget() : nullptr);
+    CPlayer *pOwner(pUnit ? pUnit->GetOwnerPlayer() : nullptr);
 
     Trigger(UITRIGGER_ACTIVE_INDEX, pUnit ? pUnit->GetIndex() : INVALID_INDEX);
     Trigger(UITRIGGER_ACTIVE_NAME, pUnit ? pUnit->GetDisplayName() : TSNULL);
@@ -5792,7 +5792,7 @@ void    CGameInterfaceManager::UpdateActiveUnit(IUnitEntity *pUnit)
     Trigger(UITRIGGER_ACTIVE_LEVEL, vLevel);
 
     static tsvector vExperience(5);
-    vExperience[0] = XtoA(pHero != NULL);
+    vExperience[0] = XtoA(pHero != nullptr);
     vExperience[1] = XtoA(pHero ? pHero->GetExperience() : 0.0f);
     vExperience[2] = XtoA(pHero ? pHero->GetExperienceForNextLevel() - pHero->GetExperienceForCurrentLevel() : 0.0f);
     vExperience[3] = XtoA(pHero ? pHero->GetPercentNextLevel() : 1.0f);
@@ -5871,7 +5871,7 @@ void    CGameInterfaceManager::UpdateActiveUnit(IUnitEntity *pUnit)
     Trigger(UITRIGGER_ACTIVE_LIFETIME, vLifetime);
 
     Trigger(UITRIGGER_ACTIVE_HAS_INVENTORY, pUnit ? pUnit->GetCanCarryItems() : false);
-    Trigger(UITRIGGER_ACTIVE_HAS_ATTRIBUTES, pHero != NULL);
+    Trigger(UITRIGGER_ACTIVE_HAS_ATTRIBUTES, pHero != nullptr);
 
     static tsvector vAttackInfo(1);
     vAttackInfo[0] = pUnit ? Game.GetAttackTypeDisplayName(pUnit->GetAttackType()) : TSNULL;
@@ -5885,7 +5885,7 @@ void    CGameInterfaceManager::UpdateActiveUnit(IUnitEntity *pUnit)
     vAttributeInfo[0] = pUnit ? pUnit->GetCombatType() : TSNULL;
 
     vAttributeInfo[1].clear();
-    if (pHero != NULL)
+    if (pHero != nullptr)
     {
         if (pHero->GetPrimaryAttribute() == ATTRIBUTE_STRENGTH)
             vAttributeInfo[1] = GameClient.GetGameMessage(_CTS("attribute_strength"));
@@ -5907,7 +5907,7 @@ void    CGameInterfaceManager::UpdateActiveUnit(IUnitEntity *pUnit)
 
         vAttributeInfo[5].clear();
 
-        if (pHero != NULL && pHero->GetPrimaryAttribute() == ATTRIBUTE_STRENGTH)
+        if (pHero != nullptr && pHero->GetPrimaryAttribute() == ATTRIBUTE_STRENGTH)
         {
             s_mapTokens[_CTS("value")] = XtoA(INT_FLOOR(1.0f), FMT_SIGN);
             vAttributeInfo[5] += GameClient.GetGameMessage(_CTS("attribute_damage_bonus"), s_mapTokens) + _CTS("\n");
@@ -5931,7 +5931,7 @@ void    CGameInterfaceManager::UpdateActiveUnit(IUnitEntity *pUnit)
 
         vAttributeInfo[7].clear();
 
-        if (pHero != NULL && pHero->GetPrimaryAttribute() == ATTRIBUTE_AGILITY)
+        if (pHero != nullptr && pHero->GetPrimaryAttribute() == ATTRIBUTE_AGILITY)
         {
             s_mapTokens[_CTS("value")] = XtoA(INT_FLOOR(1.0f), FMT_SIGN);
             vAttributeInfo[7] += GameClient.GetGameMessage(_CTS("attribute_damage_bonus"), s_mapTokens) + _CTS("\n");
@@ -5955,7 +5955,7 @@ void    CGameInterfaceManager::UpdateActiveUnit(IUnitEntity *pUnit)
 
         vAttributeInfo[9].clear();
 
-        if (pHero != NULL && pHero->GetPrimaryAttribute() == ATTRIBUTE_INTELLIGENCE)
+        if (pHero != nullptr && pHero->GetPrimaryAttribute() == ATTRIBUTE_INTELLIGENCE)
         {
             s_mapTokens[_CTS("value")] = XtoA(INT_FLOOR(1.0f), FMT_SIGN);
             vAttributeInfo[9] += GameClient.GetGameMessage(_CTS("attribute_damage_bonus"), s_mapTokens) + _CTS("\n");
@@ -5973,7 +5973,7 @@ void    CGameInterfaceManager::UpdateActiveUnit(IUnitEntity *pUnit)
         vAttributeInfo[10] = XtoA(iLines);
     }
 
-    if (pHero != NULL)
+    if (pHero != nullptr)
     {
         if (pHero->GetPrimaryAttribute() == ATTRIBUTE_STRENGTH)
             vAttributeInfo[11] = _CTS("strength");
@@ -6005,12 +6005,12 @@ void    CGameInterfaceManager::UpdateSelectedUnits()
     PROFILE("CGameInterfaceManager::UpdateSelectedUnits");
 
     CClientCommander *pCommander(GameClient.GetClientCommander());
-    if (pCommander == NULL)
+    if (pCommander == nullptr)
         return;
 
     // Single selection
     IUnitEntity *pUnit(pCommander->GetSelectedInfoEntity());
-    if (pUnit != NULL)
+    if (pUnit != nullptr)
     {
         CPlayer *pLocalPlayer(GameClient.GetLocalPlayer());
 
@@ -6020,10 +6020,10 @@ void    CGameInterfaceManager::UpdateSelectedUnits()
         if (pUnit->IsBuilding())
         {
             CTeamInfo *pTeam(Game.GetTeam(pUnit->GetTeam()));
-            if (pTeam != NULL)
+            if (pTeam != nullptr)
             {
                 IUnitEntity *pBase(Game.GetUnitEntity(pTeam->GetBaseBuildingIndex()));
-                if (pBase != NULL)
+                if (pBase != nullptr)
                 {
                     UpdateActiveInventory(pBase, INVENTORY_START_SHARED_ABILITIES, INVENTORY_END_SHARED_ABILITIES);
                     bUpdated = true;
@@ -6034,7 +6034,7 @@ void    CGameInterfaceManager::UpdateSelectedUnits()
         if (!bUpdated)
             UpdateActiveInventory(pUnit, INVENTORY_START_SHARED_ABILITIES, INVENTORY_END_SHARED_ABILITIES);
 
-        if (pLocalPlayer != NULL && pLocalPlayer->GetTeam() == TEAM_SPECTATOR)
+        if (pLocalPlayer != nullptr && pLocalPlayer->GetTeam() == TEAM_SPECTATOR)
             UpdateSelectedInventory(pUnit, INVENTORY_START_ABILITIES, INVENTORY_END_ABILITIES);
 
         UpdateSelectedInventory(pUnit, INVENTORY_START_BACKPACK, INVENTORY_END_BACKPACK);
@@ -6060,14 +6060,14 @@ void    CGameInterfaceManager::UpdateSelectedUnits()
 
             // Shared abilities
             IUnitEntity *pUnit(pCommander->GetSelectedControlEntity());
-            if (pUnit != NULL)
+            if (pUnit != nullptr)
             {
                 bool bUpdated(false);
                 CTeamInfo *pTeam(Game.GetTeam(pUnit->GetTeam()));
-                if (pTeam != NULL)
+                if (pTeam != nullptr)
                 {
                     IUnitEntity *pBase(Game.GetUnitEntity(pTeam->GetBaseBuildingIndex()));
-                    if (pBase != NULL)
+                    if (pBase != nullptr)
                     {
                         UpdateActiveInventory(pBase, INVENTORY_START_SHARED_ABILITIES, INVENTORY_END_SHARED_ABILITIES);
                         bUpdated = true;
@@ -6087,7 +6087,7 @@ void    CGameInterfaceManager::UpdateSelectedUnits()
             for (uiset_cit cit(setControlSelection.begin()); cit != setControlSelection.end(); ++cit)
             {
                 IUnitEntity *pUnit(Game.GetUnitEntity(*cit));
-                if (pUnit == NULL)
+                if (pUnit == nullptr)
                     continue;
 
                 UpdateSelectedUnit(pUnit, uiIndex);
@@ -6105,7 +6105,7 @@ void    CGameInterfaceManager::UpdateSelectedUnits()
     for (uiset_cit cit(setInfoSelection.begin()); cit != setInfoSelection.end(); ++cit)
     {
         IUnitEntity *pUnit(Game.GetUnitEntity(*cit));
-        if (pUnit == NULL)
+        if (pUnit == nullptr)
             continue;
 
         UpdateSelectedUnit(pUnit, uiIndex);
@@ -6126,8 +6126,8 @@ void    CGameInterfaceManager::BuildingAttackAlert(const tstring &sName)
 {
     m_uiLastBuildingAttackAlertTime = Game.GetGameTime();
     tsvector vParams;
-    vParams.push_back(_CTS("true"));
-    vParams.push_back(sName);
+    vParams.emplace_back(_CTS("true"));
+    vParams.emplace_back(sName);
     Trigger(UITRIGGER_BUILDING_ATTACK_ALERT, vParams);
 }
 
@@ -6140,25 +6140,25 @@ void    CGameInterfaceManager::UpdateSelectedUnit(IUnitEntity *pUnit, uint uiInd
     PROFILE("CGameInterfaceManager::UpdateSelectedUnit");
 
     CPlayer *pLocalPlayer(GameClient.GetLocalPlayer());
-    if (pLocalPlayer == NULL)
+    if (pLocalPlayer == nullptr)
         return;
 
     CClientCommander *pCommander(GameClient.GetClientCommander());
-    if (pCommander == NULL)
+    if (pCommander == nullptr)
         return;
 
-    IHeroEntity *pHero(pUnit ? pUnit->GetAsHero() : NULL);
-    IGadgetEntity *pGadget(pUnit ? pUnit->GetAsGadget() : NULL);
-    CPlayer *pOwner(pUnit ? pUnit->GetOwnerPlayer() : NULL);
-    CTeamInfo *pTeam(pUnit ? Game.GetTeam(pUnit->GetTeam()) : NULL);
+    IHeroEntity *pHero(pUnit ? pUnit->GetAsHero() : nullptr);
+    IGadgetEntity *pGadget(pUnit ? pUnit->GetAsGadget() : nullptr);
+    CPlayer *pOwner(pUnit ? pUnit->GetOwnerPlayer() : nullptr);
+    CTeamInfo *pTeam(pUnit ? Game.GetTeam(pUnit->GetTeam()) : nullptr);
 
-    Trigger(UITRIGGER_SELECTED_VISIBLE, pUnit != NULL, uiIndex);
+    Trigger(UITRIGGER_SELECTED_VISIBLE, pUnit != nullptr, uiIndex);
     Trigger(UITRIGGER_SELECTED_INDEX, pUnit ? pUnit->GetIndex() : INVALID_INDEX, uiIndex);
     Trigger(UITRIGGER_SELECTED_NAME, pUnit ? pUnit->GetDisplayName() : TSNULL, uiIndex);
     Trigger(UITRIGGER_SELECTED_ICON, pUnit ? pUnit->GetIconPath() : TSNULL, uiIndex);
     Trigger(UITRIGGER_SELECTED_ILLUSION, pUnit ? pUnit->IsIllusion() : false, uiIndex);
 
-    if (pUnit == NULL)
+    if (pUnit == nullptr)
         Trigger(UITRIGGER_SELECTED_TYPE, TSNULL, uiIndex);
     else if (pUnit->IsBuilding())
         Trigger(UITRIGGER_SELECTED_TYPE, _CTS("building"), uiIndex);
@@ -6173,7 +6173,7 @@ void    CGameInterfaceManager::UpdateSelectedUnit(IUnitEntity *pUnit, uint uiInd
     else
         Trigger(UITRIGGER_SELECTED_TYPE, _CTS("unit"), uiIndex);
 
-    if (pUnit != NULL)
+    if (pUnit != nullptr)
     {
         CVec4f v4Color;
 
@@ -6231,7 +6231,7 @@ void    CGameInterfaceManager::UpdateSelectedUnit(IUnitEntity *pUnit, uint uiInd
     Trigger(UITRIGGER_SELECTED_MANAREGEN, vManaRegen);
 
     static tsvector vExperience(4);
-    vExperience[0] = XtoA(pHero != NULL);
+    vExperience[0] = XtoA(pHero != nullptr);
     vExperience[1] = XtoA(pHero ? pHero->GetExperience() : 0.0f);
     vExperience[2] = XtoA(pHero ? pHero->GetExperienceForNextLevel() : 0.0f);
     vExperience[3] = XtoA(pHero ? pHero->GetPercentNextLevel() : 1.0f);
@@ -6316,7 +6316,7 @@ void    CGameInterfaceManager::UpdateSelectedUnit(IUnitEntity *pUnit, uint uiInd
     Trigger(UITRIGGER_SELECTED_LIFETIME, vLifetime);
 
     Trigger(UITRIGGER_SELECTED_HAS_INVENTORY, pUnit ? pUnit->GetCanCarryItems() : false);
-    Trigger(UITRIGGER_SELECTED_HAS_ATTRIBUTES, pHero != NULL);
+    Trigger(UITRIGGER_SELECTED_HAS_ATTRIBUTES, pHero != nullptr);
 
     static tsvector vAttackInfo(1);
     vAttackInfo[0] = pUnit ? Game.GetAttackTypeDisplayName(pUnit->GetAttackType()) : TSNULL;
@@ -6330,7 +6330,7 @@ void    CGameInterfaceManager::UpdateSelectedUnit(IUnitEntity *pUnit, uint uiInd
     vAttributeInfo[0] = pUnit ? pUnit->GetCombatType() : TSNULL;
 
     vAttributeInfo[1].clear();
-    if (pHero != NULL)
+    if (pHero != nullptr)
     {
         if (pHero->GetPrimaryAttribute() == ATTRIBUTE_STRENGTH)
             vAttributeInfo[1] = GameClient.GetGameMessage(_CTS("attribute_strength"));
@@ -6417,7 +6417,7 @@ void    CGameInterfaceManager::UpdateReplay()
     Trigger(UITRIGGER_REPLAY_PAUSED, ReplayManager.IsPaused());
 
     CPlayer *pClient(GameClient.GetPlayer(GameClient.GetLocalClientNum()));
-    if (pClient == NULL)
+    if (pClient == nullptr)
         return;
 
     Trigger(UITRIGGER_REPLAY_NAME, pClient->GetName());
@@ -6440,7 +6440,7 @@ void    CGameInterfaceManager::UpdateItemCursor()
 
     // if the item cursor is over an ally, hide it.
     IUnitEntity *pTarget(Game.GetUnitEntity(GameClient.GetClientCommander()->GetHoverEntity()));
-    if (pTarget != NULL && pTarget->IsTargetType(TARGET_TRAIT_ALLY, GameClient.GetClientCommander()->GetSelectedControlEntity()))
+    if (pTarget != nullptr && pTarget->IsTargetType(TARGET_TRAIT_ALLY, GameClient.GetClientCommander()->GetSelectedControlEntity()))
     {
         Trigger(UITRIGGER_ITEM_CURSOR_VISIBLE, false);
         return;
@@ -6474,7 +6474,7 @@ void    CGameInterfaceManager::UpdateShopItemTooltip(const tstring &sItem, IUnit
 
     CItemDefinition *pDefinition(EntityRegistry.GetDefinition<CItemDefinition>(sItem));
 
-    if (pDefinition == NULL)
+    if (pDefinition == nullptr)
     {
         for (uint ui(0); ui < vTooltip.size(); ++ui)
             vTooltip[ui].clear();
@@ -6501,10 +6501,10 @@ void    CGameInterfaceManager::UpdateShopItemTooltip(const tstring &sItem, IUnit
     }
 
     IEntityDefinition *pModifiedDefinition(pDefinition->GetModifiedDefinition(uiModifier));
-    if (pModifiedDefinition != NULL)
+    if (pModifiedDefinition != nullptr)
         pDefinition = static_cast<CItemDefinition *>(pModifiedDefinition);
 
-    if (pDefinition == NULL)
+    if (pDefinition == nullptr)
     {
         Trigger(uiTrigger, TSNULL, uiSlot);
         return;
@@ -6661,7 +6661,7 @@ void    CGameInterfaceManager::UpdateShopItemTooltip(const tstring &sItem, IUnit
         vTooltip[21].clear();
 
         CStateDefinition *pStateDef(EntityRegistry.GetDefinition<CStateDefinition>(pDefinition->GetStatusEffectTooltip(uiIndex)));
-        if (pStateDef != NULL)
+        if (pStateDef != nullptr)
         {
             vTooltip[19] = pDefinition->GetStatusEffectHeader();
 
@@ -6678,7 +6678,7 @@ void    CGameInterfaceManager::UpdateShopItemTooltip(const tstring &sItem, IUnit
         vTooltip[33].clear();
 
         CStateDefinition *pStateDef(EntityRegistry.GetDefinition<CStateDefinition>(pDefinition->GetStatusEffectTooltip2(uiIndex)));
-        if (pStateDef != NULL)
+        if (pStateDef != nullptr)
         {
             vTooltip[31] = pDefinition->GetStatusEffectHeader2();
 
@@ -6702,7 +6702,7 @@ void    CGameInterfaceManager::UpdateShopItemTooltip(const tstring &sItem, IUnit
     {
         CStateDefinition *pAuraStateDef(EntityRegistry.GetDefinition<CStateDefinition>(cAuraList.front().GetStateName(uiLevel)));
 
-        if (pAuraStateDef != NULL)
+        if (pAuraStateDef != nullptr)
         {
             vTooltip[22] = _CTS("true");
 
@@ -6805,7 +6805,7 @@ void    CGameInterfaceManager::UpdateShopItemTooltip(const tstring &sItem, IUnit
         for (tsvector_cit it(vComponentList.begin()); it != vComponentList.end() && iSlot < 4; ++it)
         {
             CItemDefinition *pItemDefinition(EntityRegistry.GetDefinition<CItemDefinition>(*it));
-            if (pItemDefinition == NULL)
+            if (pItemDefinition == nullptr)
                 continue;
 
             ushort unTypeID(pItemDefinition->GetTypeID());
@@ -6815,11 +6815,11 @@ void    CGameInterfaceManager::UpdateShopItemTooltip(const tstring &sItem, IUnit
             bool bFound(false);
             for (uint uiItemSlot(INVENTORY_START_BACKPACK); uiItemSlot <= INVENTORY_END_BACKPACK; ++uiItemSlot)
             {
-                if (pControlUnit == NULL)
+                if (pControlUnit == nullptr)
                     continue;
 
                 IEntityItem *pItem(pControlUnit->GetItem(uiItemSlot));
-                if (pItem == NULL)
+                if (pItem == nullptr)
                     continue;
                 if (pItem->GetType() != unTypeID)
                     continue;
@@ -6838,7 +6838,7 @@ void    CGameInterfaceManager::UpdateShopItemTooltip(const tstring &sItem, IUnit
                 if (bUsed)
                     continue;
 
-                vComponents.push_back(uiItemSlot);
+                vComponents.emplace_back(uiItemSlot);
                 bFound = true;
                 break;
             }
@@ -6855,11 +6855,11 @@ void    CGameInterfaceManager::UpdateShopItemTooltip(const tstring &sItem, IUnit
             bool bFound(false);
             for (uint uiItemSlot(INVENTORY_START_BACKPACK); uiItemSlot <= INVENTORY_END_BACKPACK; ++uiItemSlot)
             {
-                if (pControlUnit == NULL)
+                if (pControlUnit == nullptr)
                     continue;
 
                 IEntityItem *pItem(pControlUnit->GetItem(uiItemSlot));
-                if (pItem == NULL)
+                if (pItem == nullptr)
                     continue;
                 if (pItem->GetType() != unTypeID)
                     continue;
@@ -6903,14 +6903,14 @@ void    CGameInterfaceManager::UpdateShopItem(const tstring &sItem, bool bAccess
 {
     CPlayer *pLocalPlayer(GameClient.GetLocalPlayer());
 
-    if (pLocalPlayer == NULL || sItem.empty())
+    if (pLocalPlayer == nullptr || sItem.empty())
     {
         vItem[0] = _CTS("false");
         return;
     }
 
     CItemDefinition *pDef(EntityRegistry.GetDefinition<CItemDefinition>(sItem));
-    if (pDef == NULL)
+    if (pDef == nullptr)
     {
         vItem[0] = _CTS("false");
         return;
@@ -6951,7 +6951,7 @@ void    CGameInterfaceManager::UpdateShopItem(const tstring &sItem, bool bAccess
         unShop = GameClient.GetShop(sItem);
 
     CShopDefinition *pShop(EntityRegistry.GetDefinition<CShopDefinition>(unShop));
-    if (pShop != NULL)
+    if (pShop != nullptr)
     {
         vItem[9] = pShop->GetIconPath();
         vItem[10] = pShop->GetDisplayName();
@@ -7012,7 +7012,7 @@ void    CGameInterfaceManager::UpdateShopItem(const tstring &sItem, bool bAccess
     
     IHeroEntity *pHero(pLocalPlayer->GetHero());
 
-    if (pHero != NULL)
+    if (pHero != nullptr)
     {
         CHeroDefinition *pHeroDef(EntityRegistry.GetDefinition<CHeroDefinition>(pHero->GetType()));
         vItem[24] = XtoA(pHeroDef->HasGoodItem(pDef->GetName()));
@@ -7030,7 +7030,7 @@ void    CGameInterfaceManager::UpdateShopRecipe(const tstring &sRecipe, IUnitEnt
     PROFILE("CGameInterfaceManager::UpdateShopRecipe");
 
     CItemDefinition *pDef(EntityRegistry.GetDefinition<CItemDefinition>(sRecipe));
-    if (pDef == NULL)
+    if (pDef == nullptr)
     {
         vItem[0] = _CTS("false");
 
@@ -7064,11 +7064,11 @@ void    CGameInterfaceManager::UpdateShopRecipe(const tstring &sRecipe, IUnitEnt
         bool bFound(false);
         for (uint uiItemSlot(INVENTORY_START_BACKPACK); uiItemSlot <= INVENTORY_END_BACKPACK; ++uiItemSlot)
         {
-            if (pControlUnit == NULL)
+            if (pControlUnit == nullptr)
                 continue;
 
             IEntityItem *pItem(pControlUnit->GetItem(uiItemSlot));
-            if (pItem == NULL)
+            if (pItem == nullptr)
                 continue;
             if (pItem->GetType() != unTypeID)
                 continue;
@@ -7087,7 +7087,7 @@ void    CGameInterfaceManager::UpdateShopRecipe(const tstring &sRecipe, IUnitEnt
             if (bUsed)
                 continue;
 
-            vComponents.push_back(uiItemSlot);
+            vComponents.emplace_back(uiItemSlot);
             bFound = true;
             break;
         }
@@ -7101,7 +7101,7 @@ void    CGameInterfaceManager::UpdateShopRecipe(const tstring &sRecipe, IUnitEnt
             false,
             bFound,
             true,
-            pControlUnit != NULL ? pControlUnit->GetCanCarryItems() : true,
+            pControlUnit != nullptr ? pControlUnit->GetCanCarryItems() : true,
             false,
             INVALID_ENT_TYPE,
             iKeySlot++,
@@ -7117,7 +7117,7 @@ void    CGameInterfaceManager::UpdateShopRecipe(const tstring &sRecipe, IUnitEnt
             uiSlot,
             false,
             bFound,
-            pControlUnit != NULL ? pControlUnit->GetCanCarryItems() : true,
+            pControlUnit != nullptr ? pControlUnit->GetCanCarryItems() : true,
             GameClient.CanAccessItem(sItem),
             GameClient.CanAccessItemLocal(sItem)
         );
@@ -7139,18 +7139,18 @@ void    CGameInterfaceManager::UpdateShopRecipe(const tstring &sRecipe, IUnitEnt
                 bool bFound(false);
                 for (uint uiItemSlot(INVENTORY_START_BACKPACK); uiItemSlot <= INVENTORY_END_BACKPACK; ++uiItemSlot)
                 {
-                    if (pControlUnit == NULL)
+                    if (pControlUnit == nullptr)
                         continue;
 
                     IEntityItem *pItem(pControlUnit->GetItem(uiItemSlot));
-                    if (pItem == NULL)
+                    if (pItem == nullptr)
                         continue;
                     if (pItem->GetType() != unTypeID)
                         continue;
                     if (pItem->HasFlag(ENTITY_TOOL_FLAG_ASSEMBLED))
                         continue;
 
-                    vComponents.push_back(uiItemSlot);
+                    vComponents.emplace_back(uiItemSlot);
                     bFound = true;
                     break;
                 }
@@ -7164,7 +7164,7 @@ void    CGameInterfaceManager::UpdateShopRecipe(const tstring &sRecipe, IUnitEnt
                     true,
                     bFound,
                     false,
-                    pControlUnit != NULL ? pControlUnit->GetCanCarryItems() : true,
+                    pControlUnit != nullptr ? pControlUnit->GetCanCarryItems() : true,
                     false,
                     INVALID_ENT_TYPE,
                     iKeySlot++,
@@ -7178,7 +7178,7 @@ void    CGameInterfaceManager::UpdateShopRecipe(const tstring &sRecipe, IUnitEnt
                     uiSlot,
                     true,
                     bFound,
-                    pControlUnit != NULL ? pControlUnit->GetCanCarryItems() : true,
+                    pControlUnit != nullptr ? pControlUnit->GetCanCarryItems() : true,
                     GameClient.CanAccessItem(sItem),
                     GameClient.CanAccessItemLocal(sItem)
                 );
@@ -7234,7 +7234,7 @@ void    CGameInterfaceManager::UpdateShopRecipe(const tstring &sRecipe, IUnitEnt
             false,
             false,
             true,
-            pControlUnit != NULL ? pControlUnit->GetCanCarryItems() : true,
+            pControlUnit != nullptr ? pControlUnit->GetCanCarryItems() : true,
             true,
             INVALID_ENT_TYPE,
             iKeySlot++,
@@ -7249,7 +7249,7 @@ void    CGameInterfaceManager::UpdateShopRecipe(const tstring &sRecipe, IUnitEnt
             uiSlot,
             false,
             false,
-            pControlUnit != NULL ? pControlUnit->GetCanCarryItems() : true,
+            pControlUnit != nullptr ? pControlUnit->GetCanCarryItems() : true,
             GameClient.CanAccessItem(sItem),
             GameClient.CanAccessItemLocal(sItem)
         );
@@ -7299,10 +7299,10 @@ void    CGameInterfaceManager::UpdateShop()
 
     // Sanity checks
     CPlayer *pPlayer(GameClient.GetLocalPlayer());
-    if (pPlayer == NULL)
+    if (pPlayer == nullptr)
         return;
     CClientCommander *pCommander(GameClient.GetClientCommander());
-    if (pCommander == NULL)
+    if (pCommander == nullptr)
         return;
     IUnitEntity *pControlUnit(pCommander->GetSelectedControlEntity());
 
@@ -7347,7 +7347,7 @@ void    CGameInterfaceManager::UpdateShop()
     ushort unShop(EntityRegistry.LookupID(sActiveShop));
     CShopDefinition *pShop(EntityRegistry.GetDefinition<CShopDefinition>(unShop));
 
-    if (pShop == NULL)
+    if (pShop == nullptr)
     {
         Trigger(UITRIGGER_SHOP_TYPE, TSNULL);
         Trigger(UITRIGGER_SHOP_NAME, TSNULL);
@@ -7374,11 +7374,11 @@ void    CGameInterfaceManager::UpdateShop()
 
     bool bShopAccess(GameClient.CanAccessShop(GameClient.GetActiveShop()));
     bool bShopLocal(GameClient.CanAccessLocalShop(GameClient.GetActiveShop()));
-    bool bCarry(pControlUnit != NULL ? pControlUnit->GetCanCarryItems() : true);
+    bool bCarry(pControlUnit != nullptr ? pControlUnit->GetCanCarryItems() : true);
 
     const tsvector &vItems(pShop->GetItems());
 
-    const tstring &sRestrictItemAccess(pControlUnit != NULL ? pControlUnit->GetRestrictItemAccess() : TSNULL);
+    const tstring &sRestrictItemAccess(pControlUnit != nullptr ? pControlUnit->GetRestrictItemAccess() : TSNULL);
 
     // Items
     uiSlot = 0;
@@ -7472,7 +7472,7 @@ void    CGameInterfaceManager::UpdateStash(IUnitEntity *pUnit, IUnitEntity *pCon
 {
     PROFILE("CGameInterfaceManager::UpdateStash");
 
-    if (pUnit == NULL)
+    if (pUnit == nullptr)
     {
         for (int iSlot(0); iSlot < INVENTORY_STASH_SIZE; ++iSlot)
             Trigger(UITRIGGER_STASH_EXISTS, false, iSlot);
@@ -7480,12 +7480,12 @@ void    CGameInterfaceManager::UpdateStash(IUnitEntity *pUnit, IUnitEntity *pCon
         return;
     }
 
-    bool bCanAccess(pControlUnit != NULL && pControlUnit->GetCanCarryItems() && !pControlUnit->GetShopAccess().empty());
+    bool bCanAccess(pControlUnit != nullptr && pControlUnit->GetCanCarryItems() && !pControlUnit->GetShopAccess().empty());
 
     for (int iSlot(0); iSlot < INVENTORY_STASH_SIZE; ++iSlot)
     {
         IEntityItem *pItem(pUnit->GetItem(INVENTORY_START_STASH + iSlot));
-        if (pItem == NULL)
+        if (pItem == nullptr)
         {
             // available, level, max level
             tsvector vStatus(3);
@@ -7543,15 +7543,15 @@ void    CGameInterfaceManager::UpdateVote()
 
     CGameInfo *pGameInfo(GameClient.GetGameInfo());
 
-    if (pGameInfo == NULL)
+    if (pGameInfo == nullptr)
         return;
 
     CPlayer *pLocalPlayer(GameClient.GetLocalPlayer());
-    if (pLocalPlayer == NULL)
+    if (pLocalPlayer == nullptr)
         return;
 
     CTeamInfo *pLocalTeam(GameClient.GetTeam(pLocalPlayer->GetTeam()));
-    if (pLocalTeam == NULL)
+    if (pLocalTeam == nullptr)
         return;
 
     const map<uint, CTeamInfo*> mapTeams(GameClient.GetTeams());
@@ -7574,10 +7574,10 @@ void    CGameInterfaceManager::UpdateVote()
     bool bBeingKicked(((pGameInfo->GetActiveVoteType() == VOTE_TYPE_KICK || pGameInfo->GetActiveVoteType() == VOTE_TYPE_KICK_AFK) && pGameInfo->GetVoteTarget() == pLocalPlayer->GetClientNumber()));
     bool bOtherTeamPausing((pGameInfo->GetActiveVoteType() == VOTE_TYPE_PAUSE && pGameInfo->GetVoteTarget() != pLocalPlayer->GetTeam()));
 
-    CPlayer *pAFKKickTarget = NULL;
+    CPlayer *pAFKKickTarget = nullptr;
     if (pGameInfo->GetActiveVoteType() == VOTE_TYPE_KICK_AFK)
         pAFKKickTarget = Game.GetPlayerFromClientNumber(pGameInfo->GetVoteTarget());
-    bool bOtherTeamAFKKicking(pAFKKickTarget != NULL && pAFKKickTarget->GetTeam() != pLocalPlayer->GetTeam());
+    bool bOtherTeamAFKKicking(pAFKKickTarget != nullptr && pAFKKickTarget->GetTeam() != pLocalPlayer->GetTeam());
 
     uint uiCoolDown(pLocalPlayer->GetLastVoteCallTime() == INVALID_TIME ? INVALID_TIME : GameClient.GetGameTime() - pLocalPlayer->GetLastVoteCallTime());
     if (uiCoolDown >= g_voteCooldownTime)
@@ -7630,7 +7630,7 @@ void    CGameInterfaceManager::UpdateVote()
     case VOTE_TYPE_KICK:
         {
             CPlayer *pPlayer(GameClient.GetPlayer(pGameInfo->GetVoteTarget()));
-            if (pPlayer == NULL)
+            if (pPlayer == nullptr)
                 break;
             vVoteType[0] = _CTS("vote_kick");
             vVoteType[1] = pPlayer ? (GetInlineColorString<tstring>(pPlayer->GetColor()) + pPlayer->GetName()) : TSNULL;
@@ -7641,7 +7641,7 @@ void    CGameInterfaceManager::UpdateVote()
     case VOTE_TYPE_KICK_AFK:
         {
             CPlayer *pPlayer(GameClient.GetPlayer(pGameInfo->GetVoteTarget()));
-            if (pPlayer == NULL)
+            if (pPlayer == nullptr)
                 break;          
             vVoteType[0] = _CTS("vote_kick_afk");
             vVoteType[1] = pPlayer ? (GetInlineColorString<tstring>(pPlayer->GetColor()) + pPlayer->GetName()) : TSNULL;
@@ -7678,7 +7678,7 @@ void    CGameInterfaceManager::UpdateSpectatorTeam(uint uiTeam, uint uiIndex)
     static tsvector vTeamInfo(10);
 
     CTeamInfo *pTeam(Game.GetTeam(uiTeam));
-    if (pTeam == NULL)
+    if (pTeam == nullptr)
     {
         for (uint ui(0); ui < vTeamInfo.size(); ++ui)
             vTeamInfo[ui].clear();
@@ -7700,7 +7700,7 @@ void    CGameInterfaceManager::UpdateSpectatorTeam(uint uiTeam, uint uiIndex)
     Trigger(UITRIGGER_SPECTATOR_TEAMINFO, vTeamInfo, uiIndex);
 
     IBuildingEntity *pBase(GameClient.GetBuildingEntity(pTeam->GetBaseBuildingIndex()));
-    if (pBase != NULL)
+    if (pBase != nullptr)
     {
         Trigger(UITRIGGER_BASE_HEALTH, pTeam->GetBaseHealthPercent(), uiIndex);
         Trigger(UITRIGGER_BASE_HEALTH_VISIBLE, pBase->GetLastDamageTime() + 5000 > Game.GetGameTime(), uiIndex);
@@ -7730,7 +7730,7 @@ void    CGameInterfaceManager::SaveSpectatorPlayers()
     for (uint uiTeam(0); uiTeam < MAX_DISPLAY_TEAMS; ++uiTeam)
     {
         CTeamInfo *pTeam(GameClient.GetTeam(uiTeam + 1));
-        if (pTeam == NULL)
+        if (pTeam == nullptr)
             continue;
 
         int iTotalPlayers(0);
@@ -7739,7 +7739,7 @@ void    CGameInterfaceManager::SaveSpectatorPlayers()
         {
             CPlayer *pClient(GameClient.GetPlayer(pTeam->GetClientIDFromTeamIndex(uiPlayer)));
 
-            if (pClient == NULL)
+            if (pClient == nullptr)
                 continue;
 
             uint uiIndex(uiTeam * MAX_DISPLAY_PLAYERSPERTEAM + iTotalPlayers);
@@ -7747,7 +7747,7 @@ void    CGameInterfaceManager::SaveSpectatorPlayers()
             m_vSavedPlayer[uiIndex].resize(17);
 
             IHeroEntity *pHero(pClient->GetHero());
-            if (pHero == NULL)
+            if (pHero == nullptr)
             {
                 vPlayer[0] = pClient->GetName();
                 vPlayer[1] = _T("No hero");
@@ -7848,7 +7848,7 @@ void    CGameInterfaceManager::UpdateSpectatorPlayers()
     for (uint uiTeam(0); uiTeam < MAX_DISPLAY_TEAMS; ++uiTeam)
     {
         CTeamInfo *pTeam(GameClient.GetTeam(uiTeam + 1));
-        if (pTeam == NULL)
+        if (pTeam == nullptr)
             continue;
 
         int iTotalPlayers(0);
@@ -7857,13 +7857,13 @@ void    CGameInterfaceManager::UpdateSpectatorPlayers()
         {
             CPlayer *pClient(GameClient.GetPlayer(pTeam->GetClientIDFromTeamIndex(uiPlayer)));
 
-            if (pClient == NULL)
+            if (pClient == nullptr)
                 continue;
 
             uint uiIndex(uiTeam * MAX_DISPLAY_PLAYERSPERTEAM + iTotalPlayers);
 
             IHeroEntity *pHero(pClient->GetHero());
-            if (pHero == NULL)
+            if (pHero == nullptr)
             {
                 vPlayer[0] = pClient->GetName();
                 vPlayer[1] = _T("No hero");
@@ -7969,7 +7969,7 @@ void    CGameInterfaceManager::UpdateSpectatorHeroes()
     for (uint uiTeam(0); uiTeam < MAX_DISPLAY_TEAMS; ++uiTeam)
     {
         CTeamInfo *pTeam(GameClient.GetTeam(uiTeam + 1));
-        if (pTeam == NULL)
+        if (pTeam == nullptr)
             continue;
 
         uint uiTotalPlayers(0);
@@ -7977,11 +7977,11 @@ void    CGameInterfaceManager::UpdateSpectatorHeroes()
         {
             CPlayer *pClient(GameClient.GetPlayer(pTeam->GetClientIDFromTeamIndex(uiPlayer)));
             
-            if (pClient == NULL ||  pClient->HasFlags(PLAYER_FLAG_TERMINATED))
+            if (pClient == nullptr ||  pClient->HasFlags(PLAYER_FLAG_TERMINATED))
                 continue;
 
             IHeroEntity *pHero(pClient->GetHero());
-            if (pHero == NULL)
+            if (pHero == nullptr)
                 continue;
 
             uint uiIndex(uiTeam * MAX_DISPLAY_PLAYERSPERTEAM + uiTotalPlayers);
@@ -8016,7 +8016,7 @@ void    CGameInterfaceManager::UpdateSpectatorHeroes()
             Trigger(UITRIGGER_SPECTATOR_HERO_STATUS, pHero->GetStatus() == ENTITY_STATUS_ACTIVE, uiIndex);
 
             static tsvector vRespawn(3);
-            if (pHero != NULL && pHero->GetRespawnTime() != INVALID_TIME)
+            if (pHero != nullptr && pHero->GetRespawnTime() != INVALID_TIME)
             {
                 vRespawn[0] = XtoA(MAX(int(pHero->GetRemainingRespawnTime() - GameClient.GetServerFrameLength()), 0));
                 vRespawn[1] = XtoA(pHero->GetRespawnDuration());
@@ -8090,7 +8090,7 @@ void    CGameInterfaceManager::UpdateSpectatorVoiceChat()
 bool    CGameInterfaceManager::IsFirstBanButtonVisible() const
 {
     CGameInfo* pGameInfo(Game.GetGameInfo());
-    if (pGameInfo == NULL)
+    if (pGameInfo == nullptr)
         return false;
 
     if (pGameInfo->GetGamePhase() <= GAME_PHASE_WAITING_FOR_PLAYERS)
@@ -8124,7 +8124,7 @@ void    CGameInterfaceManager::ForceUpdate()
 void    CGameInterfaceManager::RequestPlayerStats(int iAccountID)
 {
     Host.GetHTTPManager()->ReleaseRequest(m_pStatsRequest);
-    m_pStatsRequest = NULL;
+    m_pStatsRequest = nullptr;
 
     if (iAccountID < 0)
     {
@@ -8140,7 +8140,7 @@ void    CGameInterfaceManager::RequestPlayerStats(int iAccountID)
     }
 
     m_pStatsRequest = Host.GetHTTPManager()->SpawnRequest();
-    if (m_pStatsRequest == NULL)
+    if (m_pStatsRequest == nullptr)
         return;
 
     m_iRequestedStatsAccountID = iAccountID;
@@ -8158,12 +8158,12 @@ void    CGameInterfaceManager::RequestPlayerStats(int iAccountID)
 void    CGameInterfaceManager::RequestPlayerStats(const tstring &sName)
 {
     Host.GetHTTPManager()->ReleaseRequest(m_pStatsRequest);
-    m_pStatsRequest = NULL;
+    m_pStatsRequest = nullptr;
 
     m_iRequestedStatsAccountID = -1;
 
     m_pStatsRequest = Host.GetHTTPManager()->SpawnRequest();
-    if (m_pStatsRequest == NULL)
+    if (m_pStatsRequest == nullptr)
         return;
 
     m_pStatsRequest->SetTargetURL(K2System.GetMasterServerAddress() + "/client_requester.php");
@@ -8178,10 +8178,10 @@ void    CGameInterfaceManager::RequestPlayerStats(const tstring &sName)
   ====================*/
 void    CGameInterfaceManager::RequestMatchInfo(uint uiMatchID)
 {
-    if (Host.GetActiveClient() == NULL)
+    if (Host.GetActiveClient() == nullptr)
         return;
 
-    if (m_pRecentMatchesRequest != NULL)
+    if (m_pRecentMatchesRequest != nullptr)
     {
         Console << _T("Queueing match info for Match ") << uiMatchID << newl;
 
@@ -8235,7 +8235,7 @@ void    CGameInterfaceManager::RequestMatchInfo(uint uiMatchID)
 
     Host.GetHTTPManager()->ReleaseRequest(m_pMatchInfoRequest);
     m_pMatchInfoRequest = Host.GetHTTPManager()->SpawnRequest();
-    if (m_pMatchInfoRequest == NULL)
+    if (m_pMatchInfoRequest == nullptr)
         return;
 
     if (uiMatchID != 0 && uiMatchID != -1)
@@ -8254,12 +8254,12 @@ void    CGameInterfaceManager::RequestMatchInfo(uint uiMatchID)
   ====================*/
 void    CGameInterfaceManager::RequestTournamentInfo(uint uiTournamentID)
 {
-    if (Host.GetActiveClient() == NULL)
+    if (Host.GetActiveClient() == nullptr)
         return;
 
     Host.GetHTTPManager()->ReleaseRequest(m_pTournamentRequest);
     m_pTournamentRequest = Host.GetHTTPManager()->SpawnRequest();
-    if (m_pTournamentRequest == NULL)
+    if (m_pTournamentRequest == nullptr)
         return;
 
     m_pTournamentRequest->SetType(GET_TOURNAMENT_INFO);
@@ -8276,12 +8276,12 @@ void    CGameInterfaceManager::RequestTournamentInfo(uint uiTournamentID)
   ====================*/
 void    CGameInterfaceManager::RequestTournamentsForAccount(uint uiAccountID)
 {
-    if (Host.GetActiveClient() == NULL)
+    if (Host.GetActiveClient() == nullptr)
         return;
 
     Host.GetHTTPManager()->ReleaseRequest(m_pTournamentRequest);
     m_pTournamentRequest = Host.GetHTTPManager()->SpawnRequest();
-    if (m_pTournamentRequest == NULL)
+    if (m_pTournamentRequest == nullptr)
         return;
 
     m_pTournamentRequest->SetType(GET_TOURNAMENTS_FOR_ACCOUNT);
@@ -8299,7 +8299,7 @@ void    CGameInterfaceManager::RequestTournamentsForAccount(uint uiAccountID)
   ====================*/
 void    CGameInterfaceManager::RequestRecentMatches()
 {
-    if (Host.GetActiveClient() == NULL)
+    if (Host.GetActiveClient() == nullptr)
         return;
 
     Console << _T("Requesting recent matches") << newl;
@@ -8312,7 +8312,7 @@ void    CGameInterfaceManager::RequestRecentMatches()
 
     Host.GetHTTPManager()->ReleaseRequest(m_pRecentMatchesRequest);
     m_pRecentMatchesRequest = Host.GetHTTPManager()->SpawnRequest();
-    if (m_pRecentMatchesRequest == NULL)
+    if (m_pRecentMatchesRequest == nullptr)
         return;
 
     m_pRecentMatchesRequest->SetTargetURL(K2System.GetMasterServerAddress() + "/client_requester.php");
@@ -8343,14 +8343,14 @@ void    CGameInterfaceManager::ClearMatchInfo()
   ====================*/
 void    CGameInterfaceManager::ProcessStatsRequest()
 {
-    if (m_pStatsRequest == NULL || m_pStatsRequest->IsActive())
+    if (m_pStatsRequest == nullptr || m_pStatsRequest->IsActive())
         return;
 
     if (!m_pStatsRequest->WasSuccessful())
     {
         Console.Warn << _T("PlayerStatsRequest: Error in response") << newl;
         Host.GetHTTPManager()->ReleaseRequest(m_pStatsRequest);
-        m_pStatsRequest = NULL;
+        m_pStatsRequest = nullptr;
         m_iRequestedStatsAccountID = -1;
         return;
     }
@@ -8358,7 +8358,7 @@ void    CGameInterfaceManager::ProcessStatsRequest()
     const CPHPData phpResponse(m_pStatsRequest->GetResponse());
 
     Host.GetHTTPManager()->ReleaseRequest(m_pStatsRequest);
-    m_pStatsRequest = NULL;
+    m_pStatsRequest = nullptr;
 
     if (!phpResponse.IsValid())
     {
@@ -8378,11 +8378,11 @@ void    CGameInterfaceManager::ProcessStatsRequest()
     tstring sClanName;
     tstring sRank;
 
-    if (pClanData != NULL && pClanData->IsValid())
+    if (pClanData != nullptr && pClanData->IsValid())
     {
         pClanData = pClanData->GetVar(0);
 
-        if (pClanData != NULL)
+        if (pClanData != nullptr)
         {
             sClanName = pClanData->GetString(_T("name"));
             sRank = pClanData->GetString(_T("rank"));
@@ -8391,7 +8391,7 @@ void    CGameInterfaceManager::ProcessStatsRequest()
 
 
     const CPHPData *pStatsData(phpResponse.GetVar(_T("all_stats")));
-    if (pStatsData == NULL || !pStatsData->IsValid())
+    if (pStatsData == nullptr || !pStatsData->IsValid())
     {
         if (m_iRequestedStatsAccountID != -1)
         {
@@ -8403,7 +8403,7 @@ void    CGameInterfaceManager::ProcessStatsRequest()
         {
             const CPHPData *pIDData(phpResponse.GetVar(1));
 
-            if (pIDData == NULL || !pIDData->IsValid())
+            if (pIDData == nullptr || !pIDData->IsValid())
             {
                 Console.Warn << _T("PlayerStatsRequest: Missing data") << newl;
                 RequestPlayerStats(-1);
@@ -8416,7 +8416,7 @@ void    CGameInterfaceManager::ProcessStatsRequest()
     }
 
     pStatsData = pStatsData->GetVar(XtoA(m_iRequestedStatsAccountID));
-    if (pStatsData == NULL || !pStatsData->IsValid())
+    if (pStatsData == nullptr || !pStatsData->IsValid())
     {
         Console << _T("PlayerStatsRequest: Missing stats for account #") << m_iRequestedStatsAccountID << newl;
         return;
@@ -8495,7 +8495,7 @@ void    CGameInterfaceManager::ProcessStatsRequest()
         vStats[37] = pStatsData->GetString(_T("acc_em_played"));
         
 
-        if (Host.GetActiveClient() != NULL && Host.GetActiveClient()->GetAccountID() == m_iRequestedStatsAccountID)
+        if (Host.GetActiveClient() != nullptr && Host.GetActiveClient()->GetAccountID() == m_iRequestedStatsAccountID)
             Trigger(UITRIGGER_MAIN_LOCAL_PLAYER_STATS, vStats);
 
         Trigger(UITRIGGER_MAIN_PLAYER_STATS, vStats);
@@ -8510,7 +8510,7 @@ void    CGameInterfaceManager::ProcessStatsRequest()
   ====================*/
 void    CGameInterfaceManager::ProcessMatchInfoRequest()
 {
-    if (m_pMatchInfoRequest == NULL || m_pMatchInfoRequest->IsActive())
+    if (m_pMatchInfoRequest == nullptr || m_pMatchInfoRequest->IsActive())
         return;
 
     Console << _T("Processing match info request") << newl;
@@ -8523,7 +8523,7 @@ void    CGameInterfaceManager::ProcessMatchInfoRequest()
     {
         Console.Warn << _T("RequestMatchInfo: Failed") << newl;
         Host.GetHTTPManager()->ReleaseRequest(m_pMatchInfoRequest);
-        m_pMatchInfoRequest = NULL;
+        m_pMatchInfoRequest = nullptr;
 
         vSummaryStats[0] = _T("main_stats_failed_retrieval");
         Trigger(UITRIGGER_MATCH_INFO_SUMMARY, vSummaryStats);
@@ -8534,7 +8534,7 @@ void    CGameInterfaceManager::ProcessMatchInfoRequest()
 
     // The response is now stored in the PHP array object, so the request can be released
     Host.GetHTTPManager()->ReleaseRequest(m_pMatchInfoRequest);
-    m_pMatchInfoRequest = NULL;
+    m_pMatchInfoRequest = nullptr;
 
     if (!phpResponse.IsValid() || !phpResponse.GetBool(_T("0")))
     {
@@ -8545,9 +8545,9 @@ void    CGameInterfaceManager::ProcessMatchInfoRequest()
     }
 
     const CPHPData *pSummary(phpResponse.GetVar(_T("match_summ")));
-    if (pSummary != NULL)
+    if (pSummary != nullptr)
         pSummary = pSummary->GetVar(0);
-    if (pSummary == NULL)
+    if (pSummary == nullptr)
     {
         Console.Warn << _T("RequestMatchInfo: No summary data") << newl;
         vSummaryStats[0] = _T("main_stats_does_not_exist");
@@ -8557,9 +8557,9 @@ void    CGameInterfaceManager::ProcessMatchInfoRequest()
 
     // Player stats
     const CPHPData *pPlayerData(phpResponse.GetVar(_T("match_player_stats")));
-    if (pPlayerData != NULL)
+    if (pPlayerData != nullptr)
         pPlayerData = pPlayerData->GetVar(0);
-    if (pPlayerData == NULL)
+    if (pPlayerData == nullptr)
     {
         Console.Warn << _T("RequestMatchInfo: No player data") << newl;
         vSummaryStats[0] = _T("main_stats_failed_retrieval");
@@ -8578,7 +8578,7 @@ void    CGameInterfaceManager::ProcessMatchInfoRequest()
     {
         const CPHPData *pPlayer(pPlayerData->GetVar(i));
 
-        if (pPlayer == NULL)
+        if (pPlayer == nullptr)
             continue;
 
         if (pPlayer->GetString(_T("team")).empty())
@@ -8612,19 +8612,19 @@ void    CGameInterfaceManager::ProcessMatchInfoRequest()
             vPlayerStats[x] = TSNULL;
 
         const CPHPData *pInventory(phpResponse.GetVar(_T("inventory")));
-        if (pInventory != NULL)
+        if (pInventory != nullptr)
             pInventory = pInventory->GetVar(0);
 
-        if (pInventory != NULL)
+        if (pInventory != nullptr)
         {
             const CPHPData *pItem(pInventory->GetVar(pPlayer->GetString(_T("account_id"))));
-            if (pItem != NULL)
+            if (pItem != nullptr)
             {
                 for (uint x = 1; x < 7; ++x)
                 {
                     CItemDefinition *pItemDef(EntityRegistry.GetDefinition<CItemDefinition>(pItem->GetString(_T("slot_") + XtoA(x))));
 
-                    if (pItemDef != NULL)
+                    if (pItemDef != nullptr)
                         vPlayerStats[10 + x] = pItemDef->GetIconPath(0);
                 }
             }
@@ -8676,9 +8676,9 @@ void    CGameInterfaceManager::ProcessMatchInfoRequest()
 
     // Team stats
     const CPHPData *pTeams(phpResponse.GetVar(_T("team_summ")));
-    if (pTeams != NULL)
+    if (pTeams != nullptr)
         pTeams = pTeams->GetVar(0);
-    if (pTeams == NULL)
+    if (pTeams == nullptr)
     {
         Console.Warn << _T("RequestMatchInfo: No team data") << newl;
         vSummaryStats[0] = _T("main_stats_failed_retrieval");
@@ -8687,7 +8687,7 @@ void    CGameInterfaceManager::ProcessMatchInfoRequest()
     }
 
     int iWinner(0);
-    if (pTeams->GetVar(_T("1")) != NULL && pTeams->GetVar(_T("2")) != NULL)
+    if (pTeams->GetVar(_T("1")) != nullptr && pTeams->GetVar(_T("2")) != nullptr)
     {
         if (pTeams->GetVar(_T("1"))->GetInteger(_T("tm_wins")) > pTeams->GetVar(_T("2"))->GetInteger(_T("tm_wins")))
             iWinner = 1;
@@ -8780,13 +8780,13 @@ void    CGameInterfaceManager::ProcessMatchInfoRequest()
   ====================*/
 void    CGameInterfaceManager::ProcessTournamentRequest()
 {
-    if (m_pTournamentRequest == NULL || m_pTournamentRequest->IsActive())
+    if (m_pTournamentRequest == nullptr || m_pTournamentRequest->IsActive())
         return;
 
     if (!m_pTournamentRequest->WasSuccessful())
     {
         Host.GetHTTPManager()->ReleaseRequest(m_pTournamentRequest);
-        m_pTournamentRequest = NULL;
+        m_pTournamentRequest = nullptr;
         Console.Warn << _T("RequestTournamentData: Error in response") << newl;
         return;
     }
@@ -8795,7 +8795,7 @@ void    CGameInterfaceManager::ProcessTournamentRequest()
 
     uint uiType(m_pTournamentRequest->GetType());
     Host.GetHTTPManager()->ReleaseRequest(m_pTournamentRequest);
-    m_pTournamentRequest = NULL;
+    m_pTournamentRequest = nullptr;
 
     if (!phpResponse.IsValid())
     {
@@ -8808,61 +8808,61 @@ void    CGameInterfaceManager::ProcessTournamentRequest()
     case GET_TOURNAMENT_INFO:
         {
             const CPHPData *pTournInfo(phpResponse.GetVar(_T("tourn_info"))->GetVar(0));
-            if (pTournInfo == NULL)
+            if (pTournInfo == nullptr)
             {
                 Console.Warn << _T("RequestTournamentData: No information for given tournament.") << newl;
                 return;
             }
 
             tsvector vParams;
-            vParams.push_back(pTournInfo->GetString(_T("tourn_id")));
-            vParams.push_back(pTournInfo->GetString(_T("tourn_name")));
-            vParams.push_back(pTournInfo->GetString(_T("tourn_admins")));
-            vParams.push_back(pTournInfo->GetString(_T("tourn_nextmatchname")));
-            vParams.push_back(pTournInfo->GetString(_T("tourn_nextmatchdate")));
-            vParams.push_back(pTournInfo->GetString(_T("tourn_nextmatchtime")));
-            vParams.push_back(pTournInfo->GetString(_T("tourn_bracket")));
-            vParams.push_back(pTournInfo->GetString(_T("tourn_pool")));
-            vParams.push_back(pTournInfo->GetString(_T("tourn_num_current")));
-            vParams.push_back(pTournInfo->GetString(_T("tourn_num_count")));
-            vParams.push_back(pTournInfo->GetString(_T("tourn_id_prev")));
-            vParams.push_back(pTournInfo->GetString(_T("tourn_id_next")));
-            vParams.push_back(pTournInfo->GetString(_T("tourn_matchtimestart")));
+            vParams.emplace_back(pTournInfo->GetString(_T("tourn_id")));
+            vParams.emplace_back(pTournInfo->GetString(_T("tourn_name")));
+            vParams.emplace_back(pTournInfo->GetString(_T("tourn_admins")));
+            vParams.emplace_back(pTournInfo->GetString(_T("tourn_nextmatchname")));
+            vParams.emplace_back(pTournInfo->GetString(_T("tourn_nextmatchdate")));
+            vParams.emplace_back(pTournInfo->GetString(_T("tourn_nextmatchtime")));
+            vParams.emplace_back(pTournInfo->GetString(_T("tourn_bracket")));
+            vParams.emplace_back(pTournInfo->GetString(_T("tourn_pool")));
+            vParams.emplace_back(pTournInfo->GetString(_T("tourn_num_current")));
+            vParams.emplace_back(pTournInfo->GetString(_T("tourn_num_count")));
+            vParams.emplace_back(pTournInfo->GetString(_T("tourn_id_prev")));
+            vParams.emplace_back(pTournInfo->GetString(_T("tourn_id_next")));
+            vParams.emplace_back(pTournInfo->GetString(_T("tourn_matchtimestart")));
             
-            vParams.push_back(pTournInfo->GetString(_T("map")));
-            vParams.push_back(pTournInfo->GetString(_T("gamemode")));
-            vParams.push_back(pTournInfo->GetString(_T("allheroes")));
-            vParams.push_back(pTournInfo->GetString(_T("randomhero")));
-            vParams.push_back(pTournInfo->GetString(_T("easymode")));
+            vParams.emplace_back(pTournInfo->GetString(_T("map")));
+            vParams.emplace_back(pTournInfo->GetString(_T("gamemode")));
+            vParams.emplace_back(pTournInfo->GetString(_T("allheroes")));
+            vParams.emplace_back(pTournInfo->GetString(_T("randomhero")));
+            vParams.emplace_back(pTournInfo->GetString(_T("easymode")));
             
-            vParams.push_back(pTournInfo->GetString(_T("advancedoptions")));
-            vParams.push_back(pTournInfo->GetString(_T("noherorepick")));
-            vParams.push_back(pTournInfo->GetString(_T("noheroswap")));
-            vParams.push_back(pTournInfo->GetString(_T("noagiheroes")));
-            vParams.push_back(pTournInfo->GetString(_T("nointheroes")));
-            vParams.push_back(pTournInfo->GetString(_T("nostrheroes")));
-            vParams.push_back(pTournInfo->GetString(_T("dropitems")));
-            vParams.push_back(pTournInfo->GetString(_T("nopowerups")));
-            vParams.push_back(pTournInfo->GetString(_T("norespawntimer")));
-            vParams.push_back(pTournInfo->GetString(_T("altheropicking")));
-            vParams.push_back(pTournInfo->GetString(_T("dupliateheroes")));
-            vParams.push_back(pTournInfo->GetString(_T("reverseheroselect")));
-            vParams.push_back(pTournInfo->GetString(_T("allowveto")));
+            vParams.emplace_back(pTournInfo->GetString(_T("advancedoptions")));
+            vParams.emplace_back(pTournInfo->GetString(_T("noherorepick")));
+            vParams.emplace_back(pTournInfo->GetString(_T("noheroswap")));
+            vParams.emplace_back(pTournInfo->GetString(_T("noagiheroes")));
+            vParams.emplace_back(pTournInfo->GetString(_T("nointheroes")));
+            vParams.emplace_back(pTournInfo->GetString(_T("nostrheroes")));
+            vParams.emplace_back(pTournInfo->GetString(_T("dropitems")));
+            vParams.emplace_back(pTournInfo->GetString(_T("nopowerups")));
+            vParams.emplace_back(pTournInfo->GetString(_T("norespawntimer")));
+            vParams.emplace_back(pTournInfo->GetString(_T("altheropicking")));
+            vParams.emplace_back(pTournInfo->GetString(_T("dupliateheroes")));
+            vParams.emplace_back(pTournInfo->GetString(_T("reverseheroselect")));
+            vParams.emplace_back(pTournInfo->GetString(_T("allowveto")));
 
-            vParams.push_back(ChatManager.GetTournamentAddress(pTournInfo->GetInteger(_T("tourn_id"))));
+            vParams.emplace_back(ChatManager.GetTournamentAddress(pTournInfo->GetInteger(_T("tourn_id"))));
                             
             const CPHPData *pTournInfoTeam1AccountList(pTournInfo->GetVar(_T("team1_account_list")));
             const CPHPData *pTournInfoTeam1PlayerList(pTournInfo->GetVar(_T("team1_name_list")));
-            if (pTournInfoTeam1AccountList != NULL && pTournInfoTeam1PlayerList != NULL)
+            if (pTournInfoTeam1AccountList != nullptr && pTournInfoTeam1PlayerList != nullptr)
             {               
                 uint uiTournInfoPlayerListArrayNum(0);
                 const CPHPData *pTournInfoTeam1Account(pTournInfoTeam1AccountList->GetVar(uiTournInfoPlayerListArrayNum));
                 const CPHPData *pTournInfoTeam1Player(pTournInfoTeam1PlayerList->GetVar(uiTournInfoPlayerListArrayNum));
-                while (pTournInfoTeam1Account != NULL && pTournInfoTeam1Player != NULL)
+                while (pTournInfoTeam1Account != nullptr && pTournInfoTeam1Player != nullptr)
                 {
                     tsvector vParams;
-                    vParams.push_back(pTournInfoTeam1Account->GetString());
-                    vParams.push_back(pTournInfoTeam1Player->GetString());
+                    vParams.emplace_back(pTournInfoTeam1Account->GetString());
+                    vParams.emplace_back(pTournInfoTeam1Player->GetString());
                     
                     GameClient.GetInterfaceManager()->Trigger(UITRIGGER_TOURNAMENT_INFO_TEAM1_PLAYERS_RETURN, vParams);
                     
@@ -8873,16 +8873,16 @@ void    CGameInterfaceManager::ProcessTournamentRequest()
             
             const CPHPData *pTournInfoTeam2AccountList(pTournInfo->GetVar(_T("team2_account_list")));
             const CPHPData *pTournInfoTeam2PlayerList(pTournInfo->GetVar(_T("team2_name_list")));
-            if (pTournInfoTeam2AccountList != NULL && pTournInfoTeam2PlayerList != NULL)
+            if (pTournInfoTeam2AccountList != nullptr && pTournInfoTeam2PlayerList != nullptr)
             {               
                 uint uiTournInfoPlayerListArrayNum(0);
                 const CPHPData *pTournInfoTeam2Account(pTournInfoTeam2AccountList->GetVar(uiTournInfoPlayerListArrayNum));
                 const CPHPData *pTournInfoTeam2Player(pTournInfoTeam2PlayerList->GetVar(uiTournInfoPlayerListArrayNum));
-                while (pTournInfoTeam2Account != NULL && pTournInfoTeam2Player != NULL)
+                while (pTournInfoTeam2Account != nullptr && pTournInfoTeam2Player != nullptr)
                 {
                     tsvector vParams;
-                    vParams.push_back(pTournInfoTeam2Account->GetString());
-                    vParams.push_back(pTournInfoTeam2Player->GetString());
+                    vParams.emplace_back(pTournInfoTeam2Account->GetString());
+                    vParams.emplace_back(pTournInfoTeam2Player->GetString());
                     
                     GameClient.GetInterfaceManager()->Trigger(UITRIGGER_TOURNAMENT_INFO_TEAM2_PLAYERS_RETURN, vParams);
                     
@@ -8899,7 +8899,7 @@ void    CGameInterfaceManager::ProcessTournamentRequest()
         {
             const CPHPData *phpTournsForAccount(phpResponse.GetVar(_T("tourns_for_account")));
 
-            if (phpTournsForAccount == NULL)
+            if (phpTournsForAccount == nullptr)
             {
                 Console.Warn << _T("RequestTournamentData: No tournaments for selected account.") << newl;
                 return;
@@ -8907,12 +8907,12 @@ void    CGameInterfaceManager::ProcessTournamentRequest()
 
             uint uiTournListArrayNum(0);
             const CPHPData *pTourn(phpTournsForAccount->GetVar(uiTournListArrayNum));
-            while (pTourn != NULL)
+            while (pTourn != nullptr)
             {
                 tsvector vParams;
-                vParams.push_back(pTourn->GetString(_T("tourn_id")));
-                vParams.push_back(pTourn->GetString(_T("tourn_name")));
-                vParams.push_back(pTourn->GetString(_T("tourn_num")));
+                vParams.emplace_back(pTourn->GetString(_T("tourn_id")));
+                vParams.emplace_back(pTourn->GetString(_T("tourn_name")));
+                vParams.emplace_back(pTourn->GetString(_T("tourn_num")));
 
                 GameClient.GetInterfaceManager()->Trigger(UITRIGGER_TOURNAMENTS_FOR_ACCOUNT_RETURN, vParams);
 
@@ -8929,7 +8929,7 @@ void    CGameInterfaceManager::ProcessTournamentRequest()
   ====================*/
 void    CGameInterfaceManager::ProcessRecentMatchesRequest()
 {
-    if (m_pRecentMatchesRequest == NULL || m_pRecentMatchesRequest->IsActive())
+    if (m_pRecentMatchesRequest == nullptr || m_pRecentMatchesRequest->IsActive())
         return;
 
     Console << _T("Processing recent matches request") << newl;
@@ -8943,7 +8943,7 @@ void    CGameInterfaceManager::ProcessRecentMatchesRequest()
     {
         Console.Warn << _T("RequestRecentMatches: Failed request") << newl;
         Host.GetHTTPManager()->ReleaseRequest(m_pRecentMatchesRequest);
-        m_pRecentMatchesRequest = NULL;
+        m_pRecentMatchesRequest = nullptr;
         Trigger(UITRIGGER_MATCH_INFO_ENTRY_FINISHED, TSNULL);
         return;
     }
@@ -8951,7 +8951,7 @@ void    CGameInterfaceManager::ProcessRecentMatchesRequest()
     const CPHPData phpResponse(m_pRecentMatchesRequest->GetResponse());
 
     Host.GetHTTPManager()->ReleaseRequest(m_pRecentMatchesRequest);
-    m_pRecentMatchesRequest = NULL;
+    m_pRecentMatchesRequest = nullptr;
 
     if (!phpResponse.IsValid())
     {
@@ -8968,7 +8968,7 @@ void    CGameInterfaceManager::ProcessRecentMatchesRequest()
     }
 
     const CPHPData *phpMatches(phpResponse.GetVar(_T("last_stats")));
-    if (phpMatches == NULL)
+    if (phpMatches == nullptr)
     {
         Console.Warn << _T("RequestRecentMatches: No match data") << newl;
         Trigger(UITRIGGER_MATCH_INFO_ENTRY_FINISHED, TSNULL);
@@ -9122,7 +9122,7 @@ void    CGameInterfaceManager::UpdateHeroCompendium()
     {
         CHeroDefinition *pHero(g_EntityRegistry.GetDefinition<CHeroDefinition>(*it));
 
-        if (pHero == NULL)
+        if (pHero == nullptr)
             continue;
 
         tsvector vDefinition(29);
@@ -9166,19 +9166,19 @@ void    CGameInterfaceManager::UpdateHeroCompendium()
         vDefinition[14] = pHero->GetIconPath(0);
 
         CAbilityDefinition *pAbility(g_EntityRegistry.GetDefinition<CAbilityDefinition>(pHero->GetInventory0(0)));
-        if (pAbility != NULL)
+        if (pAbility != nullptr)
             vDefinition[15] = pAbility->GetIconPath(0);
 
         pAbility = g_EntityRegistry.GetDefinition<CAbilityDefinition>(pHero->GetInventory1(0));
-        if (pAbility != NULL)
+        if (pAbility != nullptr)
             vDefinition[16] = pAbility->GetIconPath(0);
 
         pAbility = g_EntityRegistry.GetDefinition<CAbilityDefinition>(pHero->GetInventory2(0));
-        if (pAbility != NULL)
+        if (pAbility != nullptr)
             vDefinition[17] = pAbility->GetIconPath(0);
 
         pAbility = g_EntityRegistry.GetDefinition<CAbilityDefinition>(pHero->GetInventory3(0));
-        if (pAbility != NULL)
+        if (pAbility != nullptr)
             vDefinition[18] = pAbility->GetIconPath(0);
 
         vDefinition[19] = _T("/ui/common/primary_") + sAttrib + _T(".tga");
@@ -9198,7 +9198,7 @@ void    CGameInterfaceManager::UpdateHeroCompendium()
         vDefinition[28] = XtoA(pHero->GetAttackDamageMax(0));
         
 
-        vHeroDefinitions.push_back(vDefinition);
+        vHeroDefinitions.emplace_back(vDefinition);
     }
 
     if (g_uiHeroSortValue < 25)
@@ -9236,7 +9236,7 @@ void    CGameInterfaceManager::ShowHeroCompendiumInfo(const tstring &sHero)
 
     CHeroDefinition *pHero(g_EntityRegistry.GetDefinition<CHeroDefinition>(sHero));
 
-    if (pHero == NULL)
+    if (pHero == nullptr)
         return;
 
     EAttribute ePrimary(pHero->GetPrimaryAttribute());
@@ -9273,7 +9273,7 @@ void    CGameInterfaceManager::ShowHeroCompendiumInfo(const tstring &sHero)
     vParams[9] = pHero->GetDescription();
     
     CAbilityDefinition *pAbility(g_EntityRegistry.GetDefinition<CAbilityDefinition>(pHero->GetInventory0(0)));
-    if (pAbility != NULL)
+    if (pAbility != nullptr)
     {
         vParams[10] = pAbility->GetIconPath(0);
         vParams[11] = pAbility->GetDisplayName();
@@ -9281,7 +9281,7 @@ void    CGameInterfaceManager::ShowHeroCompendiumInfo(const tstring &sHero)
     }
 
     pAbility = g_EntityRegistry.GetDefinition<CAbilityDefinition>(pHero->GetInventory1(0));
-    if (pAbility != NULL)
+    if (pAbility != nullptr)
     {
         vParams[13] = pAbility->GetIconPath(0);
         vParams[14] = pAbility->GetDisplayName();
@@ -9289,7 +9289,7 @@ void    CGameInterfaceManager::ShowHeroCompendiumInfo(const tstring &sHero)
     }
 
     pAbility = g_EntityRegistry.GetDefinition<CAbilityDefinition>(pHero->GetInventory2(0));
-    if (pAbility != NULL)
+    if (pAbility != nullptr)
     {
         vParams[16] = pAbility->GetIconPath(0);
         vParams[17] = pAbility->GetDisplayName();
@@ -9297,7 +9297,7 @@ void    CGameInterfaceManager::ShowHeroCompendiumInfo(const tstring &sHero)
     }
 
     pAbility = g_EntityRegistry.GetDefinition<CAbilityDefinition>(pHero->GetInventory3(0));
-    if (pAbility != NULL)
+    if (pAbility != nullptr)
     {
         vParams[19] = pAbility->GetIconPath(0);
         vParams[20] = pAbility->GetDisplayName();
@@ -9321,7 +9321,7 @@ void    CGameInterfaceManager::ShowHeroCompendiumInfo(const tstring &sHero)
     {
         CItemDefinition *pItem(g_EntityRegistry.GetDefinition<CItemDefinition>(pHero->GetRecommendedItem(i)));
 
-        if (pItem == NULL)
+        if (pItem == nullptr)
             continue;
 
         vParams[34 + i] = pItem->GetIconPath(0);
@@ -9375,7 +9375,7 @@ void    CGameInterfaceManager::StoreEndGameStats()
     }
 
     CGameInfo *pGameInfo(GameClient.GetGameInfo());
-    if (pGameInfo == NULL)
+    if (pGameInfo == nullptr)
         return;
 
     m_vLastGameStatsSummary[1] = XtoA(pGameInfo->GetMatchID());
@@ -9407,7 +9407,7 @@ void    CGameInterfaceManager::ClearEndGameStats()
   ====================*/
 void    CGameInterfaceManager::StoreEndGamePlayerStats(CPlayer *pPlayer)
 {
-    if (pPlayer == NULL)
+    if (pPlayer == nullptr)
         return;
 
     if (pPlayer->GetTeam() < TEAM_1 || pPlayer->GetTeam() > TEAM_2)
@@ -9415,22 +9415,22 @@ void    CGameInterfaceManager::StoreEndGamePlayerStats(CPlayer *pPlayer)
 
     CTeamInfo *pTeam(GameClient.GetTeam(pPlayer->GetTeam()));
 
-    if (pTeam == NULL)
+    if (pTeam == nullptr)
         return;
     
     int iTeam = CLAMP((int)(pPlayer->GetTeam() - 1), 0, MAX_DISPLAY_TEAMS);
     int iIndex = CLAMP((int)pTeam->GetTeamIndexFromClientID(pPlayer->GetClientNumber()), 0, MAX_DISPLAY_PLAYERSPERTEAM);
 
     IHeroEntity *pHero(pPlayer->GetHero());
-    if (pHero == NULL)
+    if (pHero == nullptr)
         return;
 
     CGameStats *pStats(pPlayer->GetStats());
-    if (pStats == NULL)
+    if (pStats == nullptr)
         return;
 
     CGameInfo *pGameInfo(GameClient.GetGameInfo());
-    if (pGameInfo == NULL)
+    if (pGameInfo == nullptr)
         return;
 
     float fTime = pGameInfo->GetMatchLength() / 60000.0f;
@@ -9451,7 +9451,7 @@ void    CGameInterfaceManager::StoreEndGamePlayerStats(CPlayer *pPlayer)
 
     for (int i(INVENTORY_START_BACKPACK); i <= INVENTORY_END_BACKPACK; i++)
     {
-        if (pHero->GetItem(i) == NULL)
+        if (pHero->GetItem(i) == nullptr)
             continue;
 
         m_vLastGameStatsPlayers[iTeam][iIndex][11 + (i - INVENTORY_START_BACKPACK)] = pHero->GetItem(i)->GetIconPath();
@@ -9570,7 +9570,7 @@ void    CGameInterfaceManager::LoadEntityDefinition(const tstring &sPath)
 {
     ResHandle hDefinition(g_ResourceManager.Register(sPath, RES_ENTITY_DEF));
     CEntityDefinitionResource *pDefRes(g_ResourceManager.Get<CEntityDefinitionResource>(hDefinition));
-    if (pDefRes != NULL)
+    if (pDefRes != nullptr)
         pDefRes->PostProcess();
 }
 
@@ -9584,12 +9584,12 @@ CHeroDefinition*    CGameInterfaceManager::GetModifiedHeroDefinitionFromPath(con
 
     ResHandle hDefinition(g_ResourceManager.LookUpPath(sPath));
     CEntityDefinitionResource *pDefRes(g_ResourceManager.Get<CEntityDefinitionResource>(hDefinition));
-    if (pDefRes != NULL)
+    if (pDefRes != nullptr)
     {
         CHeroDefinition *pDefinition(pDefRes->GetDefinition<CHeroDefinition>());
-        if (pDefinition != NULL)
+        if (pDefinition != nullptr)
         {
-            if (pDefinition != NULL && !sAvatar.empty())
+            if (pDefinition != nullptr && !sAvatar.empty())
             {
                 uint uiModifier(EntityRegistry.LookupModifierKey(sAvatar));
                 uint uiModifierBit(pDefinition->GetModifierBit(uiModifier));
@@ -9600,10 +9600,10 @@ CHeroDefinition*    CGameInterfaceManager::GetModifiedHeroDefinitionFromPath(con
             return pDefinition;
         }
         else
-            return NULL;
+            return nullptr;
     }
     else
-        return NULL;
+        return nullptr;
 }
 
 
@@ -9613,9 +9613,9 @@ CHeroDefinition*    CGameInterfaceManager::GetModifiedHeroDefinitionFromPath(con
 CHeroDefinition*    CGameInterfaceManager::GetModifiedHeroDefinition(const tstring &sHeroName, const tstring &sAvatar)
 {
     CHeroDefinition *pDefinition(EntityRegistry.GetDefinition<CHeroDefinition>(sHeroName));
-    if (pDefinition != NULL)
+    if (pDefinition != nullptr)
     {
-        if (pDefinition != NULL && !sAvatar.empty())
+        if (pDefinition != nullptr && !sAvatar.empty())
         {
             uint uiModifier(EntityRegistry.LookupModifierKey(sAvatar));
             uint uiModifierBit(pDefinition->GetModifierBit(uiModifier));
@@ -9626,7 +9626,7 @@ CHeroDefinition*    CGameInterfaceManager::GetModifiedHeroDefinition(const tstri
         return pDefinition;
     }
     else
-        return NULL;
+        return nullptr;
 }
 
 
@@ -9636,7 +9636,7 @@ CHeroDefinition*    CGameInterfaceManager::GetModifiedHeroDefinition(const tstri
 const tstring&  CGameInterfaceManager::GetHeroIconPathFromHeroDefinition(const tstring &sPath, const tstring &sAvatar)
 {
     CHeroDefinition *pDefinition(GetModifiedHeroDefinitionFromPath(sPath, sAvatar));
-    if (pDefinition != NULL)
+    if (pDefinition != nullptr)
         return pDefinition->GetIconPath(0);
     else
         return TSNULL;
@@ -9652,7 +9652,7 @@ const tstring&  CGameInterfaceManager::GetHeroIconPathFromProduct(const tstring 
     const tstring &sAvatar(sProduct.substr(sProduct.find_first_of(_T('.')) + 1));
 
     CHeroDefinition *pDefinition(GetModifiedHeroDefinition(sHeroName, sAvatar));
-    if (pDefinition != NULL)
+    if (pDefinition != nullptr)
         return pDefinition->GetIconPath(0);
     else
         return TSNULL;
@@ -9668,7 +9668,7 @@ const tstring&  CGameInterfaceManager::GetHeroPreviewModelPathFromProduct(const 
     const tstring &sAvatar(sProduct.substr(sProduct.find_first_of(_T('.')) + 1));
 
     CHeroDefinition *pDefinition(GetModifiedHeroDefinition(sHeroName, sAvatar));
-    if (pDefinition != NULL)
+    if (pDefinition != nullptr)
         return pDefinition->GetPreviewModelPath();
     else
         return TSNULL;
@@ -9684,7 +9684,7 @@ const tstring&  CGameInterfaceManager::GetHeroPassiveEffectPathFromProduct(const
     const tstring &sAvatar(sProduct.substr(sProduct.find_first_of(_T('.')) + 1));
 
     CHeroDefinition *pDefinition(GetModifiedHeroDefinition(sHeroName, sAvatar));
-    if (pDefinition != NULL)
+    if (pDefinition != nullptr)
         return pDefinition->GetPassiveEffectPath(0);
     else
         return TSNULL;
@@ -9700,7 +9700,7 @@ CVec3f  CGameInterfaceManager::GetHeroPreviewPosFromProduct(const tstring &sProd
     const tstring &sAvatar(sProduct.substr(sProduct.find_first_of(_T('.')) + 1));
 
     CHeroDefinition *pDefinition(GetModifiedHeroDefinition(sHeroName, sAvatar));
-    if (pDefinition != NULL)
+    if (pDefinition != nullptr)
         return pDefinition->GetPreviewPos();
     else
         return V3_ZERO;
@@ -9716,7 +9716,7 @@ CVec3f  CGameInterfaceManager::GetHeroPreviewAnglesFromProduct(const tstring &sP
     const tstring &sAvatar(sProduct.substr(sProduct.find_first_of(_T('.')) + 1));
 
     CHeroDefinition *pDefinition(GetModifiedHeroDefinition(sHeroName, sAvatar));
-    if (pDefinition != NULL)
+    if (pDefinition != nullptr)
         return pDefinition->GetPreviewAngles();
     else
         return V3_ZERO;
@@ -9732,7 +9732,7 @@ float   CGameInterfaceManager::GetHeroPreviewScaleFromProduct(const tstring &sPr
     const tstring &sAvatar(sProduct.substr(sProduct.find_first_of(_T('.')) + 1));
 
     CHeroDefinition *pDefinition(GetModifiedHeroDefinition(sHeroName, sAvatar));
-    if (pDefinition != NULL)
+    if (pDefinition != nullptr)
         return pDefinition->GetPreviewScale();
     else
         return 0.0f;
@@ -9765,7 +9765,7 @@ UI_VOID_CMD(MultiSelectHoverEntity, 1)
     uint uiTarget(AtoI(vArgList[0]->Evaluate()));
 
     IUnitEntity *pEntity(GameClient.GetUnitEntity(uiTarget));
-    if (pEntity == NULL || !pEntity->GetIsSelectable())
+    if (pEntity == nullptr || !pEntity->GetIsSelectable())
         uiTarget = INVALID_INDEX;
 }
 
@@ -9773,7 +9773,7 @@ UI_VOID_CMD(MultiSelectHoverEntity, 1)
 static void     GetAbilityInfo(CAbilityDefinition *pAbility, int iSlot)
 {
     static tsvector vHeroAbilityInfo(7);
-    if (pAbility != NULL)
+    if (pAbility != nullptr)
     {
         uint uiLevel(0);
         uint uiMaxLevel(pAbility->GetMaxLevel());
@@ -9842,7 +9842,7 @@ UI_VOID_CMD(GetHeroInfo, 1)
     static tsvector vHeroInfo(24);
 
     CHeroDefinition *pHero(EntityRegistry.GetDefinition<CHeroDefinition>(vArgList[0]->Evaluate()));
-    if (pHero == NULL)
+    if (pHero == nullptr)
     {
         vHeroInfo[0] = _T("false");
         GameClient.GetInterfaceManager()->Trigger(UITRIGGER_HERO_SELECT_HERO_INFO, vHeroInfo);
@@ -9915,8 +9915,8 @@ UI_VOID_CMD(GetDetailPlayerStats, 1)
         it->clear();
 
     CPlayer *pPlayer(GameClient.GetPlayer(vArgList[0]->EvaluateInteger()));
-    CGameStats *pStats(pPlayer ? pPlayer->GetStats() : NULL);
-    if (pPlayer == NULL || pStats == NULL)
+    CGameStats *pStats(pPlayer ? pPlayer->GetStats() : nullptr);
+    if (pPlayer == nullptr || pStats == nullptr)
     {
         GameClient.GetInterfaceManager()->Trigger(UITRIGGER_ENDGAME_PLAYER_DETAIL_STATS, vStats);
         return;
@@ -9973,7 +9973,7 @@ UI_VOID_CMD(GetDetailPlayerStats, 1)
     for (CGameStats::HeroKillLog_cit it(vKills.begin()); it != vKills.end(); ++it)
     {
         CPlayer *pPlayer(GameClient.GetPlayer(it->iVictim));
-        vKillEvent[0] = pPlayer == NULL ? TSNULL : pPlayer->GetName();
+        vKillEvent[0] = pPlayer == nullptr ? TSNULL : pPlayer->GetName();
         vKillEvent[1] = XtoA(it->uiTimeStamp);
         GameClient.GetInterfaceManager()->Trigger(UITRIGGER_ENDGAME_PLAYER_DETAIL_KILLS, vKillEvent);
     }
@@ -9985,7 +9985,7 @@ UI_VOID_CMD(GetDetailPlayerStats, 1)
     for (CGameStats::KillLogVector_cit it(vAssists.begin()); it != vAssists.end(); ++it)
     {
         CPlayer *pPlayer(GameClient.GetPlayer(it->second));
-        vKillEvent[0] = pPlayer == NULL ? TSNULL : pPlayer->GetName();
+        vKillEvent[0] = pPlayer == nullptr ? TSNULL : pPlayer->GetName();
         vKillEvent[1] = XtoA(it->first);
         GameClient.GetInterfaceManager()->Trigger(UITRIGGER_ENDGAME_PLAYER_DETAIL_ASSISTS, vKillEvent);
     }
@@ -9997,14 +9997,14 @@ UI_VOID_CMD(GetDetailPlayerStats, 1)
     for (CGameStats::KillLogVector_cit it(vDeaths.begin()); it != vDeaths.end(); ++it)
     {
         CPlayer *pPlayer(GameClient.GetPlayer(it->second));
-        vKillEvent[0] = pPlayer == NULL ? TSNULL : pPlayer->GetName();
+        vKillEvent[0] = pPlayer == nullptr ? TSNULL : pPlayer->GetName();
         vKillEvent[1] = XtoA(it->first);
         GameClient.GetInterfaceManager()->Trigger(UITRIGGER_ENDGAME_PLAYER_DETAIL_DEATHS, vKillEvent);
     }
 
     // Final hero stats
     IHeroEntity *pHero(pPlayer->GetHero());
-    if (pHero != NULL)
+    if (pHero != nullptr)
     {
         vStats[23] = XtoA(pHero->GetDisplayName());             // Hero name
         vStats[24] = XtoA(pHero->GetIconPath());                // Hero icon
@@ -10029,7 +10029,7 @@ UI_VOID_CMD(GetDetailPlayerStats, 1)
         {
             static tsvector vInventory(2);
             IEntityItem *pItem(pHero->GetItem(iSlot));
-            if (pItem == NULL)
+            if (pItem == nullptr)
             {
                 for (tsvector_it it(vInventory.begin()); it != vInventory.end(); ++it)
                     it->clear();

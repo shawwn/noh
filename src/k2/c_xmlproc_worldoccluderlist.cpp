@@ -43,4 +43,4 @@ BEGIN_XML_REGISTRATION(point)
 END_XML_REGISTRATION
 BEGIN_XML_PROCESSOR(point, COccluder)
     pObject->AddPoint(node.GetPropertyV3(_T("position")));
-END_XML_PROCESSOR(NULL)
+END_XML_PROCESSOR(nullptr)

@@ -87,7 +87,7 @@ int     CResourceReference::Load(uint uiIgnoreFlags, const char *pData, uint uiS
 
         if (m_hReference == INVALID_RESOURCE)
         {
-            // TODO: Load a NULL Resource instead...
+            // TODO: Load a nullptr Resource instead...
         }
     }
     catch (CException &ex)

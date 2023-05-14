@@ -70,7 +70,7 @@ void    CASCasting::CopyFrom(const CASCasting *pActionState)
 bool    CASCasting::BeginState()
 {
     IUnitEntity *pUnit(m_cBrain.GetUnit());
-    if (pUnit == NULL)
+    if (pUnit == nullptr)
         return false;
 
     IEntityTool *pTool(GetBeginTool());
@@ -113,7 +113,7 @@ bool    CASCasting::BeginState()
         if (!pTool->GetNonInterrupting())
             pUnit->Interrupt(UNIT_ACTION_CAST);
 
-        if (pTarget != NULL)
+        if (pTarget != nullptr)
             m_uiTargetOrderDisjointSequence = pTarget->GetOrderDisjointSequence();
     }
 
@@ -127,11 +127,11 @@ bool    CASCasting::BeginState()
 bool    CASCasting::ContinueStateMovement()
 {
     IUnitEntity *pUnit(m_cBrain.GetUnit());
-    if (pUnit == NULL)
+    if (pUnit == nullptr)
         return false;
 
     IEntityTool *pTool(GetTool());
-    if (pTool == NULL)
+    if (pTool == nullptr)
         return false;
 
     pTool->SetFlag(ENTITY_TOOL_FLAG_IN_USE);
@@ -151,7 +151,7 @@ bool    CASCasting::ContinueStateMovement()
             (pTool->GetActionType() == TOOL_ACTION_ATTACK && !m_bSecondary) ||
             ((pTool->GetActionType() == TOOL_ACTION_TARGET_DUAL || pTool->GetActionType() == TOOL_ACTION_TARGET_DUAL_POSITION) && m_uiTargetIndex != INVALID_INDEX))
         {
-            if (pTarget == NULL)
+            if (pTarget == nullptr)
                 return false;
 
             if (~GetFlags() & ASR_COMPLETED)
@@ -175,12 +175,12 @@ bool    CASCasting::ContinueStateMovement()
             return false;
         }
 
-        if (pTarget != NULL && m_uiTargetOrderDisjointSequence != pTarget->GetOrderDisjointSequence())
+        if (pTarget != nullptr && m_uiTargetOrderDisjointSequence != pTarget->GetOrderDisjointSequence())
             return false;
     }
 
     CVec3f v3VecToTarget(V_ZERO);
-    if (pTarget != NULL &&
+    if (pTarget != nullptr &&
         pTool->GetActionType() != TOOL_ACTION_TARGET_POSITION &&
         pTool->GetActionType() != TOOL_ACTION_TARGET_VECTOR &&
         pTool->GetActionType() != TOOL_ACTION_TARGET_CURSOR)
@@ -302,9 +302,9 @@ bool    CASCasting::ContinueStateAction()
     IUnitEntity *pTarget(Game.GetUnitEntity(m_uiTargetIndex));
     IEntityTool *pTool(GetTool());
 
-    if (pUnit == NULL)
+    if (pUnit == nullptr)
         return false;
-    if (pTool == NULL)
+    if (pTool == nullptr)
         return false;
 
     pTool->SetFlag(ENTITY_TOOL_FLAG_IN_USE);
@@ -323,7 +323,7 @@ bool    CASCasting::ContinueStateAction()
             (pTool->GetActionType() == TOOL_ACTION_ATTACK && !m_bSecondary) ||
             ((pTool->GetActionType() == TOOL_ACTION_TARGET_DUAL || pTool->GetActionType() == TOOL_ACTION_TARGET_DUAL_POSITION) && m_uiTargetIndex != INVALID_INDEX))
         {
-            if (pTarget == NULL)
+            if (pTarget == nullptr)
                 return false;
 
             if (~GetFlags() & ASR_COMPLETED)
@@ -351,7 +351,7 @@ bool    CASCasting::ContinueStateAction()
             return false;
         }
 
-        if (pTarget != NULL && m_uiTargetOrderDisjointSequence != pTarget->GetOrderDisjointSequence())
+        if (pTarget != nullptr && m_uiTargetOrderDisjointSequence != pTarget->GetOrderDisjointSequence())
             return false;
     }
 
@@ -375,7 +375,7 @@ bool    CASCasting::ContinueStateAction()
     if (m_uiInitTime == 0)
     {
         CVec3f v3VecToTarget(V_ZERO);
-        if (pTarget != NULL &&
+        if (pTarget != nullptr &&
             pTool->GetActionType() != TOOL_ACTION_TARGET_POSITION &&
             pTool->GetActionType() != TOOL_ACTION_TARGET_VECTOR &&
             pTool->GetActionType() != TOOL_ACTION_TARGET_CURSOR)
@@ -459,7 +459,7 @@ bool    CASCasting::ContinueStateAction()
         if (~GetFlags() & ASR_COMPLETED)
         {
             // Range buffer check
-            if (pTarget != NULL)
+            if (pTarget != nullptr)
             {
                 if (pTool->GetActionType() == TOOL_ACTION_ATTACK && !m_bSecondary)
                 {
@@ -552,7 +552,7 @@ bool    CASCasting::EndState(uint uiPriority)
         Reset();
         bRet = true;
 
-        if (pTool != NULL && !pTool->GetAnim().empty())
+        if (pTool != nullptr && !pTool->GetAnim().empty())
             pUnit->StopAnimation(pTool->GetAnim(), pTool->GetAnimChannel());
 
         if (bInterrupted)
@@ -565,14 +565,14 @@ bool    CASCasting::EndState(uint uiPriority)
         Reset();
         bRet = true;
 
-        if (pTool != NULL && !pTool->GetAnim().empty())
+        if (pTool != nullptr && !pTool->GetAnim().empty())
             pUnit->StopAnimation(pTool->GetAnim(), pTool->GetAnimChannel());
 
         if (bInterrupted)
             SetFlag(ASR_INTERRUPTED);
     }
 
-    if (bRet && pTool != NULL)
+    if (bRet && pTool != nullptr)
         pTool->ClearFlag(ENTITY_TOOL_FLAG_IN_USE);
 
     return bRet;

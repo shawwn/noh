@@ -31,7 +31,7 @@ CTileMaterialMap::CTileMaterialMap(EWorldComponent eComponent) :
 IWorldComponent(eComponent, _T("TileMaterialMap"))
 {
     for (int i(0); i < NUM_TERRAIN_LAYERS; ++i)
-        m_pTiles[i] = NULL;
+        m_pTiles[i] = nullptr;
 }
 
 
@@ -45,7 +45,7 @@ bool    CTileMaterialMap::Load(CArchive &archive, const CWorld *pWorld)
         bool newFileFormat = false; // UTTAR: Filesize-optimized format...
         Release();
         m_pWorld = pWorld;
-        if (m_pWorld == NULL)
+        if (m_pWorld == nullptr)
             EX_ERROR(_T("Invalid CWorld pointer"));
 
         CFileHandle hTileMaterialMap(m_sName, FILE_READ | FILE_BINARY, archive);
@@ -74,7 +74,7 @@ bool    CTileMaterialMap::Load(CArchive &archive, const CWorld *pWorld)
         for (int iLayer(0); iLayer < NUM_TERRAIN_LAYERS; ++iLayer)
         {
             m_pTiles[iLayer] = K2_NEW_ARRAY(ctx_World, STileInternal, m_pWorld->GetTileArea());
-            if (m_pTiles[iLayer] == NULL)
+            if (m_pTiles[iLayer] == nullptr)
                 EX_ERROR(_T("Failed to allocate tile array for layer ") + XtoA(iLayer));
 
             if (newFileFormat) // UTTAR
@@ -133,7 +133,7 @@ bool    CTileMaterialMap::Generate(const CWorld *pWorld)
     {
         Release();
         m_pWorld = pWorld;
-        if (m_pWorld == NULL)
+        if (m_pWorld == nullptr)
             EX_ERROR(_T("Invalid CWorld pointer"));
 
         uint iMaterialRef(m_pWorld->AddMaterial(g_ResourceManager.Register(_T("/world/terrain/materials/default.material"), RES_MATERIAL)));
@@ -151,7 +151,7 @@ bool    CTileMaterialMap::Generate(const CWorld *pWorld)
         for (int iLayer(0); iLayer < NUM_TERRAIN_LAYERS; ++iLayer)
         {
             m_pTiles[iLayer] = K2_NEW_ARRAY(ctx_World, STileInternal, m_pWorld->GetTileArea());
-            if (m_pTiles[iLayer] == NULL)
+            if (m_pTiles[iLayer] == nullptr)
                 EX_ERROR(_T("Failed to allocate tile array for layer ") + XtoA(iLayer));
 
             for (int iTile(0); iTile < m_pWorld->GetTileArea(); ++iTile)
@@ -230,10 +230,10 @@ void    CTileMaterialMap::Release()
 {
     for (int i(0); i < NUM_TERRAIN_LAYERS; ++i)
     {
-        if (m_pTiles[i] != NULL)
+        if (m_pTiles[i] != nullptr)
         {
             K2_DELETE_ARRAY(m_pTiles[i]);
-            m_pTiles[i] = NULL;
+            m_pTiles[i] = nullptr;
         }
     }
 }
@@ -306,7 +306,7 @@ bool    CTileMaterialMap::SetRegion(const CRecti &recArea, void *pSource, int iL
   ====================*/
 uint    CTileMaterialMap::GetTileMaterialID(int iX, int iY, int iLayer)
 {
-    assert(m_pWorld != NULL);
+    assert(m_pWorld != nullptr);
     assert(m_pWorld->IsInBounds(iX, iY, TILE_SPACE));
     assert(iLayer >= 0 && iLayer < NUM_TERRAIN_LAYERS);
     return m_pTiles[iLayer][m_pWorld->GetTileIndex(iX, iY)].iMaterialRef;
@@ -318,7 +318,7 @@ uint    CTileMaterialMap::GetTileMaterialID(int iX, int iY, int iLayer)
   ====================*/
 uint    CTileMaterialMap::GetTileDiffuseTextureID(int iX, int iY, int iLayer)
 {
-    assert(m_pWorld != NULL);
+    assert(m_pWorld != nullptr);
     assert(m_pWorld->IsInBounds(iX, iY, TILE_SPACE));
     assert(iLayer >= 0 && iLayer < NUM_TERRAIN_LAYERS);
     return m_pTiles[iLayer][m_pWorld->GetTileIndex(iX, iY)].iDiffuseRef;
@@ -330,7 +330,7 @@ uint    CTileMaterialMap::GetTileDiffuseTextureID(int iX, int iY, int iLayer)
   ====================*/
 uint    CTileMaterialMap::GetTileNormalmapTextureID(int iX, int iY, int iLayer)
 {
-    assert(m_pWorld != NULL);
+    assert(m_pWorld != nullptr);
     assert(m_pWorld->IsInBounds(iX, iY, TILE_SPACE));
     assert(iLayer >= 0 && iLayer < NUM_TERRAIN_LAYERS);
     return m_pTiles[iLayer][m_pWorld->GetTileIndex(iX, iY)].iNormalmapRef;

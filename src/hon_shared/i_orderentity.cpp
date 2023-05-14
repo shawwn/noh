@@ -29,7 +29,7 @@ DEFINE_ENTITY_DESC(IOrderEntity, 1)
   IOrderEntity::IOrderEntity
   ====================*/
 IOrderEntity::IOrderEntity() :
-IGameEntity(NULL),
+IGameEntity(nullptr),
 m_uiLevel(1),
 m_uiOwnerIndex(INVALID_INDEX),
 m_fParam(0.0f),
@@ -107,8 +107,8 @@ void    IOrderEntity::Spawn()
     if (Game.IsServer())
     {
         COrderDefinition *pDefinition(GetDefinition<CAffectorDefinition>(GetModifierBits()));
-        if (pDefinition != NULL)
-            pDefinition->ExecuteActionScript(ACTION_SCRIPT_SPAWN, this, GetOwner(), this, NULL, GetPosition(), GetProxy(0), GetLevel());
+        if (pDefinition != nullptr)
+            pDefinition->ExecuteActionScript(ACTION_SCRIPT_SPAWN, this, GetOwner(), this, nullptr, GetPosition(), GetProxy(0), GetLevel());
     }
 #endif
 }
@@ -156,7 +156,7 @@ bool    IOrderEntity::ServerFrameCleanup()
 void    IOrderEntity::ExecuteActionScript(EEntityActionScript eScript, IUnitEntity *pTarget, const CVec3f &v3Target)
 {
     COrderDefinition *pDefinition(GetDefinition<COrderDefinition>(GetModifierBits()));
-    if (pDefinition == NULL)
+    if (pDefinition == nullptr)
         return;
 
     pDefinition->ExecuteActionScript(eScript, this, GetOwner(), this, pTarget, v3Target, GetProxy(0), GetLevel());
@@ -178,14 +178,14 @@ void    IOrderEntity::UpdateModifiers(const uivector &vModifiers)
 
     // Activate conditional modifiers
     IUnitEntity *pOwner(GetOwner());
-    if (pOwner == NULL)
+    if (pOwner == nullptr)
         return;
 
     CEntityDefinitionResource *pResource(g_ResourceManager.Get<CEntityDefinitionResource>(m_hDefinition));
-    if (pResource == NULL)
+    if (pResource == nullptr)
         return;
     IEntityDefinition *pDefinition(pResource->GetDefinition<IEntityDefinition>());
-    if (pDefinition == NULL)
+    if (pDefinition == nullptr)
         return;
 
     const EntityModifierMap &mapModifiers(pDefinition->GetModifiers());

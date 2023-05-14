@@ -47,7 +47,7 @@ m_pAddrLocal(K2_NEW(g_heapNet, inetAddr_t)),
 m_bBlockIncoming(false),
 m_bBlockOutgoing(false)
 {
-    if (m_pAddrLocal == NULL)
+    if (m_pAddrLocal == nullptr)
         EX_FATAL(_T("CNetDriver::CNetDriver() - Failed to allocate m_pAddrLocal"));
 }
 
@@ -78,7 +78,7 @@ void    CNetDriver::Initialize()
             int i(0);
             for (ifa = ifastart; ifa; ifa = ifa->ifa_next)
             {
-                if (ifa->ifa_addr == NULL || ifa->ifa_addr->sa_family != AF_INET)
+                if (ifa->ifa_addr == nullptr || ifa->ifa_addr->sa_family != AF_INET)
                     continue;
                 struct sockaddr_in *addr = (sockaddr_in*)ifa->ifa_addr;
                 char *szIP(inet_ntoa(addr->sin_addr));
@@ -463,10 +463,10 @@ bool    CNetDriver::SetSendAddr(tstring &sAddr, word &wPort, void *&pVoidNetAddr
     try
     {
         // Clear the old NetAddr struct if it exists and allocate a new one
-        if (pVoidNetAddr != NULL)
+        if (pVoidNetAddr != nullptr)
             K2_DELETE((netAddr_t*)pVoidNetAddr);
         netAddr_t *pNetAddr(K2_NEW(g_heapNet,  netAddr_t));
-        if (pNetAddr == NULL)
+        if (pNetAddr == nullptr)
             EX_ERROR(_T("Failed to allocate a net address structure"));
         pVoidNetAddr = pNetAddr;
         MemManager.Set(pNetAddr, 0, sizeof(netAddr_t));
@@ -498,7 +498,7 @@ bool    CNetDriver::SetSendAddr(tstring &sAddr, word &wPort, void *&pVoidNetAddr
         else
         {
             struct hostent *pHP(gethostbyname(TStringToString(sAddr).c_str()));
-            if (pHP == NULL)
+            if (pHP == nullptr)
             {
                 tstring sError;
                 switch (h_errno)
@@ -549,10 +549,10 @@ bool    CNetDriver::SetSendAddr(tstring &sAddr, word &wPort, void *&pVoidNetAddr
   ====================*/
 void    CNetDriver::FreeSendAddr(void *&pVoidNetAddr)
 {
-    if (pVoidNetAddr != NULL)
+    if (pVoidNetAddr != nullptr)
     {
         K2_DELETE((netAddr_t *)pVoidNetAddr);
-        pVoidNetAddr = NULL;
+        pVoidNetAddr = nullptr;
     }
 }
 
@@ -576,13 +576,13 @@ bool    CNetDriver::Connected(dword dwSocket, uint uiMSecToWait)
 
 #ifdef linux
     // unconnected sockets are still writable...
-    if ((select(dwSocket+1, NULL, &fdSocketSet, NULL, &timeWait) < 0)
-        || (send(dwSocket, NULL, 0, MSG_NOSIGNAL) < 0))
+    if ((select(dwSocket+1, nullptr, &fdSocketSet, nullptr, &timeWait) < 0)
+        || (send(dwSocket, nullptr, 0, MSG_NOSIGNAL) < 0))
         return false;
     else
         return true;
 #else
-    return (select(dwSocket+1, NULL, &fdSocketSet, NULL, &timeWait) > 0 ? true : false);
+    return (select(dwSocket+1, nullptr, &fdSocketSet, nullptr, &timeWait) > 0 ? true : false);
 #endif
 }
 
@@ -604,7 +604,7 @@ bool    CNetDriver::HasError(dword dwSocket, uint uiMSecToWait)
     timeWait.tv_sec = uint(uiMSecToWait / 1000);
     timeWait.tv_usec = (uiMSecToWait % 1000) * 1000;
 
-    return (select(dwSocket+1, NULL, NULL, &fdSocketSet, &timeWait) > 0 ? true : false);
+    return (select(dwSocket+1, nullptr, nullptr, &fdSocketSet, &timeWait) > 0 ? true : false);
 }
 
 
@@ -635,7 +635,7 @@ bool    CNetDriver::DataWaiting(dword dwSocket, IBuffer &cTCPBuffer, uint uiMSec
     timeWait.tv_sec = uint(uiMSecToWait / 1000);
     timeWait.tv_usec = (uiMSecToWait % 1000) * 1000;
 
-    return (select(dwSocket+1, &fdSocketSet, NULL, NULL, &timeWait) > 0 ? true : false);
+    return (select(dwSocket+1, &fdSocketSet, nullptr, nullptr, &timeWait) > 0 ? true : false);
 }
 
 
@@ -653,7 +653,7 @@ bool    CNetDriver::StartListening(dword &dwSocket, int iNumConnWaiting)
   ====================*/
 dword   CNetDriver::AcceptConnection(dword dwFromSocket)
 {
-    return (dword)accept(dwFromSocket, NULL, NULL);
+    return (dword)accept(dwFromSocket, nullptr, nullptr);
 }
 
 
@@ -667,7 +667,7 @@ bool    CNetDriver::Connect(dword dwSocket, void *&pVoidNetAddr)
 
     try
     {
-        if (pVoidNetAddr == NULL)
+        if (pVoidNetAddr == nullptr)
             EX_ERROR(_T("Net Address not initialized properly."));
 
         sockTargetAddr = ((sockaddr *)pVoidNetAddr);

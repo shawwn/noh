@@ -18,7 +18,7 @@
   ====================*/
 CVertexCliffMap::CVertexCliffMap(EWorldComponent eComponent) :
 IWorldComponent(eComponent, _T("VertexCliffMap")),
-m_pVertexCliff(NULL)
+m_pVertexCliff(nullptr)
 {
 }
 
@@ -37,11 +37,11 @@ CVertexCliffMap::~CVertexCliffMap()
   ====================*/
 void    CVertexCliffMap::Release()
 {
-    m_pWorld = NULL;
+    m_pWorld = nullptr;
 
-    if (m_pVertexCliff != NULL)
+    if (m_pVertexCliff != nullptr)
         K2_DELETE_ARRAY(m_pVertexCliff);
-    m_pVertexCliff = NULL;
+    m_pVertexCliff = nullptr;
 }
 
 
@@ -82,9 +82,9 @@ bool    CVertexCliffMap::Load(CArchive &archive, const CWorld *pWorld)
     }
     catch (CException &ex)
     {
-        if (m_pVertexCliff != NULL)
+        if (m_pVertexCliff != nullptr)
             K2_DELETE_ARRAY(m_pVertexCliff);
-        m_pVertexCliff = NULL;
+        m_pVertexCliff = nullptr;
 
         ex.Process(_T("CVertexCliff::Load() - "), NO_THROW);
         return false;
@@ -143,7 +143,7 @@ bool    CVertexCliffMap::Generate(const CWorld *pWorld)
         Release();
         m_bChanged = true;
         m_pWorld = pWorld;
-        if (m_pWorld == NULL)
+        if (m_pWorld == nullptr)
             EX_ERROR(_T("CVertexCliffMap needs a valid CWorld"));
 
         int iWorldSize = pow((float)2, (float)m_pWorld->GetSize());
@@ -152,7 +152,7 @@ bool    CVertexCliffMap::Generate(const CWorld *pWorld)
         
         m_pVertexCliff = K2_NEW_ARRAY(ctx_World, int, m_iCliffMapWidth*m_iCliffMapHeight);
 
-        if (m_pVertexCliff == NULL)
+        if (m_pVertexCliff == nullptr)
             EX_ERROR(_T("Failed to allocate memory for map data"));
 
         MemManager.Set(m_pVertexCliff, 0, sizeof(int) * (m_iCliffMapWidth * m_iCliffMapWidth));

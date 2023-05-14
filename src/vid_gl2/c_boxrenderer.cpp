@@ -88,7 +88,7 @@ void    CBoxRenderer::Render(EMaterialPhase ePhase)
     glDepthMask(GL_FALSE);
 
     glBindBufferARB(GL_ELEMENT_ARRAY_BUFFER, Gfx3D->IBBox);
-    glDrawElements(GL_LINES, m_iNumBoxes * 24, GL_UNSIGNED_SHORT, NULL);
+    glDrawElements(GL_LINES, m_iNumBoxes * 24, GL_UNSIGNED_SHORT, nullptr);
 
     glDisableClientState(GL_VERTEX_ARRAY);
     glDisableClientState(GL_COLOR_ARRAY);

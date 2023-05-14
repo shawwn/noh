@@ -61,7 +61,7 @@ m_uiHoverIndex(INVALID_INDEX),
 m_hWorldAmbientSound(INVALID_INDEX),
 m_hSoundModel(g_ResourceManager.Register(le_soundModel, RES_MODEL)),
 m_bValidPosition(false),
-m_pSoundModelSkeleton(NULL)
+m_pSoundModelSkeleton(nullptr)
 {
     SoundEditMode.Trigger(_T("Create"));
 }
@@ -178,7 +178,7 @@ CVec3f  CSoundTool::GetSoundPosition(uint uiIndex)
     {
         CWorldSound *pSound(Editor.GetWorld().GetSound(uiIndex));
 
-        if (pSound == NULL)
+        if (pSound == nullptr)
             EX_ERROR(_T("Invalid sound index: ") + XtoA(uiIndex));
 
         return pSound->GetPosition();

@@ -75,7 +75,7 @@ CShaderVar  *CShaderVarRegistry::GetShaderVar(const tstring &sShaderVar)
     ShaderVarMap::iterator find = m_mapShaderVars.find(sShaderVar);
 
     if (find == m_mapShaderVars.end())
-        return NULL;
+        return nullptr;
     else
         return find->second;
 }

@@ -81,7 +81,7 @@ inline byte CNavGridUnits::DwordToByte(uint uiRefCount)
 CNavGridUnits::CNavGridUnits(uint uiWidth, uint uiHeight) :
 m_uiCnxnWidth(uiWidth),
 m_uiCnxnHeight(uiHeight),
-m_pLinkedTo(NULL)
+m_pLinkedTo(nullptr)
 {
     m_uiIntsPerRow = uiWidth >> BSHIFT_UNITS_PER_INT;
     m_uiIntsPerColumn = uiHeight >> BSHIFT_UNITS_PER_INT;
@@ -120,7 +120,7 @@ void    CNavGridUnits::Reset()
   ====================*/
 void    CNavGridUnits::UpdateLinked(uint uiBeginSegmentX, uint uiEndSegmentX, uint uiBeginSegmentY, uint uiEndSegmentY)
 {
-    if (m_pLinkedTo == NULL)
+    if (m_pLinkedTo == nullptr)
         return;
 
     uint *pDst[2] = { m_pLinkedTo->m_pVertical, m_pLinkedTo->m_pHorizontal };

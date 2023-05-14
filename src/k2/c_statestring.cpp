@@ -59,7 +59,7 @@ bool    CStateString::HasState(const tstring &sState) const
   ====================*/
 void    CStateString::ForEachState(StateStringCallBack pCallBack, bool bLoadJob) const
 {
-    if (pCallBack == NULL)
+    if (pCallBack == nullptr)
         return;
 
     if (Host.IsInGame() || !bLoadJob)

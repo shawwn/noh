@@ -36,8 +36,8 @@ SERVER_CMD(Damage)
         fDamage = MAX(AtoF(vArgList[1]), 0.0f);
 
     IPlayerEntity *pTarget(GameServer.GetPlayerEntityFromClientID(iClientNum));
-    if (pTarget != NULL)
-        pTarget->Damage(fDamage, 0, NULL, INVALID_ENT_TYPE);
+    if (pTarget != nullptr)
+        pTarget->Damage(fDamage, 0, nullptr, INVALID_ENT_TYPE);
 
     return true;
 }
@@ -80,7 +80,7 @@ SERVER_CMD(GiveExp)
         fExperience = MAX(AtoF(vArgList[1]), 0.0f);
 
     IPlayerEntity *pTarget(GameServer.GetPlayerEntityFromClientID(iClientNum));
-    if (pTarget == NULL)
+    if (pTarget == nullptr)
     {
         Console << _T("Could not find client: ") << iClientNum << newl;
         return false;
@@ -107,7 +107,7 @@ SERVER_CMD(ResetExp)
     }
 
     CEntityClientInfo *pClient(GameServer.GetClientInfo(iClientNum));
-    if (pClient == NULL)
+    if (pClient == nullptr)
     {
         Console << _T("Could not find client: ") << iClientNum << newl;
         return false;
@@ -310,7 +310,7 @@ SERVER_CMD(GiveSoul)
     }
 
     CEntityClientInfo *pClient(GameServer.GetClientInfo(iClientNum));
-    if (pClient != NULL)
+    if (pClient != nullptr)
         pClient->AddSoul();
 
     return true;
@@ -357,7 +357,7 @@ SERVER_CMD(Stun)
         uiDuration = MAX(AtoI(vArgList[1]), 0);
 
     IPlayerEntity *pTarget(GameServer.GetPlayerEntityFromClientID(iClientNum));
-    if (pTarget == NULL)
+    if (pTarget == nullptr)
     {
         Console << _T("Could not find client: ") << iClientNum << newl;
         return false;
@@ -396,7 +396,7 @@ SERVER_CMD(ApplyState)
         uiDuration = MAX(AtoI(vArgList[2]), 0);
 
     IPlayerEntity *pTarget(GameServer.GetPlayerEntityFromClientID(iClientNum));
-    if (pTarget != NULL)
+    if (pTarget != nullptr)
         pTarget->ApplyState(EntityRegistry.LookupID(sState), GameServer.GetGameTime(), uiDuration);
 
     return true;
@@ -418,7 +418,7 @@ SERVER_CMD(MakeOfficer)
     }
 
     CEntityClientInfo *pTargetClient(GameServer.GetClientInfo(iClientNum));
-    if (pTargetClient == NULL)
+    if (pTargetClient == nullptr)
     {
         Console << _T("Could not find client: ") << iClientNum << newl;
         return false;
@@ -433,7 +433,7 @@ SERVER_CMD(MakeOfficer)
     pTargetClient->SetSquad(ySquad);
     pTargetClient->SetFlags(CLIENT_INFO_IS_OFFICER);
     CTeamInfo *pTeam(GameServer.GetTeam(pTargetClient->GetTeam()));
-    if (pTeam != NULL)
+    if (pTeam != nullptr)
         pTeam->SortClientList();
 
     return true;
@@ -642,7 +642,7 @@ SERVER_CMD(SetDemoAccount)
 
     CEntityClientInfo *pClient(Game.GetClientInfo(AtoI(vArgList[0])));
 
-    if (pClient == NULL)
+    if (pClient == nullptr)
         return false;
 
     if (AtoB(vArgList[1]))

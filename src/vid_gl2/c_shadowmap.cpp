@@ -140,7 +140,7 @@ void    CShadowmap::Initialize(EShadowmapType eType)
         glGenTextures(1, &m_uiShadowTexture);
         glActiveTextureARB(GL_TEXTURE0_ARB);
         glBindTexture(GL_TEXTURE_2D, m_uiShadowTexture);
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_LUMINANCE_FLOAT32_ATI, vid_shadowmapSize, vid_shadowmapSize, 0, GL_LUMINANCE, GL_FLOAT, NULL);
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_LUMINANCE_FLOAT32_ATI, vid_shadowmapSize, vid_shadowmapSize, 0, GL_LUMINANCE, GL_FLOAT, nullptr);
 
         PRINT_GLERROR_BREAK();
 
@@ -166,7 +166,7 @@ void    CShadowmap::Initialize(EShadowmapType eType)
 
         glActiveTextureARB(GL_TEXTURE0_ARB);
         glBindTexture(GL_TEXTURE_2D, m_uiShadowTexture);
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT24, vid_shadowmapSize, vid_shadowmapSize, 0, GL_DEPTH_COMPONENT, GL_UNSIGNED_BYTE, NULL);
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT24, vid_shadowmapSize, vid_shadowmapSize, 0, GL_DEPTH_COMPONENT, GL_UNSIGNED_BYTE, nullptr);
 
         PRINT_GLERROR_BREAK();
 

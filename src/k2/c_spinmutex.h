@@ -65,7 +65,7 @@ private:
 
     inline bool     DoTryLock(CSpinMutex& cMutex)
     {
-        assert(m_pMutex == NULL);
+        assert(m_pMutex == nullptr);
         if (K2_Atomic_TrySynchronize(cMutex.m_yFlag))
         {
             m_pMutex = &cMutex;
@@ -76,27 +76,27 @@ private:
 
     inline void     DoLock(CSpinMutex& cMutex)
     {
-        assert(m_pMutex == NULL);
+        assert(m_pMutex == nullptr);
         K2_Atomic_Synchronize(cMutex.m_yFlag);
         m_pMutex = &cMutex;
     }
 
     inline void     DoUnlock()
     {
-        assert(m_pMutex != NULL);
+        assert(m_pMutex != nullptr);
         K2_Atomic_StoreWithRelease(m_pMutex->m_yFlag, 0);
-        m_pMutex = NULL;
+        m_pMutex = nullptr;
     }
 
 public:
     // Constructs without locking
     CLockSpinMutex()
-        : m_pMutex(NULL)
+        : m_pMutex(nullptr)
     {}
 
     // Locks the mutex on construction.
     CLockSpinMutex(CSpinMutex& cMutex)
-        : m_pMutex(NULL)
+        : m_pMutex(nullptr)
     {
         DoLock(cMutex);
     }
@@ -104,21 +104,21 @@ public:
     // Unlocks the mutex on destruction
     ~CLockSpinMutex()
     {
-        if (m_pMutex != NULL)
+        if (m_pMutex != nullptr)
             DoUnlock();
     }
 
     // Releases any existing lock
     void    Reset()
     {
-        if (m_pMutex != NULL)
+        if (m_pMutex != nullptr)
             DoUnlock();
     }
 
     // Releases any existing lock, then tries to acquire the new mutex.
     void    Reset(CSpinMutex& cMutex)
     {
-        if (m_pMutex != NULL)
+        if (m_pMutex != nullptr)
             DoUnlock();
         DoLock(cMutex);
     }
@@ -128,7 +128,7 @@ public:
     // was locked.
     bool    TryLock(CSpinMutex& cMutex)
     {
-        if (m_pMutex != NULL)
+        if (m_pMutex != nullptr)
             DoUnlock();
         return DoTryLock(cMutex);
     }

@@ -36,13 +36,13 @@ public:
     void    WriteKill(IUnitEntity *pTarget, IUnitEntity *pAttacker, IGameEntity *pInflictor, ivector *pAssists);
     void    WriteAssist(IUnitEntity *pTarget, IUnitEntity *pAttacker, IGameEntity *pInflictor, CPlayer *pPlayer);
     void    WriteDamage(IUnitEntity *pTarget, int iPlayer, ushort unAttackerType, ushort unInflictorType, float fDamage);
-    void    WriteItem(EGameLogEvent eEvent, IEntityItem *pItem, IUnitEntity *pTarget = NULL);
+    void    WriteItem(EGameLogEvent eEvent, IEntityItem *pItem, IUnitEntity *pTarget = nullptr);
     void    WriteDeny(IUnitEntity *pTarget, IUnitEntity *pAttacker, IGameEntity *pInflictor, float fExperience, ushort unGold);
     void    WriteExperience(EGameLogEvent eEvent, IUnitEntity *pTarget, IUnitEntity *pSource, float fExperience);
     void    WriteGold(EGameLogEvent eEvent, CPlayer *pPlayer, IUnitEntity *pSource, ushort unGold);
-    void    WriteAbility(EGameLogEvent eEvent, IEntityAbility *pAbility, IUnitEntity *pTarget = NULL);
+    void    WriteAbility(EGameLogEvent eEvent, IEntityAbility *pAbility, IUnitEntity *pTarget = nullptr);
     void    WriteHero(EGameLogEvent eEvent, IHeroEntity *pHero, const tstring &sParamA = TSNULL);
-    void    WriteAward(EGameLogEvent eEvent, IUnitEntity *pAttacker, IUnitEntity *pTarget = NULL, ushort unGold = 0);
+    void    WriteAward(EGameLogEvent eEvent, IUnitEntity *pAttacker, IUnitEntity *pTarget = nullptr, ushort unGold = 0);
 };
 //=============================================================================
 

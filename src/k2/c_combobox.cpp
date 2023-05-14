@@ -45,8 +45,8 @@ CComboBox::~CComboBox()
   ====================*/
 CComboBox::CComboBox(CInterface *pInterface, IWidget *pParent, const CWidgetStyle& style) :
 IListWidget(pInterface, pParent, WIDGET_COMBOBOX, style),
-m_pActiveListItem(NULL),
-m_pListBox(NULL),
+m_pActiveListItem(nullptr),
+m_pListBox(nullptr),
 m_eWidgetState(COMBOBOX_UP),
 m_bSingleClick(false),
 m_bLeft(false),
@@ -57,7 +57,7 @@ m_sCvar(style.GetProperty(_T("cvar")))
         SetFlags(WFLAG_INTERACTIVE);
 
     for (int i(0); i < NUM_COMBOBOXSTATES; ++i)
-        m_apWidgetStates[i] = NULL;
+        m_apWidgetStates[i] = nullptr;
 
     CWidgetStyle styleCopy(style);
     styleCopy.RemoveProperty(_T("name"));
@@ -132,12 +132,12 @@ bool    CComboBox::ButtonDown(EButton button)
     case BUTTON_ESC:
         if (m_pListBox->HasFlags(WFLAG_VISIBLE))
         {
-            m_pInterface->SetActiveWidget(NULL);
-            m_pInterface->SetExclusiveWidget(NULL);
+            m_pInterface->SetActiveWidget(nullptr);
+            m_pInterface->SetExclusiveWidget(nullptr);
             g_pUIManager->RefreshCursor();
             m_pListBox->Hide();
             m_bSingleClick = false;
-            if (m_recArea.AltContains(Input.GetCursorPos() - (m_pParent != NULL ? m_pParent->GetAbsolutePos() : V2_ZERO)))
+            if (m_recArea.AltContains(Input.GetCursorPos() - (m_pParent != nullptr ? m_pParent->GetAbsolutePos() : V2_ZERO)))
                 m_eWidgetState = COMBOBOX_OVER;
             else
             {
@@ -151,13 +151,13 @@ bool    CComboBox::ButtonDown(EButton button)
     case BUTTON_ENTER:
         if (m_pListBox->HasFlags(WFLAG_VISIBLE))
         {
-            m_pInterface->SetActiveWidget(NULL);
-            m_pInterface->SetExclusiveWidget(NULL);
+            m_pInterface->SetActiveWidget(nullptr);
+            m_pInterface->SetExclusiveWidget(nullptr);
             UIManager.RefreshCursor();
             m_pListBox->Hide();
             SetActiveListItem(m_pListBox->GetSelectedListItem(), true);
             m_bSingleClick = false;
-            if (m_recArea.AltContains(Input.GetCursorPos() - (m_pParent != NULL ? m_pParent->GetAbsolutePos() : V2_ZERO)))
+            if (m_recArea.AltContains(Input.GetCursorPos() - (m_pParent != nullptr ? m_pParent->GetAbsolutePos() : V2_ZERO)))
                 m_eWidgetState = COMBOBOX_OVER;
             else
             {
@@ -187,8 +187,8 @@ void    CComboBox::MouseDown(EButton button, const CVec2f &v2CursorPos)
     {
         if (!m_pListBox->GetRect().AltContains(v2CursorPos - m_recArea.lt()))
         {
-            m_pInterface->SetActiveWidget(NULL);
-            m_pInterface->SetExclusiveWidget(NULL);
+            m_pInterface->SetActiveWidget(nullptr);
+            m_pInterface->SetExclusiveWidget(nullptr);
             UIManager.RefreshCursor();
             m_pListBox->Hide();
             m_eWidgetState = COMBOBOX_UP;
@@ -206,8 +206,8 @@ void    CComboBox::MouseDown(EButton button, const CVec2f &v2CursorPos)
     {
         if (!m_pListBox->GetRect().AltContains(v2CursorPos - m_recArea.lt()) && !m_recArea.AltContains(v2CursorPos))
         {
-            m_pInterface->SetActiveWidget(NULL);
-            m_pInterface->SetExclusiveWidget(NULL);
+            m_pInterface->SetActiveWidget(nullptr);
+            m_pInterface->SetExclusiveWidget(nullptr);
             UIManager.RefreshCursor();
             m_pListBox->Hide();
             m_eWidgetState = COMBOBOX_UP;
@@ -234,8 +234,8 @@ void    CComboBox::MouseDown(EButton button, const CVec2f &v2CursorPos)
         // Is this even possible?
         if (m_recArea.AltContains(v2CursorPos))
         {
-            m_pInterface->SetActiveWidget(NULL);
-            m_pInterface->SetExclusiveWidget(NULL);
+            m_pInterface->SetActiveWidget(nullptr);
+            m_pInterface->SetExclusiveWidget(nullptr);
             UIManager.RefreshCursor();
             m_pListBox->Hide();
             m_eWidgetState = COMBOBOX_UP;
@@ -266,8 +266,8 @@ void    CComboBox::MouseUp(EButton button, const CVec2f &v2CursorPos)
         {
             if (m_bLeft)
             {
-                m_pInterface->SetActiveWidget(NULL);
-                m_pInterface->SetExclusiveWidget(NULL);
+                m_pInterface->SetActiveWidget(nullptr);
+                m_pInterface->SetExclusiveWidget(nullptr);
                 UIManager.RefreshCursor();
                 m_pListBox->Hide();
                 m_pListBox->SetSelectedItem(-1, true);
@@ -278,8 +278,8 @@ void    CComboBox::MouseUp(EButton button, const CVec2f &v2CursorPos)
         }
         else
         {
-            m_pInterface->SetActiveWidget(NULL);
-            m_pInterface->SetExclusiveWidget(NULL);
+            m_pInterface->SetActiveWidget(nullptr);
+            m_pInterface->SetExclusiveWidget(nullptr);
             UIManager.RefreshCursor();
             m_pListBox->Hide();
             m_pListBox->SetSelectedItem(-1, true);
@@ -290,8 +290,8 @@ void    CComboBox::MouseUp(EButton button, const CVec2f &v2CursorPos)
     }
     else if (m_pListBox->HasFlags(WFLAG_VISIBLE) && m_recArea.AltContains(v2CursorPos))
     {
-        m_pInterface->SetActiveWidget(NULL);
-        m_pInterface->SetExclusiveWidget(NULL);
+        m_pInterface->SetActiveWidget(nullptr);
+        m_pInterface->SetExclusiveWidget(nullptr);
         UIManager.RefreshCursor();
         m_pListBox->Hide();
         m_bSingleClick = false;
@@ -299,8 +299,8 @@ void    CComboBox::MouseUp(EButton button, const CVec2f &v2CursorPos)
     }
     else if (m_pListBox->HasFlags(WFLAG_VISIBLE) && !m_pListBox->Contains(v2CursorPos - m_recArea.lt()))
     {
-        m_pInterface->SetActiveWidget(NULL);
-        m_pInterface->SetExclusiveWidget(NULL);
+        m_pInterface->SetActiveWidget(nullptr);
+        m_pInterface->SetExclusiveWidget(nullptr);
         UIManager.RefreshCursor();
         m_pListBox->Hide();
         m_bSingleClick = false;
@@ -408,7 +408,7 @@ CListItem* CComboBox::GetSelectedListItem() const
     if (m_pActiveListItem)
         return m_pActiveListItem;
     else
-        return NULL;
+        return nullptr;
 }
 
 
@@ -444,7 +444,7 @@ void    CComboBox::CreateNewListItemFromTemplate(const tstring &sName, const tst
     {
         // Lookup the template
         CWidgetTemplate *pTemplate(m_pInterface->GetTemplate(sName));
-        if (pTemplate == NULL)
+        if (pTemplate == nullptr)
             EX_ERROR(_T("Could not retrieve template named: ") + sName);
 
         // Create new listitem
@@ -475,7 +475,7 @@ void    CComboBox::CreateNewListItemFromTemplateWithSort(const tstring &sName, c
     {
         // Lookup the template
         CWidgetTemplate *pTemplate(m_pInterface->GetTemplate(sName));
-        if (pTemplate == NULL)
+        if (pTemplate == nullptr)
             EX_ERROR(_T("Could not retrieve template named: ") + sName);
 
         // Create new listitem
@@ -507,7 +507,7 @@ void    CComboBox::CreateNewListItemFromTemplateWithSortReversed(const tstring &
     {
         // Lookup the template
         CWidgetTemplate *pTemplate(m_pInterface->GetTemplate(sName));
-        if (pTemplate == NULL)
+        if (pTemplate == nullptr)
             EX_ERROR(_T("Could not retrieve template named: ") + sName);
 
         // Create new listitem
@@ -541,7 +541,7 @@ void    CComboBox::ResizeListTemplate(const tstring &sName, uint uiSize, const C
         {
             // Lookup the template
             CWidgetTemplate *pTemplate(m_pInterface->GetTemplate(sName));
-            if (pTemplate == NULL)
+            if (pTemplate == nullptr)
                 EX_ERROR(_T("Could not retrieve template named: ") + sName);
 
             // Add items
@@ -590,7 +590,7 @@ void    CComboBox::RemoveListItem(CListItem *pListItem)
 void    CComboBox::ClearList()
 {
     m_pListBox->ClearList();
-    m_pActiveListItem = NULL;
+    m_pActiveListItem = nullptr;
 }
 
 
@@ -712,7 +712,7 @@ void    CComboBox::Render(const CVec2f &vOrigin, int iFlag, float fFade)
         IWidget *pRealParent(m_pActiveListItem->GetParent());
         m_pActiveListItem->SetParent(this);
         m_pActiveListItem->SetDrawColors(false);
-        m_pActiveListItem->Render(vOrigin + m_recArea.lt(), WIDGET_RENDER_ALL, fFade * m_fFadeCurrent, false, false, NULL, NULL);
+        m_pActiveListItem->Render(vOrigin + m_recArea.lt(), WIDGET_RENDER_ALL, fFade * m_fFadeCurrent, false, false, nullptr, nullptr);
         m_pActiveListItem->SetDrawColors(true);
         m_pActiveListItem->SetParent(pRealParent);
     }
@@ -756,18 +756,18 @@ void    CComboBox::Frame(uint uiFrameLength, bool bProcessFrame)
   ====================*/
 void    CComboBox::SetActiveListItem(CListItem *pListItem, bool bEvent)
 {
-    if (bEvent && pListItem != NULL)
+    if (bEvent && pListItem != nullptr)
         pListItem->DoEvent(WEVENT_SELECT);
 
     m_bSingleClick = false;
     m_pListBox->Hide();
-    m_pInterface->SetActiveWidget(NULL);
-    m_pInterface->SetExclusiveWidget(NULL);
+    m_pInterface->SetActiveWidget(nullptr);
+    m_pInterface->SetExclusiveWidget(nullptr);
     UIManager.RefreshCursor();
     m_eWidgetState = COMBOBOX_UP;
     DoEvent(WEVENT_CLOSE);
 
-    if (pListItem != NULL && pListItem->GetCommand())
+    if (pListItem != nullptr && pListItem->GetCommand())
         return;
 
     if (m_pActiveListItem != pListItem)
@@ -871,14 +871,14 @@ bool    CComboBox::AddWidgetState(CWidgetState *pState)
   ====================*/
 void    CComboBox::WidgetLost(IWidget *pWidget)
 {
-    if (pWidget == NULL)
+    if (pWidget == nullptr)
         return;
 
     if (m_pActiveListItem == pWidget)
-        m_pActiveListItem = NULL;
+        m_pActiveListItem = nullptr;
 
     if (m_pListBox == pWidget)
-        m_pListBox = NULL;
+        m_pListBox = nullptr;
 
     IWidget::WidgetLost(pWidget);
 }
@@ -891,7 +891,7 @@ void    CComboBox::RecalculateChildSize()
 {
     for (uint uiState(0); uiState < NUM_COMBOBOXSTATES; ++uiState)
     {
-        if (m_apWidgetStates[uiState] != NULL)
+        if (m_apWidgetStates[uiState] != nullptr)
             m_apWidgetStates[uiState]->RecalculateSize();
     }
 
@@ -942,7 +942,7 @@ uint    CComboBox::GetItemIndex(CListItem *pItem)
   --------------------*/
 UI_VOID_CMD(ComboBoxCmd, 1)
 {
-    if (pThis == NULL ||
+    if (pThis == nullptr ||
         pThis->GetType() != WIDGET_COMBOBOX)
         return;
 

@@ -75,7 +75,7 @@ bool    CASMoving::BeginState()
 bool    CASMoving::ShouldTryUnblock()
 {
     IUnitEntity *pUnit(m_cBrain.GetUnit());
-    if (pUnit == NULL)
+    if (pUnit == nullptr)
         return false;
 
     if (pUnit->IsImmobilized(true, true))
@@ -94,7 +94,7 @@ bool    CASMoving::ContinueStateMovement()
 {
     // May fail on certain debuffs, requiring the state to continue??
     IUnitEntity *pUnit(m_cBrain.GetUnit());
-    if (pUnit == NULL)
+    if (pUnit == nullptr)
         return false;
 
     if (pUnit->IsImmobilized(false, true))
@@ -155,7 +155,7 @@ bool    CASMoving::ContinueStateMovement()
 bool    CASMoving::ContinueStateCleanup()
 {
     IUnitEntity *pUnit(m_cBrain.GetUnit());
-    if (pUnit == NULL)
+    if (pUnit == nullptr)
         return false;
 
     if (m_uiMoveTime == Game.GetGameTime())

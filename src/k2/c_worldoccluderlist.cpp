@@ -76,7 +76,7 @@ void    CWorldOccluderList::Release()
 {
     for (OccluderMap_it it(m_mapOccluders.begin()); it != m_mapOccluders.end(); ++it)
     {
-        if (it->second != NULL)
+        if (it->second != nullptr)
             K2_DELETE(it->second);
     }
 
@@ -131,7 +131,7 @@ uint    CWorldOccluderList::AllocateNewOccluder(uint uiIndex)
             if (findit != m_mapOccluders.end())
             {
                 Console.Warn << _T("Overwriting occluder #") << uiIndex << newl;
-                if (findit->second != NULL)
+                if (findit->second != nullptr)
                     K2_DELETE(findit->second);
                 m_mapOccluders.erase(findit);
             }
@@ -141,7 +141,7 @@ uint    CWorldOccluderList::AllocateNewOccluder(uint uiIndex)
             EX_ERROR(_T("No available index for new occluder"));
 
         COccluder *pNewOccluder(K2_NEW(ctx_World,  COccluder));
-        if (pNewOccluder == NULL)
+        if (pNewOccluder == nullptr)
             EX_ERROR(_T("Failed to allocate new occluder"));
 
         m_mapOccluders[uiIndex] = pNewOccluder;
@@ -172,7 +172,7 @@ COccluder*  CWorldOccluderList::GetOccluder(uint uiIndex, bool bThrow)
     catch (CException &ex)
     {
         ex.Process(_T("CWorldOccluderList::GetEntity() - "), bThrow);
-        return NULL;
+        return nullptr;
     }
 }
 

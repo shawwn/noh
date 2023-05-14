@@ -45,7 +45,7 @@ public:
     bool    Allocate(const tstring &sName, const tstring &sFilename, const tstring &sType, const CXMLNode &node);
     
     IModel* GetModelFile()                          { return m_pModelFile; }
-    void    ProcessProperties(const CXMLNode &node) { if (m_pModelFile != NULL) m_pModelFile->ProcessProperties(node); }
+    void    ProcessProperties(const CXMLNode &node) { if (m_pModelFile != nullptr) m_pModelFile->ProcessProperties(node); }
 
     int     Load(uint uiIgnoreFlags, const char *pData, uint uiSize);
     void    Free();

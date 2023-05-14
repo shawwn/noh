@@ -150,7 +150,7 @@ void    CTerrainRenderer::Setup(EMaterialPhase ePhase)
     }
 
     m_bObjectColor = false;
-    m_pCurrentEntity = NULL;
+    m_pCurrentEntity = nullptr;
 
     m_mWorld = g_mIdentity;
     m_mWorldRotate = g_mIdentity;
@@ -239,7 +239,7 @@ void    CTerrainRenderer::RenderChunk(EMaterialPhase ePhase, int iChunkX, int iC
 
         glBindBufferARB(GL_ELEMENT_ARRAY_BUFFER, cChunk.uiIB);
 
-        glDrawElements(GL_TRIANGLES, cChunk.uiNumFaces * 3, GL_UNSIGNED_SHORT, NULL);
+        glDrawElements(GL_TRIANGLES, cChunk.uiNumFaces * 3, GL_UNSIGNED_SHORT, nullptr);
 
         SceneStats.RecordBatch(cChunk.uiNumFaces + 2, cChunk.uiNumFaces, ePhase, SSBATCH_TERRAIN);
     }
@@ -407,7 +407,7 @@ void    CTerrainRenderer::RenderChunkCliffs(EMaterialPhase ePhase, int iChunkX, 
         GfxMaterials->SelectMaterial(cMaterial, ePhase, g_pCam->GetTime(), false);
         GfxMaterials->BindAttributes(GfxTerrain->GetCliffAttributes(), iStride);
 
-        glDrawElements(GL_TRIANGLES, cChunk.iNumCliffFaces * 3, GL_UNSIGNED_SHORT, NULL);
+        glDrawElements(GL_TRIANGLES, cChunk.iNumCliffFaces * 3, GL_UNSIGNED_SHORT, nullptr);
 
         SceneStats.RecordBatch(cChunk.iNumCliffVerts, cChunk.iNumCliffFaces, ePhase, SSBATCH_STATICMESH);
     }

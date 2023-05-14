@@ -67,7 +67,7 @@ CAlias* CAlias::Create(const tstring &sName, const tstring &sCmd)
     else
         return K2_NEW(ctx_Console,  CAlias)(sName, sCmd, CONEL_DYNAMIC | ALIAS_SAVECONFIG);
 
-    return NULL;
+    return nullptr;
 }
 
 
@@ -81,7 +81,7 @@ CAlias* CAlias::Find(const tstring &sName)
     if (pElem && pElem->GetType() == ELEMENT_ALIAS)
         return static_cast<CAlias*>(pElem);
     else
-        return NULL;
+        return nullptr;
 }
 
 
@@ -189,7 +189,7 @@ CMD(Alias)
     }
 
     CConsoleElement *pConsoleElement = ConsoleRegistry.GetElement(vArgList[0]);
-    CAlias *pAlias = NULL;
+    CAlias *pAlias = nullptr;
 
     if (pConsoleElement && pConsoleElement->GetType() != ELEMENT_ALIAS)
     {

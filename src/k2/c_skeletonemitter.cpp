@@ -325,7 +325,7 @@ bool    CSkeletonEmitter::Update(uint uiMilliseconds, ParticleTraceFn_t pfnTrace
         if (!it->IsActive())
             continue;
 
-        it->Update(fDeltaTime, CVec3f(0.0f, 0.0f, fGravity * -20.0f), m_fDrag, m_fFriction, m_bCollide ? pfnTrace : NULL);
+        it->Update(fDeltaTime, CVec3f(0.0f, 0.0f, fGravity * -20.0f), m_fDrag, m_fFriction, m_bCollide ? pfnTrace : nullptr);
 
         if (it->IsDead(uiMilliseconds, bExpired))
             it->SetActive(false);
@@ -540,7 +540,7 @@ bool    CSkeletonEmitter::Update(uint uiMilliseconds, ParticleTraceFn_t pfnTrace
             fAcceleration,
             fLerpedScale,
             TransformPoint(v3SkeletonPos, aLerpedAxis, v3LerpedPos, fLerpedScale),
-            NULL,
+            nullptr,
             **itDef
         );
 

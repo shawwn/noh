@@ -25,10 +25,10 @@ m_iHeight(iHeight),
 m_eFormat(eFormat),
 m_iFlags(iFlags),
 m_pfnProcedural(pfnProceduralCmd),
-m_pfnProceduralMipmaps(NULL)
+m_pfnProceduralMipmaps(nullptr)
 {
-    if (m_pfnProcedural == NULL)
-        K2System.Error(_T("Tried to register a Procedural with a NULL function."));
+    if (m_pfnProcedural == nullptr)
+        K2System.Error(_T("Tried to register a Procedural with a nullptr function."));
 
     CProceduralRegistry::GetInstance()->Register(this);
 }
@@ -43,11 +43,11 @@ m_iWidth(iWidth),
 m_iHeight(iHeight),
 m_eFormat(eFormat),
 m_iFlags(iFlags),
-m_pfnProcedural(NULL),
+m_pfnProcedural(nullptr),
 m_pfnProceduralMipmaps(pfnProceduralCmd)
 {
-    if (m_pfnProceduralMipmaps == NULL)
-        K2System.Error(_T("Tried to register a Procedural with a NULL function."));
+    if (m_pfnProceduralMipmaps == nullptr)
+        K2System.Error(_T("Tried to register a Procedural with a nullptr function."));
 
     CProceduralRegistry::GetInstance()->Register(this);
 }

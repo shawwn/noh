@@ -92,20 +92,20 @@ public: \
 #define ENTITY_CVAR_ACCESSOR(type, name) \
 virtual type    Get##name() const \
 { \
-    if (m_pEntityConfig == NULL) \
+    if (m_pEntityConfig == nullptr) \
         return GetDefaultEmptyValue<type>(); \
 \
     return m_pEntityConfig->Get##name().GetValue(); \
 }
 
 #define ENTITY_ARRAY_CVAR_ACCESSOR(type, name) \
-    virtual type    Get##name(uint uiIndex) const   { if (m_pEntityConfig == NULL) return GetDefaultEmptyValue<type>(); return m_pEntityConfig->Get##name().GetValue(uiIndex); } \
-    uint            Get##name##Size() const         { if (m_pEntityConfig == NULL) return 0; return m_pEntityConfig->Get##name().GetSize(); }
+    virtual type    Get##name(uint uiIndex) const   { if (m_pEntityConfig == nullptr) return GetDefaultEmptyValue<type>(); return m_pEntityConfig->Get##name().GetValue(uiIndex); } \
+    uint            Get##name##Size() const         { if (m_pEntityConfig == nullptr) return 0; return m_pEntityConfig->Get##name().GetSize(); }
 
 #define ENTITY_MULTI_LEVEL_CVAR_ACCESSOR(type, name) \
 virtual type    Get##name() const \
 { \
-    if (m_pEntityConfig == NULL || m_pEntityConfig->Get##name().GetSize() == 0) \
+    if (m_pEntityConfig == nullptr || m_pEntityConfig->Get##name().GetSize() == 0) \
         return GetDefaultEmptyValue<type>(); \
     if (!IsActive()) \
         return GetDefaultEmptyValue<type>(); \
@@ -146,8 +146,8 @@ void    type::InitFieldTypes()
 // DECLARE_SUB_ENTITY_ACCESSOR
 #define DECLARE_SUB_ENTITY_ACCESSOR(type, name) \
 virtual bool                Is##name() const    { return false; } \
-virtual class type*         GetAs##name()       { return NULL; } \
-virtual const class type*   GetAs##name() const { return NULL; }
+virtual class type*         GetAs##name()       { return nullptr; } \
+virtual const class type*   GetAs##name() const { return nullptr; }
 
 // SUB_ENTITY_ACCESSOR
 #define SUB_ENTITY_ACCESSOR(type, name) \
@@ -164,7 +164,7 @@ public: \
 #define ENTITY_DEFINITION_ACCESSOR(type, name) \
 virtual type    Get##name() const \
 { \
-    if (m_pDefinition == NULL) \
+    if (m_pDefinition == nullptr) \
         return GetDefaultEmptyValue<type>(); \
 \
     return static_cast<TDefinition *>(m_pDefinition)->Get##name(); \
@@ -174,10 +174,10 @@ virtual type    Get##name() const \
 #define MUTABLE_ATTRIBUTE(type, name) \
 virtual type    Get##name() const \
 { \
-    if (m_pMorphState != NULL && m_pMorphState->GetApply##name##Morph()) \
+    if (m_pMorphState != nullptr && m_pMorphState->GetApply##name##Morph()) \
         return m_pMorphState->GetMorph##name(); \
 \
-    if (m_pDefinition == NULL) \
+    if (m_pDefinition == nullptr) \
         return GetDefaultEmptyValue<type>(); \
 \
     return static_cast<TDefinition *>(m_pDefinition)->Get##name(); \
@@ -187,7 +187,7 @@ virtual type    Get##name() const \
 #define BASE_ENTITY_DEFINITION_ACCESSOR(type, name) \
 virtual type    GetBase##name() const \
 { \
-    if (m_pDefinition == NULL) \
+    if (m_pDefinition == nullptr) \
         return GetDefaultEmptyValue<type>(); \
 \
     return static_cast<TDefinition *>(m_pDefinition)->Get##name(); \
@@ -197,7 +197,7 @@ virtual type    GetBase##name() const \
 #define ENTITY_DEFINITION_RESOURCE_ACCESSOR(name) \
 virtual ResHandle   Get##name() const \
 { \
-    if (m_pDefinition == NULL) \
+    if (m_pDefinition == nullptr) \
         return INVALID_RESOURCE; \
 \
     return static_cast<TDefinition *>(m_pDefinition)->Get##name(); \
@@ -207,14 +207,14 @@ virtual ResHandle   Get##name() const \
 #define ENTITY_DEFINITION_LOCALIZED_STRING_ACCESSOR(name) \
 virtual const tstring&  Get##name() const \
 { \
-    if (m_pDefinition == NULL) \
+    if (m_pDefinition == nullptr) \
         return TSNULL; \
 \
     return static_cast<TDefinition *>(m_pDefinition)->Get##name(); \
 } \
 virtual uint    Get##name##Index() const \
 { \
-    if (m_pDefinition == NULL) \
+    if (m_pDefinition == nullptr) \
         return INVALID_INDEX; \
 \
     return static_cast<TDefinition *>(m_pDefinition)->Get##name##Index(); \
@@ -224,7 +224,7 @@ virtual uint    Get##name##Index() const \
 #define ENTITY_DEFINITION_ARRAY_ACCESSOR(type, name) \
 virtual type    Get##name(uint uiIndex) const \
 { \
-    if (m_pDefinition == NULL) \
+    if (m_pDefinition == nullptr) \
         return GetDefaultEmptyValue<type>(); \
 \
     return static_cast<TDefinition *>(m_pDefinition)->Get##name(MIN(uiIndex, Get##name##Size() - 1)); \
@@ -232,7 +232,7 @@ virtual type    Get##name(uint uiIndex) const \
 \
 virtual uint    Get##name##Size() const \
 { \
-    if (m_pDefinition == NULL) \
+    if (m_pDefinition == nullptr) \
         return 0; \
 \
     return static_cast<TDefinition *>(m_pDefinition)->Get##name##Size(); \
@@ -244,7 +244,7 @@ virtual type    Get##name() const \
 { \
     if (!IsActive()) \
         return GetDefaultEmptyValue<type>(); \
-    if (m_pDefinition == NULL) \
+    if (m_pDefinition == nullptr) \
         return GetDefaultEmptyValue<type>(); \
 \
     return static_cast<TDefinition *>(m_pDefinition)->Get##name(MAX(1u, GetLevel()) - 1); \
@@ -254,7 +254,7 @@ virtual type    Get##name() const \
 #define MULTI_LEVEL_ENTITY_DEFINITION_ACCESSOR_PASSIVE(type, name) \
 virtual type    Get##name() const \
 { \
-    if (m_pDefinition == NULL) \
+    if (m_pDefinition == nullptr) \
         return GetDefaultEmptyValue<type>(); \
 \
     return static_cast<TDefinition *>(m_pDefinition)->Get##name(MAX(1u, GetLevel()) - 1); \
@@ -264,14 +264,14 @@ virtual type    Get##name() const \
 #define MULTI_LEVEL_ENTITY_DEFINITION_RESOURCE_ACCESSOR(name) \
 virtual ResHandle   Get##name() const \
 { \
-    if (m_pDefinition == NULL) \
+    if (m_pDefinition == nullptr) \
         return INVALID_RESOURCE; \
 \
     return static_cast<TDefinition *>(m_pDefinition)->Get##name(MAX(1u, GetLevel()) - 1); \
 } \
 virtual const tstring&  Get##name##Path() const \
 { \
-    if (m_pDefinition == NULL) \
+    if (m_pDefinition == nullptr) \
         return TSNULL; \
 \
     return static_cast<TDefinition *>(m_pDefinition)->Get##name##Path(MAX(1u, GetLevel()) - 1); \
@@ -283,7 +283,7 @@ virtual type    Get##name() const \
 { \
     if (!IsActive()) \
         return GetDefaultEmptyValue<type>(); \
-    if (m_pDefinition == NULL) \
+    if (m_pDefinition == nullptr) \
         return GetDefaultEmptyValue<type>(); \
 \
     TDefinition *pDefinition(static_cast<TDefinition *>(m_pDefinition)); \
@@ -301,7 +301,7 @@ virtual type    Get##name() const \
 { \
     if (!IsActive()) \
         return GetDefaultEmptyValue<type>(); \
-    if (m_pDefinition == NULL) \
+    if (m_pDefinition == nullptr) \
         return GetDefaultEmptyValue<type>(); \
 \
     TDefinition *pDefinition(static_cast<TDefinition *>(m_pDefinition)); \
@@ -336,7 +336,7 @@ virtual type    Get##name() const \
 { \
     if (!IsActive()) \
         return GetDefaultEmptyValue<type>(); \
-    if (m_pDefinition == NULL) \
+    if (m_pDefinition == nullptr) \
         return GetDefaultEmptyValue<type>(); \
 \
     uint uiLevelIndex(MAX(1u, GetLevel()) - 1); \
@@ -353,7 +353,7 @@ virtual type    Get##name() const \
 { \
     if (!IsActive()) \
         return GetDefaultEmptyValue<type>(); \
-    if (m_pDefinition == NULL) \
+    if (m_pDefinition == nullptr) \
         return GetDefaultEmptyValue<type>(); \
 \
     TDefinition *pDefinition(static_cast<TDefinition *>(m_pDefinition)); \
@@ -549,8 +549,8 @@ public:
     T*  GetBaseDefinition() const
     {
         CEntityDefinitionResource *pResource(GetEntityDef(m_hDefinition));
-        if (pResource == NULL)
-            return NULL;
+        if (pResource == nullptr)
+            return nullptr;
 
         return pResource->GetDefinition<T>();
     }
@@ -559,8 +559,8 @@ public:
     T*  GetDefinition() const
     {
         CEntityDefinitionResource *pResource(GetEntityDef(m_hDefinition));
-        if (pResource == NULL)
-            return NULL;
+        if (pResource == nullptr)
+            return nullptr;
 
         return pResource->GetDefinition<T>(m_unModifierBits);
     }
@@ -569,8 +569,8 @@ public:
     T*  GetDefinition(ushort unModifierBits) const
     {
         CEntityDefinitionResource *pResource(GetEntityDef(m_hDefinition));
-        if (pResource == NULL)
-            return NULL;
+        if (pResource == nullptr)
+            return nullptr;
 
         return pResource->GetDefinition<T>(unModifierBits);
     }
@@ -578,15 +578,15 @@ public:
     template <class T>
     T*  GetActiveDefinition() const
     {
-        if (m_pDefinition == NULL)
-            return NULL;
+        if (m_pDefinition == nullptr)
+            return nullptr;
         else
             return static_cast<T*>(m_pDefinition);
     }
 
     // Cast to leaf entity type
-    template <class T> T*       GetAs()                 { if (m_unType == T::GetEntityType()) return static_cast<T*>(this); else return NULL; }
-    template <class T> const T* GetAs() const           { if (m_unType == T::GetEntityType()) return static_cast<const T*>(this); else return NULL; }
+    template <class T> T*       GetAs()                 { if (m_unType == T::GetEntityType()) return static_cast<T*>(this); else return nullptr; }
+    template <class T> const T* GetAs() const           { if (m_unType == T::GetEntityType()) return static_cast<const T*>(this); else return nullptr; }
     template <class T> bool     IsType()                { return (m_unType == T::GetEntityType()); }
 
     uint                GetIndex() const                { return m_uiIndex; }
@@ -598,9 +598,9 @@ public:
     GAME_SHARED_API virtual bool    ReadSnapshot(CEntitySnapshot &snapshot, uint uiVersion);
 
     virtual int             GetPrivateClient()                              { return -1; }
-    virtual IUnitEntity*    GetOwner() const                                { return NULL; }
+    virtual IUnitEntity*    GetOwner() const                                { return nullptr; }
     virtual IUnitEntity*    GetMasterOwner() const;
-    virtual IGameEntity*    GetProxy(uint uiIndex) const                    { return NULL; }
+    virtual IGameEntity*    GetProxy(uint uiIndex) const                    { return nullptr; }
     ushort                  GetModifierBits() const                         { return m_unModifierBits; }
     void                    SetModifierBits(ushort unModifierBits)          { m_unModifierBits = unModifierBits; UpdateDefinition(); }
     uint                    GetActiveModifierKey() const                    { return m_uiActiveModifierKey; }

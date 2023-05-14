@@ -180,49 +180,49 @@ public:
     void    AssignGetGameOptionsStringFn(FnGetGameOptionsString *fn)                { m_fnGetGameOptionsString = fn; }
     void    AssignStartLoadingFn(FnStartLoading *fnStartLoading)                    { m_fnStartLoading = fnStartLoading; }
 
-    void    SetGamePointer(uint uiIndex) const                                      { if (m_fnSetGamePointer != NULL) m_fnSetGamePointer(uiIndex); }
-    bool    Init(CHostClient *pHostClient)                                          { if (m_fnInit == NULL) return false; return m_fnInit(pHostClient); }
+    void    SetGamePointer(uint uiIndex) const                                      { if (m_fnSetGamePointer != nullptr) m_fnSetGamePointer(uiIndex); }
+    bool    Init(CHostClient *pHostClient)                                          { if (m_fnInit == nullptr) return false; return m_fnInit(pHostClient); }
 
-    void    StartLoadingResources()                                                 { if (m_fnStartLoadingResources != NULL) m_fnStartLoadingResources(); }
-    void    LoadNextResource()                                                      { if (m_fnLoadNextResource != NULL) m_fnLoadNextResource(); }
-    bool    IsFinishedLoadingResources()                                            { if (m_fnIsFinishedLoadingResources == NULL) return true; return m_fnIsFinishedLoadingResources(); }
-    float   GetResourceLoadingProgress()                                            { if (m_fnGetResourceLoadingProgress == NULL) return 0.0f; return m_fnGetResourceLoadingProgress(); }
+    void    StartLoadingResources()                                                 { if (m_fnStartLoadingResources != nullptr) m_fnStartLoadingResources(); }
+    void    LoadNextResource()                                                      { if (m_fnLoadNextResource != nullptr) m_fnLoadNextResource(); }
+    bool    IsFinishedLoadingResources()                                            { if (m_fnIsFinishedLoadingResources == nullptr) return true; return m_fnIsFinishedLoadingResources(); }
+    float   GetResourceLoadingProgress()                                            { if (m_fnGetResourceLoadingProgress == nullptr) return 0.0f; return m_fnGetResourceLoadingProgress(); }
 
-    bool    IsSpawningEntities()                                                    { if (m_fnIsSpawningEntities == NULL) return true; return m_fnIsSpawningEntities(); }
-    bool    IsFinishedSpawningEntities()                                            { if (m_fnIsFinishedSpawningEntities == NULL) return true; return m_fnIsFinishedSpawningEntities(); }
-    float   GetEntitySpawningProgress()                                             { if (m_fnGetEntitySpawningProgress == NULL) return 0.0f; return m_fnGetEntitySpawningProgress(); }
+    bool    IsSpawningEntities()                                                    { if (m_fnIsSpawningEntities == nullptr) return true; return m_fnIsSpawningEntities(); }
+    bool    IsFinishedSpawningEntities()                                            { if (m_fnIsFinishedSpawningEntities == nullptr) return true; return m_fnIsFinishedSpawningEntities(); }
+    float   GetEntitySpawningProgress()                                             { if (m_fnGetEntitySpawningProgress == nullptr) return 0.0f; return m_fnGetEntitySpawningProgress(); }
 
-    void    StartLoadingEntityResources()                                           { if (m_fnStartLoadingEntityResources != NULL) m_fnStartLoadingEntityResources(); }
-    void    LoadNextEntityResource()                                                { if (m_fnLoadNextEntityResource != NULL) m_fnLoadNextEntityResource(); }
-    bool    IsFinishedLoadingEntityResources()                                      { if (m_fnIsFinishedLoadingEntityResources == NULL) return true; return m_fnIsFinishedLoadingEntityResources(); }
-    float   GetEntityResourceLoadingProgress()                                      { if (m_fnGetEntityResourceLoadingProgress == NULL) return 0.0f; return m_fnGetEntityResourceLoadingProgress(); }
+    void    StartLoadingEntityResources()                                           { if (m_fnStartLoadingEntityResources != nullptr) m_fnStartLoadingEntityResources(); }
+    void    LoadNextEntityResource()                                                { if (m_fnLoadNextEntityResource != nullptr) m_fnLoadNextEntityResource(); }
+    bool    IsFinishedLoadingEntityResources()                                      { if (m_fnIsFinishedLoadingEntityResources == nullptr) return true; return m_fnIsFinishedLoadingEntityResources(); }
+    float   GetEntityResourceLoadingProgress()                                      { if (m_fnGetEntityResourceLoadingProgress == nullptr) return 0.0f; return m_fnGetEntityResourceLoadingProgress(); }
 
-    void    StartLoadingWorld()                                                     { if (m_fnStartLoadingWorld != NULL) m_fnStartLoadingWorld(); }
-    void    StartPreloadingWorld()                                                  { if (m_fnStartPreloadingWorld != NULL) m_fnStartPreloadingWorld(); }
-    void    FinishedLoadingWorld()                                                  { if (m_fnFinishedLoadingWorld != NULL) m_fnFinishedLoadingWorld(); }
-    void    SpawnNextWorldEntity()                                                  { if (m_fnSpawnNextWorldEntity != NULL) m_fnSpawnNextWorldEntity(); }
-    void    PrecacheNextWorldEntity()                                               { if (m_fnPrecacheNextWorldEntity != NULL) m_fnPrecacheNextWorldEntity(); }
+    void    StartLoadingWorld()                                                     { if (m_fnStartLoadingWorld != nullptr) m_fnStartLoadingWorld(); }
+    void    StartPreloadingWorld()                                                  { if (m_fnStartPreloadingWorld != nullptr) m_fnStartPreloadingWorld(); }
+    void    FinishedLoadingWorld()                                                  { if (m_fnFinishedLoadingWorld != nullptr) m_fnFinishedLoadingWorld(); }
+    void    SpawnNextWorldEntity()                                                  { if (m_fnSpawnNextWorldEntity != nullptr) m_fnSpawnNextWorldEntity(); }
+    void    PrecacheNextWorldEntity()                                               { if (m_fnPrecacheNextWorldEntity != nullptr) m_fnPrecacheNextWorldEntity(); }
 
-    void    PreFrame()                                                              { if (m_fnPreFrame != NULL) m_fnPreFrame(); }
-    void    Frame()                                                                 { if (m_fnFrame != NULL) m_fnFrame(); }
-    void    Shutdown()                                                              { if (m_fnShutdown != NULL) m_fnShutdown(); }
-    bool    ProcessGameEvents(CSnapshot &snapshot)                                  { if (m_fnProcessGameEvents != NULL) return m_fnProcessGameEvents(snapshot); return false; }
-    bool    ProcessSnapshot(CSnapshot &snapshot)                                    { if (m_fnProcessSnapshot != NULL) return m_fnProcessSnapshot(snapshot); return false; }
-    bool    ProcessGameData(CPacket &pkt)                                           { if (m_fnProcessGameData != NULL) return m_fnProcessGameData(pkt); return false; }
-    void    FileDropNotify(const tsvector &vsFiles)                                 { if (m_fnDropNotify != NULL) m_fnDropNotify(vsFiles); }
-    void    Reinitialize()                                                          { if (m_fnReinitialize != NULL) m_fnReinitialize(); }
-    void    LoadAllResources()                                                      { if (m_fnLoadAllResources != NULL) m_fnLoadAllResources(); }
-    void    Connect(const tstring &sAddr)                                           { if (m_fnConnect != NULL) m_fnConnect(sAddr); }
-    void    StateStringChanged(uint uiID, const CStateString &ss)                   { if (m_fnStateStringChanged != NULL) m_fnStateStringChanged(uiID, ss); }
-    void    StateBlockChanged(uint uiID, const CStateBlock &block)                  { if (m_fnStateBlockChanged != NULL) m_fnStateBlockChanged(uiID, block); }
-    void    SendCreateGameRequest(const tstring &sName, const tstring &sOptions)    { if (m_fnSendCreateGameRequest != NULL) m_fnSendCreateGameRequest(sName, sOptions); }
-    tstring GetGameModeName(uint uiMode)                                            { if (m_fnGetGameModeName != NULL) return m_fnGetGameModeName(uiMode); else return TSNULL; }
-    uint    GetGameModeFromString(const tstring &sMode)                             { if (m_fnGetGameModeFromString != NULL) return m_fnGetGameModeFromString(sMode); else return 0; }
-    tstring GetGameModeString(uint uiMode)                                          { if (m_fnGetGameModeString != NULL) return m_fnGetGameModeString(uiMode); else return TSNULL; }
-    tstring GetGameOptionName(uint uiOption)                                        { if (m_fnGetGameOptionName != NULL) return m_fnGetGameOptionName(uiOption); else return TSNULL; }
-    uint    GetGameOptionFromString(const tstring &sOption)                         { if (m_fnGetGameOptionFromString != NULL) return m_fnGetGameOptionFromString(sOption); else return 0; }
-    tstring GetGameOptionsString(uint uiOptions)                                    { if (m_fnGetGameOptionsString != NULL) return m_fnGetGameOptionsString(uiOptions); else return TSNULL; }
-    void    StartLoading(const tstring &sWorldName)                                     { if (m_fnStartLoading != NULL) m_fnStartLoading(sWorldName); }
+    void    PreFrame()                                                              { if (m_fnPreFrame != nullptr) m_fnPreFrame(); }
+    void    Frame()                                                                 { if (m_fnFrame != nullptr) m_fnFrame(); }
+    void    Shutdown()                                                              { if (m_fnShutdown != nullptr) m_fnShutdown(); }
+    bool    ProcessGameEvents(CSnapshot &snapshot)                                  { if (m_fnProcessGameEvents != nullptr) return m_fnProcessGameEvents(snapshot); return false; }
+    bool    ProcessSnapshot(CSnapshot &snapshot)                                    { if (m_fnProcessSnapshot != nullptr) return m_fnProcessSnapshot(snapshot); return false; }
+    bool    ProcessGameData(CPacket &pkt)                                           { if (m_fnProcessGameData != nullptr) return m_fnProcessGameData(pkt); return false; }
+    void    FileDropNotify(const tsvector &vsFiles)                                 { if (m_fnDropNotify != nullptr) m_fnDropNotify(vsFiles); }
+    void    Reinitialize()                                                          { if (m_fnReinitialize != nullptr) m_fnReinitialize(); }
+    void    LoadAllResources()                                                      { if (m_fnLoadAllResources != nullptr) m_fnLoadAllResources(); }
+    void    Connect(const tstring &sAddr)                                           { if (m_fnConnect != nullptr) m_fnConnect(sAddr); }
+    void    StateStringChanged(uint uiID, const CStateString &ss)                   { if (m_fnStateStringChanged != nullptr) m_fnStateStringChanged(uiID, ss); }
+    void    StateBlockChanged(uint uiID, const CStateBlock &block)                  { if (m_fnStateBlockChanged != nullptr) m_fnStateBlockChanged(uiID, block); }
+    void    SendCreateGameRequest(const tstring &sName, const tstring &sOptions)    { if (m_fnSendCreateGameRequest != nullptr) m_fnSendCreateGameRequest(sName, sOptions); }
+    tstring GetGameModeName(uint uiMode)                                            { if (m_fnGetGameModeName != nullptr) return m_fnGetGameModeName(uiMode); else return TSNULL; }
+    uint    GetGameModeFromString(const tstring &sMode)                             { if (m_fnGetGameModeFromString != nullptr) return m_fnGetGameModeFromString(sMode); else return 0; }
+    tstring GetGameModeString(uint uiMode)                                          { if (m_fnGetGameModeString != nullptr) return m_fnGetGameModeString(uiMode); else return TSNULL; }
+    tstring GetGameOptionName(uint uiOption)                                        { if (m_fnGetGameOptionName != nullptr) return m_fnGetGameOptionName(uiOption); else return TSNULL; }
+    uint    GetGameOptionFromString(const tstring &sOption)                         { if (m_fnGetGameOptionFromString != nullptr) return m_fnGetGameOptionFromString(sOption); else return 0; }
+    tstring GetGameOptionsString(uint uiOptions)                                    { if (m_fnGetGameOptionsString != nullptr) return m_fnGetGameOptionsString(uiOptions); else return TSNULL; }
+    void    StartLoading(const tstring &sWorldName)                                     { if (m_fnStartLoading != nullptr) m_fnStartLoading(sWorldName); }
 };
 //=============================================================================
 

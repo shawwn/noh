@@ -95,7 +95,7 @@ CWorldEntity*   CWorldEntityList::GetEntity(uint uiIndex, bool bThrow)
     try
     {
         if (uiIndex == INVALID_INDEX)
-            return NULL;
+            return nullptr;
 
         if (uiIndex >= m_vEntities.size() || m_vEntities[uiIndex] == INVALID_POOL_HANDLE)
             EX_ERROR(_T("Entity with index ") + XtoA(uiIndex) + _T(" not found"));
@@ -105,7 +105,7 @@ CWorldEntity*   CWorldEntityList::GetEntity(uint uiIndex, bool bThrow)
     catch (CException &ex)
     {
         ex.Process(_T("CWorldEntityList::GetEntity() - "), bThrow);
-        return NULL;
+        return nullptr;
     }
 }
 //=============================================================================

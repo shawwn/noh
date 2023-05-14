@@ -76,7 +76,7 @@ void    CWorldLightList::Release()
 {
     for (WorldLightsMap_it it(m_mapLights.begin()); it != m_mapLights.end(); ++it)
     {
-        if (it->second != NULL)
+        if (it->second != nullptr)
             K2_DELETE(it->second);
     }
 
@@ -129,7 +129,7 @@ uint    CWorldLightList::AllocateNewLight(uint uiIndex)
             if (findit != m_mapLights.end())
             {
                 Console.Warn << _T("Overwriting light #") << uiIndex << newl;
-                if (findit->second != NULL)
+                if (findit->second != nullptr)
                     K2_DELETE(findit->second);
                 m_mapLights.erase(findit);
             }
@@ -139,7 +139,7 @@ uint    CWorldLightList::AllocateNewLight(uint uiIndex)
             EX_ERROR(_T("No available index for new light"));
 
         CWorldLight *pNewLight(K2_NEW(ctx_World,  CWorldLight));
-        if (pNewLight == NULL)
+        if (pNewLight == nullptr)
             EX_ERROR(_T("Failed to allocate new light"));
 
         pNewLight->SetIndex(uiIndex);
@@ -171,7 +171,7 @@ CWorldLight*    CWorldLightList::GetLight(uint uiIndex, bool bThrow)
     catch (CException &ex)
     {
         ex.Process(_T("CWorldLightList::GetEntity() - "), bThrow);
-        return NULL;
+        return nullptr;
     }
 }
 

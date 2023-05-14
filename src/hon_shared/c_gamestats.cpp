@@ -74,7 +74,7 @@ DEFINE_ENTITY_DESC(CGameStats, 3)
   CGameStats::CGameStats
   ====================*/
 CGameStats::CGameStats() :
-IGameEntity(NULL),
+IGameEntity(nullptr),
 m_uiHeroDamage(0),
 m_uiHeroKills(0),
 m_uiHeroAssists(0),

@@ -31,7 +31,7 @@ public:
     ~CGameMechanicsResource()   {}
     CGameMechanicsResource(const tstring &sPath) :
     IResource(sPath, TSNULL),
-    m_pGameMechanics(NULL)
+    m_pGameMechanics(nullptr)
     {}
 
     GAME_SHARED_API virtual uint            GetResType() const          { return RES_GAME_MECHANICS; }

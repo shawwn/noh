@@ -29,7 +29,7 @@ IResource::IResource(const tstring &sPath, const tstring &sName) :
 m_sPath(FileManager.SanitizePath(sPath)),
 m_sName(sName),
 m_iFlags(0),
-m_pData(NULL),
+m_pData(nullptr),
 m_uiSize(0),
 m_hHandle(INVALID_RESOURCE),
 m_uiNetIndex(INVALID_INDEX),
@@ -50,13 +50,13 @@ m_hHandle(c.m_hHandle),
 m_uiNetIndex(c.m_uiNetIndex),
 m_uiIgnoreFlags(c.m_uiIgnoreFlags)
 {
-    if (c.m_pData != NULL)
+    if (c.m_pData != nullptr)
     {
         m_pData = K2_NEW_ARRAY(ctx_Resources, char, m_uiSize);
         MemManager.Copy((char *)m_pData, c.m_pData, m_uiSize);
     }
     else
-        m_pData = NULL;
+        m_pData = nullptr;
 }
 
 

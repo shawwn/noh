@@ -121,7 +121,7 @@ SHADER_VAR(mWorldViewOffset)
   --------------------*/
 SHADER_VAR(fTime)
 {
-    glUniform1fARB(iLocation, (g_pCam != NULL) ? (g_pCam->GetTime()) : MsToSec(Host.GetSystemTime()));
+    glUniform1fARB(iLocation, (g_pCam != nullptr) ? (g_pCam->GetTime()) : MsToSec(Host.GetSystemTime()));
     return true;
 }
 
@@ -874,7 +874,7 @@ SHADER_VAR(vCameraPositionWorld)
 SHADER_VAR(vCameraPosition)
 {
     D3DXMATRIXA16 mWorldInverse;
-    D3DXMatrixInverse(&mWorldInverse, NULL, &g_mWorld);
+    D3DXMatrixInverse(&mWorldInverse, nullptr, &g_mWorld);
 
     CVec3f  v3CameraPosition(g_pCam ? g_pCam->GetOrigin() : V3_ZERO);
 
@@ -1062,7 +1062,7 @@ SHADER_VAR(vTexelSize)
   --------------------*/
 SHADER_VAR(vParam)
 {
-    if (g_pCurrentEntity != NULL)
+    if (g_pCurrentEntity != nullptr)
     {
         D3DXVECTOR4 vParam
         (
@@ -1089,7 +1089,7 @@ SHADER_VAR(vParam)
   --------------------*/
 SHADER_VAR(fDistance)
 {
-    if (g_pCurrentEntity != NULL)
+    if (g_pCurrentEntity != nullptr)
         glUniform1fARB(iLocation, Distance(g_pCurrentEntity->GetPosition(), g_pCam->GetOrigin()));
     else
         glUniform1fARB(iLocation, 0.0f);

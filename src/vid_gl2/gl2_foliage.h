@@ -87,12 +87,12 @@ struct SFoliage
     SFoliageChunk**     ppChunks;
 
     SFoliage() :
-    pWorld(NULL),
+    pWorld(nullptr),
     iChunkSize(0),
     fChunkWorldSize(0.0f),
     iNumChunksX(0),
     iNumChunksY(0),
-    ppChunks(NULL)
+    ppChunks(nullptr)
     {}
     
     void    AllocateChunks(int iNewChunkSize);

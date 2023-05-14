@@ -60,7 +60,7 @@ bool    CBGiveItem::Validate()
     }
 
     // Check if we still have this item
-    IEntityItem *pItem(NULL);
+    IEntityItem *pItem(nullptr);
     for (int i(INVENTORY_START_BACKPACK); i <= INVENTORY_END_BACKPACK; ++i)
     {
         IEntityItem *pCurItem(m_pSelf->GetItem(i));
@@ -70,7 +70,7 @@ bool    CBGiveItem::Validate()
             break;
         }
     }
-    if (pItem == NULL)
+    if (pItem == nullptr)
     {
         SetFlag(BSR_END);
         return false;
@@ -109,7 +109,7 @@ void    CBGiveItem::Update()
   ====================*/
 void    CBGiveItem::BeginBehavior()
 {
-    if (m_pSelf == NULL)
+    if (m_pSelf == nullptr)
     {
         Console << _T("CBGiveItem: Behavior started without valid information") << newl;
         return;
@@ -132,7 +132,7 @@ void    CBGiveItem::BeginBehavior()
 void    CBGiveItem::ThinkFrame()
 {
     IUnitEntity *pTarget(Game.GetUnitEntity(m_uiTargetIndex));
-    if (pTarget == NULL)
+    if (pTarget == nullptr)
         return;
 
     // Check for a target that has become invalid
@@ -178,7 +178,7 @@ void    CBGiveItem::ThinkFrame()
 void    CBGiveItem::MovementFrame()
 {
     IUnitEntity *pTarget(Game.GetUnitEntity(m_uiTargetIndex));
-    if (pTarget == NULL)
+    if (pTarget == nullptr)
         return;
 
     // Check for a target that has become invalid
@@ -260,7 +260,7 @@ void    CBGiveItem::ActionFrame()
             return;
 
     IUnitEntity *pTarget(Game.GetUnitEntity(m_uiTargetIndex));
-    if (pTarget == NULL)
+    if (pTarget == nullptr)
         return;
 
     // Check for a target that has become invalid

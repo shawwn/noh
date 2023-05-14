@@ -335,7 +335,7 @@ uint    SV_GetGameInfoInt(const tstring &sType)
     {
         CGameInfo *pGameInfo(GameServer.GetGameInfo());
                 
-        if (pGameInfo == NULL)
+        if (pGameInfo == nullptr)
             return 0;
 
         return pGameInfo->GetGameOptions();
@@ -344,7 +344,7 @@ uint    SV_GetGameInfoInt(const tstring &sType)
     {
         CGameInfo *pGameInfo(GameServer.GetGameInfo());
                 
-        if (pGameInfo == NULL)
+        if (pGameInfo == nullptr)
             return 0;
 
         return pGameInfo->GetGameMode();
@@ -353,7 +353,7 @@ uint    SV_GetGameInfoInt(const tstring &sType)
     {
         CGameInfo *pGameInfo(GameServer.GetGameInfo());
                 
-        if (pGameInfo == NULL)
+        if (pGameInfo == nullptr)
             return 0;
 
         return pGameInfo->GetTeamSize();
@@ -362,7 +362,7 @@ uint    SV_GetGameInfoInt(const tstring &sType)
     {
         CGameInfo *pGameInfo(GameServer.GetGameInfo());
                 
-        if (pGameInfo == NULL)
+        if (pGameInfo == nullptr)
             return 0;
     
         if (pGameInfo->HasGameOptions(GAME_OPTION_ALL_HEROES))
@@ -374,7 +374,7 @@ uint    SV_GetGameInfoInt(const tstring &sType)
     {
         CGameInfo *pGameInfo(GameServer.GetGameInfo());
                 
-        if (pGameInfo == NULL)
+        if (pGameInfo == nullptr)
             return 0;
     
         if (pGameInfo->HasGameOptions(GAME_OPTION_EASY_MODE))
@@ -386,7 +386,7 @@ uint    SV_GetGameInfoInt(const tstring &sType)
     {
         CGameInfo *pGameInfo(GameServer.GetGameInfo());
                 
-        if (pGameInfo == NULL)
+        if (pGameInfo == nullptr)
             return 0;
     
         if (pGameInfo->HasGameOptions(GAME_OPTION_CASUAL))
@@ -398,7 +398,7 @@ uint    SV_GetGameInfoInt(const tstring &sType)
     {
         CGameInfo *pGameInfo(GameServer.GetGameInfo());
                 
-        if (pGameInfo == NULL)
+        if (pGameInfo == nullptr)
             return 0;
     
         if (pGameInfo->HasGameOptions(GAME_OPTION_FORCE_RANDOM))
@@ -410,7 +410,7 @@ uint    SV_GetGameInfoInt(const tstring &sType)
     {
         CGameInfo *pGameInfo(GameServer.GetGameInfo());
                 
-        if (pGameInfo == NULL)
+        if (pGameInfo == nullptr)
             return 0;
     
         if (pGameInfo->HasGameOptions(GAME_OPTION_AUTOBALANCE_TEAMS))
@@ -422,7 +422,7 @@ uint    SV_GetGameInfoInt(const tstring &sType)
     {
         CGameInfo *pGameInfo(GameServer.GetGameInfo());
                 
-        if (pGameInfo == NULL)
+        if (pGameInfo == nullptr)
             return 0;
     
         if (pGameInfo->HasGameOptions(GAME_OPTION_HARDCORE))
@@ -434,7 +434,7 @@ uint    SV_GetGameInfoInt(const tstring &sType)
     {
         CGameInfo *pGameInfo(GameServer.GetGameInfo());
                 
-        if (pGameInfo == NULL)
+        if (pGameInfo == nullptr)
             return 0;
     
         if (pGameInfo->HasGameOptions(GAME_OPTION_DEV_HEROES))
@@ -446,7 +446,7 @@ uint    SV_GetGameInfoInt(const tstring &sType)
     {
         CGameInfo *pGameInfo(GameServer.GetGameInfo());
                 
-        if (pGameInfo == NULL)
+        if (pGameInfo == nullptr)
             return 0;
                 
         if (pGameInfo->HasGameOptions(GAME_OPTION_ALTERNATE_SELECTION) ||
@@ -483,7 +483,7 @@ uint    SV_GetGameInfoInt(const tstring &sType)
     {
         CGameInfo *pGameInfo(GameServer.GetGameInfo());
                 
-        if (pGameInfo == NULL)
+        if (pGameInfo == nullptr)
             return 0;
     
         return pGameInfo->GetMatchID();
@@ -504,7 +504,7 @@ tstring SV_GetGameInfoString(const tstring &sType)
     {
         CGameInfo *pGameInfo(GameServer.GetGameInfo());
                 
-        if (pGameInfo == NULL)
+        if (pGameInfo == nullptr)
             return TSNULL;
 
         return pGameInfo->GetGameName();
@@ -513,7 +513,7 @@ tstring SV_GetGameInfoString(const tstring &sType)
     {
         CGameInfo *pGameInfo(GameServer.GetGameInfo());
                 
-        if (pGameInfo == NULL)
+        if (pGameInfo == nullptr)
             return TSNULL;
 
         return pGameInfo->GetGameModeName(pGameInfo->GetGameMode());
@@ -522,7 +522,7 @@ tstring SV_GetGameInfoString(const tstring &sType)
     {
         CGameInfo *pGameInfo(GameServer.GetGameInfo());
         
-        if (pGameInfo == NULL)
+        if (pGameInfo == nullptr)
             return _T("0");
 
         if (pGameInfo->HasGameOptions(GAME_OPTION_CASUAL))
@@ -532,14 +532,14 @@ tstring SV_GetGameInfoString(const tstring &sType)
     }
     else if (sType.substr(0, 11) == _T("GetTeamInfo"))
     {
-        CTeamInfo *pTeam(NULL);
+        CTeamInfo *pTeam(nullptr);
 
         if (sType.substr(11, 1) == _T("1"))
             pTeam = GameServer.GetTeam(TEAM_1);
         else if (sType.substr(11, 1) == _T("2"))
             pTeam = GameServer.GetTeam(TEAM_2);
 
-        if (pTeam == NULL)
+        if (pTeam == nullptr)
             return TSNULL;
 
         tstring sTeamInfo;
@@ -558,30 +558,30 @@ tstring SV_GetGameInfoString(const tstring &sType)
     {
         const uint uiPlayerIndex(AtoI(sType.substr(13, 1)));
 
-        CTeamInfo *pTeam(NULL);
+        CTeamInfo *pTeam(nullptr);
 
         if (uiPlayerIndex < 5)
             pTeam = GameServer.GetTeam(TEAM_1);
         else
             pTeam = GameServer.GetTeam(TEAM_2);
 
-        if (pTeam == NULL)
+        if (pTeam == nullptr)
             return TSNULL;
 
-        CPlayer *pPlayer(NULL);
+        CPlayer *pPlayer(nullptr);
 
         if (pTeam->GetTeamID() == TEAM_1)
             pPlayer = GameServer.GetPlayer(pTeam->GetClientIDFromTeamIndex(uiPlayerIndex));
         else if (pTeam->GetTeamID() == TEAM_2)
             pPlayer = GameServer.GetPlayer(pTeam->GetClientIDFromTeamIndex(uiPlayerIndex - 5));
 
-        if (pPlayer == NULL)
+        if (pPlayer == nullptr)
             return TSNULL;
 
         IHeroEntity *pHero(pPlayer->GetHero());
         CHeroDefinition *pHeroDef(EntityRegistry.GetDefinition<CHeroDefinition>(pPlayer->GetSelectedHero()));
 
-        if (pHero == NULL || pHeroDef == NULL)
+        if (pHero == nullptr || pHeroDef == nullptr)
             return TSNULL;
 
         tstring sPlayerInfo;

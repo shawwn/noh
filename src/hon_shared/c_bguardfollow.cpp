@@ -65,7 +65,7 @@ void    CBGuardFollow::UpdateAggro()
     if (m_eGuardState == GUARD_CHASING &&
         (m_uiGuardStateEndTime == INVALID_TIME ||
             m_uiGuardStateEndTime <= Game.GetGameTime() ||
-            pTarget == NULL ||
+            pTarget == nullptr ||
             !m_pSelf->ShouldTarget(pTarget) ||
             pTarget->HasUnitFlags(UNIT_FLAG_INVULNERABLE) ||
             pTarget->GetInvulnerable()) &&
@@ -140,7 +140,7 @@ void    CBGuardFollow::UpdateAggro()
             continue;
 
         IUnitEntity *pTarget(Game.GetUnitEntity(Game.GetGameIndexFromWorldIndex(*cit)));
-        if (pTarget == NULL)
+        if (pTarget == nullptr)
             continue;
         if (!m_pSelf->ShouldTarget(pTarget))
             continue;
@@ -186,7 +186,7 @@ void    CBGuardFollow::UpdateAggro()
   ====================*/
 void    CBGuardFollow::BeginBehavior()
 {
-    if (m_pSelf == NULL)
+    if (m_pSelf == nullptr)
     {
         Console << _T("CBGuardFollow: Behavior started without valid information") << newl;
         return;
@@ -343,7 +343,7 @@ void    CBGuardFollow::EndBehavior()
   ====================*/
 void    CBGuardFollow::Aggro(IUnitEntity *pAttacker, uint uiChaseTime)
 {
-    if (pAttacker == NULL ||
+    if (pAttacker == nullptr ||
         !m_pSelf->ShouldTarget(pAttacker))
         return;
 
@@ -365,7 +365,7 @@ void    CBGuardFollow::Aggro(IUnitEntity *pAttacker, uint uiChaseTime)
   ====================*/
 void    CBGuardFollow::Damaged(IUnitEntity *pAttacker)
 {
-    if (pAttacker == NULL)
+    if (pAttacker == nullptr)
         return;
 
     m_pSelf->CallForHelp(500.0f, pAttacker);
@@ -386,7 +386,7 @@ void    CBGuardFollow::Damaged(IUnitEntity *pAttacker)
   ====================*/
 void    CBGuardFollow::Assist(IUnitEntity *pAlly, IUnitEntity *pAttacker)
 {
-    if (pAttacker == NULL)
+    if (pAttacker == nullptr)
         return;
 
     if (m_eGuardState == GUARD_HOLDING)

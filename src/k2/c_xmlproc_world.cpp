@@ -122,7 +122,7 @@ BEGIN_XML_PROCESSOR(var, CWorld)
         return true;
 
     ICvar* pCvar(ConsoleRegistry.GetCvar(sName));
-    if (pCvar == NULL)
+    if (pCvar == nullptr)
     {
         Console.Warn << _T("World var not found: ") << sName << newl;
         return false;
@@ -135,4 +135,4 @@ BEGIN_XML_PROCESSOR(var, CWorld)
     }
 
     pCvar->Set(node.GetProperty(_T("value")));
-END_XML_PROCESSOR(NULL)
+END_XML_PROCESSOR(nullptr)

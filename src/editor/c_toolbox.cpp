@@ -27,7 +27,7 @@ CToolBox::~CToolBox()
 {
     for (ToolNameMap::iterator it(m_mapTools.begin()); it != m_mapTools.end(); ++it)
     {
-        if (it->second != NULL)
+        if (it->second != nullptr)
             K2_DELETE(it->second);
     }
 }
@@ -37,7 +37,7 @@ CToolBox::~CToolBox()
   CToolBox::CToolBox
   ====================*/
 CToolBox::CToolBox() :
-m_pCurrentTool(NULL)
+m_pCurrentTool(nullptr)
 {
 }
 
@@ -49,8 +49,8 @@ bool    CToolBox::Register(ITool *pTool)
 {
     try
     {
-        if (pTool == NULL)
-            EX_ERROR(_T("Tried to register a NULL pointer"));
+        if (pTool == nullptr)
+            EX_ERROR(_T("Tried to register a nullptr pointer"));
 
         ToolNameMap::iterator itName(m_mapTools.find(pTool->GetName()));
         if (itName != m_mapTools.end())
@@ -82,14 +82,14 @@ ITool*  CToolBox::SelectTool(const tstring &sName)
     
     if (sName == _T("none"))
     {
-        m_pCurrentTool = NULL;
+        m_pCurrentTool = nullptr;
         return m_pCurrentTool;
     }
 
     ToolNameMap::iterator findit(m_mapTools.find(sName));
 
     if (findit == m_mapTools.end())
-        return NULL;
+        return nullptr;
 
     m_pCurrentTool = findit->second;
     m_pCurrentTool->Enter();
@@ -103,7 +103,7 @@ ITool*  CToolBox::SelectTool(EToolID eTool)
 
     ToolIDMap::iterator findit(m_mapToolIDs.find(eTool));
     if (findit == m_mapToolIDs.end())
-        m_pCurrentTool = NULL;
+        m_pCurrentTool = nullptr;
     else
         m_pCurrentTool = findit->second;
 
@@ -129,7 +129,7 @@ ITool*  CToolBox::GetTool(const tstring &sName, bool bThrow)
     catch (CException &ex)
     {
         ex.Process(_T("CToolBox::GetTool() - "), bThrow);
-        return NULL;
+        return nullptr;
     }
 }
 
@@ -146,7 +146,7 @@ ITool*  CToolBox::GetTool(EToolID eTool, bool bThrow)
     catch (CException &ex)
     {
         ex.Process(_T("CToolBox::GetTool() - "), bThrow);
-        return NULL;
+        return nullptr;
     }
 }
 
@@ -156,7 +156,7 @@ ITool*  CToolBox::GetTool(EToolID eTool, bool bThrow)
  ====================*/
 bool    CToolBox::IsToolSelected(EToolID eTool)
 {
-    if (m_pCurrentTool == NULL)
+    if (m_pCurrentTool == nullptr)
         return TOOL_INVALID;
 
     return m_pCurrentTool->GetID() == eTool;
@@ -175,7 +175,7 @@ UI_VOID_CMD(SelectTool, 1)
             EX_MESSAGE(_T("syntax: SelectTool <tool>"));
 
         ITool *pTool(ToolBox.SelectTool(vArgList[0]->Evaluate()));
-        if (pTool == NULL)
+        if (pTool == nullptr)
             EX_WARN(_T("Invalid tool selected"));
     }
     catch (CException &ex)

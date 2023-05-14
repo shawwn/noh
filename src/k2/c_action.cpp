@@ -78,8 +78,8 @@ CAction::CAction(const tstring &sName, EActionType eType, ActionFn_t pfnAction, 
 IBaseInput(sName, eType, iFlags),
 m_pfnAction(pfnAction)
 {
-    if (m_pfnAction == NULL)
-        K2System.Error(_T("Tried to register an action with a NULL function."));
+    if (m_pfnAction == nullptr)
+        K2System.Error(_T("Tried to register an action with a nullptr function."));
 }
 
 
@@ -520,7 +520,7 @@ CMD(Action)
 
     IBaseInput *pAction(CActionRegistry::GetInstance()->GetAction(vArgList[0]));
 
-    if (pAction == NULL)
+    if (pAction == nullptr)
         return false;
 
     pAction->Do(vArgList.size() > 1 ? AtoF(vArgList[1]) : 1.0f, 1.0f, Input.GetCursorPos(), vArgList.size() > 2 ? vArgList[2] : _T(""));

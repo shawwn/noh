@@ -24,7 +24,7 @@
 CCmd::CCmd(const tstring &sName, ConsoleElementFn_t pfnCmd, int iFlags) :
 CConsoleElement(sName, iFlags, ELEMENT_CMD, pfnCmd)
 {
-    assert(m_pfnCmd != NULL);
+    assert(m_pfnCmd != nullptr);
     ConsoleRegistry.Register(sName, this);
     ConsoleRegistry.AddCmd(this);
 }

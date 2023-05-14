@@ -192,12 +192,12 @@ void    CLightmapTool::LerpColor(CVec4b *pRegion, const CRecti &recArea, const C
   ====================*/
 void    CLightmapTool::PaintVertex(float fFrameTime)
 {
-    CVec4b *pRegion(NULL);
+    CVec4b *pRegion(nullptr);
 
     try
     {
         CBrush *pBrush(CBrush::GetCurrentBrush());
-        if (pBrush == NULL)
+        if (pBrush == nullptr)
             EX_ERROR(_T("No brush selected"));
 
         if (!Editor.GetWorld().IsInBounds(m_iX, m_iY, GRID_SPACE))
@@ -215,7 +215,7 @@ void    CLightmapTool::PaintVertex(float fFrameTime)
 
         // Get the region
         pRegion = K2_NEW_ARRAY(ctx_Editor, CVec4b, recClippedBrush.GetArea());
-        if (pRegion == NULL)
+        if (pRegion == nullptr)
             EX_ERROR(_T("Failed to allocate region"));
 
         if (!Editor.GetWorld().GetRegion(WORLD_VERT_COLOR_MAP, recClippedBrush, pRegion))
@@ -240,7 +240,7 @@ void    CLightmapTool::PaintVertex(float fFrameTime)
     }
     catch (CException &ex)
     {
-        if (pRegion != NULL)
+        if (pRegion != nullptr)
             K2_DELETE_ARRAY(pRegion);
 
         ex.Process(_T("CLightMapTool::PaintVertex() - "), NO_THROW);

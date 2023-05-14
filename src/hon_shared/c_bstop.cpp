@@ -59,7 +59,7 @@ bool    CBStop::Validate()
   ====================*/
 void    CBStop::BeginBehavior()
 {
-    if (m_pSelf == NULL)
+    if (m_pSelf == nullptr)
     {
         Console << _T("CBStop: Behavior started without valid information") << newl;
         return;

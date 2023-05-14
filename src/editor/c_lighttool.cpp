@@ -192,7 +192,7 @@ CVec3f  CLightTool::GetLightPosition(uint uiIndex)
     {
         CWorldLight *pLight(Editor.GetWorld().GetLight(uiIndex));
 
-        if (pLight == NULL)
+        if (pLight == nullptr)
             EX_ERROR(_T("Invalid light index: ") + XtoA(uiIndex));
 
         return pLight->GetPosition();

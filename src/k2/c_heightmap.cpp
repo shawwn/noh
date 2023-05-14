@@ -18,7 +18,7 @@
   ====================*/
 CHeightMap::CHeightMap(EWorldComponent eComponent) :
 IWorldComponent(eComponent, _T("HeightMap")),
-m_pHeightMap(NULL)
+m_pHeightMap(nullptr)
 {
 }
 
@@ -39,7 +39,7 @@ void    CHeightMap::Release()
 {
     PROFILE("CHeightmap::Release");
 
-    m_pWorld = NULL;
+    m_pWorld = nullptr;
 
     SAFE_DELETE_ARRAY(m_pHeightMap);
 }
@@ -58,7 +58,7 @@ bool    CHeightMap::Load(CArchive &archive, const CWorld *pWorld)
         Release();
 
         m_pWorld = pWorld;
-        if (m_pWorld == NULL)
+        if (m_pWorld == nullptr)
             EX_ERROR(_T("Invalid CWorld"));
 
         CFileHandle hHeightMap(m_sName, FILE_READ | FILE_BINARY, archive);
@@ -132,7 +132,7 @@ bool    CHeightMap::Generate(const CWorld *pWorld)
     m_pWorld = pWorld;
 
     m_pHeightMap = K2_NEW_ARRAY(ctx_World, float, m_pWorld->GetGridArea());
-    if (m_pHeightMap == NULL)
+    if (m_pHeightMap == nullptr)
         return false;
 
     MemManager.Set(m_pHeightMap, 0, sizeof(float) * m_pWorld->GetGridArea());

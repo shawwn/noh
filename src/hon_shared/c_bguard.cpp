@@ -66,7 +66,7 @@ void    CBGuard::UpdateAggro()
     if (m_eGuardState == GUARD_CHASING &&
         (m_uiGuardStateEndTime == INVALID_TIME ||
             m_uiGuardStateEndTime <= Game.GetGameTime() ||
-            pTarget == NULL ||
+            pTarget == nullptr ||
             !m_pSelf->ShouldTarget(pTarget) ||
             pTarget->HasUnitFlags(UNIT_FLAG_INVULNERABLE) ||
             pTarget->GetInvulnerable()) &&
@@ -89,7 +89,7 @@ void    CBGuard::UpdateAggro()
             CBMove::BeginBehavior();
 
             if (m_pSelf->IsNeutral() && m_pSelf->GetOwnerIndex() == INVALID_INDEX)
-                m_pSelf->Action(ACTION_SCRIPT_LEASH, pTarget, NULL, NULL, NULL);
+                m_pSelf->Action(ACTION_SCRIPT_LEASH, pTarget, nullptr, nullptr, nullptr);
         }
         else
         {
@@ -143,7 +143,7 @@ void    CBGuard::UpdateAggro()
             continue;
 
         IUnitEntity *pTarget(Game.GetUnitEntity(Game.GetGameIndexFromWorldIndex(*cit)));
-        if (pTarget == NULL)
+        if (pTarget == nullptr)
             continue;
         if (!m_pSelf->ShouldTarget(pTarget))
             continue;
@@ -189,7 +189,7 @@ void    CBGuard::UpdateAggro()
   ====================*/
 void    CBGuard::BeginBehavior()
 {
-    if (m_pSelf == NULL || m_v2UpdatedGoal == V2_ZERO)
+    if (m_pSelf == nullptr || m_v2UpdatedGoal == V2_ZERO)
     {
         Console << _T("CBGuard: Behavior started without valid information") << newl;
         return;
@@ -343,7 +343,7 @@ void    CBGuard::EndBehavior()
   ====================*/
 void    CBGuard::Aggro(IUnitEntity *pAttacker, uint uiChaseTime)
 {
-    if (pAttacker == NULL ||
+    if (pAttacker == nullptr ||
         !m_pSelf->ShouldTarget(pAttacker))
         return;
 
@@ -365,7 +365,7 @@ void    CBGuard::Aggro(IUnitEntity *pAttacker, uint uiChaseTime)
   ====================*/
 void    CBGuard::Damaged(IUnitEntity *pAttacker)
 {
-    if (pAttacker == NULL)
+    if (pAttacker == nullptr)
         return;
 
     m_pSelf->CallForHelp(500.0f, pAttacker);
@@ -386,7 +386,7 @@ void    CBGuard::Damaged(IUnitEntity *pAttacker)
   ====================*/
 void    CBGuard::Assist(IUnitEntity *pAlly, IUnitEntity *pAttacker)
 {
-    if (pAttacker == NULL)
+    if (pAttacker == nullptr)
         return;
 
     if (m_eGuardState == GUARD_HOLDING)

@@ -13,7 +13,7 @@ const int MAX_CHANNELS (8);
 
 CHostInterface::~CHostInterface()
 {
-    if (m_pGameInterface != NULL)
+    if (m_pGameInterface != nullptr)
     {
         m_InterfaceLib.Shutdown();
         if (!K2System.FreeLibrary(m_pGameInterface)) {
@@ -23,7 +23,7 @@ CHostInterface::~CHostInterface()
 }
 
 CHostInterface::CHostInterface()
-: m_pGameInterface(NULL), m_InterfaceLib()
+: m_pGameInterface(nullptr), m_InterfaceLib()
 {
 }
 
@@ -36,20 +36,20 @@ bool CHostInterface::Initialize()
         // Load the game library
         m_pGameInterface = K2System.LoadLibrary(INTERFACE_LIBRARY_NAME);
 
-        if (m_pGameInterface == NULL)
+        if (m_pGameInterface == nullptr)
             EX_ERROR(_T("Couldn't load interface library: ") + INTERFACE_LIBRARY_NAME);
 
         // Initialize the game library
         FnInitInterfaceLib *pfnLib((FnInitInterfaceLib*)K2System.GetProcAddress(m_pGameInterface, _T("InitLibrary")));
 
 
-        if (pfnLib == NULL)
+        if (pfnLib == nullptr)
             EX_ERROR(_T("Couldn't find interface entry function InitLibrary()"));
         pfnLib(m_InterfaceLib);
 
         // Validate API
         #define CHECK_FUNCTION(fn) \
-        if (m_InterfaceLib.fn == NULL) \
+        if (m_InterfaceLib.fn == nullptr) \
             EX_ERROR(_T("Interface API is missing") _T(#fn) _T("() function"));
         
         CHECK_FUNCTION(Initialize);
@@ -69,9 +69,9 @@ bool CHostInterface::Initialize()
     }
     catch (CException &ex)
     {
-        if (m_pGameInterface != NULL)
+        if (m_pGameInterface != nullptr)
             K2System.FreeLibrary(m_pGameInterface);
-        m_pGameInterface = NULL;
+        m_pGameInterface = nullptr;
 
         ex.Process(_T("CHostInterface::Initialize() - "), NO_THROW);
         return false;

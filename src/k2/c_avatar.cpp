@@ -118,7 +118,7 @@ void    CAvatar::SetTexture(const tstring &sTexture, const tstring &sSuffix)
   --------------------*/
 UI_VOID_CMD(SetAvatar, 1)
 {
-    if (pThis == NULL || pThis->GetType() != WIDGET_AVATAR)
+    if (pThis == nullptr || pThis->GetType() != WIDGET_AVATAR)
         return;
 
     static_cast<CAvatar *>(pThis)->SetAvatar(vArgList[0]->Evaluate());

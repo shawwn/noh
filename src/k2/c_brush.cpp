@@ -32,7 +32,7 @@ int         CBrush::s_iNumBrushes(0);
   Loads a brush from the bitmap stored in m_sFilename
   ====================*/
 CBrush::CBrush() :
-m_cBrushData(NULL),
+m_cBrushData(nullptr),
 m_iBrushSize(0),
 m_sFilename(_T(""))
 {
@@ -45,7 +45,7 @@ m_sFilename(_T(""))
   Loads a brush from the bitmap stored in sFilename
   ====================*/
 CBrush::CBrush(const tstring &sFilename) :
-m_cBrushData(NULL),
+m_cBrushData(nullptr),
 m_iBrushSize(0),
 m_sFilename(_T(""))
 {
@@ -61,7 +61,7 @@ CBrush::~CBrush()
     if (m_cBrushData)
     {
         K2_DELETE_ARRAY(m_cBrushData);
-        m_cBrushData = NULL;
+        m_cBrushData = nullptr;
     }
 }
 
@@ -180,7 +180,7 @@ CBrush* CBrush::GetCurrentBrush()
 CBrush* CBrush::GetBrush(int iBrush)
 {
     if (iBrush < 0 || iBrush >= MAX_BRUSHES || !s_pBrushes[iBrush])
-        return NULL;
+        return nullptr;
 
     return s_pBrushes[iBrush];
 }
@@ -199,7 +199,7 @@ bool    CBrush::Load(int iBrush, const tstring &sFilename)
     if (s_pBrushes[iBrush])
     {
         K2_DELETE(s_pBrushes[iBrush]);
-        s_pBrushes[iBrush] = NULL;
+        s_pBrushes[iBrush] = nullptr;
         --s_iNumBrushes;
     }
 

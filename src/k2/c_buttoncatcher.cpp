@@ -143,7 +143,7 @@ void    CButtonCatcher::DoEvent(EWidgetEvent eEvent, const tstring &sParam)
     else if (eEvent == WEVENT_HIDE)
     {
         if (m_pInterface->GetActiveWidget() == this)
-            m_pInterface->SetActiveWidget(NULL);
+            m_pInterface->SetActiveWidget(nullptr);
     }
 }
 
@@ -168,7 +168,7 @@ void    CButtonCatcher::DoEvent(EWidgetEvent eEvent, const tsvector &vParam)
     else if (eEvent == WEVENT_HIDE)
     {
         if (m_pInterface->GetActiveWidget() == this)
-            m_pInterface->SetActiveWidget(NULL);
+            m_pInterface->SetActiveWidget(nullptr);
     }
 }
 

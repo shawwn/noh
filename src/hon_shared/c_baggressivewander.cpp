@@ -71,10 +71,10 @@ void    CBAggressiveWander::UpdateAggro()
     bool bOwnerHasTarget(false);
 
     IUnitEntity *pOwner(m_pSelf->GetOwner());
-    if (pOwner != NULL)
+    if (pOwner != nullptr)
     {
         IUnitEntity *pTarget(Game.GetUnitEntity(pOwner->GetTargetIndex()));
-        if (pTarget != NULL)
+        if (pTarget != nullptr)
         {
             uiCurrentTargetIndex = pTarget->GetIndex();
             bOwnerHasTarget = true;
@@ -84,8 +84,8 @@ void    CBAggressiveWander::UpdateAggro()
     if (!bOwnerHasTarget)
     {
         static uivector vEntities;
-        CVec3f v3Position(pOwner != NULL ? pOwner->GetPosition() : m_pSelf->GetPosition());
-        float fAggroRange(m_pSelf->GetAggroRange() + (pOwner != NULL ? pOwner->GetBounds().GetDim(X) * DIAG : m_pSelf->GetBounds().GetDim(X) * DIAG));
+        CVec3f v3Position(pOwner != nullptr ? pOwner->GetPosition() : m_pSelf->GetPosition());
+        float fAggroRange(m_pSelf->GetAggroRange() + (pOwner != nullptr ? pOwner->GetBounds().GetDim(X) * DIAG : m_pSelf->GetBounds().GetDim(X) * DIAG));
         CBBoxf bbRegion(CVec3f(v3Position.xy() - CVec2f(fAggroRange), -FAR_AWAY),  CVec3f(v3Position.xy() + CVec2f(fAggroRange), FAR_AWAY));
 
         // Fetch
@@ -101,7 +101,7 @@ void    CBAggressiveWander::UpdateAggro()
                 continue;
 
             IUnitEntity *pTarget(Game.GetUnitEntity(Game.GetGameIndexFromWorldIndex(*cit)));
-            if (pTarget == NULL)
+            if (pTarget == nullptr)
                 continue;
             if (!m_pSelf->ShouldTarget(pTarget))
                 continue;
@@ -147,7 +147,7 @@ bool    CBAggressiveWander::Validate()
         return false;
     }
 
-    if (m_uiTargetIndex != INVALID_INDEX && Game.GetUnitEntity(m_uiTargetIndex) == NULL)
+    if (m_uiTargetIndex != INVALID_INDEX && Game.GetUnitEntity(m_uiTargetIndex) == nullptr)
     {
         SetFlag(BSR_END);
         return false;
@@ -171,7 +171,7 @@ void    CBAggressiveWander::Update()
   ====================*/
 void    CBAggressiveWander::BeginBehavior()
 {
-    if (m_pSelf == NULL)
+    if (m_pSelf == nullptr)
     {
         Console << _T("CBAggressiveWander: Behavior started without valid information") << newl;
         return;
@@ -323,7 +323,7 @@ void    CBAggressiveWander::Aggro(IUnitEntity *pAttacker, uint uiChaseTime)
 void    CBAggressiveWander::Damaged(IUnitEntity *pAttacker)
 {
 #if 0
-    if (pAttacker == NULL)
+    if (pAttacker == nullptr)
         return;
 
     m_pSelf->CallForHelp(500.0f, pAttacker);
@@ -339,7 +339,7 @@ void    CBAggressiveWander::Damaged(IUnitEntity *pAttacker)
 void    CBAggressiveWander::Assist(IUnitEntity *pAlly, IUnitEntity *pAttacker)
 {
 #if 0
-    if (pAttacker == NULL)
+    if (pAttacker == nullptr)
         return;
 
     Aggro(pAttacker, m_pSelf->GetGuardChaseTime());

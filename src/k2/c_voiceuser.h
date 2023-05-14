@@ -27,7 +27,7 @@ struct JitterData
     uint uiFrame;
 
     JitterData() :
-    pData(NULL),
+    pData(nullptr),
     uiLength(0),
     uiFrame(0)
     {

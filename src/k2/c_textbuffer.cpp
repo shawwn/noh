@@ -56,14 +56,14 @@ m_iOutlineOffset(style.GetPropertyFloat(_T("outlineoffset"), 1)),
 m_iMaxLines(style.GetPropertyInt(_T("maxlines"), -1)),
 m_iFadeLength(style.GetPropertyInt(_T("fadetime"), -1)),
 m_fScrollbarSize(GetSizeFromString(style.GetProperty(_T("scrollbarsize"), _T("16")), pParent->GetWidth(), pParent->GetHeight())),
-m_pScrollbar(NULL),
+m_pScrollbar(nullptr),
 m_sFile(style.GetProperty(_T("file"), TSNULL)),
 m_vSelStart(uint(-1),uint(-1)),
 m_vStart(0,0),
 m_vInputPos(0,0),
 m_bEditable(style.GetPropertyBool(_T("editable"), false)),
 m_hFontMap(INVALID_RESOURCE),
-m_pFontMap(NULL),
+m_pFontMap(nullptr),
 m_bLinkToChat(style.GetPropertyBool(_T("linktochat"), false)),
 m_bIsGameChat(style.GetPropertyBool(_T("isgamechat"), false)),
 m_sChannelName(style.GetProperty(_T("chatchannel"), TSNULL))
@@ -176,7 +176,7 @@ m_sChannelName(style.GetProperty(_T("chatchannel"), TSNULL))
         tstring sText;
         CFile *pFile = FileManager.GetFile(m_sFile, FILE_READ | FILE_TEXT | FILE_ASCII | FILE_ALLOW_CUSTOM);
 
-        if (pFile != NULL)
+        if (pFile != nullptr)
         {
             while (pFile->IsOpen() && !pFile->IsEOF())
             {
@@ -214,7 +214,7 @@ void    CTextBuffer::ReloadFile()
         tstring sText;
         CFile *pFile = FileManager.GetFile(m_sFile, FILE_READ | FILE_TEXT);
 
-        if (pFile != NULL)
+        if (pFile != nullptr)
         {
             while (pFile->IsOpen() && !pFile->IsEOF())
             {
@@ -437,7 +437,7 @@ bool    CTextBuffer::ButtonDown(EButton button)
         m_vInputPos = CVec2ui(0, 0);
         m_vStart = CVec2ui(0, 0);
         m_vSelStart = CVec2ui(uint(uint(-1)), uint(uint(-1)));
-        m_pInterface->SetActiveWidget(NULL);
+        m_pInterface->SetActiveWidget(nullptr);
         break;
 
     case BUTTON_HOME:
@@ -1007,7 +1007,7 @@ void    CTextBuffer::ScrollDown()
   ====================*/
 void    CTextBuffer::SetText(const tstring &sStr)   
 {
-    if (m_pFontMap == NULL)
+    if (m_pFontMap == nullptr)
         return;
 
     m_viFadeTime.clear();
@@ -1049,7 +1049,7 @@ void    CTextBuffer::UpdateScrollbars()
         if (INT_ROUND(m_pScrollbar->GetValueFloat()) == INT_ROUND(m_pScrollbar->GetMaxValue()))
             bAtBottom = true;
 
-        float fHeight(m_vsText.size() * (m_pFontMap == NULL ? 0.0f : m_pFontMap->GetMaxHeight()));
+        float fHeight(m_vsText.size() * (m_pFontMap == nullptr ? 0.0f : m_pFontMap->GetMaxHeight()));
         //Increase the range of the scrollbar and scroll as appropriate
         if (fHeight > GetHeight())
         {
@@ -1096,7 +1096,7 @@ void    CTextBuffer::UpdateScrollbars()
   ====================*/
 void    CTextBuffer::AddText(const tstring &sStr, uint uiInsertTime)
 { 
-    if (m_pFontMap == NULL)
+    if (m_pFontMap == nullptr)
         return;
 
     WrapAddString(sStr, uiInsertTime);

@@ -67,7 +67,7 @@ struct STreeBillboardVertex
     CVec2f  t;
 };
 
-#define BUFFER_OFFSET(i) ((char *)NULL + (i))
+#define BUFFER_OFFSET(i) ((char *)nullptr + (i))
 
 #define GL_SAFE_DELETE(func, object) \
 if (object != 0) \

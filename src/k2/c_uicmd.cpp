@@ -23,8 +23,8 @@ m_pfnUICmd(pfnUICmd),
 m_iMinArgs(iMinArgs),
 m_iFlags(iFlags)
 {
-    if (m_pfnUICmd == NULL)
-        K2System.Error(_T("Tried to register an UICmd with a NULL function."));
+    if (m_pfnUICmd == nullptr)
+        K2System.Error(_T("Tried to register an UICmd with a nullptr function."));
 
     CUICmdRegistry::GetInstance()->Register(this);
 }

@@ -291,8 +291,8 @@ const TCHAR IMAGELIST_SEPERATOR(_T('\x9D'));
 // DECLARE_SUB_WIDGET_ACCESSOR
 #define DECLARE_SUB_WIDGET_ACCESSOR(type, name) \
 virtual bool                Is##name() const    { return false; } \
-virtual class type*         GetAs##name()       { return NULL; } \
-virtual const class type*   GetAs##name() const { return NULL; }
+virtual class type*         GetAs##name()       { return nullptr; } \
+virtual const class type*   GetAs##name() const { return nullptr; }
 
 // SUB_ENTITY_ACCESSOR
 #define SUB_WIDGET_ACCESSOR(type, name) \
@@ -446,7 +446,7 @@ protected:
     void                LoadTextures();
     virtual void        RenderWidget(const CVec2f &vOrigin, float fFade);
 
-    void    AddReference(CWidgetReference *pRef)    { if (pRef != NULL) m_vReferences.push_back(pRef); }
+    void    AddReference(CWidgetReference *pRef)    { if (pRef != nullptr) m_vReferences.push_back(pRef); }
     
     void    RemoveReference(CWidgetReference *pRef)
     {
@@ -574,7 +574,7 @@ public:
     void                ScaleWidth(float fWidth, uint uiTime, int iDirection, bool bRecurse = false);
     void                ScaleHeight(float fHeight, uint uiTime, int iDirection, bool bRecurse = false);
 
-    float               GetCurrentFade() const                          { return m_fFadeCurrent * ((m_pParent == NULL) ? 1.0f : m_pParent->GetCurrentFade()); }
+    float               GetCurrentFade() const                          { return m_fFadeCurrent * ((m_pParent == nullptr) ? 1.0f : m_pParent->GetCurrentFade()); }
     CVec4f              GetFadedColor(const CVec4f &v4ColorIn, float fFade) const;
     void                FadeOut(uint uiTime);
     void                FadeIn(uint uiTime);

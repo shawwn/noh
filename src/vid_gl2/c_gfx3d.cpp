@@ -226,7 +226,7 @@ void    CGfx3D::Init()
 
     glGenBuffersARB(1, &VBScenePoly);
     glBindBufferARB(GL_ARRAY_BUFFER_ARB, VBScenePoly);
-    glBufferDataARB(GL_ARRAY_BUFFER_ARB, 1024 * sizeof(SEffectVertex), NULL, GL_STREAM_DRAW_ARB);
+    glBufferDataARB(GL_ARRAY_BUFFER_ARB, 1024 * sizeof(SEffectVertex), nullptr, GL_STREAM_DRAW_ARB);
 
     //
     // Billboard buffers
@@ -234,7 +234,7 @@ void    CGfx3D::Init()
 
     glGenBuffersARB(1, &VBBillboard);
     glBindBufferARB(GL_ARRAY_BUFFER_ARB, VBBillboard);
-    glBufferDataARB(GL_ARRAY_BUFFER_ARB, MAX_BILLBOARDS * 4 * sizeof(SEffectVertex), NULL, GL_STREAM_DRAW_ARB);
+    glBufferDataARB(GL_ARRAY_BUFFER_ARB, MAX_BILLBOARDS * 4 * sizeof(SEffectVertex), nullptr, GL_STREAM_DRAW_ARB);
 
     //
     // Effect triangle buffer
@@ -242,7 +242,7 @@ void    CGfx3D::Init()
 
     glGenBuffersARB(1, &VBEffectTriangle);
     glBindBufferARB(GL_ARRAY_BUFFER_ARB, VBEffectTriangle);
-    glBufferDataARB(GL_ARRAY_BUFFER_ARB, MAX_EFFECT_TRIANGLES * 3 * sizeof(SEffectVertex), NULL, GL_STREAM_DRAW_ARB);
+    glBufferDataARB(GL_ARRAY_BUFFER_ARB, MAX_EFFECT_TRIANGLES * 3 * sizeof(SEffectVertex), nullptr, GL_STREAM_DRAW_ARB);
 
     //
     // Tree Billboard buffers
@@ -250,11 +250,11 @@ void    CGfx3D::Init()
 
     glGenBuffersARB(1, &VBTreeBillboard);
     glBindBufferARB(GL_ARRAY_BUFFER_ARB, VBTreeBillboard);
-    glBufferDataARB(GL_ARRAY_BUFFER_ARB, MAX_TREE_BILLBOARDS * 4 * sizeof(STreeBillboardVertex), NULL, GL_STREAM_DRAW_ARB);
+    glBufferDataARB(GL_ARRAY_BUFFER_ARB, MAX_TREE_BILLBOARDS * 4 * sizeof(STreeBillboardVertex), nullptr, GL_STREAM_DRAW_ARB);
 
     glGenBuffersARB(1, &IBTreeBillboard);
     glBindBufferARB(GL_ELEMENT_ARRAY_BUFFER, IBTreeBillboard);
-    glBufferDataARB(GL_ELEMENT_ARRAY_BUFFER, MAX_TREE_BILLBOARDS * 6 * sizeof(ushort), NULL, GL_STATIC_DRAW_ARB);
+    glBufferDataARB(GL_ELEMENT_ARRAY_BUFFER, MAX_TREE_BILLBOARDS * 6 * sizeof(ushort), nullptr, GL_STATIC_DRAW_ARB);
 
     pIndices16 = (ushort*)glMapBufferARB(GL_ELEMENT_ARRAY_BUFFER, GL_WRITE_ONLY_ARB);
     for (int n = 0, i = 0; n < MAX_TREE_BILLBOARDS; ++n)
@@ -274,11 +274,11 @@ void    CGfx3D::Init()
 
     glGenBuffersARB(1, &VBBox);
     glBindBufferARB(GL_ARRAY_BUFFER_ARB, VBBox);
-    glBufferDataARB(GL_ARRAY_BUFFER_ARB, MAX_BOXES * 8 * sizeof(SLineVertex), NULL, GL_STREAM_DRAW_ARB);
+    glBufferDataARB(GL_ARRAY_BUFFER_ARB, MAX_BOXES * 8 * sizeof(SLineVertex), nullptr, GL_STREAM_DRAW_ARB);
 
     glGenBuffersARB(1, &IBBox);
     glBindBufferARB(GL_ELEMENT_ARRAY_BUFFER, IBBox);
-    glBufferDataARB(GL_ELEMENT_ARRAY_BUFFER, MAX_BOXES * 24 * sizeof(GLushort), NULL, GL_STATIC_DRAW_ARB);
+    glBufferDataARB(GL_ELEMENT_ARRAY_BUFFER, MAX_BOXES * 24 * sizeof(GLushort), nullptr, GL_STATIC_DRAW_ARB);
 
     pIndices16 = (GLushort *)glMapBufferARB(GL_ELEMENT_ARRAY_BUFFER, GL_WRITE_ONLY_ARB);
     for (int n = 0, i = 0; n < MAX_BOXES; ++n)
@@ -330,7 +330,7 @@ void    CGfx3D::Init()
 
     glGenBuffersARB(1, &VBPoint);
     glBindBufferARB(GL_ARRAY_BUFFER_ARB, VBPoint);
-    glBufferDataARB(GL_ARRAY_BUFFER_ARB, MAX_POINTS * sizeof(SLineVertex), NULL, GL_STREAM_DRAW_ARB);
+    glBufferDataARB(GL_ARRAY_BUFFER_ARB, MAX_POINTS * sizeof(SLineVertex), nullptr, GL_STREAM_DRAW_ARB);
 
     //
     // Line buffer
@@ -338,7 +338,7 @@ void    CGfx3D::Init()
 
     glGenBuffersARB(1, &VBLine);
     glBindBufferARB(GL_ARRAY_BUFFER_ARB, VBLine);
-    glBufferDataARB(GL_ARRAY_BUFFER_ARB, MAX_LINES * 2 * sizeof(SLineVertex), NULL, GL_STREAM_DRAW_ARB);
+    glBufferDataARB(GL_ARRAY_BUFFER_ARB, MAX_LINES * 2 * sizeof(SLineVertex), nullptr, GL_STREAM_DRAW_ARB);
 }
 
 
@@ -351,7 +351,7 @@ void    CGfx3D::AddBoxBatches()
         return;
 
     glBindBufferARB(GL_ARRAY_BUFFER_ARB, VBBox);
-    glBufferDataARB(GL_ARRAY_BUFFER_ARB, iNumBoxes * 8 * sizeof(SLineVertex), NULL, GL_STREAM_DRAW_ARB);
+    glBufferDataARB(GL_ARRAY_BUFFER_ARB, iNumBoxes * 8 * sizeof(SLineVertex), nullptr, GL_STREAM_DRAW_ARB);
     SLineVertex *pVertices = (SLineVertex *)glMapBufferARB(GL_ARRAY_BUFFER_ARB, GL_WRITE_ONLY_ARB);
 
     vector<CVec3f> vPoints(8);
@@ -432,7 +432,7 @@ void    CGfx3D::AddPointBatches()
         return;
 
     glBindBufferARB(GL_ARRAY_BUFFER_ARB, VBPoint);
-    glBufferDataARB(GL_ARRAY_BUFFER_ARB, MAX_POINTS * sizeof(SLineVertex), NULL, GL_STREAM_DRAW_ARB);
+    glBufferDataARB(GL_ARRAY_BUFFER_ARB, MAX_POINTS * sizeof(SLineVertex), nullptr, GL_STREAM_DRAW_ARB);
     SLineVertex *pVertices = (SLineVertex *)glMapBufferARB(GL_ARRAY_BUFFER_ARB, GL_WRITE_ONLY_ARB);
 
     for (int n = 0; n < iNumPoints; ++n)
@@ -472,7 +472,7 @@ void    CGfx3D::AddLineBatches()
         return;
 
     glBindBufferARB(GL_ARRAY_BUFFER_ARB, VBLine);
-    glBufferDataARB(GL_ARRAY_BUFFER_ARB, MAX_LINES * 2 * sizeof(SLineVertex), NULL, GL_STREAM_DRAW_ARB);
+    glBufferDataARB(GL_ARRAY_BUFFER_ARB, MAX_LINES * 2 * sizeof(SLineVertex), nullptr, GL_STREAM_DRAW_ARB);
     SLineVertex *pVertices = (SLineVertex *)glMapBufferARB(GL_ARRAY_BUFFER_ARB, GL_WRITE_ONLY_ARB);
 
     for (int n = 0; n < iNumLines; ++n)
@@ -522,7 +522,7 @@ void    CGfx3D::Setup3D()
     g_bLighting = true;
     g_iNumActiveBones = 0;
     g_iNumActivePointLights = 0;
-    g_pCurrentEntity = NULL;
+    g_pCurrentEntity = nullptr;
     g_bTexkill = false;
 
     g_iScreenWidth = g_CurrentVidMode.iWidth;
@@ -885,10 +885,10 @@ void    CGfx3D::AddBillboardBatches(EMaterialPhase ePhase)
     }
 
     glBindBufferARB(GL_ARRAY_BUFFER_ARB, VBBillboard);
-    glBufferDataARB(GL_ARRAY_BUFFER_ARB, MAX_BILLBOARDS * 4 * sizeof(SEffectVertex), NULL, GL_STREAM_DRAW_ARB);
+    glBufferDataARB(GL_ARRAY_BUFFER_ARB, MAX_BILLBOARDS * 4 * sizeof(SEffectVertex), nullptr, GL_STREAM_DRAW_ARB);
     SEffectVertex* pVertices((SEffectVertex*)glMapBufferARB(GL_ARRAY_BUFFER_ARB, GL_WRITE_ONLY_ARB));
 
-    if (pVertices == NULL)
+    if (pVertices == nullptr)
         return;
 
     CVec3f v3CamUp(g_pCam->GetViewAxis(UP));
@@ -1177,7 +1177,7 @@ void    CGfx3D::AddEffectTriangleBatches(EMaterialPhase ePhase)
     //
 
     glBindBufferARB(GL_ARRAY_BUFFER_ARB, VBEffectTriangle);
-    glBufferDataARB(GL_ARRAY_BUFFER_ARB, MAX_EFFECT_TRIANGLES * 3 * sizeof(SEffectVertex), NULL, GL_STREAM_DRAW_ARB);
+    glBufferDataARB(GL_ARRAY_BUFFER_ARB, MAX_EFFECT_TRIANGLES * 3 * sizeof(SEffectVertex), nullptr, GL_STREAM_DRAW_ARB);
     SEffectVertex* pVertices = (SEffectVertex*)glMapBufferARB(GL_ARRAY_BUFFER_ARB, GL_WRITE_ONLY_ARB);
 
     int q = 0;
@@ -1238,7 +1238,7 @@ void    CGfx3D::AddTreeBillboardBatches(EMaterialPhase ePhase)
     //
 
     glBindBufferARB(GL_ARRAY_BUFFER_ARB, VBTreeBillboard);
-    glBufferDataARB(GL_ARRAY_BUFFER_ARB, MAX_TREE_BILLBOARDS * 4 * sizeof(STreeBillboardVertex), NULL, GL_STREAM_DRAW_ARB);
+    glBufferDataARB(GL_ARRAY_BUFFER_ARB, MAX_TREE_BILLBOARDS * 4 * sizeof(STreeBillboardVertex), nullptr, GL_STREAM_DRAW_ARB);
     STreeBillboardVertex* pVertices = (STreeBillboardVertex*)glMapBufferARB(GL_ARRAY_BUFFER_ARB, GL_WRITE_ONLY_ARB);
 
     int q = 0;
@@ -1569,7 +1569,7 @@ void    CGfx3D::AddSceneEntity(IEmitter &cEmitter, int iEffectLayer, float fEffe
     for (uint uiEmitter(0); uiEmitter < uiNumEmitters; ++uiEmitter)
     {
         IEmitter *pEmitter(cEmitter.GetEmitter(uiEmitter));
-        while (pEmitter != NULL)
+        while (pEmitter != nullptr)
         {
             AddSceneEntity(*pEmitter, iEffectLayer, fEffectDepth, bCull);
             pEmitter = pEmitter->GetNextEmitter();
@@ -1619,7 +1619,7 @@ void    CGfx3D::AddParticleSystemSceneEntities(bool bCull)
 {
     PROFILE("CGfx3D::AddParticleSystemSceneEntities");
 
-    if (!vid_drawParticleSystems || !g_bValidScene || g_pCam == NULL)
+    if (!vid_drawParticleSystems || !g_bValidScene || g_pCam == nullptr)
         return;
 
     SceneParticleSystemList &lParticleSystems(SceneManager.GetParticleSystemList());
@@ -1664,7 +1664,7 @@ void    CGfx3D::AddEmitter(IEmitter &cEmitter, int iEffectLayer, float fEffectDe
     for (uint uiEmitter(0); uiEmitter < uiNumEmitters; ++uiEmitter)
     {
         IEmitter *pEmitter(cEmitter.GetEmitter(uiEmitter));
-        while (pEmitter != NULL)
+        while (pEmitter != nullptr)
         {
             AddEmitter(*pEmitter, iEffectLayer, fEffectDepth);
             pEmitter = pEmitter->GetNextEmitter();
@@ -1797,7 +1797,7 @@ void    CGfx3D::ObjectBounds(CBBoxf &bbObjects)
             case OBJTYPE_MODEL:
                 {
                     IModel *pModel(g_ResourceManager.GetModel(cEntity.hRes)->GetModelFile());
-                    if (pModel == NULL)
+                    if (pModel == nullptr)
                         continue;
 
                     CBBoxf bbModel(pModel->GetBounds());

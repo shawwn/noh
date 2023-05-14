@@ -138,8 +138,8 @@ void    CLinearAffector::Spawn()
     if (Game.IsServer())
     {
         CLinearAffectorDefinition *pDefinition(GetDefinition<CLinearAffectorDefinition>(GetModifierBits()));
-        if (pDefinition != NULL)
-            pDefinition->ExecuteActionScript(ACTION_SCRIPT_SPAWN, this, GetOwner(), this, NULL, GetPosition(), NULL, GetLevel());
+        if (pDefinition != nullptr)
+            pDefinition->ExecuteActionScript(ACTION_SCRIPT_SPAWN, this, GetOwner(), this, nullptr, GetPosition(), nullptr, GetLevel());
     }
 
     K2_WITH_GAME_RESOURCE_SCOPE()
@@ -183,7 +183,7 @@ uint    CLinearAffector::GetPotentialImpactCount(uint uiTargetUID, uint uiTotalR
   ====================*/
 void    CLinearAffector::ImpactEntity(IUnitEntity *pTarget)
 {
-    if (pTarget == NULL)
+    if (pTarget == nullptr)
         return;
 
     //Console << _T("CLinearAffector::ImpactEntity ") << Game.GetGameTime() << _T(" ") << pTarget->GetIndex() << newl;
@@ -204,7 +204,7 @@ void    CLinearAffector::ImpactEntity(IUnitEntity *pTarget)
     if (GetChainCount() > 0 && hLinkEffect != INVALID_RESOURCE)
     {
         IUnitEntity *pAttachTarget(GetAttachTarget());
-        if (pAttachTarget != NULL)
+        if (pAttachTarget != nullptr)
         {
             CGameEvent evBridge;
             evBridge.SetSourceEntity(pAttachTarget->GetIndex());
@@ -216,7 +216,7 @@ void    CLinearAffector::ImpactEntity(IUnitEntity *pTarget)
     else if (hBridgeEffect != INVALID_RESOURCE)
     {
         IUnitEntity *pAttachTarget(GetOwner());
-        if (pAttachTarget != NULL)
+        if (pAttachTarget != nullptr)
         {
             CGameEvent evBridge;
             evBridge.SetSourceEntity(pAttachTarget->GetIndex());
@@ -236,8 +236,8 @@ void    CLinearAffector::ImpactEntity(IUnitEntity *pTarget)
 
     // Impact event
     CLinearAffectorDefinition *pDefinition(GetDefinition<CLinearAffectorDefinition>(GetModifierBits()));
-    if (pDefinition != NULL)
-        pDefinition->ExecuteActionScript(ACTION_SCRIPT_IMPACT, this, GetOwner(), this, pTarget, pTarget->GetPosition(), NULL, GetLevel());
+    if (pDefinition != nullptr)
+        pDefinition->ExecuteActionScript(ACTION_SCRIPT_IMPACT, this, GetOwner(), this, pTarget, pTarget->GetPosition(), nullptr, GetLevel());
 }
 
 
@@ -248,8 +248,8 @@ void    CLinearAffector::Impact(vector<IUnitEntity*> &vTargets)
 {
     // Interval event
     CLinearAffectorDefinition *pDefinition(GetDefinition<CLinearAffectorDefinition>(GetModifierBits()));
-    if (pDefinition != NULL)
-        pDefinition->ExecuteActionScript(ACTION_SCRIPT_INTERVAL, this, GetOwner(), this, NULL, GetPosition(), NULL, GetLevel());
+    if (pDefinition != nullptr)
+        pDefinition->ExecuteActionScript(ACTION_SCRIPT_INTERVAL, this, GetOwner(), this, nullptr, GetPosition(), nullptr, GetLevel());
     
     SubSegmentImpacts();
 
@@ -274,7 +274,7 @@ void    CLinearAffector::Impact(vector<IUnitEntity*> &vTargets)
     {
         IUnitEntity *pTarget(Game.GetUnitEntity(m_uiFirstTargetIndex));
         m_uiFirstTargetIndex = INVALID_INDEX;
-        if (pTarget != NULL && Game.IsValidTarget(GetTargetScheme(), GetEffectType(), GetOwner(), pTarget))
+        if (pTarget != nullptr && Game.IsValidTarget(GetTargetScheme(), GetEffectType(), GetOwner(), pTarget))
         {
             ImpactEntity(pTarget);
             if (uiRemainingImpacts <= 1)
@@ -369,7 +369,7 @@ void    CLinearAffector::Impact(vector<IUnitEntity*> &vTargets)
     case TARGET_SELECT_RANDOM_POSITION:
         {
             CLinearAffectorDefinition *pDefinition(GetDefinition<CLinearAffectorDefinition>(GetModifierBits()));
-            if (pDefinition == NULL)
+            if (pDefinition == nullptr)
                 break;
 
             if (uiRemainingImpacts == -1)
@@ -379,7 +379,7 @@ void    CLinearAffector::Impact(vector<IUnitEntity*> &vTargets)
                 CVec2f v2Dir(GetTargetPosition().xy() - GetPosition().xy());
                 float fLength(v2Dir.Normalize());
                 CVec2f v2Position(GetPosition().xy() + (v2Dir * fLength * M_Randnum(0.0f, 1.0f)) + (M_RandomPointInCircle() * GetRadius()));
-                pDefinition->ExecuteActionScript(ACTION_SCRIPT_IMPACT, this, GetOwner(), this, NULL, Game.GetTerrainPosition(v2Position), NULL, GetLevel());
+                pDefinition->ExecuteActionScript(ACTION_SCRIPT_IMPACT, this, GetOwner(), this, nullptr, Game.GetTerrainPosition(v2Position), nullptr, GetLevel());
             }
         }
         break;
@@ -410,8 +410,8 @@ void    CLinearAffector::SubSegmentImpacts()
     {
         // Impact event
         CLinearAffectorDefinition *pDefinition(GetDefinition<CLinearAffectorDefinition>(GetModifierBits()));
-        if (pDefinition != NULL)
-            pDefinition->ExecuteActionScript(ACTION_SCRIPT_IMPACT, this, GetOwner(), this, NULL, Game.GetTerrainPosition(GetPosition().xy() + v2Dir * fSegment), NULL, GetLevel());
+        if (pDefinition != nullptr)
+            pDefinition->ExecuteActionScript(ACTION_SCRIPT_IMPACT, this, GetOwner(), this, nullptr, Game.GetTerrainPosition(GetPosition().xy() + v2Dir * fSegment), nullptr, GetLevel());
     }
 }
 
@@ -424,7 +424,7 @@ bool    CLinearAffector::ServerFrameSetup()
     if (!GetPersist() && m_uiAttachTargetUID != INVALID_INDEX)
     {
         IVisualEntity *pTarget(Game.GetVisualEntity(Game.GetGameIndexFromUniqueID(m_uiAttachTargetUID)));
-        if (pTarget == NULL || pTarget->GetStatus() != ENTITY_STATUS_ACTIVE)
+        if (pTarget == nullptr || pTarget->GetStatus() != ENTITY_STATUS_ACTIVE)
             return false;
     }
 
@@ -441,7 +441,7 @@ bool    CLinearAffector::ServerFrameMovement()
         return false;
 
     IVisualEntity *pTarget(Game.GetVisualEntity(Game.GetGameIndexFromUniqueID(m_uiAttachTargetUID)));
-    if (pTarget != NULL)
+    if (pTarget != nullptr)
     {
         SetPosition(pTarget->GetPosition());
         SetAngles(pTarget->GetAngles());
@@ -461,8 +461,8 @@ bool    CLinearAffector::ServerFrameAction()
 
     // Frame event
     CLinearAffectorDefinition *pDefinition(GetDefinition<CLinearAffectorDefinition>(GetModifierBits()));
-    if (pDefinition != NULL)
-        pDefinition->ExecuteActionScript(ACTION_SCRIPT_FRAME, this, GetOwner(), this, NULL, GetPosition(), NULL, GetLevel());
+    if (pDefinition != nullptr)
+        pDefinition->ExecuteActionScript(ACTION_SCRIPT_FRAME, this, GetOwner(), this, nullptr, GetPosition(), nullptr, GetLevel());
 
     bool bImpact(false);
 
@@ -530,7 +530,7 @@ bool    CLinearAffector::ServerFrameAction()
             continue;
 
         IUnitEntity *pTarget(Game.GetUnitEntity(uiTargetIndex));
-        if (pTarget == NULL)
+        if (pTarget == nullptr)
             continue;
 
         // Check distance to line
@@ -545,7 +545,7 @@ bool    CLinearAffector::ServerFrameAction()
             IBitEntity *pTargetBit(pTarget->GetAsBit());
             
             CWorldEntity *pWorldEnt(Game.GetWorldEntity(pTargetBit->GetWorldIndex()));
-            if (pWorldEnt == NULL)
+            if (pWorldEnt == nullptr)
                 continue;
             
             pTargetBit->Die(pOwner);
@@ -557,8 +557,8 @@ bool    CLinearAffector::ServerFrameAction()
                 continue;
 
             // Execute frame script, this hits all valid targets every frame, ignoring impact rules
-            if (pDefinition != NULL)
-                pDefinition->ExecuteActionScript(ACTION_SCRIPT_FRAME, this, pOwner, this, pTarget, pTarget->GetPosition(), NULL, GetLevel());
+            if (pDefinition != nullptr)
+                pDefinition->ExecuteActionScript(ACTION_SCRIPT_FRAME, this, pOwner, this, pTarget, pTarget->GetPosition(), nullptr, GetLevel());
 
             // Skip first target (added in Impact)
             if (pTarget->GetIndex() == m_uiFirstTargetIndex)
@@ -614,7 +614,7 @@ bool    CLinearAffector::AddToScene(const CVec4f &v4Color, int iFlags)
     }
 
     // If the cvar is false or it isn't a practice/replay game, return as it can be used to reveal abilities in game it shouldn't be able to
-    if (!d_drawAreaAffectors || (Host.GetActiveClient() != NULL && !(Host.GetActiveClient()->GetPractice() || Host.IsReplay())))
+    if (!d_drawAreaAffectors || (Host.GetActiveClient() != nullptr && !(Host.GetActiveClient()->GetPractice() || Host.IsReplay())))
         return true;
 
     float fRadius(GetRadius());
@@ -686,14 +686,14 @@ void    CLinearAffector::UpdateModifiers(const uivector &vModifiers)
 
     // Activate conditional modifiers
     IUnitEntity *pOwner(GetOwner());
-    if (pOwner == NULL)
+    if (pOwner == nullptr)
         return;
 
     CEntityDefinitionResource *pResource(g_ResourceManager.Get<CEntityDefinitionResource>(m_hDefinition));
-    if (pResource == NULL)
+    if (pResource == nullptr)
         return;
     IEntityDefinition *pDefinition(pResource->GetDefinition<IEntityDefinition>());
-    if (pDefinition == NULL)
+    if (pDefinition == nullptr)
         return;
 
     const EntityModifierMap &mapModifiers(pDefinition->GetModifiers());

@@ -30,7 +30,7 @@ CHTTPManager::~CHTTPManager()
   CHTTPManager::CHTTPManager
   ====================*/
 CHTTPManager::CHTTPManager() :
-m_pCurlMulti(NULL)
+m_pCurlMulti(nullptr)
 {
 }
 
@@ -49,7 +49,7 @@ bool    CHTTPManager::Initialize()
     // Create a cURL "multi" interface to use, this only needs to be done
     // once per instance of the application
     m_pCurlMulti = curl_multi_init();
-    if (m_pCurlMulti == NULL)
+    if (m_pCurlMulti == nullptr)
         return  false;
 
     return true;
@@ -78,7 +78,7 @@ void    CHTTPManager::Frame()
     {
         int iMessageCount(0);
         CURLMsg *pMsg(curl_multi_info_read(m_pCurlMulti, &iMessageCount));
-        if (pMsg == NULL)
+        if (pMsg == nullptr)
             break;
 
         // cURL docs say this is the only valid message right now
@@ -127,7 +127,7 @@ void    CHTTPManager::Shutdown()
     for (RequestVector_it itRequest(m_vRequests.begin()), itEnd(m_vRequests.end()); itRequest != itEnd; ++itRequest)
     {
         CHTTPRequest *pRequest(*itRequest);
-        if (pRequest == NULL)
+        if (pRequest == nullptr)
             continue;
 
         curl_multi_remove_handle(m_pCurlMulti, pRequest->GetCURL());
@@ -138,10 +138,10 @@ void    CHTTPManager::Shutdown()
     m_vRequests.clear();
 
     // Release the cURL "multi" interface
-    if (m_pCurlMulti != NULL)
+    if (m_pCurlMulti != nullptr)
     {
         curl_multi_cleanup(m_pCurlMulti);
-        m_pCurlMulti = NULL;
+        m_pCurlMulti = nullptr;
     }
 }
 
@@ -162,16 +162,16 @@ CHTTPRequest*   CHTTPManager::SpawnRequest()
     }
 
     CURL *pCurlEasy(curl_easy_init());
-    if (pCurlEasy == NULL)
-        return NULL;
+    if (pCurlEasy == nullptr)
+        return nullptr;
 
     uint uiID(INT_SIZE(m_vRequests.size()));
     if (!m_vAvailableRequestIDs.empty())
         uiID = m_vAvailableRequestIDs.back();
 
     CHTTPRequest *pNewRequest(K2_NEW(ctx_Net,  CHTTPRequest)(this, pCurlEasy, uiID));
-    if (pNewRequest == NULL)
-        return NULL;
+    if (pNewRequest == nullptr)
+        return nullptr;
 
     if (m_vAvailableRequestIDs.empty())
     {
@@ -211,7 +211,7 @@ void    CHTTPManager::KillRequest(CHTTPRequest *pRequest)
 {
     PROFILE("CHTTPManager::KillRequest");
 
-    if (pRequest == NULL)
+    if (pRequest == nullptr)
         return;
 
     m_mapResults.erase(pRequest->GetCURL());
@@ -221,7 +221,7 @@ void    CHTTPManager::KillRequest(CHTTPRequest *pRequest)
 
     uint uiID(pRequest->GetID());
     K2_DELETE(m_vRequests[uiID]);
-    m_vRequests[uiID] = NULL;
+    m_vRequests[uiID] = nullptr;
     m_vAvailableRequestIDs.push_back(uiID);
 }
 
@@ -233,7 +233,7 @@ void    CHTTPManager::ReleaseRequest(CHTTPRequest *pRequest)
 {
     PROFILE("CHTTPManager::ReleaseRequest");
 
-    if (pRequest == NULL)
+    if (pRequest == nullptr)
         return;
 
     m_mapResults.erase(pRequest->GetCURL());

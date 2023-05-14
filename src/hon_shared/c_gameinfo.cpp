@@ -278,7 +278,7 @@ tstring CGameInfo::GetGameOptionsNamesString(uint uiOptions)
   CGameInfo::CGameInfo
   ====================*/
 CGameInfo::CGameInfo() :
-IGameEntity(NULL),
+IGameEntity(nullptr),
 m_unServerDateIndex(INVALID_NETWORK_STRING),
 m_unServerTimeIndex(INVALID_NETWORK_STRING),
 m_unServerNameIndex(INVALID_NETWORK_STRING),
@@ -630,7 +630,7 @@ bool    CGameInfo::CanLeave(uint uiTeam) const
         return true;
 
     CTeamInfo *pTeam(Game.GetTeam(uiTeam));
-    if (pTeam != NULL && pTeam->HasFlags(TEAM_FLAG_ABANDONED))
+    if (pTeam != nullptr && pTeam->HasFlags(TEAM_FLAG_ABANDONED))
         return true;
 
     if (HasFlags(GAME_FLAG_SOLO))
@@ -645,10 +645,10 @@ bool    CGameInfo::CanLeave(uint uiTeam) const
   ====================*/
 void    CGameInfo::ExecuteActionScript(EEntityActionScript eScript, IGameEntity *pInitiator, IGameEntity *pInflictor, IGameEntity *pTarget, const CVec3f &v3Target)
 {
-    if (m_pDefinition == NULL)
+    if (m_pDefinition == nullptr)
         return;
         
-    m_pDefinition->ExecuteActionScript(eScript, this, pInitiator, pInflictor, pTarget, v3Target, NULL, 1);
+    m_pDefinition->ExecuteActionScript(eScript, this, pInitiator, pInflictor, pTarget, v3Target, nullptr, 1);
 }
 
 

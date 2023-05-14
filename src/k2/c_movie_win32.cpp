@@ -53,7 +53,7 @@ bool    CMovie::Load(const tstring &sFileName, CBitmap *pBitmap, bool bPreload)
 
     HBINK hBink = BinkOpen(szFullPath, BINKALPHA | (bPreload ? BINKPRELOADALL : 0));
     m_pHandle = hBink;
-    if (m_pHandle == NULL)
+    if (m_pHandle == nullptr)
     {
         Console.Err << _T("CMovie::Load(): ") << sFullPath << newl
                     << BinkGetError() << newl;

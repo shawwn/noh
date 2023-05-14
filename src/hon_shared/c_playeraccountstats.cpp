@@ -73,28 +73,28 @@ m_uiSecondsPlayed(0)
   ====================*/        
 CPlayerAccountHistory::CPlayerAccountHistory(const CPHPData *pData)
 {
-    if (pData == NULL)
+    if (pData == nullptr)
         return;
         
     const CPHPData *pMatchHistory(pData->GetVar(_CTS("match_history")));
     const CPHPData *pFavoritHeroes(pData->GetVar(_CTS("fav_heroes")));
-    if (pMatchHistory != NULL)
+    if (pMatchHistory != nullptr)
     {
         for(uint uiLastMatch = 0; uiLastMatch < pMatchHistory->GetSize(); ++uiLastMatch)
         {
             const CPHPData *pMatch(pMatchHistory->GetVar(uiLastMatch));
-            if (pMatch == NULL)
+            if (pMatch == nullptr)
                 break;
                 
             m_vLastGameInfo.push_back(CLastGameInfo(pMatch));
         }
     }
-    if (pFavoritHeroes != NULL)
+    if (pFavoritHeroes != nullptr)
     {
         for(uint uiFavHeroes = 0; uiFavHeroes < pFavoritHeroes->GetSize(); ++uiFavHeroes)
         {
             const CPHPData *pFavHero(pFavoritHeroes->GetVar(uiFavHeroes));
-            if (pFavHero == NULL)
+            if (pFavHero == nullptr)
                 break;
         
             m_vFavHeroesInfo.push_back(CFavHeroes(pFavHero));
@@ -125,7 +125,7 @@ m_uiExpTotal(0),
 m_uiSecondsPlayed(0),
 m_uiSecondsGettingExp(0)
 {
-    if (pData == NULL)
+    if (pData == nullptr)
         return;
 
     if (yType == PLAYER_STATS_TYPE_RANKED)
@@ -232,23 +232,23 @@ m_sGameCookie(_T(""))
         
         /*const CPHPData *pMatchHistory(pData->GetVar(_CTS("match_history")));
         const CPHPData *pFavoritHeroes(pData->GetVar(_CTS("fav_heroes")));
-        if (pMatchHistory != NULL)
+        if (pMatchHistory != nullptr)
         {
             for(uint uiLastMatch = 0; uiLastMatch < pMatchHistory->GetSize(); ++uiLastMatch)
             {
                 const CPHPData *pMatch(pMatchHistory->GetVar(uiLastMatch));
-                if (pMatch == NULL)
+                if (pMatch == nullptr)
                     break;
                     
                 m_vLastGameInfo.push_back(CLastGameInfo(pMatch));
             }
         }
-        if (pFavoritHeroes != NULL)
+        if (pFavoritHeroes != nullptr)
         {
             for(uint uiFavHeroes = 0; uiFavHeroes < pFavoritHeroes->GetSize(); ++uiFavHeroes)
             {
                 const CPHPData *pFavHero(pFavoritHeroes->GetVar(uiFavHeroes));
-                if (pFavHero == NULL)
+                if (pFavHero == nullptr)
                     break;
             
                 m_vFavHeroesInfo.push_back(CFavHeroes(pFavHero));

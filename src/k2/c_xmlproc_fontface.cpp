@@ -106,17 +106,17 @@ BEGIN_XML_PROCESSOR(fontmap, void)
         // Get the face
         ResHandle hParentFace(INVALID_RESOURCE);
         CFontFace *pFontFace(static_cast<CFontFace*>(pVoid));
-        if (pFontFace != NULL)
+        if (pFontFace != nullptr)
             hParentFace = pFontFace->GetHandle();
 
-        if (pFontFace == NULL || hParentFace == INVALID_RESOURCE)
+        if (pFontFace == nullptr || hParentFace == INVALID_RESOURCE)
         {
             if (sPath.empty())
                 EX_ERROR(_T("fontmap does not reference any face"));
 
             hParentFace = g_ResourceManager.Register(sPath, RES_FONTFACE);
             pFontFace = g_ResourceManager.GetFontFace(hParentFace);
-            if (pFontFace == NULL || hParentFace == INVALID_RESOURCE)
+            if (pFontFace == nullptr || hParentFace == INVALID_RESOURCE)
                 EX_ERROR(_T("No entry for current fontface handle"));
         }
 

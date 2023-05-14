@@ -58,7 +58,7 @@ bool    CBTouch::Validate()
     }
 
     if (m_pSelf->IsIllusion() ||
-        Game.GetUnitEntity(m_uiTargetIndex) == NULL ||
+        Game.GetUnitEntity(m_uiTargetIndex) == nullptr ||
         (m_uiEndTime != INVALID_TIME && m_uiEndTime <= Game.GetGameTime()))
     {
         SetFlag(BSR_END);
@@ -89,7 +89,7 @@ void    CBTouch::Update()
   ====================*/
 void    CBTouch::BeginBehavior()
 {
-    if (m_pSelf == NULL || m_uiTargetIndex == INVALID_INDEX)
+    if (m_pSelf == nullptr || m_uiTargetIndex == INVALID_INDEX)
     {
         Console << _T("CBTouch: Behavior started without valid information") << newl;
         return;
@@ -118,7 +118,7 @@ void    CBTouch::ThinkFrame()
         return;
 
     IUnitEntity *pTarget(Game.GetUnitEntity(m_uiTargetIndex));
-    if (pTarget == NULL)
+    if (pTarget == nullptr)
         return;
 
     // Check for a target that has become invalid
@@ -167,7 +167,7 @@ void    CBTouch::MovementFrame()
         return;
 
     IUnitEntity *pTarget(Game.GetUnitEntity(m_uiTargetIndex));
-    if (pTarget == NULL)
+    if (pTarget == nullptr)
         return;
 
     // Check for a target that has become invalid
@@ -252,7 +252,7 @@ void    CBTouch::ActionFrame()
             return;
 
     IUnitEntity *pTarget(Game.GetUnitEntity(m_uiTargetIndex));
-    if (pTarget == NULL)
+    if (pTarget == nullptr)
         return;
 
     // Check for a target that has become invalid

@@ -32,4 +32,4 @@ BEGIN_XML_PROCESSOR(texture, CTextureList)
 
     if (uiID != INVALID_INDEX)
         pObject->AddTexture(uiID, sName);
-END_XML_PROCESSOR(NULL)
+END_XML_PROCESSOR(nullptr)

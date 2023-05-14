@@ -43,7 +43,7 @@
 //  try
 //  {
 //      m_pWorld = pWorld;
-//      if (m_pWorld == NULL)
+//      if (m_pWorld == nullptr)
 //          EX_ERROR(_T("Invalid CWorld"));
 //
 //      CFileHandle hRampList(m_sName, FILE_READ | FILE_BINARY, archive);
@@ -77,11 +77,11 @@
 //      Release();
 //
 //      m_pWorld = pWorld;
-//      if (m_pWorld == NULL)
+//      if (m_pWorld == nullptr)
 //          EX_ERROR(_T("Invalid CWorld"));
 //
 ////        m_pRampMap = K2_NEW(ctx_World) uint[m_pWorld->GetCliffTileHeight() * m_pWorld->GetCliffTileWidth()];
-////        if (m_pRampMap == NULL)
+////        if (m_pRampMap == nullptr)
 ////            return false;
 //      
 ////        MemManager.Set(m_pRampMap, 0, sizeof(uint) * (m_pWorld->GetCliffTileHeight() * m_pWorld->GetCliffTileWidth()));
@@ -131,7 +131,7 @@
 //  ====================*/
 //void  CRampList::Release()
 //{
-//  m_pWorld = NULL;
+//  m_pWorld = nullptr;
 //
 //  m_vRamps.clear();
 //}

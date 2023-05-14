@@ -23,10 +23,10 @@
 #define START_PROFILE(s)    { PROFILE(s);
 #define END_PROFILE         }
 #else
-#define PROFILE(s)
-#define PROFILE_EX(s, t)
-#define START_PROFILE(s)
-#define END_PROFILE
+#define PROFILE(s)          do {} while(0)
+#define PROFILE_EX(s, t)    do {} while(0)
+#define START_PROFILE(s)    do {} while(0)
+#define END_PROFILE         do {} while(0)
 #endif
 
 #define GAME_PROFILE(s)         CProfileSample  _sample(s, PROFILE_INHERIT)
@@ -55,7 +55,7 @@ public:
     K2_API bool StartSample(const TCHAR *szNode, eProfileType eType);
     K2_API void EndSample();
 
-    bool    IsActive()                  { return m_bActive; }
+    bool    IsActive() const            { return m_bActive; }
     void    SetActive(bool bActive)     { m_bActive = bActive; }
     void    SetDraw(bool bDraw)         { m_bDraw = bDraw; }
 

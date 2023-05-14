@@ -18,7 +18,7 @@
   ====================*/
 CVertexColorMap::CVertexColorMap(EWorldComponent eComponent) :
 IWorldComponent(eComponent, _T("VertexColorMap")),
-m_pVertexColors(NULL)
+m_pVertexColors(nullptr)
 {
 }
 
@@ -37,11 +37,11 @@ CVertexColorMap::~CVertexColorMap()
   ====================*/
 void    CVertexColorMap::Release()
 {
-    m_pWorld = NULL;
+    m_pWorld = nullptr;
 
-    if (m_pVertexColors != NULL)
+    if (m_pVertexColors != nullptr)
         K2_DELETE_ARRAY(m_pVertexColors);
-    m_pVertexColors = NULL;
+    m_pVertexColors = nullptr;
 }
 
 
@@ -80,9 +80,9 @@ bool    CVertexColorMap::Load(CArchive &archive, const CWorld *pWorld)
     }
     catch (CException &ex)
     {
-        if (m_pVertexColors != NULL)
+        if (m_pVertexColors != nullptr)
             K2_DELETE_ARRAY(m_pVertexColors);
-        m_pVertexColors = NULL;
+        m_pVertexColors = nullptr;
 
         ex.Process(_T("CVertexColorMap::Load() - "), NO_THROW);
         return false;
@@ -105,11 +105,11 @@ bool    CVertexColorMap::Generate(const CWorld *pWorld)
 
         m_bChanged = true;
         m_pWorld = pWorld;
-        if (m_pWorld == NULL)
+        if (m_pWorld == nullptr)
             EX_ERROR(_T("CVertexColorMap needs a valid CWorld"));
 
         m_pVertexColors = K2_NEW_ARRAY(ctx_World, CVec4b, m_pWorld->GetGridArea());
-        if (m_pVertexColors == NULL)
+        if (m_pVertexColors == nullptr)
             EX_ERROR(_T("Failed to allocate memory for ColorMap"));
 
         for (int i(0); i < m_pWorld->GetGridArea(); ++i)

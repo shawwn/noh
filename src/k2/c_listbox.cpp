@@ -134,13 +134,13 @@ m_uiDoubleClickTime(style.GetPropertyInt(_T("doubleclicktime"), 400)),
 m_eLastClickType(BUTTON_INVALID),
 m_uiLastClickTime(0),
 m_iLastClickItem(-1),
-m_pHScrollbar(NULL),
-m_pVScrollbar(NULL),
+m_pHScrollbar(nullptr),
+m_pVScrollbar(nullptr),
 m_refCvar(style.GetProperty(_T("cvar"))),
-m_pHoverWidget(NULL),
-m_pBackground(NULL),
-m_pItemBackground(NULL),
-m_pItemHighlight(NULL),
+m_pHoverWidget(nullptr),
+m_pBackground(nullptr),
+m_pItemBackground(nullptr),
+m_pItemHighlight(nullptr),
 m_bClearSelection(style.GetPropertyBool(_T("clearselection"), false)),
 m_bUseScrollbars(style.GetPropertyBool(_T("usescrollbars"), true)),
 m_fListItemWidthFudge(GetSizeFromString(style.GetProperty(_T("itemwidthfudge")), pParent->GetWidth(), pParent->GetHeight())),
@@ -300,7 +300,7 @@ bool    CListBox::ButtonDown(EButton button)
 
     case BUTTON_ESC:
         SetSelectedListItem(-1);
-        m_pInterface->SetActiveWidget(NULL);
+        m_pInterface->SetActiveWidget(nullptr);
         break;
 
     case BUTTON_HOME:
@@ -686,9 +686,9 @@ bool    CListBox::Char(TCHAR c)
   ====================*/
 void    CListBox::MouseDown(EButton button, const CVec2f &v2CursorPos)
 {
-    if (button == BUTTON_WHEELUP && m_pVScrollbar != NULL && m_pVScrollbar->HasFlags(WFLAG_VISIBLE))
+    if (button == BUTTON_WHEELUP && m_pVScrollbar != nullptr && m_pVScrollbar->HasFlags(WFLAG_VISIBLE))
         m_pVScrollbar->MinButtonCommand();
-    else if (button == BUTTON_WHEELDOWN && m_pVScrollbar != NULL && m_pVScrollbar->HasFlags(WFLAG_VISIBLE))
+    else if (button == BUTTON_WHEELDOWN && m_pVScrollbar != nullptr && m_pVScrollbar->HasFlags(WFLAG_VISIBLE))
         m_pVScrollbar->MaxButtonCommand();
     if (button == BUTTON_WHEELUP || button == BUTTON_WHEELDOWN || !Contains(v2CursorPos))
         return;
@@ -946,7 +946,7 @@ bool    CListBox::ProcessInputCursor(const CVec2f &v2CursorPos)
         }
         else
         {
-            SetHoverWidget(NULL);
+            SetHoverWidget(nullptr);
         }
 
         SetHoverListItem(iNewListItem);
@@ -955,7 +955,7 @@ bool    CListBox::ProcessInputCursor(const CVec2f &v2CursorPos)
     else
     {
         SetHoverListItem(-1);
-        SetHoverWidget(NULL);
+        SetHoverWidget(nullptr);
     }
 
     // Let children handle the input directly
@@ -1181,7 +1181,7 @@ void    CListBox::AddListItem(CListItem *pListItem, const bool bReverseSort)
 void    CListBox::RemoveListItem(CListItem *pListItem)
 {
     if (pListItem == m_pHoverWidget)
-        SetHoverWidget(NULL);
+        SetHoverWidget(nullptr);
 
     // Hide item immediately
     for (vector<CListItem *>::iterator it(m_vItems.begin()); it != m_vItems.end(); )
@@ -1196,9 +1196,9 @@ void    CListBox::RemoveListItem(CListItem *pListItem)
         CListItem *vHoverItem(GetHoverListItem());
 
         if (vSelectedItem == *it)
-            vSelectedItem = NULL;
+            vSelectedItem = nullptr;
         if (vHoverItem == *it)
-            vHoverItem = NULL;
+            vHoverItem = nullptr;
 
         SetHoverListItem(-1);
         SetSelectedListItem(-1);
@@ -1210,9 +1210,9 @@ void    CListBox::RemoveListItem(CListItem *pListItem)
         it = m_vItems.erase(it);
         UpdateScrollbars();
 
-        if (vSelectedItem != NULL)
+        if (vSelectedItem != nullptr)
             SetSelectedItem(vSelectedItem, true);
-        if (vHoverItem != NULL)
+        if (vHoverItem != nullptr)
             SetHoverItem(vHoverItem, true);
 
         break;
@@ -1264,17 +1264,17 @@ void    CListBox::HideListItem(const tstring &sValue)
         SetSelectedListItem(-1);
 
         if (vSelectedItem == *it)
-            vSelectedItem = NULL;
+            vSelectedItem = nullptr;
         if (vHoverItem == *it)
-            vHoverItem = NULL;
+            vHoverItem = nullptr;
 
         m_vHiddenItems.push_back(*it);
         it = m_vItems.erase(it);
         UpdateScrollbars();
 
-        if (vSelectedItem != NULL)
+        if (vSelectedItem != nullptr)
             SetSelectedItem(vSelectedItem, true);
-        if (vHoverItem != NULL)
+        if (vHoverItem != nullptr)
             SetHoverItem(vHoverItem, true);
 
         break;
@@ -1293,7 +1293,7 @@ void    CListBox::RemoveListItemByName(const tstring &sName)
             continue;
 
         if (*it == m_pHoverWidget)
-            SetHoverWidget(NULL);
+            SetHoverWidget(nullptr);
 
         (*it)->RequestPurge();
         (*it)->Kill();
@@ -1311,7 +1311,7 @@ void    CListBox::CreateNewListItemFromTemplate(const tstring &sName, const tstr
     {
         // Lookup the template
         CWidgetTemplate *pTemplate(m_pInterface->GetTemplate(sName));
-        if (pTemplate == NULL)
+        if (pTemplate == nullptr)
             EX_ERROR(_T("Could not retrieve template named: ") + sName);
 
         // Create new listitem
@@ -1342,7 +1342,7 @@ void    CListBox::CreateNewListItemFromTemplateWithSort(const tstring &sName, co
     {
         // Lookup the template
         CWidgetTemplate *pTemplate(m_pInterface->GetTemplate(sName));
-        if (pTemplate == NULL)
+        if (pTemplate == nullptr)
             EX_ERROR(_T("Could not retrieve template named: ") + sName);
 
         // Create new listitem
@@ -1374,7 +1374,7 @@ void    CListBox::CreateNewListItemFromTemplateWithSortReversed(const tstring &s
     {
         // Lookup the template
         CWidgetTemplate *pTemplate(m_pInterface->GetTemplate(sName));
-        if (pTemplate == NULL)
+        if (pTemplate == nullptr)
             EX_ERROR(_T("Could not retrieve template named: ") + sName);
 
         // Create new listitem
@@ -1408,7 +1408,7 @@ void    CListBox::ResizeListTemplate(const tstring &sName, uint uiSize, const CX
         {
             // Lookup the template
             CWidgetTemplate *pTemplate(m_pInterface->GetTemplate(sName));
-            if (pTemplate == NULL)
+            if (pTemplate == nullptr)
                 EX_ERROR(_T("Could not retrieve template named: ") + sName);
 
             // Add items
@@ -1492,10 +1492,10 @@ void    CListBox::SortList()
     // Sort, comparing by item value
     sort(m_vItems.begin(), m_vItems.end(), CompareByItemText);
 
-    if (vSelectedItem != NULL)
+    if (vSelectedItem != nullptr)
         SetSelectedItem(vSelectedItem, true);
 
-    if (vHoverItem != NULL)
+    if (vHoverItem != nullptr)
         SetHoverItem(vHoverItem, true);
 }
 
@@ -1514,10 +1514,10 @@ void    CListBox::SortListValue()
     // Sort, comparing by item value
     sort(m_vItems.begin(), m_vItems.end(), CompareByItemValue);
 
-    if (vSelectedItem != NULL)
+    if (vSelectedItem != nullptr)
         SetSelectedItem(vSelectedItem, true);
 
-    if (vHoverItem != NULL)
+    if (vHoverItem != nullptr)
         SetHoverItem(vHoverItem, true);
 }
 
@@ -1536,10 +1536,10 @@ void    CListBox::SortListNumericValue()
     // Sort, comparing by item value
     sort(m_vItems.begin(), m_vItems.end(), CompareByItemNumericValue);
 
-    if (vSelectedItem != NULL)
+    if (vSelectedItem != nullptr)
         SetSelectedItem(vSelectedItem, true);
 
-    if (vHoverItem != NULL)
+    if (vHoverItem != nullptr)
         SetHoverItem(vHoverItem, true);
 }
 
@@ -1596,10 +1596,10 @@ void    CListBox::SortListSortIndex(int iIndex)
     // Sort, comparing by item value
     sort(m_vItems.begin(), m_vItems.end(), FCompareSortIndex(iIndex));
 
-    if (vSelectedItem != NULL)
+    if (vSelectedItem != nullptr)
         SetSelectedItem(vSelectedItem, true);
 
-    if (vHoverItem != NULL)
+    if (vHoverItem != nullptr)
         SetHoverItem(vHoverItem, true);
 }
 
@@ -1618,10 +1618,10 @@ void    CListBox::SortListSortIndexNumeric(int iIndex)
     // Sort, comparing by item value
     sort(m_vItems.begin(), m_vItems.end(), FCompareSortIndexNumeric(iIndex));
 
-    if (vSelectedItem != NULL)
+    if (vSelectedItem != nullptr)
         SetSelectedItem(vSelectedItem, true);
 
-    if (vHoverItem != NULL)
+    if (vHoverItem != nullptr)
         SetHoverItem(vHoverItem, true);
 }
 
@@ -1632,7 +1632,7 @@ void    CListBox::SortListSortIndexNumeric(int iIndex)
 CListItem*      CListBox::GetSelectedListItem()
 {
     if (m_iSelectedListItem == -1 || m_iSelectedListItem >= int(m_vItems.size()))
-        return NULL;
+        return nullptr;
     else
         return m_vItems[m_iSelectedListItem];
 }
@@ -1644,7 +1644,7 @@ CListItem*      CListBox::GetSelectedListItem()
 CListItem*      CListBox::GetHoverListItem()
 {
     if (m_iHoverListItem == -1 || m_iHoverListItem >= int(m_vItems.size()))
-        return NULL;
+        return nullptr;
     else
         return m_vItems[m_iHoverListItem];
 }
@@ -1754,7 +1754,7 @@ CListItem*  CListBox::GetItem(uint uiItem)
     if (uiItem < m_vItems.size())
         return m_vItems[uiItem];
     else
-        return NULL;
+        return nullptr;
 }
 
 
@@ -1769,7 +1769,7 @@ CListItem*  CListBox::GetItemByValue(const tstring &sValue)
             return *it;
     }
 
-    return NULL;
+    return nullptr;
 }
 
 
@@ -1796,7 +1796,7 @@ void    CListBox::ClearList()
 {
     PROFILE("CListBox::ClearList");
 
-    SetHoverWidget(NULL);
+    SetHoverWidget(nullptr);
 
     // Delete all of it it's items
     vector<CListItem *> vItems(m_vItems);
@@ -1894,16 +1894,16 @@ void    CListBox::SetHoverWidget(IWidget *pWidget)
   ====================*/
 void    CListBox::WidgetLost(IWidget *pWidget)
 {
-    if (pWidget == NULL)
+    if (pWidget == nullptr)
         return;
 
     if (m_pHoverWidget == pWidget)
-        m_pHoverWidget = NULL;
+        m_pHoverWidget = nullptr;
 
     vector<CListItem*>::iterator it(m_vItems.begin());
 
-    CListItem *pHoverItem(NULL);
-    CListItem *pSelectedItem(NULL);
+    CListItem *pHoverItem(nullptr);
+    CListItem *pSelectedItem(nullptr);
 
     if (m_iHoverListItem != -1 && m_iHoverListItem < (int)m_vItems.size())
         pHoverItem = m_vItems[m_iHoverListItem];
@@ -1953,21 +1953,21 @@ bool    CListBox::AddWidgetState(CWidgetState *pState)
     if (pState->GetStateName() == _T("listbg"))
     {
         m_pBackground = pState;
-        if (m_pBackground != NULL)
+        if (m_pBackground != nullptr)
             m_pBackground->RecalculateSize();
         return true;
     }
     else if (pState->GetStateName() == _T("itembg"))
     {
         m_pItemBackground = pState->GetAsListWidgetState();
-        if (m_pItemBackground != NULL)
+        if (m_pItemBackground != nullptr)
             m_pItemBackground->RecalculateSize();
         return true;
     }
     else if (pState->GetStateName() == _T("itemhighlight"))
     {
         m_pItemHighlight = pState->GetAsListWidgetState();
-        if (m_pItemHighlight != NULL)
+        if (m_pItemHighlight != nullptr)
             m_pItemHighlight->RecalculateSize();
         return true;
     }
@@ -2000,13 +2000,13 @@ void    CListBox::RecalculateChildSize()
     m_fListItemWidth = GetSizeFromString(m_sListItemWidth, GetWidth(), GetHeight());
     m_fListItemHeight = GetSizeFromString(m_sListItemHeight, GetHeight(), GetWidth());
 
-    if (m_pBackground != NULL)
+    if (m_pBackground != nullptr)
         m_pBackground->RecalculateSize();
 
-    if (m_pItemBackground != NULL)
+    if (m_pItemBackground != nullptr)
         m_pItemBackground->RecalculateSize();
 
-    if (m_pItemHighlight != NULL)
+    if (m_pItemHighlight != nullptr)
         m_pItemHighlight->RecalculateSize();
 
     for (ListItemVector_it it(m_vItems.begin()), itEnd(m_vItems.end()); it != itEnd; ++it)
@@ -2048,8 +2048,8 @@ void    CListBox::Purge()
     if (!NeedsPurge())
         return;
 
-    CListItem *pHoverItem(NULL);
-    CListItem *pSelectedItem(NULL);
+    CListItem *pHoverItem(nullptr);
+    CListItem *pSelectedItem(nullptr);
 
     if (m_iHoverListItem != -1 && m_iHoverListItem < (int)m_vItems.size())
         pHoverItem = m_vItems[m_iHoverListItem];
@@ -2249,7 +2249,7 @@ void    CListBox::SetHoverListItem(int iItem)
   --------------------*/
 UI_VOID_CMD(ListBoxCmd, 1)
 {
-    if (pThis == NULL ||
+    if (pThis == nullptr ||
         pThis->GetType() != WIDGET_LISTBOX)
         return;
 
@@ -2317,7 +2317,7 @@ UI_VOID_CMD(ListBoxCmd, 1)
   --------------------*/
 UI_VOID_CMD(SortListbox, 0)
 {
-    if (pThis == NULL || pThis->GetType() != WIDGET_LISTBOX)
+    if (pThis == nullptr || pThis->GetType() != WIDGET_LISTBOX)
         return;
 
     CListBox *pListBox(static_cast<CListBox*>(pThis));
@@ -2331,7 +2331,7 @@ UI_VOID_CMD(SortListbox, 0)
   --------------------*/
 UI_VOID_CMD(SortListboxValue, 0)
 {
-    if (pThis == NULL || pThis->GetType() != WIDGET_LISTBOX)
+    if (pThis == nullptr || pThis->GetType() != WIDGET_LISTBOX)
         return;
 
     CListBox *pListBox(static_cast<CListBox*>(pThis));
@@ -2345,7 +2345,7 @@ UI_VOID_CMD(SortListboxValue, 0)
   --------------------*/
 UI_VOID_CMD(SortListboxNumericValue, 0)
 {
-    if (pThis == NULL || pThis->GetType() != WIDGET_LISTBOX)
+    if (pThis == nullptr || pThis->GetType() != WIDGET_LISTBOX)
         return;
 
     CListBox *pListBox(static_cast<CListBox*>(pThis));
@@ -2360,7 +2360,7 @@ UI_VOID_CMD(SortListboxNumericValue, 0)
   --------------------*/
 UI_VOID_CMD(SortListboxSortIndex, 0)
 {
-    if (pThis == NULL || pThis->GetType() != WIDGET_LISTBOX)
+    if (pThis == nullptr || pThis->GetType() != WIDGET_LISTBOX)
         return;
 
     CListBox *pListBox(static_cast<CListBox*>(pThis));
@@ -2374,7 +2374,7 @@ UI_VOID_CMD(SortListboxSortIndex, 0)
   --------------------*/
 UI_VOID_CMD(SortListboxSortIndexNumeric, 0)
 {
-    if (pThis == NULL || pThis->GetType() != WIDGET_LISTBOX)
+    if (pThis == nullptr || pThis->GetType() != WIDGET_LISTBOX)
         return;
 
     CListBox *pListBox(static_cast<CListBox*>(pThis));
@@ -2388,7 +2388,7 @@ UI_VOID_CMD(SortListboxSortIndexNumeric, 0)
   --------------------*/
 UI_VOID_CMD(EraseListItemByValue, 1)
 {
-    if (pThis == NULL ||
+    if (pThis == nullptr ||
         pThis->GetType() != WIDGET_LISTBOX)
         return;
 
@@ -2396,7 +2396,7 @@ UI_VOID_CMD(EraseListItemByValue, 1)
 
     CListItem *pItem(pListBox->GetItemByValue(vArgList[0]->Evaluate()));
 
-    if (pItem == NULL)
+    if (pItem == nullptr)
         return;
 
     pListBox->RemoveListItem(pItem);
@@ -2408,7 +2408,7 @@ UI_VOID_CMD(EraseListItemByValue, 1)
   --------------------*/
 UI_VOID_CMD(SetVerticalListScroll, 1)
 {
-    if (pThis == NULL ||
+    if (pThis == nullptr ||
         pThis->GetType() != WIDGET_LISTBOX)
         return;
 
@@ -2423,14 +2423,14 @@ UI_VOID_CMD(SetVerticalListScroll, 1)
   --------------------*/
 UI_CMD(GetSelectedItemText, 0)
 {
-    if (pThis == NULL)
+    if (pThis == nullptr)
         return TSNULL;
 
     if (pThis->GetType() == WIDGET_COMBOBOX)
     {
         CComboBox *pComboBox(static_cast<CComboBox*>(pThis));
 
-        if (pComboBox->GetSelectedListItem() == NULL)
+        if (pComboBox->GetSelectedListItem() == nullptr)
             return TSNULL;
 
         return pComboBox->GetSelectedListItem()->GetText();
@@ -2439,7 +2439,7 @@ UI_CMD(GetSelectedItemText, 0)
     {
         CListBox *pListBox(static_cast<CListBox*>(pThis));
 
-        if (pListBox->GetSelectedListItem() == NULL)
+        if (pListBox->GetSelectedListItem() == nullptr)
             return TSNULL;
 
         return pListBox->GetSelectedListItem()->GetText();
@@ -2454,14 +2454,14 @@ UI_CMD(GetSelectedItemText, 0)
   --------------------*/
 UI_CMD(GetSelectedItemName, 0)
 {
-    if (pThis == NULL)
+    if (pThis == nullptr)
         return TSNULL;
 
     if (pThis->GetType() == WIDGET_COMBOBOX)
     {
         CComboBox *pComboBox(static_cast<CComboBox*>(pThis));
 
-        if (pComboBox->GetSelectedListItem() == NULL)
+        if (pComboBox->GetSelectedListItem() == nullptr)
             return TSNULL;
 
         return pComboBox->GetSelectedListItem()->GetValue();
@@ -2470,7 +2470,7 @@ UI_CMD(GetSelectedItemName, 0)
     {
         CListBox *pListBox(static_cast<CListBox*>(pThis));
 
-        if (pListBox->GetSelectedListItem() == NULL)
+        if (pListBox->GetSelectedListItem() == nullptr)
             return TSNULL;
 
         return pListBox->GetSelectedListItem()->GetValue();
@@ -2485,14 +2485,14 @@ UI_CMD(GetSelectedItemName, 0)
   --------------------*/
 UI_CMD(GetSelectedItemIndex, 0)
 {
-    if (pThis == NULL)
+    if (pThis == nullptr)
         return TSNULL;
 
     if (pThis->GetType() == WIDGET_COMBOBOX)
     {
         CComboBox *pComboBox(static_cast<CComboBox*>(pThis));
 
-        if (pComboBox->GetSelectedListItem() == NULL)
+        if (pComboBox->GetSelectedListItem() == nullptr)
             return TSNULL;
 
         return XtoA(pComboBox->GetItemIndex(pComboBox->GetSelectedListItem()));
@@ -2501,7 +2501,7 @@ UI_CMD(GetSelectedItemIndex, 0)
     {
         CListBox *pListBox(static_cast<CListBox*>(pThis));
 
-        if (pListBox->GetSelectedListItem() == NULL)
+        if (pListBox->GetSelectedListItem() == nullptr)
             return TSNULL;
 
         return XtoA(pListBox->GetItemIndex(pListBox->GetSelectedListItem()));
@@ -2516,7 +2516,7 @@ UI_CMD(GetSelectedItemIndex, 0)
   --------------------*/
 UI_CMD(GetNumItems, 0)
 {
-    if (pThis == NULL || pThis->GetType() != WIDGET_LISTBOX)
+    if (pThis == nullptr || pThis->GetType() != WIDGET_LISTBOX)
         return TSNULL;
 
     CListBox *pListBox(static_cast<CListBox*>(pThis));
@@ -2530,7 +2530,7 @@ UI_CMD(GetNumItems, 0)
   --------------------*/
 UI_VOID_CMD(AddTemplateListItem, 2)
 {
-    if (pThis == NULL ||
+    if (pThis == nullptr ||
         !pThis->HasFlags(WFLAG_LIST))
         return;
 
@@ -2553,7 +2553,7 @@ UI_VOID_CMD(AddTemplateListItem, 2)
   --------------------*/
 UI_VOID_CMD(AddTemplateListItemWithSort, 3)
 {
-    if (pThis == NULL ||
+    if (pThis == nullptr ||
         !pThis->HasFlags(WFLAG_LIST))
         return;
 
@@ -2576,7 +2576,7 @@ UI_VOID_CMD(AddTemplateListItemWithSort, 3)
   --------------------*/
 UI_VOID_CMD(AddTemplateListItemWithSortReversed, 3)
 {
-    if (pThis == NULL ||
+    if (pThis == nullptr ||
         !pThis->HasFlags(WFLAG_LIST))
         return;
 
@@ -2599,7 +2599,7 @@ UI_VOID_CMD(AddTemplateListItemWithSortReversed, 3)
   --------------------*/
 UI_VOID_CMD(ResizeListTemplate, 2)
 {
-    if (pThis == NULL ||
+    if (pThis == nullptr ||
         !pThis->HasFlags(WFLAG_LIST))
         return;
 

@@ -65,7 +65,7 @@ INIT_ENTITY_CVAR(NoBlockNeutralSpawn, true)
   ====================*/
 CEntityChest::~CEntityChest()
 {
-    if (IGame::GetCurrentGamePointer() == NULL)
+    if (IGame::GetCurrentGamePointer() == nullptr)
         return;
 
     if (m_uiWorldIndex != INVALID_INDEX && Game.WorldEntityExists(m_uiWorldIndex))
@@ -146,7 +146,7 @@ void    CEntityChest::Touch(IGameEntity *pActivator, int iIssuedClientNumber)
         return;
 
     IUnitEntity *pUnit(pActivator->GetAsUnit());
-    if (pUnit == NULL)
+    if (pUnit == nullptr)
         return;
 
     for (int i(INVENTORY_START_BACKPACK); i <= INVENTORY_END_BACKPACK; ++i)
@@ -205,7 +205,7 @@ void    CEntityChest::Die(IUnitEntity *pAttacker, ushort unKillingObjectID)
     for (int i(INVENTORY_START_BACKPACK); i <= INVENTORY_END_BACKPACK; ++i)
     {
         IEntityItem *pItem(GetItem(i));
-        if (pItem == NULL)
+        if (pItem == nullptr)
             continue;
 
         if (pItem->GetUnkillable())
@@ -251,7 +251,7 @@ void    CEntityChest::ClientPrecache(CEntityConfig *pConfig, EPrecacheScheme eSc
 {
     IUnitEntity::ClientPrecache(pConfig, eScheme, sModifier);
 
-    if (pConfig == NULL)
+    if (pConfig == nullptr)
         return;
 
     if (!pConfig->GetModelPath().empty())
@@ -268,7 +268,7 @@ void    CEntityChest::ServerPrecache(CEntityConfig *pConfig, EPrecacheScheme eSc
 {
     IUnitEntity::ServerPrecache(pConfig, eScheme, sModifier);
 
-    if (pConfig == NULL)
+    if (pConfig == nullptr)
         return;
 
     if (!pConfig->GetModelPath().empty())
@@ -288,15 +288,15 @@ const tstring&  CEntityChest::GetDisplayName() const
 
     for (int i(INVENTORY_START_BACKPACK); i <= INVENTORY_END_BACKPACK; ++i)
     {
-        if (m_apInventory[i] == NULL)
+        if (m_apInventory[i] == nullptr)
             continue;
 
         IEntityItem *pItem(m_apInventory[i]->GetAsItem());
-        if (pItem == NULL)
+        if (pItem == nullptr)
             continue;
 
         CPlayer *pPlayer(Game.GetPlayer(pItem->GetPurchaserClientNumber()));
-        if (pPlayer != NULL)
+        if (pPlayer != nullptr)
             m_sDisplayName = GetInlineColorString<tstring>(pPlayer->GetColor()) + pPlayer->GetName() + _T("'s^* ");
 
         m_sDisplayName += pItem->GetDisplayName();

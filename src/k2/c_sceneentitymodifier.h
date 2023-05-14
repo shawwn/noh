@@ -116,7 +116,7 @@ public:
 
     virtual bool    IsModifier() const      { return true; }
 
-    K2_API bool Update(uint uiMilliseconds, ParticleTraceFn_t pfnTrace = NULL);
+    K2_API bool Update(uint uiMilliseconds, ParticleTraceFn_t pfnTrace = nullptr);
     K2_API bool IsDead();
 
     K2_API void Modify(CSceneEntity &cEntity) const;

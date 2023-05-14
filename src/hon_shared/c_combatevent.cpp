@@ -41,14 +41,14 @@ bool    CCombatEvent::PreImpact()
     {
         vector<CCombatActionScript> &vScripts(m_aActionScripts[ACTION_SCRIPT_PRE_IMPACT]);
         for (vector<CCombatActionScript>::iterator it(vScripts.begin()); it != vScripts.end(); ++it)
-            it->Execute(Game.GetEntity(m_uiInflictorIndex), pInitiator, pTarget, m_v3TargetPosition, pProxy, this, NULL, NULL, m_v3TargetDelta, 0.0f);
+            it->Execute(Game.GetEntity(m_uiInflictorIndex), pInitiator, pTarget, m_v3TargetPosition, pProxy, this, nullptr, nullptr, m_v3TargetDelta, 0.0f);
     }
 
     // Allow target to react to the attack
-    if (pTarget != NULL && !m_bNoResponse)
+    if (pTarget != nullptr && !m_bNoResponse)
         pTarget->Action(ACTION_SCRIPT_ATTACKED_PRE_IMPACT, pInitiator, pInflictor, this);
 
-    if (pInitiator != NULL && !m_bNoResponse)
+    if (pInitiator != nullptr && !m_bNoResponse)
         pInitiator->Action(ACTION_SCRIPT_ATTACKING_PRE_IMPACT, pTarget, pInflictor, this);
 
     // Evasion and chance to miss
@@ -74,7 +74,7 @@ bool    CCombatEvent::PreImpact()
     m_fTotalAdjustedDamage = fDamage + (fDamage * m_fBonusMultiplier) + m_fBonusDamage;
 
     // Critical
-    if (pTarget == NULL || !pTarget->IsBuilding())
+    if (pTarget == nullptr || !pTarget->IsBuilding())
     {
         float fCriticalMultiplier(1.0f);
         for (FloatPairVector_it it(m_vCriticals.begin()); it != m_vCriticals.end(); ++it)
@@ -89,20 +89,20 @@ bool    CCombatEvent::PreImpact()
         Game.SendPopup(POPUP_CRITICAL, pInitiator, pInitiator, ushort(m_fTotalAdjustedDamage));
 
     // Deflection
-    if (pTarget != NULL && m_eSuperType == SUPERTYPE_ATTACK && m_uiEffectType & Game.LookupEffectType(_T("Attack")) && m_uiDamageType & Game.LookupEffectType(_T("Physical")))
+    if (pTarget != nullptr && m_eSuperType == SUPERTYPE_ATTACK && m_uiEffectType & Game.LookupEffectType(_T("Attack")) && m_uiDamageType & Game.LookupEffectType(_T("Physical")))
         AddDeflection(pTarget->GetDeflection());
 
     // Perform pre-damage actions
     {
         vector<CCombatActionScript> &vScripts(m_aActionScripts[ACTION_SCRIPT_PRE_DAMAGE]);
         for (vector<CCombatActionScript>::iterator it(vScripts.begin()); it != vScripts.end(); ++it)
-            it->Execute(pInflictor, pInitiator, pTarget, m_v3TargetPosition, pProxy, this, NULL, NULL, m_v3TargetDelta, 0.0f);
+            it->Execute(pInflictor, pInitiator, pTarget, m_v3TargetPosition, pProxy, this, nullptr, nullptr, m_v3TargetDelta, 0.0f);
     }
 
-    if (pTarget != NULL && !m_bNoResponse)
+    if (pTarget != nullptr && !m_bNoResponse)
         pTarget->Action(ACTION_SCRIPT_ATTACKED_PRE_DAMAGE, pInitiator, pInflictor, this);
 
-    if (pInitiator != NULL && !m_bNoResponse)
+    if (pInitiator != nullptr && !m_bNoResponse)
         pInitiator->Action(ACTION_SCRIPT_ATTACKING_PRE_DAMAGE, pTarget, pInflictor, this);
 
     return true;
@@ -117,7 +117,7 @@ void    CCombatEvent::Process()
     if (m_uiTargetIndex != INVALID_INDEX)
     {
         IUnitEntity *pTarget(Game.GetUnitEntity(m_uiTargetIndex));
-        if (pTarget != NULL)
+        if (pTarget != nullptr)
             m_v3TargetPosition = pTarget->GetPosition();
     }
 
@@ -162,9 +162,9 @@ void    CCombatEvent::Impact()
     m_dmg.ApplyDamage();
 
     // Life steal
-    if (pTarget != NULL)
+    if (pTarget != nullptr)
     {
-        if (pInitiator != NULL && m_fLifeSteal > 0.0f && !pTarget->IsBuilding() && pInitiator->IsEnemy(pTarget))
+        if (pInitiator != nullptr && m_fLifeSteal > 0.0f && !pTarget->IsBuilding() && pInitiator->IsEnemy(pTarget))
             pInitiator->Heal(m_dmg.GetAppliedDamage() * m_fLifeSteal);
     }
 }
@@ -182,12 +182,12 @@ void    CCombatEvent::PostImpact()
 
     vector<CCombatActionScript> &vScripts(m_aActionScripts[ACTION_SCRIPT_IMPACT]);
     for (vector<CCombatActionScript>::iterator it(vScripts.begin()); it != vScripts.end(); ++it)
-        it->Execute(Game.GetEntity(m_uiInflictorIndex), pInitiator, pTarget, m_v3TargetPosition, pProxy, this, NULL, NULL, m_v3TargetDelta, 0.0f);
+        it->Execute(Game.GetEntity(m_uiInflictorIndex), pInitiator, pTarget, m_v3TargetPosition, pProxy, this, nullptr, nullptr, m_v3TargetDelta, 0.0f);
 
-    if (pTarget != NULL && !m_bNoResponse)
+    if (pTarget != nullptr && !m_bNoResponse)
         pTarget->Action(ACTION_SCRIPT_ATTACKED_POST_IMPACT, pInitiator, pInflictor, this);
 
-    if (pInitiator != NULL && !m_bNoResponse)
+    if (pInitiator != nullptr && !m_bNoResponse)
         pInitiator->Action(ACTION_SCRIPT_ATTACKING_POST_IMPACT, pTarget, pInflictor, this);
 }
 
@@ -203,7 +203,7 @@ void    CCombatEvent::ProcessInvalid()
 
     vector<CCombatActionScript> &vScripts(m_aActionScripts[ACTION_SCRIPT_IMPACT_INVALID]);
     for (vector<CCombatActionScript>::iterator it(vScripts.begin()); it != vScripts.end(); ++it)
-        it->Execute(Game.GetEntity(m_uiInflictorIndex), pInitiator, pTarget, m_v3TargetPosition, pProxy, this, NULL, NULL, m_v3TargetDelta, 0.0f);
+        it->Execute(Game.GetEntity(m_uiInflictorIndex), pInitiator, pTarget, m_v3TargetPosition, pProxy, this, nullptr, nullptr, m_v3TargetDelta, 0.0f);
 }
 
 
@@ -314,11 +314,11 @@ void    CCombatEvent::AdjustDamageEvent(CDamageEvent &cDmg, IUnitEntity *pTarget
 
     vector<CCombatActionScript> &vScripts(m_aActionScripts[ACTION_SCRIPT_DAMAGE_EVENT]);
     for (vector<CCombatActionScript>::iterator it(vScripts.begin()); it != vScripts.end(); ++it)
-        it->Execute(pInflictor, pInitiator, pTarget, m_v3TargetPosition, pProxy, this, &cDmg, NULL, m_v3TargetDelta, 0.0f);
+        it->Execute(pInflictor, pInitiator, pTarget, m_v3TargetPosition, pProxy, this, &cDmg, nullptr, m_v3TargetDelta, 0.0f);
 
-    if (pTarget != NULL && !m_bNoResponse)
+    if (pTarget != nullptr && !m_bNoResponse)
         pTarget->Action(ACTION_SCRIPT_ATTACKED_DAMAGE_EVENT, pInitiator, pInflictor, this, &cDmg);
 
-    if (pInitiator != NULL && !m_bNoResponse)
+    if (pInitiator != nullptr && !m_bNoResponse)
         pInitiator->Action(ACTION_SCRIPT_ATTACKING_DAMAGE_EVENT, pTarget, pInflictor, this, &cDmg);
 }

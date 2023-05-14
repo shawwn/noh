@@ -71,7 +71,7 @@ UI_VOID_CMD(SetSelectedItemByValue, 1)
   --------------------*/
 UI_VOID_CMD(AddListItem, 1)
 {
-    if (pThis == NULL || !pThis->HasFlags(WFLAG_LIST))
+    if (pThis == nullptr || !pThis->HasFlags(WFLAG_LIST))
         return;
 
     IListWidget *pList(static_cast<IListWidget*>(pThis));
@@ -160,7 +160,7 @@ UI_CMD(HasListItem, 1)
 
     CListItem *pItem(pList->GetItemByValue(vArgList[0]->Evaluate()));
 
-    if (pItem == NULL)
+    if (pItem == nullptr)
         return _T("0");
 
     return _T("1");
@@ -189,7 +189,7 @@ UI_VOID_CMD(UpdateDirList, 1)
     if (vArgList.size() < 1)
         return;
 
-    if (pThis == NULL)
+    if (pThis == nullptr)
         return;
 
     if (!pThis->HasFlags(WFLAG_LIST))
@@ -261,7 +261,7 @@ UI_VOID_CMD(AddDirList, 5)
         return;
 
     IListWidget *pList(static_cast<IListWidget *>(pThis));
-    if (pList == NULL)
+    if (pList == nullptr)
         return;
 
     CXMLNode::PropertyMap mapParams;
@@ -303,7 +303,7 @@ UI_VOID_CMD(AddTextureList, 3)
         return;
 
     IListWidget *pList(static_cast<IListWidget *>(pThis));
-    if (pList == NULL)
+    if (pList == nullptr)
         return;
 
     CXMLNode::PropertyMap mapParams;

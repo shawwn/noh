@@ -145,7 +145,7 @@ public:
     // Accessors
     uint            GetID() const                   { return m_uiID; }
     bool            HasClient() const               { return !m_mapClients.empty(); }
-    bool            HasServer() const               { return m_pServer != NULL; }
+    bool            HasServer() const               { return m_pServer != nullptr; }
 
     bool            IsReplay() const                { return m_bReplay; }
 
@@ -153,7 +153,7 @@ public:
     void            NextClient();
     void            PrevClient();
     uint            GetActiveClientIndex() const    { return m_uiActiveClient; }
-    CHostClient*    GetActiveClient() const         { HostClientMap_cit it(m_mapClients.find(m_uiActiveClient)); if (it == m_mapClients.end()) return NULL; return it->second; }
+    CHostClient*    GetActiveClient() const         { HostClientMap_cit it(m_mapClients.find(m_uiActiveClient)); if (it == m_mapClients.end()) return nullptr; return it->second; }
     CHostClient*    GetCurrentClient() const        { return m_pCurrentClient; }
 
     // Misc commands

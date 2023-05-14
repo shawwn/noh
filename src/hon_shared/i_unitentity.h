@@ -111,7 +111,7 @@ const int   MAX_INVENTORY                   (INVENTORY_STASH_PROVISIONAL + 1);
 #define MULTI_LEVEL_INITIAL_ATTRIBUTE(type, name) \
 virtual type    GetInitial##name() const \
 { \
-    if (m_pDefinition == NULL) \
+    if (m_pDefinition == nullptr) \
         return GetDefaultEmptyValue<type>(); \
 \
     return static_cast<TDefinition *>(m_pDefinition)->Get##name(MAX(1u, GetLevel()) - 1); \
@@ -121,10 +121,10 @@ virtual type    GetInitial##name() const \
 #define BASE_ATTRIBUTE(type, name) \
 virtual type    GetBase##name() const \
 { \
-    if (m_pMorphState != NULL && m_pMorphState->GetApply##name##Morph()) \
+    if (m_pMorphState != nullptr && m_pMorphState->GetApply##name##Morph()) \
         return m_pMorphState->GetMorph##name(); \
 \
-    if (m_pDefinition == NULL) \
+    if (m_pDefinition == nullptr) \
         return GetDefaultEmptyValue<type>(); \
 \
     return static_cast<TDefinition *>(m_pDefinition)->Get##name(); \
@@ -134,10 +134,10 @@ virtual type    GetBase##name() const \
 #define MULTI_LEVEL_BASE_ATTRIBUTE(type, name) \
 virtual type    GetBase##name() const \
 { \
-    if (m_pMorphState != NULL && m_pMorphState->GetApply##name##Morph()) \
+    if (m_pMorphState != nullptr && m_pMorphState->GetApply##name##Morph()) \
         return m_pMorphState->GetMorph##name(); \
 \
-    if (m_pDefinition == NULL) \
+    if (m_pDefinition == nullptr) \
         return GetDefaultEmptyValue<type>(); \
 \
     return static_cast<TDefinition *>(m_pDefinition)->Get##name(MAX(1u, GetLevel()) - 1); \
@@ -147,10 +147,10 @@ virtual type    GetBase##name() const \
 #define PROGRESSIVE_MULTI_LEVEL_BASE_ATTRIBUTE(type, name) \
 virtual type    GetBase##name() const \
 { \
-    if (m_pMorphState != NULL && m_pMorphState->GetApply##name##Morph()) \
+    if (m_pMorphState != nullptr && m_pMorphState->GetApply##name##Morph()) \
         return m_pMorphState->GetMorph##name(); \
 \
-    if (m_pDefinition == NULL) \
+    if (m_pDefinition == nullptr) \
         return GetDefaultEmptyValue<type>(); \
 \
     uint uiLevelIndex(MAX(1u, GetLevel()) - 1); \
@@ -164,10 +164,10 @@ virtual type    GetBase##name() const \
 #define MUTABLE_MULTI_LEVEL_ATTRIBUTE(type, name) \
 virtual type    Get##name() const \
 { \
-    if (m_pMorphState != NULL && m_pMorphState->GetApply##name##Morph()) \
+    if (m_pMorphState != nullptr && m_pMorphState->GetApply##name##Morph()) \
         return m_pMorphState->GetMorph##name(); \
 \
-    if (m_pDefinition == NULL) \
+    if (m_pDefinition == nullptr) \
         return GetDefaultEmptyValue<type>(); \
 \
     return static_cast<TDefinition *>(m_pDefinition)->Get##name(MAX(1u, GetLevel()) - 1); \
@@ -179,10 +179,10 @@ virtual type    Get##name() const \
 { \
     if ((overridevar) != (overrideval)) \
         return (overridevar); \
-    if (m_pMorphState != NULL && m_pMorphState->GetApply##name##Morph()) \
+    if (m_pMorphState != nullptr && m_pMorphState->GetApply##name##Morph()) \
         return m_pMorphState->GetMorph##name(); \
 \
-    if (m_pDefinition == NULL) \
+    if (m_pDefinition == nullptr) \
         return GetDefaultEmptyValue<type>(); \
 \
     return static_cast<TDefinition *>(m_pDefinition)->Get##name(MAX(1u, GetLevel()) - 1); \
@@ -192,10 +192,10 @@ virtual type    Get##name() const \
 #define MUTABLE_MULTI_LEVEL_INITIAL_ATTRIBUTE(type, name) \
 virtual type    GetInitial##name() const \
 { \
-    if (m_pMorphState != NULL && m_pMorphState->GetApply##name##Morph()) \
+    if (m_pMorphState != nullptr && m_pMorphState->GetApply##name##Morph()) \
         return m_pMorphState->GetMorph##name(); \
 \
-    if (m_pDefinition == NULL) \
+    if (m_pDefinition == nullptr) \
         return GetDefaultEmptyValue<type>(); \
 \
     return static_cast<TDefinition *>(m_pDefinition)->Get##name(MAX(1u, GetLevel()) - 1); \
@@ -205,10 +205,10 @@ virtual type    GetInitial##name() const \
 #define MUTABLE_MULTI_LEVEL_RESOURCE(name) \
 virtual ResHandle   Get##name() const \
 { \
-    if (m_pMorphState != NULL && m_pMorphState->GetApply##name##Morph()) \
+    if (m_pMorphState != nullptr && m_pMorphState->GetApply##name##Morph()) \
         return m_pMorphState->GetMorph##name(); \
 \
-    if (m_pDefinition == NULL) \
+    if (m_pDefinition == nullptr) \
         return INVALID_RESOURCE; \
 \
     return static_cast<TDefinition *>(m_pDefinition)->Get##name(MAX(1u, GetLevel()) - 1); \
@@ -219,10 +219,10 @@ virtual const tstring&  Get##name##Path() const;
 #define MUTABLE_MULTI_LEVEL_RESOURCE_IMPL(type, name) \
 const tstring&  type::Get##name##Path() const \
 { \
-    if (m_pMorphState != NULL && m_pMorphState->GetApply##name##Morph()) \
+    if (m_pMorphState != nullptr && m_pMorphState->GetApply##name##Morph()) \
         return g_ResourceManager.GetPath(m_pMorphState->GetMorph##name()); \
 \
-    if (m_pDefinition == NULL) \
+    if (m_pDefinition == nullptr) \
         return TSNULL; \
 \
     return static_cast<TDefinition *>(m_pDefinition)->Get##name##Path(MAX(1u, GetLevel()) - 1); \
@@ -238,7 +238,7 @@ virtual type    Get##name() const \
 \
     for (int iSlot(INVENTORY_START_ACTIVE); iSlot <= INVENTORY_END_ACTIVE; ++iSlot) \
     { \
-        if (m_apInventory[iSlot] == NULL) \
+        if (m_apInventory[iSlot] == nullptr) \
             continue; \
 \
         _Adjustment += m_apInventory[iSlot]->Get##name(); \
@@ -257,7 +257,7 @@ virtual type    Get##name() const \
 \
     for (int iSlot(INVENTORY_START_ACTIVE); iSlot <= INVENTORY_END_ACTIVE; ++iSlot) \
     { \
-        if (m_apInventory[iSlot] == NULL) \
+        if (m_apInventory[iSlot] == nullptr) \
             continue; \
 \
         _Adjustment = MAX(_Adjustment, m_apInventory[iSlot]->Get##name()); \
@@ -276,7 +276,7 @@ virtual type    Get##name() const \
 \
     for (int iSlot(INVENTORY_START_ACTIVE); iSlot <= INVENTORY_END_ACTIVE; ++iSlot) \
     { \
-        if (m_apInventory[iSlot] == NULL) \
+        if (m_apInventory[iSlot] == nullptr) \
             continue; \
 \
         _Adjustment = _Adjustment || m_apInventory[iSlot]->Get##name(); \
@@ -296,7 +296,7 @@ virtual type    Get##name() const \
 \
     for (int iSlot(INVENTORY_START_ACTIVE); iSlot <= INVENTORY_END_ACTIVE; ++iSlot) \
     { \
-        if (m_apInventory[iSlot] == NULL) \
+        if (m_apInventory[iSlot] == nullptr) \
             continue; \
 \
         if (_Value.empty()) \
@@ -319,7 +319,7 @@ virtual type    Get##name() const \
 \
     for (int iSlot(INVENTORY_START_ACTIVE); iSlot <= INVENTORY_END_ACTIVE; ++iSlot) \
     { \
-        if (m_apInventory[iSlot] == NULL) \
+        if (m_apInventory[iSlot] == nullptr) \
             continue; \
 \
         const type &_SlaveValue(m_apInventory[iSlot]->Get##name()); \
@@ -353,7 +353,7 @@ bool    Is##name() const \
 \
     for (int iSlot(INVENTORY_START_ACTIVE); iSlot <= INVENTORY_END_ACTIVE; ++iSlot) \
     { \
-        if (m_apInventory[iSlot] == NULL) \
+        if (m_apInventory[iSlot] == nullptr) \
             continue; \
         if (m_apInventory[iSlot]->Get##name()) \
             return true; \
@@ -630,8 +630,8 @@ public:
     virtual void            ApplyWorldEntity(const CWorldEntity &ent);
 
     virtual void            Spawn();
-    virtual void            Kill(IUnitEntity *pAttacker = NULL, ushort unKillingObjectID = INVALID_ENT_TYPE);
-    virtual void            Die(IUnitEntity *pAttacker = NULL, ushort unKillingObjectID = INVALID_ENT_TYPE);
+    virtual void            Kill(IUnitEntity *pAttacker = nullptr, ushort unKillingObjectID = INVALID_ENT_TYPE);
+    virtual void            Die(IUnitEntity *pAttacker = nullptr, ushort unKillingObjectID = INVALID_ENT_TYPE);
     virtual void            Expire();
     virtual void            StopLiving();
     virtual void            KillReward(IUnitEntity *pKiller, CPlayer *pPlayerKiller);
@@ -682,7 +682,7 @@ public:
         float fBonus(0.0f);
         for (int iSlot(INVENTORY_START_ACTIVE); iSlot <= INVENTORY_END_ACTIVE; ++iSlot)
         {
-            if (m_apInventory[iSlot] == NULL)
+            if (m_apInventory[iSlot] == nullptr)
                 continue;
 
             fBonus += m_apInventory[iSlot]->GetMaxHealth();
@@ -699,7 +699,7 @@ public:
         float fPercent(0.0f);
         for (int iSlot(INVENTORY_START_ACTIVE); iSlot <= INVENTORY_END_ACTIVE; ++iSlot)
         {
-            if (m_apInventory[iSlot] == NULL)
+            if (m_apInventory[iSlot] == nullptr)
                 continue;
 
             fBonus += m_apInventory[iSlot]->GetHealthRegen();
@@ -720,7 +720,7 @@ public:
         float fBonus(0.0f);
         for (int iSlot(INVENTORY_START_ACTIVE); iSlot <= INVENTORY_END_ACTIVE; ++iSlot)
         {
-            if (m_apInventory[iSlot] == NULL)
+            if (m_apInventory[iSlot] == nullptr)
                 continue;
 
             fBonus += m_apInventory[iSlot]->GetMaxMana();
@@ -737,7 +737,7 @@ public:
         float fPercent(0.0f);
         for (int iSlot(INVENTORY_START_ACTIVE); iSlot <= INVENTORY_END_ACTIVE; ++iSlot)
         {
-            if (m_apInventory[iSlot] == NULL)
+            if (m_apInventory[iSlot] == nullptr)
                 continue;
 
             fBonus += m_apInventory[iSlot]->GetManaRegen();
@@ -765,7 +765,7 @@ public:
         float fBonus(0.0f);
         for (int iSlot(INVENTORY_START_ACTIVE); iSlot <= INVENTORY_END_ACTIVE; ++iSlot)
         {
-            if (m_apInventory[iSlot] == NULL)
+            if (m_apInventory[iSlot] == nullptr)
                 continue;
 
             fBonus += m_apInventory[iSlot]->GetMoveSpeed();
@@ -777,7 +777,7 @@ public:
 
         for (int iSlot(INVENTORY_START_ACTIVE); iSlot <= INVENTORY_END_ACTIVE; ++iSlot)
         {
-            if (m_apInventory[iSlot] == NULL)
+            if (m_apInventory[iSlot] == nullptr)
                 continue;
 
             fMoveSpeed *= (1.0f - m_apInventory[iSlot]->GetMoveSpeedSlow() * (1.0f - fSlowResistance));
@@ -794,7 +794,7 @@ public:
         float fBonus(0.0f);
         for (int iSlot(INVENTORY_START_ACTIVE); iSlot <= INVENTORY_END_ACTIVE; ++iSlot)
         {
-            if (m_apInventory[iSlot] == NULL)
+            if (m_apInventory[iSlot] == nullptr)
                 continue;
 
             fBonus = MAX(fBonus, m_apInventory[iSlot]->GetAttackRange());
@@ -813,7 +813,7 @@ public:
         {
             for (int iSlot(INVENTORY_START_ACTIVE); iSlot <= INVENTORY_END_ACTIVE; ++iSlot)
             {
-                if (m_apInventory[iSlot] == NULL)
+                if (m_apInventory[iSlot] == nullptr)
                     continue;
 
                 fBonus += m_apInventory[iSlot]->GetAttackSpeed();
@@ -826,7 +826,7 @@ public:
 
         for (int iSlot(INVENTORY_START_ACTIVE); iSlot <= INVENTORY_END_ACTIVE; ++iSlot)
         {
-            if (m_apInventory[iSlot] == NULL)
+            if (m_apInventory[iSlot] == nullptr)
                 continue;
 
             fAttackSpeed *= (1.0f - m_apInventory[iSlot]->GetAttackSpeedSlow() * (1.0f - fSlowResistance));
@@ -879,7 +879,7 @@ public:
     {
         for (int iSlot(INVENTORY_START_ACTIVE); iSlot <= INVENTORY_END_ACTIVE; ++iSlot)
         {
-            if (m_apInventory[iSlot] == NULL)
+            if (m_apInventory[iSlot] == nullptr)
                 continue;
 
             if (bCheckMove && (m_apInventory[iSlot]->GetImmobilized() || m_apInventory[iSlot]->GetImmobilized2()))
@@ -974,9 +974,9 @@ public:
     {
         if (iSlot >= INVENTORY_START_STATES &&
             iSlot <= INVENTORY_END_STATES &&
-            m_apInventory[iSlot] != NULL)
+            m_apInventory[iSlot] != nullptr)
             return m_apInventory[iSlot]->GetAsState();
-        return NULL;
+        return nullptr;
     }
     GAME_SHARED_API uint    GetStateExpireTime(int iSlot);
     GAME_SHARED_API float   GetStateExpirePercent(int iSlot);
@@ -1010,7 +1010,7 @@ public:
     void    RemoveSlave(int iSlot)
     {
         ISlaveEntity *pSlave(GetSlave(iSlot));
-        if (pSlave == NULL)
+        if (pSlave == nullptr)
             return;
         if (pSlave->IsItem())
             RemoveItem(iSlot);
@@ -1018,8 +1018,8 @@ public:
             RemoveState(iSlot);
     }
 
-    GAME_SHARED_API void    Action(EEntityActionScript eAction, IUnitEntity *pTarget, IGameEntity *pInflictor, CCombatEvent *pCombatEvent = NULL, CDamageEvent *pDamageEvent = NULL);
-    GAME_SHARED_API void    Action(EEntityActionScript eAction, const CVec3f &v3Target, IGameEntity *pInflictor, CCombatEvent *pCombatEvent = NULL, CDamageEvent *pDamageEvent = NULL);
+    GAME_SHARED_API void    Action(EEntityActionScript eAction, IUnitEntity *pTarget, IGameEntity *pInflictor, CCombatEvent *pCombatEvent = nullptr, CDamageEvent *pDamageEvent = nullptr);
+    GAME_SHARED_API void    Action(EEntityActionScript eAction, const CVec3f &v3Target, IGameEntity *pInflictor, CCombatEvent *pCombatEvent = nullptr, CDamageEvent *pDamageEvent = nullptr);
 
     // Inventory
     GAME_SHARED_API virtual void    ClearInventory();
@@ -1034,28 +1034,28 @@ public:
     {
         if (iSlot >= 0 &&
             iSlot <= MAX_INVENTORY &&
-            m_apInventory[iSlot] != NULL)
+            m_apInventory[iSlot] != nullptr)
             return m_apInventory[iSlot]->GetAsTool();
 
-        return NULL;
+        return nullptr;
     }
     IEntityAbility*         GetAbility(int iSlot) const
     {
         if (iSlot >= 0 &&
             iSlot <= MAX_INVENTORY &&
-            m_apInventory[iSlot] != NULL)
+            m_apInventory[iSlot] != nullptr)
             return m_apInventory[iSlot]->GetAsAbility();
 
-        return NULL;
+        return nullptr;
     }
     IEntityItem*            GetItem(int iSlot) const
     {
         if (iSlot >= 0 &&
             iSlot <= MAX_INVENTORY &&
-            m_apInventory[iSlot] != NULL)
+            m_apInventory[iSlot] != nullptr)
             return m_apInventory[iSlot]->GetAsItem();
 
-        return NULL;
+        return nullptr;
     }
     ISlaveEntity*           GetSlave(int iSlot) const
     {
@@ -1063,7 +1063,7 @@ public:
             iSlot <= MAX_INVENTORY)
             return m_apInventory[iSlot];
 
-        return NULL;
+        return nullptr;
     }
     GAME_SHARED_API IEntityTool*    GiveItem(int iSlot, ushort unID, bool bEnabled = true);
     GAME_SHARED_API int             TransferItem(int iClientNum, IEntityItem *pItem, int iSlot = -1);
@@ -1078,7 +1078,7 @@ public:
     GAME_SHARED_API void    ValidateExclusiveAttackModSlot();
 
     void                    SetInventorySlot(int iSlot, ISlaveEntity *pSlave) { if (iSlot >= 0 && iSlot < MAX_INVENTORY) m_apInventory[iSlot] = pSlave; }
-    ISlaveEntity*           GetInventorySlot(int iSlot)     { if (iSlot >= 0 && iSlot < MAX_INVENTORY) return m_apInventory[iSlot]; else return NULL; }
+    ISlaveEntity*           GetInventorySlot(int iSlot)     { if (iSlot >= 0 && iSlot < MAX_INVENTORY) return m_apInventory[iSlot]; else return nullptr; }
 
     virtual void            AttachModel(const tstring &sBoneName, ResHandle hModel);
 
@@ -1122,7 +1122,7 @@ public:
     void                    SetOwnerIndex(uint uiIndex)             { m_uiOwnerEntityIndex = uiIndex; }
     IUnitEntity*            GetOwner() const                        { return Game.GetUnitEntity(m_uiOwnerEntityIndex); }
     uint                    GetOwnerIndex() const                   { return m_uiOwnerEntityIndex; }
-    IUnitEntity*            GetMasterOwner() const                  { IUnitEntity *pResult(const_cast<IUnitEntity*>(this)); while (pResult->GetOwner() != NULL) pResult = pResult->GetOwner(); return pResult; }
+    IUnitEntity*            GetMasterOwner() const                  { IUnitEntity *pResult(const_cast<IUnitEntity*>(this)); while (pResult->GetOwner() != nullptr) pResult = pResult->GetOwner(); return pResult; }
 
     GAME_SHARED_API uint    PlayerCommand(const SUnitCommand &cCmd);
 
@@ -1297,7 +1297,7 @@ public:
 
         for (int iSlot(INVENTORY_START_ACTIVE); iSlot <= INVENTORY_END_ACTIVE; ++iSlot)
         {
-            if (m_apInventory[iSlot] != NULL && m_apInventory[iSlot]->GetUnitwalking())
+            if (m_apInventory[iSlot] != nullptr && m_apInventory[iSlot]->GetUnitwalking())
                 return true;
         }
 

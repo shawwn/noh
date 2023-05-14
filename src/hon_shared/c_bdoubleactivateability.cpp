@@ -71,7 +71,7 @@ bool    CBDoubleActivateAbility::Validate()
     }
 
     m_pAbility = m_pSelf->GetTool(m_iInventorySlot);
-    if (m_pAbility == NULL)
+    if (m_pAbility == nullptr)
     {
         SetFlag(BSR_END);
         return false;
@@ -110,7 +110,7 @@ void    CBDoubleActivateAbility::Update()
   ====================*/
 void    CBDoubleActivateAbility::BeginBehavior()
 {
-    if (m_pSelf == NULL || m_pAbility == NULL)
+    if (m_pSelf == nullptr || m_pAbility == nullptr)
     {
         Console << _T("CBDoubleActivateAbility: Behavior started without valid information") << newl;
         return;

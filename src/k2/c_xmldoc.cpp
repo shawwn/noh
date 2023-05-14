@@ -23,8 +23,8 @@
   CXMLDoc::CXMLDoc
   ====================*/
 CXMLDoc::CXMLDoc(EXMLEncoding eEncoding) :
-m_pDoc(NULL),
-m_pRoot(NULL),
+m_pDoc(nullptr),
+m_pRoot(nullptr),
 m_eEncoding(eEncoding)
 {
 }
@@ -48,14 +48,14 @@ void    CXMLDoc::Clear()
     if (m_pDoc)
     {
         xmlFreeDoc(static_cast<xmlDocPtr>(m_pDoc));
-        m_pDoc = NULL;
+        m_pDoc = nullptr;
     }
 
-    m_pRoot = NULL;
+    m_pRoot = nullptr;
 
     while (!m_nodeStack.empty())
         m_nodeStack.pop();
-    m_nodeStack.push(NULL);
+    m_nodeStack.push(nullptr);
 }
 
 
@@ -75,7 +75,7 @@ bool    CXMLDoc::NewNode(const string &sName, const string &sContent)
 
     if (!m_pRoot)
     {
-        m_pRoot = xmlNewNode(NULL, (xmlChar*)sName.c_str());
+        m_pRoot = xmlNewNode(nullptr, (xmlChar*)sName.c_str());
         if (!m_pRoot)
             return false;
         xmlDocSetRootElement(static_cast<xmlDocPtr>(m_pDoc), static_cast<xmlNodePtr>(m_pRoot));
@@ -83,7 +83,7 @@ bool    CXMLDoc::NewNode(const string &sName, const string &sContent)
     }
     else
     {
-        xmlNode *newNode = xmlNewChild(!m_nodeStack.empty() ? static_cast<xmlNodePtr>(m_nodeStack.top()) : NULL, NULL, (xmlChar*)sName.c_str(), (xmlChar*)sContent.c_str());
+        xmlNode *newNode = xmlNewChild(!m_nodeStack.empty() ? static_cast<xmlNodePtr>(m_nodeStack.top()) : nullptr, nullptr, (xmlChar*)sName.c_str(), (xmlChar*)sContent.c_str());
         if (!newNode)
             return false;
         m_nodeStack.push(newNode);
@@ -109,7 +109,7 @@ bool    CXMLDoc::NewTextNode(const string &sName, const string &sContent)
 
     if (!m_pRoot)
     {
-        m_pRoot = xmlNewNode(NULL, (xmlChar*)sName.c_str());
+        m_pRoot = xmlNewNode(nullptr, (xmlChar*)sName.c_str());
         if (!m_pRoot)
             return false;
         xmlDocSetRootElement(static_cast<xmlDocPtr>(m_pDoc), static_cast<xmlNodePtr>(m_pRoot));
@@ -117,7 +117,7 @@ bool    CXMLDoc::NewTextNode(const string &sName, const string &sContent)
     }
     else
     {
-        xmlNode *newNode = xmlNewTextChild(!m_nodeStack.empty() ? static_cast<xmlNodePtr>(m_nodeStack.top()) : NULL, NULL, (xmlChar*)sName.c_str(), (xmlChar*)sContent.c_str());
+        xmlNode *newNode = xmlNewTextChild(!m_nodeStack.empty() ? static_cast<xmlNodePtr>(m_nodeStack.top()) : nullptr, nullptr, (xmlChar*)sName.c_str(), (xmlChar*)sContent.c_str());
         if (!newNode)
             return false;
         m_nodeStack.push(newNode);
@@ -132,7 +132,7 @@ bool    CXMLDoc::NewTextNode(const string &sName, const string &sContent)
   ====================*/
 bool    CXMLDoc::AddProperty(const string &sName, const string &sValue)
 {
-    xmlNewProp(!m_nodeStack.empty() ? static_cast<xmlNodePtr>(m_nodeStack.top()) : NULL, (xmlChar*)sName.c_str(), (xmlChar*)sValue.c_str());
+    xmlNewProp(!m_nodeStack.empty() ? static_cast<xmlNodePtr>(m_nodeStack.top()) : nullptr, (xmlChar*)sName.c_str(), (xmlChar*)sValue.c_str());
     return true;
 }
 
@@ -141,9 +141,9 @@ bool    CXMLDoc::AddProperty(const string &sName, const string &sValue)
   ====================*/
 string  CXMLDoc::GetProperty(const string &sName)
 {
-    xmlChar* pChar = xmlGetProp(!m_nodeStack.empty() ? static_cast<xmlNodePtr>(m_nodeStack.top()) : NULL, (xmlChar*)sName.c_str());
+    xmlChar* pChar = xmlGetProp(!m_nodeStack.empty() ? static_cast<xmlNodePtr>(m_nodeStack.top()) : nullptr, (xmlChar*)sName.c_str());
 
-    if (pChar == NULL)
+    if (pChar == nullptr)
         return SNULL;
 
     return string((const char*)(pChar));
@@ -169,7 +169,7 @@ bool    CXMLDoc::TraverseChildren()
         return false;
     
     xmlNodePtr pParent((xmlNodePtr)m_nodeStack.top());
-    if (pParent == NULL
+    if (pParent == nullptr
         || (pParent->type != XML_ELEMENT_NODE
             && pParent->type != XML_ENTITY_NODE
             && pParent->type != XML_DOCUMENT_NODE
@@ -179,7 +179,7 @@ bool    CXMLDoc::TraverseChildren()
 
     xmlNode *pChild = ((xmlNode*)(m_nodeStack.top()))->children;
 
-    if (pChild == NULL)
+    if (pChild == nullptr)
         return false;
 
     m_nodeStack.push(pChild);
@@ -195,7 +195,7 @@ bool    CXMLDoc::TraverseChildrenReverse()
         return false;
     
     xmlNodePtr pParent((xmlNodePtr)m_nodeStack.top());
-    if (pParent == NULL
+    if (pParent == nullptr
         || (pParent->type != XML_ELEMENT_NODE
             && pParent->type != XML_ENTITY_NODE
             && pParent->type != XML_DOCUMENT_NODE
@@ -205,7 +205,7 @@ bool    CXMLDoc::TraverseChildrenReverse()
 
     xmlNode *pChild = ((xmlNode*)(m_nodeStack.top()))->last;
 
-    if (pChild == NULL)
+    if (pChild == nullptr)
         return false;
 
     m_nodeStack.push(pChild);
@@ -222,7 +222,7 @@ bool    CXMLDoc::TraverseNextChild()
 
     xmlNode *pChild = ((xmlNode*)(m_nodeStack.top()))->next;
 
-    if (pChild == NULL)
+    if (pChild == nullptr)
         return false;
 
     m_nodeStack.pop();
@@ -240,7 +240,7 @@ bool    CXMLDoc::TraversePrevChild()
 
     xmlNode *pChild = ((xmlNode*)(m_nodeStack.top()))->prev;
 
-    if (pChild == NULL)
+    if (pChild == nullptr)
         return false;
 
     m_nodeStack.pop();
@@ -253,7 +253,7 @@ bool    CXMLDoc::TraversePrevChild()
   ====================*/
 bool    CXMLDoc::EndNode()
 {
-    if (m_nodeStack.empty() || m_nodeStack.top() == NULL)
+    if (m_nodeStack.empty() || m_nodeStack.top() == nullptr)
         return false;
 
     m_nodeStack.pop();
@@ -265,7 +265,7 @@ bool    CXMLDoc::EndNode()
   ====================*/
 bool    CXMLDoc::DeleteNode()
 {
-    if (m_nodeStack.empty() || m_nodeStack.top() == NULL)
+    if (m_nodeStack.empty() || m_nodeStack.top() == nullptr)
         return false;
 
     xmlUnlinkNode(static_cast<xmlNodePtr>(m_nodeStack.top()));
@@ -290,11 +290,11 @@ void    CXMLDoc::ConvertNodes(void *node, CXMLNodeWrite &c_node)
         // Set element properties
         xmlAttrPtr prop = xmlnode->properties;
 
-        while (prop != NULL)
+        while (prop != nullptr)
         {
             xmlChar *ret(xmlNodeListGetString(xmlnode->doc, prop->children, 1));
 
-            if (ret != NULL)
+            if (ret != nullptr)
             {
                 c_node.SetProperty(UTF8ToTString((const char*)prop->name), UTF8ToTString((const char*)ret));
 
@@ -346,7 +346,7 @@ IBuffer*    CXMLDoc::GetBuffer()
 {
     m_buffer.Clear();
 
-    xmlOutputBufferPtr output = xmlOutputBufferCreateIO(CXMLDoc::WriteBuffer, NULL, &m_buffer, NULL);
+    xmlOutputBufferPtr output = xmlOutputBufferCreateIO(CXMLDoc::WriteBuffer, nullptr, &m_buffer, nullptr);
     if (m_eEncoding == XML_ENCODE_UTF8)
         xmlSaveFormatFileTo(output, static_cast<xmlDocPtr>(m_pDoc), "UTF-8", 1);
     else if (m_eEncoding == XML_ENCODE_UTF16)
@@ -506,19 +506,19 @@ bool    CXMLDoc::ReadBuffer(const char *pBuffer, int iSize)
         if (m_pDoc)
         {
             xmlFreeDoc(static_cast<xmlDocPtr>(m_pDoc));
-            m_pDoc = NULL;
+            m_pDoc = nullptr;
         }
 
-        if (pBuffer == NULL)
-            EX_WARN(_T("NULL buffer"));
+        if (pBuffer == nullptr)
+            EX_WARN(_T("nullptr buffer"));
 
         // Parse XML File
         m_pDoc = xmlParseMemory(pBuffer, iSize);
 
-        if (m_pDoc == NULL)
+        if (m_pDoc == nullptr)
         {
             xmlError *pError(xmlGetLastError());
-            if (pError == NULL)
+            if (pError == nullptr)
                 EX_ERROR(_T("Unknown error in xmlParseMemory"));
 
             EX_ERROR(UTF8ToTString(pError->message));
@@ -526,10 +526,10 @@ bool    CXMLDoc::ReadBuffer(const char *pBuffer, int iSize)
 
         m_pRoot = xmlDocGetRootElement(static_cast<xmlDocPtr>(m_pDoc));
 
-        if (m_pRoot == NULL)
+        if (m_pRoot == nullptr)
         {
             xmlError *pError(xmlGetLastError());
-            if (pError == NULL)
+            if (pError == nullptr)
                 EX_ERROR(_T("Unknown error in xmlDocGetRootElement"));
 
             EX_ERROR(UTF8ToTString(pError->message));
@@ -541,10 +541,10 @@ bool    CXMLDoc::ReadBuffer(const char *pBuffer, int iSize)
     }
     catch (CException &ex)
     {
-        if (m_pDoc != NULL)
+        if (m_pDoc != nullptr)
         {
             xmlFreeDoc(static_cast<xmlDocPtr>(m_pDoc));
-            m_pDoc = NULL;
+            m_pDoc = nullptr;
         }
 
         ex.Process(_T("CXMLDoc::ReadBuffer() - "), NO_THROW);

@@ -113,7 +113,7 @@ typedef struct mesh_s
     singleLink_t    *singleLinks;   //allocated for nonblended meshes.  can also be used as an LOD fallback for blended meshes.
 
     int             bonelink;       //if > -1, ALL vertices of this mesh are linked to this bone only, in which case both
-                                    //singleLinks and blendedLinks will be NULL.
+                                    //singleLinks and blendedLinks will be nullptr.
 
     int             hasRenderData;  
     void            *renderData[MAX_RENDER_DATA];   //this may be used by the renderer to cache static geometry

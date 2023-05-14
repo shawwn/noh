@@ -51,7 +51,7 @@ CAnim::CAnim
 IResourceWatcher(),
 m_uiIndex(uiIndex),
 m_sName(sName),
-m_ppMotions(NULL),
+m_ppMotions(nullptr),
 m_iStartFrame(iStartFrame),
 m_iNumFrames(iNumFrames),
 m_iLoopbackFrame(iLoopbackFrame),
@@ -183,7 +183,7 @@ void    CAnim::Rebuild(ResHandle hResource)
     if (m_ppMotions)
     {
         K2_DELETE_ARRAY(m_ppMotions);
-        m_ppMotions = NULL;
+        m_ppMotions = nullptr;
     }
 
     m_iStartFrame = m_iStartFrameDef;
@@ -197,10 +197,10 @@ void    CAnim::Rebuild(ResHandle hResource)
         m_ppMotions = K2_NEW_ARRAY(ctx_Models,  SBoneMotion*, m_pModel->GetNumBones());
 
     CClip *pClip(g_ResourceManager.GetClip(m_hClip));
-    if (pClip == NULL)
+    if (pClip == nullptr)
     {
         for (uint n(0); n < m_pModel->GetNumBones(); ++n)
-            m_ppMotions[n] = NULL;
+            m_ppMotions[n] = nullptr;
 
         // Fix up the frames
         m_iStartFrame = 0;
@@ -209,7 +209,7 @@ void    CAnim::Rebuild(ResHandle hResource)
     }
 
     for (uint n(0); n < m_pModel->GetNumBones(); ++n)
-        m_ppMotions[n] = NULL;
+        m_ppMotions[n] = nullptr;
 
     for (int i = 0; i < pClip->GetNumMotions(); ++i)
     {

@@ -84,7 +84,7 @@ void    CGameLog::WritePlayer(EGameLogEvent eEvent, CPlayer *pPlayer, const tstr
     if (!m_hLogFile.IsOpen())
         return;
 
-    if (pPlayer == NULL || pPlayer->GetClientNumber() == -1)
+    if (pPlayer == nullptr || pPlayer->GetClientNumber() == -1)
         return;
 
     m_hLogFile << GetGameLogEventName(eEvent);
@@ -202,7 +202,7 @@ void    CGameLog::WriteKill(IUnitEntity *pTarget, IUnitEntity *pAttacker, IGameE
     if (!m_hLogFile.IsOpen())
         return;
 
-    if (pTarget == NULL)
+    if (pTarget == nullptr)
         return;
 
     if (pTarget->IsHero() && pTarget->GetOwnerClientNumber() != -1)
@@ -214,18 +214,18 @@ void    CGameLog::WriteKill(IUnitEntity *pTarget, IUnitEntity *pAttacker, IGameE
         WRITE_STAT(z, INT_FLOOR(pTarget->GetPosition().z));
         WRITE_STAT(player, pTarget->GetOwnerClientNumber());
         WRITE_STAT(team, pTarget->GetTeam());
-        if (pAttacker != NULL)
+        if (pAttacker != nullptr)
         {
             WRITE_STAT(attacker, QuoteStr(pAttacker->GetTypeName()));
             if (pAttacker->GetOwnerClientNumber() != -1)
                 WRITE_STAT(owner, pAttacker->GetOwnerClientNumber());
         }
-        if (pInflictor != NULL)
+        if (pInflictor != nullptr)
             WRITE_STAT(inflictor, QuoteStr(pInflictor->GetTypeName()));
         m_hLogFile << newl;
     }
 
-    if (pAttacker == NULL)
+    if (pAttacker == nullptr)
         return;
 
     m_hLogFile << GetGameLogEventName(GAME_LOG_KILL);
@@ -240,9 +240,9 @@ void    CGameLog::WriteKill(IUnitEntity *pTarget, IUnitEntity *pAttacker, IGameE
     WRITE_STAT(attacker, QuoteStr(pAttacker->GetTypeName()));
     if (pTarget->GetOwnerClientNumber() != -1)
         WRITE_STAT(owner, pTarget->GetOwnerClientNumber());
-    if (pInflictor != NULL)
+    if (pInflictor != nullptr)
         WRITE_STAT(inflictor, QuoteStr(pInflictor->GetTypeName()));
-    if (pAssists != NULL)
+    if (pAssists != nullptr)
     {
         tstring sAssists;
         for (ivector_it it(pAssists->begin()); it != pAssists->end(); ++it)
@@ -266,12 +266,12 @@ void    CGameLog::WriteAssist(IUnitEntity *pTarget, IUnitEntity *pAttacker, IGam
     if (!m_hLogFile.IsOpen())
         return;
 
-    if (pPlayer == NULL || pPlayer->GetClientNumber() == -1)
+    if (pPlayer == nullptr || pPlayer->GetClientNumber() == -1)
         return;
 
     m_hLogFile << GetGameLogEventName(GAME_LOG_HERO_ASSIST);
     m_hLogFile << SPACE << _T("time:") << Game.GetMatchTime();
-    if (pTarget != NULL)
+    if (pTarget != nullptr)
     {
         m_hLogFile << SPACE << _T("x:") << INT_FLOOR(pTarget->GetPosition().x);
         m_hLogFile << SPACE << _T("y:") << INT_FLOOR(pTarget->GetPosition().y);
@@ -279,14 +279,14 @@ void    CGameLog::WriteAssist(IUnitEntity *pTarget, IUnitEntity *pAttacker, IGam
     }
     m_hLogFile << SPACE << _T("player:") << pPlayer->GetClientNumber();
     m_hLogFile << SPACE << _T("team:") << pPlayer->GetTeam();
-    if (pTarget != NULL)
+    if (pTarget != nullptr)
     {
         m_hLogFile << SPACE << _T("target:") << QuoteStr(pTarget->GetTypeName());
         m_hLogFile << SPACE << _T("owner:") << pTarget->GetOwnerClientNumber();
     }
-    if (pAttacker != NULL)
+    if (pAttacker != nullptr)
         m_hLogFile << SPACE << _T("attacker:") << QuoteStr(pAttacker->GetTypeName());
-    if (pInflictor != NULL)
+    if (pInflictor != nullptr)
         m_hLogFile << SPACE << _T("inflictor:") << QuoteStr(pInflictor->GetTypeName());
     m_hLogFile << newl;
 }
@@ -300,14 +300,14 @@ void    CGameLog::WriteDamage(IUnitEntity *pTarget, int iPlayer, ushort unAttack
     if (!m_hLogFile.IsOpen())
         return;
 
-    if (pTarget == NULL || iPlayer == -1)
+    if (pTarget == nullptr || iPlayer == -1)
         return;
 
     CPlayer *pPlayer(Game.GetPlayer(iPlayer));
 
     m_hLogFile << GetGameLogEventName(GAME_LOG_DAMAGE);
     m_hLogFile << SPACE << _T("player:") << iPlayer;
-    if (pPlayer != NULL)
+    if (pPlayer != nullptr)
         m_hLogFile << SPACE << _T("team:") << pPlayer->GetTeam();
     if (unAttackerType != INVALID_ENT_TYPE)
         m_hLogFile << SPACE << _T("attacker:") << QuoteStr(EntityRegistry.LookupName(unAttackerType));
@@ -329,7 +329,7 @@ void    CGameLog::WriteItem(EGameLogEvent eEvent, IEntityItem *pItem, IUnitEntit
     if (!m_hLogFile.IsOpen())
         return;
 
-    if (pItem == NULL)
+    if (pItem == nullptr)
         return;
     
     IUnitEntity *pOwner(pItem->GetOwner());
@@ -339,7 +339,7 @@ void    CGameLog::WriteItem(EGameLogEvent eEvent, IEntityItem *pItem, IUnitEntit
         pTarget = pItem->GetOwner();
     }
 
-    if (pOwner == NULL || pOwner->GetOwnerClientNumber() == -1)
+    if (pOwner == nullptr || pOwner->GetOwnerClientNumber() == -1)
         return;
 
     m_hLogFile << GetGameLogEventName(eEvent);
@@ -354,14 +354,14 @@ void    CGameLog::WriteItem(EGameLogEvent eEvent, IEntityItem *pItem, IUnitEntit
         m_hLogFile << SPACE << _T("cost:") << pItem->GetCost();
     if (eEvent == GAME_LOG_ITEM_SELL)
         m_hLogFile << SPACE << _T("value:") << pItem->GetValue();
-    if (eEvent == GAME_LOG_ITEM_TRANSFER && pTarget != NULL)
+    if (eEvent == GAME_LOG_ITEM_TRANSFER && pTarget != nullptr)
     {
         m_hLogFile << SPACE << _T("source:") << QuoteStr(pOwner->GetTypeName());
         m_hLogFile << SPACE << _T("target:") << QuoteStr(pTarget->GetTypeName());
         if (pTarget->GetOwnerClientNumber() != -1)
             m_hLogFile << SPACE << _T("owner:") << pTarget->GetOwnerClientNumber();
     }
-    if (eEvent == GAME_LOG_ITEM_ACTIVATE && pTarget != NULL)
+    if (eEvent == GAME_LOG_ITEM_ACTIVATE && pTarget != nullptr)
     {
         m_hLogFile << SPACE << _T("target:") << QuoteStr(pTarget->GetTypeName());
         if (pTarget->GetOwnerClientNumber() != -1)
@@ -379,7 +379,7 @@ void    CGameLog::WriteDeny(IUnitEntity *pTarget, IUnitEntity *pAttacker, IGameE
     if (!m_hLogFile.IsOpen())
         return;
 
-    if (pTarget == NULL || pAttacker == NULL || pAttacker->GetOwnerClientNumber() == -1)
+    if (pTarget == nullptr || pAttacker == nullptr || pAttacker->GetOwnerClientNumber() == -1)
         return;
 
     if (pTarget->IsCreep())
@@ -397,7 +397,7 @@ void    CGameLog::WriteDeny(IUnitEntity *pTarget, IUnitEntity *pAttacker, IGameE
     WRITE_STAT(z, INT_FLOOR(pTarget->GetPosition().z));
     WRITE_STAT(player, pAttacker->GetOwnerClientNumber());
     WRITE_STAT(team, pAttacker->GetTeam());
-    if (pInflictor != NULL)
+    if (pInflictor != nullptr)
         WRITE_STAT(inflictor, QuoteStr(pInflictor->GetTypeName()));
     WRITE_STAT(name, QuoteStr(pTarget->GetTypeName()));
     if (fExperience >= 0.01f)
@@ -416,7 +416,7 @@ void    CGameLog::WriteExperience(EGameLogEvent eEvent, IUnitEntity *pTarget, IU
     if (!m_hLogFile.IsOpen())
         return;
 
-    if (pTarget == NULL || pTarget->GetOwnerClientNumber() == -1)
+    if (pTarget == nullptr || pTarget->GetOwnerClientNumber() == -1)
         return;
 
     m_hLogFile << GetGameLogEventName(eEvent);
@@ -427,7 +427,7 @@ void    CGameLog::WriteExperience(EGameLogEvent eEvent, IUnitEntity *pTarget, IU
     m_hLogFile << SPACE << _T("player:") << pTarget->GetOwnerClientNumber();
     WRITE_STAT(team, pTarget->GetTeam()); 
     m_hLogFile << SPACE << _T("experience:") << XtoA((float)INT_CEIL(fExperience * 100.0f) / 100.0f, 0, 0, 2);
-    if (pSource != NULL)
+    if (pSource != nullptr)
     {
         m_hLogFile << SPACE << _T("source:") << QuoteStr(pSource->GetTypeName());
 
@@ -447,12 +447,12 @@ void    CGameLog::WriteGold(EGameLogEvent eEvent, CPlayer *pPlayer, IUnitEntity 
     if (!m_hLogFile.IsOpen())
         return;
 
-    if (pPlayer == NULL || pPlayer->GetClientNumber() == -1 || unGold == 0)
+    if (pPlayer == nullptr || pPlayer->GetClientNumber() == -1 || unGold == 0)
         return;
 
     m_hLogFile << GetGameLogEventName(eEvent);
     WRITE_STAT(time, Game.GetMatchTime());
-    if (pSource != NULL)
+    if (pSource != nullptr)
     {
         WRITE_STAT(x, INT_FLOOR(pSource->GetPosition().x));
         WRITE_STAT(y, INT_FLOOR(pSource->GetPosition().y));
@@ -460,7 +460,7 @@ void    CGameLog::WriteGold(EGameLogEvent eEvent, CPlayer *pPlayer, IUnitEntity 
     }
     WRITE_STAT(player, pPlayer->GetClientNumber());
     WRITE_STAT(team, pPlayer->GetTeam());
-    if (pSource != NULL)
+    if (pSource != nullptr)
     {
         WRITE_STAT(source, QuoteStr(pSource->GetTypeName()));
         if (pSource->GetOwnerClientNumber() != -1)
@@ -479,11 +479,11 @@ void    CGameLog::WriteAbility(EGameLogEvent eEvent, IEntityAbility *pAbility, I
     if (!m_hLogFile.IsOpen())
         return;
 
-    if (pAbility == NULL)
+    if (pAbility == nullptr)
         return;
 
     IUnitEntity *pOwner(pAbility->GetOwner());
-    if (pOwner == NULL || pOwner->GetOwnerClientNumber() == -1)
+    if (pOwner == nullptr || pOwner->GetOwnerClientNumber() == -1)
         return;
 
     m_hLogFile << GetGameLogEventName(eEvent);
@@ -496,7 +496,7 @@ void    CGameLog::WriteAbility(EGameLogEvent eEvent, IEntityAbility *pAbility, I
     m_hLogFile << SPACE << _T("name:") << QuoteStr(pAbility->GetTypeName());
     m_hLogFile << SPACE << _T("level:") << pAbility->GetLevel();
     m_hLogFile << SPACE << _T("slot:") << pAbility->GetSlot();
-    if (eEvent == GAME_LOG_ABILITY_ACTIVATE && pTarget != NULL)
+    if (eEvent == GAME_LOG_ABILITY_ACTIVATE && pTarget != nullptr)
     {
         m_hLogFile << SPACE << _T("target:") << QuoteStr(pTarget->GetTypeName());
         if (pTarget->GetOwnerClientNumber() != -1)
@@ -514,7 +514,7 @@ void    CGameLog::WriteHero(EGameLogEvent eEvent, IHeroEntity *pHero, const tstr
     if (!m_hLogFile.IsOpen())
         return;
 
-    if (pHero == NULL || pHero->GetOwnerClientNumber() == -1)
+    if (pHero == nullptr || pHero->GetOwnerClientNumber() == -1)
         return;
 
     m_hLogFile << GetGameLogEventName(eEvent);
@@ -556,7 +556,7 @@ void    CGameLog::WriteAward(EGameLogEvent eEvent, IUnitEntity *pAttacker, IUnit
     if (!m_hLogFile.IsOpen())
         return;
 
-    if (pAttacker == NULL || pAttacker->GetOwnerClientNumber() == -1)
+    if (pAttacker == nullptr || pAttacker->GetOwnerClientNumber() == -1)
         return;
 
     m_hLogFile << GetGameLogEventName(eEvent);
@@ -568,13 +568,13 @@ void    CGameLog::WriteAward(EGameLogEvent eEvent, IUnitEntity *pAttacker, IUnit
     WRITE_STAT(team, pAttacker->GetTeam());
 
     CPlayer *pOwner(pAttacker->GetOwnerPlayer());
-    if (pOwner != NULL)
+    if (pOwner != nullptr)
     {
         if (eEvent == GAME_LOG_AWARD_KILL_STREAK)
             m_hLogFile << SPACE << _T("count:") << pOwner->GetKillStreak();
         else if (eEvent == GAME_LOG_AWARD_MULTI_KILL)
             m_hLogFile << SPACE << _T("count:") << pOwner->GetMultiKill();
-        else if (eEvent == GAME_LOG_AWARD_KILL_STREAK_BREAK && pTarget != NULL && pTarget->GetOwnerPlayer() != NULL)
+        else if (eEvent == GAME_LOG_AWARD_KILL_STREAK_BREAK && pTarget != nullptr && pTarget->GetOwnerPlayer() != nullptr)
             m_hLogFile << SPACE << _T("count:") << pTarget->GetOwnerPlayer()->GetKillStreak();
         else if (eEvent == GAME_LOG_AWARD_SMACKDOWN)
             m_hLogFile << SPACE << _T("count:") << pOwner->GetSmackdowns();
@@ -586,7 +586,7 @@ void    CGameLog::WriteAward(EGameLogEvent eEvent, IUnitEntity *pAttacker, IUnit
             m_hLogFile << SPACE << _T("count:") << pOwner->GetPaybacks();
     }
 
-    if (pTarget != NULL)
+    if (pTarget != nullptr)
     {
         m_hLogFile << SPACE << _T("name:") << QuoteStr(pTarget->GetTypeName());
         if (pTarget->GetOwnerClientNumber() != -1)

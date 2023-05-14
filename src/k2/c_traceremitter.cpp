@@ -136,7 +136,7 @@ m_tfFrame(eSettings.GetFrame()),
 m_tfParam(eSettings.GetParam()),
 m_hMaterial(eSettings.GetMaterial())
 {
-    if (pOwner != NULL)
+    if (pOwner != nullptr)
     {
         m_pOwnerA = pOwner;
         m_pOwnerB = pOwner;
@@ -342,8 +342,8 @@ bool    CTracerEmitter::GetBeam(uint uiIndex, SBeam &outBeam)
 void    CTracerEmitter::OnDelete(IEmitter *pEmitter)
 {
     if (m_pOwnerA == pEmitter)
-        m_pOwnerA = NULL;
+        m_pOwnerA = nullptr;
 
     if (m_pOwnerB == pEmitter)
-        m_pOwnerB = NULL;
+        m_pOwnerB = nullptr;
 }

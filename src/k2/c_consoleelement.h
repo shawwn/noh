@@ -78,8 +78,8 @@ public:
     const tstring&  GetName() const     { return m_sName; }
     EElementType    GetType() const     { return m_eType; }
 
-    virtual void            Execute(const tsvector &vArgList)   { if (m_pfnCmd == NULL) return; m_pfnCmd(this, vArgList); }
-    virtual tstring         Evaluate(const tsvector &vArgList)  { if (m_pfnCmd == NULL) return _T(""); m_pfnCmd(this, vArgList); return _T(""); }
+    virtual void            Execute(const tsvector &vArgList)   { if (m_pfnCmd == nullptr) return; m_pfnCmd(this, vArgList); }
+    virtual tstring         Evaluate(const tsvector &vArgList)  { if (m_pfnCmd == nullptr) return _T(""); m_pfnCmd(this, vArgList); return _T(""); }
     virtual bool            Precache(const tsvector &vArgList)  { if (m_pfnPrecacheCmd) return m_pfnPrecacheCmd(this, vArgList); else return false; }
 
     virtual tstring         GetString() const   = 0;

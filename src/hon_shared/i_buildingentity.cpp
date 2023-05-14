@@ -398,7 +398,7 @@ void    IBuildingEntity::Link()
         return;
     
     CWorldEntity *pWorldEnt(Game.GetWorldEntity(m_uiWorldIndex));
-    if (pWorldEnt == NULL)
+    if (pWorldEnt == nullptr)
         return;
 
     pWorldEnt->SetPosition(GetPosition());
@@ -444,7 +444,7 @@ void    IBuildingEntity::Unlink()
     {
         CWorldEntity *pWorldEnt(Game.GetWorldEntity(m_uiWorldIndex));
         
-        if (pWorldEnt != NULL)
+        if (pWorldEnt != nullptr)
         {
             vector<PoolHandle>::const_iterator citEnd(m_vPathBlockers.end());
             for (vector<PoolHandle>::const_iterator cit(m_vPathBlockers.begin()); cit != citEnd; ++cit)
@@ -513,7 +513,7 @@ void    IBuildingEntity::Spawn()
     if (GetIsBase())
     {
         CTeamInfo *pTeam(Game.GetTeam(GetTeam()));
-        if (pTeam != NULL)
+        if (pTeam != nullptr)
             pTeam->SetBaseBuildingIndex(GetIndex());
     }
 }
@@ -529,11 +529,11 @@ void    IBuildingEntity::Die(IUnitEntity *pAttacker, ushort unKillingObjectID)
 
     IUnitEntity::Die(pAttacker, unKillingObjectID);
 
-    if (pAttacker != NULL && GetIsTower())
+    if (pAttacker != nullptr && GetIsTower())
     {
         CPlayer *pPlayerKiller(Game.GetPlayerFromClientNumber(pAttacker->GetOwnerClientNumber()));
         
-        if (pPlayerKiller != NULL)
+        if (pPlayerKiller != nullptr)
         {
             if (pAttacker->GetTeam() != GetTeam())
             {
@@ -542,7 +542,7 @@ void    IBuildingEntity::Die(IUnitEntity *pAttacker, ushort unKillingObjectID)
                 Game.BroadcastGameData(buffer, true);
 
                 CTeamInfo *pTeam(Game.GetTeam(GetTeam()));
-                if (pTeam != NULL)
+                if (pTeam != nullptr)
                 {
                     if (CompareNoCase(pTeam->GetName(), _T("Hellbourne")) == 0)
                     {
@@ -584,7 +584,7 @@ void    IBuildingEntity::Die(IUnitEntity *pAttacker, ushort unKillingObjectID)
 
                 CTeamInfo *pTeam(Game.GetTeam(GetTeam()));
 
-                if (pTeam != NULL)
+                if (pTeam != nullptr)
                 {
                     if (CompareNoCase(pTeam->GetName(), _T("Hellbourne")) == 0)
                     {
@@ -611,18 +611,18 @@ void    IBuildingEntity::Die(IUnitEntity *pAttacker, ushort unKillingObjectID)
         if (pAttacker->GetTeam() != GetTeam())
         {
             CTeamInfo *pAttackerTeam(Game.GetTeam(pAttacker->GetTeam()));
-            if (pAttackerTeam != NULL)
+            if (pAttackerTeam != nullptr)
                 pAttackerTeam->AdjustStat(TEAM_STAT_TOWER_KILLS, 1);
         }
         else
         {
             CTeamInfo *pAttackerTeam(Game.GetTeam(pAttacker->GetTeam()));
-            if (pAttackerTeam != NULL)
+            if (pAttackerTeam != nullptr)
                 pAttackerTeam->AdjustStat(TEAM_STAT_TOWER_DENIES, 1);
         }
     }
     
-    if (pAttacker != NULL && GetIsRax())
+    if (pAttacker != nullptr && GetIsRax())
     {       
         // send the message, along with the victim team, building index and type indicator
         CBufferFixed<13> buffer;            
@@ -644,7 +644,7 @@ void    IBuildingEntity::Die(IUnitEntity *pAttacker, ushort unKillingObjectID)
     }
 
     CTeamInfo *pTeamInfo(Game.GetTeam(GetTeam()));
-    if (pTeamInfo != NULL)
+    if (pTeamInfo != nullptr)
     {
         if (pTeamInfo->GetBaseBuildingIndex() == GetIndex())
             Game.EndMatch(GetTeam());
@@ -715,7 +715,7 @@ bool    IBuildingEntity::ServerFrameSetup()
                 continue;
 
             IGameEntity *pTarget(Game.GetEntityFromUniqueID(m_auiTargetUIDs[ui]));
-            if (pTarget == NULL || !pTarget->IsVisual() || pTarget->GetAsVisual()->GetStatus() != ENTITY_STATUS_ACTIVE)
+            if (pTarget == nullptr || !pTarget->IsVisual() || pTarget->GetAsVisual()->GetStatus() != ENTITY_STATUS_ACTIVE)
             {
                 RemoveUnitFlags(UNIT_FLAG_INVULNERABLE);
                 break;
@@ -729,7 +729,7 @@ bool    IBuildingEntity::ServerFrameSetup()
                 continue;
 
             IGameEntity *pTarget(Game.GetEntityFromUniqueID(m_auiTargetUIDs[ui]));
-            if (pTarget == NULL || !pTarget->IsVisual() || pTarget->GetAsVisual()->GetStatus() != ENTITY_STATUS_ACTIVE)
+            if (pTarget == nullptr || !pTarget->IsVisual() || pTarget->GetAsVisual()->GetStatus() != ENTITY_STATUS_ACTIVE)
                 continue;
 
             SetUnitFlags(UNIT_FLAG_INVULNERABLE);
@@ -820,7 +820,7 @@ void    IBuildingEntity::Damage(CDamageEvent &damage)
     {
         CTeamInfo *pTeam(Game.GetTeam(GetTeam()));
 
-        if (pTeam != NULL && (pTeam->GetLastBuildingAttackAnnouncement() == INVALID_TIME || pTeam->GetLastBuildingAttackAnnouncement() + g_buildingAnnounceTeamAttackTime < Game.GetGameTime()) && (m_uiLastAttackAnnounce == INVALID_TIME || m_uiLastAttackAnnounce + g_buildingAnnounceAttackTime < Game.GetGameTime()))
+        if (pTeam != nullptr && (pTeam->GetLastBuildingAttackAnnouncement() == INVALID_TIME || pTeam->GetLastBuildingAttackAnnouncement() + g_buildingAnnounceTeamAttackTime < Game.GetGameTime()) && (m_uiLastAttackAnnounce == INVALID_TIME || m_uiLastAttackAnnounce + g_buildingAnnounceAttackTime < Game.GetGameTime()))
         {
             // Only announce building under attack if no heroes are in g_buildingAnnounceNoHeroRadius
             uivector vResult;
@@ -833,7 +833,7 @@ void    IBuildingEntity::Damage(CDamageEvent &damage)
             {
                 IUnitEntity *pUnit(Game.GetUnitEntity(Game.GetGameIndexFromWorldIndex(*it)));
 
-                if (pUnit == NULL)
+                if (pUnit == nullptr)
                     continue;
 
                 if (pUnit->IsBuilding())
@@ -860,7 +860,7 @@ void    IBuildingEntity::Damage(CDamageEvent &damage)
                 {
                     IUnitEntity *pUnit(Game.GetUnitEntity(Game.GetGameIndexFromWorldIndex(*it)));
 
-                    if (pUnit == NULL || !pUnit->IsBuilding())
+                    if (pUnit == nullptr || !pUnit->IsBuilding())
                         continue;
 
                     pUnit->GetAsBuilding()->SetLastAttackAnnouncement(m_uiLastAttackAnnounce);
@@ -978,7 +978,7 @@ void    IBuildingEntity::UpdateSkeleton(bool bPose)
 {
     PROFILE("IBuildingEntity::UpdateSkeleton");
 
-    if (m_pSkeleton == NULL)
+    if (m_pSkeleton == nullptr)
         return;
 
     m_pSkeleton->SetModel(GetModel());
@@ -1106,7 +1106,7 @@ float   IBuildingEntity::GetBaseArmor() const
     if (Game.GetTowerHeroArmorReduction() && !GetNoHeroArmorReduction())
     {
         CTeamInfo *pTeam(Game.GetTeam(GetTeam()));
-        if (pTeam == NULL)
+        if (pTeam == nullptr)
             return IUnitEntity::GetBaseArmor();
         else
             return IUnitEntity::GetBaseArmor() * pTeam->GetHeroAlivePercent();

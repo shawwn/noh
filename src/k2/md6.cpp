@@ -252,7 +252,7 @@ int md6_compress( md6_word *C,
 ** Input:
 **   N               input array of n w-bit words (n=89)
 **   A               working array of a = rc+n w-bit words
-**                   A is OPTIONAL, may be given as NULL 
+**                   A is OPTIONAL, may be given as nullptr
 **                   (then md6_compress allocates and uses its own A).
 **   r               number of rounds            
 ** Modifies:
@@ -267,12 +267,12 @@ int md6_compress( md6_word *C,
 { md6_word* A_as_given = A;
 
   /* check that input is sensible */
-  if ( N == NULL) return MD6_NULL_N;
-  if ( C == NULL) return MD6_NULL_C;
+  if ( N == nullptr) return MD6_NULL_N;
+  if ( C == nullptr) return MD6_NULL_C;
   if ( r<0 || r > md6_max_r) return MD6_BAD_r;
 
-  if ( A == NULL) A = (md6_word*)calloc(r*c+n,sizeof(md6_word));
-  if ( A == NULL) return MD6_OUT_OF_MEMORY;
+  if ( A == nullptr) A = (md6_word*)calloc(r*c+n,sizeof(md6_word));
+  if ( A == nullptr) return MD6_OUT_OF_MEMORY;
 
   memcpy( A, N, n*sizeof(md6_word) );    /* copy N to front of A */
 
@@ -280,7 +280,7 @@ int md6_compress( md6_word *C,
 
   memcpy( C, A+(r-1)*c+n, c*sizeof(md6_word) ); /* output into C */
 
-  if ( A_as_given == NULL )           /* zero and free A if nec. */
+  if ( A_as_given == nullptr )           /* zero and free A if nec. */
     { memset(A,0,(r*c+n)*sizeof(md6_word)); /* contains key info */
       free(A);           
     }
@@ -422,15 +422,15 @@ int md6_standard_compress( md6_word* C,
   md6_word A[5000];       /* MS VS can't handle variable size here */
 
   /* check that input values are sensible */
-  if ( C == NULL ) return MD6_NULL_C;
-  if ( B == NULL ) return MD6_NULL_B;
+  if ( C == nullptr ) return MD6_NULL_C;
+  if ( B == nullptr ) return MD6_NULL_B;
   if ( (r<0) | (r>md6_max_r) ) return MD6_BAD_r;
   if ( (L<0) | (L>255) ) return MD6_BAD_L;
   if ( (ell < 0) || (ell > 255) ) return MD6_BAD_ELL;
   if ( (p < 0) || (p > b*w ) ) return MD6_BAD_p;
   if ( (d <= 0) || (d > c*w/2) ) return MD6_BADHASHLEN;
-  if ( K == NULL ) return MD6_NULL_K;
-  if ( Q == NULL ) return MD6_NULL_Q;
+  if ( K == nullptr ) return MD6_NULL_K;
+  if ( Q == nullptr ) return MD6_NULL_Q;
 
   /* pack components into N for compression */
   md6_pack(N,Q,K,ell,i,r,L,z,p,keylen,d,B);
@@ -438,7 +438,7 @@ int md6_standard_compress( md6_word* C,
 #ifdef MD6_COMPRESSION_HOOK
   /* call compression hook if it is defined. */
   /* -- for testing and debugging.           */
-  if (compression_hook != NULL)
+  if (compression_hook != nullptr)
     compression_hook(C,Q,K,ell,i,r,L,z,p,keylen,d,B);
 #endif
 
@@ -502,17 +502,17 @@ int md6_standard_compress( md6_word* C,
 **             they are now in the correct order, which is:
 **
 **      trim_hashval( st );
-**      if (hashval != NULL) memcpy( hashval, st->hashval, (st->d+7)/8 );
+**      if (hashval != nullptr) memcpy( hashval, st->hashval, (st->d+7)/8 );
 **
 **             This fixes problem that caller could get incorrect output
 **             if it took output from parameter hashval rather than from
 **             state variable st->hashval.  If caller used the nist api 
-**             (md6_nist.c), or used the md6 api with a non-NULL second 
+**             (md6_nist.c), or used the md6 api with a non-nullptr second
 **             argument to md6_final, or used md6_hash or md6_full_hash, 
 **             caller would have obtained an incorrect value (basically,
 **             the first d bits of the final root chaining value rather
 **             than the last d bits).  If the caller used md6sum, or used
-**             md6_final with a NULL second argument, the correct value
+**             md6_final with a nullptr second argument, the correct value
 **             is obtained.  See changelog file for more discussion.
 **
 **             Thanks to Piotr Krysiuk for finding and reporting 
@@ -539,7 +539,7 @@ extern int md6_init( md6_state *st,             /* state to initialize */
 
 extern int md6_full_init( md6_state *st,        /* state to initialize */
               int d,                    /* hash bit length */
-              unsigned char *key,       /* OK to give NULL */
+              unsigned char *key,       /* OK to give nullptr */
               int keylen,       /* (in bytes) OK to give 0 */
               int L,     /* mode; OK to give md6_default_L */
               int r                    /* number of rounds */
@@ -551,7 +551,7 @@ extern int md6_update( md6_state *st,             /* initialized state */
                );
 
 extern int md6_final( md6_state *st,            /* initialized/updated */
-              unsigned char *hashval,      /* output; NULL OK  */
+              unsigned char *hashval,      /* output; nullptr OK  */
               );
 
 /* The next routines compute a hash for a message given all at once.    
@@ -569,7 +569,7 @@ extern int md6_hash( int d,                         /* hash bit length */
 extern int md6_full_hash( int d,                    /* hash bit length */
               unsigned char *data,/* complete data to hash */
               md6_uint64_t datalen,      /* its length in bits */
-              unsigned char *key,       /* OK to give NULL */
+              unsigned char *key,       /* OK to give nullptr */
               int keylen,       /* (in bytes) OK to give 0 */
               int L,     /* mode; OK to give md6_default_L */
               int r,                   /* number of rounds */
@@ -843,7 +843,7 @@ void append_bits( unsigned char *dest, unsigned int destlen,
 
 int md6_full_init( md6_state *st,       /* uninitialized state to use */
            int d,                          /* hash bit length */
-           unsigned char *key,        /* key; OK to give NULL */
+           unsigned char *key,        /* key; OK to give nullptr */
            int keylen,     /* keylength (bytes); OK to give 0 */
            int L,           /* mode; OK to give md6_default_L */
            int r                          /* number of rounds */
@@ -853,7 +853,7 @@ int md6_full_init( md6_state *st,       /* uninitialized state to use */
 **     st         md6_state to be initialized
 **     d          desired hash bit length 1 <= d <= w*(c/2)    (<=512 bits)
 **     key        key (aka salt) for this hash computation     (byte array)
-**                defaults to all-zero key if key==NULL or keylen==0
+**                defaults to all-zero key if key==nullptr or keylen==0
 **     keylen     length of key in bytes; 0 <= keylen <= (k*8) (<=64 bytes)
 **     L          md6 mode parameter; 0 <= L <= 255
 **                md6.h defines md6_default_L for when you want default
@@ -867,15 +867,15 @@ int md6_full_init( md6_state *st,       /* uninitialized state to use */
 **       MD6_BADHASHLEN
 */
 { /* check that md6_full_init input parameters make some sense */
-  if (st == NULL) return MD6_NULLSTATE;
-  if ( (key != NULL) && ((keylen < 0) || (keylen > k*(w/8))) )
+  if (st == nullptr) return MD6_NULLSTATE;
+  if ( (key != nullptr) && ((keylen < 0) || (keylen > k*(w/8))) )
     return MD6_BADKEYLEN;
   if ( d < 1 || d > 512 || d > w*c/2 ) return MD6_BADHASHLEN;
 
   md6_detect_byte_order();
   memset(st,0,sizeof(md6_state));  /* clear state to zero */
   st->d = d;                       /* save hashbitlen */
-  if (key != NULL && keylen > 0)   /* if no key given, use memset zeros*/
+  if (key != nullptr && keylen > 0)   /* if no key given, use memset zeros*/
     { memcpy(st->K,key,keylen);    /* else save key (with zeros added) */
       st->keylen = keylen;
       /* handle endian-ness */       /* first byte went into high end */
@@ -894,7 +894,7 @@ int md6_full_init( md6_state *st,       /* uninitialized state to use */
   /* we just need to set st->bits[1]    */
   if (L==0) st->bits[1] = c*w;     
 #ifdef MD6_COMPRESSION_HOOK
-  compression_hook = NULL;     /* just to be sure default is "not set" */
+  compression_hook = nullptr;     /* just to be sure default is "not set" */
 #endif
   return MD6_SUCCESS;
 }
@@ -909,7 +909,7 @@ int md6_init( md6_state *st,
 /* Same as md6_full_init, but with default key, L, and r */
 { return md6_full_init(st,
                d,
-               NULL,
+               nullptr,
                0,
                md6_default_L,
                md6_default_r(d,0)
@@ -987,7 +987,7 @@ int md6_compress_block( md6_word *C,
 { int p, err;
 
   /* check that input values are sensible */
-  if ( st == NULL) return MD6_NULLSTATE;
+  if ( st == nullptr) return MD6_NULLSTATE;
   if ( st->initialized == 0 ) return MD6_STATENOTINIT;
   if ( ell < 0 ) return MD6_STACKUNDERFLOW;
   if ( ell >= md6_max_stack_height-1 ) return MD6_STACKOVERFLOW;
@@ -1056,7 +1056,7 @@ int md6_process( md6_state *st,
   md6_word C[c];
 
   /* check that input values are sensible */
-  if ( st == NULL) return MD6_NULLSTATE;
+  if ( st == nullptr) return MD6_NULLSTATE;
   if ( st->initialized == 0 ) return MD6_STATENOTINIT;
 
   if (!final) /* not final -- more input will be coming */
@@ -1132,9 +1132,9 @@ int md6_update( md6_state *st,
   int err;
 
   /* check that input values are sensible */
-  if ( st == NULL ) return MD6_NULLSTATE;
+  if ( st == nullptr ) return MD6_NULLSTATE;
   if ( st->initialized == 0 ) return MD6_STATENOTINIT;
-  if ( data == NULL ) return MD6_NULLDATA;
+  if ( data == nullptr ) return MD6_NULLDATA;
   
   j = 0; /* j = number of bits processed so far with this update */
   while (j<databitlen)
@@ -1195,13 +1195,13 @@ int md6_compute_hex_hashval( md6_state *st )
 ** 
 ** Returns one of the following:
 **    MD6_SUCCESS
-**    MD6_NULLSTATE                      (if input state pointer was NULL)
+**    MD6_NULLSTATE                      (if input state pointer was nullptr)
 */
 { int i;
   static unsigned char hex_digits[] = "0123456789abcdef";
 
   /* check that input is sensible */
-  if ( st == NULL ) return MD6_NULLSTATE;
+  if ( st == nullptr ) return MD6_NULLSTATE;
   
   for (i=0;i<((st->d+7)/8);i++)
     { st->hexhashval[2*i]   
@@ -1252,8 +1252,8 @@ int md6_final( md6_state *st , unsigned char *hashval)
 **     st              md6 state that has been accumulating message bits
 **                     and/or intermediate results
 ** Output (by side effect on state):
-**     hashval         If this is non-NULL, final hash value copied here.
-**                     (NULL means don't copy.)  In any case, the hash
+**     hashval         If this is non-nullptr, final hash value copied here.
+**                     (nullptr means don't copy.)  In any case, the hash
 **                     value remains in st->hashval.
 **     st->hashval     this is a 64-byte array; the first st->d
 **                     bits of which will be the desired hash value
@@ -1269,7 +1269,7 @@ int md6_final( md6_state *st , unsigned char *hashval)
 { int ell, err;
 
   /* check that input values are sensible */
-  if ( st == NULL) return MD6_NULLSTATE;
+  if ( st == nullptr) return MD6_NULLSTATE;
   if ( st->initialized == 0 ) return MD6_STATENOTINIT;
 
   /* md6_final was previously called */
@@ -1294,7 +1294,7 @@ int md6_final( md6_state *st , unsigned char *hashval)
   **                                   missed getting "trimmed".)
   */
   trim_hashval( st );
-  if (hashval != NULL) memcpy( hashval, st->hashval, (st->d+7)/8 );
+  if (hashval != nullptr) memcpy( hashval, st->hashval, (st->d+7)/8 );
 
   md6_compute_hex_hashval( st );
 
@@ -1308,7 +1308,7 @@ int md6_final( md6_state *st , unsigned char *hashval)
 int md6_full_hash( int d,                    /* hash bit length */
            unsigned char *data,/* complete data to hash */
            md6_uint64_t databitlen,   /* its length in bits */
-           unsigned char *key,       /* OK to give NULL */
+           unsigned char *key,       /* OK to give nullptr */
            int keylen,       /* (in bytes) OK to give 0 */
            int L,     /* mode; OK to give md6_default_L */
            int r,                   /* number of rounds */
@@ -1334,7 +1334,7 @@ int md6_hash( int d,                         /* hash bit length */
 { int err;
 
   err = md6_full_hash(d,data,databitlen,
-              NULL,0,md6_default_L,md6_default_r(d,0),hashval);
+              nullptr,0,md6_default_L,md6_default_r(d,0),hashval);
   if (err) return err;
   return MD6_SUCCESS;
 }

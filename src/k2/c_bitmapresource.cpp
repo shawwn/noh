@@ -65,7 +65,7 @@ int     CBitmapResource::Load(uint uiIgnoreFlags, const char *pData, uint uiSize
     else
         Console.Res << "Loading ^mUnknown Bitmap^*" << newl;
 
-    assert(pData == NULL);
+    assert(pData == nullptr);
 
     if (!m_cBitmap.Load(m_sPath))
         iResult = RES_LOAD_FAILED;

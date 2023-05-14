@@ -69,9 +69,9 @@ void    CConsoleRegistry::Unregister(CConsoleElement *pElement)
 {
     try
     {
-        if (pElement == NULL)
+        if (pElement == nullptr)
         {
-            EX_WARN(_T("CConsoleRegistry::Unregister() - NULL element detected."));
+            EX_WARN(_T("CConsoleRegistry::Unregister() - nullptr element detected."));
             return;
         }
             
@@ -116,7 +116,7 @@ CConsoleElement*    CConsoleRegistry::GetElement(const tstring &sName)
     ConsoleElementMap::iterator findit(m_mapElements.find(LowerString(sName)));
 
     if (findit == m_mapElements.end())
-        return NULL;
+        return nullptr;
     else
         return findit->second;
 }
@@ -128,8 +128,8 @@ CConsoleElement*    CConsoleRegistry::GetElement(const tstring &sName)
 ICvar*  CConsoleRegistry::GetCvar(const tstring &sName)
 {
     CConsoleElement* pElement(GetElement(sName));
-    if (pElement == NULL || pElement->GetType() != ELEMENT_CVAR)
-        return NULL;
+    if (pElement == nullptr || pElement->GetType() != ELEMENT_CVAR)
+        return nullptr;
     return static_cast<ICvar*>(pElement);
 }
 
@@ -139,7 +139,7 @@ ICvar*  CConsoleRegistry::GetCvar(const tstring &sName)
  ====================*/
 bool    CConsoleRegistry::Exists(const tstring &sName)
 {
-    return GetElement(sName) != NULL;
+    return GetElement(sName) != nullptr;
 }
 
 

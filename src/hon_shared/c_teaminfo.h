@@ -260,7 +260,7 @@ public:
 type    GetTotal##name() const \
 { \
     CGameStats *pStats(GetStats()); \
-    if (pStats == NULL) \
+    if (pStats == nullptr) \
         return type(0); \
 \
     return pStats->Get##name(); \

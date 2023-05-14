@@ -68,7 +68,7 @@ tstring g_sErrorMsg;    // string to store error
   CBitmap::CBitmap
   ====================*/
 CBitmap::CBitmap() :
-m_pData(NULL),
+m_pData(nullptr),
 m_iWidth(0),
 m_iHeight(0),
 m_iSize(0),
@@ -86,7 +86,7 @@ m_uiFileFlags(0)
   CBitmap::CBitmap
   ====================*/
 CBitmap::CBitmap(int iWidth, int iHeight, int iBMPType) :
-m_pData(NULL),
+m_pData(nullptr),
 m_iSize(0),
 m_iBMPType(BITMAP_NULL),
 m_iRedChannel(BMP_CHANNEL_NULL),
@@ -103,7 +103,7 @@ m_uiFileFlags(0)
   CBitmap::CBitmap
   ====================*/
 CBitmap::CBitmap(int iWidth, int iHeight, int iBMPType, int iRedChannel, int iGreenChannel, int iBlueChannel, int iAlphaChannel) :
-m_pData(NULL),
+m_pData(nullptr),
 m_iSize(0),
 m_iBMPType(BITMAP_NULL),
 m_iRedChannel(BMP_CHANNEL_NULL),
@@ -120,7 +120,7 @@ m_uiFileFlags(0)
   CBitmap::CBitmap
   ====================*/
 CBitmap::CBitmap(const tstring &sFilename, bool bMonoAsAlpha) :
-m_pData(NULL),
+m_pData(nullptr),
 m_iSize(0),
 m_iBMPType(BITMAP_NULL),
 m_iRedChannel(BMP_CHANNEL_NULL),
@@ -137,7 +137,7 @@ m_uiFileFlags(0)
   CBitmap::CBitmap
   ====================*/
 CBitmap::CBitmap(CFileHandle &hFile) :
-m_pData(NULL),
+m_pData(nullptr),
 m_iSize(0),
 m_iBMPType(BITMAP_NULL),
 m_iRedChannel(BMP_CHANNEL_NULL),
@@ -154,7 +154,7 @@ m_uiFileFlags(0)
   CBitmap::CBitmap
   ====================*/
 CBitmap::CBitmap(const CBitmap &c) :
-m_pData(NULL),
+m_pData(nullptr),
 m_iSize(0),
 m_iBMPType(BITMAP_NULL)
 {
@@ -305,7 +305,7 @@ bool    CBitmap::LoadDDS(const tstring &sFilename)
 
         uint uiSize(0);
         const char *pBuffer(hFile.GetBuffer(uiSize));
-        if (pBuffer == NULL || uiSize == 0)
+        if (pBuffer == nullptr || uiSize == 0)
             EX_ERROR(_T("Failed retrieving buffer"));
 
         SDDSHeader *pHeader((SDDSHeader*)pBuffer);
@@ -389,7 +389,7 @@ bool    CBitmap::LoadDDS(const tstring &sFilename)
         m_iAlphaChannel = BMP_CHANNEL_NULL;
 
         m_pData = K2_NEW_ARRAY(ctx_Bitmap, byte, uiSize);
-        if (m_pData == NULL)
+        if (m_pData == nullptr)
             EX_ERROR(_T("Failed to allocate buffer"));
 
         MemManager.Copy(m_pData, pBuffer, uiSize);
@@ -484,14 +484,14 @@ void    PNG_Warn(png_structp pPNGStruct, png_const_charp szMsg)
   ====================*/
 bool    CBitmap::LoadPNG(const tstring &sFilename, bool bMonoAsAlpha)
 {
-    if (m_pData != NULL)
+    if (m_pData != nullptr)
         Free();
 
     if (sFilename.empty())
         return false;
 
-    png_structp pPNGRead(NULL);
-    png_infop pPNGInfo(NULL);
+    png_structp pPNGRead(nullptr);
+    png_infop pPNGInfo(nullptr);
     try
     {
         CFileHandle file(sFilename, FILE_READ | FILE_BINARY | m_uiFileFlags);
@@ -499,18 +499,18 @@ bool    CBitmap::LoadPNG(const tstring &sFilename, bool bMonoAsAlpha)
             EX_ERROR(_T("Could not open file"));
 
         // Create and initialize the png_struct
-        pPNGRead = png_create_read_struct_2(PNG_LIBPNG_VER_STRING, NULL, PNG_Error, PNG_Warn, NULL, PNG_Malloc, PNG_Free);
-        if (pPNGRead == NULL)
+        pPNGRead = png_create_read_struct_2(PNG_LIBPNG_VER_STRING, nullptr, PNG_Error, PNG_Warn, nullptr, PNG_Malloc, PNG_Free);
+        if (pPNGRead == nullptr)
             EX_ERROR(_T("png_create_read_struct() failed"));
 
         // Set custom functions
-        png_set_mem_fn(pPNGRead, NULL, PNG_Malloc, PNG_Free);
-        png_set_error_fn(pPNGRead, NULL, PNG_Error, PNG_Warn);
+        png_set_mem_fn(pPNGRead, nullptr, PNG_Malloc, PNG_Free);
+        png_set_error_fn(pPNGRead, nullptr, PNG_Error, PNG_Warn);
         png_set_read_fn(pPNGRead, (png_voidp)&file, PNG_Read);
 
         // Allocate / initialize the memory for image information
         pPNGInfo = png_create_info_struct(pPNGRead);
-        if (pPNGInfo == NULL)
+        if (pPNGInfo == nullptr)
             EX_ERROR(_T("png_create_info_struct() failed"));
 
 #ifdef __GNUC__
@@ -523,7 +523,7 @@ bool    CBitmap::LoadPNG(const tstring &sFilename, bool bMonoAsAlpha)
         uint png_transforms(PNG_TRANSFORM_EXPAND);
         bool needToUpdate(false);
 
-        png_read_png(pPNGRead, pPNGInfo, png_transforms, NULL);
+        png_read_png(pPNGRead, pPNGInfo, png_transforms, nullptr);
 
         /* Expand paletted or RGB images with transparency to full alpha channels
         * so the data will be available as RGBA quartets.
@@ -537,7 +537,7 @@ bool    CBitmap::LoadPNG(const tstring &sFilename, bool bMonoAsAlpha)
         if (pPNGInfo->color_type == PNG_COLOR_TYPE_PALETTE)
         {
             png_set_palette_to_rgb(pPNGRead);
-            png_read_png(pPNGRead, pPNGInfo, png_transforms, NULL);
+            png_read_png(pPNGRead, pPNGInfo, png_transforms, nullptr);
             needToUpdate = true;
         }
 
@@ -547,7 +547,7 @@ bool    CBitmap::LoadPNG(const tstring &sFilename, bool bMonoAsAlpha)
             {
                 png_set_expand_gray_1_2_4_to_8(pPNGRead);
 
-                png_read_png(pPNGRead, pPNGInfo, png_transforms, NULL);
+                png_read_png(pPNGRead, pPNGInfo, png_transforms, nullptr);
                 needToUpdate = true;
             }
         }
@@ -630,12 +630,12 @@ bool    CBitmap::LoadPNG(const tstring &sFilename, bool bMonoAsAlpha)
             _T(" bytes (") << ((m_iBMPType == BITMAP_RGBA) ? _T("RGBA") : _T("RGB")) << _T(")") << newl;
 
         // Clean up after the read, and free any memory allocated
-        png_destroy_read_struct(&pPNGRead, &pPNGInfo, NULL);
+        png_destroy_read_struct(&pPNGRead, &pPNGInfo, nullptr);
     }
     catch (CException &ex)
     {
-        if (pPNGRead != NULL)
-            png_destroy_read_struct(&pPNGRead, &pPNGInfo, NULL);
+        if (pPNGRead != nullptr)
+            png_destroy_read_struct(&pPNGRead, &pPNGInfo, nullptr);
 
         ex.Process(_T("CBitmap::LoadPNG() - "), NO_THROW);
         return false;
@@ -664,7 +664,7 @@ bool    CBitmap::LoadTGA(const tstring &sFilename, bool bMonoAsAlpha)
     if (sFilename.empty())
         return false;
 
-    m_pData = NULL;
+    m_pData = nullptr;
 
     CFileHandle fBitmap(sFilename, FILE_READ | FILE_BINARY | m_uiFileFlags);
     if (!fBitmap.IsOpen())
@@ -1041,7 +1041,7 @@ void    CBitmap::GetColor(int x, int y, bvec4_t color)
 {
     try
     {
-        if (m_pData == NULL)
+        if (m_pData == nullptr)
             EX_WARN(_T("No data in bitmap"));
 
         if (m_iBMPType > BITMAP_RGBA)
@@ -1069,7 +1069,7 @@ CVec4b  CBitmap::GetColor(int x, int y)
 {
     try
     {
-        if (m_pData == NULL)
+        if (m_pData == nullptr)
             EX_WARN(_T("No data in bitmap"));
 
         if (m_iBMPType > BITMAP_RGBA)
@@ -1102,7 +1102,7 @@ CVec4b  CBitmap::GetAverageColor()
 {
     try
     {
-        if (m_pData == NULL)
+        if (m_pData == nullptr)
             EX_WARN(_T("No data in bitmap"));
 
         if (m_iBMPType > BITMAP_RGBA)
@@ -1135,7 +1135,7 @@ CVec4b  CBitmap::GetAverageColor()
   ====================*/
 void    CBitmap::Alloc(int iWidth, int iHeight, int iBMPType)
 {
-    if (m_pData != NULL)
+    if (m_pData != nullptr)
         Free();
 
     bool bGrayscale(false);
@@ -1219,7 +1219,7 @@ void    CBitmap::Alloc(int iWidth, int iHeight, int iBMPType)
   ====================*/
 void    CBitmap::Alloc(int iWidth, int iHeight, int iBMPType, int iRedChannel, int iGreenChannel, int iBlueChannel, int iAlphaChannel)
 {
-    if (m_pData != NULL)
+    if (m_pData != nullptr)
         Free();
 
     m_iSize = iWidth * iHeight * iBMPType;
@@ -1240,7 +1240,7 @@ void    CBitmap::Alloc(int iWidth, int iHeight, int iBMPType, int iRedChannel, i
   ====================*/
 void    CBitmap::AllocCompressed(int iSize, int iWidth, int iHeight, int iBMPType)
 {
-    if (m_pData != NULL)
+    if (m_pData != nullptr)
         Free();
 
     m_iSize = iSize;
@@ -1272,8 +1272,8 @@ void    CBitmap::Free()
   ====================*/
 bool    CBitmap::WritePNG(const tstring &sFilename)
 {
-    png_structp pPNGWrite(NULL);
-    png_infop   pPNGInfo(NULL);
+    png_structp pPNGWrite(nullptr);
+    png_infop   pPNGInfo(nullptr);
     try
     {
         // Open the file
@@ -1282,8 +1282,8 @@ bool    CBitmap::WritePNG(const tstring &sFilename)
             EX_ERROR(_T("Could not open file."));
 
         // Create and initialize the png_struct
-        pPNGWrite = png_create_write_struct_2(PNG_LIBPNG_VER_STRING, NULL, PNG_Error, PNG_Warn, NULL, PNG_Malloc, PNG_Free);
-        if (pPNGWrite == NULL)
+        pPNGWrite = png_create_write_struct_2(PNG_LIBPNG_VER_STRING, nullptr, PNG_Error, PNG_Warn, nullptr, PNG_Malloc, PNG_Free);
+        if (pPNGWrite == nullptr)
             EX_ERROR(_T("png_create_write_struct failed."));
         
 #ifdef __GNUC__
@@ -1294,13 +1294,13 @@ bool    CBitmap::WritePNG(const tstring &sFilename)
 #endif
 
         // Set custom functions
-        png_set_mem_fn(pPNGWrite, NULL, PNG_Malloc, PNG_Free);
-        png_set_error_fn(pPNGWrite, NULL, PNG_Error, PNG_Warn);
+        png_set_mem_fn(pPNGWrite, nullptr, PNG_Malloc, PNG_Free);
+        png_set_error_fn(pPNGWrite, nullptr, PNG_Error, PNG_Warn);
         png_set_write_fn(pPNGWrite, (png_voidp)&hPNGFile, PNG_Write, PNG_Flush);
         
         // Allocate / initialize the image information data.
         pPNGInfo = png_create_info_struct(pPNGWrite);
-        if (pPNGInfo == NULL)
+        if (pPNGInfo == nullptr)
             EX_ERROR(_T("png_create_info_struct failed."));
 
         int iColorType, iChannels;
@@ -1347,14 +1347,14 @@ bool    CBitmap::WritePNG(const tstring &sFilename)
         for (int k = 0; k < m_iHeight; ++k)
             pPNGInfo->row_pointers[k] = m_pData + k * m_iWidth * iChannels;
 
-        png_write_png(pPNGWrite, pPNGInfo, PNG_TRANSFORM_IDENTITY, NULL);
+        png_write_png(pPNGWrite, pPNGInfo, PNG_TRANSFORM_IDENTITY, nullptr);
 
         // Clean up after the write, and free any memory allocated
         png_destroy_write_struct(&pPNGWrite, &pPNGInfo);
     }
     catch(CException &ex)
     {
-        if (pPNGWrite != NULL)
+        if (pPNGWrite != nullptr)
             png_destroy_write_struct(&pPNGWrite, &pPNGInfo);
 
         ex.Process(_TS("CBitmap::WritePNG(") + sFilename + _TS(") - "), NO_THROW);
@@ -1438,7 +1438,7 @@ bool    CBitmap::WriteTGA(const tstring &sFilename)
   ====================*/
 void    CBitmap::Flip()
 {
-    byte *pBuffer(NULL);
+    byte *pBuffer(nullptr);
 
     try
     {
@@ -1447,7 +1447,7 @@ void    CBitmap::Flip()
 
         int iScanlineSize(m_iBMPType * m_iWidth);
         pBuffer = K2_NEW_ARRAY(ctx_Bitmap, byte, iScanlineSize);
-        if (pBuffer == NULL)
+        if (pBuffer == nullptr)
             EX_ERROR(_T("Failed to allocate buffer"));
 
         int half(m_iHeight >> 1);
@@ -1462,7 +1462,7 @@ void    CBitmap::Flip()
     }
     catch (CException &ex)
     {
-        if (pBuffer != NULL)
+        if (pBuffer != nullptr)
             K2_DELETE_ARRAY(pBuffer);
         ex.Process(_T("CBitmap::Flip() - "));
     }
@@ -2169,7 +2169,7 @@ void    JPEG_SetSource(j_decompress_ptr cinfo, CFileHandle *pFile)
     // This makes it unsafe to use this manager and a different source
     // manager serially with the same JPEG object.  Caveat programmer.
 
-    if (cinfo->src == NULL) // first time for this JPEG object?
+    if (cinfo->src == nullptr) // first time for this JPEG object?
     {
         cinfo->src = (struct jpeg_source_mgr *)(*cinfo->mem->alloc_small) ((j_common_ptr) cinfo, JPOOL_PERMANENT, sizeof(SHandleSourceMgr));
         pSrc = (SHandleSourceMgr *)cinfo->src;
@@ -2183,7 +2183,7 @@ void    JPEG_SetSource(j_decompress_ptr cinfo, CFileHandle *pFile)
     pSrc->pub.resync_to_restart = jpeg_resync_to_restart;   // use default method
     pSrc->pub.term_source = JPEG_TermSource;
     pSrc->pub.bytes_in_buffer = 0;                          // forces fill_input_buffer on first read
-    pSrc->pub.next_input_byte = NULL;                       // until buffer loaded
+    pSrc->pub.next_input_byte = nullptr;                       // until buffer loaded
     pSrc->pFile = pFile;
 }
 
@@ -2344,7 +2344,7 @@ bool    CBitmap::WriteJPEG(const tstring &sFilename, int quality)
   ====================*/
 bool    CBitmap::LoadJPEG(const tstring &sFilename, bool bMonoAsAlpha)
 {
-    if (m_pData != NULL)
+    if (m_pData != nullptr)
         Free();
 
     jpeg_decompress_struct  cinfo;
@@ -2475,10 +2475,10 @@ int     GIF_Read(GifFileType *GifFile, GifByteType *pBuffer, int iSize)
   ====================*/
 bool    CBitmap::LoadGIF(const tstring &sFilename)
 {
-    if (m_pData != NULL)
+    if (m_pData != nullptr)
         Free();
 
-    GifFileType *GifFile(NULL);
+    GifFileType *GifFile(nullptr);
 
     try
     {
@@ -2488,7 +2488,7 @@ bool    CBitmap::LoadGIF(const tstring &sFilename)
 
         int iError = 0;
         GifFileType *GifFile(DGifOpen(&hFile, GIF_Read, &iError));
-        if (GifFile == NULL)
+        if (GifFile == nullptr)
             EX_ERROR(_T("DGifOpen failed"));
 
         if (DGifSlurp(GifFile) == GIF_ERROR)
@@ -2499,7 +2499,7 @@ bool    CBitmap::LoadGIF(const tstring &sFilename)
 
         ColorMapObject *pColormap(GifFile->SColorMap);
 
-        if (pColormap == NULL || pColormap->BitsPerPixel != 8)
+        if (pColormap == nullptr || pColormap->BitsPerPixel != 8)
             EX_ERROR(_T("No colormap"));
 
         int iTransparentIndex(-1);
@@ -2587,7 +2587,7 @@ bool    CBitmap::LoadGIF(const tstring &sFilename)
     }
     catch (CException &ex)
     {
-        if (GifFile != NULL) {
+        if (GifFile != nullptr) {
             int iError = 0;
             DGifCloseFile(GifFile, &iError);
         }

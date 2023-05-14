@@ -84,7 +84,7 @@ uint    CItemDefinition::GetTotalCost(uint uiIndex) const
     for (tsvector_cit it(vComponents.begin()); it != vComponents.end(); ++it)
     {
         CItemDefinition *pComponentDef(EntityRegistry.GetDefinition<CItemDefinition>(*it));
-        if (pComponentDef == NULL)
+        if (pComponentDef == nullptr)
             continue;
 
         uiCost += pComponentDef->GetTotalCost();
@@ -101,7 +101,7 @@ uint    CItemDefinition::Assemble(IUnitEntity *pOwner, int iSlot) const
 {
     static vector<IEntityItem*> s_vComponentItems;
 
-    if (pOwner == NULL)
+    if (pOwner == nullptr)
         return -1;
 
     bool bComplete(false);
@@ -112,7 +112,7 @@ uint    CItemDefinition::Assemble(IUnitEntity *pOwner, int iSlot) const
     uint uiEndSlot(bInStash ? INVENTORY_STASH_PROVISIONAL : INVENTORY_BACKPACK_PROVISIONAL);
 
     IEntityItem *pBaseItem(pOwner->GetItem(iSlot));
-    int iPurchaserClientNumber(pBaseItem != NULL ? pBaseItem->GetPurchaserClientNumber() : -1);
+    int iPurchaserClientNumber(pBaseItem != nullptr ? pBaseItem->GetPurchaserClientNumber() : -1);
 
     // Check each component list
     uint uiIndex(0);
@@ -136,7 +136,7 @@ uint    CItemDefinition::Assemble(IUnitEntity *pOwner, int iSlot) const
             for (uint uiSlot(uiStartSlot); uiSlot <= uiEndSlot; ++uiSlot)
             {
                 IEntityItem *pItem(pOwner->GetItem(uiSlot));
-                if (pItem == NULL || pItem->GetType() != unTypeID || !pItem->HasFlag(ENTITY_TOOL_FLAG_ASSEMBLED))
+                if (pItem == nullptr || pItem->GetType() != unTypeID || !pItem->HasFlag(ENTITY_TOOL_FLAG_ASSEMBLED))
                     continue;
                 if (pItem->GetPurchaserClientNumber() != -1 && pItem->GetPurchaserClientNumber() != iPurchaserClientNumber)
                     continue;

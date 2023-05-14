@@ -31,7 +31,7 @@ CEventCmdRegistry*  CEventCmdRegistry::GetInstance()
 {
     assert(!s_bReleased);
 
-    if (s_pInstance == NULL)
+    if (s_pInstance == nullptr)
     {
         assert(!s_bRequested);
         s_bRequested = true;
@@ -49,7 +49,7 @@ void    CEventCmdRegistry::Release()
 {
     assert(!s_bReleased);
 
-    if (s_pInstance != NULL)
+    if (s_pInstance != nullptr)
         K2_DELETE(s_pInstance);
 
     s_bReleased = true;

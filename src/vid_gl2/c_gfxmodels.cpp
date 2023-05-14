@@ -94,7 +94,7 @@ CGfxModels::CGfxModels()
   ====================*/
 bool    CGfxModels::AddK2ModelToLists(CK2Model *pModel, const CSceneEntity &cEntity, EMaterialPhase ePhase)
 {
-    if (pModel == NULL)
+    if (pModel == nullptr)
         return false;
 
     if (vid_lodUse && pModel->GetNumLods() && pModel->GetLodDistance() > 0.0f)
@@ -452,7 +452,7 @@ int     CGfxModels::RegisterModel(class CModel *pModel)
 void    CGfxModels::UnregisterModel(class CModel *pModel)
 {
     IModel* pModelFile(pModel->GetModelFile());
-    if (pModelFile != NULL)
+    if (pModelFile != nullptr)
     {
         switch (pModelFile->GetType())
         {
@@ -480,11 +480,11 @@ bool    CGfxModels::AddModelToLists(const CSceneEntity &cEntity, EMaterialPhase 
     {
         // Grab the scene object's model and decide what to do with it
         CModel* pModelResource(g_ResourceManager.GetModel(cEntity.hRes));
-        if (pModelResource == NULL)
+        if (pModelResource == nullptr)
             EX_ERROR(_T("Invalid model handle"));
 
         IModel *pModel(pModelResource->GetModelFile());
-        if (pModel == NULL)
+        if (pModel == nullptr)
             EX_ERROR(_T("Couldn't retrieve model data"));
 
         switch (pModel->GetType())
@@ -637,7 +637,7 @@ bool    CGfxModels::RegisterK2Model(CK2Model *pModel)
 
         glGenBuffersARB(1, &VBMeshes[i]);
         glBindBufferARB(GL_ARRAY_BUFFER_ARB, VBMeshes[i]);
-        glBufferDataARB(GL_ARRAY_BUFFER_ARB, pMesh->num_verts * pMesh->vertexStride, NULL, GL_STATIC_DRAW_ARB);
+        glBufferDataARB(GL_ARRAY_BUFFER_ARB, pMesh->num_verts * pMesh->vertexStride, nullptr, GL_STATIC_DRAW_ARB);
 
         byte* pVertices = (byte*)glMapBufferARB(GL_ARRAY_BUFFER_ARB, GL_WRITE_ONLY);
 
@@ -676,9 +676,9 @@ bool    CGfxModels::RegisterK2Model(CK2Model *pModel)
             {
                 vec4_t  *p = (vec4_t *)(&pVertices[v * pMesh->vertexStride + tan_offset + (m * sizeof(vec4_t))]);
 
-                if (pMesh->tangents[m] != NULL)
+                if (pMesh->tangents[m] != nullptr)
                 {
-                    if (pMesh->signs[m] != NULL)
+                    if (pMesh->signs[m] != nullptr)
                     {
                         M_SetVec4(*p,
                             pMesh->tangents[m][v][0],
@@ -784,7 +784,7 @@ bool    CGfxModels::RegisterK2Model(CK2Model *pModel)
         
         glGenBuffersARB(1, &IBMeshes[i]);
         glBindBufferARB(GL_ELEMENT_ARRAY_BUFFER, IBMeshes[i]);
-        glBufferDataARB(GL_ELEMENT_ARRAY_BUFFER, pMesh->numFaces * 3 * sizeof(GLushort), NULL, GL_STATIC_DRAW_ARB);
+        glBufferDataARB(GL_ELEMENT_ARRAY_BUFFER, pMesh->numFaces * 3 * sizeof(GLushort), nullptr, GL_STATIC_DRAW_ARB);
 
         GLushort* dataIB = (GLushort*)glMapBufferARB(GL_ELEMENT_ARRAY_BUFFER, GL_WRITE_ONLY);
         for (int n = 0; n < pMesh->numFaces; ++n)
@@ -830,7 +830,7 @@ bool    CGfxModels::RegisterK2Model(CK2Model *pModel)
 
             glGenBuffersARB(1, &DBMeshes[i]);
             glBindBufferARB(GL_ARRAY_BUFFER_ARB, DBMeshes[i]);
-            glBufferDataARB(GL_ARRAY_BUFFER_ARB, pMesh->num_verts * iVertexStride, NULL, GL_STREAM_DRAW_ARB);
+            glBufferDataARB(GL_ARRAY_BUFFER_ARB, pMesh->num_verts * iVertexStride, nullptr, GL_STREAM_DRAW_ARB);
         }
     }
 
@@ -875,7 +875,7 @@ int     CGfxModels::RegisterTreeModel(CTreeModel *pModel)
 
     try
     {
-        if (pNewTreeDef == NULL)
+        if (pNewTreeDef == nullptr)
             throw _TS("Failed to allocate new CTreeModelDef");
 
         if (!pNewTreeDef->IsValid())
@@ -886,7 +886,7 @@ int     CGfxModels::RegisterTreeModel(CTreeModel *pModel)
     }
     catch (const tstring &sReason)
     {
-        if (pNewTreeDef != NULL)
+        if (pNewTreeDef != nullptr)
             K2_DELETE(pNewTreeDef);
         Console.Err << _T("CGfxModels::RegisterTreeModel - ") << ParenStr(pModel->GetName()) << _T(" - ") << sReason << newl;
         return 0;

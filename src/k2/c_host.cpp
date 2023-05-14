@@ -135,7 +135,7 @@ CHost::~CHost()
   CHost::CHost
   ====================*/
 CHost::CHost() :
-m_pHTTPManager(NULL),
+m_pHTTPManager(nullptr),
 
 m_uiThisFrameEnd(0),
 m_fThisFrameEndSeconds(0.0f),
@@ -151,9 +151,9 @@ m_bReplay(false),
 m_bShowVersionStamp(false),
 m_uiVersionStampTime(INVALID_TIME),
 
-m_pServer(NULL),
-m_pCurrentClient(NULL),
-m_pInterfaceExt(NULL),
+m_pServer(nullptr),
+m_pCurrentClient(nullptr),
+m_pInterfaceExt(nullptr),
 m_uiActiveClient(-1),
 m_uiNextClientID(0),
 
@@ -197,7 +197,7 @@ void    CHost::DrawVersionStamp()
         // Get the font
         ResHandle hFont(g_ResourceManager.LookUpName(_T("system_medium"), RES_FONTMAP));
         CFontMap *pFontMap(g_ResourceManager.GetFontMap(hFont));
-        if (pFontMap == NULL)
+        if (pFontMap == nullptr)
             return;
 
         float fAlpha(1.0f - (uiTime / float(VERSION_STAMP_FADE_TIME)));
@@ -233,7 +233,7 @@ void    CHost::DrawVersionStamp()
 void    CHost::DrawInfoStrings()
 {
     ResHandle hFont(INVALID_RESOURCE);
-    CFontMap *pFontMap(NULL);
+    CFontMap *pFontMap(nullptr);
 
     if (host_drawFPS || host_drawActiveClient)
     {
@@ -243,7 +243,7 @@ void    CHost::DrawInfoStrings()
     }
 
     // FPS
-    if (host_drawFPS > 2 && pFontMap != NULL)
+    if (host_drawFPS > 2 && pFontMap != nullptr)
     {
         tstring sString;
         if (host_drawFPS == 4)
@@ -263,7 +263,7 @@ void    CHost::DrawInfoStrings()
         Draw2D.SetColor(WHITE);
         Draw2D.String(Draw2D.GetScreenW() - fWidth - 6.0f, 2.0f, fWidth, pFontMap->GetMaxHeight(), sString, hFont);
     }
-    else if (host_drawFPS && pFontMap != NULL)
+    else if (host_drawFPS && pFontMap != nullptr)
     {
         tstring sString;
         if (host_drawFPS == 2)
@@ -290,7 +290,7 @@ void    CHost::DrawInfoStrings()
     }
 
     // Active client
-    if (host_drawActiveClient && pFontMap != NULL)
+    if (host_drawActiveClient && pFontMap != nullptr)
     {
         tstring sString(XtoA(signed(GetActiveClientIndex()), FMT_PADZERO, 2));
         float fWidth(pFontMap->GetStringWidth(sString));
@@ -345,7 +345,7 @@ void    CHost::Init(const tstring &sGame)
 #ifdef K2_TRACK_MEM
         physx::shdfnd2::createMemoryTracker("MemoryTracker");
 #ifdef WIN32
-        assert(physx::shdfnd2::gMemoryTracker != NULL);
+        assert(physx::shdfnd2::gMemoryTracker != nullptr);
 #endif
         if (physx::shdfnd2::gMemoryTracker)
             physx::shdfnd2::gMemoryTracker->setLogLevel(false, false);
@@ -469,7 +469,7 @@ void    CHost::Init(const tstring &sGame)
         }
 
         PrintInitDebugInfo(_T("Loading Standard Resources..."));    
-        // Load NULL model and other standard resources
+        // Load nullptr model and other standard resources
         g_ResourceManager.RegisterStandardResources();
         PrintInitDebugInfo(_T("Finished Loading Standard Resources..."));
 
@@ -835,7 +835,7 @@ void    CHost::Frame(uint uiTickLength)
         Console.Frame();
 
         // Server Frame
-        if (m_pServer != NULL)
+        if (m_pServer != nullptr)
         {
             bool worldLoaded(false);
             for (map<uint, CHostClient*>::iterator it(m_mapClients.begin()); it != m_mapClients.end(); ++it)
@@ -898,7 +898,7 @@ void    CHost::Frame(uint uiTickLength)
                 if (itActive != m_mapClients.end())
                     itActive->second->SetGamePointer();
 
-                m_pCurrentClient = NULL;
+                m_pCurrentClient = nullptr;
             }
 
             UIManager.Frame(uiTickLength);
@@ -1011,7 +1011,7 @@ bool    CHost::StartServer(const tstring &sName, const tstring &sGameSettings, b
 {
     try
     {
-        if (m_pServer != NULL)
+        if (m_pServer != nullptr)
         {
             Console.Warn << _T("Shutting down active server...") << newl;
             StopServer(true);
@@ -1030,7 +1030,7 @@ bool    CHost::StartServer(const tstring &sName, const tstring &sGameSettings, b
     {
         ex.Process(_T("CHost::StartServer() - "), NO_THROW);
 
-        if (m_pServer != NULL)
+        if (m_pServer != nullptr)
             StopServer(true);
 
         return false;
@@ -1051,7 +1051,7 @@ bool    CHost::StartReplay(const tstring &sFilename)
             return false;
         }
 
-        if (m_pServer != NULL)
+        if (m_pServer != nullptr)
         {
             Console.Warn << _T("Shutting down active server...") << newl;
             StopServer(true);
@@ -1086,7 +1086,7 @@ void    CHost::StopReplay()
     if (!m_bReplay)
         return;
 
-    if (m_pServer != NULL)
+    if (m_pServer != nullptr)
     {
         m_pServer->StopReplay();
         Console.Warn << _T("Shutting down active server...") << newl;
@@ -1132,11 +1132,11 @@ bool    CHost::StartClient(const tstring &sModStack)
                 Console.ExecuteScript(_T("/init.cfg"));
 
             Vid.ChangeMode(-1);
-            Vid.Notify(VID_NOTIFY_RELOAD_SHADER_CACHE, 0, 0, 0, NULL);
+            Vid.Notify(VID_NOTIFY_RELOAD_SHADER_CACHE, 0, 0, 0, nullptr);
         }
 
         CHostClient *pNewClient(K2_NEW(ctx_Host,  CHostClient)(m_uiNextClientID, m_pHTTPManager));
-        if (pNewClient == NULL)
+        if (pNewClient == nullptr)
             EX_ERROR(_T("Failed to allocate a client"));
 
         Vid.OpenTextureArchive(true);   // TODO: intelligently reload textures here
@@ -1221,7 +1221,7 @@ void    CHost::PrevClient()
   ====================*/
 void    CHost::StopServer(bool bFreeResources)
 {
-    if (m_pServer != NULL)
+    if (m_pServer != nullptr)
     {
         m_pServer->SetGamePointer();
         SAFE_DELETE(m_pServer);
@@ -1373,7 +1373,7 @@ void    CHost::Reconnect()
 void    CHost::LoadAllClientResources()
 {
     CHostClient *pActiveClient(GetActiveClient());
-    if (pActiveClient != NULL)
+    if (pActiveClient != nullptr)
     {
         pActiveClient->SetGamePointer();
         pActiveClient->LoadAllResources();
@@ -1463,7 +1463,7 @@ void    CHost::StartGame(const tstring &sType, const tstring &sName, const tstri
 void    CHost::PreloadWorld(const tstring &sWorldName)
 {
     CHostClient *pActiveClient(GetActiveClient());
-    if (pActiveClient == NULL)
+    if (pActiveClient == nullptr)
         return;
 
     pActiveClient->SetGamePointer();
@@ -1477,7 +1477,7 @@ void    CHost::PreloadWorld(const tstring &sWorldName)
   ====================*/
 void    CHost::BanClient(int iClientNum, int iTime, const tstring &sReason)
 {
-    if (m_pServer == NULL)
+    if (m_pServer == nullptr)
     {
         Console << _T("No active server") << newl;
         return;
@@ -1507,7 +1507,7 @@ iset    CHost::GetAccountIDs()
 
     setIDs.clear();
 
-    if (m_pServer == NULL)
+    if (m_pServer == nullptr)
     {
         Console << _T("No active server") << newl;
         return setIDs;
@@ -1522,7 +1522,7 @@ iset    CHost::GetAccountIDs()
   ====================*/
 int CHost::GetClientNumFromAccountID(int iAccountID)
 {
-    if (m_pServer == NULL)
+    if (m_pServer == nullptr)
     {
         Console << _T("No active server") << newl;
         return -1;
@@ -1537,7 +1537,7 @@ int CHost::GetClientNumFromAccountID(int iAccountID)
   ====================*/
 int     CHost::GetNumActiveClients()
 {
-    if (m_pServer == NULL)
+    if (m_pServer == nullptr)
     {
         Console << _T("No active server") << newl;
         return -1;

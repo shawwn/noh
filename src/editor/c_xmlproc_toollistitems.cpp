@@ -31,7 +31,7 @@ BEGIN_XML_REGISTRATION(toollistitems)
 END_XML_REGISTRATION
 BEGIN_XML_PROCESSOR(toollistitems, IWidget)
     CInterface *pInterface(pObject->GetInterface());
-    if (pInterface == NULL)
+    if (pInterface == nullptr)
     {
         Console.Err << _T("Invalid interface for <dirlistitems>") << m_sElementName << newl;
         return false;
@@ -66,7 +66,7 @@ BEGIN_XML_PROCESSOR(toollistitems, IWidget)
     for (ToolNameMap::const_iterator it(mapTools.begin()); it != mapTools.end(); ++it)
     {
         // Create new listitem
-        CListItem *pNewListItem(K2_NEW(ctx_Editor,   CListItem)(pInterface, NULL, style));
+        CListItem *pNewListItem(K2_NEW(ctx_Editor,   CListItem)(pInterface, nullptr, style));
 
         // Fill new listitem
         CLabel *pNewLabel(K2_NEW(ctx_Editor,   CLabel)(pInterface, pNewListItem, style));

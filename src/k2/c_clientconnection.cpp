@@ -136,10 +136,10 @@ m_uiLastAuthSuccess(INVALID_TIME),
 m_uiAuthRequestTime(INVALID_TIME),
 
 #ifndef K2_CLIENT
-m_pAuthenticateRequest(NULL),
-m_pValidateMatchKeyRequest(NULL),
-m_pRefreshUpgradesRequest(NULL),
-m_pRecentMatchStatsRequest(NULL),
+m_pAuthenticateRequest(nullptr),
+m_pValidateMatchKeyRequest(nullptr),
+m_pRefreshUpgradesRequest(nullptr),
+m_pRecentMatchStatsRequest(nullptr),
 m_bForceTermination(false),
 #endif
 
@@ -149,7 +149,7 @@ m_uiLastAckedStream(0),
 m_bRefreshUpgrades(false),
 m_uiLastRefreshUpgradesTime(INVALID_TIME)
 {
-    assert(m_pHostServer != NULL);
+    assert(m_pHostServer != nullptr);
 
     m_sockGame.Init(sockGame);
     m_sockGame.SetSendAddr(sAddress, unPort);
@@ -590,7 +590,7 @@ void    CClientConnection::SendStateStrings()
                 {
                     PROFILE("Statestring compression");
 
-                    byte* pCompressed(NULL);
+                    byte* pCompressed(nullptr);
                     uint uiResultLength(CZip::Compress((const byte*)m_bufferStateString.Get(), m_uiUncompressedStateStringLength, pCompressed));
                     m_bufferStateString.Write(pCompressed, uiResultLength);
                     SAFE_DELETE_ARRAY(pCompressed);
@@ -720,7 +720,7 @@ void    CClientConnection::SendStateBlocks()
                 {
                     PROFILE("Stateblock compression");
 
-                    byte* pCompressed(NULL);
+                    byte* pCompressed(nullptr);
                     uint uiResultLength(CZip::Compress((const byte*)m_bufferStateBlock.Get(), m_uiUncompressedStateBlockLength, pCompressed));
                     m_bufferStateBlock.Write(pCompressed, uiResultLength);
                     SAFE_DELETE_ARRAY(pCompressed);
@@ -990,7 +990,7 @@ void    CClientConnection::WriteSnapshot(PoolHandle hSnapshot)
     {
         PROFILE("Snapshot compression");
 
-        byte* pCompressed(NULL);
+        byte* pCompressed(nullptr);
         uint uiResultLength(CZip::Compress((const byte*)m_cBufferSnapshot.Get(), m_uiUncompressedSnapshotLength, pCompressed));
         m_cBufferSnapshot.Write(pCompressed, uiResultLength);
         SAFE_DELETE_ARRAY(pCompressed);
@@ -1109,7 +1109,7 @@ void    CClientConnection::ConverseWithMasterServer()
 
         m_pHTTPManager->ReleaseRequest(m_pRefreshUpgradesRequest);
         m_pRefreshUpgradesRequest = m_pHTTPManager->SpawnRequest();
-        if (m_pRefreshUpgradesRequest != NULL)
+        if (m_pRefreshUpgradesRequest != nullptr)
         {
             m_pRefreshUpgradesRequest->SetTargetURL(m_pHostServer->GetMasterServerURL());
             m_pRefreshUpgradesRequest->AddVariable(_T("f"), _T("get_upgrades"));
@@ -1118,19 +1118,19 @@ void    CClientConnection::ConverseWithMasterServer()
         }
     }
 
-    if (m_pRefreshUpgradesRequest != NULL && !m_pRefreshUpgradesRequest->IsActive())
+    if (m_pRefreshUpgradesRequest != nullptr && !m_pRefreshUpgradesRequest->IsActive())
     {
         if (m_pRefreshUpgradesRequest->WasSuccessful())
         {
             CPHPData phpResponse(m_pRefreshUpgradesRequest->GetResponse());
 
             const CPHPData *pMyUpgrades(phpResponse.GetVar(_T("my_upgrades")));
-            if (pMyUpgrades != NULL)
+            if (pMyUpgrades != nullptr)
             {
                 uint uiNum(0);
                 const CPHPData *pUpgrade(pMyUpgrades->GetVar(uiNum++));
 
-                while (pUpgrade != NULL)
+                while (pUpgrade != nullptr)
                 {
                     m_setAvailableUpgrades.insert(pUpgrade->GetString());
                     pUpgrade = pMyUpgrades->GetVar(uiNum++);
@@ -1138,12 +1138,12 @@ void    CClientConnection::ConverseWithMasterServer()
             }
 
             const CPHPData *pSelectedUpgrades(phpResponse.GetVar(_T("selected_upgrades")));
-            if (pSelectedUpgrades != NULL)
+            if (pSelectedUpgrades != nullptr)
             {
                 uint uiNum(0);
                 const CPHPData *pUpgrade(pSelectedUpgrades->GetVar(uiNum++));
 
-                while (pUpgrade != NULL)
+                while (pUpgrade != nullptr)
                 {
                     tstring sType(Upgrade_GetType(pUpgrade->GetString()));
 
@@ -1156,10 +1156,10 @@ void    CClientConnection::ConverseWithMasterServer()
         }
 
         m_pHTTPManager->ReleaseRequest(m_pRefreshUpgradesRequest);
-        m_pRefreshUpgradesRequest = NULL;
+        m_pRefreshUpgradesRequest = nullptr;
     }
 
-    if (m_pRecentMatchStatsRequest != NULL && !m_pRecentMatchStatsRequest->IsActive())
+    if (m_pRecentMatchStatsRequest != nullptr && !m_pRecentMatchStatsRequest->IsActive())
     {
         if (m_pRecentMatchStatsRequest->WasSuccessful())
         {
@@ -1168,14 +1168,14 @@ void    CClientConnection::ConverseWithMasterServer()
             const CPHPData *pInfos(phpResponse.GetVar(_T("infos")));
 
             // Grab infos
-            if (pInfos != NULL && pInfos->GetVar(_T("error")) == NULL)
+            if (pInfos != nullptr && pInfos->GetVar(_T("error")) == nullptr)
                 pInfos = pInfos->GetVar(0);
 
             m_pHostServer->ProcessAuxData(GetClientNum(), pInfos);
         }
 
         m_pHTTPManager->ReleaseRequest(m_pRecentMatchStatsRequest);
-        m_pRecentMatchStatsRequest = NULL;
+        m_pRecentMatchStatsRequest = nullptr;
     }
 }
 #endif
@@ -1192,7 +1192,7 @@ void    CClientConnection::SendAuthRequest()
 
     m_pHTTPManager->ReleaseRequest(m_pAuthenticateRequest);
     m_pAuthenticateRequest = m_pHTTPManager->SpawnRequest();
-    if (m_pAuthenticateRequest == NULL)
+    if (m_pAuthenticateRequest == nullptr)
         return;
 
     SetFlags(CLIENT_CONNECTION_AUTH_REQUESTED);
@@ -1239,7 +1239,7 @@ void    CClientConnection::CheckAuthResult()
         Console.Warn << _T("Re-auth request for ") << SingleQuoteStr(m_sName) << _T(" failed") << newl;
         m_uiLastAuthSuccess = Host.GetTime();
         m_pHTTPManager->ReleaseRequest(m_pAuthenticateRequest);
-        m_pAuthenticateRequest = NULL;
+        m_pAuthenticateRequest = nullptr;
         return;
     }
 
@@ -1249,7 +1249,7 @@ void    CClientConnection::CheckAuthResult()
     CPHPData phpResponse(sResponse);
 
     m_pHTTPManager->ReleaseRequest(m_pAuthenticateRequest);
-    m_pAuthenticateRequest = NULL;
+    m_pAuthenticateRequest = nullptr;
 
     // Check for a valid account id
     int iAccountID(phpResponse.GetInteger(_T("account_id"), -1));
@@ -1279,14 +1279,14 @@ void    CClientConnection::CheckAuthResult()
 
     // Grab infos
     const CPHPData *pInfos(phpResponse.GetVar(_T("infos")));
-    if (pInfos != NULL && pInfos->GetVar(_T("error")) == NULL)
+    if (pInfos != nullptr && pInfos->GetVar(_T("error")) == nullptr)
     {
         if (sTag.empty())
             sTag = pInfos->GetString(_T("tag"));
 
         pInfos = pInfos->GetVar(0);
 
-        if (pInfos != NULL)
+        if (pInfos != nullptr)
         {
             iLevel = pInfos->GetInteger(_T("level"));
             iRank = pInfos->GetInteger(_T("acc_pub_skill"));
@@ -1330,12 +1330,12 @@ void    CClientConnection::CheckAuthResult()
         sNickname = _T("[") + sTag + _T("]") + phpResponse.GetString(_T("nickname"));
 
     const CPHPData *pMyUpgrades(phpResponse.GetVar(_T("my_upgrades")));
-    if (pMyUpgrades != NULL)
+    if (pMyUpgrades != nullptr)
     {
         uint uiNum(0);
         const CPHPData *pUpgrade(pMyUpgrades->GetVar(uiNum++));
 
-        while (pUpgrade != NULL)
+        while (pUpgrade != nullptr)
         {
             m_setAvailableUpgrades.insert(pUpgrade->GetString());
             pUpgrade = pMyUpgrades->GetVar(uiNum++);
@@ -1343,12 +1343,12 @@ void    CClientConnection::CheckAuthResult()
     }
 
     const CPHPData *pSelectedUpgrades(phpResponse.GetVar(_T("selected_upgrades")));
-    if (pSelectedUpgrades != NULL)
+    if (pSelectedUpgrades != nullptr)
     {
         uint uiNum(0);
         const CPHPData *pUpgrade(pSelectedUpgrades->GetVar(uiNum++));
 
-        while (pUpgrade != NULL)
+        while (pUpgrade != nullptr)
         {
             tstring sType(Upgrade_GetType(pUpgrade->GetString()));
 
@@ -1386,7 +1386,7 @@ void    CClientConnection::CheckAuthResult()
 
     m_pHTTPManager->ReleaseRequest(m_pRecentMatchStatsRequest);
     m_pRecentMatchStatsRequest = m_pHTTPManager->SpawnRequest();
-    if (m_pRecentMatchStatsRequest != NULL)
+    if (m_pRecentMatchStatsRequest != nullptr)
     {
         m_pRecentMatchStatsRequest->SetTargetURL(m_pHostServer->GetMasterServerURL());
         m_pRecentMatchStatsRequest->AddVariable(_T("f"), _T("get_quickstats"));
@@ -1489,7 +1489,7 @@ void    CClientConnection::ValidateMatchKey()
     {
         m_pHTTPManager->ReleaseRequest(m_pValidateMatchKeyRequest);
         m_pValidateMatchKeyRequest = m_pHTTPManager->SpawnRequest();
-        if (m_pValidateMatchKeyRequest != NULL)
+        if (m_pValidateMatchKeyRequest != nullptr)
         {
             m_pValidateMatchKeyRequest->SetTargetURL(m_pHostServer->GetMasterServerURL());
             m_pValidateMatchKeyRequest->AddVariable(_T("f"), _T("accept_key"));
@@ -1500,14 +1500,14 @@ void    CClientConnection::ValidateMatchKey()
         }
     }
 
-    if (m_pValidateMatchKeyRequest == NULL || m_pValidateMatchKeyRequest->IsActive())
+    if (m_pValidateMatchKeyRequest == nullptr || m_pValidateMatchKeyRequest->IsActive())
         return;
 
     if (m_pValidateMatchKeyRequest->WasSuccessful())
     {
         CPHPData phpResponse(m_pValidateMatchKeyRequest->GetResponse());
         const CPHPData *pServerID(phpResponse.GetVar(_T("server_id")));
-        if (pServerID == NULL)
+        if (pServerID == nullptr)
         {
             Console << _T("Could not validate match key") << newl;
         }
@@ -1521,7 +1521,7 @@ void    CClientConnection::ValidateMatchKey()
     }
 
     m_pHTTPManager->ReleaseRequest(m_pValidateMatchKeyRequest);
-    m_pValidateMatchKeyRequest = NULL;
+    m_pValidateMatchKeyRequest = nullptr;
     ClearMatchKey();
 }
 #endif
@@ -1573,9 +1573,9 @@ void    CClientConnection::Disconnect(const tstring &sReason)
 
 #ifndef K2_CLIENT
     m_pHTTPManager->ReleaseRequest(m_pAuthenticateRequest);
-    m_pAuthenticateRequest = NULL;
+    m_pAuthenticateRequest = nullptr;
     m_pHTTPManager->ReleaseRequest(m_pValidateMatchKeyRequest);
-    m_pValidateMatchKeyRequest = NULL;
+    m_pValidateMatchKeyRequest = nullptr;
 #endif
 
     if (m_eConnectionState == CLIENT_CONNECTION_STATE_DISCONNECTED)

@@ -191,7 +191,7 @@ void    CSceneStats::Draw()
 
     ResHandle hFont(g_ResourceManager.LookUpName(_T("system_medium"), RES_FONTMAP));
     CFontMap *pFontMap(g_ResourceManager.GetFontMap(hFont));
-    if (pFontMap == NULL)
+    if (pFontMap == nullptr)
         return;
 
     const float FONT_WIDTH = pFontMap->GetFixedAdvance();

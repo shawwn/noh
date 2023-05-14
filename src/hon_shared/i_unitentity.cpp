@@ -144,7 +144,7 @@ DEFINE_ENTITY_DESC(IUnitEntity, 1)
   ====================*/
 IUnitEntity::~IUnitEntity()
 {
-    if (IGame::GetCurrentGamePointer() == NULL)
+    if (IGame::GetCurrentGamePointer() == nullptr)
         return;
 
     if (m_uiWorldIndex != INVALID_INDEX && Game.WorldEntityExists(m_uiWorldIndex))
@@ -158,14 +158,14 @@ IUnitEntity::~IUnitEntity()
     // Delete entire inventory
     for (int iSlot(0); iSlot < MAX_INVENTORY; ++iSlot)
     {
-        if (m_apInventory[iSlot] == NULL)
+        if (m_apInventory[iSlot] == nullptr)
             continue;
 
         Game.DeleteEntity(m_apInventory[iSlot]);
-        m_apInventory[iSlot] = NULL;
+        m_apInventory[iSlot] = nullptr;
     }
 
-    m_pMorphState = NULL;
+    m_pMorphState = nullptr;
 }
 
 
@@ -228,14 +228,14 @@ m_fMovementDistance(0.0f),
 m_uiDisjointSequence(0),
 m_uiOrderDisjointSequence(0),
 m_uiArmingSequence(0),
-m_pMount(NULL),
+m_pMount(nullptr),
 m_uiIdleStartTime(INVALID_TIME),
 m_fCurrentDamage(0.0f),
 m_eCurrentDamageSuperType(SUPERTYPE_INVALID),
 m_uiCurrentDamageEffectType(0),
 m_hDeathEffect(INVALID_RESOURCE),
 m_uiLastHeroAttackTime(INVALID_TIME),
-m_pMorphState(NULL),
+m_pMorphState(nullptr),
 m_uiControllerUID(INVALID_INDEX),
 m_uiFadeStartTime(INVALID_TIME),
 m_uiProxyUID(INVALID_INDEX),
@@ -262,7 +262,7 @@ m_bIsTower(false),
 m_bIsKongor(false)
 {
     for (int i(0); i < MAX_INVENTORY; ++i)
-        m_apInventory[i] = NULL;
+        m_apInventory[i] = nullptr;
 
     m_uiLinkFlags = SURF_UNIT;
 
@@ -408,7 +408,7 @@ bool    IUnitEntity::ReadSnapshot(CEntitySnapshot &snapshot, uint uiVersion)
 
 #if 1 // Temporary hack to exponge restricted data
         CPlayer *pLocalPlayer(Game.GetLocalPlayer());
-        if (pLocalPlayer != NULL && pLocalPlayer->GetTeam() != TEAM_SPECTATOR && pLocalPlayer->GetTeam() != GetTeam())
+        if (pLocalPlayer != nullptr && pLocalPlayer->GetTeam() != TEAM_SPECTATOR && pLocalPlayer->GetTeam() != GetTeam())
         {
             m_unUnitFlags &= ~UNIT_FLAG_ILLUSION;
             m_uiSpawnTime = INVALID_TIME;
@@ -434,7 +434,7 @@ void    IUnitEntity::Damage(CDamageEvent &damage)
     // Allow inventory items to react to damage
     for (int iSlot(INVENTORY_START_ACTIVE); iSlot <= INVENTORY_END_ACTIVE; ++iSlot)
     {
-        if (m_apInventory[iSlot] == NULL)
+        if (m_apInventory[iSlot] == nullptr)
             continue;
 
         if (!m_apInventory[iSlot]->OwnerDamaged(damage))
@@ -443,7 +443,7 @@ void    IUnitEntity::Damage(CDamageEvent &damage)
 
     // Apply damage multipliers
     IUnitEntity *pAttacker(Game.GetUnitEntity(damage.GetAttackerIndex()));
-    float fInflictDamageMultipler(pAttacker != NULL && damage.GetSuperType() == SUPERTYPE_ATTACK ? pAttacker->GetInflictDamageMultiplier() : 1.0f);
+    float fInflictDamageMultipler(pAttacker != nullptr && damage.GetSuperType() == SUPERTYPE_ATTACK ? pAttacker->GetInflictDamageMultiplier() : 1.0f);
 
     float fOldDamage(m_fCurrentDamage);
     ESuperType eOldSuperType(m_eCurrentDamageSuperType);
@@ -469,7 +469,7 @@ void    IUnitEntity::Damage(CDamageEvent &damage)
         for (uiset_it it(m_setSoulLinks.begin()); it != m_setSoulLinks.end(); ++it)
         {
             IUnitEntity *pUnit(Game.GetUnitEntity(Game.GetGameIndexFromUniqueID(*it)));
-            if (pUnit == NULL)
+            if (pUnit == nullptr)
                 continue;
 
             pUnit->Damage(dmgLink);
@@ -477,7 +477,7 @@ void    IUnitEntity::Damage(CDamageEvent &damage)
     }
 
     // Track damage
-    if (pAttacker != NULL)
+    if (pAttacker != nullptr)
     {
         // Per-frame tracking, for kill credit
         m_vFrameDamageTrackers.push_back(SDamageTrackerFrame(pAttacker->GetUniqueID(), m_fCurrentDamage));
@@ -487,7 +487,7 @@ void    IUnitEntity::Damage(CDamageEvent &damage)
         if (pAttacker->GetOwnerClientNumber() != -1)
         {
             IGameEntity *pInflictor(Game.GetEntity(damage.GetInflictorIndex()));
-            ushort unInflictorType(pInflictor == NULL ? INVALID_ENT_TYPE : pInflictor->GetType());
+            ushort unInflictorType(pInflictor == nullptr ? INVALID_ENT_TYPE : pInflictor->GetType());
 
             LogDamageVector_it it(m_vLogDamageTrackers.begin());
             uint uiOldestTime(INVALID_TIME);
@@ -532,7 +532,7 @@ void    IUnitEntity::Damage(CDamageEvent &damage)
 
     Action(ACTION_SCRIPT_DAMAGED, pAttacker, Game.GetEntity(damage.GetInflictorIndex()));
 
-    if (pAttacker != NULL)
+    if (pAttacker != nullptr)
     {
         float fOldAttackerDamage(pAttacker->GetCurrentDamage());
 
@@ -553,24 +553,24 @@ void    IUnitEntity::Damage(CDamageEvent &damage)
     if (m_fCurrentDamage > 0.0f)
     {
         CPlayer *pOwner(GetOwnerPlayer());
-        if (pOwner != NULL)
+        if (pOwner != nullptr)
             pOwner->SetLastInteractionTime(Game.GetGameTime());
 
         m_cBrain.Damaged(pAttacker);
 
         // Track damage stats for scoreboard
-        if (pAttacker != NULL && pAttacker->GetOwnerClientNumber() != -1 && pAttacker->IsEnemy(this))
+        if (pAttacker != nullptr && pAttacker->GetOwnerClientNumber() != -1 && pAttacker->IsEnemy(this))
         {
             if (IsHero())
             {
                 CPlayer *pAttackerPlayer(Game.GetPlayer(pAttacker->GetOwnerClientNumber()));
-                if (pAttackerPlayer != NULL)
+                if (pAttackerPlayer != nullptr)
                     pAttackerPlayer->AdjustFloatStat(PLAYER_STAT_HERO_DAMAGE, m_fCurrentDamage);
             }
             else if (IsBuilding())
             {
                 CPlayer *pAttackerPlayer(Game.GetPlayer(pAttacker->GetOwnerClientNumber()));
-                if (pAttackerPlayer != NULL)
+                if (pAttackerPlayer != nullptr)
                     pAttackerPlayer->AdjustFloatStat(PLAYER_STAT_BUILDING_DAMAGE, m_fCurrentDamage);
             }
         }
@@ -587,7 +587,7 @@ void    IUnitEntity::Damage(CDamageEvent &damage)
   ====================*/
 void    IUnitEntity::Touch(IGameEntity *pActivator, int iIssuedClientNumber)
 {
-    if (pActivator == NULL)
+    if (pActivator == nullptr)
         return;
 
     int iClientNumber(iIssuedClientNumber);
@@ -723,7 +723,7 @@ bool    IUnitEntity::ServerFrameSetup()
     for (int i(INVENTORY_START_ACTIVE); i <= INVENTORY_END_ACTIVE; ++i)
     {
         ISlaveEntity *pSlave(GetSlave(i));
-        if (pSlave == NULL)
+        if (pSlave == nullptr)
             continue;
 
         if (i == m_iExclusiveAttackModSlot)
@@ -752,7 +752,7 @@ bool    IUnitEntity::ServerFrameSetup()
     
     if (GetStatus() == ENTITY_STATUS_ACTIVE)
     {
-        if (m_pDefinition != NULL)
+        if (m_pDefinition != nullptr)
             m_pDefinition->ApplyAuras(this, GetLevel());
     }
 
@@ -807,8 +807,8 @@ bool    IUnitEntity::ServerFrameMovement()
     if (m_uiBindTargetUID != INVALID_INDEX)
     {
         IGameEntity *pGameEntity(Game.GetEntityFromUniqueID(m_uiBindTargetUID));
-        IVisualEntity *pBindTarget(pGameEntity ? pGameEntity->GetAsVisual() : NULL);
-        if (pBindTarget == NULL || pBindTarget->GetStatus() != ENTITY_STATUS_ACTIVE)
+        IVisualEntity *pBindTarget(pGameEntity ? pGameEntity->GetAsVisual() : nullptr);
+        if (pBindTarget == nullptr || pBindTarget->GetStatus() != ENTITY_STATUS_ACTIVE)
         {
             m_uiBindTargetUID = INVALID_INDEX;
             RemoveVisibilityFlags(UNIT_FLAG_BOUND);
@@ -852,7 +852,7 @@ bool    IUnitEntity::ServerFrameMovement()
         ValidatePosition2();
 
     CPlayer *pOwner(GetOwnerPlayer());
-    if (pOwner != NULL)
+    if (pOwner != nullptr)
     {
         if (DistanceSq(m_v2AnchorPosition, GetPosition().xy()) >= SQR(g_afkWanderRadius.GetValue()))
         {
@@ -863,13 +863,13 @@ bool    IUnitEntity::ServerFrameMovement()
 
     /*
     CPlayer *pOwner(GetOwnerPlayer());
-    if (pOwner != NULL)
+    if (pOwner != nullptr)
     {
         CTeamInfo *pTeam(Game.GetTeam(GetTeam()));
-        if (pTeam != NULL)
+        if (pTeam != nullptr)
         {
             IBuildingEntity *pBase(Game.GetBuildingEntity(pTeam->GetBaseBuildingIndex()));
-            if (pBase != NULL)
+            if (pBase != nullptr)
             {
                 float fDistanceSq(DistanceSq(GetPosition().xy(), pBase->GetPosition().xy()));
                 if (fDistanceSq > SQR(g_afkBaseDistance.GetValue()))
@@ -895,8 +895,8 @@ bool    IUnitEntity::ServerFrameAction()
         return true;
 
     IUnitDefinition *pDef(GetDefinition<IUnitDefinition>());
-    if (pDef != NULL)
-        pDef->ExecuteActionScript(ACTION_SCRIPT_FRAME, this, this, NULL, this, GetPosition(), GetProxy(0), GetLevel());
+    if (pDef != nullptr)
+        pDef->ExecuteActionScript(ACTION_SCRIPT_FRAME, this, this, nullptr, this, GetPosition(), GetProxy(0), GetLevel());
 
     // AI Update
     m_cBrain.FrameAction();
@@ -1032,7 +1032,7 @@ bool    IUnitEntity::ServerFrameCleanup()
     for (int i(INVENTORY_START_BACKPACK); i <= INVENTORY_END_BACKPACK; ++i)
     {
         IEntityItem *pItem(GetItem(i));
-        if (pItem == NULL)
+        if (pItem == nullptr)
             continue;
 
         if (pItem->GetDestroyOnEmpty() &&
@@ -1047,7 +1047,7 @@ bool    IUnitEntity::ServerFrameCleanup()
     for (int i(INVENTORY_START_STATES); i <= INVENTORY_END_STATES; ++i)
     {
         IEntityState *pState(GetState(i));
-        if (pState == NULL)
+        if (pState == nullptr)
             continue;
 
         if (pState->IsExpired() || pState->IsAuraInvalid())
@@ -1102,7 +1102,7 @@ bool    IUnitEntity::ServerFrameCleanup()
         }
         else if (m_fCurrentMaxHealth > 0.0f && GetHealth() <= 0.0f)
         {
-            IUnitEntity *pKiller(NULL);
+            IUnitEntity *pKiller(nullptr);
 
             // Randomly select rewarded unit weighted by damage dealt this frame
             float fRand(M_Randnum(0.0f, m_fTotalTrackedDamage));
@@ -1121,7 +1121,7 @@ bool    IUnitEntity::ServerFrameCleanup()
             if (it != m_vFrameDamageTrackers.end())
             {
                 IGameEntity *pAttacker(Game.GetEntityFromUniqueID(it->uiAttackerUID));
-                if (pAttacker != NULL && pAttacker->IsUnit())
+                if (pAttacker != nullptr && pAttacker->IsUnit())
                     pKiller = pAttacker->GetAsUnit();
             }
 
@@ -1145,7 +1145,7 @@ bool    IUnitEntity::ServerFrameCleanup()
 
     // Expire
     if ((GetActualLifetime() > 0 && Game.GetGameTime() >= m_uiSpawnTime + GetActualLifetime()) ||
-        (GetMaxDistanceFromOwner() > 0.0f && GetOwner() != NULL && DistanceSq(GetPosition(), GetOwner()->GetPosition()) > SQR(GetMaxDistanceFromOwner())) ||
+        (GetMaxDistanceFromOwner() > 0.0f && GetOwner() != nullptr && DistanceSq(GetPosition(), GetOwner()->GetPosition()) > SQR(GetMaxDistanceFromOwner())) ||
         GetExpire())
     {
         Expire();
@@ -1161,7 +1161,7 @@ bool    IUnitEntity::ServerFrameCleanup()
         for (int i(INVENTORY_START_ACTIVE); i <= INVENTORY_END_ACTIVE; ++i)
         {
             IEntityTool *pTool(GetTool(i));
-            if (pTool == NULL)
+            if (pTool == nullptr)
                 continue;
 
             uint uiCooldownTime(pTool->GetActualRemainingCooldownTime());
@@ -1206,7 +1206,7 @@ bool    IUnitEntity::ServerFrameCleanup()
         for (int i(INVENTORY_START_ACTIVE); i <= INVENTORY_END_ACTIVE; ++i)
         {
             IEntityTool *pTool(GetTool(i));
-            if (pTool == NULL)
+            if (pTool == nullptr)
                 continue;
 
             pTool->UpdateApparentCooldown();
@@ -1220,7 +1220,7 @@ bool    IUnitEntity::ServerFrameCleanup()
     for (uiset_it it(m_setSoulLinks.begin()); it != m_setSoulLinks.end(); ++it)
     {
         IUnitEntity *pUnit(Game.GetUnitEntity(Game.GetGameIndexFromUniqueID(*it)));
-        if (pUnit == NULL || pUnit->GetStatus() != ENTITY_STATUS_ACTIVE)
+        if (pUnit == nullptr || pUnit->GetStatus() != ENTITY_STATUS_ACTIVE)
         {
             STL_ERASE(m_setSoulLinks, it);
             if (it == m_setSoulLinks.end())
@@ -1275,11 +1275,11 @@ static bool ActionScriptPriorityPred(const iipair &elem1, const iipair &elem2)
 void    IUnitEntity::Action(EEntityActionScript eAction, IUnitEntity *pTarget, IGameEntity *pInflictor, CCombatEvent *pCombatEvent, CDamageEvent *pDamageEvent)
 {
     CGameInfo *pGameInfo(Game.GetGameInfo());
-    if (pGameInfo != NULL)
+    if (pGameInfo != nullptr)
         pGameInfo->ExecuteActionScript(eAction, this, pInflictor, pTarget, V_ZERO);
 
     CVec3f v3TargetPosition(GetPosition());
-    if (pTarget != NULL)
+    if (pTarget != nullptr)
         v3TargetPosition = pTarget->GetPosition();
 
     // Build Priority map
@@ -1287,19 +1287,19 @@ void    IUnitEntity::Action(EEntityActionScript eAction, IUnitEntity *pTarget, I
     vScriptPriorities.clear();
     
     IUnitDefinition *pDef(GetDefinition<IUnitDefinition>());
-    if (pDef != NULL)
+    if (pDef != nullptr)
         vScriptPriorities.push_back(iipair(-1, pDef->GetActionScriptPriority(eAction)));
 
     for (int iSlot(INVENTORY_START_ACTIVE); iSlot <= INVENTORY_END_ACTIVE; ++iSlot)
     {
         ISlaveEntity *pSlave(m_apInventory[iSlot]);
-        if (pSlave == NULL)
+        if (pSlave == nullptr)
             continue;
         if (!pSlave->IsActive())
             continue;
 
         ISlaveDefinition *pDef(pSlave->GetDefinition<ISlaveDefinition>());
-        if (pDef != NULL)
+        if (pDef != nullptr)
             vScriptPriorities.push_back(iipair(iSlot, pDef->GetActionScriptPriority(eAction)));
     }
 
@@ -1310,19 +1310,19 @@ void    IUnitEntity::Action(EEntityActionScript eAction, IUnitEntity *pTarget, I
         if (it->first == -1)
         {
             IUnitDefinition *pDef(GetDefinition<IUnitDefinition>());
-            if (pDef != NULL)
+            if (pDef != nullptr)
                 pDef->ExecuteActionScript(eAction, this, this, pInflictor, pTarget, v3TargetPosition, GetProxy(0), GetLevel(), pCombatEvent, pDamageEvent);
         }
         else
         {
             ISlaveEntity *pSlave(m_apInventory[it->first]);
-            if (pSlave == NULL)
+            if (pSlave == nullptr)
                 continue;
             if (!pSlave->IsActive())
                 continue;
 
             ISlaveDefinition *pDef(pSlave->GetDefinition<ISlaveDefinition>());
-            if (pDef != NULL)
+            if (pDef != nullptr)
                 pDef->ExecuteActionScript(eAction, pSlave, this, pInflictor, pTarget, v3TargetPosition, pSlave->GetProxy(0), pSlave->GetLevel(), pCombatEvent, pDamageEvent);
         }
     }
@@ -1331,27 +1331,27 @@ void    IUnitEntity::Action(EEntityActionScript eAction, IUnitEntity *pTarget, I
 void    IUnitEntity::Action(EEntityActionScript eAction, const CVec3f &v3Target, IGameEntity *pInflictor, CCombatEvent *pCombatEvent, CDamageEvent *pDamageEvent)
 {
     CGameInfo *pGameInfo(Game.GetGameInfo());
-    if (pGameInfo != NULL)
-        pGameInfo->ExecuteActionScript(eAction, this, pInflictor, NULL, v3Target);
+    if (pGameInfo != nullptr)
+        pGameInfo->ExecuteActionScript(eAction, this, pInflictor, nullptr, v3Target);
 
     // Build Priority map
     static vector<iipair> vScriptPriorities;
     vScriptPriorities.clear();
     
     IUnitDefinition *pDef(GetDefinition<IUnitDefinition>());
-    if (pDef != NULL)
+    if (pDef != nullptr)
         vScriptPriorities.push_back(iipair(-1, pDef->GetActionScriptPriority(eAction)));
 
     for (int iSlot(INVENTORY_START_ACTIVE); iSlot <= INVENTORY_END_ACTIVE; ++iSlot)
     {
         ISlaveEntity *pSlave(m_apInventory[iSlot]);
-        if (pSlave == NULL)
+        if (pSlave == nullptr)
             continue;
         if (!pSlave->IsActive())
             continue;
 
         ISlaveDefinition *pDef(pSlave->GetDefinition<ISlaveDefinition>());
-        if (pDef != NULL)
+        if (pDef != nullptr)
             vScriptPriorities.push_back(iipair(iSlot, pDef->GetActionScriptPriority(eAction)));
     }
 
@@ -1362,20 +1362,20 @@ void    IUnitEntity::Action(EEntityActionScript eAction, const CVec3f &v3Target,
         if (it->first == -1)
         {
             IUnitDefinition *pDef(GetDefinition<IUnitDefinition>());
-            if (pDef != NULL)
-                pDef->ExecuteActionScript(eAction, this, this, pInflictor, NULL, v3Target, GetProxy(0), GetLevel(), pCombatEvent, pDamageEvent);
+            if (pDef != nullptr)
+                pDef->ExecuteActionScript(eAction, this, this, pInflictor, nullptr, v3Target, GetProxy(0), GetLevel(), pCombatEvent, pDamageEvent);
         }
         else
         {
             ISlaveEntity *pSlave(m_apInventory[it->first]);
-            if (pSlave == NULL)
+            if (pSlave == nullptr)
                 continue;
             if (!pSlave->IsActive())
                 continue;
 
             ISlaveDefinition *pDef(pSlave->GetDefinition<ISlaveDefinition>());
-            if (pDef != NULL)
-                pDef->ExecuteActionScript(eAction, pSlave, this, pInflictor, NULL, v3Target, pSlave->GetProxy(0), pSlave->GetLevel(), pCombatEvent, pDamageEvent);
+            if (pDef != nullptr)
+                pDef->ExecuteActionScript(eAction, pSlave, this, pInflictor, nullptr, v3Target, pSlave->GetProxy(0), pSlave->GetLevel(), pCombatEvent, pDamageEvent);
         }
     }
 }
@@ -1389,7 +1389,7 @@ void    IUnitEntity::GetCriticals(CCombatEvent &cmbt) const
     for (int iSlot(INVENTORY_START_ACTIVE); iSlot <= INVENTORY_END_ACTIVE; ++iSlot)
     {
         ISlaveEntity *pSlave(m_apInventory[iSlot]);
-        if (pSlave == NULL)
+        if (pSlave == nullptr)
             continue;
 
         if (pSlave->IsActive())
@@ -1403,10 +1403,10 @@ void    IUnitEntity::GetCriticals(CCombatEvent &cmbt) const
   ====================*/
 void    IUnitEntity::GetAttackActions(EEntityActionScript eScriptFrom, EEntityActionScript eScriptTo, CCombatEvent &cmbt) const
 {
-    if (m_pDefinition != NULL)
+    if (m_pDefinition != nullptr)
     {
         CCombatActionScript *pScript(m_pDefinition->GetActionScript(eScriptFrom));
-        if (pScript != NULL && (!IsIllusion() || pScript->GetPropagateToIllusions()))
+        if (pScript != nullptr && (!IsIllusion() || pScript->GetPropagateToIllusions()))
         {
             CCombatActionScript &cScript(cmbt.AddActionScript(eScriptTo, *pScript));
             cScript.SetLevel(GetLevel());
@@ -1417,16 +1417,16 @@ void    IUnitEntity::GetAttackActions(EEntityActionScript eScriptFrom, EEntityAc
     for (int iSlot(INVENTORY_START_ACTIVE); iSlot <= INVENTORY_END_ACTIVE; ++iSlot)
     {
         ISlaveEntity *pSlave(m_apInventory[iSlot]);
-        if (pSlave == NULL)
+        if (pSlave == nullptr)
             continue;
         if (!pSlave->IsActive())
             continue;
 
         ISlaveDefinition *pSlaveDefinition(pSlave->GetDefinition<ISlaveDefinition>());
-        if (pSlaveDefinition != NULL)
+        if (pSlaveDefinition != nullptr)
         {
             CCombatActionScript *pScript(pSlaveDefinition->GetActionScript(eScriptFrom));
-            if (pScript != NULL && (!IsIllusion() || pScript->GetPropagateToIllusions()))
+            if (pScript != nullptr && (!IsIllusion() || pScript->GetPropagateToIllusions()))
             {
                 CCombatActionScript &cScript(cmbt.AddActionScript(eScriptTo, *pScript));
                 cScript.SetLevel(pSlave->GetLevel());
@@ -1446,7 +1446,7 @@ float   IUnitEntity::GetDeflection() const
     for (int iSlot(INVENTORY_START_ACTIVE); iSlot <= INVENTORY_END_ACTIVE; ++iSlot)
     {
         ISlaveEntity *pSlave(GetSlave(iSlot));
-        if (pSlave == NULL)
+        if (pSlave == nullptr)
             continue;
         if (!CHANCE(pSlave->GetDeflectionChance()))
             continue;
@@ -1484,7 +1484,7 @@ void    IUnitEntity::UpdateModifiers()
     for (int iSlot(INVENTORY_START_ACTIVE); iSlot <= INVENTORY_END_ACTIVE; ++iSlot)
     {
         ISlaveEntity *pSlave(m_apInventory[iSlot]);
-        if (pSlave == NULL)
+        if (pSlave == nullptr)
             continue;
         if (!pSlave->IsActive())
             continue;
@@ -1514,7 +1514,7 @@ void    IUnitEntity::UpdateModifiers()
     for (int iSlot(0); iSlot < MAX_INVENTORY; ++iSlot)
     {
         ISlaveEntity *pSlave(m_apInventory[iSlot]);
-        if (pSlave == NULL)
+        if (pSlave == nullptr)
             continue;
 
         if (pSlave->IsState())
@@ -1547,7 +1547,7 @@ void    IUnitEntity::UpdateModifiers()
 
     // Grab base definition
     IEntityDefinition *pDefinition(GetBaseDefinition<IEntityDefinition>());
-    if (pDefinition == NULL)
+    if (pDefinition == nullptr)
         return; // Oh dear...
 
     // Search this entity
@@ -1608,7 +1608,7 @@ void    IUnitEntity::GetSlaveModifiers(uivector &vModifierKeys)
     for (int iSlot(INVENTORY_START_ACTIVE); iSlot <= INVENTORY_END_ACTIVE; ++iSlot)
     {
         ISlaveEntity *pSlave(GetSlave(iSlot));
-        if (pSlave == NULL)
+        if (pSlave == nullptr)
             continue;
         if (!pSlave->IsActive())
             continue;
@@ -1650,7 +1650,7 @@ void    IUnitEntity::AttachModel(const tstring &sBoneName, ResHandle hModel)
 
     try
     {
-        if (m_pSkeleton == NULL)
+        if (m_pSkeleton == nullptr)
             EX_WARN(_T("Invalid skeleton"));
 
         uint uiBone(m_pSkeleton->GetBone(sBoneName));
@@ -1674,7 +1674,7 @@ void    IUnitEntity::AttachModel(const tstring &sBoneName, ResHandle hModel)
         tstring sAlternateSkin;
         for (int iSlot(INVENTORY_START_ACTIVE); iSlot <= INVENTORY_END_ACTIVE; ++iSlot)
         {
-            if (m_apInventory[iSlot] == NULL)
+            if (m_apInventory[iSlot] == nullptr)
                 continue;
 
             //sAlternateSkin = m_apInventory[i]->GetSkin();
@@ -1708,7 +1708,7 @@ CVec4f  IUnitEntity::GetMapIconColor(CPlayer *pLocalPlayer) const
     if (uiGameTime < m_uiMinimapFlashEndTime && (uiGameTime % g_minimapFlashInterval < (g_minimapFlashInterval / 2)))
         return m_v4MinimapFlashColor;
 
-    if (pLocalPlayer == NULL || pLocalPlayer->GetTeam() == TEAM_SPECTATOR)
+    if (pLocalPlayer == nullptr || pLocalPlayer->GetTeam() == TEAM_SPECTATOR)
     {
         if (GetTeam() == TEAM_PASSIVE || GetTeam() == TEAM_SPECTATOR)
             return WHITE;
@@ -1764,7 +1764,7 @@ ResHandle   IUnitEntity::GetMapIcon(CPlayer *pLocalPlayer) const
   ====================*/
 CVec4f  IUnitEntity::GetTeamColor(CPlayer *pLocalPlayer) const
 {
-    if (pLocalPlayer == NULL || pLocalPlayer->GetTeam() == TEAM_SPECTATOR)
+    if (pLocalPlayer == nullptr || pLocalPlayer->GetTeam() == TEAM_SPECTATOR)
     {
         if (GetTeam() == TEAM_PASSIVE || GetTeam() == TEAM_SPECTATOR)
             return GRAY;
@@ -1794,7 +1794,7 @@ uint    IUnitEntity::GetStealthBits() const
 
     for (int iSlot(INVENTORY_START_ACTIVE); iSlot <= INVENTORY_END_ACTIVE; ++iSlot)
     {
-        if (m_apInventory[iSlot] == NULL)
+        if (m_apInventory[iSlot] == nullptr)
             continue;
 
         uiStealthBits |= m_apInventory[iSlot]->GetStealthType();
@@ -1833,7 +1833,7 @@ float   IUnitEntity::GetMaxStealthFade() const
 
     for (int iSlot(INVENTORY_START_ACTIVE); iSlot <= INVENTORY_END_ACTIVE; ++iSlot)
     {
-        if (m_apInventory[iSlot] == NULL)
+        if (m_apInventory[iSlot] == nullptr)
             continue;
 
         if (m_apInventory[iSlot]->GetStealthType())
@@ -1873,7 +1873,7 @@ float   IUnitEntity::GetMinStealthProximity() const
 
     for (int iSlot(INVENTORY_START_ACTIVE); iSlot <= INVENTORY_END_ACTIVE; ++iSlot)
     {
-        if (m_apInventory[iSlot] == NULL)
+        if (m_apInventory[iSlot] == nullptr)
             continue;
 
         if (m_apInventory[iSlot]->GetStealthType())
@@ -1890,13 +1890,13 @@ float   IUnitEntity::GetMinStealthProximity() const
 bool    IUnitEntity::CanSee(const IVisualEntity *pTarget) const
 {
     CPlayer *pOwner(Game.GetPlayer(GetOwnerClientNumber()));
-    if (pOwner != NULL)
+    if (pOwner != nullptr)
         return pOwner->CanSee(pTarget);
 
-    if (pTarget == NULL)
+    if (pTarget == nullptr)
         return false;
     const IUnitEntity *pUnit(pTarget->GetAsUnit());
-    if (pUnit == NULL)
+    if (pUnit == nullptr)
         return true;
     
     // Neutrals don't have vision
@@ -1928,7 +1928,7 @@ uint    IUnitEntity::GetAdjustedImmunityType() const
 
     for (int iSlot(INVENTORY_START_ACTIVE); iSlot <= INVENTORY_END_ACTIVE; ++iSlot)
     {
-        if (m_apInventory[iSlot] == NULL)
+        if (m_apInventory[iSlot] == nullptr)
             continue;
 
         uiImmunityType |= m_apInventory[iSlot]->GetImmunityType();
@@ -1987,12 +1987,12 @@ IEntityState*   IUnitEntity::ApplyState(ushort unID, uint uiLevel, uint uiStartT
     IGameEntity *pInflictor(Game.GetEntity(uiInflictorIndex));
 
     // If the state already exists, just update it
-    IEntityState *pPrevState(NULL);
+    IEntityState *pPrevState(nullptr);
 
     for (int iSlot(INVENTORY_START_STATES); iSlot <= INVENTORY_END_STATES; ++iSlot)
     {
         IEntityState *pState(GetState(iSlot));
-        if (pState == NULL)
+        if (pState == nullptr)
         {
             if (iFreeSlot == -1)
                 iFreeSlot = iSlot;
@@ -2007,10 +2007,10 @@ IEntityState*   IUnitEntity::ApplyState(ushort unID, uint uiLevel, uint uiStartT
         }
     }
 
-    if (pPrevState != NULL && pPrevState->GetNoRefresh())
+    if (pPrevState != nullptr && pPrevState->GetNoRefresh())
         return pPrevState;
 
-    if (pPrevState != NULL)
+    if (pPrevState != nullptr)
     {
         if (uiDuration != INVALID_TIME && Game.IsDebuff(pPrevState->GetEffectType()))
             uiDuration *= GetDebuffDurationMultiplier();
@@ -2028,15 +2028,15 @@ IEntityState*   IUnitEntity::ApplyState(ushort unID, uint uiLevel, uint uiStartT
         pPrevState->SetLevel(uiLevel);
         pPrevState->SetExpired(false);
         pPrevState->SetExpireNextFrame(false);
-        if (pInflictor != NULL)
+        if (pInflictor != nullptr)
             pPrevState->SetPersistentModifierKeys(pInflictor->GetModifierKeys());
         pPrevState->UpdateModifiers();
 
         UpdateModifiers();
 
         IEntityDefinition *pDef(pPrevState->GetActiveDefinition<IEntityDefinition>());
-        if (pDef != NULL)
-            pDef->ExecuteActionScript(ACTION_SCRIPT_REFRESH, pPrevState, pInflictor ? pInflictor->GetAsUnit() : NULL, pPrevState, this, GetPosition(), Game.GetEntityFromUniqueID(uiProxyUID), pPrevState->GetLevel());
+        if (pDef != nullptr)
+            pDef->ExecuteActionScript(ACTION_SCRIPT_REFRESH, pPrevState, pInflictor ? pInflictor->GetAsUnit() : nullptr, pPrevState, this, GetPosition(), Game.GetEntityFromUniqueID(uiProxyUID), pPrevState->GetLevel());
 
         UpdateInventory();
 
@@ -2046,23 +2046,23 @@ IEntityState*   IUnitEntity::ApplyState(ushort unID, uint uiLevel, uint uiStartT
     if (iFreeSlot == -1)
     {
         Console.Err << _T("Too many states on entity #") << GetIndex() << newl;
-        return NULL;
+        return nullptr;
     }
 
     // Apply a new state
     IGameEntity *pNew(Game.AllocateEntity(unID, GetIndex()));
-    if (pNew == NULL)
+    if (pNew == nullptr)
     {
         Console.Err << _T("Invalid state: ") << unID << newl;
-        return NULL;
+        return nullptr;
     }
 
     IEntityState *pNewState(pNew->GetAsState());
-    if (pNewState == NULL)
+    if (pNewState == nullptr)
     {
         Console.Err << QuoteStr(pNew->GetTypeName()) << _T(" is not a state") << newl;
         Game.DeleteEntity(pNew);
-        return NULL;
+        return nullptr;
     }
 
     if (uiDuration != -1 && pNewState->GetEffectType() == Game.LookupEffectType(_T("StatusDebuff")))
@@ -2076,7 +2076,7 @@ IEntityState*   IUnitEntity::ApplyState(ushort unID, uint uiLevel, uint uiStartT
     pNewState->SetSpawnerUID(uiSpawnerUID);
     pNewState->SetSlot(iFreeSlot);
     pNewState->SetLevel(uiLevel);
-    if (pInflictor != NULL)
+    if (pInflictor != nullptr)
         pNewState->SetPersistentModifierKeys(pInflictor->GetModifierKeys());
     pNewState->UpdateModifiers();
     
@@ -2089,13 +2089,13 @@ IEntityState*   IUnitEntity::ApplyState(ushort unID, uint uiLevel, uint uiStartT
     pNewState->Spawn();
 
     IEntityDefinition *pDef(pNewState->GetActiveDefinition<IEntityDefinition>());
-    if (pDef != NULL)
-        pDef->ExecuteActionScript(ACTION_SCRIPT_INFLICT, pNewState, pInflictor ? pInflictor->GetAsUnit() : NULL, pNewState, this, GetPosition(), Game.GetEntityFromUniqueID(uiProxyUID), pNewState->GetLevel());
+    if (pDef != nullptr)
+        pDef->ExecuteActionScript(ACTION_SCRIPT_INFLICT, pNewState, pInflictor ? pInflictor->GetAsUnit() : nullptr, pNewState, this, GetPosition(), Game.GetEntityFromUniqueID(uiProxyUID), pNewState->GetLevel());
 
-    Action(ACTION_SCRIPT_INFLICTED, pInflictor ? pInflictor->GetAsUnit() : NULL, pNewState);
+    Action(ACTION_SCRIPT_INFLICTED, pInflictor ? pInflictor->GetAsUnit() : nullptr, pNewState);
 
     if (m_apInventory[iFreeSlot] != pNewState)
-        pNewState = NULL;
+        pNewState = nullptr;
     else
         UpdateInventory();
 
@@ -2111,8 +2111,8 @@ IEntityState*   IUnitEntity::ApplyState(ushort unID, uint uiLevel, uint uiStartT
   ====================*/
 IEntityState*   IUnitEntity::TransferState(IEntityState *pState)
 {
-    if (pState == NULL || Game.IsClient())
-        return NULL;
+    if (pState == nullptr || Game.IsClient())
+        return nullptr;
 
     IUnitEntity *pOldOwner(pState->GetOwner());
 
@@ -2121,7 +2121,7 @@ IEntityState*   IUnitEntity::TransferState(IEntityState *pState)
 
     for (int iTrySlot(INVENTORY_START_STATES); iTrySlot <= INVENTORY_END_STATES; ++iTrySlot)
     {
-        if (m_apInventory[iTrySlot] == NULL)
+        if (m_apInventory[iTrySlot] == nullptr)
         {
             if (iSlot == -1)
                 iSlot = iTrySlot;
@@ -2130,7 +2130,7 @@ IEntityState*   IUnitEntity::TransferState(IEntityState *pState)
         }
 
         IEntityState *pInvState(m_apInventory[iTrySlot]->GetAsState());
-        if (pInvState == NULL)
+        if (pInvState == nullptr)
             continue;
 
         if (pInvState->GetType() == pState->GetType())
@@ -2145,13 +2145,13 @@ IEntityState*   IUnitEntity::TransferState(IEntityState *pState)
     }
 
     if (iSlot > INVENTORY_END_STATES)
-        return NULL;
+        return nullptr;
 
     IGameEntity *pNewEntity(Game.AllocateEntity(pState->GetType(), GetIndex()));
-    if (pNewEntity == NULL || !pNewEntity->IsState())
+    if (pNewEntity == nullptr || !pNewEntity->IsState())
     {
         Game.DeleteEntity(pNewEntity);
-        return NULL;
+        return nullptr;
     }
 
     IEntityState *pNewState(pNewEntity->GetAsState());
@@ -2174,15 +2174,15 @@ IEntityState*   IUnitEntity::TransferState(IEntityState *pState)
 
     pNewState->Spawn();
 
-    if (pOldOwner != NULL)
+    if (pOldOwner != nullptr)
     {
         pOldOwner->RemoveState(pState->GetSlot());
-        pState = NULL;
+        pState = nullptr;
     }
     else
     {
         Game.DeleteEntity(pState);
-        pState = NULL;
+        pState = nullptr;
     }
 
     return pNewState;
@@ -2198,12 +2198,12 @@ void    IUnitEntity::RemoveState(int iSlot)
         return;
 
     IEntityState *pState(GetState(iSlot));
-    if (pState == NULL)
+    if (pState == nullptr)
         return;
 
     pState->Expired();
     Game.DeleteEntity(pState);
-    m_apInventory[iSlot] = NULL;
+    m_apInventory[iSlot] = nullptr;
 
     m_pMorphState = GetMorphState();
 
@@ -2230,7 +2230,7 @@ void    IUnitEntity::RemoveState(IEntityState *pState)
         for (int i2(i); i2 <= INVENTORY_END_STATES - 1; ++i2)
             m_apInventory[i2] = m_apInventory[i2 + 1];
 
-        m_apInventory[INVENTORY_END_STATES] = NULL;
+        m_apInventory[INVENTORY_END_STATES] = nullptr;
 
         m_pMorphState = GetMorphState();
     }
@@ -2243,7 +2243,7 @@ void    IUnitEntity::RemoveState(IEntityState *pState)
 void    IUnitEntity::ExpireState(int iSlot)
 {
     IEntityState *pState(GetState(iSlot));
-    if (pState == NULL)
+    if (pState == nullptr)
         return;
 
     pState->SetExpired(true);
@@ -2257,7 +2257,7 @@ void    IUnitEntity::ExpireState(ushort unID)
 {
     for (int i(INVENTORY_START_STATES); i <= INVENTORY_END_STATES; ++i)
     {
-        if (m_apInventory[i] == NULL ||
+        if (m_apInventory[i] == nullptr ||
             m_apInventory[i]->GetType() != unID ||
             !m_apInventory[i]->IsState())
             continue;
@@ -2274,7 +2274,7 @@ bool    IUnitEntity::HasState(ushort unID)
 {
     for (int i(INVENTORY_START_STATES); i <= INVENTORY_END_STATES; ++i)
     {
-        if (m_apInventory[i] == NULL ||
+        if (m_apInventory[i] == nullptr ||
             m_apInventory[i]->GetType() != unID ||
             !m_apInventory[i]->IsState())
             continue;
@@ -2291,14 +2291,14 @@ bool    IUnitEntity::HasState(ushort unID)
   ====================*/
 IEntityState*   IUnitEntity::GetMorphState() const
 {
-    IEntityState *pReturnState(NULL);
+    IEntityState *pReturnState(nullptr);
     uint uiHighPriority(0);
     for (int i(INVENTORY_START_STATES); i <= INVENTORY_END_STATES; ++i)
     {
-        if (m_apInventory[i] == NULL)
+        if (m_apInventory[i] == nullptr)
             continue;
         IEntityState *pState(m_apInventory[i]->GetAsState());
-        if (pState == NULL)
+        if (pState == nullptr)
             continue;
         if (pState->GetMorphPriority() > uiHighPriority)
         {
@@ -2320,14 +2320,14 @@ IGadgetEntity*  IUnitEntity::AttachGadget(ushort unID, uint uiLevel, uint uiStar
 
     assert(Game.IsServer());
 
-    if (unID == INVALID_ENT_TYPE || pOwner == NULL)
-        return NULL;
+    if (unID == INVALID_ENT_TYPE || pOwner == nullptr)
+        return nullptr;
 
     // Search bound entities for an instance of this type of gadget
     for (vector<SEntityBind>::iterator it(m_vBinds.begin()); it != m_vBinds.end(); ++it)
     {
         IGadgetEntity *pGadget(Game.GetGadgetEntity(Game.GetGameIndexFromUniqueID(it->uiEntityUID)));
-        if (pGadget == NULL)
+        if (pGadget == nullptr)
             continue;
 
         if (pGadget->GetType() == unID)
@@ -2336,11 +2336,11 @@ IGadgetEntity*  IUnitEntity::AttachGadget(ushort unID, uint uiLevel, uint uiStar
 
     // Allocate a new gadget and bind it
     IGadgetEntity *pGadget(Game.AllocateDynamicEntity<IGadgetEntity>(unID));
-    if (pGadget == NULL)
-        return NULL;
+    if (pGadget == nullptr)
+        return nullptr;
 
     CPlayer *pPlayer(Game.GetPlayerFromClientNumber(pOwner->GetOwnerClientNumber()));
-    if (pPlayer != NULL)
+    if (pPlayer != nullptr)
         pPlayer->AddPet(pGadget, 0, INVALID_INDEX);
 
     pGadget->SetPosition(GetPosition());
@@ -2377,7 +2377,7 @@ void    IUnitEntity::AddState(IEntityState *pState)
 
     for (int i(INVENTORY_START_STATES); i < INVENTORY_END_STATES; ++i)
     {
-        if (m_apInventory[i] != NULL)
+        if (m_apInventory[i] != nullptr)
             continue;
 
         m_apInventory[i] = pState;
@@ -2393,7 +2393,7 @@ void    IUnitEntity::AddState(IEntityState *pState)
 uint    IUnitEntity::GetStateExpireTime(int iSlot)
 {
     IEntityState *pState(GetState(iSlot));
-    if (pState == NULL)
+    if (pState == nullptr)
         return INVALID_TIME;
 
     return pState->GetExpireTime();
@@ -2406,7 +2406,7 @@ uint    IUnitEntity::GetStateExpireTime(int iSlot)
 float   IUnitEntity::GetStateExpirePercent(int iSlot)
 {
     IEntityState *pState(GetState(iSlot));
-    if (pState == NULL)
+    if (pState == nullptr)
         return 0.0f;
 
     if (pState->GetStartTime() == INVALID_TIME || pState->GetLifetime() == INVALID_TIME)
@@ -2437,7 +2437,7 @@ int     IUnitEntity::GetNextExclusiveAttackModSlot() const
     while (iSlot != iStartSlot)
     {
         ISlaveEntity *pSlave(GetSlave(iSlot));
-        if (pSlave == NULL || !pSlave->IsActive() || pSlave->GetModifierBit(uiAttackModID) == 0)
+        if (pSlave == nullptr || !pSlave->IsActive() || pSlave->GetModifierBit(uiAttackModID) == 0)
         {
             ++iSlot;
 
@@ -2475,7 +2475,7 @@ int     IUnitEntity::GetPrevExclusiveAttackModSlot() const
     while (iSlot != iStartSlot)
     {
         ISlaveEntity *pSlave(GetSlave(iSlot));
-        if (pSlave == NULL || !pSlave->IsActive() || pSlave->GetModifierBit(uiAttackModID) == 0)
+        if (pSlave == nullptr || !pSlave->IsActive() || pSlave->GetModifierBit(uiAttackModID) == 0)
         {
             --iSlot;
 
@@ -2500,7 +2500,7 @@ void    IUnitEntity::ValidateExclusiveAttackModSlot()
     static uint uiAttackModID(EntityRegistry.RegisterModifier(_T("attack")));
 
     ISlaveEntity *pSlave(GetSlave(GetExclusiveAttackModSlot()));
-    if (pSlave == NULL || !pSlave->IsActive() || pSlave->GetModifierBit(uiAttackModID) == 0)
+    if (pSlave == nullptr || !pSlave->IsActive() || pSlave->GetModifierBit(uiAttackModID) == 0)
         SetExclusiveAttackModSlot(GetNextExclusiveAttackModSlot());
 }
 
@@ -2511,7 +2511,7 @@ void    IUnitEntity::ValidateExclusiveAttackModSlot()
 IEntityTool*    IUnitEntity::GiveItem(int iSlot, ushort unID, bool bEnabled)
 {
     if (Game.IsClient())
-        return NULL;
+        return nullptr;
 
     try
     {
@@ -2521,14 +2521,14 @@ IEntityTool*    IUnitEntity::GiveItem(int iSlot, ushort unID, bool bEnabled)
         if (unID == INVALID_ENT_TYPE)
         {
             RemoveItem(iSlot);
-            return NULL;
+            return nullptr;
         }
 
         IEntityTool *pTool(GetTool(iSlot));
-        if (pTool != NULL && pTool->GetType() == unID)
+        if (pTool != nullptr && pTool->GetType() == unID)
         {
             IEntityItem *pItem(pTool->GetAsItem());
-            if (pItem != NULL && pItem->CanStack(unID, pItem->GetPurchaserClientNumber()))
+            if (pItem != nullptr && pItem->CanStack(unID, pItem->GetPurchaserClientNumber()))
             {
                 pItem->AddCharges(pItem->GetInitialCharges());
             }
@@ -2539,20 +2539,20 @@ IEntityTool*    IUnitEntity::GiveItem(int iSlot, ushort unID, bool bEnabled)
         RemoveItem(iSlot);
 
         IEntityTool *pNewTool(static_cast<IEntityTool*>(Game.AllocateEntity(unID, m_uiIndex)));
-        if (pNewTool == NULL)
+        if (pNewTool == nullptr)
             EX_ERROR(_T("Item allocation failed for: ") + EntityRegistry.LookupName(unID));
 
         m_apInventory[iSlot] = pNewTool;
         m_apInventory[iSlot]->SetOwnerIndex(m_uiIndex);
         m_apInventory[iSlot]->SetSlot(iSlot);
 
-        if (bEnabled && m_apInventory[iSlot] != NULL && m_apInventory[iSlot]->IsItem())
+        if (bEnabled && m_apInventory[iSlot] != nullptr && m_apInventory[iSlot]->IsItem())
             m_apInventory[iSlot]->GetAsItem()->SetFlag(ENTITY_TOOL_FLAG_ASSEMBLED | ENTITY_TOOL_FLAG_ACTIVE);
 
         m_apInventory[iSlot]->SetActiveModifierKey(m_apInventory[iSlot]->GetDefaultActiveModifierKey());
         m_apInventory[iSlot]->Spawn();
 
-        if (bEnabled && m_apInventory[iSlot] != NULL && m_apInventory[iSlot]->IsItem())
+        if (bEnabled && m_apInventory[iSlot] != nullptr && m_apInventory[iSlot]->IsItem())
         {
             IEntityItem *pItem(m_apInventory[iSlot]->GetAsItem());
 
@@ -2570,7 +2570,7 @@ IEntityTool*    IUnitEntity::GiveItem(int iSlot, ushort unID, bool bEnabled)
 
         ValidateExclusiveAttackModSlot();
 
-        if (bEnabled && m_apInventory[iSlot] != NULL && m_apInventory[iSlot]->IsItem())
+        if (bEnabled && m_apInventory[iSlot] != nullptr && m_apInventory[iSlot]->IsItem())
             m_apInventory[iSlot]->GetAsItem()->ExecuteActionScript(ACTION_SCRIPT_CREATE, this, GetPosition());
 
         return pNewTool;
@@ -2578,7 +2578,7 @@ IEntityTool*    IUnitEntity::GiveItem(int iSlot, ushort unID, bool bEnabled)
     catch (CException &ex)
     {
         ex.Process(_T("IUnitEntity::GiveItem() - "), NO_THROW);
-        return NULL;
+        return nullptr;
     }
 }
 
@@ -2591,12 +2591,12 @@ IEntityTool*    IUnitEntity::GiveItem(int iSlot, ushort unID, bool bEnabled)
   ====================*/
 int     IUnitEntity::TransferItem(int iClientNum, IEntityItem *pItem, int iSlot)
 {
-    if (pItem == NULL || Game.IsClient())
+    if (pItem == nullptr || Game.IsClient())
         return -1;
 
     IUnitEntity *pOldOwner(pItem->GetOwner());
 
-    if (pOldOwner != NULL &&
+    if (pOldOwner != nullptr &&
         pOldOwner->GetOwnerClientNumber() != -1 &&
         pOldOwner->GetOwnerClientNumber() != iClientNum &&
         !pItem->BelongsToClient(iClientNum) &&
@@ -2606,7 +2606,7 @@ int     IUnitEntity::TransferItem(int iClientNum, IEntityItem *pItem, int iSlot)
     if (!CanCarryItem(pItem))
         return -1;
 
-    if (iSlot != -1 && GetTool(iSlot) != NULL)
+    if (iSlot != -1 && GetTool(iSlot) != nullptr)
         return -1;
 
     // Find a free slot
@@ -2614,7 +2614,7 @@ int     IUnitEntity::TransferItem(int iClientNum, IEntityItem *pItem, int iSlot)
     {
         for (int iTrySlot(INVENTORY_START_BACKPACK); iTrySlot <= INVENTORY_BACKPACK_PROVISIONAL; ++iTrySlot)
         {
-            if (m_apInventory[iTrySlot] == NULL)
+            if (m_apInventory[iTrySlot] == nullptr)
             {
                 if (iSlot == -1)
                     iSlot = iTrySlot;
@@ -2623,14 +2623,14 @@ int     IUnitEntity::TransferItem(int iClientNum, IEntityItem *pItem, int iSlot)
             }
 
             IEntityItem *pInvItem(m_apInventory[iTrySlot]->GetAsItem());
-            if (pInvItem == NULL)
+            if (pInvItem == nullptr)
                 continue;
 
             if (pInvItem->CanStack(pItem))
             {
                 pInvItem->UpdatePurchaseTime(pItem->GetPurchaseTime());
                 pInvItem->SetCharges(pInvItem->GetCharges() + pItem->GetCharges());
-                if (pItem->GetOwner() != NULL)
+                if (pItem->GetOwner() != nullptr)
                     pItem->GetOwner()->RemoveItem(pItem->GetSlot());
                 return iSlot;
             }
@@ -2641,7 +2641,7 @@ int     IUnitEntity::TransferItem(int iClientNum, IEntityItem *pItem, int iSlot)
     }
 
     IGameEntity *pNewEntity(Game.AllocateEntity(pItem->GetType(), GetIndex()));
-    if (pNewEntity == NULL || !pNewEntity->IsItem())
+    if (pNewEntity == nullptr || !pNewEntity->IsItem())
     {
         Game.DeleteEntity(pNewEntity);
         return -1;
@@ -2701,13 +2701,13 @@ int     IUnitEntity::TransferItem(int iClientNum, IEntityItem *pItem, int iSlot)
     }
 
     IEntityItem *pProvisionalItem(GetItem(INVENTORY_BACKPACK_PROVISIONAL));
-    if (pProvisionalItem != NULL)
+    if (pProvisionalItem != nullptr)
     {
         RemoveItem(INVENTORY_BACKPACK_PROVISIONAL);
         return -1;
     }
 
-    if (pItem->GetOwner() != NULL)
+    if (pItem->GetOwner() != nullptr)
         pItem->GetOwner()->RemoveItem(pItem->GetSlot());
 
     ValidateExclusiveAttackModSlot();
@@ -2733,11 +2733,11 @@ bool    IUnitEntity::CloneItem(IEntityItem *pItem)
 
     int iSlot(pItem->GetSlot());
 
-    if (m_apInventory[iSlot] != NULL)
+    if (m_apInventory[iSlot] != nullptr)
         return false;
 
     IGameEntity *pNewEntity(Game.AllocateEntity(pItem->GetType(), m_uiIndex));
-    if (pNewEntity == NULL || !pNewEntity->IsItem())
+    if (pNewEntity == nullptr || !pNewEntity->IsItem())
     {
         Game.DeleteEntity(pNewEntity);
         return false;
@@ -2770,7 +2770,7 @@ void    IUnitEntity::ClearInventory()
     for (int i(0); i < MAX_INVENTORY; ++i)
         RemoveItem(i);
 
-    m_pMorphState = NULL;
+    m_pMorphState = nullptr;
 }
 
 
@@ -2782,11 +2782,11 @@ void    IUnitEntity::RemoveItem(int iSlot)
     if (iSlot < 0 || iSlot >= MAX_INVENTORY)
         return;
 
-    if (m_apInventory[iSlot] == NULL)
+    if (m_apInventory[iSlot] == nullptr)
         return;
 
     Game.DeleteEntity(m_apInventory[iSlot]);
-    m_apInventory[iSlot] = NULL;
+    m_apInventory[iSlot] = nullptr;
 
     ValidateExclusiveAttackModSlot();
 
@@ -2802,14 +2802,14 @@ void    IUnitEntity::RemoveItemByIndex(uint uiIndex)
 {
     for (int i(0); i < MAX_INVENTORY; i++)
     {
-        if (m_apInventory[i] == NULL)
+        if (m_apInventory[i] == nullptr)
             continue;
 
         if (m_apInventory[i]->GetIndex() != uiIndex)
             continue;
 
         Game.DeleteEntity(m_apInventory[i]);
-        m_apInventory[i] = NULL;
+        m_apInventory[i] = nullptr;
 
         ValidateExclusiveAttackModSlot();
 
@@ -2827,8 +2827,8 @@ void    IUnitEntity::RemoveItemByIndex(uint uiIndex)
 bool    IUnitEntity::CanGiveItem(IEntityItem *pItem, IUnitEntity *pTarget)
 {
     // Sanity check inputs
-    assert(pItem != NULL && pTarget != NULL);
-    if (pItem == NULL || pTarget == NULL)
+    assert(pItem != nullptr && pTarget != nullptr);
+    if (pItem == nullptr || pTarget == nullptr)
         return false;
 
     // Can't give items to ourselves
@@ -2869,8 +2869,8 @@ bool    IUnitEntity::CanGiveItem(IEntityItem *pItem, IUnitEntity *pTarget)
 bool    IUnitEntity::CanCarryItem(IEntityItem *pItem)
 {
     // Sanity check inputs
-    assert(pItem != NULL);
-    if (pItem == NULL)
+    assert(pItem != nullptr);
+    if (pItem == nullptr)
         return false;
 
     // Chests can always carry items
@@ -2915,8 +2915,8 @@ bool    IUnitEntity::CanCarryItem(IEntityItem *pItem)
 bool    IUnitEntity::CanSellItem(IEntityItem *pItem, int iClientNum)
 {
     // Sanity check inputs
-    assert(pItem != NULL);
-    if (pItem == NULL)
+    assert(pItem != nullptr);
+    if (pItem == nullptr)
         return false;
 
     // If our backpack is locked, then we can't sell any items
@@ -2967,20 +2967,20 @@ void    IUnitEntity::SwapItem(int iClientNum, int iSlot1, int iSlot2)
     // A client with shared control can't move items that don't belong to them
     if (GetOwnerClientNumber() != iClientNum)
     {
-        if (pItem1 != NULL && pItem1->GetPurchaserClientNumber() != iClientNum)
+        if (pItem1 != nullptr && pItem1->GetPurchaserClientNumber() != iClientNum)
             return;
-        if (pItem2 != NULL && pItem2->GetPurchaserClientNumber() != iClientNum)
+        if (pItem2 != nullptr && pItem2->GetPurchaserClientNumber() != iClientNum)
             return;
     }
 
     // Don't allow items flagged as nostash to be transferred to the stash
-    if ((pItem1 != NULL && pItem1->GetNoStash() && IS_STASH_SLOT(iSlot2)) ||
-        (pItem2 != NULL && pItem2->GetNoStash() && IS_STASH_SLOT(iSlot1)))
+    if ((pItem1 != nullptr && pItem1->GetNoStash() && IS_STASH_SLOT(iSlot2)) ||
+        (pItem2 != nullptr && pItem2->GetNoStash() && IS_STASH_SLOT(iSlot1)))
     {
         return;
     }
 
-    if (pItem1 != NULL && pItem2 != NULL)
+    if (pItem1 != nullptr && pItem2 != nullptr)
     {
         if (pItem2->CanStack(pItem1))
         {
@@ -3012,16 +3012,16 @@ void    IUnitEntity::SwapItem(int iClientNum, int iSlot1, int iSlot2)
     // Check recipes
     if (IS_BACKPACK_SLOT(iSlot1) != IS_BACKPACK_SLOT(iSlot2))
     {
-        if (m_apInventory[iSlot1] != NULL)
+        if (m_apInventory[iSlot1] != nullptr)
             CheckRecipes(iSlot1);
 
-        if (m_apInventory[iSlot2] != NULL)
+        if (m_apInventory[iSlot2] != nullptr)
             CheckRecipes(iSlot2);
     }
 
     // If anything is left in the provisional slot, undo the move
-    if (IS_PROVISIONAL_SLOT(iSlot1) && m_apInventory[iSlot1] != NULL ||
-        IS_PROVISIONAL_SLOT(iSlot2) && m_apInventory[iSlot2] != NULL)
+    if (IS_PROVISIONAL_SLOT(iSlot1) && m_apInventory[iSlot1] != nullptr ||
+        IS_PROVISIONAL_SLOT(iSlot2) && m_apInventory[iSlot2] != nullptr)
     {
         SWAP(m_apInventory[iSlot1], m_apInventory[iSlot2]);
         if (m_apInventory[iSlot1])
@@ -3034,9 +3034,9 @@ void    IUnitEntity::SwapItem(int iClientNum, int iSlot1, int iSlot2)
 
     if (IS_BACKPACK_SLOT(iSlot1) != IS_BACKPACK_SLOT(iSlot2))
     {
-        if (m_apInventory[iSlot1] != NULL && IS_BACKPACK_SLOT(iSlot1) && m_apInventory[iSlot1]->IsTool())
+        if (m_apInventory[iSlot1] != nullptr && IS_BACKPACK_SLOT(iSlot1) && m_apInventory[iSlot1]->IsTool())
             m_apInventory[iSlot1]->GetAsTool()->UpdateApparentCooldown();
-        if (m_apInventory[iSlot2] != NULL && IS_BACKPACK_SLOT(iSlot2) && m_apInventory[iSlot2]->IsTool())
+        if (m_apInventory[iSlot2] != nullptr && IS_BACKPACK_SLOT(iSlot2) && m_apInventory[iSlot2]->IsTool())
             m_apInventory[iSlot2]->GetAsTool()->UpdateApparentCooldown();
     }
 
@@ -3054,7 +3054,7 @@ void    IUnitEntity::SwapItem(int iClientNum, int iSlot1, int iSlot2)
 void    IUnitEntity::DisassembleItem(int iSlot)
 {
     IEntityItem *pItem(GetItem(iSlot));
-    if (pItem == NULL)
+    if (pItem == nullptr)
         return;
 
     if (!pItem->GetAllowDisassemble() || pItem->IsBorrowed())
@@ -3066,12 +3066,12 @@ void    IUnitEntity::DisassembleItem(int iSlot)
     uivector vFreeSlots;
     for (int iSlot(iStartSlot); iSlot <= iEndSlot; ++iSlot)
     {
-        if (m_apInventory[iSlot] == NULL || m_apInventory[iSlot] == pItem)
+        if (m_apInventory[iSlot] == nullptr || m_apInventory[iSlot] == pItem)
             vFreeSlots.push_back(iSlot);
     }
 
     CItemDefinition *pDefinition(pItem->GetDefinition<CItemDefinition>());
-    if (pDefinition == NULL)
+    if (pDefinition == nullptr)
         return;
 
     const tsvector &vComponents(pDefinition->GetComponents(pItem->GetRecipeVariation()));
@@ -3085,7 +3085,7 @@ void    IUnitEntity::DisassembleItem(int iSlot)
     for (tsvector_cit itComponent(vComponents.begin()); itComponent != vComponents.end(); ++itComponent)
     {
         IEntityTool *pTool(GiveItem(vFreeSlots[itComponent - vComponents.begin()], EntityRegistry.LookupID(*itComponent), true));
-        if (pTool != NULL && pTool->IsItem())
+        if (pTool != nullptr && pTool->IsItem())
         {
             IEntityItem *pItem(pTool->GetAsItem());
             pItem->SetPurchaserClientNumber(iPurchaserClientNumber);
@@ -3100,7 +3100,7 @@ void    IUnitEntity::DisassembleItem(int iSlot)
 void    IUnitEntity::SetTargetIndex(uint uiIndex)
 {
     if (uiIndex != m_uiTargetIndex)
-        Action(ACTION_SCRIPT_TARGET_ACQUIRED, Game.GetUnitEntity(uiIndex), NULL);
+        Action(ACTION_SCRIPT_TARGET_ACQUIRED, Game.GetUnitEntity(uiIndex), nullptr);
 
     m_uiTargetIndex = uiIndex;
 }
@@ -3194,7 +3194,7 @@ void    IUnitEntity::Spawn()
 
         // Spawn action
         IUnitDefinition *pDefinition(GetDefinition<IUnitDefinition>());
-        if (pDefinition != NULL)
+        if (pDefinition != nullptr)
             pDefinition->ExecuteActionScript(ACTION_SCRIPT_SPAWN, this, (GetOwner() ? GetOwner() : this), this, this, GetPosition(), GetProxy(0), GetLevel());
 
         m_v2AnchorPosition = GetPosition().xy();
@@ -3223,9 +3223,9 @@ void    IUnitEntity::KillReward(IUnitEntity *pKiller, CPlayer *pPlayerKiller)
 {
     // Determine the killing team
     uint uiKillerTeam(TEAM_PASSIVE);
-    if (pPlayerKiller != NULL)
+    if (pPlayerKiller != nullptr)
         uiKillerTeam = pPlayerKiller->GetTeam();
-    else if (pKiller != NULL)
+    else if (pKiller != nullptr)
         uiKillerTeam = pKiller->GetTeam();
 
     // Test for a deny
@@ -3238,14 +3238,14 @@ void    IUnitEntity::KillReward(IUnitEntity *pKiller, CPlayer *pPlayerKiller)
     if (GetGlobalExperience())
     {
         IGameEntity *pEntity(Game.GetFirstEntity());
-        while (pEntity != NULL)
+        while (pEntity != nullptr)
         {
             IUnitEntity *pUnit(pEntity->GetAsUnit());
             pEntity = Game.GetNextEntity(pEntity);
-            if (pUnit == NULL)
+            if (pUnit == nullptr)
                 continue;
 
-            if (pUnit == NULL || pUnit->GetTeam() == GetTeam() || (!bDeny && pUnit->GetTeam() != uiKillerTeam) || pUnit->IsIllusion())
+            if (pUnit == nullptr || pUnit->GetTeam() == GetTeam() || (!bDeny && pUnit->GetTeam() != uiKillerTeam) || pUnit->IsIllusion())
                 continue;
 
             if (pUnit->IsHero() && (pUnit->GetStatus() == ENTITY_STATUS_ACTIVE || GetDeadExperience()))
@@ -3255,7 +3255,7 @@ void    IUnitEntity::KillReward(IUnitEntity *pKiller, CPlayer *pPlayerKiller)
             else if (pUnit->GetRelayExperience())
             {
                 IUnitEntity *pOwner(pUnit->GetOwner());
-                if (pOwner != NULL && pOwner->IsHero())
+                if (pOwner != nullptr && pOwner->IsHero())
                     vHeroes.push_back(pOwner->GetAsHero());
             }
         }
@@ -3270,7 +3270,7 @@ void    IUnitEntity::KillReward(IUnitEntity *pKiller, CPlayer *pPlayerKiller)
         for (uivector_it it(vEntities.begin()); it != itEnd; ++it)
         {
             IUnitEntity *pUnit(Game.GetUnitEntity(Game.GetGameIndexFromWorldIndex(*it)));
-            if (pUnit == NULL || pUnit->GetTeam() == GetTeam() || (!bDeny && pUnit->GetTeam() != uiKillerTeam) || pUnit->IsIllusion())
+            if (pUnit == nullptr || pUnit->GetTeam() == GetTeam() || (!bDeny && pUnit->GetTeam() != uiKillerTeam) || pUnit->IsIllusion())
                 continue;
 
             if (pUnit->IsHero() && (pUnit->GetStatus() == ENTITY_STATUS_ACTIVE || GetDeadExperience()))
@@ -3280,7 +3280,7 @@ void    IUnitEntity::KillReward(IUnitEntity *pKiller, CPlayer *pPlayerKiller)
             else if (pUnit->GetRelayExperience())
             {
                 IUnitEntity *pOwner(pUnit->GetOwner());
-                if (pOwner != NULL && pOwner->IsHero())
+                if (pOwner != nullptr && pOwner->IsHero())
                     vHeroes.push_back(pOwner->GetAsHero());
             }
         }
@@ -3301,7 +3301,7 @@ void    IUnitEntity::KillReward(IUnitEntity *pKiller, CPlayer *pPlayerKiller)
         if (bDeny)
         {
             const CAttackType *pAttackType(Game.GetAttackType(pHero->GetAttackType()));
-            if (pAttackType != NULL && !bCasual)
+            if (pAttackType != nullptr && !bCasual)
                 fExperience *= pAttackType->GetDeniedExpMultiplier();
 
             // in hardcore mode, a deny results in no experience for the opposing team.
@@ -3316,7 +3316,7 @@ void    IUnitEntity::KillReward(IUnitEntity *pKiller, CPlayer *pPlayerKiller)
         if (pKiller != pHero)
         {
             CPlayer *pOwner(pHero->GetOwnerPlayer());
-            if (pOwner != NULL)
+            if (pOwner != nullptr)
             {
                 pOwner->GiveGold(unGoldRadiusBounty, pHero);
                 if (IsCreep() || IsNeutral() || IsGadget() || IsPet())
@@ -3337,9 +3337,9 @@ void    IUnitEntity::KillReward(IUnitEntity *pKiller, CPlayer *pPlayerKiller)
     // Process a deny
     if (bDeny)
     {
-        Game.LogDeny(this, pKiller, NULL, fTotalExperience - fTotalExpAwarded, unBounty);
+        Game.LogDeny(this, pKiller, nullptr, fTotalExperience - fTotalExpAwarded, unBounty);
 
-        if (pPlayerKiller != NULL)
+        if (pPlayerKiller != nullptr)
         {
             // Send reward event
             Game.SendPopup(POPUP_DENY, this, pKiller);
@@ -3348,7 +3348,7 @@ void    IUnitEntity::KillReward(IUnitEntity *pKiller, CPlayer *pPlayerKiller)
                 pPlayerKiller->AdjustStat(PLAYER_STAT_DENIES, 1);
         }
     }
-    else if (pPlayerKiller != NULL)
+    else if (pPlayerKiller != nullptr)
     {
         pPlayerKiller->GiveGold(unBounty, this, pKiller);
 
@@ -3369,10 +3369,10 @@ void    IUnitEntity::KillReward(IUnitEntity *pKiller, CPlayer *pPlayerKiller)
         if (unBounty > 0 && (IsCreep() || IsNeutral() || IsGadget() || IsPet()))
             Game.SendPopup(POPUP_CREEP_KILL, this, pKiller);
     }
-    else if (IsHero() && pKiller != NULL)
+    else if (IsHero() && pKiller != nullptr)
     {
         CTeamInfo *pTeam(Game.GetTeam(pKiller->GetTeam()));
-        if (pTeam != NULL)
+        if (pTeam != nullptr)
         {
             ivector &vPlayers(pTeam->GetClientList());
 
@@ -3381,7 +3381,7 @@ void    IUnitEntity::KillReward(IUnitEntity *pKiller, CPlayer *pPlayerKiller)
             for (ivector_it it(vPlayers.begin()); it != vPlayers.end(); ++it)
             {
                 CPlayer *pPlayer(Game.GetPlayerFromClientNumber(*it));
-                if (pPlayer == NULL)
+                if (pPlayer == nullptr)
                     continue;
 
                 pPlayer->GiveGold(INT_CEIL(unBounty / iCount), pPlayer->GetHero());
@@ -3402,7 +3402,7 @@ void    IUnitEntity::KillReward(IUnitEntity *pKiller, CPlayer *pPlayerKiller)
         if (IsTower())
         {
             CGameInfo *pGameInfo(Game.GetGameInfo());
-            if (pGameInfo != NULL)
+            if (pGameInfo != nullptr)
                 unTeamBounty = (ushort)(GetGoldBountyTeam() * pGameInfo->GetTowerDenyGoldMultiplier());
             else
                 assert(!"Invalid game info");
@@ -3411,13 +3411,13 @@ void    IUnitEntity::KillReward(IUnitEntity *pKiller, CPlayer *pPlayerKiller)
         if (unTeamBounty > 0)
         {
             CTeamInfo *pTeam(Game.GetTeam(GetTeam() ^ 3));
-            if (pTeam != NULL)
+            if (pTeam != nullptr)
             {
                 ivector &vPlayers(pTeam->GetClientList());
                 for (ivector_it it(vPlayers.begin()); it != vPlayers.end(); ++it)
                 {
                     CPlayer *pPlayer(Game.GetPlayerFromClientNumber(*it));
-                    if (pPlayer == NULL)
+                    if (pPlayer == nullptr)
                         continue;
 
                     pPlayer->GiveGold(unTeamBounty, pPlayer->GetHero());
@@ -3438,16 +3438,16 @@ void    IUnitEntity::KillReward(IUnitEntity *pKiller, CPlayer *pPlayerKiller)
     {
         ushort unTeamBounty(pPlayerKiller ? GetGoldBountyTeam() : GetGoldBountyConsolation());
 
-        if (unTeamBounty > 0 && pKiller != NULL)
+        if (unTeamBounty > 0 && pKiller != nullptr)
         {
             CTeamInfo *pTeam(Game.GetTeam(pKiller->GetTeam()));
-            if (pTeam != NULL)
+            if (pTeam != nullptr)
             {
                 ivector &vPlayers(pTeam->GetClientList());
                 for (ivector_it it(vPlayers.begin()); it != vPlayers.end(); ++it)
                 {
                     CPlayer *pPlayer(Game.GetPlayerFromClientNumber(*it));
-                    if (pPlayer == NULL || pPlayer == pPlayerKiller)
+                    if (pPlayer == nullptr || pPlayer == pPlayerKiller)
                         continue;
 
                     pPlayer->GiveGold(unTeamBounty, pPlayer->GetHero());
@@ -3501,15 +3501,15 @@ void    IUnitEntity::Die(IUnitEntity *pAttacker, ushort unKillingObjectID)
     
     if (!HasUnitFlags(UNIT_FLAG_ILLUSION) && !GetProtectedDeath())
     {
-        if (pAttacker != NULL)
+        if (pAttacker != nullptr)
         {
             pAttacker->Action(ACTION_SCRIPT_KILL, this, this);
 
-            if (pAttacker->GetOwner() != NULL)
+            if (pAttacker->GetOwner() != nullptr)
                 pAttacker->GetOwner()->Action(ACTION_SCRIPT_INDIRECT_KILL, this, pAttacker);
         }
 
-        KillReward(pAttacker, pAttacker ? pAttacker->GetOwnerPlayer() : NULL);
+        KillReward(pAttacker, pAttacker ? pAttacker->GetOwnerPlayer() : nullptr);
 
         bool bDropAllItems(IsHero() && Game.HasGameOptions(GAME_OPTION_DROP_ITEMS));
 
@@ -3518,7 +3518,7 @@ void    IUnitEntity::Die(IUnitEntity *pAttacker, ushort unKillingObjectID)
             for (int i(INVENTORY_START_BACKPACK); i <= INVENTORY_END_BACKPACK; ++i)
             {
                 IEntityItem *pItem(GetItem(i));
-                if (pItem == NULL)
+                if (pItem == nullptr)
                     continue;
 
                 bool bLoseOwnerShip(pItem->GetDropOnDeath() || bDropAllItems);
@@ -3534,10 +3534,10 @@ void    IUnitEntity::Die(IUnitEntity *pAttacker, ushort unKillingObjectID)
 
     if (!GetNoDeathAnim())
     {
-        bool bIsDeny(pAttacker != NULL && pAttacker->GetTeam() == GetTeam());
+        bool bIsDeny(pAttacker != nullptr && pAttacker->GetTeam() == GetTeam());
         if (bIsDeny && g_unitPlayDenyAnims && !GetDeniedAnim().empty())
             StartAnimation(GetDeniedAnim(), 0);
-        else if (!bIsDeny && pAttacker != NULL && pAttacker->GetOwnerPlayer() != NULL && g_unitPlayGibAnims && !GetGibAnim().empty())
+        else if (!bIsDeny && pAttacker != nullptr && pAttacker->GetOwnerPlayer() != nullptr && g_unitPlayGibAnims && !GetGibAnim().empty())
             StartAnimation(GetGibAnim(), 0);
         else
         {
@@ -3558,9 +3558,9 @@ void    IUnitEntity::Expire()
     if (GetStatus() != ENTITY_STATUS_ACTIVE)
         return;
 
-    IUnitEntity *pMounted(NULL);
+    IUnitEntity *pMounted(nullptr);
     IGadgetEntity *pGadget(GetAsGadget());
-    if (pGadget != NULL)
+    if (pGadget != nullptr)
         pMounted = Game.GetUnitEntity(pGadget->GetMountIndex());
     Action(ACTION_SCRIPT_EXPIRED, pMounted, this);
 
@@ -3590,7 +3590,7 @@ void    IUnitEntity::Expire()
         for (int i(INVENTORY_START_BACKPACK); i <= INVENTORY_END_BACKPACK; ++i)
         {
             IEntityItem *pItem(GetItem(i));
-            if (pItem == NULL)
+            if (pItem == nullptr)
                 continue;
 
             if (pItem->GetUnkillable())
@@ -3603,7 +3603,7 @@ void    IUnitEntity::Expire()
         for (int i(INVENTORY_START_BACKPACK); i <= INVENTORY_END_BACKPACK; ++i)
         {
             IEntityItem *pItem(GetItem(i));
-            if (pItem == NULL)
+            if (pItem == nullptr)
                 continue;
 
             if (!GetDropItemsOnDeath() && !pItem->GetDropOnDeath())
@@ -3624,7 +3624,7 @@ void    IUnitEntity::StopLiving()
     for (int iSlot(INVENTORY_START_ACTIVE); iSlot <= INVENTORY_END_ACTIVE; ++iSlot)
     {
         IEntityTool *pTool(GetTool(iSlot));
-        if (pTool == NULL)
+        if (pTool == nullptr)
             continue;
 
         pTool->Interrupt(UNIT_ACTION_DEATH);
@@ -3637,7 +3637,7 @@ void    IUnitEntity::StopLiving()
     for (int i(INVENTORY_START_STATES); i <= INVENTORY_END_STATES; ++i)
     {
         IEntityState *pState(GetState(i));
-        if (pState == NULL)
+        if (pState == nullptr)
             continue;
         if (pState->GetDeathPersist())
             continue;
@@ -3732,7 +3732,7 @@ void    IUnitEntity::Link()
         return;
 
     CWorldEntity *pWorldEnt(Game.GetWorldEntity(m_uiWorldIndex));
-    if (pWorldEnt == NULL)
+    if (pWorldEnt == nullptr)
         return;
 
     uint uiLinkFlags(GetLinkFlags());
@@ -3823,10 +3823,10 @@ void    IUnitEntity::UnblockPath()
   ====================*/
 float   IUnitEntity::ExecuteActionScript(EEntityActionScript eScript, IUnitEntity *pTarget, const CVec3f &v3Target, float fDefault)
 {
-    if (m_pDefinition == NULL)
+    if (m_pDefinition == nullptr)
         return 0.0f;
 
-    return m_pDefinition->ExecuteActionScript(eScript, this, GetOwner(), this, pTarget, v3Target, NULL, GetLevel(), NULL, NULL, V_ZERO, fDefault);
+    return m_pDefinition->ExecuteActionScript(eScript, this, GetOwner(), this, pTarget, v3Target, nullptr, GetLevel(), nullptr, nullptr, V_ZERO, fDefault);
 }
 
 
@@ -4070,7 +4070,7 @@ bool    IUnitEntity::JustWalkNike(const CVec2f &v2MovementVector, CPlane &plOutI
   ====================*/
 bool    IUnitEntity::StartAttack(IUnitEntity* pTarget, bool bAbility, bool bAggro)
 {
-    if (bAggro && pTarget != NULL && pTarget->IsHero() && !pTarget->IsIllusion() && pTarget->GetTeam() != GetTeam())
+    if (bAggro && pTarget != nullptr && pTarget->IsHero() && !pTarget->IsIllusion() && pTarget->GetTeam() != GetTeam())
         AggroCreeps(g_heroAttackAggroRange, g_heroAttackAggroTime, pTarget->GetTeam(), g_heroAttackAggroDelay, g_heroAttackReaggroBlock);
 
     if (GetAttackStartEffect() != INVALID_RESOURCE)
@@ -4082,7 +4082,7 @@ bool    IUnitEntity::StartAttack(IUnitEntity* pTarget, bool bAbility, bool bAggr
     }
 
     CPlayer *pOwner(GetOwnerPlayer());
-    if (pOwner != NULL)
+    if (pOwner != nullptr)
         pOwner->SetLastInteractionTime(Game.GetGameTime());
 
     m_cCombatEvent.Reset();
@@ -4098,7 +4098,7 @@ bool    IUnitEntity::StartAttack(IUnitEntity* pTarget, bool bAbility, bool bAggr
         for (int iSlot(INVENTORY_START_ACTIVE); iSlot <= INVENTORY_END_ACTIVE; ++iSlot)
         {
             IEntityTool *pTool(GetTool(iSlot));
-            if (pTool == NULL)
+            if (pTool == nullptr)
                 continue;
             if (!pTool->IsActive())
                 continue;
@@ -4127,7 +4127,7 @@ bool    IUnitEntity::StartAttack(IUnitEntity* pTarget, bool bAbility, bool bAggr
             if (!pTool->GetAnim().empty())
                 StartAnimation(pTool->GetAnim(), pTool->GetAnimChannel(), GetAttackSpeed());
 
-            pTool->ExecuteActionScript(ACTION_SCRIPT_START, pTarget, pTarget != NULL ? pTarget->GetPosition() : V3_ZERO);
+            pTool->ExecuteActionScript(ACTION_SCRIPT_START, pTarget, pTarget != nullptr ? pTarget->GetPosition() : V3_ZERO);
 
             Action(ACTION_SCRIPT_ACTIVATE_START, pTarget, pTool);
 
@@ -4154,7 +4154,7 @@ bool    IUnitEntity::StartAttack(IUnitEntity* pTarget, bool bAbility, bool bAggr
 bool    IUnitEntity::Attack(IUnitEntity* pTarget, bool bAttackAbility)
 {
     const CAttackType *pAttackType(Game.GetAttackType(GetAttackType()));
-    if (pAttackType == NULL)
+    if (pAttackType == nullptr)
         return false;
 
     if (!Game.IsValidTarget(GetAttackTargetScheme(), 0, this, pTarget))
@@ -4166,7 +4166,7 @@ bool    IUnitEntity::Attack(IUnitEntity* pTarget, bool bAttackAbility)
     // Allow inventory items to react to the action
     for (int iSlot(INVENTORY_START_ACTIVE); iSlot <= INVENTORY_END_ACTIVE; ++iSlot)
     {
-        if (m_apInventory[iSlot] == NULL)
+        if (m_apInventory[iSlot] == nullptr)
             continue;
 
         if (!m_apInventory[iSlot]->OwnerAction())
@@ -4179,12 +4179,12 @@ bool    IUnitEntity::Attack(IUnitEntity* pTarget, bool bAttackAbility)
 
         m_uiAttackAbilityUID = INVALID_INDEX;
 
-        if (pEntity != NULL)
+        if (pEntity != nullptr)
         {
             IEntityTool *pTool(pEntity->GetAsTool());
-            if (pTool != NULL)
+            if (pTool != nullptr)
             {
-                if (pTool->Activate(pTarget, pTarget != NULL ? pTarget->GetPosition() : V3_ZERO, V3_ZERO, false, -1))
+                if (pTool->Activate(pTarget, pTarget != nullptr ? pTarget->GetPosition() : V3_ZERO, V3_ZERO, false, -1))
                     return true;
             }
         }
@@ -4210,7 +4210,7 @@ bool    IUnitEntity::Attack(IUnitEntity* pTarget, bool bAttackAbility)
     if (m_unAttackProjectile != INVALID_ENT_TYPE)
     {   
         IProjectile *pProjectile(CreateProjectile(EntityRegistry.LookupName(m_unAttackProjectile), pTarget->GetIndex(), 1));
-        if (pProjectile != NULL)
+        if (pProjectile != nullptr)
         {
             pProjectile->SetTargetScheme(GetAttackTargetScheme());
             pProjectile->SetAttackImpactEffect(m_hAttackImpactEffect);
@@ -4301,10 +4301,10 @@ bool    IUnitEntity::Attack(IUnitEntity* pTarget, bool bAttackAbility)
 IProjectile*    IUnitEntity::SpawnProjectile(const tstring &sName, const CVec3f &v3End, uint uiLevel)
 {
     IProjectile *pProjectile(Game.AllocateDynamicEntity<IProjectile>(sName));
-    if (pProjectile == NULL)
+    if (pProjectile == nullptr)
     {
         Console.Warn << _T("Failed to spawn projectile: ") << sName << newl;
-        return NULL;
+        return nullptr;
     }
 
     CVec3f v3Start(GetTransformedAttackOffset());
@@ -4329,14 +4329,14 @@ IProjectile*    IUnitEntity::SpawnProjectile(const tstring &sName, const CVec3f 
 IProjectile*    IUnitEntity::CreateProjectile(const tstring &sName, uint uiTargetIndex, uint uiLevel)
 {
     IUnitEntity *pTarget(Game.GetUnitEntity(uiTargetIndex));
-    if (pTarget == NULL)
-        return NULL;
+    if (pTarget == nullptr)
+        return nullptr;
 
     CAxis axis(pTarget->GetAngles());
 
     IProjectile *pProjectile(SpawnProjectile(sName, pTarget->GetPosition() + TransformPoint(pTarget->GetTargetOffset(), axis), uiLevel));
-    if (pProjectile == NULL)
-        return NULL;
+    if (pProjectile == nullptr)
+        return nullptr;
     
     pProjectile->SetTargetEntityUID(pTarget->GetUniqueID());
     pProjectile->SetTargetDisjointSequence(pTarget->GetDisjointSequence());
@@ -4347,8 +4347,8 @@ IProjectile*    IUnitEntity::CreateProjectile(const tstring &sName, uint uiTarge
 IProjectile*    IUnitEntity::CreateProjectile(const tstring &sName, const CVec3f &v3TargetPosition, uint uiLevel)
 {
     IProjectile *pProjectile(SpawnProjectile(sName, v3TargetPosition, uiLevel));
-    if (pProjectile == NULL)
-        return NULL;
+    if (pProjectile == nullptr)
+        return nullptr;
 
     pProjectile->SetTargetPos(v3TargetPosition);
     pProjectile->Spawn();
@@ -4383,7 +4383,7 @@ void    IUnitEntity::Interrupt(EUnitAction eAction)
     for (int iSlot(INVENTORY_START_ACTIVE); iSlot <= INVENTORY_END_ACTIVE; ++iSlot)
     {
         IEntityTool *pTool(GetTool(iSlot));
-        if (pTool == NULL)
+        if (pTool == nullptr)
             continue;
         if (!pTool->IsActive())
             continue;
@@ -4401,7 +4401,7 @@ bool    IUnitEntity::IsChanneling(EUnitAction eAction)
     for (int iSlot(INVENTORY_START_ACTIVE); iSlot <= INVENTORY_END_ACTIVE; ++iSlot)
     {
         IEntityTool *pTool(GetTool(iSlot));
-        if (pTool == NULL)
+        if (pTool == nullptr)
             continue;
         if (!pTool->IsActive())
             continue;
@@ -4458,7 +4458,7 @@ void    IUnitEntity::ValidatePosition(uint uiIgnoreSurfaces)
 
     CWorldEntity *pWorldEnt(Game.GetWorldEntity(trace.uiEntityIndex));
 
-    if (pWorldEnt == NULL)
+    if (pWorldEnt == nullptr)
     {
         Link();
         return;
@@ -4467,7 +4467,7 @@ void    IUnitEntity::ValidatePosition(uint uiIgnoreSurfaces)
     if (pWorldEnt->GetGameIndex() != INVALID_INDEX)
     {
         IGameEntity *pBlocker(Game.GetEntity(pWorldEnt->GetGameIndex()));
-        if (pBlocker != NULL && pBlocker->GetUniqueID() == m_uiBindTargetUID)
+        if (pBlocker != nullptr && pBlocker->GetUniqueID() == m_uiBindTargetUID)
         {
             Link();
             return;
@@ -4608,13 +4608,13 @@ void    IUnitEntity::ValidatePosition2()
 
     CWorldEntity *pWorldEnt(Game.GetWorldEntity(trace.uiEntityIndex));
 
-    if (pWorldEnt == NULL)
+    if (pWorldEnt == nullptr)
         return;
 
     if (pWorldEnt->GetGameIndex() != INVALID_INDEX)
     {
         IGameEntity *pBlocker(Game.GetEntity(pWorldEnt->GetGameIndex()));
-        if (pBlocker != NULL && pBlocker->GetUniqueID() == m_uiBindTargetUID)
+        if (pBlocker != nullptr && pBlocker->GetUniqueID() == m_uiBindTargetUID)
             return;
     }
 
@@ -4713,7 +4713,7 @@ void    IUnitEntity::ValidatePosition2()
 bool    IUnitEntity::ShouldTarget(IGameEntity *pOther)
 {
     IUnitEntity *pTarget(pOther->GetAsUnit());
-    if (pTarget == NULL)
+    if (pTarget == nullptr)
         return false;
 
     if (pTarget->GetTeam() == TEAM_PASSIVE)
@@ -4740,13 +4740,13 @@ bool    IUnitEntity::ShouldTarget(IGameEntity *pOther)
   ====================*/
 bool    IUnitEntity::IsEnemy(IUnitEntity *pOther) const
 {
-    if (pOther == NULL)
+    if (pOther == nullptr)
         return false;
     if (pOther == this)
         return false;
     if (pOther->GetTeam() == GetTeam())
         return false;
-    if (Game.GetTeam(GetTeam()) != NULL && Game.GetTeam(GetTeam())->IsAlliedTeam(pOther->GetTeam()))
+    if (Game.GetTeam(GetTeam()) != nullptr && Game.GetTeam(GetTeam())->IsAlliedTeam(pOther->GetTeam()))
         return false;
 
     return true;
@@ -4815,7 +4815,7 @@ void    IUnitEntity::UpdateSkeleton(bool bPose)
         m_fTiltRoll = 0.0f;
     }
 
-    if (m_pSkeleton == NULL)
+    if (m_pSkeleton == nullptr)
         return;
 
     m_pSkeleton->SetModel(GetModel());
@@ -4858,11 +4858,11 @@ void    IUnitEntity::GetAnimState(int iChannel, int &iAnim, byte &ySequence, flo
         return;
     }
 
-    const tstring *psForceAnim(NULL);
+    const tstring *psForceAnim(nullptr);
 
     for (int iSlot(INVENTORY_START_ACTIVE); iSlot <= INVENTORY_END_ACTIVE; ++iSlot)
     {
-        if (m_apInventory[iSlot] == NULL)
+        if (m_apInventory[iSlot] == nullptr)
             continue;
 
         if (!m_apInventory[iSlot]->GetForceAnim().empty())
@@ -4910,7 +4910,7 @@ bool    IUnitEntity::IsPlayingAnim(int iChannel, const tstring &sAnimName, int i
   ====================*/
 CVec4f  IUnitEntity::GetSelectionColor(CPlayer *pLocalPlayer)
 {
-    if (pLocalPlayer == NULL || pLocalPlayer->GetTeam() == TEAM_SPECTATOR)
+    if (pLocalPlayer == nullptr || pLocalPlayer->GetTeam() == TEAM_SPECTATOR)
     {
         if (GetTeam() == TEAM_PASSIVE || GetTeam() == TEAM_SPECTATOR)
             return WHITE;
@@ -4941,7 +4941,7 @@ CVec4f  IUnitEntity::GetSelectionColor(CPlayer *pLocalPlayer)
 void    IUnitEntity::AddSelectionRingToScene()
 {
     CPlayer *pLocalPlayer(Game.GetLocalPlayer());
-    if (pLocalPlayer == NULL)
+    if (pLocalPlayer == nullptr)
         return;
 
     float fSize(GetSelectionRadius());
@@ -5029,7 +5029,7 @@ bool    IUnitEntity::AddToScene(const CVec4f &v4Color, int iFlags)
         return false;
 
     CPlayer *pLocalPlayer(Game.GetLocalPlayer());
-    if (pLocalPlayer == NULL)
+    if (pLocalPlayer == nullptr)
         return false;
 
     if (!pLocalPlayer->CanSee(this))
@@ -5058,7 +5058,7 @@ bool    IUnitEntity::AddToScene(const CVec4f &v4Color, int iFlags)
 
     sceneEntity.Clear();
 
-    if (m_pMount != NULL)
+    if (m_pMount != nullptr)
     {
         m_pMount->UpdateSkeleton(true);
 
@@ -5216,7 +5216,7 @@ bool    IUnitEntity::IsTargetType(const CTargetScheme::STestRecord &test, const 
 {
     PROFILE("IUnitEntity::IsTargetType");
 
-    if (pInitiator == NULL)
+    if (pInitiator == nullptr)
         return false;
 
     switch (test.m_eTest)
@@ -5250,7 +5250,7 @@ bool    IUnitEntity::IsTargetType(ETargetTrait eTrait, const IUnitEntity *pIniti
 {
     PROFILE("IUnitEntity::IsTargetType");
 
-    if (pInitiator == NULL)
+    if (pInitiator == nullptr)
         return false;
 
     switch (eTrait)
@@ -5331,7 +5331,7 @@ bool    IUnitEntity::IsTargetType(ETargetTrait eTrait, const IUnitEntity *pIniti
         {
             CPlayer *pSourcePlayer(pInitiator->GetOwnerPlayer());
             CPlayer *pTargetPlayer(GetOwnerPlayer());
-            if (pSourcePlayer == NULL || pTargetPlayer == NULL)
+            if (pSourcePlayer == nullptr || pTargetPlayer == nullptr)
                 return false;
 
             return pTargetPlayer->GetNoHelp(pSourcePlayer);
@@ -5344,7 +5344,7 @@ bool    IUnitEntity::IsTargetType(ETargetTrait eTrait, const IUnitEntity *pIniti
         {
             CPlayer *pPlayer(GetOwnerPlayer());
 
-            if (pPlayer != NULL && (pPlayer->HasFlags(PLAYER_FLAG_PREMIUM) || pPlayer->HasFlags(PLAYER_FLAG_STAFF)))
+            if (pPlayer != nullptr && (pPlayer->HasFlags(PLAYER_FLAG_PREMIUM) || pPlayer->HasFlags(PLAYER_FLAG_STAFF)))
                 return true;
             else 
                 return g_perks;
@@ -5407,18 +5407,18 @@ IUnitEntity*    IUnitEntity::SpawnIllusion(const CVec3f &v3Position, const CVec3
                                            bool bDeathAnim, bool bInheritActions)
 {
     IGameEntity *pNewEntity(Game.AllocateEntity(GetType()));
-    if (pNewEntity == NULL)
+    if (pNewEntity == nullptr)
     {
         Console.Err << _T("Failed to spawn illusion: ") << GetTypeName() << newl;
-        return NULL;
+        return nullptr;
     }
 
     IUnitEntity *pIllusion(pNewEntity->GetAsUnit());
-    if (pIllusion == NULL)
+    if (pIllusion == nullptr)
     {
         Console.Err << _T("Entity is not a unit: ") << GetTypeName() << newl;
         Game.DeleteEntity(pNewEntity);
-        return NULL;
+        return nullptr;
     }
 
     pIllusion->SetPosition(v3Position);
@@ -5447,7 +5447,7 @@ IUnitEntity*    IUnitEntity::SpawnIllusion(const CVec3f &v3Position, const CVec3
         ISlaveEntity* pThisAbility(GetInventorySlot(iSlot));
         ISlaveEntity* pIllusionAbility(pIllusion->GetInventorySlot(iSlot));
 
-        if (pIllusionAbility == NULL || pThisAbility == NULL)
+        if (pIllusionAbility == nullptr || pThisAbility == nullptr)
             continue;
         
         pIllusionAbility->SetLevel(pThisAbility->GetLevel());
@@ -5457,7 +5457,7 @@ IUnitEntity*    IUnitEntity::SpawnIllusion(const CVec3f &v3Position, const CVec3
     // Clone backpack
     for (int iSlot(INVENTORY_START_BACKPACK); iSlot <= INVENTORY_END_BACKPACK; ++iSlot)
     {
-        if (GetItem(iSlot) == NULL)
+        if (GetItem(iSlot) == nullptr)
             continue;
 
         pIllusion->CloneItem(GetItem(iSlot));
@@ -5466,7 +5466,7 @@ IUnitEntity*    IUnitEntity::SpawnIllusion(const CVec3f &v3Position, const CVec3
     // Clone states
     for (int iSlot(INVENTORY_START_STATES); iSlot <= INVENTORY_END_STATES; ++iSlot)
     {
-        if (GetState(iSlot) == NULL)
+        if (GetState(iSlot) == nullptr)
             continue;
 
         IEntityState *pState(GetState(iSlot));
@@ -5475,7 +5475,7 @@ IUnitEntity*    IUnitEntity::SpawnIllusion(const CVec3f &v3Position, const CVec3
             continue;
 
         IEntityState *pNewState(pIllusion->ApplyState(pState->GetType(), pState->GetLevel(), pState->GetStartTime(), pState->GetLifetime(), pState->GetInflictorIndex(), pState->GetProxyUID()));
-        if (pNewState != NULL)
+        if (pNewState != nullptr)
         {
             pNewState->SetCharges(pState->GetCharges());
         }
@@ -5707,7 +5707,7 @@ bool    IUnitEntity::IsAttacking() const
 bool    IUnitEntity::IsIdle() const
 {
     IBehavior *pBehavior(m_cBrain.GetCurrentBehavior());
-    if (pBehavior != NULL)
+    if (pBehavior != nullptr)
         return pBehavior->IsIdle();
     else
         return false;
@@ -5720,7 +5720,7 @@ bool    IUnitEntity::IsIdle() const
 bool    IUnitEntity::IsTraveling() const
 {
     IBehavior *pBehavior(m_cBrain.GetCurrentBehavior());
-    if (pBehavior != NULL)
+    if (pBehavior != nullptr)
         return pBehavior->IsTraveling();
     else
         return false;
@@ -5742,7 +5742,7 @@ bool    IUnitEntity::CanReceiveOrdersFrom(int iClientNumber)
         return true;
 
     CPlayer *pOwner(GetOwnerPlayer());
-    if (pOwner == NULL)
+    if (pOwner == nullptr)
         return false;
 
     CPlayer *pPlayer(Game.GetPlayer(iClientNumber));
@@ -5778,7 +5778,7 @@ int     IUnitEntity::CheckRecipes(int iTestSlot)
     for (int iSlot(iStartSlot); iSlot <= iEndSlot; ++iSlot)
     {
         IEntityItem *pItem(GetItem(iSlot));
-        if (pItem == NULL)
+        if (pItem == nullptr)
             continue;
 
         int iRecipeItemSlot(pItem->Assemble());
@@ -5787,7 +5787,7 @@ int     IUnitEntity::CheckRecipes(int iTestSlot)
     }
 
     IEntityItem *pTestSlot(GetItem(iTestSlot));
-    int iSlotOwner(pTestSlot != NULL ? pTestSlot->GetPurchaserClientNumber() : -1);
+    int iSlotOwner(pTestSlot != nullptr ? pTestSlot->GetPurchaserClientNumber() : -1);
 
     if (iSlotOwner != -1 && !CanReceiveOrdersFrom(iSlotOwner))
         return iNewItemSlot;
@@ -5799,7 +5799,7 @@ int     IUnitEntity::CheckRecipes(int iTestSlot)
         // Get current auto recipe item definition
         ushort unItemID(*cit);
         CItemDefinition *pItemDefinition(EntityRegistry.GetDefinition<CItemDefinition>(unItemID));
-        if (pItemDefinition == NULL || pItemDefinition->GetComponentsSize() == 0)
+        if (pItemDefinition == nullptr || pItemDefinition->GetComponentsSize() == 0)
             continue;
 
         uint uiRecipe(pItemDefinition->Assemble(this, iTestSlot));
@@ -5814,7 +5814,7 @@ int     IUnitEntity::CheckRecipes(int iTestSlot)
                 continue;
 
             IEntityItem *pItem(GetItem(iSlot));
-            if (pItem == NULL)
+            if (pItem == nullptr)
             {
                 if (iTargetSlot == -1)
                     iTargetSlot = iSlot;
@@ -5831,7 +5831,7 @@ int     IUnitEntity::CheckRecipes(int iTestSlot)
         PlayRecipeEffect();
 
         IEntityTool *pTool(GiveItem(iTargetSlot, unItemID, true));
-        if (pTool != NULL && pTool->IsItem())
+        if (pTool != nullptr && pTool->IsItem())
         {
             pTool->GetAsItem()->SetPurchaserClientNumber(iSlotOwner);
             Game.LogItem(GAME_LOG_ITEM_ASSEMBLE, pTool->GetAsItem());
@@ -5867,10 +5867,10 @@ bool    IUnitEntity::CanAccessLocalShop(const tstring &sShopName)
     }
 
     CTeamInfo *pTeam(Game.GetTeam(GetTeam()));
-    if (pTeam != NULL)
+    if (pTeam != nullptr)
     {
         IUnitEntity *pBase(Game.GetUnitEntity(pTeam->GetBaseBuildingIndex()));
-        if (pBase != NULL)
+        if (pBase != nullptr)
         {
             const tsvector &vsShopAccess(TokenizeString(pBase->GetSharedShopAccess(), _T(' ')));
             for (tsvector_cit it(vsShopAccess.begin()), itEnd(vsShopAccess.end()); it != itEnd; ++it)
@@ -5909,10 +5909,10 @@ bool    IUnitEntity::CanAccessShop(ushort unShopID)
     if (GetStatus() == ENTITY_STATUS_ACTIVE)
     {
         CTeamInfo *pTeam(Game.GetTeam(GetTeam()));
-        if (pTeam != NULL)
+        if (pTeam != nullptr)
         {
             IUnitEntity *pBase(Game.GetUnitEntity(pTeam->GetBaseBuildingIndex()));
-            if (pBase != NULL)
+            if (pBase != nullptr)
             {
                 const tsvector &vsShopAccess(TokenizeString(pBase->GetSharedShopAccess(), _T(' ')));
                 const tstring &sShopName(EntityRegistry.LookupName(unShopID));
@@ -5931,7 +5931,7 @@ bool    IUnitEntity::CanAccessShop(ushort unShopID)
     for (vector<ushort>::iterator it(vShopList.begin()); it != vShopList.end(); ++it)
     {
         CShopDefinition *pShop(EntityRegistry.GetDefinition<CShopDefinition>(*it));
-        if (pShop == NULL || !pShop->GetAllowRemoteAccess())
+        if (pShop == nullptr || !pShop->GetAllowRemoteAccess())
             continue;
 
         if (pShop->GetTypeID() == unShopID)
@@ -5949,10 +5949,10 @@ bool    IUnitEntity::CanAccessShop(ushort unShopID)
 
     // Check for remotely accessible shops (shared)
     CTeamInfo *pTeam(Game.GetTeam(GetTeam()));
-    if (pTeam != NULL)
+    if (pTeam != nullptr)
     {
         IUnitEntity *pBase(Game.GetUnitEntity(pTeam->GetBaseBuildingIndex()));
-        if (pBase != NULL)
+        if (pBase != nullptr)
         {
             const tsvector &vsShopAccess(TokenizeString(pBase->GetSharedRemoteShopAccess(), _T(' ')));
             const tstring &sShopName(EntityRegistry.LookupName(unShopID));
@@ -5980,12 +5980,12 @@ bool    IUnitEntity::CanAccessItem(const tstring &sItem)
 
     CTeamInfo *pTeam(Game.GetTeam(GetTeam()));
 
-    if (pTeam == NULL)
+    if (pTeam == nullptr)
         return false;
 
     CShopInfo *pShop(pTeam->GetShopInfo());
 
-    if (pShop == NULL)
+    if (pShop == nullptr)
         return false;
 
     if (pShop->GetStockRemaining(sItem) == 0)
@@ -6010,7 +6010,7 @@ bool    IUnitEntity::CanAccessItem(const tstring &sItem)
     }
 
     CItemDefinition *pItem(EntityRegistry.GetDefinition<CItemDefinition>(sItem));
-    if (pItem != NULL)
+    if (pItem != nullptr)
     {
         if (pItem->IsRecipe() && pItem->GetAutoAssemble())
             return true;
@@ -6112,7 +6112,7 @@ void    IUnitEntity::GetLocalShopList(set<CShopDefinition*> &setShops)
     for (tsvector_cit it(vsShopAccess.begin()), itEnd(vsShopAccess.end()); it != itEnd; ++it)
     {
         CShopDefinition *pShop(EntityRegistry.GetDefinition<CShopDefinition>(*it));
-        if (pShop == NULL)
+        if (pShop == nullptr)
             continue;
 
         setShops.insert(pShop);
@@ -6120,16 +6120,16 @@ void    IUnitEntity::GetLocalShopList(set<CShopDefinition*> &setShops)
 
     // Check for locally accessible shops (shared)
     CTeamInfo *pTeam(Game.GetTeam(GetTeam()));
-    if (pTeam != NULL)
+    if (pTeam != nullptr)
     {
         IUnitEntity *pBase(Game.GetUnitEntity(pTeam->GetBaseBuildingIndex()));
-        if (pBase != NULL)
+        if (pBase != nullptr)
         {
             const tsvector &vsShopAccess(TokenizeString(pBase->GetSharedShopAccess(), _T(' ')));
             for (tsvector_cit it(vsShopAccess.begin()), itEnd(vsShopAccess.end()); it != itEnd; ++it)
             {
                 CShopDefinition *pShop(EntityRegistry.GetDefinition<CShopDefinition>(*it));
-                if (pShop == NULL)
+                if (pShop == nullptr)
                     continue;
 
                 setShops.insert(pShop);
@@ -6150,7 +6150,7 @@ void    IUnitEntity::GetRemoteShopList(set<CShopDefinition*> &setShops)
     for (vector<ushort>::iterator it(vShopList.begin()); it != vShopList.end(); ++it)
     {
         CShopDefinition *pShop(EntityRegistry.GetDefinition<CShopDefinition>(*it));
-        if (pShop == NULL || !pShop->GetAllowRemoteAccess())
+        if (pShop == nullptr || !pShop->GetAllowRemoteAccess())
             continue;
 
         setShops.insert(pShop);
@@ -6161,7 +6161,7 @@ void    IUnitEntity::GetRemoteShopList(set<CShopDefinition*> &setShops)
     for (tsvector_cit it(vsShopAccess.begin()), itEnd(vsShopAccess.end()); it != itEnd; ++it)
     {
         CShopDefinition *pShop(EntityRegistry.GetDefinition<CShopDefinition>(*it));
-        if (pShop == NULL)
+        if (pShop == nullptr)
             continue;
 
         setShops.insert(pShop);
@@ -6169,16 +6169,16 @@ void    IUnitEntity::GetRemoteShopList(set<CShopDefinition*> &setShops)
 
     // Check for remotely accessible shops (shared)
     CTeamInfo *pTeam(Game.GetTeam(GetTeam()));
-    if (pTeam != NULL)
+    if (pTeam != nullptr)
     {
         IUnitEntity *pBase(Game.GetUnitEntity(pTeam->GetBaseBuildingIndex()));
-        if (pBase != NULL)
+        if (pBase != nullptr)
         {
             const tsvector &vsShopAccess(TokenizeString(pBase->GetSharedRemoteShopAccess(), _T(' ')));
             for (tsvector_cit it(vsShopAccess.begin()), itEnd(vsShopAccess.end()); it != itEnd; ++it)
             {
                 CShopDefinition *pShop(EntityRegistry.GetDefinition<CShopDefinition>(*it));
-                if (pShop == NULL)
+                if (pShop == nullptr)
                     continue;
 
                 setShops.insert(pShop);
@@ -6232,7 +6232,7 @@ void    IUnitEntity::CallForHelp(float fRange, IUnitEntity *pAttacker)
             continue;
 
         IUnitEntity *pUnit(Game.GetUnitEntity(Game.GetGameIndexFromWorldIndex(*cit)));
-        if (pUnit == NULL)
+        if (pUnit == nullptr)
             continue;
 
         if (DistanceSq(m_v3Position.xy(), pUnit->GetPosition().xy()) > SQR(fAssistRange + pUnit->GetBounds().GetDim(X) * DIAG))
@@ -6263,7 +6263,7 @@ void    IUnitEntity::UpdateEffectThreadSource(CEffectThread *pEffectThread)
 
     bool bPositioned(false);
 
-    if (m_pMount != NULL)
+    if (m_pMount != nullptr)
     {
         m_pMount->UpdateSkeleton(true);
 
@@ -6301,7 +6301,7 @@ void    IUnitEntity::UpdateEffectThreadSource(CEffectThread *pEffectThread)
     else
         pEffectThread->SetSourceEffectScale(1.0f);
 
-    pEffectThread->SetSourceVisibility(Game.GetLocalPlayer() == NULL || Game.GetLocalPlayer()->CanSee(this));
+    pEffectThread->SetSourceVisibility(Game.GetLocalPlayer() == nullptr || Game.GetLocalPlayer()->CanSee(this));
 }
 
 
@@ -6315,7 +6315,7 @@ void    IUnitEntity::UpdateEffectThreadTarget(CEffectThread *pEffectThread)
 
     bool bPositioned(false);
 
-    if (m_pMount != NULL)
+    if (m_pMount != nullptr)
     {
         m_pMount->UpdateSkeleton(true);
 
@@ -6353,7 +6353,7 @@ void    IUnitEntity::UpdateEffectThreadTarget(CEffectThread *pEffectThread)
     else
         pEffectThread->SetTargetEffectScale(1.0f);
 
-    pEffectThread->SetTargetVisibility(Game.GetLocalPlayer() == NULL || Game.GetLocalPlayer()->CanSee(this));
+    pEffectThread->SetTargetVisibility(Game.GetLocalPlayer() == nullptr || Game.GetLocalPlayer()->CanSee(this));
 }
 
 
@@ -6410,7 +6410,7 @@ void    IUnitEntity::AggroCreeps(float fRange, uint uiDuration, byte yTeam, uint
             continue;
 
         IUnitEntity *pUnit(Game.GetUnitEntity(Game.GetGameIndexFromWorldIndex(*cit)));
-        if (pUnit == NULL)
+        if (pUnit == nullptr)
             continue;
 
         if (DistanceSq(m_v3Position.xy(), pUnit->GetPosition().xy()) > SQR(fAggroRange + pUnit->GetBounds().GetDim(X) * DIAG))
@@ -6464,7 +6464,7 @@ void    IUnitEntity::StartCooldown(uint uiCooldownType, uint uiStartTime, uint u
     for (int iSlot(INVENTORY_START_ACTIVE); iSlot <= INVENTORY_END_ACTIVE; ++iSlot)
     {
         IEntityTool *pTool(GetTool(iSlot));
-        if (pTool == NULL ||
+        if (pTool == nullptr ||
             pTool->GetCooldownType() != uiCooldownType)
             continue;
 
@@ -6491,7 +6491,7 @@ void    IUnitEntity::ReduceCooldown(uint uiCooldownType, uint uiDuration)
     for (int iSlot(INVENTORY_START_ACTIVE); iSlot <= INVENTORY_END_ACTIVE; ++iSlot)
     {
         IEntityTool *pTool(GetTool(iSlot));
-        if (pTool == NULL ||
+        if (pTool == nullptr ||
             pTool->GetCooldownType() != uiCooldownType)
             continue;
 
@@ -6516,7 +6516,7 @@ void    IUnitEntity::ResetCooldown(uint uiCooldownType)
     for (int iSlot(INVENTORY_START_ACTIVE); iSlot <= INVENTORY_END_ACTIVE; ++iSlot)
     {
         IEntityTool *pTool(GetTool(iSlot));
-        if (pTool == NULL ||
+        if (pTool == nullptr ||
             pTool->GetCooldownType() != uiCooldownType)
             continue;
 
@@ -6555,7 +6555,7 @@ void    IUnitEntity::ResetCooldowns()
     for (int iSlot(INVENTORY_START_ACTIVE); iSlot <= INVENTORY_END_ACTIVE; ++iSlot)
     {
         IEntityTool *pTool(GetTool(iSlot));
-        if (pTool == NULL || pTool->GetCooldownType() == 0)
+        if (pTool == nullptr || pTool->GetCooldownType() == 0)
             continue;
 
         pTool->SetApparentCooldown(INVALID_TIME, 0);
@@ -6589,7 +6589,7 @@ float   IUnitEntity::GetAttackEffectType() const
     for (int iSlot(INVENTORY_START_ACTIVE); iSlot <= INVENTORY_END_ACTIVE; ++iSlot)
     {
         IEntityTool *pTool(GetTool(iSlot));
-        if (pTool == NULL)
+        if (pTool == nullptr)
             continue;
         if (!pTool->IsActive())
             continue;
@@ -6753,7 +6753,7 @@ float   IUnitEntity::GetShield() const
 {
     for (int iSlot(INVENTORY_START_ACTIVE); iSlot <= INVENTORY_END_ACTIVE; ++iSlot)
     {
-        if (m_apInventory[iSlot] == NULL)
+        if (m_apInventory[iSlot] == nullptr)
             continue;
 
         if (m_apInventory[iSlot]->GetShield())
@@ -6771,7 +6771,7 @@ float   IUnitEntity::GetMaxShield() const
 {
     for (int iSlot(INVENTORY_START_ACTIVE); iSlot <= INVENTORY_END_ACTIVE; ++iSlot)
     {
-        if (m_apInventory[iSlot] == NULL)
+        if (m_apInventory[iSlot] == nullptr)
             continue;
 
         if (m_apInventory[iSlot]->GetShield())
@@ -6789,7 +6789,7 @@ float   IUnitEntity::GetShieldPercent() const
 {
     for (int iSlot(INVENTORY_START_ACTIVE); iSlot <= INVENTORY_END_ACTIVE; ++iSlot)
     {
-        if (m_apInventory[iSlot] == NULL)
+        if (m_apInventory[iSlot] == nullptr)
             continue;
 
         if (m_apInventory[iSlot]->GetShield())

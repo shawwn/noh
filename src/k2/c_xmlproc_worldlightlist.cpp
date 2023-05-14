@@ -36,7 +36,7 @@ BEGIN_XML_PROCESSOR(light, CWorldLightList)
     }
 
     CWorldLight* pLight(pObject->GetLight(uiIndex));
-    if (pLight == NULL)
+    if (pLight == nullptr)
     {
         Console.Warn << _T("Light allocation failed for light #") << uiIndex << newl;
         return false;
@@ -47,4 +47,4 @@ BEGIN_XML_PROCESSOR(light, CWorldLightList)
     pLight->SetColor(node.GetPropertyV3(_T("color")));
     pLight->SetFalloffStart(node.GetPropertyFloat(_T("falloffstart")));
     pLight->SetFalloffEnd(node.GetPropertyFloat(_T("falloffend")));
-END_XML_PROCESSOR(NULL)
+END_XML_PROCESSOR(nullptr)

@@ -41,7 +41,7 @@ protected:
         float           fEffectScale;
 
         SEffect() :
-        pEffectThread(NULL),
+        pEffectThread(nullptr),
         v3EffectPos(0.0f, 0.0f, 0.0f),
         v3EffectAngles(0.0f, 0.0f, 0.0f),
         fEffectScale(1.0f)

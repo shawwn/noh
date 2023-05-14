@@ -654,7 +654,7 @@ bool    CTwoPointTrailEmitter::Update(uint uiMilliseconds, ParticleTraceFn_t pfn
             fAcceleration,
             1.0f,
             TransformPoint(v3CurrentBonePosA, aLerpedAxis, v3LerpedPos, fLerpedScale),
-            NULL,
+            nullptr,
             **itDef
         );
         m_vTrackA[uiSlot].SetActive(true);
@@ -669,7 +669,7 @@ bool    CTwoPointTrailEmitter::Update(uint uiMilliseconds, ParticleTraceFn_t pfn
             fAcceleration,
             1.0f,
             TransformPoint(v3CurrentBonePosB, aLerpedAxis, v3LerpedPos, fLerpedScale),
-            NULL,
+            nullptr,
             **itDef
         );
         m_vTrackB[uiSlot].SetActive(true);

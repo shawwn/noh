@@ -113,7 +113,7 @@ uLong   CUnzip::SearchCentralDir(FILE *pFileIn)
         uMaxBack = uSizeFile;
 
     buf = K2_NEW_ARRAY(ctx_FileSystem, byte, BUFREADCOMMENT+4);
-    if (buf == NULL)
+    if (buf == nullptr)
         return 0;
 
     uBackRead = 4;
@@ -161,7 +161,7 @@ uLong   CUnzip::SearchCentralDir(FILE *pFileIn)
   "zlib/zlib109.zip".
 
   If the zipfile cannot be opened (pFile don't exist or in not valid), the
-  return value is NULL.
+  return value is nullptr.
 
   Else, the return value is a unzFile Handle, usable with other function
   of this unzip package.
@@ -186,7 +186,7 @@ SZipFile*   CUnzip::Open(const tstring &sPath)
     if (!_TFOPEN_S(pFileIn, TStringToNative(sPath).c_str(), _TNative("rb")))
     {
         Console << _T("can't open ") << sPath << newl;
-        return NULL;
+        return nullptr;
     }
 
     centralPos = SearchCentralDir(pFileIn);
@@ -240,14 +240,14 @@ SZipFile*   CUnzip::Open(const tstring &sPath)
 
     if (status != UNZ_OK) {
         fclose(pFileIn);
-        return NULL;
+        return nullptr;
     }
 
     zipFileInternalInfo.pfile = pFileIn;
     zipFileInternalInfo.byteBefore = centralPos - (zipFileInternalInfo.offsetCentralDir
         + zipFileInternalInfo.sizeCentralDir);
     zipFileInternalInfo.centralPos = centralPos;
-    zipFileInternalInfo.pfileInZipRead = NULL;
+    zipFileInternalInfo.pfileInZipRead = nullptr;
 
     m_pzipFile = K2_NEW(ctx_FileSystem,  SZipFile);
     *m_pzipFile = zipFileInternalInfo;
@@ -272,7 +272,7 @@ SZipFile*   CUnzip::Open(const tstring &sPath)
 
         GetCurrentFileInfoInternal(&m_pzipFile->curFileInfo,
             &m_pzipFile->curFileInfoInternal, szCurrentFilename,
-            sizeof(szCurrentFilename)-1, NULL, 0, NULL, 0);
+            sizeof(szCurrentFilename)-1, nullptr, 0, nullptr, 0);
 
         Core.Hash_AddData((char *)&m_pzipFile->curFileInfo,
             sizeof(m_pzipFile->curFileInfo));
@@ -300,7 +300,7 @@ SZipFile*   CUnzip::Open(const tstring &sPath)
 
         GetCurrentFileInfoInternal(&m_pzipFile->curFileInfo,
             &m_pzipFile->curFileInfoInternal, szCurrentFilename,
-            sizeof(szCurrentFilename)-1, NULL, 0, NULL, 0);
+            sizeof(szCurrentFilename)-1, nullptr, 0, nullptr, 0);
 
         lowercaseName = LowerString(tstring(szCurrentFilename));
 
@@ -327,7 +327,7 @@ CUnzip::~CUnzip()
     if (m_pzipFile)
     {
         K2_DELETE(m_pzipFile);
-        m_pzipFile = NULL;
+        m_pzipFile = nullptr;
     }
 }
 
@@ -343,19 +343,19 @@ CUnzip::~CUnzip()
   ==================== */
 int     CUnzip::Close()
 {
-    if (m_pzipFile == NULL)
+    if (m_pzipFile == nullptr)
         return UNZ_PARAMERROR;
 
-    if (m_pzipFile->pfileInZipRead != NULL)
+    if (m_pzipFile->pfileInZipRead != nullptr)
         CloseCurrentFile(m_pzipFile);
 
     K2_DELETE(m_pzipFile->pFilenameMap);
-    m_pzipFile->pFilenameMap = NULL;
+    m_pzipFile->pFilenameMap = nullptr;
 
     fclose(m_pzipFile->pfile);
-    m_pzipFile->pfile = NULL;
+    m_pzipFile->pfile = nullptr;
     K2_DELETE(m_pzipFile);
-    m_pzipFile = NULL;
+    m_pzipFile = nullptr;
     return UNZ_OK;
 }
 
@@ -376,7 +376,7 @@ void CUnzip::zipSystemDir (void *archive, char *_directory, char *wildcard, bool
     char directory[256] = {0};
     char enumdir[256] = {0};
 
-    if (archive == NULL)
+    if (archive == nullptr)
         return;
     pzipfileInfInternal = (SZipFile *)archive;
 
@@ -397,7 +397,7 @@ void CUnzip::zipSystemDir (void *archive, char *_directory, char *wildcard, bool
 
     numFiles = 0;
     while (status == UNZ_OK) {
-        getCurrentFileInfo((unzFile)pzipfileInfInternal, NULL, filename, 1023, NULL, 0, NULL, 0);
+        getCurrentFileInfo((unzFile)pzipfileInfInternal, nullptr, filename, 1023, nullptr, 0, nullptr, 0);
         filename[1023] = 0;
 
         if (strcmp(filename, directory) != 0 && strstr(filename, "CVS/") == 0) {
@@ -458,7 +458,7 @@ bool    CUnzip::FileExists (const tstring &sPath)
 {
     tstring lowerFilename;
 
-    if (m_pzipFile == NULL)
+    if (m_pzipFile == nullptr)
         return false;
 
     lowerFilename = LowerString(sPath);
@@ -477,7 +477,7 @@ bool    CUnzip::FileExists (const tstring &sPath)
     uLong fileNum;
     uLong posCentralDir;
 
-    if (pFile == NULL)
+    if (pFile == nullptr)
         return UNZ_PARAMERROR;
 
     if (szFilename.length() >= UNZ_MAXFILENAMEINZIP)
@@ -494,8 +494,8 @@ bool    CUnzip::FileExists (const tstring &sPath)
 
     while (status == UNZ_OK) {
         char szCurrentFilename[UNZ_MAXFILENAMEINZIP + 1];
-        getCurrentFileInfo((unzFile)pzipfileInfInternal, NULL, szCurrentFilename, sizeof(szCurrentFilename ) - 1,
-            NULL, 0, NULL, 0);
+        getCurrentFileInfo((unzFile)pzipfileInfInternal, nullptr, szCurrentFilename, sizeof(szCurrentFilename ) - 1,
+            nullptr, 0, nullptr, 0);
         if (_stringFilenameCompare(szCurrentFilename, szFilename, iCaseSensitivity) == 0)
             return UNZ_OK;
         status = _goToNextFile();
@@ -615,13 +615,13 @@ int     CUnzip::OpenCurrentFile()
     uLong offset_local_extrafield;  /* offset of the local extra field */
     uInt  size_local_extrafield;    /* size of the local extra field */
 
-    if (m_pzipFile == NULL)
+    if (m_pzipFile == nullptr)
         return UNZ_PARAMERROR;
 
     if (!m_pzipFile->fileOk)
         return UNZ_PARAMERROR;
 
-    if (m_pzipFile->pfileInZipRead != NULL)
+    if (m_pzipFile->pfileInZipRead != nullptr)
         CloseCurrentFile(m_pzipFile);
 
     if (CheckCurrentFileCoherencyHeader(&iSizeVar, &offset_local_extrafield,
@@ -629,7 +629,7 @@ int     CUnzip::OpenCurrentFile()
         return UNZ_BADZIPFILE;
 
     pfileInZipReadInfo = K2_NEW(ctx_FileSystem,  SZipFileInfo);
-    if (pfileInZipReadInfo == NULL)
+    if (pfileInZipReadInfo == nullptr)
         return UNZ_INTERNALERROR;
 
     pfileInZipReadInfo->preadBuffer = K2_NEW_ARRAY(ctx_FileSystem, char, UNZ_BUFSIZE);
@@ -637,7 +637,7 @@ int     CUnzip::OpenCurrentFile()
     pfileInZipReadInfo->sizeLocalExtrafield = size_local_extrafield;
     pfileInZipReadInfo->posLocalExtrafield = 0;
 
-    if (pfileInZipReadInfo->preadBuffer == NULL)
+    if (pfileInZipReadInfo->preadBuffer == nullptr)
     {
         K2_DELETE(pfileInZipReadInfo);
         return UNZ_INTERNALERROR;
@@ -711,14 +711,14 @@ int     CUnzip::ReadCurrentFile(SZipFile *pFile, voidp pBuf, uint iLen)
     int status = UNZ_OK;
     uInt iRead = 0;
 
-    if (pFile == NULL)
+    if (pFile == nullptr)
         return UNZ_PARAMERROR;
 
     pfileInZipReadInfo = pFile->pfileInZipRead;
 
-    if (pfileInZipReadInfo == NULL)
+    if (pfileInZipReadInfo == nullptr)
         return UNZ_PARAMERROR;
-    if (pfileInZipReadInfo->preadBuffer == NULL)
+    if (pfileInZipReadInfo->preadBuffer == nullptr)
         return UNZ_END_OF_LIST_OF_FILE;
     if (iLen == 0)
         return 0;
@@ -829,12 +829,12 @@ int     CUnzip::ReadCurrentFile(SZipFile *pFile, voidp pBuf, uint iLen)
 int CUnzip::_eof () {
     SZipFileInfo* pfileInZipReadInfo;
 
-    if (m_pzipFile == NULL)
+    if (m_pzipFile == nullptr)
         return UNZ_PARAMERROR;
 
     pfileInZipReadInfo = m_pzipFile->pfileInZipRead;
 
-    if (pfileInZipReadInfo == NULL)
+    if (pfileInZipReadInfo == nullptr)
         return UNZ_PARAMERROR;
 
     if (pfileInZipReadInfo->restReadUncompressed == 0)
@@ -851,9 +851,9 @@ int CUnzip::_eof () {
   This is the local - header version of the extra field (sometimes, there is
   more info in the local - header version than in the central - header)
 
-  if buf==NULL, it return the size of the local extra field that can be read
+  if buf==nullptr, it return the size of the local extra field that can be read
 
-  if buf!=NULL, iLen is the size of the buffer, the extra header is copied in
+  if buf!=nullptr, iLen is the size of the buffer, the extra header is copied in
   buf.
 
   the return value is the number of bytes copied in buf, or (if <0)
@@ -865,18 +865,18 @@ int     CUnzip::GetLocalExtraField (voidp pBuf, uint iLen)
     uInt read_now;
     uLong size_to_read;
 
-    if (m_pzipFile == NULL)
+    if (m_pzipFile == nullptr)
         return UNZ_PARAMERROR;
 
     pfileInZipReadInfo = m_pzipFile->pfileInZipRead;
 
-    if (pfileInZipReadInfo == NULL)
+    if (pfileInZipReadInfo == nullptr)
         return UNZ_PARAMERROR;
 
     size_to_read = (pfileInZipReadInfo->sizeLocalExtrafield -
                 pfileInZipReadInfo->posLocalExtrafield);
 
-    if (pBuf == NULL)
+    if (pBuf == nullptr)
         return (int)size_to_read;
 
     if (iLen > size_to_read)
@@ -910,12 +910,12 @@ int     CUnzip::CloseCurrentFile(SZipFile *pFile)
     int status = UNZ_OK;
     SZipFileInfo *pfileInZipReadInfo;
 
-    if (pFile == NULL)
+    if (pFile == nullptr)
         return UNZ_PARAMERROR;
 
     pfileInZipReadInfo = pFile->pfileInZipRead;
 
-    if (pfileInZipReadInfo == NULL)
+    if (pfileInZipReadInfo == nullptr)
         return UNZ_PARAMERROR;
 
     if (pfileInZipReadInfo->restReadUncompressed == 0)
@@ -925,14 +925,14 @@ int     CUnzip::CloseCurrentFile(SZipFile *pFile)
     }
 
     K2_DELETE_ARRAY(pfileInZipReadInfo->preadBuffer);
-    pfileInZipReadInfo->preadBuffer = NULL;
+    pfileInZipReadInfo->preadBuffer = nullptr;
     if (pfileInZipReadInfo->streamInitialised)
         inflateEnd(&pfileInZipReadInfo->stream);
 
     pfileInZipReadInfo->streamInitialised = 0;
     K2_DELETE(pfileInZipReadInfo);
 
-    pFile->pfileInZipRead = NULL;
+    pFile->pfileInZipRead = nullptr;
 
     return status;
 }
@@ -945,13 +945,13 @@ int CUnzip::GoToFirstFile()
 {
     int status = UNZ_OK;
 
-    if (m_pzipFile == NULL)
+    if (m_pzipFile == nullptr)
         return UNZ_PARAMERROR;
 
     m_pzipFile->posCentralDir = m_pzipFile->offsetCentralDir;
     m_pzipFile->fileNum = 0;
     status = GetCurrentFileInfoInternal(&m_pzipFile->curFileInfo, &m_pzipFile->curFileInfoInternal,
-        NULL, 0, NULL, 0, NULL, 0);
+        nullptr, 0, nullptr, 0, nullptr, 0);
     m_pzipFile->fileOk = (status == UNZ_OK);
     return status;
 }
@@ -964,7 +964,7 @@ int CUnzip::GoToNextFile()
 {
     int status;
 
-    if (m_pzipFile == NULL)
+    if (m_pzipFile == nullptr)
         return UNZ_PARAMERROR;
 
     if (!m_pzipFile->fileOk)
@@ -977,7 +977,7 @@ int CUnzip::GoToNextFile()
             m_pzipFile->curFileInfo.sizeFileExtra + m_pzipFile->curFileInfo.sizeFileComment;
     ++m_pzipFile->fileNum;
     status = GetCurrentFileInfoInternal(&m_pzipFile->curFileInfo,
-        &m_pzipFile->curFileInfoInternal, NULL,0,NULL,0,NULL,0);
+        &m_pzipFile->curFileInfoInternal, nullptr,0,nullptr,0,nullptr,0);
     m_pzipFile->fileOk = (status == UNZ_OK);
     return status;
 }
@@ -991,7 +991,7 @@ uint    CUnzip::OpenUnzipFile(const tstring &sFilename, char *&pBuffer)
     tstring lowerFilename;
 
     // must have a valid archive
-    if (m_pzipFile == NULL)
+    if (m_pzipFile == nullptr)
         return 0;
 
     // copy archive structure
@@ -1010,7 +1010,7 @@ uint    CUnzip::OpenUnzipFile(const tstring &sFilename, char *&pBuffer)
     // retrieve info about the pFile
     m_pzipFile->posCentralDir = file_entry->second;
     int status = GetCurrentFileInfoInternal(&m_pzipFile->curFileInfo, &m_pzipFile->curFileInfoInternal,
-        NULL, 0, NULL, 0, NULL, 0);
+        nullptr, 0, nullptr, 0, nullptr, 0);
     if (status != UNZ_OK)
     {
         MemManager.Copy(m_pzipFile, &backup, sizeof(SZipFile));
@@ -1040,7 +1040,7 @@ uint    CUnzip::OpenUnzipFile(const tstring &sFilename, char *&pBuffer)
   ====================
 int CZipFile::getGlobalInfo () {
     SZipFile *pzipfileInfInternal;
-    if (m_hArchive == NULL)
+    if (m_hArchive == nullptr)
         return UNZ_PARAMERROR;
     pzipfileInfInternal = (SZipFile*)m_hArchive;
     m_info = pzipfileInfInternal->gi;
@@ -1052,7 +1052,7 @@ UNUSED CUnzip::_getGlobalComment
 int CUnzip::_getGlobalComment (char *szComment, uLong uSizeBuf) {
     SZipFile *pzipfileInfInternal;
     uLong uReadThis;
-    if (m_hArchive == NULL)
+    if (m_hArchive == nullptr)
         return UNZ_PARAMERROR;
     pzipfileInfInternal = (SZipFile *)pFile;
 
@@ -1069,7 +1069,7 @@ int CUnzip::_getGlobalComment (char *szComment, uLong uSizeBuf) {
         return UNZ_ERRNO;
     }
 
-    if ((szComment != NULL) && (uSizeBuf > pzipfileInfInternal->globalInfo.size_comment))
+    if ((szComment != nullptr) && (uSizeBuf > pzipfileInfInternal->globalInfo.size_comment))
         *(szComment + pzipfileInfInternal->globalInfo.size_comment)='\0';
     return (int)uReadThis;
 }

@@ -19,14 +19,14 @@
 CCmdPrecache::CCmdPrecache(const tstring &sName, ConsoleElementFn_t pfnCmd) :
 CConsoleElement(sName + _T("_Precache"), 0, ELEMENT_CMDPRECACHE, pfnCmd)
 {
-    assert(m_pfnCmd != NULL);
+    assert(m_pfnCmd != nullptr);
 
     // Check if the associated command has already been registered
     CConsoleElement *pCmd(ConsoleRegistry.GetElement(sName));
 
     ConsoleRegistry.Register(sName + _T("_Precache"), this);
 
-    if (pCmd != NULL)
+    if (pCmd != nullptr)
         pCmd->AddPrecacheCommand(pfnCmd);
 
     ConsoleRegistry.AddPrecacheCmd(this);

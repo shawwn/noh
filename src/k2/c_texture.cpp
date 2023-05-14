@@ -46,7 +46,7 @@ m_iIndex2(-1),
 m_eType(TEXTURE_2D),
 m_iTextureFlags(0),
 m_eFormat(TEXFMT_A8R8G8B8),
-m_pBitmap(NULL),
+m_pBitmap(nullptr),
 m_bTranslucent(false)
 {
 }
@@ -58,7 +58,7 @@ m_iIndex2(-1),
 m_eType(eType),
 m_iTextureFlags(iTextureFlags),
 m_eFormat(eFormat),
-m_pBitmap(NULL),
+m_pBitmap(nullptr),
 m_bTranslucent(false)
 {
 }
@@ -96,7 +96,7 @@ int     CTexture::Load(uint uiIgnoreFlags, const char *pData, uint uiSize)
         else
             EX_ERROR(_T("No path and no name!"));
 
-        assert(pData == NULL);
+        assert(pData == nullptr);
 
         if (uiIgnoreFlags & RES_TEXTURE_IGNORE_ALL)
             Console.Res << _T(" [IGNORE_ALL]");
@@ -120,21 +120,21 @@ int     CTexture::Load(uint uiIgnoreFlags, const char *pData, uint uiSize)
 /*====================
   CTexture::LoadNull
 
-  Loads NULL checker texture
+  Loads nullptr checker texture
   ====================*/
 bool    CTexture::LoadNull()
 {
     try
     {
         CTexture *pChecker(g_ResourceManager.GetTexture(g_ResourceManager.GetCheckerTexture()));
-        if (pChecker == NULL)
+        if (pChecker == nullptr)
         {
             // Fallback just incase the checker texture hasn't been loaded yet by anything
             ResHandle hCheckerTexture(g_ResourceManager.Register(_T("$checker"), RES_TEXTURE));
             pChecker = g_ResourceManager.GetTexture(hCheckerTexture);
         }
 
-        if (pChecker == NULL)
+        if (pChecker == nullptr)
             EX_ERROR(_T("$checker not registered"));
 
         m_iIndex = pChecker->GetIndex();
@@ -142,7 +142,7 @@ bool    CTexture::LoadNull()
     catch (CException &ex)
     {
         ex.Process(_TS("CTexture::Load(") + m_sName + _TS(") - "), NO_THROW);
-        EX_FATAL(_T("Texture NULL resource failure"));
+        EX_FATAL(_T("Texture nullptr resource failure"));
     }
 
     return true;

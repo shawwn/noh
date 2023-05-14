@@ -50,7 +50,7 @@ m_fTargetScale(1.0f),
 m_fTargetEffectScale(1.0f),
 m_hEffect(INVALID_RESOURCE),
 m_hSound(INVALID_RESOURCE),
-m_pEffectThread(NULL),
+m_pEffectThread(nullptr),
 m_bEffectActive(true),
 m_bCull(false),
 m_unVisibilityFlags(ushort(-1))
@@ -74,7 +74,7 @@ m_fTargetScale(1.0f),
 m_fTargetEffectScale(1.0f),
 m_hEffect(INVALID_RESOURCE),
 m_hSound(INVALID_RESOURCE),
-m_pEffectThread(NULL),
+m_pEffectThread(nullptr),
 m_bEffectActive(true),
 m_bCull(false),
 m_unVisibilityFlags(ushort(-1))
@@ -358,11 +358,11 @@ void    CGameEvent::Print() const
 uint    CGameEvent::GetVisualEntityIndex(uint uiIndex)
 {
     IGameEntity *pEntity(Game.GetEntity(uiIndex));
-    if (pEntity == NULL)
+    if (pEntity == nullptr)
         return INVALID_INDEX;
 
     ISlaveEntity *pSlave(pEntity->GetAsSlave());
-    if (pSlave != NULL)
+    if (pSlave != nullptr)
         return pSlave->GetOwnerIndex();
 
     return uiIndex;
@@ -376,13 +376,13 @@ bool    CGameEvent::SynchWithEntity()
 {
     // If this event references an entity, update from the
     // entities information
-    IVisualEntity *pVisSourceEntity(NULL);
+    IVisualEntity *pVisSourceEntity(nullptr);
     if (m_uiSourceEntityIndex != INVALID_INDEX)
     {
         uint uiSourceIndex(GetVisualEntityIndex(m_uiSourceEntityIndex));
 
         pVisSourceEntity = Game.GetVisualEntity(uiSourceIndex);
-        if (pVisSourceEntity == NULL)
+        if (pVisSourceEntity == nullptr)
         {
             if (!(m_unFlags & EVENT_SPAWNED_THIS_FRAME))
             {
@@ -390,7 +390,7 @@ bool    CGameEvent::SynchWithEntity()
 
                 ExpireEffect();
                 
-                if (m_pEffectThread == NULL)
+                if (m_pEffectThread == nullptr)
                     return false;
             }
         }
@@ -407,13 +407,13 @@ bool    CGameEvent::SynchWithEntity()
         }
     }
 
-    IVisualEntity *pVisTargetEntity(NULL);
+    IVisualEntity *pVisTargetEntity(nullptr);
     if (m_uiTargetEntityIndex != INVALID_INDEX)
     {
         uint uiTargetIndex(GetVisualEntityIndex(m_uiTargetEntityIndex));
 
         pVisTargetEntity = Game.GetVisualEntity(uiTargetIndex);
-        if (pVisTargetEntity == NULL)
+        if (pVisTargetEntity == nullptr)
         {
             if (!(m_unFlags & EVENT_SPAWNED_THIS_FRAME))
             {
@@ -421,7 +421,7 @@ bool    CGameEvent::SynchWithEntity()
                 
                 ExpireEffect();
                 
-                if (m_pEffectThread == NULL)
+                if (m_pEffectThread == nullptr)
                     return false;
             }
         }
@@ -438,31 +438,31 @@ bool    CGameEvent::SynchWithEntity()
         }
     }
 
-    if (m_pEffectThread == NULL)
+    if (m_pEffectThread == nullptr)
         return true;
 
     m_pEffectThread->SetCamera(Game.GetCamera());
 
-    if (pVisSourceEntity != NULL)
+    if (pVisSourceEntity != nullptr)
     {
         m_pEffectThread->SetSourceSkeleton(pVisSourceEntity->GetSkeleton());
         m_pEffectThread->SetSourceModel(g_ResourceManager.GetModel(pVisSourceEntity->GetModel()));
     }
     else
     {
-        m_pEffectThread->SetSourceSkeleton(NULL);
-        m_pEffectThread->SetSourceModel(NULL);
+        m_pEffectThread->SetSourceSkeleton(nullptr);
+        m_pEffectThread->SetSourceModel(nullptr);
     }
     
-    if (pVisTargetEntity != NULL)
+    if (pVisTargetEntity != nullptr)
     {
         m_pEffectThread->SetTargetSkeleton(pVisTargetEntity->GetSkeleton());
         m_pEffectThread->SetTargetModel(g_ResourceManager.GetModel(pVisTargetEntity->GetModel()));
     }
     else
     {
-        m_pEffectThread->SetTargetSkeleton(NULL);
-        m_pEffectThread->SetTargetModel(NULL);
+        m_pEffectThread->SetTargetSkeleton(nullptr);
+        m_pEffectThread->SetTargetModel(nullptr);
     }
 
     return true;
@@ -482,45 +482,45 @@ void    CGameEvent::Spawn()
         SetExpireNextFrame();
 
     // Start requested effect
-    if (m_pEffectThread != NULL)
+    if (m_pEffectThread != nullptr)
         return;
 
     if (m_hEffect == INVALID_RESOURCE)
         return;
 
     CEffect *pEffect(g_ResourceManager.GetEffect(m_hEffect));
-    if (pEffect == NULL)
+    if (pEffect == nullptr)
         return;
 
     m_pEffectThread = pEffect->SpawnThread(Game.GetGameTime());
-    if (m_pEffectThread == NULL)
+    if (m_pEffectThread == nullptr)
         return;
 
     m_pEffectThread->SetCamera(Game.GetCamera());
     m_pEffectThread->SetWorld(Game.GetWorldPointer());
 
     IVisualEntity *pSourceEntity(Game.GetVisualEntity(m_uiSourceEntityIndex));
-    if (pSourceEntity != NULL)
+    if (pSourceEntity != nullptr)
     {
         m_pEffectThread->SetSourceSkeleton(pSourceEntity->GetSkeleton());
         m_pEffectThread->SetSourceModel(g_ResourceManager.GetModel(pSourceEntity->GetModel()));
     }
     else
     {
-        m_pEffectThread->SetSourceSkeleton(NULL);
-        m_pEffectThread->SetSourceModel(NULL);
+        m_pEffectThread->SetSourceSkeleton(nullptr);
+        m_pEffectThread->SetSourceModel(nullptr);
     }
     
     IVisualEntity *pTargetEntity(Game.GetVisualEntity(m_uiTargetEntityIndex));
-    if (pTargetEntity != NULL)
+    if (pTargetEntity != nullptr)
     {
         m_pEffectThread->SetTargetSkeleton(pTargetEntity->GetSkeleton());
         m_pEffectThread->SetTargetModel(g_ResourceManager.GetModel(pTargetEntity->GetModel()));
     }
     else
     {
-        m_pEffectThread->SetTargetSkeleton(NULL);
-        m_pEffectThread->SetTargetModel(NULL);
+        m_pEffectThread->SetTargetSkeleton(nullptr);
+        m_pEffectThread->SetTargetModel(nullptr);
     }
 }
 
@@ -572,7 +572,7 @@ void    CGameEvent::AddToScene()
         return;
 
     CPlayer *pLocalPlayer(Game.GetLocalPlayer());
-    if (pLocalPlayer == NULL)
+    if (pLocalPlayer == nullptr)
         return;
 
     uint uiSourceIndex(GetVisualEntityIndex(m_uiSourceEntityIndex));
@@ -654,14 +654,14 @@ void    CGameEvent::AddToScene()
 #if 0
     // Overlays
     IGameEntity *pEntity(Game.GetEntity(m_uiSourceEntityIndex));
-    if (pEntity != NULL)
+    if (pEntity != nullptr)
     {
         IPlayerEntity *pPlayer(pEntity->GetAsPlayerEnt());
         IEntityState *pState(pEntity->GetAsState());
-        if (pPlayer == NULL && pState != NULL)
+        if (pPlayer == nullptr && pState != nullptr)
             pPlayer = Game.GetPlayerEntity(pState->GetOwner());
 
-        if (pPlayer != NULL &&
+        if (pPlayer != nullptr &&
             pPlayer->GetClientID() == Game.GetLocalClientNum() &&
             m_pEffectThread->HasActiveOverlay())
             Game.AddOverlay(m_pEffectThread->GetOverlayColor(), m_pEffectThread->GetOverlayMaterial());
@@ -693,7 +693,7 @@ void    CGameEvent::AddToScene()
   ====================*/
 void    CGameEvent::ExpireEffect()
 {
-    if (m_pEffectThread == NULL)
+    if (m_pEffectThread == nullptr)
         return;
 
     if (!m_pEffectThread->IsDeferred() && !m_pEffectThread->IsPersistent())

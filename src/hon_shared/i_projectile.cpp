@@ -199,7 +199,7 @@ void    IProjectile::Spawn()
     IGameEntity *pTarget(Game.GetEntityFromUniqueID(m_uiTargetEntityUID));
     
     // Update target position
-    if (pTarget != NULL)
+    if (pTarget != nullptr)
     {
         if (pTarget->IsUnit() && !m_bIgnoreTargetOffset)
             m_v3TargetPos = pTarget->GetAsUnit()->GetPosition() + pTarget->GetAsUnit()->GetTargetOffset();
@@ -255,7 +255,7 @@ void    IProjectile::Spawn()
     {
         SetVisibilityFlags(Game.GetVision(GetPosition().x, GetPosition().y));
 
-        ExecuteActionScript(ACTION_SCRIPT_SPAWN, pTarget ? pTarget->GetAsUnit() : NULL, m_v3Position);
+        ExecuteActionScript(ACTION_SCRIPT_SPAWN, pTarget ? pTarget->GetAsUnit() : nullptr, m_v3Position);
     }
 }
 
@@ -266,7 +266,7 @@ void    IProjectile::Spawn()
 void    IProjectile::UpdateTargetPosition()
 {
     IGameEntity *pTarget(Game.GetEntityFromUniqueID(m_uiTargetEntityUID));
-    if (pTarget == NULL)
+    if (pTarget == nullptr)
         return;
 
     if (pTarget->IsUnit())
@@ -281,7 +281,7 @@ void    IProjectile::UpdateTargetPosition()
         else
         {
             m_uiTargetEntityUID = INVALID_INDEX;
-            pTarget = NULL;
+            pTarget = nullptr;
         }
     }
     else if (pTarget->IsVisual())
@@ -330,11 +330,11 @@ void    IProjectile::FindPath()
     
     uiNavFlags &= ~NAVIGATION_ANTI;
 
-    vector<PoolHandle> *pBlockers(NULL);
+    vector<PoolHandle> *pBlockers(nullptr);
     if (m_uiTargetEntityUID != INVALID_INDEX)
     {
         IUnitEntity *pTarget(Game.GetUnitFromUniqueID(m_uiTargetEntityUID));
-        if (pTarget != NULL && m_v3TargetPos.xy() == pTarget->GetBlockPosition())
+        if (pTarget != nullptr && m_v3TargetPos.xy() == pTarget->GetBlockPosition())
             pBlockers = &pTarget->GetPathBlockers();
     }
 
@@ -356,7 +356,7 @@ void    IProjectile::FindPath()
     }
 
     CPath *pPath(Game.AccessPath(m_hPath));
-    if (pPath == NULL || pPath->GetWaypointCount() == 0)
+    if (pPath == nullptr || pPath->GetWaypointCount() == 0)
     {
         if (m_hPath != INVALID_POOL_HANDLE)
         {
@@ -477,13 +477,13 @@ void    IProjectile::TryTouch(float fTouchRadius, const CVec2f &v2Delta, float f
         if (GetTouchCliffs() && cTrace.uiEntityIndex == INVALID_INDEX && cTrace.uiSurfFlags & SURF_BLOCKER)
         {
             m_v3Position = cTrace.v3EndPos;
-            ExecuteActionScript(ACTION_SCRIPT_TOUCH, NULL, m_v3Position);
+            ExecuteActionScript(ACTION_SCRIPT_TOUCH, nullptr, m_v3Position);
             m_bCliffTouched = true;
         }
         else if (cTrace.uiEntityIndex != INVALID_INDEX)
         {
             CWorldEntity *pWorldEnt(Game.GetWorldEntity(cTrace.uiEntityIndex));
-            if (pWorldEnt == NULL)
+            if (pWorldEnt == nullptr)
                 break;
 
             pWorldEnt->SetSurfFlags(pWorldEnt->GetSurfFlags() | SURF_IGNORE);
@@ -492,13 +492,13 @@ void    IProjectile::TryTouch(float fTouchRadius, const CVec2f &v2Delta, float f
             if (GetTouchCliffs() && pWorldEnt->GetSurfFlags() & SURF_PROP)
             {
                 m_v3Position = cTrace.v3EndPos;
-                ExecuteActionScript(ACTION_SCRIPT_TOUCH, NULL, m_v3Position);
+                ExecuteActionScript(ACTION_SCRIPT_TOUCH, nullptr, m_v3Position);
                 m_bCliffTouched = true;
                 continue;
             }
 
             IUnitEntity *pUnit(Game.GetUnitEntity(pWorldEnt->GetGameIndex()));
-            if (pUnit == NULL)
+            if (pUnit == nullptr)
                 continue;
 
             uint uiTargetUID(pUnit->GetUniqueID());
@@ -530,7 +530,7 @@ void    IProjectile::TryTouch(float fTouchRadius, const CVec2f &v2Delta, float f
     for (uivector_it it(vIgnore.begin()), itEnd(vIgnore.end()); it != itEnd; ++it)
     {
         CWorldEntity *pWorldEnt(Game.GetWorldEntity(*it));
-        if (pWorldEnt == NULL)
+        if (pWorldEnt == nullptr)
             continue;
 
         pWorldEnt->SetSurfFlags(pWorldEnt->GetSurfFlags() & ~SURF_IGNORE);
@@ -548,11 +548,11 @@ float   IProjectile::CalcDelta(float fDeltaTime, CVec2f &v2Delta)
     // Calculate remaining distance
     float fDistance(0.0f);
 
-    CPath *pPath(NULL);
+    CPath *pPath(nullptr);
     if (GetPathing())
     {
         pPath = Game.AccessPath(m_hPath);
-        if (pPath == NULL)
+        if (pPath == nullptr)
             return 0.0f;
 
         fDistance = pPath->GetLength();
@@ -587,7 +587,7 @@ float   IProjectile::CalcDelta(float fDeltaTime, CVec2f &v2Delta)
         fTimeToGoal = (fDistance / fSpeed);
     }
 
-    if (pPath != NULL)
+    if (pPath != nullptr)
     {
         v2Delta = pPath->CalcNearGoal(m_v3Position.xy(), MAX(fSpeed * fDeltaTime, 1.0f), 0.0f) - m_v3Position.xy();
         v2Delta.Normalize();
@@ -652,7 +652,7 @@ void    IProjectile::EvaluateTrajectory()
 {
     uint uiOwnerWorldIndex(INVALID_INDEX);
     IGameEntity *pOwner(Game.GetEntity(m_uiOwnerIndex));
-    if (pOwner != NULL && pOwner->IsVisual())
+    if (pOwner != nullptr && pOwner->IsVisual())
         uiOwnerWorldIndex = pOwner->GetAsVisual()->GetWorldIndex();
 
     float fDeltaTime(MsToSec(Game.GetGameTime() - m_uiLastUpdateTime));
@@ -719,14 +719,14 @@ void    IProjectile::TryImpact()
     IUnitEntity *pTarget(Game.GetUnitFromUniqueID(m_uiTargetEntityUID));
     IUnitEntity *pOwner(GetOwner());
 
-    if (pTarget != NULL)
+    if (pTarget != nullptr)
         m_mapImpacts[m_uiTargetEntityUID] += 1;
 
     UpdateTargetPosition();
     
     Kill();
 
-    bool bStealthMiss(m_uiTargetEntityUID != INVALID_INDEX && pTarget != NULL && !GetImpactStealth() && pOwner != NULL && pTarget->IsStealth() && !pTarget->HasVisibilityFlags(VIS_REVEALED(pOwner->GetTeam())) && pOwner->GetTeam() != pTarget->GetTeam());
+    bool bStealthMiss(m_uiTargetEntityUID != INVALID_INDEX && pTarget != nullptr && !GetImpactStealth() && pOwner != nullptr && pTarget->IsStealth() && !pTarget->HasVisibilityFlags(VIS_REVEALED(pOwner->GetTeam())) && pOwner->GetTeam() != pTarget->GetTeam());
 
     if (bStealthMiss)
         Game.SendPopup(POPUP_MISS, pOwner);
@@ -740,7 +740,7 @@ void    IProjectile::TryImpact()
         m_combat.SetTarget(m_v3Position);
         m_combat.ProcessInvalid();
 
-        if (pTarget != NULL && GetInvalidEffect() != INVALID_RESOURCE)
+        if (pTarget != nullptr && GetInvalidEffect() != INVALID_RESOURCE)
         {
             CGameEvent ev;
             ev.SetSourceEntity(pTarget->GetIndex());
@@ -753,12 +753,12 @@ void    IProjectile::TryImpact()
 
     m_combat.SetTarget(pTarget ? pTarget->GetIndex() : INVALID_INDEX);
     m_combat.SetTarget(m_v3Position);
-    m_combat.SetEvasion(m_combat.GetSuperType() == SUPERTYPE_ATTACK && pTarget != NULL ? pTarget->GetEvasionRanged() : 0.0f);
+    m_combat.SetEvasion(m_combat.GetSuperType() == SUPERTYPE_ATTACK && pTarget != nullptr ? pTarget->GetEvasionRanged() : 0.0f);
     m_combat.Process();
     
     if (m_combat.GetSuccessful() &&
         GetImpactEffect() != INVALID_RESOURCE &&
-        pTarget != NULL)
+        pTarget != nullptr)
     {
         CGameEvent ev;
         ev.SetSourceEntity(pTarget->GetIndex());
@@ -768,7 +768,7 @@ void    IProjectile::TryImpact()
 
     if (m_combat.GetSuccessful() &&
         m_hAttackImpactEffect != INVALID_RESOURCE &&
-        pTarget != NULL)
+        pTarget != nullptr)
     {
         CGameEvent ev;
         ev.SetSourceEntity(pTarget->GetIndex());
@@ -852,7 +852,7 @@ void    IProjectile::Kill(IVisualEntity *pAttacker, ushort unKillingObjectID)
     m_yStatus = ENTITY_STATUS_DEAD;
     SetLocalFlags(ENT_LOCAL_DELETE_NEXT_FRAME);
 
-    ExecuteActionScript(ACTION_SCRIPT_DEATH, pAttacker ? pAttacker->GetAsUnit() : NULL, m_v3Position);
+    ExecuteActionScript(ACTION_SCRIPT_DEATH, pAttacker ? pAttacker->GetAsUnit() : nullptr, m_v3Position);
 
     // Death event
     if (GetDeathEffect() != INVALID_RESOURCE)
@@ -863,7 +863,7 @@ void    IProjectile::Kill(IVisualEntity *pAttacker, ushort unKillingObjectID)
         evDeath.RemoveVisibilityFlags(~Game.GetVision(m_v3Position.x, m_v3Position.y));
 
         IUnitEntity *pOwner(GetOwner());
-        if (pOwner != NULL)
+        if (pOwner != nullptr)
             evDeath.SetVisibilityFlags(VIS_SIGHTED(pOwner->GetTeam()));
 
         evDeath.SetSourcePosition(m_v3Position);
@@ -892,7 +892,7 @@ void    IProjectile::Revive()
   ====================*/
 void    IProjectile::Redirect(IUnitEntity *pSource, IGameEntity *pInflictor, IUnitEntity *pTarget)
 {
-    if (pSource == NULL || pTarget == NULL)
+    if (pSource == nullptr || pTarget == nullptr)
         return;
 
     Revive();
@@ -935,7 +935,7 @@ void    IProjectile::Redirect(IUnitEntity *pSource, IGameEntity *pInflictor, IUn
 
 void    IProjectile::Redirect(IUnitEntity *pSource, IGameEntity *pInflictor, const CVec3f &v3Target)
 {
-    if (pSource == NULL)
+    if (pSource == nullptr)
         return;
 
     Revive();
@@ -1007,12 +1007,12 @@ void    IProjectile::UpdateModifiers(const uivector &vModifiers)
 
     // Activate conditional modifiers
     IUnitEntity *pOwner(GetOwner());
-    if (pOwner == NULL)
+    if (pOwner == nullptr)
         return;
 
     // Grab base definition
     IEntityDefinition *pDefinition(GetBaseDefinition<IEntityDefinition>());
-    if (pDefinition == NULL)
+    if (pDefinition == nullptr)
         return;
 
     const EntityModifierMap &mapModifiers(pDefinition->GetModifiers());
@@ -1051,7 +1051,7 @@ void    IProjectile::UpdateModifiers(const uivector &vModifiers)
   ====================*/
 void    IProjectile::ExecuteActionScript(EEntityActionScript eScript, IUnitEntity *pTarget, const CVec3f &v3Target)
 {
-    if (m_pDefinition == NULL)
+    if (m_pDefinition == nullptr)
         return;
         
     m_pDefinition->ExecuteActionScript(eScript, this, GetOwner(), this, pTarget, v3Target, GetProxy(0), GetLevel());
@@ -1064,18 +1064,18 @@ void    IProjectile::ExecuteActionScript(EEntityActionScript eScript, IUnitEntit
 IProjectile*    IProjectile::Clone()
 {
     IGameEntity *pNewEntity(Game.AllocateEntity(GetType()));
-    if (pNewEntity == NULL)
+    if (pNewEntity == nullptr)
     {
         Console.Err << _T("Failed to spawn projectile: ") << GetTypeName() << newl;
-        return NULL;
+        return nullptr;
     }
 
     IProjectile *pProjectile(pNewEntity->GetAsProjectile());
-    if (pProjectile == NULL)
+    if (pProjectile == nullptr)
     {
         Console.Err << _T("Entity is not a projectile: ") << GetTypeName() << newl;
         Game.DeleteEntity(pNewEntity);
-        return NULL;
+        return nullptr;
     }
 
     pProjectile->SetPosition(m_v3Position);
@@ -1102,10 +1102,10 @@ IProjectile*    IProjectile::Clone()
 IUnitEntity*    IProjectile::GetTarget() const
 {
     IGameEntity *pTarget(Game.GetEntityFromUniqueID(m_uiTargetEntityUID));
-    if (pTarget != NULL)
+    if (pTarget != nullptr)
         return pTarget->GetAsUnit();
     else
-        return NULL;
+        return nullptr;
 }
 
 

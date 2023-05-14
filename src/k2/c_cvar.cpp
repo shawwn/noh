@@ -93,7 +93,7 @@ CConsoleElement(sName, iFlags, ELEMENT_CVAR, pfnCmd),
 m_eType(eType),
 m_bModified(false),
 m_bInherentValue(false),
-m_pParent(NULL),
+m_pParent(nullptr),
 m_uiChildIndex(0)
 {
     CMemManager::GetInstance(); // Ensure the memory manager is initialized
@@ -103,7 +103,7 @@ m_uiChildIndex(0)
 
     try
     {
-        if (m_pfnCmd == NULL)
+        if (m_pfnCmd == nullptr)
             m_pfnCmd = DefaultCvar_Cmd;
 
         if (iFlags & CVAR_UNUSED)
@@ -169,7 +169,7 @@ ICvar::~ICvar()
 {
     for (size_t z(0); z < MAX_REFERENCES_PER_CVAR; ++z)
     {
-        if (m_apReferences[z] != NULL)
+        if (m_apReferences[z] != nullptr)
             m_apReferences[z]->Invalidate();
     }
 
@@ -370,7 +370,7 @@ ICvar   *ICvar::Find(const tstring &sName)
     if (pElem && pElem->GetType() == ELEMENT_CVAR)
         return static_cast<ICvar*>(pElem);
     else
-        return NULL;
+        return nullptr;
 }
 
 
@@ -392,37 +392,37 @@ ICvar*  ICvar::Create(const tstring &sName, ECvarType eType, const tstring &sVal
     else if (pElem)
     {
         Console << _T("Console element ") << pElem->GetName() << _T(" already exists") << newl;
-        return NULL;
+        return nullptr;
     }
     else
     {
         if (eType == CT_INT)
-            return K2_NEW(ctx_Console,  CCvar<int>)(sName, AtoI(sValue), iFlags | CONEL_DYNAMIC, NULL);
+            return K2_NEW(ctx_Console,  CCvar<int>)(sName, AtoI(sValue), iFlags | CONEL_DYNAMIC, nullptr);
         else if (eType == CT_UINT)
-            return K2_NEW(ctx_Console,  CCvar<uint>)(sName, AtoI(sValue), iFlags | CONEL_DYNAMIC, NULL);
+            return K2_NEW(ctx_Console,  CCvar<uint>)(sName, AtoI(sValue), iFlags | CONEL_DYNAMIC, nullptr);
         else if (eType == CT_FLOAT)
-            return K2_NEW(ctx_Console,  CCvar<float>)(sName, AtoF(sValue), iFlags | CONEL_DYNAMIC, NULL);
+            return K2_NEW(ctx_Console,  CCvar<float>)(sName, AtoF(sValue), iFlags | CONEL_DYNAMIC, nullptr);
         else if (eType == CT_STRING)
         {
             typedef CCvar<tstring,TCHAR>    CCvar_t;
-            return K2_NEW(ctx_Console,  CCvar_t)(sName, sValue, iFlags | CONEL_DYNAMIC, NULL);
+            return K2_NEW(ctx_Console,  CCvar_t)(sName, sValue, iFlags | CONEL_DYNAMIC, nullptr);
         }
         else if (eType == CT_BOOL)
-            return K2_NEW(ctx_Console,  CCvar<bool>)(sName, AtoB(sValue), iFlags | CONEL_DYNAMIC, NULL);
+            return K2_NEW(ctx_Console,  CCvar<bool>)(sName, AtoB(sValue), iFlags | CONEL_DYNAMIC, nullptr);
         else if (eType == CT_VEC3)
         {
             typedef CCvar<CVec3f,float> CCvar_t;
-            return K2_NEW(ctx_Console,  CCvar_t)(sName, AtoV3(sValue), iFlags | CONEL_DYNAMIC, NULL);
+            return K2_NEW(ctx_Console,  CCvar_t)(sName, AtoV3(sValue), iFlags | CONEL_DYNAMIC, nullptr);
         }
         else if (eType == CT_VEC4)
         {
             typedef CCvar<CVec4f,float> CCvar_t;
-            return K2_NEW(ctx_Console,  CCvar_t)(sName, AtoV4(sValue), iFlags | CONEL_DYNAMIC, NULL);
+            return K2_NEW(ctx_Console,  CCvar_t)(sName, AtoV4(sValue), iFlags | CONEL_DYNAMIC, nullptr);
         }
         else
         {
             Console.Dev << _T("ICvar::Create: invalid type ") << static_cast<int>(eType) << newl;
-            return NULL;
+            return nullptr;
         }
     }
 }
@@ -441,7 +441,7 @@ CCvarb* ICvar::CreateBool(const tstring &sName, bool bValue, int iFlags)
         if (pCvar->GetType() != CT_BOOL)
         {
             Console.Warn << _T("A cvar named ") << QuoteStr(sName) << _T(" already exists, but is not of type BOOL") << newl;
-            return NULL;
+            return nullptr;
         }
 
         pCvar->SetBool(bValue);
@@ -451,10 +451,10 @@ CCvarb* ICvar::CreateBool(const tstring &sName, bool bValue, int iFlags)
     else if (pElem)
     {
         Console << _T("Console element ") << pElem->GetName() << _T(" already exists") << newl;
-        return NULL;
+        return nullptr;
     }
     else
-        return K2_NEW(ctx_Console,  CCvarb)(sName, bValue, iFlags | CONEL_DYNAMIC, NULL);
+        return K2_NEW(ctx_Console,  CCvarb)(sName, bValue, iFlags | CONEL_DYNAMIC, nullptr);
 }
 
 
@@ -471,7 +471,7 @@ CCvari* ICvar::CreateInt(const tstring &sName, int iValue, int iFlags)
         if (pCvar->GetType() != CT_INT)
         {
             Console.Warn << _T("A cvar named ") << QuoteStr(sName) << _T(" already exists, but is not of type INT") << newl;
-            return NULL;
+            return nullptr;
         }
 
         pCvar->SetInteger(iValue);
@@ -481,10 +481,10 @@ CCvari* ICvar::CreateInt(const tstring &sName, int iValue, int iFlags)
     else if (pElem)
     {
         Console << _T("Console element ") << pElem->GetName() << _T(" already exists") << newl;
-        return NULL;
+        return nullptr;
     }
     else
-        return K2_NEW(ctx_Console,  CCvari)(sName, iValue, iFlags | CONEL_DYNAMIC, NULL);
+        return K2_NEW(ctx_Console,  CCvari)(sName, iValue, iFlags | CONEL_DYNAMIC, nullptr);
 }
 
 
@@ -501,7 +501,7 @@ CCvarui*    ICvar::CreateUInt(const tstring &sName, uint uiValue, int iFlags)
         if (pCvar->GetType() != CT_UINT)
         {
             Console.Warn << _T("A cvar named ") << QuoteStr(sName) << _T(" already exists, but is not of type UINT") << newl;
-            return NULL;
+            return nullptr;
         }
 
         pCvar->SetUnsignedInteger(uiValue);
@@ -511,10 +511,10 @@ CCvarui*    ICvar::CreateUInt(const tstring &sName, uint uiValue, int iFlags)
     else if (pElem)
     {
         Console << _T("Console element ") << pElem->GetName() << _T(" already exists") << newl;
-        return NULL;
+        return nullptr;
     }
     else
-        return K2_NEW(ctx_Console,  CCvarui)(sName, uiValue, iFlags | CONEL_DYNAMIC, NULL);
+        return K2_NEW(ctx_Console,  CCvarui)(sName, uiValue, iFlags | CONEL_DYNAMIC, nullptr);
 }
 
 
@@ -525,13 +525,13 @@ CCvarf* ICvar::CreateFloat(const tstring &sName, float fValue, int iFlags)
 {
     CConsoleElement *pElem(ConsoleRegistry.GetElement(sName));
 
-    if (pElem != NULL && pElem->GetType() == ELEMENT_CVAR)
+    if (pElem != nullptr && pElem->GetType() == ELEMENT_CVAR)
     {
         ICvar *pCvar = static_cast<ICvar *>(pElem);
         if (pCvar->GetType() != CT_FLOAT)
         {
             Console.Warn << _T("A cvar named ") << QuoteStr(sName) << _T(" already exists, but is not of type FLOAT") << newl;
-            return NULL;
+            return nullptr;
         }
 
         pCvar->SetFloat(fValue);
@@ -541,10 +541,10 @@ CCvarf* ICvar::CreateFloat(const tstring &sName, float fValue, int iFlags)
     else if (pElem)
     {
         Console << _T("Console element ") << pElem->GetName() << _T(" already exists") << newl;
-        return NULL;
+        return nullptr;
     }
 
-    return K2_NEW(ctx_Console,  CCvarf)(sName, fValue, iFlags | CONEL_DYNAMIC, NULL);
+    return K2_NEW(ctx_Console,  CCvarf)(sName, fValue, iFlags | CONEL_DYNAMIC, nullptr);
 }
 
 
@@ -561,7 +561,7 @@ CCvars* ICvar::CreateString(const tstring &sName, const tstring &sValue, int iFl
         if (pCvar->GetType() != CT_STRING)
         {
             Console.Warn << _T("A cvar named ") << QuoteStr(sName) << _T(" already exists, but is not of type STRING") << newl;
-            return NULL;
+            return nullptr;
         }
 
         pCvar->Set(sValue);
@@ -571,10 +571,10 @@ CCvars* ICvar::CreateString(const tstring &sName, const tstring &sValue, int iFl
     else if (pElem)
     {
         Console << _T("Console element ") << pElem->GetName() << _T(" already exists") << newl;
-        return NULL;
+        return nullptr;
     }
     else
-        return K2_NEW(ctx_Console,  CCvars)(sName, sValue, iFlags | CONEL_DYNAMIC, NULL);
+        return K2_NEW(ctx_Console,  CCvars)(sName, sValue, iFlags | CONEL_DYNAMIC, nullptr);
 }
 
 
@@ -591,7 +591,7 @@ CCvarv3*    ICvar::CreateVec3(const tstring &sName, const CVec3f &v3Value, int i
         if (pCvar->GetType() != CT_VEC3)
         {
             Console.Warn << _T("A cvar named ") << QuoteStr(sName) << _T(" already exists, but is not of type VEC3") << newl;
-            return NULL;
+            return nullptr;
         }
 
         pCvar->Set(XtoA(v3Value));
@@ -601,10 +601,10 @@ CCvarv3*    ICvar::CreateVec3(const tstring &sName, const CVec3f &v3Value, int i
     else if (pElem)
     {
         Console << _T("Console element ") << pElem->GetName() << _T(" already exists") << newl;
-        return NULL;
+        return nullptr;
     }
     else
-        return K2_NEW(ctx_Console,  CCvarv3)(sName, v3Value, iFlags | CONEL_DYNAMIC, NULL);
+        return K2_NEW(ctx_Console,  CCvarv3)(sName, v3Value, iFlags | CONEL_DYNAMIC, nullptr);
 }
 
 
@@ -622,38 +622,38 @@ ICvar*  ICvar::Import(const tstring &sName, ECvarType eType, const tstring &sVal
     else if (pElem)
     {
         Console << _T("Console element ") << pElem->GetName() << _T(" is not a cvar") << newl;
-        return NULL;
+        return nullptr;
     }
     else
     {
         Console.Warn << _T("Imported cvar ") << sName << _T(" doesn't exist, dynamically creating one") << newl;
         if (eType == CT_INT)
-            return K2_NEW(ctx_Console,  CCvar<int>)(sName, AtoI(sValue), CONEL_DYNAMIC, NULL);
+            return K2_NEW(ctx_Console,  CCvar<int>)(sName, AtoI(sValue), CONEL_DYNAMIC, nullptr);
         else if (eType == CT_UINT)
-            return K2_NEW(ctx_Console,  CCvar<uint>)(sName, AtoI(sValue), CONEL_DYNAMIC, NULL);
+            return K2_NEW(ctx_Console,  CCvar<uint>)(sName, AtoI(sValue), CONEL_DYNAMIC, nullptr);
         else if (eType == CT_FLOAT)
-            return K2_NEW(ctx_Console,  CCvar<float>)(sName, AtoF(sValue), CONEL_DYNAMIC, NULL);
+            return K2_NEW(ctx_Console,  CCvar<float>)(sName, AtoF(sValue), CONEL_DYNAMIC, nullptr);
         else if (eType == CT_STRING)
         {
             typedef CCvar<tstring,TCHAR>    CCvar_t;
-            return K2_NEW(ctx_Console,  CCvar_t)(sName, sValue, CONEL_DYNAMIC, NULL);
+            return K2_NEW(ctx_Console,  CCvar_t)(sName, sValue, CONEL_DYNAMIC, nullptr);
         }
         else if (eType == CT_BOOL)
-            return K2_NEW(ctx_Console,  CCvar<bool>)(sName, AtoB(sValue), CONEL_DYNAMIC, NULL);
+            return K2_NEW(ctx_Console,  CCvar<bool>)(sName, AtoB(sValue), CONEL_DYNAMIC, nullptr);
         else if (eType == CT_VEC3)
         {
             typedef CCvar<CVec3f,float>     CCvar_t;
-            return K2_NEW(ctx_Console,  CCvar_t)(sName, AtoV3(sValue), CONEL_DYNAMIC, NULL);
+            return K2_NEW(ctx_Console,  CCvar_t)(sName, AtoV3(sValue), CONEL_DYNAMIC, nullptr);
         }
         else if (eType == CT_VEC4)
         {
             typedef CCvar<CVec4f,float>     CCvar_t;
-            return K2_NEW(ctx_Console,  CCvar_t)(sName, AtoV4(sValue), CONEL_DYNAMIC, NULL);
+            return K2_NEW(ctx_Console,  CCvar_t)(sName, AtoV4(sValue), CONEL_DYNAMIC, nullptr);
         }
         else
         {
             Console.Dev << _T("ICvar::Create: invalid type ") << static_cast<int>(eType) << newl;
-            return NULL;
+            return nullptr;
         }
     }
 }
@@ -673,18 +673,18 @@ ICvar*  ICvar::ImportBool(const tstring &sName, bool bValue)
         else
         {
             Console.Err << _T("Cvar ") << pElem->GetName() << _T(" is not of type bool") << newl;
-            return NULL;
+            return nullptr;
         }
     }
     else if (pElem)
     {
         Console.Err << _T("Console element ") << pElem->GetName() << _T(" is not a cvar") << newl;
-        return NULL;
+        return nullptr;
     }
     else
     {
         Console.Warn << _T("Imported cvar ") << sName << _T(" doesn't exist, dynamically creating one") << newl;
-        return K2_NEW(ctx_Console,  CCvar<bool>)(sName, bValue, CONEL_DYNAMIC, NULL);
+        return K2_NEW(ctx_Console,  CCvar<bool>)(sName, bValue, CONEL_DYNAMIC, nullptr);
     }
 }
 
@@ -703,18 +703,18 @@ ICvar*  ICvar::ImportInt(const tstring &sName, int iValue)
         else
         {
             Console.Err << _T("Cvar ") << pElem->GetName() << _T(" is not of type int") << newl;
-            return NULL;
+            return nullptr;
         }
     }
     else if (pElem)
     {
         Console.Err << _T("Console element ") << pElem->GetName() << _T(" is not a cvar") << newl;
-        return NULL;
+        return nullptr;
     }
     else
     {
         Console.Warn << _T("Imported cvar ") << sName << _T(" doesn't exist, dynamically creating one") << newl;
-        return K2_NEW(ctx_Console,  CCvar<int>)(sName, iValue, CONEL_DYNAMIC, NULL);
+        return K2_NEW(ctx_Console,  CCvar<int>)(sName, iValue, CONEL_DYNAMIC, nullptr);
     }
 }
 
@@ -733,18 +733,18 @@ ICvar*  ICvar::ImportUInt(const tstring &sName, uint uiValue)
         else
         {
             Console.Err << _T("Cvar ") << pElem->GetName() << _T(" is not of type uint") << newl;
-            return NULL;
+            return nullptr;
         }
     }
     else if (pElem)
     {
         Console.Err << _T("Console element ") << pElem->GetName() << _T(" is not a cvar") << newl;
-        return NULL;
+        return nullptr;
     }
     else
     {
         Console.Warn << _T("Imported cvar ") << sName << _T(" doesn't exist, dynamically creating one") << newl;
-        return K2_NEW(ctx_Console,  CCvar<uint>)(sName, uiValue, CONEL_DYNAMIC, NULL);
+        return K2_NEW(ctx_Console,  CCvar<uint>)(sName, uiValue, CONEL_DYNAMIC, nullptr);
     }
 }
 
@@ -763,18 +763,18 @@ ICvar*  ICvar::ImportFloat(const tstring &sName, float fValue)
         else
         {
             Console.Err << _T("Cvar ") << pElem->GetName() << _T(" is not of type float") << newl;
-            return NULL;
+            return nullptr;
         }
     }
     else if (pElem)
     {
         Console.Err << _T("Console element ") << pElem->GetName() << _T(" is not a cvar") << newl;
-        return NULL;
+        return nullptr;
     }
     else
     {
         Console.Warn << _T("Imported cvar ") << sName << _T(" doesn't exist, dynamically creating one") << newl;
-        return K2_NEW(ctx_Console,  CCvar<float>)(sName, fValue, CONEL_DYNAMIC, NULL);
+        return K2_NEW(ctx_Console,  CCvar<float>)(sName, fValue, CONEL_DYNAMIC, nullptr);
     }
 }
 
@@ -793,18 +793,18 @@ ICvar*  ICvar::ImportString(const tstring &sName, const tstring &sValue)
         else
         {
             Console.Err << _T("Cvar ") << pElem->GetName() << _T(" is not of type string") << newl;
-            return NULL;
+            return nullptr;
         }
     }
     else if (pElem)
     {
         Console.Err << _T("Console element ") << pElem->GetName() << _T(" is not a cvar") << newl;
-        return NULL;
+        return nullptr;
     }
     else
     {
         Console.Warn << _T("Imported cvar ") << sName << _T(" doesn't exist, dynamically creating one") << newl;
-        return K2_NEW(ctx_Console,  CCvar<tstring>)(sName, sValue, CONEL_DYNAMIC, NULL);
+        return K2_NEW(ctx_Console,  CCvar<tstring>)(sName, sValue, CONEL_DYNAMIC, nullptr);
     }
 }
 
@@ -830,7 +830,7 @@ void    ICvar::SetString(const tstring &sName, const tstring &s)
 {
     CConsoleElement *pElem = ConsoleRegistry.GetElement(sName);
 
-    if (pElem == NULL)
+    if (pElem == nullptr)
     {
         Console.Warn << _T("Can not set cvar ") << sWhite << sName << sNoColor << _T(", it does not exist") << newl;
         return;
@@ -851,7 +851,7 @@ ICvar*  ICvar::GetCvar(const tstring &sName)
     if (pElem && pElem->GetType() == ELEMENT_CVAR)
         return static_cast<ICvar *>(pElem);
     else
-        return NULL;
+        return nullptr;
 }
 
 
@@ -890,7 +890,7 @@ void    ICvar::SetFloat(const tstring &sName, float value)
 {
     CConsoleElement *pElem = ConsoleRegistry.GetElement(sName);
 
-    assert(pElem != NULL);
+    assert(pElem != nullptr);
 
     if (pElem && pElem->GetType() == ELEMENT_CVAR)
         static_cast<ICvar*>(pElem)->SetFloat(value);
@@ -932,7 +932,7 @@ void    ICvar::SetInteger(const tstring &sName, int value)
 {
     CConsoleElement *pElem = ConsoleRegistry.GetElement(sName);
 
-    if (pElem == NULL)
+    if (pElem == nullptr)
     {
         Console.Warn << _T("Can not set cvar ") << sWhite << sName << sNoColor << _T(", it does not exist") << newl;
         return;
@@ -950,7 +950,7 @@ void    ICvar::SetUnsignedInteger(const tstring &sName, uint value)
 {
     CConsoleElement *pElem = ConsoleRegistry.GetElement(sName);
 
-    if (pElem == NULL)
+    if (pElem == nullptr)
     {
         Console.Warn << _T("Can not set cvar ") << sWhite << sName << sNoColor << _T(", it does not exist") << newl;
         return;
@@ -981,7 +981,7 @@ bool    ICvar::GetBool(const tstring &sName)
 void    ICvar::SetBool(const tstring &sName, bool value)
 {
     CConsoleElement *pElem = ConsoleRegistry.GetElement(sName);
-    //assert(pElem != NULL);
+    //assert(pElem != nullptr);
 
     if (pElem && pElem->GetType() == ELEMENT_CVAR)
         static_cast<ICvar*>(pElem)->SetBool(value);
@@ -1010,7 +1010,7 @@ void    ICvar::SetVec3(const tstring &sName, const CVec3f &v3)
     try
     {
         CConsoleElement* pElem(ConsoleRegistry.GetElement(sName));
-        if (pElem == NULL)
+        if (pElem == nullptr)
             EX_WARN(_T("Element ") + QuoteStr(sName) + _T(" not found"));
 
         if (pElem->GetType() != ELEMENT_CVAR)
@@ -1046,7 +1046,7 @@ void    ICvar::SetVec3(const tstring &sName, float fX, float fY, float fZ)
     try
     {
         CConsoleElement* pElem(ConsoleRegistry.GetElement(sName));
-        if (pElem == NULL)
+        if (pElem == nullptr)
             EX_WARN(_T("Element ") + QuoteStr(sName) + _T(" not found"));
 
         if (pElem->GetType() != ELEMENT_CVAR)
@@ -1082,7 +1082,7 @@ void    ICvar::SetVec4(const tstring &sName, const CVec4f &v4)
     try
     {
         CConsoleElement* pElem(ConsoleRegistry.GetElement(sName));
-        if (pElem == NULL)
+        if (pElem == nullptr)
             EX_WARN(_T("Element ") + QuoteStr(sName) + _T(" not found"));
 
         if (pElem->GetType() != ELEMENT_CVAR)
@@ -1111,7 +1111,7 @@ void    ICvar::SetVec4(const tstring &sName, float fX, float fY, float fZ, float
     try
     {
         CConsoleElement* pElem(ConsoleRegistry.GetElement(sName));
-        if (pElem == NULL)
+        if (pElem == nullptr)
             EX_WARN(_T("Element ") + QuoteStr(sName) + _T(" not found"));
 
         if (pElem->GetType() != ELEMENT_CVAR)
@@ -1140,7 +1140,7 @@ void    ICvar::Toggle(const tstring &sName)
     try
     {
         CConsoleElement* pElem(ConsoleRegistry.GetElement(sName));
-        if (pElem == NULL)
+        if (pElem == nullptr)
             EX_WARN(_T("Element ") + QuoteStr(sName) + _T(" not found"));
 
         if (pElem->GetType() != ELEMENT_CVAR)
@@ -1164,7 +1164,7 @@ void    ICvar::Reset(const tstring &sName)
     try
     {
         CConsoleElement* pElem(ConsoleRegistry.GetElement(sName));
-        if (pElem == NULL)
+        if (pElem == nullptr)
             EX_WARN(_T("Element ") + QuoteStr(sName) + _T(" not found"));
 
         if (pElem->GetType() != ELEMENT_CVAR)
@@ -1188,7 +1188,7 @@ bool    ICvar::IsModified(const tstring &sName)
     try
     {
         CConsoleElement* pElem(ConsoleRegistry.GetElement(sName));
-        if (pElem == NULL)
+        if (pElem == nullptr)
             EX_WARN(_T("Element ") + QuoteStr(sName) + _T(" not found"));
 
         if (pElem->GetType() != ELEMENT_CVAR)
@@ -1213,7 +1213,7 @@ void    ICvar::SetModified(const tstring &sName, bool b)
     try
     {
         CConsoleElement* pElem(ConsoleRegistry.GetElement(sName));
-        if (pElem == NULL)
+        if (pElem == nullptr)
             EX_WARN(_T("Element ") + QuoteStr(sName) + _T(" not found"));
 
         if (pElem->GetType() != ELEMENT_CVAR)
@@ -1396,7 +1396,7 @@ void    ICvar::SetFloat(float value)
         break;
     }
 
-    if (m_pParent != NULL)
+    if (m_pParent != nullptr)
     {
         if (m_pParent->GetType() == CT_VEC3)
             static_cast<CCvar<CVec3f, float>*>(m_pParent)->SetValueIndex(m_uiChildIndex, value);
@@ -1515,7 +1515,7 @@ void    ICvar::AddReference(CCvarReference *pRef)
 
     for (size_t z(0); z < MAX_REFERENCES_PER_CVAR; ++z)
     {
-        if (m_apReferences[z] != NULL)
+        if (m_apReferences[z] != nullptr)
             continue;
 
         m_apReferences[z] = pRef;
@@ -1538,7 +1538,7 @@ void    ICvar::RemoveReference(CCvarReference *pRef)
         if (m_apReferences[z] == pRef)
         {
             m_apReferences[z]->Invalidate();
-            m_apReferences[z] = NULL;
+            m_apReferences[z] = nullptr;
             bSuccess = true;
         }
     }
@@ -1645,7 +1645,7 @@ void    SetTransmitCvar(const string &sStateUTF8, const string &sValueUTF8)
     tstring sValue(UTF8ToTString(sValueUTF8));
 
     ICvar *pCvar(ICvar::GetCvar(sState));
-    if (pCvar == NULL)
+    if (pCvar == nullptr)
         ICvar::CreateString(sState, sValue, CVAR_READONLY);
     else
         pCvar->Set(sValue);
@@ -1957,13 +1957,13 @@ CMD(CreateVar)
         ICvar *pCvar;
 
         if (sType == _T("int"))
-            pCvar = K2_NEW(ctx_Console,  CCvar<int>)(sName, vArgList.size() > 2 ? AtoI(vArgList[2]) : 0, CONEL_DYNAMIC, NULL);
+            pCvar = K2_NEW(ctx_Console,  CCvar<int>)(sName, vArgList.size() > 2 ? AtoI(vArgList[2]) : 0, CONEL_DYNAMIC, nullptr);
         else if (sType == _T("float"))
-            pCvar = K2_NEW(ctx_Console,  CCvar<float>)(sName, vArgList.size() > 2 ? AtoF(vArgList[2]) : 0.0f, CONEL_DYNAMIC, NULL);
+            pCvar = K2_NEW(ctx_Console,  CCvar<float>)(sName, vArgList.size() > 2 ? AtoF(vArgList[2]) : 0.0f, CONEL_DYNAMIC, nullptr);
         else if (sType == _T("string"))
-            pCvar = K2_NEW(ctx_Console,  CCvar<tstring>)(sName, vArgList.size() > 2 ? vArgList[2] : _T(""), CONEL_DYNAMIC, NULL);
+            pCvar = K2_NEW(ctx_Console,  CCvar<tstring>)(sName, vArgList.size() > 2 ? vArgList[2] : _T(""), CONEL_DYNAMIC, nullptr);
         else if (sType == _T("bool"))
-            pCvar = K2_NEW(ctx_Console,  CCvar<bool>)(sName, vArgList.size() > 2 ? AtoB(vArgList[2]) : false, CONEL_DYNAMIC, NULL);
+            pCvar = K2_NEW(ctx_Console,  CCvar<bool>)(sName, vArgList.size() > 2 ? AtoB(vArgList[2]) : false, CONEL_DYNAMIC, nullptr);
         else
         {
             Console << _T("syntax error: invalid type ") << QuoteStr(sType) << newl;

@@ -288,7 +288,7 @@ public:
     bool                HasAllLocalFlags(uint uiFlags) const                { return (m_uiLocalFlags & uiFlags) == uiFlags; }
 
     // Visual
-    virtual CSkeleton*      AllocateSkeleton()                              { return NULL; }
+    virtual CSkeleton*      AllocateSkeleton()                              { return nullptr; }
     virtual void            UpdateSkeleton(bool bPose);
     GAME_SHARED_API void    StartAnimation(const tstring &sAnimName, int iChannel, float fSpeed = 1.0f, uint uiLength = 0);
     GAME_SHARED_API void    StartRandomAnimation(const tstring &sAnimName, int iNumAnims, int iChannel, float fSpeed = 1.0f, uint uiLength = 0);

@@ -45,7 +45,7 @@ bool    CTextureList::Load(CArchive &archive, const CWorld *pWorld)
     try
     {
         m_pWorld = pWorld;
-        if (m_pWorld == NULL)
+        if (m_pWorld == nullptr)
             EX_ERROR(_T("Invalid CWorld"));
 
         CFileHandle hTextureList(m_sName, FILE_READ | FILE_BINARY, archive);
@@ -76,7 +76,7 @@ bool    CTextureList::Generate(const CWorld *pWorld)
         Release();
 
         m_pWorld = pWorld;
-        if (m_pWorld == NULL)
+        if (m_pWorld == nullptr)
             EX_ERROR(_T("Invalid CWorld"));
 
         return true;
@@ -122,7 +122,7 @@ bool    CTextureList::Serialize(IBuffer *pBuffer)
   ====================*/
 void    CTextureList::Release()
 {
-    m_pWorld = NULL;
+    m_pWorld = nullptr;
 
     m_mapTextures.clear();
     m_mapResHandles.clear();

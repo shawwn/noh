@@ -7,6 +7,8 @@
 //=============================================================================
 // Headers
 //=============================================================================
+#include <utility>
+
 #include "c_xmlmanager.h"
 //=============================================================================
 
@@ -31,7 +33,7 @@ private: \
 public: \
     ~CXMLProcessor_##name() \
     { \
-        if (s_pChildren == NULL) \
+        if (s_pChildren == nullptr) \
             return; \
 \
         for (XMLProcessorMap_it it(s_pChildren->begin()); it != s_pChildren->end(); ++it) \
@@ -44,7 +46,7 @@ public: \
 \
     void    RemoveChild(const tstring &sName) \
     { \
-        if (s_pChildren == NULL) \
+        if (s_pChildren == nullptr) \
             return; \
 \
         XMLProcessorMap_it itFind(s_pChildren->find(sName)); \
@@ -58,7 +60,7 @@ public: \
         for (CXMLNode::List_cit cit(lChildren.begin()), citEnd(lChildren.end()); cit != citEnd; ++cit) \
         { \
             IXMLProcessor *pProcessor(GetProcessor(cit->GetName())); \
-            if (pProcessor == NULL) \
+            if (pProcessor == nullptr) \
                 Console.Warn << _T("Unknown element ") << QuoteStr(cit->GetName()) << _T(" in ") << QuoteStr(m_sElementName) << newl; \
             else \
                 pProcessor->Process(*cit, pObject, this); \
@@ -99,21 +101,21 @@ END_XML_PROCESSOR_DECLARATION
 #define BEGIN_XML_REGISTRATION(name) \
 IXMLProcessor*  CXMLProcessor_##name::GetProcessor(const tstring &sElementName) \
 { \
-    if (s_pChildren == NULL) \
-        return NULL; \
+    if (s_pChildren == nullptr) \
+        return nullptr; \
 \
     XMLProcessorMap_it itFind(s_pChildren->find(sElementName)); \
     if (itFind == s_pChildren->end()) \
-        return NULL; \
+        return nullptr; \
 \
     return itFind->second; \
 } \
 \
 void    CXMLProcessor_##name::RegisterProcessor(IXMLProcessor *pProcessor) \
 { \
-    if (s_pChildren == NULL) \
+    if (s_pChildren == nullptr) \
         s_pChildren = K2_NEW(ctx_Resources,  XMLProcessorMap); \
-    if (s_pChildren == NULL) \
+    if (s_pChildren == nullptr) \
     { \
         Console.Err << _T("Failed to allocate a processor registry for xml processor: ") _T(#name) << newl; \
         return; \
@@ -164,7 +166,7 @@ _BEGIN_XML_PROCESSOR(name, object_type)
 #define BEGIN_XML_SUBPROCESSOR(name, object_type) \
 bool    CXMLProcessor_##name::Process(const CXMLNode &node, object_type *pObject) \
 { \
-    if (pObject == NULL) \
+    if (pObject == nullptr) \
         return false;
 
 // END_XML_PROCESSOR
@@ -179,7 +181,7 @@ bool    CXMLProcessor_##name::Process(const CXMLNode &node, object_type *pObject
 }
 
 template <class T>
-bool    IsNull(T *pObject)      { return pObject == NULL; }
+bool    IsNull(T *pObject)      { return pObject == nullptr; }
 
 template <> inline
 bool    IsNull(void *pObject)   { return false; }
@@ -203,15 +205,15 @@ protected:
 public:
     virtual ~IXMLProcessor()
     {
-        for (list<XMLProcessorMap*>::iterator it(m_lParents.begin()); it != m_lParents.end(); ++it)
-            (*it)->erase(m_sElementName);
+        for (auto & m_lParent : m_lParents)
+            m_lParent->erase(m_sElementName);
     }
 
-    IXMLProcessor(const tstring &sElementName) :
-    m_sElementName(sElementName)
+    explicit IXMLProcessor(tstring sElementName) :
+    m_sElementName(std::move(sElementName))
     {}
 
-    void            AddParent(XMLProcessorMap *pParent)     { if (pParent != NULL) m_lParents.push_back(pParent); }
+    void            AddParent(XMLProcessorMap *pParent)     { if (pParent != nullptr) m_lParents.push_back(pParent); }
     void            RemoveParent(XMLProcessorMap *pParent)  { m_lParents.remove(pParent); }
     bool            IsOrphaned() const                      { return m_lParents.empty(); }
     virtual void    RemoveChild(const tstring &sName) = 0;

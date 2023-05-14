@@ -17,7 +17,7 @@ using namespace std;
 
 #define MAX_PATH_SIZE 2048
 
-HWND hWndDlg = NULL;
+HWND hWndDlg = nullptr;
 wchar_t g_sErrorFile[MAX_PATH_SIZE];
 //char g_sArgs[MAX_PATH_SIZE];
 
@@ -32,9 +32,9 @@ void Execute()
     memset(&sInfo, 0, sizeof(STARTUPINFO));
     memset(&pInfo, 0, sizeof(PROCESS_INFORMATION));
 
-//  mbstowcs_s(NULL, wsArgs, MAX_PATH_SIZE, sArgs, _TRUNCATE);
+//  mbstowcs_s(nullptr, wsArgs, MAX_PATH_SIZE, sArgs, _TRUNCATE);
 
-    CreateProcess(L"./hon.exe", GetCommandLine(), NULL, NULL, FALSE, 0, NULL, NULL, &sInfo, &pInfo);
+    CreateProcess(L"./hon.exe", GetCommandLine(), nullptr, nullptr, FALSE, 0, nullptr, nullptr, &sInfo, &pInfo);
 }
 
 void GetUpdate(wchar_t sDir[MAX_PATH_SIZE], vector<wchar_t *> &vFileList)
@@ -182,7 +182,7 @@ bool InstallUpdate(vector<wchar_t *> &vFileList)
     for (it = vFileList.begin(); it != vFileList.end(); it++)
     {
         // Update progress
-        SendMessage(GetDlgItem(hWndDlg, IDC_PROGRESS1), PBM_SETPOS, (int)((float(iFilesInstalled) / float(vFileList.size())) * 1000), NULL);
+        SendMessage(GetDlgItem(hWndDlg, IDC_PROGRESS1), PBM_SETPOS, (int)((float(iFilesInstalled) / float(vFileList.size())) * 1000), nullptr);
         UpdateWindow(hWndDlg);
 
         wchar_t sSource[MAX_PATH_SIZE];
@@ -219,7 +219,7 @@ bool InstallUpdate(vector<wchar_t *> &vFileList)
                         {
                             DWORD dwReturn(0);
 
-                            while (!CreateDirectory(*it, NULL) && iRetryTime < 250)
+                            while (!CreateDirectory(*it, nullptr) && iRetryTime < 250)
                             {
                                 dwReturn = GetLastError();
 
@@ -309,7 +309,7 @@ bool WaitUntilLowestProcess(wchar_t *sProcName)
                 HANDLE hProcess = OpenProcess(PROCESS_QUERY_INFORMATION | PROCESS_VM_READ, false, dwProcesses[i]);
 
                 // Get the process name.
-                if (hProcess != NULL)
+                if (hProcess != nullptr)
                 {
                     HMODULE hMod;
                     DWORD dwTotalModules;
@@ -350,7 +350,7 @@ bool WaitUntilLowestProcess(wchar_t *sProcName)
                     }
                 }
 
-                if (hProcess != NULL)
+                if (hProcess != nullptr)
                     CloseHandle(hProcess);
             }
         }
@@ -392,7 +392,7 @@ bool WaitForProcess(wchar_t *sProcName)
                 HANDLE hProcess = OpenProcess(PROCESS_QUERY_INFORMATION | PROCESS_VM_READ, false, dwProcesses[i]);
 
                 // Get the process name.
-                if (hProcess != NULL)
+                if (hProcess != nullptr)
                 {
                     HMODULE hMod;
                     DWORD dwTotalModules;
@@ -436,7 +436,7 @@ bool WaitForProcess(wchar_t *sProcName)
                     Sleep(500);
                 }
 
-                if (hProcess != NULL)
+                if (hProcess != nullptr)
                     CloseHandle(hProcess);
             }
         }
@@ -480,7 +480,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
     hWndDlg = CreateDialog(hInstance, MAKEINTRESOURCE(IDD_DIALOGBAR), 0, (DLGPROC)MainWndProc);
 
-    if (hWndDlg == NULL)
+    if (hWndDlg == nullptr)
         return 0;
 
     INITCOMMONCONTROLSEX lpInitControls;
@@ -489,7 +489,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
     InitCommonControlsEx(&lpInitControls);
 
-    SendMessage(GetDlgItem(hWndDlg, IDC_PROGRESS1), PBM_SETRANGE, NULL, MAKELPARAM(0, 1000));
+    SendMessage(GetDlgItem(hWndDlg, IDC_PROGRESS1), PBM_SETRANGE, nullptr, MAKELPARAM(0, 1000));
 
     ShowWindow(hWndDlg, SW_SHOWNORMAL);
     UpdateWindow(hWndDlg);
@@ -564,13 +564,13 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
         Execute();
         m_bDone = true;
     }
-    else if (hWndDlg != NULL)
+    else if (hWndDlg != nullptr)
     {
         SetDlgItemText(hWndDlg, IDC_LABEL, g_sErrorFile);
-        SendMessage(GetDlgItem(hWndDlg, IDC_PROGRESS1), PBM_SETPOS, 0, NULL);
+        SendMessage(GetDlgItem(hWndDlg, IDC_PROGRESS1), PBM_SETPOS, 0, nullptr);
     }
 
-    while (!m_bDone && hWndDlg != NULL)
+    while (!m_bDone && hWndDlg != nullptr)
     {
         Sleep(1);
 
@@ -583,7 +583,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
             if(msg.message == WM_QUIT)
             {
                 m_bDone = true;
-                PostMessage(NULL,WM_QUIT,0,0);
+                PostMessage(nullptr,WM_QUIT,0,0);
                 break;
             }
 
@@ -595,7 +595,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
         }
     }
 
-    if (hWndDlg != NULL)
+    if (hWndDlg != nullptr)
         DestroyWindow(hWndDlg);
 
     Sleep(10000);

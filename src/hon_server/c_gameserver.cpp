@@ -175,8 +175,8 @@ CGameServer::~CGameServer()
   CGameServer::CGameServer
   ====================*/
 CGameServer::CGameServer() : IGame(_T("server")),
-m_pServerEntityDirectory(NULL),
-m_pHostServer(NULL),
+m_pServerEntityDirectory(nullptr),
+m_pHostServer(nullptr),
 
 m_uiLastStatusNotifyTime(INVALID_TIME),
 m_uiLastChatCounterDecrement(INVALID_TIME),
@@ -217,9 +217,9 @@ m_uiPauseToggleTime(INVALID_TIME),
 m_uiPauseStartTime(INVALID_TIME),
 
 #ifndef K2_CLIENT
-m_pStatSubmitRequest(NULL),
+m_pStatSubmitRequest(nullptr),
 
-m_pAccountAuthRequest(NULL),
+m_pAccountAuthRequest(nullptr),
 m_uiLastAccountAuthRequest(INVALID_TIME),
 m_uiSentAccountAuthRequest(INVALID_TIME),
 m_bSentAccountAuthRequest(false),
@@ -266,7 +266,7 @@ bool    CGameServer::Initialize(CHostServer *pHostServer)
     {
         // Store a pointer to the host server
         m_pHostServer = pHostServer;
-        if (m_pHostServer == NULL)
+        if (m_pHostServer == nullptr)
             EX_ERROR(_T("Invalid CHostServer"));
 
         SetGameTime(0);
@@ -332,7 +332,7 @@ void    CGameServer::ReplayFrame()
 #ifdef K2_CLIENT
     CClientConnection *pClient(m_pHostServer->GetClient());
 
-    if (pClient != NULL)
+    if (pClient != nullptr)
     {
         CBufferDynamic cBufferReliable;
         ReplayManager.GetGameDataReliable(pClient->GetClientNum(), cBufferReliable);
@@ -370,7 +370,7 @@ void    CGameServer::VoteFrame()
 {
     // Check voting progress
     CGameInfo *pGameInfo(GetGameInfo());
-    if (pGameInfo == NULL)
+    if (pGameInfo == nullptr)
         return;
 
     switch (pGameInfo->GetActiveVoteType())
@@ -556,7 +556,7 @@ void    CGameServer::VoteFrame()
         {
             // Make sure team is valid
             CTeamInfo *pTeam(GetTeam(pGameInfo->GetVoteTarget()));
-            if (pTeam == NULL)
+            if (pTeam == nullptr)
             {
                 ResetPlayerVotes();
                 pGameInfo->VoteFailed();
@@ -638,7 +638,7 @@ void    CGameServer::UpdatePauseStatus()
 
         // If pause exceeds maximum time, force match to restart
         if (GetTotalTime() - m_uiPauseStartTime > g_pauseMaxTime && m_uiPauseToggleTime == INVALID_TIME)
-            StartUnpause(NULL);
+            StartUnpause(nullptr);
 
         // If the game is over or all the players are gone, force an unpause
         bool bHasPlayers(false);
@@ -646,13 +646,13 @@ void    CGameServer::UpdatePauseStatus()
         for (uint uiTeam(TEAM_1); uiTeam <= TEAM_2; ++uiTeam)
         {
             CTeamInfo *pTeam(GetTeam(uiTeam));
-            if (pTeam == NULL)
+            if (pTeam == nullptr)
                 continue;
 
             for (uint uiPlayer(0); uiPlayer < pTeam->GetNumClients(); ++uiPlayer)
             {
                 CPlayer *pPlayer(pTeam->GetPlayer(uiPlayer));
-                if (pPlayer == NULL)
+                if (pPlayer == nullptr)
                     continue;
 
                 if (pPlayer->HasFlags(PLAYER_FLAG_TERMINATED))
@@ -744,7 +744,7 @@ void    CGameServer::Frame()
     UpdatePauseStatus();
 
     CGameInfo *pGameInfo(GetGameInfo());
-    if (pGameInfo == NULL)
+    if (pGameInfo == nullptr)
     {
         m_pServerEntityDirectory->BackgroundFrame();
         return;
@@ -761,7 +761,7 @@ void    CGameServer::Frame()
     for (PlayerMap_it it(m_mapClients.begin()); it != m_mapClients.end(); ++it)
     {
         CPlayer *pPlayer(it->second);
-        if (pPlayer == NULL)
+        if (pPlayer == nullptr)
             continue;
 
         // Ignore terminated clients
@@ -800,7 +800,7 @@ void    CGameServer::Frame()
         }
 
         CClientConnection *pClientConnection(m_pHostServer->GetClient(pPlayer->GetClientNumber()));
-        if (pClientConnection == NULL)
+        if (pClientConnection == nullptr)
             continue;
 
         if (pPlayer->GetTeam() == TEAM_1)
@@ -877,10 +877,10 @@ void    CGameServer::Frame()
         {
             // Check for an entire team leaving
             CTeamInfo *pTeam1(GetTeam(TEAM_1));
-            int iNumTeam1(pTeam1 != NULL ? pTeam1->GetNumActiveClients() : 0);
+            int iNumTeam1(pTeam1 != nullptr ? pTeam1->GetNumActiveClients() : 0);
 
             CTeamInfo *pTeam2(GetTeam(TEAM_2));
-            int iNumTeam2(pTeam2 != NULL ? pTeam2->GetNumActiveClients() : 0);
+            int iNumTeam2(pTeam2 != nullptr ? pTeam2->GetNumActiveClients() : 0);
 
             if (iNumTeam1 == 0 && iNumTeam2 == 0)
             {
@@ -904,20 +904,20 @@ void    CGameServer::Frame()
             {
                 // Check for an entire team leaving
                 CTeamInfo *pTeam1(GetTeam(TEAM_1));
-                int iNumTeam1(pTeam1 != NULL ? pTeam1->GetNumActiveClients() : 0);
+                int iNumTeam1(pTeam1 != nullptr ? pTeam1->GetNumActiveClients() : 0);
                 if (iNumTeam1 == 0)
                     Concede(TEAM_1);
 
                 CTeamInfo *pTeam2(GetTeam(TEAM_2));
-                int iNumTeam2(pTeam2 != NULL ? pTeam2->GetNumActiveClients() : 0);
+                int iNumTeam2(pTeam2 != nullptr ? pTeam2->GetNumActiveClients() : 0);
                 if (iNumTeam2 == 0)
                     Concede(TEAM_2);
 
                 // Check for enough players leaving that the game is "abandoned"
-                if (pTeam1 != NULL && iNumTeam2 - iNumTeam1 >= 2)
+                if (pTeam1 != nullptr && iNumTeam2 - iNumTeam1 >= 2)
                     pTeam1->Abandoned();
 
-                if (pTeam2 != NULL && iNumTeam1 - iNumTeam2 >= 2)
+                if (pTeam2 != nullptr && iNumTeam1 - iNumTeam2 >= 2)
                     pTeam2->Abandoned();
             }
         }
@@ -1009,10 +1009,10 @@ void    CGameServer::GetAccountAuth()
 
     if (m_bSentAccountAuthRequest == false)
     {
-        if (m_pAccountAuthRequest != NULL)
+        if (m_pAccountAuthRequest != nullptr)
         {
             Host.GetHTTPManager()->ReleaseRequest(m_pAccountAuthRequest);
-            m_pAccountAuthRequest = NULL;
+            m_pAccountAuthRequest = nullptr;
         }
 
         m_pAccountAuthRequest = Host.GetHTTPManager()->SpawnRequest();
@@ -1058,7 +1058,7 @@ void    CGameServer::GetAccountAuth()
             m_uiSentAccountAuthRequest = Host.GetTime();
         }
     }
-    else if(m_pAccountAuthRequest == NULL)
+    else if(m_pAccountAuthRequest == nullptr)
     {
         m_bSentAccountAuthRequest = false;
         m_uiLastAccountAuthRequest = Host.GetTime();
@@ -1073,7 +1073,7 @@ void    CGameServer::GetAccountAuth()
         {
             Console.Warn << _T("Aids failed to update.") << newl;
             Host.GetHTTPManager()->ReleaseRequest(m_pAccountAuthRequest);
-            m_pAccountAuthRequest = NULL;
+            m_pAccountAuthRequest = nullptr;
             return;
         }
     
@@ -1082,13 +1082,13 @@ void    CGameServer::GetAccountAuth()
         CPHPData phpResponse(sResponse);
         
         Host.GetHTTPManager()->ReleaseRequest(m_pAccountAuthRequest);
-        m_pAccountAuthRequest = NULL;
+        m_pAccountAuthRequest = nullptr;
 
         //phpResponse.Print();
     
         const CPHPData *pCookies(phpResponse.GetVar(_T("aids2cookie")));
         const CPHPData *pGameCookies(phpResponse.GetVar(_T("aids2gcookie")));
-        if (pCookies != NULL)
+        if (pCookies != nullptr)
         {
             int iArraySize(int(pCookies->GetSize()));
             for(int iArrayIndex(0); iArrayIndex < iArraySize; ++iArrayIndex)
@@ -1226,7 +1226,7 @@ uint    CGameServer::GetClientCount(int iTeam)
         return GetConnectedClientCount();
 
     CTeamInfo *pTeam(GetTeam(iTeam));
-    if (pTeam == NULL)
+    if (pTeam == nullptr)
         return 0;
 
     return pTeam->GetNumClients();
@@ -1250,7 +1250,7 @@ int     CGameServer::GetConnectedClientCount(int iTeam)
     }
 
     CTeamInfo *pTeam(GetTeam(iTeam));
-    if (pTeam == NULL)
+    if (pTeam == nullptr)
         return 0;
 
     return pTeam->GetNumClients();
@@ -1263,7 +1263,7 @@ int     CGameServer::GetConnectedClientCount(int iTeam)
 bool    CGameServer::StartReplayRecording()
 {
     CGameInfo *pGameInfo(GetGameInfo());
-    if (pGameInfo == NULL)
+    if (pGameInfo == nullptr)
         return false;
 
     if (!sv_autosaveReplay && pGameInfo->GetMatchID() == -1)
@@ -1309,10 +1309,10 @@ void    CGameServer::RequestStartGame(int iClientNum)
     if (!m_bLocal && !m_bSolo && iClientNum != -1 && !sv_allowSolo)
     {
         CTeamInfo *pTeam1(GetTeam(TEAM_1));
-        int iNumTeam1(pTeam1 != NULL ? pTeam1->GetNumClients() : 0);
+        int iNumTeam1(pTeam1 != nullptr ? pTeam1->GetNumClients() : 0);
 
         CTeamInfo *pTeam2(GetTeam(TEAM_2));
-        int iNumTeam2(pTeam2 != NULL ? pTeam2->GetNumClients() : 0);
+        int iNumTeam2(pTeam2 != nullptr ? pTeam2->GetNumClients() : 0);
 
         if (iNumTeam1 == 0 || iNumTeam2 == 0)
         {
@@ -1334,7 +1334,7 @@ void    CGameServer::RequestStartGame(int iClientNum)
             for (PlayerMap_it it(m_mapClients.begin()); it != m_mapClients.end(); ++it)
             {
                 CPlayer *pPlayer(it->second);
-                if (pPlayer == NULL)
+                if (pPlayer == nullptr)
                     continue;
 
                 if (pPlayer->GetTeam() < TEAM_1 || pPlayer->GetTeam() > TEAM_2)
@@ -1374,11 +1374,11 @@ void    CGameServer::StartGame(bool bAllowSolo, bool bAllowEmpty)
     for (PlayerMap_it it(m_mapClients.begin()); it != m_mapClients.end(); ++it)
     {
         CPlayer *pPlayer(it->second);
-        if (pPlayer == NULL)
+        if (pPlayer == nullptr)
             continue;
 
         CClientConnection *pClientConnection(m_pHostServer->GetClient(pPlayer->GetClientNumber()));
-        if (pClientConnection == NULL)
+        if (pClientConnection == nullptr)
             continue;
 
         if (pPlayer->GetTeam() == TEAM_INVALID || pPlayer->GetTeam() == TEAM_PASSIVE)
@@ -1394,13 +1394,13 @@ void    CGameServer::StartGame(bool bAllowSolo, bool bAllowEmpty)
         for (int iTeam(TEAM_1); iTeam <= TEAM_2; ++iTeam)
         {
             CTeamInfo *pTeam(GetTeam(iTeam));
-            if (pTeam == NULL)
+            if (pTeam == nullptr)
                 continue;
 
             for (uint uiSlot(0); uiSlot < GetTeamSize(); ++uiSlot)
             {
                 CPlayer *pPlayer(pTeam->GetPlayer(uiSlot));
-                if (pPlayer == NULL)
+                if (pPlayer == nullptr)
                     continue;
 
                 pTeam->UnlockSlot(uiSlot);
@@ -1434,7 +1434,7 @@ void    CGameServer::StartGame(bool bAllowSolo, bool bAllowEmpty)
     // Update prediction and point values
     CTeamInfo *pTeam1(GetTeam(TEAM_1));
     CTeamInfo *pTeam2(GetTeam(TEAM_2));
-    if (pTeam1 != NULL && pTeam2 != NULL)
+    if (pTeam1 != nullptr && pTeam2 != nullptr)
     {
         int iRankDiff(pTeam1->GetRank() - pTeam2->GetRank());
         float fWinProbability(1.0f / (1.0f + pow(M_E, -iRankDiff / psf_logisticPredictionScale)));
@@ -1475,13 +1475,13 @@ void    CGameServer::StartGame(bool bAllowSolo, bool bAllowEmpty)
     for (int iTeam(TEAM_1); iTeam <= TEAM_2; ++iTeam)
     {
         CTeamInfo *pTeam(GetTeam(iTeam));
-        if (pTeam == NULL)
+        if (pTeam == nullptr)
             continue;
 
         for (uint uiSlot(0); uiSlot < GetTeamSize(); ++uiSlot)
         {
             CPlayer *pPlayer(pTeam->GetPlayer(uiSlot));
-            if (pPlayer == NULL)
+            if (pPlayer == nullptr)
                 continue;
 
             pPlayer->SetFlags(PLAYER_FLAG_IS_CAPTAIN);
@@ -1493,7 +1493,7 @@ void    CGameServer::StartGame(bool bAllowSolo, bool bAllowEmpty)
 
         // assign first ban team.
     CGameInfo *pGameInfo(GetGameInfo());
-    if (pGameInfo != NULL)
+    if (pGameInfo != nullptr)
     {
         if ((GetBanCount() > 0) &&
             (pGameInfo->GetGameOptions() & GAME_OPTION_TOURNAMENT_RULES))
@@ -1513,14 +1513,14 @@ void    CGameServer::StartGame(bool bAllowSolo, bool bAllowEmpty)
     {
         // Team A gets first pick, but only one hero
         CTeamInfo *pTeam(GetTeam(iStartingTeam));
-        if (pTeam != NULL)
+        if (pTeam != nullptr)
         {
             uint uiDraftRound(1);
             uint uiCount(0);
             for (uint uiSlot(0); uiSlot < GetTeamSize(); ++uiSlot)
             {
                 CPlayer *pPlayer(pTeam->GetPlayer(uiSlot));
-                if (pPlayer == NULL)
+                if (pPlayer == nullptr)
                     continue;
 
                 pPlayer->SetDraftRound(uiDraftRound);
@@ -1534,7 +1534,7 @@ void    CGameServer::StartGame(bool bAllowSolo, bool bAllowEmpty)
 
         // Team B always gets last pick
         pTeam = GetTeam(iStartingTeam ^ 3);
-        if (pTeam != NULL)
+        if (pTeam != nullptr)
         {
             uint uiDraftRound(2);
             uint uiCount(0);
@@ -1542,7 +1542,7 @@ void    CGameServer::StartGame(bool bAllowSolo, bool bAllowEmpty)
             for (uint uiSlot(0); uiSlot < GetTeamSize(); ++uiSlot)
             {
                 CPlayer *pPlayer(pTeam->GetPlayer(uiSlot));
-                if (pPlayer == NULL)
+                if (pPlayer == nullptr)
                     continue;
 
                 pPlayer->SetDraftRound(uiDraftRound);
@@ -1564,7 +1564,7 @@ void    CGameServer::StartGame(bool bAllowSolo, bool bAllowEmpty)
     }
 
     // Set initial phase and time
-    if (pGameInfo == NULL || !pGameInfo->GetNoHeroSelect())
+    if (pGameInfo == nullptr || !pGameInfo->GetNoHeroSelect())
     {
         if (GetBanCount() > 0)
         {
@@ -1590,7 +1590,7 @@ void    CGameServer::StartGame(bool bAllowSolo, bool bAllowEmpty)
     for (int iTeam(TEAM_1); iTeam <= TEAM_2; ++iTeam)
     {
         CTeamInfo *pTeam(GetTeam(iTeam));
-        if (pTeam == NULL)
+        if (pTeam == nullptr)
             continue;
 
         if (GetGameMode() == GAME_MODE_BANNING_PICK || GetGameMode() == GAME_MODE_CAPTAINS_MODE)
@@ -1604,17 +1604,17 @@ void    CGameServer::StartGame(bool bAllowSolo, bool bAllowEmpty)
     if (bAllowSolo)
     {
         CTeamInfo *pTeam1(GetTeam(TEAM_1));
-        int iNumTeam1(pTeam1 != NULL ? pTeam1->GetNumClients() : 0);
+        int iNumTeam1(pTeam1 != nullptr ? pTeam1->GetNumClients() : 0);
 
         CTeamInfo *pTeam2(GetTeam(TEAM_2));
-        int iNumTeam2(pTeam2 != NULL ? pTeam2->GetNumClients() : 0);
+        int iNumTeam2(pTeam2 != nullptr ? pTeam2->GetNumClients() : 0);
 
         if (iNumTeam1 == 0 || iNumTeam2 == 0 && iNumTeam1 != iNumTeam2)
         {
             m_bSolo = true;
 
             CGameInfo *pGameInfo(GetGameInfo());
-            if (pGameInfo != NULL)
+            if (pGameInfo != nullptr)
                 pGameInfo->SetFlags(GAME_FLAG_SOLO);
         }
     }
@@ -1622,10 +1622,10 @@ void    CGameServer::StartGame(bool bAllowSolo, bool bAllowEmpty)
     if (bAllowEmpty)
     {
         CTeamInfo *pTeam1(GetTeam(TEAM_1));
-        int iNumTeam1(pTeam1 != NULL ? pTeam1->GetNumClients() : 0);
+        int iNumTeam1(pTeam1 != nullptr ? pTeam1->GetNumClients() : 0);
 
         CTeamInfo *pTeam2(GetTeam(TEAM_2));
-        int iNumTeam2(pTeam2 != NULL ? pTeam2->GetNumClients() : 0);
+        int iNumTeam2(pTeam2 != nullptr ? pTeam2->GetNumClients() : 0);
 
         if (iNumTeam1 == 0 && iNumTeam2 == 0)
         {
@@ -1633,7 +1633,7 @@ void    CGameServer::StartGame(bool bAllowSolo, bool bAllowEmpty)
             m_bEmpty = true;
 
             CGameInfo *pGameInfo(GetGameInfo());
-            if (pGameInfo != NULL)
+            if (pGameInfo != nullptr)
                 pGameInfo->SetFlags(GAME_FLAG_SOLO);
         }
     }
@@ -1660,7 +1660,7 @@ void    CGameServer::StartPreMatch()
     for (int iTeam(TEAM_1); iTeam <= TEAM_2; ++iTeam)
     {
         CTeamInfo *pTeam(GetTeam(iTeam));
-        if (pTeam == NULL)
+        if (pTeam == nullptr)
             continue;
 
         pTeam->SetStat(TEAM_STAT_TOWER_KILLS, 0);
@@ -1693,7 +1693,7 @@ void    CGameServer::StartMatch()
     if (GetGamePhase() >= GAME_PHASE_ACTIVE)
         return;
 
-    if (Game.GetWorldPointer() == NULL || !Game.GetWorldPointer()->IsLoaded())
+    if (Game.GetWorldPointer() == nullptr || !Game.GetWorldPointer()->IsLoaded())
         return;
 
     // Make sure all players can reconnect
@@ -1756,7 +1756,7 @@ void    CGameServer::EndMatch(int iLosingTeam)
     uint uiMatchTime(Game.GetMatchTime());
 
     CGameInfo *pGameInfo(GetGameInfo());
-    if (pGameInfo != NULL && !pGameInfo->HasFlags(GAME_FLAG_CONCEDED))
+    if (pGameInfo != nullptr && !pGameInfo->HasFlags(GAME_FLAG_CONCEDED))
     {
         pGameInfo->SetMatchLength(Game.GetMatchTime());
 
@@ -1768,7 +1768,7 @@ void    CGameServer::EndMatch(int iLosingTeam)
             if (pPlayer->HasFlags(PLAYER_FLAG_TERMINATED) || pPlayer->GetTeam() == TEAM_SPECTATOR)
                 continue;
 
-            Game.LogGold(GAME_LOG_GOLD_EARNED, pPlayer, NULL, pPlayer->GetStat(PLAYER_STAT_PASSIVE_GOLD));
+            Game.LogGold(GAME_LOG_GOLD_EARNED, pPlayer, nullptr, pPlayer->GetStat(PLAYER_STAT_PASSIVE_GOLD));
         }
 
         m_pServerEntityDirectory->FlushStats();
@@ -1787,7 +1787,7 @@ void    CGameServer::EndMatch(int iLosingTeam)
     Game.SetGamePhase(GAME_PHASE_ENDED, sv_gameEndPhaseTime);
 
     // Notify clients who the winner is
-    if (pGameInfo == NULL || !pGameInfo->HasFlags(GAME_FLAG_CONCEDED))
+    if (pGameInfo == nullptr || !pGameInfo->HasFlags(GAME_FLAG_CONCEDED))
     {
         CBufferFixed<9> buffer;
         buffer << GAME_CMD_END_GAME << GetWinningTeam() << uiMatchTime;
@@ -1796,18 +1796,18 @@ void    CGameServer::EndMatch(int iLosingTeam)
 
     // Force base building to die
     CTeamInfo *pLosingTeam(GetTeam(iLosingTeam));
-    if (pLosingTeam != NULL)
+    if (pLosingTeam != nullptr)
     {
         IBuildingEntity *pTargetBuilding(GetBuildingEntity(pLosingTeam->GetBaseBuildingIndex()));
-        if (pTargetBuilding != NULL)
+        if (pTargetBuilding != nullptr)
             pTargetBuilding->Kill();
     }
 
     // Delete projectiles and affectors
     IGameEntity *pEnt(Game.GetFirstEntity());
-    while (pEnt != NULL)
+    while (pEnt != nullptr)
     {
-        if (pEnt != NULL)
+        if (pEnt != nullptr)
         {   
             if (pEnt->IsProjectile() || pEnt->IsAffector())
                 DeleteEntity(pEnt);
@@ -1885,7 +1885,7 @@ void    CGameServer::Remake()
 
     // Delete or reset all entities
     IGameEntity *pEnt(Game.GetFirstEntity());
-    while (pEnt != NULL)
+    while (pEnt != nullptr)
     {
         if (pEnt->IsPlayer() || pEnt->IsGameInfo() || pEnt->IsTeamInfo())
         {
@@ -1924,7 +1924,7 @@ void    CGameServer::Remake()
             continue;
 
         CWorldEntity *pWorldEntity(GetWorldPointer()->GetEntityByHandle(*it));
-        if (pWorldEntity == NULL)
+        if (pWorldEntity == nullptr)
             continue;
 
         if (pWorldEntity->GetType() == _T("Prop_Cliff"))
@@ -1958,7 +1958,7 @@ void    CGameServer::Remake()
         }
 
         IGameEntity* pNewEnt(m_pServerEntityDirectory->Allocate(pWorldEntity->GetType()));
-        if (pNewEnt == NULL)
+        if (pNewEnt == nullptr)
         {
             Console.Err << _T("Failed to allocate a game entity for world entity #") + XtoA(pWorldEntity->GetIndex()) << _T(" type: ") << pWorldEntity->GetType() << newl;
             continue;
@@ -1974,14 +1974,14 @@ void    CGameServer::Remake()
     for (WorldLightsMap_it it(mapWorldLights.begin()); it != mapWorldLights.end(); ++it)
     {
         IGameEntity* pNewEnt(m_pServerEntityDirectory->Allocate(Light_Static));
-        if (pNewEnt == NULL)
+        if (pNewEnt == nullptr)
         {
             Console.Err << _T("Failed to allocate a light for world light #") + XtoA(it->first) << newl;
             continue;
         }
 
         ILight *pLight(pNewEnt->GetAsLight());
-        if (pLight == NULL)
+        if (pLight == nullptr)
         {
             Console.Err << _T("Allocated game entity is not the correct type") << newl;
             continue;
@@ -2024,7 +2024,7 @@ void    CGameServer::Concede(int iLosingTeam)
 
     CGameInfo *pGameInfo(GetGameInfo());
 
-    if (pGameInfo != NULL)
+    if (pGameInfo != nullptr)
     {
         pGameInfo->SetMatchLength(Game.GetMatchTime());
         pGameInfo->SetFlags(GAME_FLAG_CONCEDED);
@@ -2042,7 +2042,7 @@ void    CGameServer::Concede(int iLosingTeam)
         if (pPlayer->HasFlags(PLAYER_FLAG_TERMINATED) || pPlayer->GetTeam() == TEAM_SPECTATOR)
             continue;
 
-        Game.LogGold(GAME_LOG_GOLD_EARNED, pPlayer, NULL, pPlayer->GetStat(PLAYER_STAT_PASSIVE_GOLD));
+        Game.LogGold(GAME_LOG_GOLD_EARNED, pPlayer, nullptr, pPlayer->GetStat(PLAYER_STAT_PASSIVE_GOLD));
     }
 
     SetWinningTeam(iLosingTeam ^ 3);
@@ -2089,7 +2089,7 @@ void    CGameServer::Reset(bool bFailed, const tstring &sReason, bool bAborted, 
     m_sGameLogPath.clear();
 
     ClearGlobalModifiers();
-    SetGameInfo(NULL);
+    SetGameInfo(nullptr);
 
     m_uiLastStatusNotifyTime = INVALID_TIME;
     m_uiLastChatCounterDecrement = INVALID_TIME;
@@ -2144,10 +2144,10 @@ void    CGameServer::Reset(bool bFailed, const tstring &sReason, bool bAborted, 
     m_vGuests.clear();
 
 #ifndef K2_CLIENT
-    if (m_pStatSubmitRequest != NULL)
+    if (m_pStatSubmitRequest != nullptr)
     {
         Host.GetHTTPManager()->ReleaseRequest(m_pStatSubmitRequest);
-        m_pStatSubmitRequest = NULL;
+        m_pStatSubmitRequest = nullptr;
     }
 #endif
 }
@@ -2158,10 +2158,10 @@ void    CGameServer::Reset(bool bFailed, const tstring &sReason, bool bAborted, 
   ====================*/
 bool    ComparePlayerRank(CPlayer *pPlayerA, CPlayer *pPlayerB)
 {
-    if (pPlayerA == NULL)
+    if (pPlayerA == nullptr)
         return false;
 
-    if (pPlayerB == NULL)
+    if (pPlayerB == nullptr)
         return true;
 
     if (pPlayerA->GetRank() > pPlayerB->GetRank())
@@ -2178,7 +2178,7 @@ void    CGameServer::BalanceTeams(const bool bAutoBalancedMode)
 {
     CTeamInfo *pTeamA(GetTeam(TEAM_1));
     CTeamInfo *pTeamB(GetTeam(TEAM_2));
-    if (pTeamA == NULL || pTeamB == NULL)
+    if (pTeamA == nullptr || pTeamB == nullptr)
         return;
 
     // Get a list of all players on team, sorted highest to lowest
@@ -2192,11 +2192,11 @@ void    CGameServer::BalanceTeams(const bool bAutoBalancedMode)
     for (ivector_it it(vPlayerPool.begin()); it != vPlayerPool.end(); ++it)
     {
         CPlayer *pPlayer(GetPlayer(*it));
-        if (pPlayer == NULL)
+        if (pPlayer == nullptr)
             continue;
 
         CTeamInfo *pTeam(GetTeam(pPlayer->GetTeam()));
-        if (pTeam == NULL || pTeam->IsSlotLocked(pTeam->GetTeamIndexFromClientID(pPlayer->GetClientNumber())))
+        if (pTeam == nullptr || pTeam->IsSlotLocked(pTeam->GetTeamIndexFromClientID(pPlayer->GetClientNumber())))
             continue;
 
         deqPlayers.push_back(pPlayer);
@@ -2208,7 +2208,7 @@ void    CGameServer::BalanceTeams(const bool bAutoBalancedMode)
     for (deque<CPlayer*>::iterator it(deqPlayers.begin()); it != deqPlayers.end(); ++it)
     {
         CTeamInfo *pTeam(GetTeam((*it)->GetTeam()));
-        if (pTeam == NULL || pTeam->IsSlotLocked(pTeam->GetTeamIndexFromClientID((*it)->GetClientNumber())))
+        if (pTeam == nullptr || pTeam->IsSlotLocked(pTeam->GetTeamIndexFromClientID((*it)->GetClientNumber())))
             continue;
         
         ChangeTeam((*it)->GetClientNumber(), TEAM_INVALID);
@@ -2240,7 +2240,7 @@ void    CGameServer::BalanceTeams(const bool bAutoBalancedMode)
             continue;
 
         CPlayer *pPlayer(pTeamA->GetPlayer(uiTeamA));
-        if (pPlayer == NULL)
+        if (pPlayer == nullptr)
             continue;
 
         for (uint uiTeamB(0); uiTeamB < pTeamB->GetTeamSize(); ++uiTeamB)
@@ -2278,17 +2278,17 @@ void    CGameServer::SwapPlayerSlots(int iTeamA, uint uiSlotA, int iTeamB, uint 
 
     CTeamInfo *pTeamA(GetTeam(iTeamA));
     CTeamInfo *pTeamB(GetTeam(iTeamB));
-    if (pTeamA == NULL || pTeamB == NULL)
+    if (pTeamA == nullptr || pTeamB == nullptr)
         return;
 
     CPlayer *pPlayerA(pTeamA->GetPlayer(uiSlotA));
     CPlayer *pPlayerB(pTeamB->GetPlayer(uiSlotB));
 
-    if (pPlayerA != NULL)
+    if (pPlayerA != nullptr)
         ChangeTeam(pPlayerA->GetClientNumber(), TEAM_INVALID);
-    if (pPlayerB != NULL)
+    if (pPlayerB != nullptr)
         ChangeTeam(pPlayerB->GetClientNumber(), iTeamA, uiSlotA);
-    if (pPlayerA != NULL)
+    if (pPlayerA != nullptr)
         ChangeTeam(pPlayerA->GetClientNumber(), iTeamB, uiSlotB);
 }
 
@@ -2308,7 +2308,7 @@ void    CGameServer::ForceSwapPlayerSlots(int iTeamA, uint uiSlotA, int iTeamB, 
     
     CTeamInfo *pTeamA(GetTeam(iTeamA));
     CTeamInfo *pTeamB(GetTeam(iTeamB));
-    if (pTeamA == NULL || pTeamB == NULL)
+    if (pTeamA == nullptr || pTeamB == nullptr)
         return;
 
     if (uiSlotA >= pTeamA->GetTeamSize() ||
@@ -2327,11 +2327,11 @@ void    CGameServer::ForceSwapPlayerSlots(int iTeamA, uint uiSlotA, int iTeamB, 
     CPlayer *pPlayerA(pTeamA->GetPlayer(uiSlotA));
     CPlayer *pPlayerB(pTeamB->GetPlayer(uiSlotB));
 
-    if (pPlayerA != NULL)
+    if (pPlayerA != nullptr)
         ChangeTeam(pPlayerA->GetClientNumber(), TEAM_INVALID);
-    if (pPlayerB != NULL)
+    if (pPlayerB != nullptr)
         ChangeTeam(pPlayerB->GetClientNumber(), iTeamA, uiSlotA);
-    if (pPlayerA != NULL)
+    if (pPlayerA != nullptr)
         ChangeTeam(pPlayerA->GetClientNumber(), iTeamB, uiSlotB);
 
     if (bSlotALocked)
@@ -2351,7 +2351,7 @@ void    CGameServer::ForceSwapPlayerSlots(int iTeamA, uint uiSlotA, int iTeamB, 
 void    CGameServer::LockSlot(int iTeam, uint uiSlot)
 {
     CTeamInfo *pTeam(GetTeam(iTeam));
-    if (pTeam == NULL)
+    if (pTeam == nullptr)
         return;
 
     pTeam->LockSlot(uiSlot);    
@@ -2364,7 +2364,7 @@ void    CGameServer::LockSlot(int iTeam, uint uiSlot)
 void    CGameServer::UnlockSlot(int iTeam, uint uiSlot)
 {
     CTeamInfo *pTeam(GetTeam(iTeam));
-    if (pTeam == NULL)
+    if (pTeam == nullptr)
         return;
 
     pTeam->UnlockSlot(uiSlot);
@@ -2377,7 +2377,7 @@ void    CGameServer::UnlockSlot(int iTeam, uint uiSlot)
 void    CGameServer::ToggleSlotLock(int iTeam, uint uiSlot)
 {
     CTeamInfo *pTeam(GetTeam(iTeam));
-    if (pTeam == NULL)
+    if (pTeam == nullptr)
         return;
 
     pTeam->ToggleSlotLock(uiSlot);
@@ -2407,7 +2407,7 @@ bool    CGameServer::SetupFrame()
     if (GetGamePhase() <= GAME_PHASE_WAITING_FOR_PLAYERS && m_iCreatorClientNum != -1)
     {
         CClientConnection *pClient(m_pHostServer->GetClient(m_iCreatorClientNum));
-        if (pClient == NULL || !pClient->IsConnected())
+        if (pClient == nullptr || !pClient->IsConnected())
         {
             Reset();
             return false;
@@ -2417,7 +2417,7 @@ bool    CGameServer::SetupFrame()
     for (int iTeam(TEAM_1); iTeam <= TEAM_2; ++iTeam)
     {
         CTeamInfo *pTeam(GetTeam(iTeam));
-        if (pTeam == NULL)
+        if (pTeam == nullptr)
             continue;
 
         // Hi-jack field to send the extra time of captains mode
@@ -2443,7 +2443,7 @@ bool    CGameServer::SetupFrame()
             // Update prediction and point values
             CTeamInfo *pTeam1(GetTeam(TEAM_1));
             CTeamInfo *pTeam2(GetTeam(TEAM_2));
-            if (pTeam1 != NULL && pTeam2 != NULL)
+            if (pTeam1 != nullptr && pTeam2 != nullptr)
             {
                 int iRankDiff(pTeam1->GetRank() - pTeam2->GetRank());
                 float fWinProbability(1.0f / (1.0f + pow(M_E, -iRankDiff / psf_logisticPredictionScale)));
@@ -2516,7 +2516,7 @@ bool    CGameServer::SetupFrame()
         {
             // Get current team
             CTeamInfo *pTeam(GetTeam(m_uiBanningTeam));
-            if (pTeam == NULL)
+            if (pTeam == nullptr)
                 break;
 
             // Instantly end this round when a ban is chosen
@@ -2530,10 +2530,10 @@ bool    CGameServer::SetupFrame()
                 if (m_iBanRound < 0)
                 {
                     CTeamInfo *pTeam(GetTeam(m_uiBanningTeam));
-                    if (pTeam != NULL)
+                    if (pTeam != nullptr)
                     {
                         CPlayer *pCaptain(pTeam->GetCaptain());
-                        if (pCaptain != NULL)
+                        if (pCaptain != nullptr)
                             pCaptain->SetFlags(PLAYER_FLAG_CAN_PICK);
                     }
 
@@ -2582,7 +2582,7 @@ bool    CGameServer::SetupFrame()
                 }
 
                 CPlayer *pCaptain(pTeam->GetCaptain());
-                if (pCaptain != NULL)
+                if (pCaptain != nullptr)
                     pCaptain->RemoveFlags(PLAYER_FLAG_CAN_PICK);
 
                 // Check opposing teams ban count
@@ -2600,7 +2600,7 @@ bool    CGameServer::SetupFrame()
                         SetGamePhaseEndTime(GetGameTime() + sv_heroBanTime);
 
                     CPlayer *pCaptain(pNextTeam->GetCaptain());
-                    if (pCaptain != NULL)
+                    if (pCaptain != nullptr)
                         pCaptain->SetFlags(PLAYER_FLAG_CAN_PICK);
                 }
                 else
@@ -2698,7 +2698,7 @@ bool    CGameServer::SetupFrame()
                     {
                         CTeamInfo *pTeam(GetTeam(uiTeam));
 
-                        if (pTeam != NULL)
+                        if (pTeam != nullptr)
                         {
                             if (pTeam->GetExtraTime() >= Game.GetFrameLength())
                             {
@@ -2742,7 +2742,7 @@ bool    CGameServer::SetupFrame()
                         for (int iTeam(TEAM_1); iTeam <= TEAM_2; ++iTeam)
                         {
                             CTeamInfo *pTeam(GetTeam(iTeam));
-                            if (pTeam == NULL)
+                            if (pTeam == nullptr)
                                 continue;
 
                             pTeam->SetUsingExtraTime(false);
@@ -2757,7 +2757,7 @@ bool    CGameServer::SetupFrame()
                         for (int iTeam(TEAM_1); iTeam <= TEAM_2; ++iTeam)
                         {
                             CTeamInfo *pTeam(GetTeam(iTeam));
-                            if (pTeam == NULL)
+                            if (pTeam == nullptr)
                                 continue;
 
                             pTeam->SetExtraTime(0);
@@ -2819,7 +2819,7 @@ bool    CGameServer::ActiveFrame()
 
     CTeamInfo *pTeam1(GetTeam(TEAM_1));
     CTeamInfo *pTeam2(GetTeam(TEAM_2));
-    if (pTeam1 == NULL || pTeam2 == NULL)
+    if (pTeam1 == nullptr || pTeam2 == nullptr)
         return true;
 
     if (sv_statusNotifyTime && GetGameTime() >= m_uiLastStatusNotifyTime + sv_statusNotifyTime)
@@ -2952,7 +2952,7 @@ bool    CGameServer::EndedFrame()
   ====================*/
 bool    CGameServer::IsKickVoteValid(CPlayer *pTarget)
 {
-    if (pTarget == NULL)
+    if (pTarget == nullptr)
         return false;
     if (pTarget->HasFlags(PLAYER_FLAG_TERMINATED))
         return false;
@@ -2970,7 +2970,7 @@ bool    CGameServer::IsKickVoteValid(CPlayer *pTarget)
   ====================*/
 bool    CGameServer::IsVisible(IUnitEntity* pFrom, float fX, float fY)
 {
-    if (pFrom == NULL)
+    if (pFrom == nullptr)
         return false;
 
     uint uiTeamIndex(-1);
@@ -3012,7 +3012,7 @@ void    CGameServer::UpdateVoIP()
     {
         IHeroEntity *pHero(it->second->GetHero());
 
-        if (pHero == NULL)
+        if (pHero == nullptr)
             continue;
 
         mapHeroList.insert(pair<int, IHeroEntity*>(it->first, pHero));
@@ -3083,7 +3083,7 @@ void    CGameServer::ParseGameLog(const tstring &sPath)
 {
     // Clear any existing stat entities
     vector<IGameEntity*> vDelete;
-    for (IGameEntity *pEntity(GetFirstEntity()); pEntity != NULL; pEntity = GetNextEntity(pEntity))
+    for (IGameEntity *pEntity(GetFirstEntity()); pEntity != nullptr; pEntity = GetNextEntity(pEntity))
     {
         if (!pEntity->IsStats())
             continue;
@@ -3107,15 +3107,15 @@ void    CGameServer::ParseGameLog(const tstring &sPath)
     for (int i(TEAM_1); i <= TEAM_2; ++i)
     {
         CTeamInfo *pTeam(GetTeam(i));
-        if (pTeam == NULL)
+        if (pTeam == nullptr)
             continue;
 
         IGameEntity *pNewEntity(AllocateEntity(Info_Stats));
-        if (pNewEntity == NULL)
+        if (pNewEntity == nullptr)
             continue;
 
         CGameStats *pStats(pNewEntity->GetAsStats());
-        if (pStats == NULL)
+        if (pStats == nullptr)
             continue;
 
         mapTeamStats[i] = pStats;
@@ -3147,12 +3147,12 @@ void    CGameServer::ParseGameLog(const tstring &sPath)
                 if (itStats == mapPlayerStats.end())
                 {
                     IGameEntity *pNewStats(AllocateEntity(Info_Stats));
-                    if (pNewStats != NULL && pNewStats->GetAsStats() != NULL)
+                    if (pNewStats != nullptr && pNewStats->GetAsStats() != nullptr)
                     {
                         mapPlayerStats[iPlayer] = pNewStats->GetAsStats();
 
                         CPlayer *pPlayer(Game.GetPlayer(iPlayer));
-                        if (pPlayer != NULL)
+                        if (pPlayer != nullptr)
                             pPlayer->AssignStats(pNewStats->GetAsStats());
                     }
                 }
@@ -3200,7 +3200,7 @@ void    CGameServer::ParseGameLog(const tstring &sPath)
                 for (map<int, CGameStats*>::iterator it(mapPlayerStats.begin()); it != mapPlayerStats.end(); ++it)
                 {
                     CPlayer *pPlayer(GetPlayer(it->first));
-                    if (pPlayer == NULL || pPlayer->HasFlags(PLAYER_FLAG_TERMINATED))
+                    if (pPlayer == nullptr || pPlayer->HasFlags(PLAYER_FLAG_TERMINATED))
                         continue;
 
                     it->second->SetTimePlayed(pPlayer->GetPlayTime());
@@ -3280,7 +3280,7 @@ void    CGameServer::ParseGameLog(const tstring &sPath)
                     itStats->second->LogItemHistory(entry);
 
                     CItemDefinition *pItemDef(EntityRegistry.GetDefinition<CItemDefinition>(ev.GetProperty(_T("item"))));
-                    if (pItemDef != NULL)
+                    if (pItemDef != nullptr)
                     {
                         if (pItemDef->GetCategory() == _T("ward"))
                             itStats->second->AddWardsPurchased(1);
@@ -3299,7 +3299,7 @@ void    CGameServer::ParseGameLog(const tstring &sPath)
                 if (itStats != mapPlayerStats.end())
                 {
                     CItemDefinition *pItemDef(EntityRegistry.GetDefinition<CItemDefinition>(ev.GetProperty(_T("item"))));
-                    if (pItemDef != NULL)
+                    if (pItemDef != nullptr)
                     {
                         if (pItemDef->GetCategory() == _T("ward"))
                             itStats->second->AddWardsPlaced(1);
@@ -3669,14 +3669,14 @@ void    CGameServer::GetMatchIDFromMasterServer()
 {
 #ifdef K2_CLIENT
     CGameInfo *pGameInfo(GetGameInfo());
-    if (pGameInfo != NULL)
+    if (pGameInfo != nullptr)
         pGameInfo->SetMatchID(uint(-1));
 #else
     CHTTPRequest *pRequest(Host.GetHTTPManager()->SpawnRequest());
-    if (pRequest == NULL)
+    if (pRequest == nullptr)
     {
         CGameInfo *pGameInfo(GetGameInfo());
-        if (pGameInfo != NULL)
+        if (pGameInfo != nullptr)
             pGameInfo->SetMatchID(uint(-1));
 
         m_sReplayHost = TSNULL;
@@ -3701,7 +3701,7 @@ void    CGameServer::GetMatchIDFromMasterServer()
         const CPHPData phpResponse(pRequest->GetResponse());
         
         CGameInfo *pGameInfo(GetGameInfo());
-        if (pGameInfo != NULL)
+        if (pGameInfo != nullptr)
             pGameInfo->SetMatchID(phpResponse.GetInteger(_T("match_id"), -1));
 
         m_sReplayHost = phpResponse.GetString(_T("file_host"));
@@ -3710,7 +3710,7 @@ void    CGameServer::GetMatchIDFromMasterServer()
     else
     {
         CGameInfo *pGameInfo(GetGameInfo());
-        if (pGameInfo != NULL)
+        if (pGameInfo != nullptr)
             pGameInfo->SetMatchID(uint(-1));
 
         m_sReplayHost = TSNULL;
@@ -3807,7 +3807,7 @@ void    CGameServer::SendReconnectData(CPlayer *pClient)
 
     CHTTPRequest *pReconnectInfo = Host.GetHTTPManager()->SpawnRequest();
 
-    if (pReconnectInfo == NULL)
+    if (pReconnectInfo == nullptr)
         return;
 
     pReconnectInfo->SetTargetURL(m_pHostServer->GetMasterServerURL());
@@ -3833,14 +3833,14 @@ void    CGameServer::SendStats()
 
 #ifndef K2_CLIENT
 
-    if (m_pStatSubmitRequest != NULL)
+    if (m_pStatSubmitRequest != nullptr)
     {
         Host.GetHTTPManager()->ReleaseRequest(m_pStatSubmitRequest);
-        m_pStatSubmitRequest = NULL;
+        m_pStatSubmitRequest = nullptr;
     }
 
     m_pStatSubmitRequest = Host.GetHTTPManager()->SpawnRequest();
-    if (m_pStatSubmitRequest == NULL)
+    if (m_pStatSubmitRequest == nullptr)
         return;
 
     CHTTPRequest *pRequest(m_pStatSubmitRequest);
@@ -3887,11 +3887,11 @@ void    CGameServer::SendStats()
         uint uiSecondsPlayerPlayed(INT_ROUND(MsToSec(pPlayer->GetPlayTime())));
         
         IHeroEntity *pHero(pPlayer->GetHero());
-        if (pHero == NULL)
+        if (pHero == nullptr)
             continue;
 
         CGameStats *pStats(itPlayer->second->GetStats());
-        if (pStats == NULL)
+        if (pStats == nullptr)
             continue;
 
         tstring sPlayer(_T("player_stats[") + XtoA(pPlayer->GetAccountID()) + _T("][") + pHero->GetTypeName() + _T("]"));
@@ -4026,7 +4026,7 @@ void    CGameServer::SendStats()
         for (int iSlot(INVENTORY_START_BACKPACK); iSlot <= INVENTORY_END_BACKPACK; ++iSlot)
         {
             IEntityItem *pItem(pHero->GetItem(iSlot));
-            if (pItem == NULL || !pItem->HasFlag(ENTITY_TOOL_FLAG_ASSEMBLED))
+            if (pItem == nullptr || !pItem->HasFlag(ENTITY_TOOL_FLAG_ASSEMBLED))
                 continue;
 
             tstring sInventory(_T("inventory[") + XtoA(pPlayer->GetAccountID()) + _T("][") + XtoA(iSlot - INVENTORY_START_BACKPACK) + _T("]"));
@@ -4067,7 +4067,7 @@ void    CGameServer::SendStats()
 
         CPlayer *pKiller(GetPlayer(itKill->m_iKillerClientNumber));
         CPlayer *pVictim(GetPlayer(itKill->m_iVictimClientNumber));
-        if (pVictim == NULL)
+        if (pVictim == nullptr)
             continue;
 
         int iKillerID(pKiller ? pKiller->GetAccountID() : -1);
@@ -4082,7 +4082,7 @@ void    CGameServer::SendStats()
         for (ivector_cit itAssist(itKill->m_vAssists.begin()); itAssist != itKill->m_vAssists.end(); ++itAssist)
         {
             CPlayer *pAssister(GetPlayer(*itAssist));
-            if (pAssister != NULL)
+            if (pAssister != nullptr)
                 pRequest->AddVariable(sKill + _T("[assisters][") + XtoA(uiAssistCount) + _T("]"), pAssister->GetAccountID());
 
             ++uiAssistCount;
@@ -4105,14 +4105,14 @@ void    CGameServer::SendAdditionalStats()
         return;
 
 #ifndef K2_CLIENT
-    if (m_pStatSubmitRequest != NULL)
+    if (m_pStatSubmitRequest != nullptr)
     {
         Host.GetHTTPManager()->ReleaseRequest(m_pStatSubmitRequest);
-        m_pStatSubmitRequest = NULL;
+        m_pStatSubmitRequest = nullptr;
     }
 
     m_pStatSubmitRequest = Host.GetHTTPManager()->SpawnRequest();
-    if (m_pStatSubmitRequest == NULL)
+    if (m_pStatSubmitRequest == nullptr)
         return;
 
     CHTTPRequest *pRequest(m_pStatSubmitRequest);
@@ -4152,25 +4152,25 @@ void    CGameServer::SendAdditionalStats()
 void    CGameServer::UpdateSubmitStatsRequest()
 {
     CGameInfo *pGameInfo(GetGameInfo());
-    if (pGameInfo == NULL)
+    if (pGameInfo == nullptr)
         return;
 
     if (pGameInfo->GetStatsStatus() == STATS_SUCCESSFUL || pGameInfo->GetStatsStatus() == STATS_FAILURE)
     {
-        if (m_pStatSubmitRequest != NULL && !m_pStatSubmitRequest->IsActive())
+        if (m_pStatSubmitRequest != nullptr && !m_pStatSubmitRequest->IsActive())
         {
             Host.GetHTTPManager()->ReleaseRequest(m_pStatSubmitRequest);
-            m_pStatSubmitRequest = NULL;
+            m_pStatSubmitRequest = nullptr;
         }
 
         return;
     }
 
-    if (m_pStatSubmitRequest == NULL || m_pStatSubmitRequest->IsActive())
+    if (m_pStatSubmitRequest == nullptr || m_pStatSubmitRequest->IsActive())
     {
-        if (m_pStatSubmitRequest == NULL && pGameInfo->GetMatchID() != -1)
+        if (m_pStatSubmitRequest == nullptr && pGameInfo->GetMatchID() != -1)
             pGameInfo->SetStatsStatus(STATS_RECORDING);
-        else if (m_pStatSubmitRequest == NULL && pGameInfo->GetMatchID() == -1)
+        else if (m_pStatSubmitRequest == nullptr && pGameInfo->GetMatchID() == -1)
             pGameInfo->SetStatsStatus(STATS_NULL);
         else if (m_pStatSubmitRequest->IsActive())
             pGameInfo->SetStatsStatus(STATS_SUBMITTING);
@@ -4200,7 +4200,7 @@ void    CGameServer::UpdateSubmitStatsRequest()
     }
 
     Host.GetHTTPManager()->ReleaseRequest(m_pStatSubmitRequest);
-    m_pStatSubmitRequest = NULL;
+    m_pStatSubmitRequest = nullptr;
 }
 #endif
 
@@ -4210,14 +4210,14 @@ void    CGameServer::UpdateSubmitStatsRequest()
   ====================*/
 CPlayer*    CGameServer::TryAddClient(CClientConnection *pClientConnection)
 {
-    if (pClientConnection == NULL)
-        return NULL;
+    if (pClientConnection == nullptr)
+        return nullptr;
 
     // If the server is idle (no match has been hosted) only a host is allowed to connect
     if (GetGamePhase() == GAME_PHASE_IDLE && !pClientConnection->HasFlags(CLIENT_CONNECTION_GAME_HOST))
     {
         pClientConnection->Disconnect(_T("disconnect_not_host"));
-        return NULL;
+        return nullptr;
     }
 
     if (GetGamePhase() >= GAME_PHASE_WAITING_FOR_PLAYERS)
@@ -4226,12 +4226,12 @@ CPlayer*    CGameServer::TryAddClient(CClientConnection *pClientConnection)
         if (pClientConnection->HasFlags(CLIENT_CONNECTION_TRIAL) && !m_pHostServer->GetNoStats())
         {
             pClientConnection->Disconnect(_T("disconnect_trial_not_allowed"));
-            return NULL;
+            return nullptr;
         }
     }
 
     // If the game is in progress, only reconnecting players are allowed
-    CPlayer *pPlayer(NULL);
+    CPlayer *pPlayer(nullptr);
     if (GetGamePhase() > GAME_PHASE_WAITING_FOR_PLAYERS)
     {
         for (PlayerMap_it it(m_mapClients.begin()); it != m_mapClients.end(); ++it)
@@ -4241,7 +4241,7 @@ CPlayer*    CGameServer::TryAddClient(CClientConnection *pClientConnection)
                 if (it->second->HasFlags(PLAYER_FLAG_TERMINATED))
                 {
                     pClientConnection->Disconnect(_T("disconnect_terminated"));
-                    return NULL;
+                    return nullptr;
                 }
 
                 pPlayer = it->second;
@@ -4249,19 +4249,19 @@ CPlayer*    CGameServer::TryAddClient(CClientConnection *pClientConnection)
             }
         }
 
-        if (pPlayer == NULL)
+        if (pPlayer == nullptr)
         {
             // Ignore "late" connection from host
             if (!pClientConnection->HasFlags(CLIENT_CONNECTION_GAME_HOST))
             {
                 pClientConnection->Disconnect(_T("disconnect_game_in_progress"));
-                return NULL;
+                return nullptr;
             }
         }
         else if (pPlayer->GetClientNumber() != pClientConnection->GetClientNum())
         {
             pClientConnection->Disconnect(_T("disconnect_client_number_mismatch"));
-            return NULL;
+            return nullptr;
         }
         else
         {
@@ -4273,7 +4273,7 @@ CPlayer*    CGameServer::TryAddClient(CClientConnection *pClientConnection)
     if (GetGamePhase() > GAME_PHASE_IDLE && GetClientCount() >= GetMaxClients() && !pClientConnection->HasFlags(CLIENT_CONNECTION_ADMIN))
     {
         pClientConnection->Disconnect(_T("disconnect_server_full"));
-        return NULL;
+        return nullptr;
     }
 
     // If the countdown has started, cancel it
@@ -4282,10 +4282,10 @@ CPlayer*    CGameServer::TryAddClient(CClientConnection *pClientConnection)
 
     // Allocate a new player
     IGameEntity* pNewPlayer(m_pServerEntityDirectory->Allocate(Player));
-    if (pNewPlayer == NULL)
+    if (pNewPlayer == nullptr)
     {
         pClientConnection->Disconnect(_T("disconnect_server_error"));
-        return NULL;
+        return nullptr;
     }
 
     pPlayer = pNewPlayer->GetAsPlayer();
@@ -4297,7 +4297,7 @@ CPlayer*    CGameServer::TryAddClient(CClientConnection *pClientConnection)
 
 #if 0
     CTeamInfo *pTeam(GetTeam(TEAM_PASSIVE));
-    if (pTeam != NULL)
+    if (pTeam != nullptr)
         pTeam->AddClient(pPlayer->GetClientNumber());
 #endif
 
@@ -4323,14 +4323,14 @@ CPlayer*    CGameServer::AddFakePlayer(int iTeam)
 {
     // Allocate a new player
     IGameEntity* pNewPlayer(m_pServerEntityDirectory->Allocate(Player));
-    if (pNewPlayer == NULL)
-        return NULL;
+    if (pNewPlayer == nullptr)
+        return nullptr;
 
     int iClientNum(0);
     while (m_mapClients.find(iClientNum) != m_mapClients.end())
         ++iClientNum;
 
-    CPlayer *pPlayer(NULL);
+    CPlayer *pPlayer(nullptr);
     pPlayer = pNewPlayer->GetAsPlayer();
     m_mapClients[iClientNum] = pPlayer;
 
@@ -4356,7 +4356,7 @@ bool    CGameServer::IsPlayerReconnecting(int iAccountID)
         if (it->second->GetAccountID() == iAccountID)               
         {       
             CPlayer *pPlayer(it->second);
-            if (pPlayer == NULL)
+            if (pPlayer == nullptr)
                 continue;
             
             if (pPlayer->HasFlags(PLAYER_FLAG_WAS_CONNECTED))
@@ -4378,7 +4378,7 @@ bool    CGameServer::IsDuplicateAccountInGame(int iAccountID)
         if (it->second->GetAccountID() == iAccountID)               
         {           
             CPlayer *pPlayer(it->second);
-            if (pPlayer == NULL)
+            if (pPlayer == nullptr)
                 continue;
             
             // If the account_id matches another client, but the flags say they weren't previously connected
@@ -4400,18 +4400,18 @@ bool    CGameServer::IsDuplicateAccountInGame(int iAccountID)
   ====================*/
 bool    CGameServer::RemoveDuplicateAccountsInGame(int iAccountID)
 {
-    if (m_pHostServer == NULL) return false;
+    if (m_pHostServer == nullptr) return false;
     
     for (PlayerMap_it it(m_mapClients.begin()); it != m_mapClients.end(); ++it)
     {
         if (it->second->GetAccountID() == iAccountID)               
         {           
             CPlayer *pPlayer(it->second);
-            if (pPlayer == NULL)
+            if (pPlayer == nullptr)
                 continue;
                 
             CClientConnection *pClientConnection(m_pHostServer->GetClient(pPlayer->GetClientNumber()));
-            if (pClientConnection == NULL)
+            if (pClientConnection == nullptr)
                 continue;
             
             // Disconnect any players in game with this AccountID, precedence is given to the last player connecting, 
@@ -4433,7 +4433,7 @@ bool    CGameServer::AddClient(CClientConnection *pClientConnection)
     Game.SetCurrentGamePointer(this);
 
     CPlayer *pPlayer(TryAddClient(pClientConnection));
-    if (pPlayer == NULL)
+    if (pPlayer == nullptr)
         return false;
 
     if (ReplayManager.IsPlaying())
@@ -4462,8 +4462,8 @@ bool    CGameServer::AddClient(CClientConnection *pClientConnection)
     pPlayer->Connected(GetGameTime());
 
     CGameInfo *pGameInfo(GetGameInfo());
-    if (pGameInfo != NULL)
-        pGameInfo->ExecuteActionScript(ACTION_SCRIPT_ADD_PLAYER, pGameInfo, NULL, pPlayer, V3_ZERO);
+    if (pGameInfo != nullptr)
+        pGameInfo->ExecuteActionScript(ACTION_SCRIPT_ADD_PLAYER, pGameInfo, nullptr, pPlayer, V3_ZERO);
 
     Game.SetCurrentGamePointer(pGame);
     return true;
@@ -4477,7 +4477,7 @@ void    CGameServer::ReauthClient(CClientConnection *pClientConnection)
 {
     try
     {
-        if (pClientConnection == NULL)
+        if (pClientConnection == nullptr)
             EX_ERROR(_T("Invalid CClientConnection from host"));
 
         IGame *pGame(Game.GetCurrentGamePointer());
@@ -4485,7 +4485,7 @@ void    CGameServer::ReauthClient(CClientConnection *pClientConnection)
 
         int iClientNumber(pClientConnection->GetClientNum());
 
-        CPlayer *pClient(NULL);
+        CPlayer *pClient(nullptr);
     
         PlayerMap_it itFind(m_mapClients.find(iClientNumber));
         if (itFind == m_mapClients.end())
@@ -4524,7 +4524,7 @@ void    CGameServer::RemoveClient(int iClientNum, const tstring &sReason)
 
         pPlayer->Disconnected(GetGameTime(), sv_maxDisconnectedTime);
 
-        if (HasFlags(GAME_FLAG_CONCEDED) || (pTeam != NULL && pTeam->HasFlags(TEAM_FLAG_ABANDONED)))
+        if (HasFlags(GAME_FLAG_CONCEDED) || (pTeam != nullptr && pTeam->HasFlags(TEAM_FLAG_ABANDONED)))
             pPlayer->SetFlags(PLAYER_FLAG_EXCUSED);
 
         // try to handle the various disconnects, whether they be in lobby, in game or a ragequit
@@ -4544,7 +4544,7 @@ void    CGameServer::RemoveClient(int iClientNum, const tstring &sReason)
             {
                 IHeroEntity *pHero(pPlayer->GetHero());
 
-                if (pHero != NULL && pHero->GetDeathTimeStamp() != INVALID_TIME && sReason != _T("Connection timed out"))
+                if (pHero != nullptr && pHero->GetDeathTimeStamp() != INVALID_TIME && sReason != _T("Connection timed out"))
                 {
                     if (pPlayer->GetAnnouncerVoice() != INVALID_INDEX)
                     {
@@ -4590,12 +4590,12 @@ void    CGameServer::RemoveClient(int iClientNum, const tstring &sReason)
             
             pPlayer->RemoveFlags(PLAYER_FLAG_HOST);
             
-            if (pClientConnection != NULL)
+            if (pClientConnection != nullptr)
                 pClientConnection->RemoveFlags(CLIENT_CONNECTION_GAME_HOST);                
         
             m_pHostServer->ReleaseClientID(iClientNum);
 
-            if (pTeam != NULL)
+            if (pTeam != nullptr)
                 pTeam->RemoveClient(pPlayer->GetClientNumber());
 
             DeleteEntity(pPlayer);
@@ -4604,11 +4604,11 @@ void    CGameServer::RemoveClient(int iClientNum, const tstring &sReason)
 
             // if the client disconnecting is the host, instead of disbanding the game, try to assign a new host to take over
             CClientConnection *pClient(GetHostServer()->GetClient(iClientNum));
-            if (iClientNum == m_iCreatorClientNum || (pClient != NULL && pClient->HasFlags(CLIENT_CONNECTION_LOCAL)))
+            if (iClientNum == m_iCreatorClientNum || (pClient != nullptr && pClient->HasFlags(CLIENT_CONNECTION_LOCAL)))
             {
                 bool bFoundNewHost(false);
-                CPlayer *pNewPlayerHost(NULL);
-                CClientConnection *pNewClientConnection(NULL);
+                CPlayer *pNewPlayerHost(nullptr);
+                CClientConnection *pNewClientConnection(nullptr);
 
                 // try to find a new player to assign as the host
                 for (PlayerMap_it it(m_mapClients.begin()); it != m_mapClients.end(); ++it)             
@@ -4616,7 +4616,7 @@ void    CGameServer::RemoveClient(int iClientNum, const tstring &sReason)
                     pNewPlayerHost = GetPlayer(it->second->GetClientNumber());
                     pNewClientConnection = m_pHostServer->GetClient(it->second->GetClientNumber());
                     
-                    if (pNewClientConnection != NULL && pNewPlayerHost != NULL && it->second->GetClientNumber() != -1)
+                    if (pNewClientConnection != nullptr && pNewPlayerHost != nullptr && it->second->GetClientNumber() != -1)
                     {                   
                         pNewPlayerHost->SetFlags(PLAYER_FLAG_HOST);
                         pNewClientConnection->SetFlags(CLIENT_CONNECTION_GAME_HOST);
@@ -4698,7 +4698,7 @@ bool    CGameServer::ProcessClientSnapshot(int iClientNum, CClientSnapshot &snap
             return true;
 
         CPlayer *pClient(GetPlayer(iClientNum));
-        if (pClient == NULL)
+        if (pClient == nullptr)
             EX_ERROR(_T("Received snapshot with invalid client number ") + XtoA(iClientNum));
 
         pClient->SetLastInputTime(Game.GetGameTime());
@@ -4735,23 +4735,23 @@ void    CGameServer::SellItem(int iClientNum, uint uiUnitIndex, int iSlot)
         return;
 
     CPlayer *pPlayer(GetPlayerFromClientNumber(iClientNum));
-    if (pPlayer == NULL)
+    if (pPlayer == nullptr)
         return;
 
     IHeroEntity *pHero(pPlayer->GetHero());
-    if (pHero == NULL || pHero->GetStatus() != ENTITY_STATUS_ACTIVE)
+    if (pHero == nullptr || pHero->GetStatus() != ENTITY_STATUS_ACTIVE)
         return;
 
     IUnitEntity *pControlUnit(GetUnitEntity(uiUnitIndex));
-    if (pControlUnit == NULL)
+    if (pControlUnit == nullptr)
         return;
 
     IUnitEntity *pSrcUnit(iSlot >= INVENTORY_START_STASH && iSlot <= INVENTORY_END_STASH ? pHero : pControlUnit);
-    if (pSrcUnit == NULL)
+    if (pSrcUnit == nullptr)
         return;
 
     IEntityItem *pItem(pSrcUnit->GetItem(iSlot));
-    if (pItem == NULL)
+    if (pItem == nullptr)
         return;
 
     if (!pControlUnit->CanSellItem(pItem, iClientNum))
@@ -4763,11 +4763,11 @@ void    CGameServer::SellItem(int iClientNum, uint uiUnitIndex, int iSlot)
 
     if (pItem->WasPurchasedRecently())
     {
-        if (pTeam != NULL)
+        if (pTeam != nullptr)
         {
             CShopInfo *pShop(pTeam->GetShopInfo());
 
-            if (pShop != NULL)
+            if (pShop != nullptr)
             {
                 uint uiCharges = 1;
                 if (pItem->GetInitialCharges() > 0)
@@ -4779,7 +4779,7 @@ void    CGameServer::SellItem(int iClientNum, uint uiUnitIndex, int iSlot)
 
     if (pItem->GetPurchaserClientNumber() == -1)
     {
-        if (pTeam != NULL)
+        if (pTeam != nullptr)
             pTeam->DistributeGold(pItem->GetValue());
     }
     else
@@ -4806,11 +4806,11 @@ void    CGameServer::MoveItem(int iClientNum, uint uiUnitIndex, int iSlot0, int 
         return;
 
     CPlayer *pPlayer(GetPlayerFromClientNumber(iClientNum));
-    if (pPlayer == NULL)
+    if (pPlayer == nullptr)
         return;
 
     IUnitEntity *pControlUnit(GetUnitEntity(uiUnitIndex));
-    if (pControlUnit == NULL || !pControlUnit->CanActOnOrdersFrom(iClientNum) || pControlUnit->IsIllusion() || pControlUnit->HasUnitFlags(UNIT_FLAG_LOCKED_BACKPACK))
+    if (pControlUnit == nullptr || !pControlUnit->CanActOnOrdersFrom(iClientNum) || pControlUnit->IsIllusion() || pControlUnit->HasUnitFlags(UNIT_FLAG_LOCKED_BACKPACK))
         return;
             
     if ((IS_STASH_SLOT(iSlot0) || IS_STASH_SLOT(iSlot1)) && !pControlUnit->GetStashAccess())
@@ -4818,12 +4818,12 @@ void    CGameServer::MoveItem(int iClientNum, uint uiUnitIndex, int iSlot0, int 
 
     IUnitEntity *pSrcUnit(IS_STASH_SLOT(iSlot0) ? pPlayer->GetHero() : pControlUnit);
     IUnitEntity *pDstUnit(IS_STASH_SLOT(iSlot1) ? pPlayer->GetHero() : pControlUnit);
-    if (pSrcUnit == NULL || pDstUnit == NULL)
+    if (pSrcUnit == nullptr || pDstUnit == nullptr)
         return;
 
     if (pSrcUnit == pDstUnit)
         pSrcUnit->SwapItem(iClientNum, iSlot0, iSlot1);
-    else if (pDstUnit->GetItem(iSlot1) != NULL)
+    else if (pDstUnit->GetItem(iSlot1) != nullptr)
     {
         IEntityItem *pSrcItem(pSrcUnit->GetItem(iSlot0));
         IEntityItem *pDstItem(pDstUnit->GetItem(iSlot1));
@@ -4851,7 +4851,7 @@ bool    CGameServer::PurchaseItem(int iClientNum, uint uiUnitIndex, ushort unSho
 
         // Lookup shop
         CShopDefinition *pShop(EntityRegistry.GetDefinition<CShopDefinition>(unShop));
-        if (pShop == NULL)
+        if (pShop == nullptr)
             EX_WARN(_T("Invalid shop type: ") + XtoA(unShop));
 
         // Lookup item
@@ -4864,7 +4864,7 @@ bool    CGameServer::PurchaseItem(int iClientNum, uint uiUnitIndex, ushort unSho
             EX_ERROR(_T("Invalid item: ") + XtoA(unItemID));
 
         CItemDefinition *pItemDef(EntityRegistry.GetDefinition<CItemDefinition>(unItemID));
-        if (pItemDef == NULL)
+        if (pItemDef == nullptr)
             EX_WARN(_T("No definition found for item"));
         if (pItemDef->GetAutoAssemble())
             EX_WARN(_T("This item auto-assembles"));
@@ -4873,12 +4873,12 @@ bool    CGameServer::PurchaseItem(int iClientNum, uint uiUnitIndex, ushort unSho
 
         // Validate player
         CPlayer *pPlayer(GetPlayerFromClientNumber(iClientNum));
-        if (pPlayer == NULL)
+        if (pPlayer == nullptr)
             EX_ERROR(_T("Could not find entity for client: ") + XtoA(iClientNum));
 
         // Validate unit making the purchase
         IUnitEntity *pUnit(GetUnitEntity(uiUnitIndex));
-        if (pUnit == NULL)
+        if (pUnit == nullptr)
             EX_ERROR(_T("Could not find entity for unit: ") + XtoA(uiUnitIndex));
 
         if (pUnit->HasUnitFlags(UNIT_FLAG_LOCKED_BACKPACK))
@@ -4900,7 +4900,7 @@ bool    CGameServer::PurchaseItem(int iClientNum, uint uiUnitIndex, ushort unSho
         IUnitEntity *pStash(pPlayer->GetHero());
 
         // Find a slot in the inventory
-        IUnitEntity *pTarget(NULL);
+        IUnitEntity *pTarget(nullptr);
 
         bool bUseBackpack(pUnit->CanAccessItemLocal(pItemDef->GetName()));
         bool bUseStash(pStash && (pUnit->GetStashAccess() || !bUseBackpack));
@@ -4913,12 +4913,12 @@ bool    CGameServer::PurchaseItem(int iClientNum, uint uiUnitIndex, ushort unSho
             {
                 // Determine what unit's inventory to look at
                 pTarget = IS_STASH_SLOT(iTrySlot) ? pStash : pUnit;
-                if (pTarget == NULL)
+                if (pTarget == nullptr)
                     continue;
 
                 // Check for an empty slot
                 IEntityItem *pItem(pTarget->GetItem(iTrySlot));
-                if (pItem == NULL)
+                if (pItem == nullptr)
                 {
                     if (iTargetSlot == -1)
                         iTargetSlot = iTrySlot;
@@ -4942,12 +4942,12 @@ bool    CGameServer::PurchaseItem(int iClientNum, uint uiUnitIndex, ushort unSho
             {
                 // Determine what unit's inventory to look at
                 pTarget = IS_STASH_SLOT(iTrySlot) ? pStash : pUnit;
-                if (pTarget == NULL)
+                if (pTarget == nullptr)
                     continue;
 
                 // Check for an empty slot
                 IEntityItem *pItem(pTarget->GetItem(iTrySlot));
-                if (pItem == NULL)
+                if (pItem == nullptr)
                 {
                     if (iTargetSlot == -1)
                         iTargetSlot = iTrySlot;
@@ -4977,11 +4977,11 @@ bool    CGameServer::PurchaseItem(int iClientNum, uint uiUnitIndex, ushort unSho
         bool bInStock(true);
         CTeamInfo *pTeam(Game.GetTeam(pPlayer->GetTeam()));
 
-        if (pTeam != NULL)
+        if (pTeam != nullptr)
         {
             CShopInfo *pShop(pTeam->GetShopInfo());
 
-            if (pShop != NULL)
+            if (pShop != nullptr)
                 bInStock = pShop->PurchaseItem(unItemID);
         }
 
@@ -4991,10 +4991,10 @@ bool    CGameServer::PurchaseItem(int iClientNum, uint uiUnitIndex, ushort unSho
         // Spawn the item
         pTarget = IS_STASH_SLOT(iTargetSlot) ? pStash : pUnit;
         IEntityTool *pTool(pTarget->GiveItem(iTargetSlot, unItemID, false));
-        if (pTool == NULL)
+        if (pTool == nullptr)
             EX_WARN(_T("Item generation failed"));
         IEntityItem *pItem(pTool->GetAsItem());
-        if (pItem == NULL)
+        if (pItem == nullptr)
             EX_WARN(_T("Item generation failed"));
 
         if (!bStacked)
@@ -5018,10 +5018,10 @@ bool    CGameServer::PurchaseItem(int iClientNum, uint uiUnitIndex, ushort unSho
 
                     // Determine what unit's inventory to look at
                     IUnitEntity *pTestEntity(IS_STASH_SLOT(iTrySlot) ? pStash : pUnit);
-                    if (pTestEntity == NULL)
+                    if (pTestEntity == nullptr)
                         continue;
 
-                    if (pTestEntity->GetItem(iTrySlot) == NULL)
+                    if (pTestEntity->GetItem(iTrySlot) == nullptr)
                     {
                         iTargetSlot = iTrySlot;
                         pTarget = pTestEntity;
@@ -5040,10 +5040,10 @@ bool    CGameServer::PurchaseItem(int iClientNum, uint uiUnitIndex, ushort unSho
 
                     // Determine what unit's inventory to look at
                     IUnitEntity *pTestEntity(IS_STASH_SLOT(iTrySlot) ? pStash : pUnit);
-                    if (pTestEntity == NULL)
+                    if (pTestEntity == nullptr)
                         continue;
 
-                    if (pTestEntity->GetItem(iTrySlot) == NULL)
+                    if (pTestEntity->GetItem(iTrySlot) == nullptr)
                     {
                         iTargetSlot = iTrySlot;
                         pTarget = pTestEntity;
@@ -5065,7 +5065,7 @@ bool    CGameServer::PurchaseItem(int iClientNum, uint uiUnitIndex, ushort unSho
         }
         
         IUnitEntity *pOwner(pItem->GetOwner());
-        if (pOwner != NULL)     
+        if (pOwner != nullptr)
             pItem->ExecuteActionScript(ACTION_SCRIPT_PURCHASED, pOwner, pOwner->GetPosition());
         
         pPlayer->SpendGold(unCost);
@@ -5097,7 +5097,7 @@ void    CGameServer::RequestChangeTeam(int iClientID, uint uiTeamID, uint uiSlot
         return;
 
     CPlayer *pPlayer(GetPlayer(iClientID));
-    if (pPlayer == NULL)
+    if (pPlayer == nullptr)
     {
         Console.Warn << _T("No entity found for client #") << iClientID << newl;
         return;
@@ -5142,7 +5142,7 @@ void    CGameServer::RequestChangeTeam(int iClientID, uint uiTeamID, uint uiSlot
 void    CGameServer::ChangeTeam(int iClientID, uint uiTeamID, uint uiSlot)
 {
     CPlayer *pPlayer(GetPlayer(iClientID));
-    if (pPlayer == NULL)
+    if (pPlayer == nullptr)
     {
         Console.Warn << _T("No entity found for client #") << iClientID << newl;
         return;
@@ -5160,7 +5160,7 @@ void    CGameServer::ChangeTeam(int iClientID, uint uiTeamID, uint uiSlot)
 
     if (uiTeamID == TEAM_INVALID || uiTeamID == TEAM_PASSIVE)
     {
-        if (pOldTeam != NULL)
+        if (pOldTeam != nullptr)
             pOldTeam->RemoveClient(iClientID);
 
         pPlayer->ClearAffiliations();
@@ -5169,10 +5169,10 @@ void    CGameServer::ChangeTeam(int iClientID, uint uiTeamID, uint uiSlot)
     }
 
     CTeamInfo *pNewTeam(GetTeam(uiTeamID));
-    if (pNewTeam == NULL || !pNewTeam->CanJoinTeam(iClientID, uiSlot))
+    if (pNewTeam == nullptr || !pNewTeam->CanJoinTeam(iClientID, uiSlot))
         return;
 
-    if (pOldTeam != NULL)
+    if (pOldTeam != nullptr)
         pOldTeam->RemoveClient(iClientID);
 
     pNewTeam->AddClient(iClientID, uiSlot);
@@ -5185,7 +5185,7 @@ void    CGameServer::ChangeTeam(int iClientID, uint uiTeamID, uint uiSlot)
     m_GameLog.WritePlayer(GAME_LOG_PLAYER_TEAM_CHANGE, pPlayer);
 
     CClientConnection *pClientConnection(m_pHostServer->GetClient(pPlayer->GetClientNumber()));
-    if (pClientConnection != NULL)
+    if (pClientConnection != nullptr)
     {
         if (uiTeamID == 1)
             pClientConnection->SetStream(1);
@@ -5208,7 +5208,7 @@ void    CGameServer::RequestAssignFirstBanTeam(int iClientID, uint uiTeamID)
 
     // only allow the host to assign the first ban team.
     CClientConnection *pClientConnection(m_pHostServer->GetClient(iClientID));
-    if (pClientConnection != NULL && pClientConnection->HasFlags(CLIENT_CONNECTION_GAME_HOST))
+    if (pClientConnection != nullptr && pClientConnection->HasFlags(CLIENT_CONNECTION_GAME_HOST))
     {
         if (GetPhaseEndTime() != INVALID_TIME)
         {
@@ -5229,7 +5229,7 @@ void    CGameServer::RequestAssignFirstBanTeam(int iClientID, uint uiTeamID)
 void    CGameServer::AssignFirstBanTeam(uint uiTeamID)
 {
     CGameInfo* pGameInfo(GetGameInfo());
-    if (pGameInfo != NULL)
+    if (pGameInfo != nullptr)
     {
         pGameInfo->SetFirstBanTeam(uiTeamID);
             
@@ -5253,11 +5253,11 @@ bool    CGameServer::BuyBackHero(int iClientNum, uint uiUnitIndex)
             return false;
 
         CPlayer *pPlayer(GetPlayerFromClientNumber(iClientNum));
-        if (pPlayer == NULL)
+        if (pPlayer == nullptr)
             EX_ERROR(_T("Could not find entity for client: ") + XtoA(iClientNum));
 
         IUnitEntity *pUnit(GetUnitEntity(uiUnitIndex));
-        if (pUnit == NULL)
+        if (pUnit == nullptr)
             EX_ERROR(_T("Could not find entity for unit: ") + XtoA(uiUnitIndex));
 
         if (!pUnit->IsHero())
@@ -5295,7 +5295,7 @@ void    CGameServer::SetSelection(int iClientNum, const uiset &setSelection)
     try
     {
         CPlayer *pPlayer(GetPlayerFromClientNumber(iClientNum));
-        if (pPlayer == NULL)
+        if (pPlayer == nullptr)
             EX_ERROR(_T("Could not find entity for client: ") + XtoA(iClientNum));
 
         pPlayer->SetSelection(setSelection);
@@ -5317,7 +5317,7 @@ void    CGameServer::ProcessCallVoteRequest(CPlayer *pPlayer, CPacket &pkt)
     int iTarget(pkt.ReadInt(-1));
 
     // Validate player calling the vote
-    if (pPlayer == NULL)
+    if (pPlayer == nullptr)
         return;
     if (pPlayer->GetTeam() < TEAM_1 || pPlayer->GetTeam() > TEAM_2)
         return;
@@ -5326,7 +5326,7 @@ void    CGameServer::ProcessCallVoteRequest(CPlayer *pPlayer, CPacket &pkt)
 
     // Check general voting pre-conditions
     CGameInfo *pGameInfo(GetGameInfo());
-    if (pGameInfo == NULL)
+    if (pGameInfo == nullptr)
         return;
     if (pGameInfo->GetActiveVoteType() != VOTE_TYPE_INVALID)
         return;
@@ -5364,7 +5364,7 @@ void    CGameServer::ProcessCallVoteRequest(CPlayer *pPlayer, CPacket &pkt)
     case VOTE_TYPE_PAUSE:
         {
             CTeamInfo *pTeam(GetTeam(pPlayer->GetTeam()));
-            if (pTeam == NULL || pTeam->GetRemainingPauses() == 0 || m_pHostServer->GetPaused())
+            if (pTeam == nullptr || pTeam->GetRemainingPauses() == 0 || m_pHostServer->GetPaused())
                 break;
             
             pGameInfo->StartVote(VOTE_TYPE_PAUSE, pPlayer->GetTeam(), g_voteDuration, GetTotalTime());
@@ -5420,7 +5420,7 @@ void    CGameServer::StartUnpause(CPlayer *pPlayer)
     m_uiPauseToggleTime = GetTotalTime() + g_pauseDelayTime;
 
     CBufferDynamic buffer;
-    buffer << GAME_CMD_UNPAUSE << TStringToUTF8(pPlayer != NULL ? pPlayer->GetName() : _T("Server")) << byte(0);
+    buffer << GAME_CMD_UNPAUSE << TStringToUTF8(pPlayer != nullptr ? pPlayer->GetName() : _T("Server")) << byte(0);
     BroadcastGameData(buffer, true);
 }
 
@@ -5474,7 +5474,7 @@ void    CGameServer::SendGeneralMessage(const tstring &sMsg, int iNumPlayers, in
 bool    CGameServer::ProcessGameData(int iClientNum, CPacket &pkt)
 {
     CPlayer *pPlayer(GetPlayer(iClientNum));
-    if (pPlayer != NULL)
+    if (pPlayer != nullptr)
         pPlayer->SetLastInputTime(Game.GetGameTime());
 
     byte yCmd(pkt.ReadByte());
@@ -5502,7 +5502,7 @@ bool    CGameServer::ProcessGameData(int iClientNum, CPacket &pkt)
                 return false;
 
             IUnitEntity *pUnit(GetUnitEntity(uiUnitIndex));
-            if (pUnit == NULL)
+            if (pUnit == nullptr)
                 return false;
 
             ushort unShop(INVALID_ENT_TYPE);
@@ -5533,7 +5533,7 @@ bool    CGameServer::ProcessGameData(int iClientNum, CPacket &pkt)
                 return false;
 
             IUnitEntity *pUnit(GetUnitEntity(uiUnitIndex));
-            if (pUnit == NULL || !pUnit->CanReceiveOrdersFrom(iClientNum) || m_pHostServer->GetPaused())
+            if (pUnit == nullptr || !pUnit->CanReceiveOrdersFrom(iClientNum) || m_pHostServer->GetPaused())
                 return true;
 
             pUnit->DisassembleItem(iSlot);
@@ -5551,13 +5551,13 @@ bool    CGameServer::ProcessGameData(int iClientNum, CPacket &pkt)
                 return true;
 
             IHeroEntity *pHero(GetHeroEntity(uiUnitIndex));
-            if (pHero == NULL)
+            if (pHero == nullptr)
                 break;
             if (pHero->GetOwnerClientNumber() != iClientNum)
                 break;
 
             IEntityAbility *pAbility(pHero->GetAbility(iSlot));
-            if (pAbility == NULL)
+            if (pAbility == nullptr)
                 break;
 
             pAbility->LevelUp();
@@ -5599,7 +5599,7 @@ bool    CGameServer::ProcessGameData(int iClientNum, CPacket &pkt)
         return true;
 
     case GAME_CMD_READY:
-        if (pPlayer != NULL && GetGamePhase() == GAME_PHASE_HERO_SELECT && pPlayer->HasSelectedHero())
+        if (pPlayer != nullptr && GetGamePhase() == GAME_PHASE_HERO_SELECT && pPlayer->HasSelectedHero())
         {
             if (!pPlayer->HasFlags(PLAYER_FLAG_READY))
             {
@@ -5614,7 +5614,7 @@ bool    CGameServer::ProcessGameData(int iClientNum, CPacket &pkt)
 
     case GAME_CMD_UNREADY:
         /*
-        if (pPlayer != NULL && GetGamePhase() == GAME_PHASE_HERO_SELECT && !AllPlayersReady())
+        if (pPlayer != nullptr && GetGamePhase() == GAME_PHASE_HERO_SELECT && !AllPlayersReady())
         {
             if (pPlayer->HasFlags(PLAYER_FLAG_READY))
             {
@@ -5629,7 +5629,7 @@ bool    CGameServer::ProcessGameData(int iClientNum, CPacket &pkt)
         return true;
 
     case GAME_CMD_FINISHED_LOADING_HEROES:
-        if (pPlayer != NULL)
+        if (pPlayer != nullptr)
             pPlayer->SetFlags(PLAYER_FLAG_LOADED_HEROES);
 
         return true;
@@ -5638,13 +5638,13 @@ bool    CGameServer::ProcessGameData(int iClientNum, CPacket &pkt)
         {
             float fLoadingProgress(pkt.ReadFloat());
 
-            if (pPlayer != NULL)
+            if (pPlayer != nullptr)
                 pPlayer->SetLoadingProgress(fLoadingProgress);
         }
         return !pkt.HasFaults();
 
     case GAME_CMD_REPICK_HERO:
-        if (pPlayer != NULL && pPlayer->CanRepick())
+        if (pPlayer != nullptr && pPlayer->CanRepick())
         {
             ushort unOldHero(pPlayer->GetSelectedHero());
 
@@ -5669,7 +5669,7 @@ bool    CGameServer::ProcessGameData(int iClientNum, CPacket &pkt)
             EnemyBuffer << GAME_CMD_REPICK_HERO_MESSAGE << iClientNum << INVALID_ENT_TYPE;
 
             const CGameInfo *pGameInfo(Game.GetGameInfo());
-            if (pGameInfo != NULL && pGameInfo->GetGameMode() == GAME_MODE_SINGLE_DRAFT)
+            if (pGameInfo != nullptr && pGameInfo->GetGameMode() == GAME_MODE_SINGLE_DRAFT)
             {   
                 // SD is blind pick
                 BroadcastGameDataToTeam(iTeam, FullBuffer, true);
@@ -5687,19 +5687,19 @@ bool    CGameServer::ProcessGameData(int iClientNum, CPacket &pkt)
         {
             byte yTargetPlayer(pkt.ReadByte(byte(-1)));
 
-            if (pPlayer == NULL)
+            if (pPlayer == nullptr)
                 return true;
 
             CTeamInfo *pTeam(Game.GetTeam(pPlayer->GetTeam()));
 
-            if (pPlayer->CanSwap() && pTeam != NULL)
+            if (pPlayer->CanSwap() && pTeam != nullptr)
             {
                 CPlayer *pTargetPlayer(GetPlayer(pTeam->GetClientIDFromTeamIndex(yTargetPlayer)));
                 
                 if (pTargetPlayer == pPlayer)
                     return true;
 
-                if (pTargetPlayer != NULL && pTargetPlayer->CanSwap())
+                if (pTargetPlayer != nullptr && pTargetPlayer->CanSwap())
                 {
                     if (pTargetPlayer->HasSwapRequest(pPlayer->GetTeamIndex()))
                     {
@@ -5733,7 +5733,7 @@ bool    CGameServer::ProcessGameData(int iClientNum, CPacket &pkt)
     case GAME_CMD_REQUEST_MATCH_START:
         {
             CClientConnection *pClientConnection(m_pHostServer->GetClient(iClientNum));
-            if (pClientConnection != NULL && pClientConnection->HasFlags(CLIENT_CONNECTION_GAME_HOST))
+            if (pClientConnection != nullptr && pClientConnection->HasFlags(CLIENT_CONNECTION_GAME_HOST))
                 RequestStartGame(iClientNum);
         }
         return true;
@@ -5741,7 +5741,7 @@ bool    CGameServer::ProcessGameData(int iClientNum, CPacket &pkt)
     case GAME_CMD_REQUEST_MATCH_CANCEL:
         {
             CClientConnection *pClientConnection(m_pHostServer->GetClient(iClientNum));
-            if (m_pHostServer->GetPractice() || (pClientConnection != NULL && pClientConnection->HasFlags(CLIENT_CONNECTION_GAME_HOST)))
+            if (m_pHostServer->GetPractice() || (pClientConnection != nullptr && pClientConnection->HasFlags(CLIENT_CONNECTION_GAME_HOST)))
             {
                 if (GetGamePhase() < GAME_PHASE_HERO_BAN)
                 {
@@ -5761,11 +5761,11 @@ bool    CGameServer::ProcessGameData(int iClientNum, CPacket &pkt)
 
     case GAME_CMD_UNPAUSE:
         {
-            if (pPlayer != NULL && (pPlayer->GetTeam() == TEAM_1 || pPlayer->GetTeam() == TEAM_2) && m_pHostServer->GetPaused() && m_uiPauseToggleTime == INVALID_TIME)
+            if (pPlayer != nullptr && (pPlayer->GetTeam() == TEAM_1 || pPlayer->GetTeam() == TEAM_2) && m_pHostServer->GetPaused() && m_uiPauseToggleTime == INVALID_TIME)
             {
                 CTeamInfo *pTeam(GetTeam(pPlayer->GetTeam()));
 
-                if (pTeam != NULL && pTeam->HasFlags(TEAM_FLAG_CAN_UNPAUSE))
+                if (pTeam != nullptr && pTeam->HasFlags(TEAM_FLAG_CAN_UNPAUSE))
                     StartUnpause(pPlayer);
             }
         }
@@ -5775,7 +5775,7 @@ bool    CGameServer::ProcessGameData(int iClientNum, CPacket &pkt)
         {
             byte yVote(pkt.ReadByte(VOTE_NONE));
             CGameInfo *pGameInfo(GetGameInfo());
-            if (pGameInfo != NULL && pGameInfo->GetActiveVoteType() != VOTE_TYPE_INVALID && pPlayer != NULL && yVote != VOTE_NONE)
+            if (pGameInfo != nullptr && pGameInfo->GetActiveVoteType() != VOTE_TYPE_INVALID && pPlayer != nullptr && yVote != VOTE_NONE)
             {
                 pPlayer->SetVote(yVote);
                 m_GameLog.WritePlayer(GAME_LOG_PLAYER_VOTE, pPlayer, GetVoteTypeName(pGameInfo->GetActiveVoteType()), GetVoteName(yVote));
@@ -5790,7 +5790,7 @@ bool    CGameServer::ProcessGameData(int iClientNum, CPacket &pkt)
         {
             tstring sMsg(pkt.ReadWStringAsTString().substr(0, 150));
 
-            if (pPlayer == NULL)
+            if (pPlayer == nullptr)
                 EX_ERROR(_T("Invalid client ID"));
 
             if (pPlayer->GetChatCounter() >= sv_chatCounterFloodThreshold || !pPlayer->GetAllowChat())
@@ -5852,7 +5852,7 @@ bool    CGameServer::ProcessGameData(int iClientNum, CPacket &pkt)
         {
             tstring sMsg(pkt.ReadWStringAsTString().substr(0, 150));
 
-            if (pPlayer == NULL)
+            if (pPlayer == nullptr)
                 EX_ERROR(_T("Invalid client ID"));
 
             if (pPlayer->GetChatCounter() >= sv_chatCounterFloodThreshold || !pPlayer->GetAllowChat())
@@ -5866,7 +5866,7 @@ bool    CGameServer::ProcessGameData(int iClientNum, CPacket &pkt)
             pPlayer->SetAllowChat(false);
 
             CTeamInfo *pTeam(GameServer.GetTeam(pPlayer->GetTeam()));
-            if (pTeam != NULL)
+            if (pTeam != nullptr)
             {
                 CBufferDynamic buffer;
                 buffer << GAME_CMD_CHAT_TEAM << iClientNum << TStringToUTF8(sMsg) << byte(0);
@@ -5894,7 +5894,7 @@ bool    CGameServer::ProcessGameData(int iClientNum, CPacket &pkt)
     case GAME_CMD_PING_ALL:
         try
         {
-            if (pPlayer == NULL)
+            if (pPlayer == nullptr)
                 EX_WARN(_T("No entity found for client"));
 
             CBufferDynamic buffer;
@@ -5905,7 +5905,7 @@ bool    CGameServer::ProcessGameData(int iClientNum, CPacket &pkt)
             for (PlayerMap_it it(m_mapClients.begin()); it != m_mapClients.end(); ++it)
             {
                 CPlayer* pPlayer(it->second);
-                if (pPlayer == NULL)
+                if (pPlayer == nullptr)
                     EX_WARN(_T("No entity found for player"));
 
                 if (pPlayer->GetTeam() == TEAM_1 || pPlayer->GetTeam() == TEAM_2)
@@ -5919,7 +5919,7 @@ bool    CGameServer::ProcessGameData(int iClientNum, CPacket &pkt)
             for (PlayerMap_it it(m_mapClients.begin()); it != m_mapClients.end(); ++it)
             {
                 CPlayer* pPlayer(it->second);
-                if (pPlayer == NULL)
+                if (pPlayer == nullptr)
                     EX_WARN(_T("No entity found for player"));
 
                 if (pPlayer->GetTeam() == TEAM_1 || pPlayer->GetTeam() == TEAM_2)
@@ -5945,7 +5945,7 @@ bool    CGameServer::ProcessGameData(int iClientNum, CPacket &pkt)
             uint uiSingleEntityIndex(pkt.ReadInt());
             byte yFlags(pkt.ReadByte());
 
-            if (pPlayer == NULL)
+            if (pPlayer == nullptr)
                 EX_WARN(_T("No entity found for client"));
 
             if (m_pHostServer->GetPaused())
@@ -5957,7 +5957,7 @@ bool    CGameServer::ProcessGameData(int iClientNum, CPacket &pkt)
             for (uiset::const_iterator it(setSelection.begin()); it != setSelection.end(); ++it)
             {
                 IUnitEntity *pUnit(GetUnitEntity(*it));
-                if (pUnit == NULL || !pUnit->CanActOnOrdersFrom(iClientNum))
+                if (pUnit == nullptr || !pUnit->CanActOnOrdersFrom(iClientNum))
                     continue;
 
                 if (uiSingleEntityIndex != INVALID_INDEX && *it != uiSingleEntityIndex)
@@ -5984,7 +5984,7 @@ bool    CGameServer::ProcessGameData(int iClientNum, CPacket &pkt)
                 case CMDR_ORDER_GIVEITEM:
                     {
                         IEntityItem *pItem(GetEntityItem(uiParam));
-                        if (pItem != NULL && 
+                        if (pItem != nullptr &&
                             pItem->GetOwner() == pUnit && 
                             pItem->CanDrop() && 
                             !pItem->GetNoDrop() &&
@@ -6032,7 +6032,7 @@ bool    CGameServer::ProcessGameData(int iClientNum, CPacket &pkt)
             uint uiSingleEntityIndex(pkt.ReadInt());
             byte yFlags(pkt.ReadByte());
 
-            if (pPlayer == NULL)
+            if (pPlayer == nullptr)
                 EX_WARN(_T("No entity found for client"));
 
             if (m_pHostServer->GetPaused())
@@ -6054,14 +6054,14 @@ bool    CGameServer::ProcessGameData(int iClientNum, CPacket &pkt)
             for (uiset::const_iterator it(setSelection.begin()); it != setSelection.end(); ++it)
             {
                 IUnitEntity *pUnit(GetUnitEntity(*it));
-                if (pUnit == NULL || !pUnit->CanActOnOrdersFrom(iClientNum))
+                if (pUnit == nullptr || !pUnit->CanActOnOrdersFrom(iClientNum))
                     continue;
 
                 if (uiSingleEntityIndex != INVALID_INDEX && *it != uiSingleEntityIndex)
                     continue;
 
                 IUnitEntity *pTarget(GetUnitEntity(uiEntIndex));
-                if (pTarget == NULL)
+                if (pTarget == nullptr)
                     break;
 
                 bConfirmation = true;
@@ -6117,7 +6117,7 @@ bool    CGameServer::ProcessGameData(int iClientNum, CPacket &pkt)
                 else if (eOrder == CMDR_ORDER_GIVEITEM)
                 {
                     IEntityItem *pItem(GetEntityItem(uiParam));
-                    if (pItem != NULL &&
+                    if (pItem != nullptr &&
                         pItem->GetOwner() == pUnit &&
                         pItem->CanDrop() &&
                         !pItem->GetNoDrop() &&
@@ -6187,7 +6187,7 @@ bool    CGameServer::ProcessGameData(int iClientNum, CPacket &pkt)
         {
             uint uiSingleEntityIndex(pkt.ReadInt());
 
-            if (pPlayer == NULL)
+            if (pPlayer == nullptr)
             {
                 Console.Warn << _T("GAME_CMD_ORDER_STOP: No entity found for client #") << iClientNum << newl;
                 break;
@@ -6202,7 +6202,7 @@ bool    CGameServer::ProcessGameData(int iClientNum, CPacket &pkt)
             for (uiset::const_iterator it(setSelection.begin()); it != setSelection.end(); ++it)
             {
                 IUnitEntity *pUnit(GetUnitEntity(*it));
-                if (pUnit == NULL || !pUnit->CanActOnOrdersFrom(iClientNum))
+                if (pUnit == nullptr || !pUnit->CanActOnOrdersFrom(iClientNum))
                     continue;
 
                 if (uiSingleEntityIndex != INVALID_INDEX && *it != uiSingleEntityIndex)
@@ -6222,7 +6222,7 @@ bool    CGameServer::ProcessGameData(int iClientNum, CPacket &pkt)
             byte yQueue(pkt.ReadByte());
             uint uiSingleEntityIndex(pkt.ReadInt());
 
-            if (pPlayer == NULL)
+            if (pPlayer == nullptr)
             {
                 Console.Warn << _T("GAME_CMD_ORDER_HOLD: No entity found for client #") << iClientNum << newl;
                 break;
@@ -6237,7 +6237,7 @@ bool    CGameServer::ProcessGameData(int iClientNum, CPacket &pkt)
             for (uiset::const_iterator it(setSelection.begin()); it != setSelection.end(); ++it)
             {
                 IUnitEntity *pUnit(GetUnitEntity(*it));
-                if (pUnit == NULL || !pUnit->CanActOnOrdersFrom(iClientNum))
+                if (pUnit == nullptr || !pUnit->CanActOnOrdersFrom(iClientNum))
                     continue;
 
                 if (uiSingleEntityIndex != INVALID_INDEX && *it != uiSingleEntityIndex)
@@ -6266,7 +6266,7 @@ bool    CGameServer::ProcessGameData(int iClientNum, CPacket &pkt)
                 break;
 
             IUnitEntity *pUnit(GameServer.GetUnitEntity(uiUnitIndex));
-            if (pUnit == NULL)
+            if (pUnit == nullptr)
                 break;
 
             if (!IS_SHARED_ABILITY(ySlot) && !pUnit->CanActOnOrdersFrom(iClientNum))
@@ -6274,27 +6274,27 @@ bool    CGameServer::ProcessGameData(int iClientNum, CPacket &pkt)
 
             CPlayer *pPlayer(Game.GetPlayerFromClientNumber(iClientNum));
 
-            if (ySlot >= INVENTORY_START_SHARED_ABILITIES && ySlot <= INVENTORY_END_SHARED_ABILITIES && (pPlayer == NULL || pUnit->GetTeam() != pPlayer->GetTeam()))
+            if (ySlot >= INVENTORY_START_SHARED_ABILITIES && ySlot <= INVENTORY_END_SHARED_ABILITIES && (pPlayer == nullptr || pUnit->GetTeam() != pPlayer->GetTeam()))
                 break;
 
             if (ySlot >= INVENTORY_START_SHARED_ABILITIES && ySlot <= INVENTORY_END_SHARED_ABILITIES)
             {
                 CTeamInfo *pTeam(Game.GetTeam(pUnit->GetTeam()));
-                if (pTeam != NULL)
+                if (pTeam != nullptr)
                 {
                     IUnitEntity *pBase(Game.GetUnitEntity(pTeam->GetBaseBuildingIndex()));
-                    if (pBase != NULL)
+                    if (pBase != nullptr)
                         pUnit = pBase;
                 }
             }
 
             IEntityTool *pItem(pUnit->GetTool(ySlot));
-            if (pItem == NULL)
+            if (pItem == nullptr)
                 break;
             if (pItem->GetFrontQueue() && yQueue == QUEUE_NONE)
                 yQueue = QUEUE_FRONT;
 
-            if (pPlayer != NULL)
+            if (pPlayer != nullptr)
                 pPlayer->IncrementActionCount();
 
             SUnitCommand cmd;
@@ -6316,7 +6316,7 @@ bool    CGameServer::ProcessGameData(int iClientNum, CPacket &pkt)
                 break;
 
             IUnitEntity *pUnit(GameServer.GetUnitEntity(uiUnitIndex));
-            if (pUnit == NULL)
+            if (pUnit == nullptr)
                 break;
 
             if (!IS_SHARED_ABILITY(ySlot) && !pUnit->CanActOnOrdersFrom(iClientNum))
@@ -6324,18 +6324,18 @@ bool    CGameServer::ProcessGameData(int iClientNum, CPacket &pkt)
 
             CPlayer *pPlayer(Game.GetPlayerFromClientNumber(iClientNum));
 
-            if (ySlot >= INVENTORY_START_SHARED_ABILITIES && ySlot <= INVENTORY_END_SHARED_ABILITIES && (pPlayer == NULL || pUnit->GetTeam() != pPlayer->GetTeam()))
+            if (ySlot >= INVENTORY_START_SHARED_ABILITIES && ySlot <= INVENTORY_END_SHARED_ABILITIES && (pPlayer == nullptr || pUnit->GetTeam() != pPlayer->GetTeam()))
                 break;
 
             IEntityTool *pItem(pUnit->GetTool(ySlot));
-            if (pItem == NULL)
+            if (pItem == nullptr)
                 break;
             if (pItem->GetFrontQueue() && yQueue == QUEUE_NONE)
                 yQueue = QUEUE_FRONT;
             if ((pItem->GetAllowAutoCast() || pItem->GetActionType() == TOOL_ACTION_ATTACK) && yQueue == QUEUE_NONE)
                 yQueue = QUEUE_FRONT;
 
-            if (pPlayer != NULL)
+            if (pPlayer != nullptr)
                 pPlayer->IncrementActionCount();
 
             SUnitCommand cmd;
@@ -6359,7 +6359,7 @@ bool    CGameServer::ProcessGameData(int iClientNum, CPacket &pkt)
                 break;
 
             IUnitEntity *pUnit(GameServer.GetUnitEntity(uiUnitIndex));
-            if (pUnit == NULL)
+            if (pUnit == nullptr)
                 break;
 
             if (!IS_SHARED_ABILITY(ySlot) && !pUnit->CanActOnOrdersFrom(iClientNum))
@@ -6367,11 +6367,11 @@ bool    CGameServer::ProcessGameData(int iClientNum, CPacket &pkt)
 
             CPlayer *pPlayer(Game.GetPlayerFromClientNumber(iClientNum));
 
-            if (ySlot >= INVENTORY_START_SHARED_ABILITIES && ySlot <= INVENTORY_END_SHARED_ABILITIES && (pPlayer == NULL || pUnit->GetTeam() != pPlayer->GetTeam()))
+            if (ySlot >= INVENTORY_START_SHARED_ABILITIES && ySlot <= INVENTORY_END_SHARED_ABILITIES && (pPlayer == nullptr || pUnit->GetTeam() != pPlayer->GetTeam()))
                 break;
 
             IEntityTool *pItem(pUnit->GetTool(ySlot));
-            if (pItem == NULL)
+            if (pItem == nullptr)
                 break;
 
             if (pItem->GetNeedVision() && !IsVisible(pUnit, v2Pos.x, v2Pos.y))
@@ -6380,7 +6380,7 @@ bool    CGameServer::ProcessGameData(int iClientNum, CPacket &pkt)
             if (pItem->GetFrontQueue() && yQueue == QUEUE_NONE)
                 yQueue = QUEUE_FRONT;
 
-            if (pPlayer != NULL)
+            if (pPlayer != nullptr)
                 pPlayer->IncrementActionCount();
 
             SUnitCommand cmd;
@@ -6414,7 +6414,7 @@ bool    CGameServer::ProcessGameData(int iClientNum, CPacket &pkt)
                 break;
 
             IUnitEntity *pUnit(GameServer.GetUnitEntity(uiUnitIndex));
-            if (pUnit == NULL)
+            if (pUnit == nullptr)
                 break;
 
             if (!IS_SHARED_ABILITY(ySlot) && !pUnit->CanActOnOrdersFrom(iClientNum))
@@ -6422,11 +6422,11 @@ bool    CGameServer::ProcessGameData(int iClientNum, CPacket &pkt)
 
             CPlayer *pPlayer(Game.GetPlayerFromClientNumber(iClientNum));
 
-            if (ySlot >= INVENTORY_START_SHARED_ABILITIES && ySlot <= INVENTORY_END_SHARED_ABILITIES && (pPlayer == NULL || pUnit->GetTeam() != pPlayer->GetTeam()))
+            if (ySlot >= INVENTORY_START_SHARED_ABILITIES && ySlot <= INVENTORY_END_SHARED_ABILITIES && (pPlayer == nullptr || pUnit->GetTeam() != pPlayer->GetTeam()))
                 break;
 
             IEntityTool *pItem(pUnit->GetTool(ySlot));
-            if (pItem == NULL)
+            if (pItem == nullptr)
                 break;
             if (pItem->GetFrontQueue() && yQueue == QUEUE_NONE)
                 yQueue = QUEUE_FRONT;
@@ -6462,7 +6462,7 @@ bool    CGameServer::ProcessGameData(int iClientNum, CPacket &pkt)
                 break;
 
             IUnitEntity *pUnit(GameServer.GetUnitEntity(uiUnitIndex));
-            if (pUnit == NULL)
+            if (pUnit == nullptr)
                 break;
 
             if (!IS_SHARED_ABILITY(ySlot) && !pUnit->CanActOnOrdersFrom(iClientNum))
@@ -6470,16 +6470,16 @@ bool    CGameServer::ProcessGameData(int iClientNum, CPacket &pkt)
 
             CPlayer *pPlayer(Game.GetPlayerFromClientNumber(iClientNum));
 
-            if (ySlot >= INVENTORY_START_SHARED_ABILITIES && ySlot <= INVENTORY_END_SHARED_ABILITIES && (pPlayer == NULL || pUnit->GetTeam() != pPlayer->GetTeam()))
+            if (ySlot >= INVENTORY_START_SHARED_ABILITIES && ySlot <= INVENTORY_END_SHARED_ABILITIES && (pPlayer == nullptr || pUnit->GetTeam() != pPlayer->GetTeam()))
                 break;
 
             IEntityTool *pItem(pUnit->GetTool(ySlot));
-            if (pItem == NULL)
+            if (pItem == nullptr)
                 break;
             if (pItem->GetFrontQueue() && yQueue == QUEUE_NONE)
                 yQueue = QUEUE_FRONT;
 
-            if (pPlayer != NULL)
+            if (pPlayer != nullptr)
                 pPlayer->IncrementActionCount();
 
             SUnitCommand cmd;
@@ -6496,7 +6496,7 @@ bool    CGameServer::ProcessGameData(int iClientNum, CPacket &pkt)
             SendGameData(iClientNum, cBuffer, false);
 
             IUnitEntity *pTarget(GetUnitEntity(uiTargetIndex));
-            if (pTarget != NULL && !pItem->GetNoVoiceResponse())
+            if (pTarget != nullptr && !pItem->GetNoVoiceResponse())
             {
                 if (pUnit->IsEnemy(pTarget))
                 {
@@ -6522,7 +6522,7 @@ bool    CGameServer::ProcessGameData(int iClientNum, CPacket &pkt)
             byte yFlags(pkt.ReadByte());
 
             IUnitEntity *pUnit(GameServer.GetUnitEntity(uiUnitIndex));
-            if (pUnit == NULL)
+            if (pUnit == nullptr)
                 break;
 
             if (!IS_SHARED_ABILITY(ySlot) && !pUnit->CanActOnOrdersFrom(iClientNum))
@@ -6530,14 +6530,14 @@ bool    CGameServer::ProcessGameData(int iClientNum, CPacket &pkt)
 
             CPlayer *pPlayer(Game.GetPlayerFromClientNumber(iClientNum));
 
-            if (ySlot >= INVENTORY_START_SHARED_ABILITIES && ySlot <= INVENTORY_END_SHARED_ABILITIES && (pPlayer == NULL || pUnit->GetTeam() != pPlayer->GetTeam()))
+            if (ySlot >= INVENTORY_START_SHARED_ABILITIES && ySlot <= INVENTORY_END_SHARED_ABILITIES && (pPlayer == nullptr || pUnit->GetTeam() != pPlayer->GetTeam()))
                 break;
 
             IEntityTool *pItem(pUnit->GetTool(ySlot));
-            if (pItem == NULL)
+            if (pItem == nullptr)
                 break;
 
-            if (pPlayer != NULL)
+            if (pPlayer != nullptr)
                 pPlayer->IncrementActionCount();
 
             SUnitCommand cmd;
@@ -6565,11 +6565,11 @@ bool    CGameServer::ProcessGameData(int iClientNum, CPacket &pkt)
             float fX(pkt.ReadFloat());
             float fY(pkt.ReadFloat());
             
-            if (pPlayer == NULL)
+            if (pPlayer == nullptr)
                 EX_ERROR(_T("Invalid client ID"));
 
             CTeamInfo *pTeam(GameServer.GetTeam(pPlayer->GetTeam()));
-            if (pTeam == NULL)
+            if (pTeam == nullptr)
                 EX_ERROR(_T("Invalid Team"));
 
             CBufferFixed<10> buffer;
@@ -6606,16 +6606,16 @@ bool    CGameServer::ProcessGameData(int iClientNum, CPacket &pkt)
             if (m_pHostServer->GetPaused())
                 return true;
 
-            if (pPlayer == NULL)
+            if (pPlayer == nullptr)
                 EX_ERROR(_T("Invalid client ID"));
 
             CTeamInfo *pTeam(GameServer.GetTeam(pPlayer->GetTeam()));
-            if (pTeam == NULL)
+            if (pTeam == nullptr)
                 EX_ERROR(_T("Invalid Team"));
 
             if (pPlayer->GetLastMapPingTime() == INVALID_TIME || GetGameTime() - pPlayer->GetLastMapPingTime() > sv_mapPingDelay)
             {
-                SendPing(GetPing(PING_ALERT), pPlayer->GetHero(), NULL, x, y);
+                SendPing(GetPing(PING_ALERT), pPlayer->GetHero(), nullptr, x, y);
                 pPlayer->SetLastMapPingTime(GetGameTime());
             }
         }
@@ -6641,14 +6641,14 @@ bool    CGameServer::ProcessGameData(int iClientNum, CPacket &pkt)
 
             IUnitEntity* pUnit(GameServer.GetUnitEntity(uiUnitId));
             
-            if (pUnit == NULL)
+            if (pUnit == nullptr)
                 EX_ERROR(_T("Invalid UnitID"));
 
-            if (pPlayer == NULL)
+            if (pPlayer == nullptr)
                 EX_ERROR(_T("Invalid client ID"));
 
             CTeamInfo *pTeam(GameServer.GetTeam(pPlayer->GetTeam()));
-            if (pTeam == NULL)
+            if (pTeam == nullptr)
                 EX_ERROR(_T("Invalid Team"));
 
             if (pPlayer->GetTeam() == TEAM_SPECTATOR)
@@ -6698,7 +6698,7 @@ bool    CGameServer::ProcessGameData(int iClientNum, CPacket &pkt)
     case GAME_CMD_SUBMIT_MATCH_COMMENT:
         {
             tstring sComment(pkt.ReadWStringAsTString());
-            if (pPlayer != NULL)
+            if (pPlayer != nullptr)
                 pPlayer->SetMatchComment(sComment.substr(0, 512));
         }
         break;
@@ -6729,7 +6729,7 @@ bool    CGameServer::ProcessGameData(int iClientNum, CPacket &pkt)
             
             CPlayer *pTarget(GetPlayer(iTargetClient));
 
-            if (pTarget == NULL)
+            if (pTarget == nullptr)
                 break;
 
             if (pTarget->GetAccountID() == iAccountID)
@@ -6751,7 +6751,7 @@ bool    CGameServer::ProcessGameData(int iClientNum, CPacket &pkt)
     case GAME_CMD_SHARE_FULL_CONTROL:
         {
             int iShareClient(pkt.ReadInt());
-            if (pPlayer != NULL && !pPlayer->HasSharedFullControl(iShareClient))
+            if (pPlayer != nullptr && !pPlayer->HasSharedFullControl(iShareClient))
             {
                 pPlayer->ShareFullControl(iShareClient);
                 CBufferFixed<6> buffer;
@@ -6765,7 +6765,7 @@ bool    CGameServer::ProcessGameData(int iClientNum, CPacket &pkt)
     case GAME_CMD_UNSHARE_FULL_CONTROL:
         {
             int iShareClient(pkt.ReadInt());
-            if (pPlayer != NULL && pPlayer->HasSharedFullControl(iShareClient))
+            if (pPlayer != nullptr && pPlayer->HasSharedFullControl(iShareClient))
             {
                 pPlayer->UnshareFullControl(iShareClient);
                 CBufferFixed<6> buffer;
@@ -6779,7 +6779,7 @@ bool    CGameServer::ProcessGameData(int iClientNum, CPacket &pkt)
     case GAME_CMD_SHARE_PARTIAL_CONTROL:
         {
             int iShareClient(pkt.ReadInt());
-            if (pPlayer != NULL && !pPlayer->HasSharedPartialControl(iShareClient))
+            if (pPlayer != nullptr && !pPlayer->HasSharedPartialControl(iShareClient))
             {
                 pPlayer->SharePartialControl(iShareClient);
                 CBufferFixed<6> buffer;
@@ -6793,7 +6793,7 @@ bool    CGameServer::ProcessGameData(int iClientNum, CPacket &pkt)
     case GAME_CMD_UNSHARE_PARTIAL_CONTROL:
         {
             int iShareClient(pkt.ReadInt());
-            if (pPlayer != NULL && pPlayer->HasSharedPartialControl(iShareClient))
+            if (pPlayer != nullptr && pPlayer->HasSharedPartialControl(iShareClient))
             {
                 pPlayer->UnsharePartialControl(iShareClient);
                 CBufferFixed<6> buffer;
@@ -6810,7 +6810,7 @@ bool    CGameServer::ProcessGameData(int iClientNum, CPacket &pkt)
             if (pkt.HasFaults())
                 return false;
 
-            if (pPlayer == NULL)
+            if (pPlayer == nullptr)
                 break;
                                 
             // we don't want them spamming the button over and over flooding other players with this message,
@@ -6841,7 +6841,7 @@ bool    CGameServer::ProcessGameData(int iClientNum, CPacket &pkt)
             if (pkt.HasFaults())
                 return false;
 
-            if (pPlayer != NULL)
+            if (pPlayer != nullptr)
                 pPlayer->SetNoHelp(GetPlayer(iTargetClient), bEnable);
         }
         break;
@@ -6856,7 +6856,7 @@ bool    CGameServer::ProcessGameData(int iClientNum, CPacket &pkt)
 #ifdef K2_CLIENT
             CClientConnection *pClientConnection(m_pHostServer->GetClient());
 
-            if (pClientConnection != NULL)
+            if (pClientConnection != nullptr)
                 pClientConnection->SetClientNumber(iNewClientNum);
 #else
             ClientMap &mapClients(m_pHostServer->GetClientMap());
@@ -6900,14 +6900,14 @@ bool    CGameServer::ProcessGameData(int iClientNum, CPacket &pkt)
             tstring sName(pkt.ReadWStringAsTString());
             tstring sSettings(pkt.ReadWStringAsTString());
 
-            if (m_pHostServer->GetWorld() != NULL && m_pHostServer->GetWorld()->IsLoaded())
+            if (m_pHostServer->GetWorld() != nullptr && m_pHostServer->GetWorld()->IsLoaded())
             {
                 Console << _T("Game is already started") << newl;
                 return true;
             }
             
             CClientConnection *pClientConnection(m_pHostServer->GetClient(iClientNum));
-            if (pClientConnection == NULL || !pClientConnection->HasFlags(CLIENT_CONNECTION_GAME_HOST))
+            if (pClientConnection == nullptr || !pClientConnection->HasFlags(CLIENT_CONNECTION_GAME_HOST))
             {
                 Console << _T("Client is not a host") << newl;
                 return true;
@@ -6936,11 +6936,11 @@ bool    CGameServer::ProcessGameData(int iClientNum, CPacket &pkt)
             
             if (BuyBackHero(iClientNum, uiUnitIndex))
             {           
-                if (pPlayer == NULL)
+                if (pPlayer == nullptr)
                     EX_ERROR(_T("Invalid client ID"));
 
                 CTeamInfo *pTeam(GetTeam(pPlayer->GetTeam()));
-                if (pTeam != NULL)
+                if (pTeam != nullptr)
                 {
                     CBufferFixed<5> buffer;
                     buffer << GAME_CMD_BUYBACK << iClientNum;
@@ -6967,14 +6967,14 @@ bool    CGameServer::ProcessGameData(int iClientNum, CPacket &pkt)
             if (pkt.HasFaults())
                 return false;
 
-            if (pPlayer == NULL || !pPlayer->CanKick())
+            if (pPlayer == nullptr || !pPlayer->CanKick())
                 return true;
 
             if (Game.GetGamePhase() > GAME_PHASE_WAITING_FOR_PLAYERS)
                 return true;
 
             CPlayer *pTargetPlayer(GetPlayer(iTargetClient));
-            if (pTargetPlayer == NULL || !pTargetPlayer->CanBeKicked())
+            if (pTargetPlayer == nullptr || !pTargetPlayer->CanBeKicked())
                 return true;
 
             pTargetPlayer->SetFlags(PLAYER_FLAG_KICKED);
@@ -6996,7 +6996,7 @@ bool    CGameServer::ProcessGameData(int iClientNum, CPacket &pkt)
         {
             int iTeam(pkt.ReadInt(TEAM_INVALID));
             uint uiSlot(pkt.ReadInt(INVALID_TEAM_SLOT));
-            if (pPlayer != NULL && pPlayer->HasFlags(PLAYER_FLAG_HOST) && GetGamePhase() == GAME_PHASE_WAITING_FOR_PLAYERS && !HasGameOptions(GAME_OPTION_AUTOBALANCE_TEAMS))
+            if (pPlayer != nullptr && pPlayer->HasFlags(PLAYER_FLAG_HOST) && GetGamePhase() == GAME_PHASE_WAITING_FOR_PLAYERS && !HasGameOptions(GAME_OPTION_AUTOBALANCE_TEAMS))
                 LockSlot(iTeam, uiSlot);
 
             return !pkt.HasFaults();
@@ -7007,7 +7007,7 @@ bool    CGameServer::ProcessGameData(int iClientNum, CPacket &pkt)
         {
             int iTeam(pkt.ReadInt(TEAM_INVALID));
             uint uiSlot(pkt.ReadInt(INVALID_TEAM_SLOT));
-            if (pPlayer != NULL && pPlayer->HasFlags(PLAYER_FLAG_HOST) && GetGamePhase() == GAME_PHASE_WAITING_FOR_PLAYERS && !HasGameOptions(GAME_OPTION_AUTOBALANCE_TEAMS))
+            if (pPlayer != nullptr && pPlayer->HasFlags(PLAYER_FLAG_HOST) && GetGamePhase() == GAME_PHASE_WAITING_FOR_PLAYERS && !HasGameOptions(GAME_OPTION_AUTOBALANCE_TEAMS))
                 UnlockSlot(iTeam, uiSlot);
 
             return !pkt.HasFaults();
@@ -7018,11 +7018,11 @@ bool    CGameServer::ProcessGameData(int iClientNum, CPacket &pkt)
         {
             int iTeam(pkt.ReadInt(TEAM_INVALID));
             uint uiSlot(pkt.ReadInt(INVALID_TEAM_SLOT));
-            if (pPlayer != NULL && pPlayer->HasFlags(PLAYER_FLAG_HOST) && GetGamePhase() == GAME_PHASE_WAITING_FOR_PLAYERS && !HasGameOptions(GAME_OPTION_AUTOBALANCE_TEAMS))
+            if (pPlayer != nullptr && pPlayer->HasFlags(PLAYER_FLAG_HOST) && GetGamePhase() == GAME_PHASE_WAITING_FOR_PLAYERS && !HasGameOptions(GAME_OPTION_AUTOBALANCE_TEAMS))
                 ToggleSlotLock(iTeam, uiSlot);
                                 
             CTeamInfo *pTeam(GetTeam(iTeam));
-            if (pTeam == NULL)
+            if (pTeam == nullptr)
                 return false;
             
             CBufferFixed<9> buffer;
@@ -7039,7 +7039,7 @@ bool    CGameServer::ProcessGameData(int iClientNum, CPacket &pkt)
         break;
 
     case GAME_CMD_BALANCE_TEAMS:
-        if (pPlayer != NULL && pPlayer->HasFlags(PLAYER_FLAG_HOST) && GetGamePhase() == GAME_PHASE_WAITING_FOR_PLAYERS && !HasGameOptions(GAME_OPTION_AUTOBALANCE_TEAMS))
+        if (pPlayer != nullptr && pPlayer->HasFlags(PLAYER_FLAG_HOST) && GetGamePhase() == GAME_PHASE_WAITING_FOR_PLAYERS && !HasGameOptions(GAME_OPTION_AUTOBALANCE_TEAMS))
             BalanceTeams();
         break;
 
@@ -7049,7 +7049,7 @@ bool    CGameServer::ProcessGameData(int iClientNum, CPacket &pkt)
             uint uiSlotA(pkt.ReadInt(INVALID_TEAM_SLOT));
             int iTeamB(pkt.ReadInt(TEAM_INVALID));
             uint uiSlotB(pkt.ReadInt(INVALID_TEAM_SLOT));
-            if (pPlayer != NULL && pPlayer->HasFlags(PLAYER_FLAG_HOST) && GetGamePhase() == GAME_PHASE_WAITING_FOR_PLAYERS && !HasGameOptions(GAME_OPTION_AUTOBALANCE_TEAMS))
+            if (pPlayer != nullptr && pPlayer->HasFlags(PLAYER_FLAG_HOST) && GetGamePhase() == GAME_PHASE_WAITING_FOR_PLAYERS && !HasGameOptions(GAME_OPTION_AUTOBALANCE_TEAMS))
                 ForceSwapPlayerSlots(iTeamA, uiSlotA, iTeamB, uiSlotB);
 
             return !pkt.HasFaults();
@@ -7062,10 +7062,10 @@ bool    CGameServer::ProcessGameData(int iClientNum, CPacket &pkt)
             if (pkt.HasFaults())
                 return false;
 
-            if (pPlayer != NULL && pPlayer->HasFlags(PLAYER_FLAG_HOST) && GetGamePhase() == GAME_PHASE_WAITING_FOR_PLAYERS)
+            if (pPlayer != nullptr && pPlayer->HasFlags(PLAYER_FLAG_HOST) && GetGamePhase() == GAME_PHASE_WAITING_FOR_PLAYERS)
             {
                 CPlayer *pTargetPlayer(GetPlayer(iTargetClient));
-                if (pTargetPlayer != NULL)
+                if (pTargetPlayer != nullptr)
                 {
                     RequestChangeTeam(iTargetClient, TEAM_SPECTATOR);
                 
@@ -7087,13 +7087,13 @@ bool    CGameServer::ProcessGameData(int iClientNum, CPacket &pkt)
         {
             uint uiClientNum(pkt.ReadInt(INVALID_TEAM_SLOT));
             
-            if (pPlayer != NULL && pPlayer->HasFlags(PLAYER_FLAG_HOST) && GetGamePhase() == GAME_PHASE_WAITING_FOR_PLAYERS)
+            if (pPlayer != nullptr && pPlayer->HasFlags(PLAYER_FLAG_HOST) && GetGamePhase() == GAME_PHASE_WAITING_FOR_PLAYERS)
             {   
                 CClientConnection *pClientConnection(m_pHostServer->GetClient(iClientNum));
                 CClientConnection *pNewClientConnection(m_pHostServer->GetClient(uiClientNum));
                 CPlayer *pNewPlayerHost(GameServer.GetPlayer(uiClientNum));
                 
-                if (pClientConnection != NULL && pNewClientConnection != NULL && pNewPlayerHost != NULL)
+                if (pClientConnection != nullptr && pNewClientConnection != nullptr && pNewPlayerHost != nullptr)
                 {               
                     pPlayer->RemoveFlags(PLAYER_FLAG_HOST);
                     pClientConnection->RemoveFlags(CLIENT_CONNECTION_GAME_HOST);                                
@@ -7119,10 +7119,10 @@ bool    CGameServer::ProcessGameData(int iClientNum, CPacket &pkt)
             if (pkt.HasFaults())
                 return false;
 
-            if (pPlayer != NULL && pPlayer->HasFlags(PLAYER_FLAG_HOST) && GetGamePhase() == GAME_PHASE_WAITING_FOR_PLAYERS)
+            if (pPlayer != nullptr && pPlayer->HasFlags(PLAYER_FLAG_HOST) && GetGamePhase() == GAME_PHASE_WAITING_FOR_PLAYERS)
             {
                 CPlayer *pTargetPlayer(GetPlayer(iTargetClient));
-                if (pTargetPlayer != NULL && !pTargetPlayer->IsReferee())
+                if (pTargetPlayer != nullptr && !pTargetPlayer->IsReferee())
                 {
                     RequestChangeTeam(iTargetClient, TEAM_SPECTATOR, INVALID_TEAM_SLOT, true);
                     
@@ -7148,10 +7148,10 @@ bool    CGameServer::ProcessGameData(int iClientNum, CPacket &pkt)
             if (pkt.HasFaults())
                 return false;
 
-            if (pPlayer != NULL && pPlayer->HasFlags(PLAYER_FLAG_HOST) && GetGamePhase() == GAME_PHASE_WAITING_FOR_PLAYERS)
+            if (pPlayer != nullptr && pPlayer->HasFlags(PLAYER_FLAG_HOST) && GetGamePhase() == GAME_PHASE_WAITING_FOR_PLAYERS)
             {
                 CPlayer *pTargetPlayer(GetPlayer(iTargetClient));
-                if (pTargetPlayer != NULL && pTargetPlayer->IsReferee())
+                if (pTargetPlayer != nullptr && pTargetPlayer->IsReferee())
                     RequestChangeTeam(iTargetClient, TEAM_PASSIVE);
             }
 
@@ -7162,10 +7162,10 @@ bool    CGameServer::ProcessGameData(int iClientNum, CPacket &pkt)
     case GAME_CMD_BAN_HERO:
         {
             ushort unHeroID(pkt.ReadShort(INVALID_ENT_TYPE));
-            if (GetGamePhase() == GAME_PHASE_HERO_BAN && pPlayer != NULL && pPlayer->HasFlags(PLAYER_FLAG_IS_CAPTAIN) && pPlayer->GetTeam() == m_uiBanningTeam && GetHeroStatus(unHeroID) != HERO_LIST_BANNED)
+            if (GetGamePhase() == GAME_PHASE_HERO_BAN && pPlayer != nullptr && pPlayer->HasFlags(PLAYER_FLAG_IS_CAPTAIN) && pPlayer->GetTeam() == m_uiBanningTeam && GetHeroStatus(unHeroID) != HERO_LIST_BANNED)
             {
                 CTeamInfo *pTeam(GetTeam(pPlayer->GetTeam()));
-                if (pTeam != NULL && int(pTeam->GetBanCount()) <= m_iBanRound)
+                if (pTeam != nullptr && int(pTeam->GetBanCount()) <= m_iBanRound)
                 {
                     SetHeroStatus(unHeroID, HERO_LIST_BANNED);
                     pTeam->IncrementBanCount();
@@ -7186,7 +7186,7 @@ bool    CGameServer::ProcessGameData(int iClientNum, CPacket &pkt)
     case GAME_CMD_DRAFT_HERO:
         {
             ushort unHeroID(pkt.ReadShort(INVALID_ENT_TYPE));
-            if (GetGamePhase() == GAME_PHASE_HERO_SELECT && pPlayer != NULL && pPlayer->HasFlags(PLAYER_FLAG_IS_CAPTAIN))
+            if (GetGamePhase() == GAME_PHASE_HERO_SELECT && pPlayer != nullptr && pPlayer->HasFlags(PLAYER_FLAG_IS_CAPTAIN))
                 SetHeroStatus(unHeroID, pPlayer->GetTeam());
             return true;
         }
@@ -7196,7 +7196,7 @@ bool    CGameServer::ProcessGameData(int iClientNum, CPacket &pkt)
         {
             uint uiIndex(pkt.ReadInt(INVALID_INDEX));
             IGameEntity *pEntity(GetEntity(uiIndex));
-            if (pEntity != NULL)
+            if (pEntity != nullptr)
                 pEntity->SendExtendedData(iClientNum);
         }
         break;
@@ -7207,7 +7207,7 @@ bool    CGameServer::ProcessGameData(int iClientNum, CPacket &pkt)
             int iSlot(pkt.ReadInt(MAX_INVENTORY));
 
             IUnitEntity *pUnit(Game.GetUnitEntity(uiIndex));
-            if (pUnit != NULL && pUnit->CanActOnOrdersFrom(iClientNum))
+            if (pUnit != nullptr && pUnit->CanActOnOrdersFrom(iClientNum))
                 pUnit->SetExclusiveAttackModSlot(iSlot);
         }
         return !pkt.HasFaults();
@@ -7217,7 +7217,7 @@ bool    CGameServer::ProcessGameData(int iClientNum, CPacket &pkt)
             uint uiIndex(pkt.ReadInt(INVALID_INDEX));
 
             IUnitEntity *pUnit(Game.GetUnitEntity(uiIndex));
-            if (pUnit != NULL && pUnit->CanActOnOrdersFrom(iClientNum))
+            if (pUnit != nullptr && pUnit->CanActOnOrdersFrom(iClientNum))
                 pUnit->SetExclusiveAttackModSlot(pUnit->GetPrevExclusiveAttackModSlot());
         }
         return !pkt.HasFaults();
@@ -7227,7 +7227,7 @@ bool    CGameServer::ProcessGameData(int iClientNum, CPacket &pkt)
             uint uiIndex(pkt.ReadInt(INVALID_INDEX));
 
             IUnitEntity *pUnit(Game.GetUnitEntity(uiIndex));
-            if (pUnit != NULL && pUnit->CanActOnOrdersFrom(iClientNum))
+            if (pUnit != nullptr && pUnit->CanActOnOrdersFrom(iClientNum))
                 pUnit->SetExclusiveAttackModSlot(pUnit->GetNextExclusiveAttackModSlot());
         }
         return !pkt.HasFaults();
@@ -7253,10 +7253,10 @@ bool    CGameServer::ProcessGameData(int iClientNum, CPacket &pkt)
             tstring sName(pkt.ReadWStringAsTString());
             tstring sValue(pkt.ReadWStringAsTString());
 
-            if (GetWorldPointer() != NULL && GetWorldPointer()->GetName() == _T("tutorial"))
+            if (GetWorldPointer() != nullptr && GetWorldPointer()->GetName() == _T("tutorial"))
             {
                 CGameInfo *pGameInfo(GetGameInfo());
-                if (pGameInfo != NULL)
+                if (pGameInfo != nullptr)
                     pGameInfo->SetScriptValue(sName, sValue);
             }
         }
@@ -7267,7 +7267,7 @@ bool    CGameServer::ProcessGameData(int iClientNum, CPacket &pkt)
             tstring sName(pkt.ReadWStringAsTString());
             tstring sValue(pkt.ReadWStringAsTString());
 
-            if (pPlayer != NULL)
+            if (pPlayer != nullptr)
                 pPlayer->ProcessGameplayOption(sName, sValue);
 
             return !pkt.HasFaults();
@@ -7298,7 +7298,7 @@ bool    CGameServer::ProcessGameData(int iClientNum, CPacket &pkt)
             if (m_pHostServer->GetPractice())
                 return true;
 
-            if (pPlayer != NULL)
+            if (pPlayer != nullptr)
             {
                 if (ySetOrClear != 0)
                     pPlayer->SetNotificationFlags(uiNotificationFlags);
@@ -7309,7 +7309,7 @@ bool    CGameServer::ProcessGameData(int iClientNum, CPacket &pkt)
                 if (pPlayer->HasNotificationFlags(NOTIFY_FLAG_MODIFIED_CORE_FILES))
                 {
                     CClientConnection *pClientConnection(m_pHostServer->GetClient(pPlayer->GetClientNumber()));
-                    if (pClientConnection != NULL)
+                    if (pClientConnection != nullptr)
                     {
                         pClientConnection->Disconnect(_T("disconnect_modified_core_files"));
                     }
@@ -7332,7 +7332,7 @@ bool    CGameServer::ProcessGameData(int iClientNum, CPacket &pkt)
                             if (pPlayer->GetTeam() >= TEAM_1 && pPlayer->GetTeam() <= TEAM_2)
                             {
                                 CClientConnection *pClientConnection(m_pHostServer->GetClient(pPlayer->GetClientNumber()));
-                                if (pClientConnection != NULL)
+                                if (pClientConnection != nullptr)
                                     pClientConnection->Disconnect(_T("disconnect_no_mods_allowed"));
                             }
                         }
@@ -7366,10 +7366,10 @@ bool    CGameServer::ProcessGameData(int iClientNum, CPacket &pkt)
                     CChecksumTable::ChecksumToString(sBaseResources0Checksum, pBaseResources0Checksum);
                     CChecksumTable::ChecksumToString(sGameResources0Checksum, pGameResources0Checksum);
 
-                    if (pPlayer != NULL)
+                    if (pPlayer != nullptr)
                     {
                         CClientConnection *pClientConnection(m_pHostServer->GetClient(pPlayer->GetClientNumber()));
-                        if (pClientConnection != NULL && pClientConnection->GetConnectionState() != CLIENT_CONNECTION_STATE_DISCONNECTED)
+                        if (pClientConnection != nullptr && pClientConnection->GetConnectionState() != CLIENT_CONNECTION_STATE_DISCONNECTED)
                         {
                             // TODO: Silently detect whether the player's checksums are valid.  If they aren't,
                             // flag the player as a hacker but do NOT disconnect them.
@@ -7388,10 +7388,10 @@ bool    CGameServer::ProcessGameData(int iClientNum, CPacket &pkt)
     case GAME_CMD_REFRESH_UPGRADES:
         {
 #ifndef K2_CLIENT
-            if (pPlayer != NULL)
+            if (pPlayer != nullptr)
             {
                 CClientConnection *pClientConnection(m_pHostServer->GetClient(pPlayer->GetClientNumber()));
-                if (pClientConnection != NULL && pClientConnection->GetConnectionState() != CLIENT_CONNECTION_STATE_DISCONNECTED)
+                if (pClientConnection != nullptr && pClientConnection->GetConnectionState() != CLIENT_CONNECTION_STATE_DISCONNECTED)
                     pClientConnection->RefreshUpgrades();
             }
 #endif
@@ -7732,7 +7732,7 @@ bool    CGameServer::LoadWorld(const tstring &sName, const tstring &sGameSetting
 
         // Setup a new GameInfo
         IGameEntity *pNewGameInfo(m_pServerEntityDirectory->Allocate(_T("Game_Rules")));
-        if (pNewGameInfo == NULL || !pNewGameInfo->IsGameInfo())
+        if (pNewGameInfo == nullptr || !pNewGameInfo->IsGameInfo())
             EX_ERROR(_T("Failed to allocate CGameInfo entity"));
 
         CDate date(true);
@@ -7909,15 +7909,15 @@ bool    CGameServer::LoadWorld(const tstring &sName, const tstring &sGameSetting
 
         // Allocate teams
         ClearTeams();
-        CTeamInfo *pTeam(NULL);
+        CTeamInfo *pTeam(nullptr);
         pTeam = AddTeam(_T("Spectators"), WHITE, TEAM_SPECTATOR);
-        if (pTeam != NULL)
+        if (pTeam != nullptr)
             pTeam->SetTeamSize(GetMaxSpectators() + GetMaxReferees());
         pTeam = AddTeam(_T("Legion"), RED, TEAM_1);
-        if (pTeam != NULL)
+        if (pTeam != nullptr)
             pTeam->SetTeamSize(GetTeamSize());
         pTeam = AddTeam(_T("Hellbourne"), GREEN, TEAM_2);
-        if (pTeam != NULL)
+        if (pTeam != nullptr)
             pTeam->SetTeamSize(GetTeamSize());
 
         // Register item info with teams
@@ -7933,7 +7933,7 @@ bool    CGameServer::LoadWorld(const tstring &sName, const tstring &sGameSetting
                 continue;
 
             CWorldEntity *pWorldEntity(GetWorldPointer()->GetEntityByHandle(*it));
-            if (pWorldEntity == NULL)
+            if (pWorldEntity == nullptr)
                 continue;
 
             if (pWorldEntity->GetType() == _T("Prop_Cliff"))
@@ -7967,7 +7967,7 @@ bool    CGameServer::LoadWorld(const tstring &sName, const tstring &sGameSetting
             }
 
             IGameEntity* pNewEnt(m_pServerEntityDirectory->Allocate(pWorldEntity->GetType()));
-            if (pNewEnt == NULL)
+            if (pNewEnt == nullptr)
             {
                 Console.Err << _T("Failed to allocate a game entity for world entity #") + XtoA(pWorldEntity->GetIndex()) << _T(" type: ") << pWorldEntity->GetType() << newl;
                 continue;
@@ -7983,14 +7983,14 @@ bool    CGameServer::LoadWorld(const tstring &sName, const tstring &sGameSetting
         for (WorldLightsMap_it it(mapWorldLights.begin()); it != mapWorldLights.end(); ++it)
         {
             IGameEntity* pNewEnt(m_pServerEntityDirectory->Allocate(Light_Static));
-            if (pNewEnt == NULL)
+            if (pNewEnt == nullptr)
             {
                 Console.Err << _T("Failed to allocate a light for world light #") + XtoA(it->first) << newl;
                 continue;
             }
 
             ILight *pLight(pNewEnt->GetAsLight());
-            if (pLight == NULL)
+            if (pLight == nullptr)
             {
                 Console.Err << _T("Allocated game entity is not the correct type") << newl;
                 continue;
@@ -8028,7 +8028,7 @@ bool    CGameServer::LoadWorld(const tstring &sName, const tstring &sGameSetting
         if (m_pHostServer->HasManager())
             K2System.SetPriority(iOldPriority);
 
-        pGameInfo->ExecuteActionScript(ACTION_SCRIPT_LOBBY_START, pGameInfo, NULL, NULL, V3_ZERO);
+        pGameInfo->ExecuteActionScript(ACTION_SCRIPT_LOBBY_START, pGameInfo, nullptr, nullptr, V3_ZERO);
 
         GetStateString(STATE_STRING_RESOURCES).Validate(); // DEBUG
 
@@ -8055,8 +8055,8 @@ void    CGameServer::UnloadWorld()
 {
     m_pServerEntityDirectory->Clear();
 
-    SetGameInfo(NULL);
-    SetWorldPointer(NULL);
+    SetGameInfo(nullptr);
+    SetWorldPointer(nullptr);
 }
 
 
@@ -8224,7 +8224,7 @@ void    CGameServer::BroadcastGameData(const IBuffer &buffer, bool bReliable, in
 
 #ifdef K2_CLIENT
         CClientConnection *pClient(m_pHostServer->GetClient());
-        if (pClient != NULL && pClient->GetClientNum() != iExcludeClient)
+        if (pClient != nullptr && pClient->GetClientNum() != iExcludeClient)
         {
             buffer.Rewind();
             ReplayManager.WriteGameData(pClient->GetClientNum(), buffer, bReliable);
@@ -8239,7 +8239,7 @@ void    CGameServer::BroadcastGameData(const IBuffer &buffer, bool bReliable, in
 
             CPlayer *pPlayer(GetPlayer(it->first));
 
-            if (pPlayer == NULL || pPlayer->GetTeam() == TEAM_SPECTATOR)
+            if (pPlayer == nullptr || pPlayer->GetTeam() == TEAM_SPECTATOR)
                 continue;
 
             buffer.Rewind();
@@ -8262,11 +8262,11 @@ void    CGameServer::BroadcastGameDataToTeam(int iTeam, const IBuffer &buffer, b
 {
 #ifdef K2_CLIENT
     CClientConnection *pClient(m_pHostServer->GetClient());
-    if (pClient != NULL && pClient->GetClientNum() != iExcludeClient)
+    if (pClient != nullptr && pClient->GetClientNum() != iExcludeClient)
     {
         CPlayer *pPlayer(GetPlayer(pClient->GetClientNum()));
 
-        if (pPlayer != NULL && pPlayer->GetTeam() == iTeam)
+        if (pPlayer != nullptr && pPlayer->GetTeam() == iTeam)
         {
             buffer.Rewind();
 
@@ -8289,7 +8289,7 @@ void    CGameServer::BroadcastGameDataToTeam(int iTeam, const IBuffer &buffer, b
 
         CPlayer *pPlayer(GetPlayer(it->first));
 
-        if (pPlayer == NULL || pPlayer->GetTeam() != iTeam)
+        if (pPlayer == nullptr || pPlayer->GetTeam() != iTeam)
             continue;
 
         buffer.Rewind();
@@ -8366,7 +8366,7 @@ void    CGameServer::SendGameData(int iClient, const IBuffer &buffer, bool bReli
 void    CGameServer::SendReliablePacket(int iClient, const IBuffer &buffer)
 {
     CClientConnection *pClient(m_pHostServer->GetClient(iClient));
-    if (pClient == NULL)
+    if (pClient == nullptr)
     {
         Console.Warn << _T("CHostServer::SendReliablePacket() - Invalid client: ") << iClient << newl;
         return;
@@ -8463,7 +8463,7 @@ void    CGameServer::PrecacheEntities(bool bHeroes)
     for (vector<ushort>::iterator it(vShops.begin()), itEnd(vShops.end()); it != itEnd; ++it)
     {
         CShopDefinition *pShop(EntityRegistry.GetDefinition<CShopDefinition>(*it));
-        if (pShop == NULL)
+        if (pShop == nullptr)
             continue;
 
         const tsvector &vsItems(pShop->GetItems());
@@ -8582,10 +8582,10 @@ uint    CGameServer::GetServerFrameLength()
 CTeamInfo*  CGameServer::AddTeam(const tstring &sName, const CVec4f &v4Color, uint uiTeamID)
 {
     CTeamInfo *pNewTeam(static_cast<CTeamInfo *>(m_pServerEntityDirectory->Allocate(Info_Team)));
-    if (pNewTeam == NULL)
+    if (pNewTeam == nullptr)
     {
         Console.Err << _T("CGameServer::AddTeam() - Failed to allocate new CTeamInfo for team: ") << sName << newl;
-        return NULL;
+        return nullptr;
     }
 
     pNewTeam->Initialize();
@@ -8669,7 +8669,7 @@ void    CGameServer::UpdateHeroList()
   ====================*/
 void    CGameServer::GetAvailableHeroList(CPlayer *pPlayer, vector<ushort> &vHeroes)
 {
-    if (pPlayer == NULL || pPlayer->GetTeam() < TEAM_1 || pPlayer->GetTeam() > TEAM_2)
+    if (pPlayer == nullptr || pPlayer->GetTeam() < TEAM_1 || pPlayer->GetTeam() > TEAM_2)
         return;
 
     if (GetGameMode() == GAME_MODE_SINGLE_DRAFT)
@@ -8711,7 +8711,7 @@ void    CGameServer::GetAvailableHeroList(CPlayer *pPlayer, vector<ushort> &vHer
 bool    CGameServer::SelectHero(int iClientNumber, ushort unHero, bool bPotentialHero, bool bAllowAvatar)
 {
     CPlayer *pPlayer(GetPlayerFromClientNumber(iClientNumber));
-    if (pPlayer == NULL)
+    if (pPlayer == nullptr)
         return false;
 
     if (HasGameOptions(GAME_OPTION_FORCE_RANDOM))
@@ -8732,14 +8732,14 @@ bool    CGameServer::SelectHero(int iClientNumber, ushort unHero, bool bPotentia
     if (iTeam == 0)
         return false;
     CTeamInfo *pTeam(GetTeam(iTeam));
-    if (pTeam == NULL)
+    if (pTeam == nullptr)
         return false;
 
     vector<ushort> vAvailableHeroes;
     GetAvailableHeroList(pPlayer, vAvailableHeroes);
 
     const CDynamicEntityAllocator *pAllocator(EntityRegistry.GetDynamicAllocator(unHero));
-    if (pAllocator == NULL)
+    if (pAllocator == nullptr)
         return false;
 
     vector<ushort>::iterator itHero(std::find(vAvailableHeroes.begin(), vAvailableHeroes.end(), unHero));
@@ -8769,7 +8769,7 @@ bool    CGameServer::SelectHero(int iClientNumber, ushort unHero, bool bPotentia
             EnemyBuffer << GAME_CMD_PICK_HERO_MESSAGE << iClientNumber << INVALID_ENT_TYPE;
 
             const CGameInfo *pGameInfo(Game.GetGameInfo());
-            if (pGameInfo != NULL && pGameInfo->GetGameMode() == GAME_MODE_SINGLE_DRAFT)
+            if (pGameInfo != nullptr && pGameInfo->GetGameMode() == GAME_MODE_SINGLE_DRAFT)
             {   
                 // SD is blind pick
                 BroadcastGameDataToTeam(iTeam, FullBuffer, true);
@@ -8811,7 +8811,7 @@ bool    CGameServer::SelectAvatar(const int iClientNumber, const tstring &sAltAv
 {
     // Get the player info whos sending this request
     CPlayer *pPlayer(GetPlayer(iClientNumber));
-    if (pPlayer == NULL)
+    if (pPlayer == nullptr)
         return false;
 
     if (GetGamePhase() != GAME_PHASE_HERO_SELECT)
@@ -8826,7 +8826,7 @@ bool    CGameServer::SelectAvatar(const int iClientNumber, const tstring &sAltAv
     if (iTeam == 0)
         return false;
     CTeamInfo *pTeam(GetTeam(iTeam));
-    if (pTeam == NULL)
+    if (pTeam == nullptr)
         return false;
         
     return pPlayer->SetAltAvatar(sAltAvatar);
@@ -8839,7 +8839,7 @@ bool    CGameServer::SelectAvatar(const int iClientNumber, const tstring &sAltAv
 void    CGameServer::SelectRandomHero(int iClientNumber)
 {
     CPlayer *pPlayer(GetPlayerFromClientNumber(iClientNumber));
-    if (pPlayer == NULL)
+    if (pPlayer == nullptr)
         return;
     
     if (GetGamePhase() < GAME_PHASE_HERO_SELECT)
@@ -8852,7 +8852,7 @@ void    CGameServer::SelectRandomHero(int iClientNumber)
     if (iTeam == 0)
         return;
     CTeamInfo *pTeam(GetTeam(iTeam));
-    if (pTeam == NULL)
+    if (pTeam == nullptr)
         return;
 
     vector<ushort> vAvailableHeroes;
@@ -8862,7 +8862,7 @@ void    CGameServer::SelectRandomHero(int iClientNumber)
 
     ushort unHero(vAvailableHeroes[M_Randnum(0u, INT_SIZE(vAvailableHeroes.size() - 1))]);
     const CDynamicEntityAllocator *pAllocator(EntityRegistry.GetDynamicAllocator(unHero));
-    if (pAllocator == NULL)
+    if (pAllocator == nullptr)
         return;
 
     if (!pPlayer->CanSelectHero(unHero))
@@ -8879,7 +8879,7 @@ void    CGameServer::SelectRandomHero(int iClientNumber)
 
     if (!pPlayer->HasFlags(PLAYER_FLAG_HAS_REPICKED))
     {
-        pPlayer->GiveGold(GetGameInfo()->GetRandomBonus(), NULL);
+        pPlayer->GiveGold(GetGameInfo()->GetRandomBonus(), nullptr);
         pPlayer->AdjustStat(PLAYER_STAT_STARTING_GOLD, GetGameInfo()->GetRandomBonus());
     }
 
@@ -8891,7 +8891,7 @@ void    CGameServer::SelectRandomHero(int iClientNumber)
     EnemyBuffer << GAME_CMD_RANDOM_HERO_MESSAGE << iClientNumber << INVALID_ENT_TYPE;
 
     const CGameInfo *pGameInfo(Game.GetGameInfo());
-    if (pGameInfo != NULL && pGameInfo->GetGameMode() == GAME_MODE_SINGLE_DRAFT)
+    if (pGameInfo != nullptr && pGameInfo->GetGameMode() == GAME_MODE_SINGLE_DRAFT)
     {   
         // SD is blind pick
         BroadcastGameDataToTeam(iTeam, FullBuffer, true);
@@ -8914,7 +8914,7 @@ void    CGameServer::SelectRandomHero(int iClientNumber)
 void    CGameServer::SelectPotentialHeroOrRandomHero(int iClientNumber)
 {
     CPlayer *pPlayer(GetPlayerFromClientNumber(iClientNumber));
-    if (pPlayer == NULL)
+    if (pPlayer == nullptr)
         return;
     
     // try to select the potential hero.
@@ -8932,7 +8932,7 @@ void    CGameServer::SelectPotentialHeroOrRandomHero(int iClientNumber)
   ====================*/
 void    CGameServer::ClearPotentialHero(CPlayer *pPlayer, ushort unHero)
 {
-    if (pPlayer == NULL)
+    if (pPlayer == nullptr)
         return;
 
     if (unHero == INVALID_ENT_TYPE)
@@ -9044,11 +9044,11 @@ tstring         CGameServer::GetBannedHeroesStr()
 bool    CGameServer::RemoveHero(int iClientNumber)
 {
     CPlayer *pPlayer(GetPlayerFromClientNumber(iClientNumber));
-    if (pPlayer == NULL)
+    if (pPlayer == nullptr)
         return false;
 
     IHeroEntity *pHero(pPlayer->GetHero());
-    if (pHero == NULL)
+    if (pHero == nullptr)
         return false;
 
     if (GetGameMode() == GAME_MODE_CAPTAINS_DRAFT || GetGameMode() == GAME_MODE_CAPTAINS_MODE)
@@ -9058,7 +9058,7 @@ bool    CGameServer::RemoveHero(int iClientNumber)
 
     DeleteEntity(pHero);
     pPlayer->SelectHero(INVALID_ENT_TYPE);
-    pPlayer->AssignHero(NULL);
+    pPlayer->AssignHero(nullptr);
     pPlayer->RemoveFlags(PLAYER_FLAG_READY);
     pPlayer->ClearAllSwapRequests();
 
@@ -9077,7 +9077,7 @@ void    CGameServer::ResetPicks(int iClientNumber)
     RemoveHero(iClientNumber);
 
     CPlayer *pPlayer(GetPlayerFromClientNumber(iClientNumber));
-    if (pPlayer == NULL)
+    if (pPlayer == nullptr)
         return;
 
     if (GetGameMode() == GAME_MODE_CAPTAINS_DRAFT || GetGameMode() == GAME_MODE_CAPTAINS_MODE)
@@ -9086,7 +9086,7 @@ void    CGameServer::ResetPicks(int iClientNumber)
         SetHeroStatus(pPlayer->GetSelectedHero(), HERO_LIST_AVAILABLE_ALL);
 
     pPlayer->SelectHero(INVALID_ENT_TYPE);
-    pPlayer->AssignHero(NULL);
+    pPlayer->AssignHero(nullptr);
     pPlayer->RemoveFlags(PLAYER_FLAG_HAS_REPICKED | PLAYER_FLAG_READY);
     pPlayer->ClearAllSwapRequests();
 }
@@ -9131,19 +9131,19 @@ bool    CGameServer::HasMegaCreeps(uint uiTeam)
     for (uivector_it it(vSpawners.begin()); it != itEnd; ++it)
     {
         CEntityCreepSpawner *pSpawner(Game.GetEntity(*it)->GetAs<CEntityCreepSpawner>());
-        if (pSpawner == NULL)
+        if (pSpawner == nullptr)
             continue;
 
         CTeamInfo *pTeam(GetTeam(pSpawner->GetTeam()));
-        if (pTeam == NULL || pTeam->GetTeamID() == uiTeam)
+        if (pTeam == nullptr || pTeam->GetTeamID() == uiTeam)
             continue;
 
         IUnitEntity *pTarget1(GetUnitFromUniqueID(pSpawner->GetTargetUID(1)));
-        if (pTarget1 != NULL && pTarget1->GetStatus() == ENTITY_STATUS_ACTIVE)
+        if (pTarget1 != nullptr && pTarget1->GetStatus() == ENTITY_STATUS_ACTIVE)
             return false;
 
         IUnitEntity *pTarget2(GetUnitFromUniqueID(pSpawner->GetTargetUID(2)));
-        if (pTarget2 != NULL && pTarget2->GetStatus() == ENTITY_STATUS_ACTIVE)
+        if (pTarget2 != nullptr && pTarget2->GetStatus() == ENTITY_STATUS_ACTIVE)
             return false;
     }
 
@@ -9175,21 +9175,21 @@ void    CGameServer::SpawnCreeps()
     for (uivector_it it(vSpawners.begin()); it != itEnd; ++it)
     {
         CEntityCreepSpawner *pSpawner(Game.GetEntity(*it)->GetAs<CEntityCreepSpawner>());
-        if (pSpawner == NULL)
+        if (pSpawner == nullptr)
             continue;
 
         CTeamInfo *pTeam(GetTeam(pSpawner->GetTeam()));
-        if (pTeam == NULL || pTeam->GetTeamID() > 2)
+        if (pTeam == nullptr || pTeam->GetTeamID() > 2)
             continue;
 
         bool bTarget1(true);
         bool bTarget2(true);
 
         IUnitEntity *pTarget1(GetUnitFromUniqueID(pSpawner->GetTargetUID(1)));
-        if (pTarget1 == NULL || pTarget1->GetStatus() != ENTITY_STATUS_ACTIVE)
+        if (pTarget1 == nullptr || pTarget1->GetStatus() != ENTITY_STATUS_ACTIVE)
             bTarget1 = false;
         IUnitEntity *pTarget2(GetUnitFromUniqueID(pSpawner->GetTargetUID(2)));
-        if (pTarget2 == NULL || pTarget2->GetStatus() != ENTITY_STATUS_ACTIVE)
+        if (pTarget2 == nullptr || pTarget2->GetStatus() != ENTITY_STATUS_ACTIVE)
             bTarget2 = false;
 
         if (!bTarget1 && !bTarget2)
@@ -9223,11 +9223,11 @@ void    CGameServer::SpawnCreeps()
     for (uivector_it it(vSpawners.begin()); it != itEnd; ++it)
     {
         CEntityCreepSpawner *pSpawner(Game.GetEntity(*it)->GetAs<CEntityCreepSpawner>());
-        if (pSpawner == NULL)
+        if (pSpawner == nullptr)
             continue;
 
         CTeamInfo *pTeam(GetTeam(pSpawner->GetTeam()));
-        if (pTeam == NULL || (GetWinningTeam() != TEAM_INVALID && pTeam->GetTeamID() != GetWinningTeam()))
+        if (pTeam == nullptr || (GetWinningTeam() != TEAM_INVALID && pTeam->GetTeamID() != GetWinningTeam()))
             continue;
 
         bool bMegaCreeps(aMegaCreeps[pTeam->GetTeamID()] || pTeam->GetTeamID() == GetWinningTeam());
@@ -9242,14 +9242,14 @@ void    CGameServer::SpawnCreeps()
         if (!aMegaCreeps[pTeam->GetTeamID()])
         {
             IGameEntity *pTarget(Game.GetEntityFromUniqueID(pSpawner->GetTargetUID(3)));
-            if (pTarget != NULL)
+            if (pTarget != nullptr)
             {
                 CEntityCreepSpawner *pOppositeSpawner(pTarget->GetAs<CEntityCreepSpawner>());
-                if (pOppositeSpawner != NULL)
+                if (pOppositeSpawner != nullptr)
                 {
-                    if (Game.GetEntityFromUniqueID(pOppositeSpawner->GetTargetUID(1)) == NULL)
+                    if (Game.GetEntityFromUniqueID(pOppositeSpawner->GetTargetUID(1)) == nullptr)
                         iMeleeCreepLevel = 2;
-                    if (Game.GetEntityFromUniqueID(pOppositeSpawner->GetTargetUID(2)) == NULL)
+                    if (Game.GetEntityFromUniqueID(pOppositeSpawner->GetTargetUID(2)) == nullptr)
                         iRangedCreepLevel = 2;
                 }
             }
@@ -9292,7 +9292,7 @@ void    CGameServer::SpawnCreeps()
   ====================*/
 void    CGameServer::SpawnPowerup()
 {
-    if (Game.GetEntityFromUniqueID(m_uiPowerupUID) != NULL)
+    if (Game.GetEntityFromUniqueID(m_uiPowerupUID) != nullptr)
         return;
 
     // Get a list of all powerup spawn locations
@@ -9307,7 +9307,7 @@ void    CGameServer::SpawnPowerup()
     uint uiRand(M_Randnum(0u, uint(vSpawnPoints.size() - 1))); 
 
     CEntityPowerupSpawner *pSpawnPoint(Game.GetEntity(vSpawnPoints[uiRand])->GetAs<CEntityPowerupSpawner>());
-    if (pSpawnPoint == NULL)
+    if (pSpawnPoint == nullptr)
         return;
 
     // Pick powerup type
@@ -9320,7 +9320,7 @@ void    CGameServer::SpawnPowerup()
 
     // Spawn the powerup
     IGameEntity *pNewEnt(Game.AllocateEntity(unType));
-    if (pNewEnt == NULL || !pNewEnt->IsVisual())
+    if (pNewEnt == nullptr || !pNewEnt->IsVisual())
     {
         Console.Warn << _T("Failed to spawn powerup: ") << unType << newl;
         return;
@@ -9352,7 +9352,7 @@ void    CGameServer::SpawnCritters()
     uint uiCount(0);
 
     IVisualEntity *pEntity(Game.GetEntityFromName(_T("_critter")));
-    while (pEntity != NULL)
+    while (pEntity != nullptr)
     {
         ++uiCount;
         pEntity = Game.GetNextEntityFromName(pEntity);
@@ -9375,7 +9375,7 @@ void    CGameServer::SpawnCritters()
         uint uiRand(M_Randnum(0u, uint(vSpawnPoints.size() - 1))); 
 
         CEntityCritterSpawner *pSpawnPoint(Game.GetEntity(vSpawnPoints[uiRand])->GetAs<CEntityCritterSpawner>());
-        if (pSpawnPoint == NULL)
+        if (pSpawnPoint == nullptr)
             continue;
 
         // Don't respawn if something is near (including corpses)
@@ -9388,7 +9388,7 @@ void    CGameServer::SpawnCritters()
         for (; it != itEnd; ++it)
         {
             IUnitEntity *pUnit(Game.GetUnitEntity(Game.GetGameIndexFromWorldIndex(*it)));
-            if (pUnit == NULL)
+            if (pUnit == nullptr)
                 continue;
             if (pUnit->GetStatus() != ENTITY_STATUS_ACTIVE &&
                 pUnit->GetStatus() != ENTITY_STATUS_DEAD &&
@@ -9407,9 +9407,9 @@ void    CGameServer::SpawnCritters()
 
         // Spawn the critter
         IGameEntity *pNewEnt(Game.AllocateEntity(unType));
-        if (pNewEnt == NULL || !pNewEnt->IsUnit())
+        if (pNewEnt == nullptr || !pNewEnt->IsUnit())
         {
-            if (pNewEnt != NULL)
+            if (pNewEnt != nullptr)
                 DeleteEntity(pNewEnt);
 
             Console.Warn << _T("Failed to spawn critter: ") << unType << newl;
@@ -9456,7 +9456,7 @@ ushort  CGameServer::GetVision(float fX, float fY) const
   ====================*/
 void    CGameServer::UpdateUnitVisibility(IUnitEntity *pUnit)
 {
-    if (pUnit == NULL)
+    if (pUnit == nullptr)
         return;
 
     int iVisibilityTileWidth(GetWorldPointer()->GetTileWidth() / m_uiVisibilitySize);
@@ -9568,7 +9568,7 @@ void    CGameServer::UpdateVisibility()
 
                 byte yVision(SIGHTED_BIT);
                 CPlayer *pPlayer(pUnit->GetOwnerPlayer());
-                if (pPlayer != NULL)
+                if (pPlayer != nullptr)
                     yVision |= PLAYER_SIGHTED_BIT << pPlayer->GetTeamIndex();
 
                 if (GetWorldPointer()->ClipRect(recRegion, VIS_TILE_SPACE))
@@ -9604,11 +9604,11 @@ void    CGameServer::UpdateVisibility()
             for (uivector_it it(vEntities.begin()); it != vEntities.end(); ++it)
             {
                 IGameEntity *pTargetEntity(GetEntityFromWorldIndex(*it));
-                if (pTargetEntity == NULL)
+                if (pTargetEntity == nullptr)
                     continue;
 
                 IUnitEntity *pTargetUnit(pTargetEntity->GetAsUnit());
-                if (pTargetUnit == NULL)
+                if (pTargetUnit == nullptr)
                     continue;
 
                 if (pTargetUnit->GetTeam() == pUnit->GetTeam())
@@ -9629,7 +9629,7 @@ void    CGameServer::UpdateVisibility()
             vEntities.clear();
 
             ISlaveEntity *pSlave(pUnit->GetSlave(ui));
-            if (pSlave == NULL)
+            if (pSlave == nullptr)
                 continue;
 
             if (pSlave->IsState())
@@ -9637,7 +9637,7 @@ void    CGameServer::UpdateVisibility()
                 if (pSlave->GetSighted())
                 {
                     IUnitEntity *pInflictor(pSlave->GetAsState()->GetInflictor());
-                    if (pInflictor != NULL)
+                    if (pInflictor != nullptr)
                     {
                         int iTeam(pInflictor->GetTeam());
                         if (iTeam == TEAM_1 || iTeam == TEAM_2)
@@ -9660,11 +9660,11 @@ void    CGameServer::UpdateVisibility()
             for (uivector_it it(vEntities.begin()); it != vEntities.end(); ++it)
             {
                 IGameEntity *pTargetEntity(GetEntityFromWorldIndex(*it));
-                if (pTargetEntity == NULL)
+                if (pTargetEntity == nullptr)
                     continue;
 
                 IUnitEntity *pTargetUnit(pTargetEntity->GetAsUnit());
-                if (pTargetUnit == NULL)
+                if (pTargetUnit == nullptr)
                     continue;
 
                 if (pTargetUnit->GetTeam() == pUnit->GetTeam())
@@ -9693,11 +9693,11 @@ void    CGameServer::UpdateVisibility()
             for (uivector_it it(vEntities.begin()); it != vEntities.end(); ++it)
             {
                 IGameEntity *pTargetEntity(GetEntityFromWorldIndex(*it));
-                if (pTargetEntity == NULL)
+                if (pTargetEntity == nullptr)
                     continue;
 
                 IUnitEntity *pTargetUnit(pTargetEntity->GetAsUnit());
-                if (pTargetUnit == NULL)
+                if (pTargetUnit == nullptr)
                     continue;
 
                 if (pTargetUnit->GetTeam() == pUnit->GetTeam())
@@ -9755,7 +9755,7 @@ void    CGameServer::UpdateVisibility()
     {
         CEntityNeutralCampController *pCamp(Game.GetEntityAs<CEntityNeutralCampController>(*it));
 
-        if (pCamp == NULL)
+        if (pCamp == nullptr)
             continue;
 
         float fX(pCamp->GetPosition().x);
@@ -9799,7 +9799,7 @@ void    CGameServer::UpdateVisibility()
     {
         CEntityBossController *pCamp(Game.GetEntityAs<CEntityBossController>(*it));
         
-        if (pCamp == NULL)
+        if (pCamp == nullptr)
             continue;
 
         float fX(pCamp->GetPosition().x);
@@ -9882,13 +9882,13 @@ void    CGameServer::Precache(ushort unType, EPrecacheScheme eScheme, const tstr
   ====================*/
 void    CGameServer::SendPopup(const CPopup *pPopup, IUnitEntity *pSource, IUnitEntity *pTarget, ushort unValue)
 {
-    if (pPopup == NULL)
+    if (pPopup == nullptr)
         return;
 
-    if (pTarget == NULL)
+    if (pTarget == nullptr)
         pTarget = pSource;
 
-    if (pSource == NULL || pTarget == NULL)
+    if (pSource == nullptr || pTarget == nullptr)
         return;
 
     CPlayer *pTargetPlayer(GetPlayer(pTarget->GetOwnerClientNumber()));
@@ -9909,7 +9909,7 @@ void    CGameServer::SendPopup(const CPopup *pPopup, IUnitEntity *pSource, IUnit
     // Send to target client only
     if (pPopup->GetSelfOnly())
     {
-        if (pTargetPlayer == NULL)
+        if (pTargetPlayer == nullptr)
             return;
 
         if (!pTargetPlayer->CanSee(pSource))
@@ -9923,7 +9923,7 @@ void    CGameServer::SendPopup(const CPopup *pPopup, IUnitEntity *pSource, IUnit
     for (PlayerMap_it itPlayer(m_mapClients.begin()); itPlayer != m_mapClients.end(); ++itPlayer)
     {
         CPlayer *pPlayer(itPlayer->second);
-        if (pPlayer == NULL)
+        if (pPlayer == nullptr)
             continue;
         if (pPlayer->IsDisconnected())
             continue;
@@ -9957,13 +9957,13 @@ void    CGameServer::SendPopup(EPopup eType, IUnitEntity *pSource, IUnitEntity *
   ====================*/
 void    CGameServer::SendPing(const CPing *pPing, IUnitEntity *pSource, IUnitEntity *pTarget, byte yX, byte yY)
 {
-    if (pPing == NULL)
+    if (pPing == nullptr)
         return;
 
-    if (pSource == NULL)
+    if (pSource == nullptr)
         return;
 
-    if (pTarget == NULL)
+    if (pTarget == nullptr)
         pTarget = pSource;
 
     CPlayer *pSourcePlayer(GetPlayer(pSource->GetOwnerClientNumber()));
@@ -9981,7 +9981,7 @@ void    CGameServer::SendPing(const CPing *pPing, IUnitEntity *pSource, IUnitEnt
     // Send to source client only
     if (pPing->GetSelfOnly())
     {
-        if (pSourcePlayer == NULL)
+        if (pSourcePlayer == nullptr)
             return;
 
         SendGameData(pSourcePlayer->GetClientNumber(), buffer, sv_reliablePings);
@@ -9992,7 +9992,7 @@ void    CGameServer::SendPing(const CPing *pPing, IUnitEntity *pSource, IUnitEnt
     if (pPing->GetTargetOnly())
     {
         CPlayer *pTargetPlayer(GetPlayer(pTarget->GetOwnerClientNumber()));
-        if (pTargetPlayer == NULL)
+        if (pTargetPlayer == nullptr)
             return;
 
         SendGameData(pTargetPlayer->GetClientNumber(), buffer, sv_reliablePings);
@@ -10003,7 +10003,7 @@ void    CGameServer::SendPing(const CPing *pPing, IUnitEntity *pSource, IUnitEnt
     for (PlayerMap_it itPlayer(m_mapClients.begin()); itPlayer != m_mapClients.end(); ++itPlayer)
     {
         CPlayer *pPlayer(itPlayer->second);
-        if (pPlayer == NULL)
+        if (pPlayer == nullptr)
             continue;
         if (pPlayer->IsDisconnected())
             continue;
@@ -10037,13 +10037,13 @@ void    CGameServer::SendPing(EPing eType, IUnitEntity *pSource, IUnitEntity *pT
   ====================*/
 void    CGameServer::SendUnitPing(const CPing *pPing, IUnitEntity *pSource, IUnitEntity *pTarget)
 {
-    if (pPing == NULL)
+    if (pPing == nullptr)
         return;
 
-    if (pSource == NULL)
+    if (pSource == nullptr)
         return;
 
-    if (pTarget == NULL)
+    if (pTarget == nullptr)
         return;
 
     CPlayer *pSourcePlayer(GetPlayer(pSource->GetOwnerClientNumber()));
@@ -10061,7 +10061,7 @@ void    CGameServer::SendUnitPing(const CPing *pPing, IUnitEntity *pSource, IUni
     for (PlayerMap_it itPlayer(m_mapClients.begin()); itPlayer != m_mapClients.end(); ++itPlayer)
     {
         CPlayer *pPlayer(itPlayer->second);
-        if (pPlayer == NULL)
+        if (pPlayer == nullptr)
             continue;
         if (pPlayer->IsDisconnected())
             continue;
@@ -10098,7 +10098,7 @@ void    CGameServer::UnitRespawned(uint uiIndex)
     for (UnitList_cit it(lUnits.begin()); it != itEnd; ++it)
     {
         IUnitEntity *pUnit(*it);
-        if (pUnit == NULL ||
+        if (pUnit == nullptr ||
             pUnit->GetOwnerIndex() != uiIndex)
             continue;
 
@@ -10117,7 +10117,7 @@ void    CGameServer::UnitKilled(uint uiIndex)
     for (UnitList_cit it(lUnits.begin()); it != itEnd; ++it)
     {
         IUnitEntity *pUnit(*it);
-        if (pUnit == NULL ||
+        if (pUnit == nullptr ||
             !pUnit->GetDieWithOwner() ||
             pUnit->GetOwnerIndex() != uiIndex)
             continue;
@@ -10137,7 +10137,7 @@ void    CGameServer::GetServerInfo(CPacket &pkt)
     pkt.WriteByte(GetTeamSize());
 
     CGameInfo *pGameInfo(GetGameInfo());
-    if (pGameInfo != NULL)
+    if (pGameInfo != nullptr)
         pkt.WriteInt(pGameInfo->GetGameOptions());
     else
         pkt.WriteInt(0);
@@ -10159,7 +10159,7 @@ void    CGameServer::GetReconnectInfo(CPacket &pkt, uint uiMatchID, uint uiAccou
     }
 
     CGameInfo *pGameInfo(GetGameInfo());
-    if (pGameInfo == NULL)
+    if (pGameInfo == nullptr)
     {
         //Console << _CTS("Invalid CGameInfo") << newl;
         pkt.WriteInt(0);
@@ -10176,7 +10176,7 @@ void    CGameServer::GetReconnectInfo(CPacket &pkt, uint uiMatchID, uint uiAccou
         return;
     }
 
-    CPlayer *pPlayer(NULL);
+    CPlayer *pPlayer(nullptr);
     for (PlayerMap_it itPlayer(m_mapClients.begin()); itPlayer != m_mapClients.end(); ++itPlayer)
     {
         if (itPlayer->second->GetAccountID() != uiAccountID)
@@ -10186,7 +10186,7 @@ void    CGameServer::GetReconnectInfo(CPacket &pkt, uint uiMatchID, uint uiAccou
         break;
     }
 
-    if (pPlayer == NULL)
+    if (pPlayer == nullptr)
     {
         //Console << _CTS("Player does not exist") << newl;
         pkt.WriteInt(0);
@@ -10223,13 +10223,13 @@ void    CGameServer::GetGameStatus(CPacket &pkt)
   ====================*/
 void    CGameServer::GetHeartbeatInfo(CHTTPRequest *pHeartbeat)
 {
-    if (pHeartbeat == NULL)
+    if (pHeartbeat == nullptr)
         return;
 
     pHeartbeat->AddVariable(_T("mname"), GetGameName());
 
     CGameInfo *pGameInfo(GetGameInfo());
-    if (pGameInfo == NULL)
+    if (pGameInfo == nullptr)
     {
         Console.Err << _T("Invalid game info!") << newl;
         return;
@@ -10327,7 +10327,7 @@ void    CGameServer::ProcessAuxData(int iClientNum, const CPHPData *pData)
 {
     CPlayer *pPlayer(GetPlayer(iClientNum));
 
-    if (pPlayer == NULL)
+    if (pPlayer == nullptr)
         return;
 
     CPlayerAccountHistory accHistory(pData);
@@ -10358,7 +10358,7 @@ void    CGameServer::RegisterShopInfo()
         {
             CItemDefinition *pItemDefinition(EntityRegistry.GetDefinition<CItemDefinition>(itEntity->first));
 
-            if (pItemDefinition == NULL || pItemDefinition->GetMaxStock() == 0)
+            if (pItemDefinition == nullptr || pItemDefinition->GetMaxStock() == 0)
                 continue;
 
             CShopItemInfo *pShopItem = static_cast<CShopItemInfo *>(m_pServerEntityDirectory->Allocate(Shop_ItemInfo));
@@ -10400,11 +10400,11 @@ void    CGameServer::ClientStateChange(int iClientNum, EClientConnectionState eS
     if (eState == CLIENT_CONNECTION_STATE_IN_GAME)
     {
         CPlayer *pPlayer(GetPlayer(iClientNum));
-        if (pPlayer != NULL)
+        if (pPlayer != nullptr)
         {
             CGameInfo *pGameInfo(GetGameInfo());
-            if (pGameInfo != NULL)
-                pGameInfo->ExecuteActionScript(ACTION_SCRIPT_ENTER_GAME, pGameInfo, NULL, pPlayer, V3_ZERO);
+            if (pGameInfo != nullptr)
+                pGameInfo->ExecuteActionScript(ACTION_SCRIPT_ENTER_GAME, pGameInfo, nullptr, pPlayer, V3_ZERO);
         }
     }
 }
@@ -10417,7 +10417,7 @@ void    CGameServer::UpdateUpgrades(int iClientNum)
 {
     CPlayer *pPlayer(GetPlayer(iClientNum));
     CClientConnection *pClientConnection(m_pHostServer->GetClient(iClientNum));
-    if (pPlayer != NULL && pClientConnection != NULL)
+    if (pPlayer != nullptr && pClientConnection != nullptr)
     {
         pPlayer->UpdateUpgrades(pClientConnection);
     }
@@ -10430,7 +10430,7 @@ void    CGameServer::UpdateUpgrades(int iClientNum)
 void    CGameServer::SelectBaseAvatar(int iClientNumber)
 {
     CPlayer *pPlayer(GetPlayerFromClientNumber(iClientNumber));
-    if (pPlayer == NULL)
+    if (pPlayer == nullptr)
         return;
 
     pPlayer->SetSelectedAvatarBits(0);

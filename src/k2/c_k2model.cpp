@@ -45,8 +45,8 @@ CK2Model::CK2Model() :
 IModel(MODEL_K2),
 m_iVersion(0),
 m_iGroundPlane(0),
-m_pBoneMapping(NULL),
-m_pSprites(NULL),
+m_pBoneMapping(nullptr),
+m_pSprites(nullptr),
 m_iNumSprites(0),
 m_bAltDefaultMat(0),
 m_sAltDefaultMat(_T("")),
@@ -76,7 +76,7 @@ bool    CK2Model::Load(const tstring &sFilename, uint uiIgnoreFlags)
 {
     PROFILE("CK2Model::Load");
 
-    bool bGood(LoadModel(sFilename, NULL, uiIgnoreFlags));
+    bool bGood(LoadModel(sFilename, nullptr, uiIgnoreFlags));
 
     // Load Lods
     if (bGood)
@@ -84,7 +84,7 @@ bool    CK2Model::Load(const tstring &sFilename, uint uiIgnoreFlags)
         if (m_fLodDistance > 0.0f)
         {
             int i(1);
-            CK2Model *pLod(NULL);
+            CK2Model *pLod(nullptr);
 
             do
             {
@@ -150,7 +150,7 @@ CAnim*  CK2Model::GetAnim(const tstring &sName)
 {
     AnimsMap::iterator findit = m_mapAnims.find(sName);
     if (findit == m_mapAnims.end())
-        return NULL;
+        return nullptr;
     else
         return findit->second;
 }
@@ -163,7 +163,7 @@ CAnim*  CK2Model::GetAnim(uint uiIndex)
 {
     AnimIndicesMap::iterator findit = m_mapAnimIndicies.find(uiIndex);
     if (findit == m_mapAnimIndicies.end())
-        return NULL;
+        return nullptr;
     else
         return findit->second;
 }
@@ -188,7 +188,7 @@ uint    CK2Model::GetAnimIndex(const tstring &sName)
   ====================*/
 void    CK2Model::AddAnim(const tstring &sName, CAnim *pAnim)
 {
-    if (pAnim == NULL)
+    if (pAnim == nullptr)
         return;
 
     AnimsMap::iterator itFind(m_mapAnims.find(sName));
@@ -225,7 +225,7 @@ CBone*  CK2Model::GetBone(const tstring &sName)
 {
     BoneIndicesMap::iterator findit = m_mapBoneIndices.find(sName);
     if (findit == m_mapBoneIndices.end())
-        return NULL;
+        return nullptr;
     else
         return &m_vBones[findit->second];
 }
@@ -235,7 +235,7 @@ CBone*  CK2Model::GetBone(uint zIndex)
     if (zIndex < m_vBones.size())
         return &m_vBones[zIndex];
     else
-        return NULL;
+        return nullptr;
 }
 
 
@@ -303,7 +303,7 @@ CMesh*  CK2Model::GetMesh(const tstring &sName)
             return &(*it);
     }
 
-    return NULL;
+    return nullptr;
 }
 
 
@@ -1468,7 +1468,7 @@ bool    CK2Model::LoadModel(const tstring &sFilename, CK2Model *pBaseLod, uint u
 
         uint uiBufferLen;
         const char *pBuffer = hModelFile.GetBuffer(uiBufferLen);
-        if (pBuffer == NULL)
+        if (pBuffer == nullptr)
             EX_WARN(_T("Invalid model file"));
 
         // Check header
@@ -1524,7 +1524,7 @@ uint    CK2Model::GetNumMaterials() const
 ResHandle   CK2Model::GetResourceHandle() const
 {
     CModel* pModel(GetModel());
-    if (pModel == NULL)
+    if (pModel == nullptr)
         return INVALID_RESOURCE;
 
     return pModel->GetHandle();
