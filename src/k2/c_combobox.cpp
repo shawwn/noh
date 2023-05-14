@@ -185,7 +185,9 @@ void    CComboBox::MouseDown(EButton button, const CVec2f &v2CursorPos)
 {
     if (button != BUTTON_MOUSEL)
     {
-        if (!m_pListBox->GetRect().AltContains(v2CursorPos - m_recArea.lt()))
+        if (button != BUTTON_WHEELUP && button != BUTTON_WHEELDOWN &&
+            button != BUTTON_WHEELLEFT && button != BUTTON_WHEELRIGHT &&
+            !m_pListBox->GetRect().AltContains(v2CursorPos - m_recArea.lt()))
         {
             m_pInterface->SetActiveWidget(nullptr);
             m_pInterface->SetExclusiveWidget(nullptr);
