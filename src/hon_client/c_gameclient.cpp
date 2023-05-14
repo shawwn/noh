@@ -3406,7 +3406,7 @@ bool    CGameClient::ProcessSnapshot(CSnapshot &snapshot)
 
         static CEntitySnapshot entSnapshot;
 
-        START_PROFILE("Translate Entities")
+        START_PROFILE("Translate Entities");
 
         uint uiLastIndex(0);
 
@@ -3510,9 +3510,9 @@ bool    CGameClient::ProcessSnapshot(CSnapshot &snapshot)
             }
         }
 
-        END_PROFILE // Translate Entities
+        END_PROFILE; // Translate Entities
 
-        START_PROFILE("Process")
+        START_PROFILE("Process");
 
         // Process full snapshot
         for (SnapshotVector_cit citEntity(vBaseEntities.begin()); citEntity != vBaseEntities.end(); ++citEntity)
@@ -3886,7 +3886,7 @@ bool    CGameClient::ProcessSnapshot(CSnapshot &snapshot)
 
         m_pClientEntityDirectory->CleanupEntities();
 
-        END_PROFILE // Process
+        END_PROFILE; // Process
 
         // Give events that just spawned a chance to synch with entities that arrived in the same frame
         SynchNewEvents();

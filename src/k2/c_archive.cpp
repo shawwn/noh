@@ -245,7 +245,7 @@ bool    CArchive::CancelWrite()
             SAFE_DELETE(m_pZipFile);
     }
 
-    SAFE_DELETE(m_pUnzipFile)
+    SAFE_DELETE(m_pUnzipFile);
     return true;
 }
 

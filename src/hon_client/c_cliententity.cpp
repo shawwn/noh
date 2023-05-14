@@ -11,23 +11,17 @@
 #include "c_cliententity.h"
 #include "c_gameclient.h"
 
-#include "../hon_shared/c_player.h"
 #include "../hon_shared/c_entityeffect.h"
 #include "../hon_shared/c_teaminfo.h"
 #include "../hon_shared/i_projectile.h"
-#include "../hon_shared/i_unitentity.h"
 #include "../hon_shared/i_gadgetentity.h"
 #include "../hon_shared/i_heroentity.h"
 
-#include "../k2/c_entitysnapshot.h"
-#include "../k2/c_world.h"
 #include "../k2/c_effect.h"
 #include "../k2/c_effectthread.h"
 #include "../k2/c_particlesystem.h"
 #include "../k2/c_scenemanager.h"
 #include "../k2/c_draw2d.h"
-#include "../k2/s_traceinfo.h"
-#include "../k2/c_input.h"
 #include "../k2/c_soundmanager.h"
 #include "../k2/c_texture.h"
 #include "../k2/c_sceneentitymodifier.h"
@@ -85,11 +79,11 @@ m_hModelLinked(INVALID_RESOURCE),
 
 m_hNextClientEntity(INVALID_POOL_OFFSET)
 {
-    for (int i(0); i < NUM_CLIENT_EFFECT_THREADS; ++i)
-        m_apEffectThread[i] = nullptr;
+    for (auto & refThread : m_apEffectThread)
+        refThread = nullptr;
 
-    for (int i(0); i < NUM_CLIENT_SOUND_HANDLES; ++i)
-        m_ahSoundHandle[i] = INVALID_INDEX;
+    for (unsigned int & refSoundHandle : m_ahSoundHandle)
+        refSoundHandle = INVALID_INDEX;
 }
 
 
@@ -151,6 +145,15 @@ void    CClientEntity::SetSkeleton(CSkeleton *pSkeleton)
 
 
 /*====================
+  CClientEntity::SetWorldIndex
+  ====================*/
+void    CClientEntity::SetWorldIndex(uint uiWorldIndex)
+{
+    m_pNextState->SetWorldIndex(uiWorldIndex);
+}
+
+
+/*====================
   CClientEntity::GetWorldIndex
   ====================*/
 uint    CClientEntity::GetWorldIndex() const
@@ -184,13 +187,13 @@ void    CClientEntity::Free()
         GameClient.DeleteWorldEntity(uiWorldIndex);
     }
 
-    for (int i(0); i < NUM_CLIENT_EFFECT_THREADS; ++i)
-        SAFE_DELETE(m_apEffectThread[i]);
+    for (auto& it : m_apEffectThread)
+        SAFE_DELETE(it);
 
-    for (int i(0); i < NUM_CLIENT_SOUND_HANDLES; ++i)
+    for (unsigned int hSound : m_ahSoundHandle)
     {
-        if (m_ahSoundHandle[i] != INVALID_INDEX)
-            K2SoundManager.StopHandle(m_ahSoundHandle[i]);
+        if (hSound != INVALID_INDEX)
+            K2SoundManager.StopHandle(hSound);
     }
 
     SAFE_DELETE(m_pSkeleton);
@@ -279,12 +282,12 @@ void    CClientEntity::Initialize(IVisualEntity *pEntity)
             SAFE_DELETE(m_apEffectThread[i]);
         }
 
-        for (int i(0); i < NUM_CLIENT_SOUND_HANDLES; ++i)
+        for (unsigned int & hSoundRef : m_ahSoundHandle)
         {
-            if (m_ahSoundHandle[i] != INVALID_INDEX)
+            if (hSoundRef != INVALID_INDEX)
             {
-                K2SoundManager.StopHandle(m_ahSoundHandle[i]);
-                m_ahSoundHandle[i] = INVALID_INDEX;
+                K2SoundManager.StopHandle(hSoundRef);
+                hSoundRef = INVALID_INDEX;
             }
         }
 
@@ -597,20 +600,20 @@ void    CClientEntity::AddToScene()
         m_uiFlags &= ~CE_SOUND_ACTIVE;
 
         CPlayer *pLocalPlayer(Game.GetLocalPlayer());
-        bool bMute(pLocalPlayer ? !pLocalPlayer->CanSee(m_pCurrentState) : false);
+        bool bMute(pLocalPlayer != nullptr && !pLocalPlayer->CanSee(m_pCurrentState));
 
-        for (int i(0); i < NUM_CLIENT_SOUND_HANDLES; ++i)
+        for (unsigned int & hSoundRef : m_ahSoundHandle)
         {
-            if (m_ahSoundHandle[i] == INVALID_INDEX)
+            if (hSoundRef == INVALID_INDEX)
                 continue;
 
-            if (!K2SoundManager.UpdateHandle(m_ahSoundHandle[i], m_pCurrentState->GetPosition(), m_pCurrentState->GetVelocity()))
+            if (!K2SoundManager.UpdateHandle(hSoundRef, m_pCurrentState->GetPosition(), m_pCurrentState->GetVelocity()))
             {
-                m_ahSoundHandle[i] = INVALID_INDEX;
+                hSoundRef = INVALID_INDEX;
             }
             else
             {
-                K2SoundManager.SetMute(m_ahSoundHandle[i], bMute);
+                K2SoundManager.SetMute(hSoundRef, bMute);
                 m_uiFlags |= CE_SOUND_ACTIVE;
             }
         }
@@ -980,10 +983,8 @@ void    CClientEntity::AddToScene()
                 // Update and render all particles systems associated with this effect thread
                 const InstanceMap &mapInstances(m_apEffectThread[i]->GetInstances());
                 m_apEffectThread[i]->SetCustomVisibility(m_pCurrentState->GetShowEffects());
-                for (InstanceMap::const_iterator it(mapInstances.begin()); it != mapInstances.end(); ++it)
+                for (auto && [sName, pParticleSystem] : mapInstances)
                 {
-                    IEffectInstance *pParticleSystem(it->second);
-
                     pParticleSystem->Update(GameClient.GetGameTime(), CGameClient::ParticleTrace);
 
                     if (!pParticleSystem->IsDead() && m_pCurrentState->GetShowEffects())
@@ -1091,7 +1092,7 @@ int     CClientEntity::StartEffect(ResHandle hEffect, int iChannel, int iTimeNud
         m_pCurrentState->UpdateEffectThreadSource(m_apEffectThread[iChannel]);
         
         if (m_apEffectThread[iChannel]->Execute(GameClient.GetGameTime() + iTimeNudge))
-            SAFE_DELETE(m_apEffectThread[iChannel])
+            SAFE_DELETE(m_apEffectThread[iChannel]);
         else
             m_uiFlags |= CE_EFFECT_THREAD_ACTIVE;
     }
@@ -1176,7 +1177,7 @@ void    CClientEntity::ExpireEffect(CEffectThread *&pEffectThread)
   ====================*/
 void    CClientEntity::PassEffects()
 {
-    for (int i(0); i < NUM_CLIENT_EFFECT_THREADS; ++i)
+    for (int i(0); i < NUM_CLIENT_EFFECT_THREADS; ++i) // NOLINT(modernize-loop-convert)
     {
         if (!m_apEffectThread[i])
             continue;
@@ -1295,10 +1296,10 @@ void    CClientEntity::StopSound(int iChannel)
   ====================*/
 void    CClientEntity::StopAllSounds()
 {
-    for (int i(0); i < NUM_CLIENT_SOUND_HANDLES; ++i)
+    for (unsigned int hSound : m_ahSoundHandle)
     {
-        if (m_ahSoundHandle[i] != INVALID_INDEX)
-            K2SoundManager.StopHandle(m_ahSoundHandle[i]);
+        if (hSound != INVALID_INDEX)
+            K2SoundManager.StopHandle(hSound);
     }
 }
 

@@ -705,7 +705,7 @@ private:
     uint            m_uiLastUpdateTime = 0;
 
     tstring         m_sPreviewMapName;
-    int             m_iPreviewMapSize{} = 0;
+    int             m_iPreviewMapSize = 0;
 
     tsvector        m_vLastGameStatsSummary;
     tsvector        m_vLastGameStatsPlayers[MAX_DISPLAY_TEAMS][MAX_DISPLAY_PLAYERSPERTEAM];
@@ -720,11 +720,11 @@ private:
 
     tstring         m_sTestReplayURL;
     int             m_iReplayURLTesting = 0;
-    bool            m_bReplayURLValid{} = false;
+    bool            m_bReplayURLValid = false;
     CFileHTTP       m_fileTestReplayURL;
-    uint            m_uiTestReplayURLSize{} = 0;
+    uint            m_uiTestReplayURLSize = 0;
     
-    int             m_iRequestedStatsAccountID{} = 0;
+    int             m_iRequestedStatsAccountID = 0;
     CHTTPRequest*   m_pStatsRequest = nullptr;
     CHTTPRequest*   m_pMatchInfoRequest = nullptr;
     CHTTPRequest*   m_pTournamentRequest = nullptr;
@@ -737,7 +737,6 @@ private:
 
     void    UpdateLogin();
     void    UpdateChangePassword();
-    void    UpdateAccountInfo();
     void    UpdateGameOver();
     void    UpdateGameMenu();
     void    UpdateActiveInventory(IUnitEntity *pUnit, int iStartSlot, int iEndSlot);
@@ -802,13 +801,13 @@ public:
     void    SetAlliesVisible(bool b)    { cg_displayAllies = b; }
 
     void    SetScoreState(uint uiState) { m_uiScoreState = uiState; }
-    uint    GetScoreState()             { return m_uiScoreState; }
+    uint    GetScoreState() const       { return m_uiScoreState; }
     
     void        LoadMainInterfaces();
     void        LoadGameInterfaces();
     ResHandle   LoadGameInterface(const tstring &sName);
     void        ForceUpdate();
-    bool        IsFullUpdate()          { return m_uiLastUpdateSequence != m_uiUpdateSequence; }
+    bool        IsFullUpdate() const    { return m_uiLastUpdateSequence != m_uiUpdateSequence; }
 
     // Trigger management
     void    AddTrigger(uint uiTriggerID, const tstring &sName, uint uiCount = 1);
@@ -823,12 +822,12 @@ public:
     }
 
     template<class T>
-    void    Trigger(uint uiTriggerID, T _Param, uint uiIndex = 0)
+    void    Trigger(uint uiTriggerID, T tParam, uint uiIndex = 0)
     {
         PROFILE("CGameInterfaceManager::Trigger");
         assert(uiTriggerID < NUM_UITRIGGERS);
         assert(m_vTriggers[uiTriggerID] != nullptr);
-        m_vTriggers[uiTriggerID]->Trigger(_Param, uiIndex, m_uiUpdateSequence);
+        m_vTriggers[uiTriggerID]->Trigger(tParam, uiIndex, m_uiUpdateSequence);
     }
 
     void    Trigger(uint uiTriggerID, const tstring &sParam, uint uiIndex = 0)

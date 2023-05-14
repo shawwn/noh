@@ -10,6 +10,8 @@
 
 #include "c_interface.h"
 
+#include <utility>
+
 #include "c_widgetstyle.h"
 #include "c_widgettemplate.h"
 #include "c_draw2d.h"
@@ -31,14 +33,13 @@ private:
     tstring m_sParentName;
 
 public:
-    ~CInterfacePackageCallback() {}
-    CInterfacePackageCallback(const tstring &sPath, const tstring &sParentName) :
+    CInterfacePackageCallback(const tstring &sPath, tstring sParentName) :
     IFileChangeCallback(sPath),
-    m_sParentName(sParentName)
+    m_sParentName(std::move(sParentName))
     {
     }
 
-    void    Execute();
+    void    Execute() override;
 };
 //=============================================================================
 
@@ -63,7 +64,7 @@ void    CInterfacePackageCallback::Execute()
 CInterface::~CInterface()
 {
     for (vector<CUITrigger*>::iterator it(m_vLocalTriggers.begin()); it != m_vLocalTriggers.end(); ++it)
-        SAFE_DELETE(*it)
+        SAFE_DELETE(*it);
 
     for (PackageCallbackVector::iterator it(m_vPackageCallbacks.begin()); it != m_vPackageCallbacks.end(); ++it)
     {
@@ -95,7 +96,6 @@ CInterface::~CInterface()
   ====================*/
 CInterface::CInterface(const CWidgetStyle& style) :
 IWidget(nullptr, nullptr, WIDGET_INTERFACE, style),
-m_sFilename(_T("")),
 m_pCurrentTemplate(nullptr),
 m_pActiveWidget(nullptr),
 m_pHoverWidget(nullptr),
@@ -841,8 +841,8 @@ void    CInterface::Frame(uint uiFrameLength, bool bProcessFrame)
     m_recSceneArea.SetSizeX(MIN<float>(CEIL_MULTIPLE(M_CeilPow2(int(scene_dimensionMultiple)), m_recSceneArea.GetWidth()), Draw2D.GetScreenW()));
     m_recSceneArea.SetSizeY(MIN<float>(CEIL_MULTIPLE(M_CeilPow2(int(scene_dimensionMultiple)), m_recSceneArea.GetHeight()), Draw2D.GetScreenH()));
 
-    for (map<tstring, CUIForm*>::iterator itForm(m_mapForms.begin()); itForm != m_mapForms.end(); ++itForm)
-        itForm->second->Frame();
+    for (auto && [sName, pForm] : m_mapForms)
+        pForm->Frame();
 
     IWidget::Frame(uiFrameLength, bProcessFrame);
 
