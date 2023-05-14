@@ -8,6 +8,8 @@
 //=============================================================================
 // Headers
 //=============================================================================
+#include <utility>
+
 #include "c_cliententity.h"
 
 #include "../hon_shared/c_player.h"
@@ -80,7 +82,7 @@ typedef ClientSnapshotDeque::iterator   ClientSnapshotDeque_it;
 
 struct SOverlayInfo
 {
-    ResHandle   hMaterial;
+    ResHandle   hMaterial = INVALID_RESOURCE;
     CVec4f      v4Color;
 };
 
@@ -100,9 +102,9 @@ struct SPopupMessage
 
 struct SMinimapPing
 {
-    ResHandle   hTexture;
+    ResHandle   hTexture = INVALID_RESOURCE;
     CVec2f      v2Pos;
-    uint        uiSpawnTime;
+    uint        uiSpawnTime = 0;
     CVec4f      v4Color;
 };
 
@@ -113,10 +115,8 @@ struct SWeatherInfo
     tstring     sLocalizedName;     // example: "Acid Rain" or "Chuva ��cida" or ... etc
 
     // Internal use
-    int         iEffectChannel;
-    ResHandle   hEffect;
-
-    SWeatherInfo() : iEffectChannel(-1), hEffect(INVALID_RESOURCE) {}
+    int         iEffectChannel = -1;
+    ResHandle   hEffect = INVALID_RESOURCE;
 };
 typedef map<uint, SWeatherInfo>     WeatherInfoMap;
 
@@ -210,9 +210,9 @@ struct SClientResourceLoadRequest
     int             m_iType;
     tstring         m_sName;
 
-    SClientResourceLoadRequest(EClientResource eID, const tstring &sName, int iType) :
+    SClientResourceLoadRequest(EClientResource eID, tstring sName, int iType) :
     m_eID(eID),
-    m_sName(sName),
+    m_sName(std::move(sName)),
     m_iType(iType)
     {}
 
@@ -248,23 +248,19 @@ struct SWorldThingSpawnRequest
     m_uiBitIndex(uiBitIndex)
     {}
 
-    SWorldThingSpawnRequest(EWorldThing eType, uint uiWorldIndex, uint uiGameIndex, const tstring &sName) :
+    SWorldThingSpawnRequest(EWorldThing eType, uint uiWorldIndex, uint uiGameIndex, tstring sName) :
     m_eType(eType),
     m_uiWorldIndex(uiWorldIndex),
     m_uiGameIndex(uiGameIndex),
     m_uiBitIndex(0),
-    m_sName(sName)
+    m_sName(std::move(sName))
     {}
 };
 
 class CEntityStringTableWatcher : public IResourceWatcher
 {
-private:
 public:
-    ~CEntityStringTableWatcher()    {}
-    CEntityStringTableWatcher() {}
-
-    void    Rebuild(ResHandle hResource);
+    void    Rebuild(ResHandle hResource) override;
 };
 
 struct SVoiceSet
@@ -272,8 +268,8 @@ struct SVoiceSet
     tstring     sArcadeText;
     ResHandle   hStartGame;
     ResHandle   hFirstBlood;
-    ResHandle   hKillstreak[9];
-    ResHandle   hMultikill[4];
+    ResHandle   hKillstreak[9] {};
+    ResHandle   hMultikill[4] {};
     ResHandle   hTeamKillstreak;
     ResHandle   hTeamWipe;
     ResHandle   hDenied;
@@ -325,11 +321,11 @@ struct SVoiceSet
     hUnpausing(INVALID_INDEX),
     hKongorSlain(INVALID_INDEX)
     {
-        for (int i(0); i < 9; ++i)
-            hKillstreak[i] = INVALID_INDEX;
+        for (ResHandle & hResRef : hKillstreak)
+            hResRef = INVALID_INDEX;
 
-        for (int i(0); i < 4; ++i)
-            hMultikill[i] = INVALID_INDEX;
+        for (ResHandle & hResRef : hMultikill)
+            hResRef = INVALID_INDEX;
     }
 };
 extern SVoiceSet    g_NullVoiceSet;
@@ -452,10 +448,9 @@ private:
     // World Sounds
     struct  SWorldSound
     {
-        SoundHandle hSound;
-        ResHandle   hSample;
-        uint        uiNextStartTime;
-        SWorldSound(SoundHandle sound = INVALID_INDEX, ResHandle sample = INVALID_INDEX, uint start = 0) : hSound(sound), hSample(sample), uiNextStartTime(start) {}
+        SoundHandle hSound = INVALID_INDEX;
+        ResHandle   hSample = INVALID_RESOURCE;
+        uint        uiNextStartTime = 0;
     };
     typedef map<int, SWorldSound>           SWorldSoundsMap;
     typedef SWorldSoundsMap::iterator       SWorldSoundsMap_it;
@@ -464,38 +459,6 @@ private:
 
     // Pinging
     bool                    m_bPinging;
-    bool                    m_bPingEffectActive;
-    
-    struct SOrders
-    {
-        byte    yOrder;
-        CVec3f  v3OrderPos;
-
-        bool operator<(const SOrders &B) const
-        {
-            if (yOrder < B.yOrder)
-                return true;
-            else if (yOrder > B.yOrder)
-                return false;
-
-            if (v3OrderPos.x < B.v3OrderPos.x)
-                return true;
-            else if (v3OrderPos.x > B.v3OrderPos.x)
-                return false;
-
-            if (v3OrderPos.y < B.v3OrderPos.y)
-                return true;
-            else if (v3OrderPos.y > B.v3OrderPos.y)
-                return false;
-            
-            if (v3OrderPos.z < B.v3OrderPos.z)
-                return true;
-            else if (v3OrderPos.z > B.v3OrderPos.z)
-                return false;
-
-            return false;
-        }
-    };
 
     // Interface
     vector<IVisualEntity *> m_vVision;
@@ -579,12 +542,12 @@ private:
     ResHandle   LookupAnnouncerVoiceSample(const tstring &sSet, const tstring &sKey);
 
 public:
-    ~CGameClient();
+    ~CGameClient() override;
     CGameClient();
 
-    bool                IsClient() const                                { return true; }
-    virtual int         GetLocalClientNum();
-    virtual CPlayer*    GetLocalPlayer()                                { return m_pLocalPlayer; }
+    bool                IsClient() const override                       { return true; }
+    int                 GetLocalClientNum() override;
+    CPlayer*            GetLocalPlayer() override                       { return m_pLocalPlayer; }
 
     static CGameClient* GetCurrentClientGamePointer()                   { return static_cast<CGameClient*>(GetCurrentGamePointer()); }
 
@@ -600,16 +563,16 @@ public:
     void                StartLoadingResources();
     void                LoadNextResource();
     bool                IsFinishedLoadingResources()                    { return ((m_bStartedLoadingResources && m_deqClientResources.empty() && m_deqReplayHeroResources.empty()) || m_bStartedLoadingEntityResources); }
-    float               GetResourceLoadingProgress()                    { return (m_uiTotalResourcesToLoad - INT_SIZE(m_deqClientResources.size()) - INT_SIZE(m_deqReplayHeroResources.size())) / float(m_uiTotalResourcesToLoad); }
+    float               GetResourceLoadingProgress()                    { return float(m_uiTotalResourcesToLoad - INT_SIZE(m_deqClientResources.size()) - INT_SIZE(m_deqReplayHeroResources.size())) / float(m_uiTotalResourcesToLoad); }
 
-    bool                IsSpawningEntities()                            { return m_bStartedSpawningEntities; }
+    bool                IsSpawningEntities() const                      { return m_bStartedSpawningEntities; }
     bool                IsFinishedSpawningEntities()                    { return m_bStartedSpawningEntities && m_deqWorldThings.empty(); }
-    float               GetEntitySpawningProgress()                     { return (m_uiTotalWorldThings - INT_SIZE(m_deqWorldThings.size())) / float(m_uiTotalWorldThings); }
+    float               GetEntitySpawningProgress()                     { return float(m_uiTotalWorldThings - INT_SIZE(m_deqWorldThings.size())) / float(m_uiTotalWorldThings); }
 
     void                StartLoadingEntityResources();
     void                LoadNextEntityResource();
     bool                IsFinishedLoadingEntityResources()              { return m_bStartedLoadingEntityResources && m_deqClientResources.empty(); }
-    float               GetEntityResourceLoadingProgress()              { return (m_uiTotalResourcesToLoad - INT_SIZE(m_deqClientResources.size())) / float(m_uiTotalResourcesToLoad); }
+    float               GetEntityResourceLoadingProgress()              { return float(m_uiTotalResourcesToLoad - INT_SIZE(m_deqClientResources.size())) / float(m_uiTotalResourcesToLoad); }
 
     void                PreFrame();
     void                Frame();
@@ -618,20 +581,19 @@ public:
     bool                ProcessSnapshot(CSnapshot &snapshot);
     bool                ProcessGameData(CPacket &pkt);
     void                PrecacheAll();
-    void                PreloadWorld(const tstring &sWorldName);
     void                Connect(const tstring &sAddr);
     
-    bool                IsEntitySelected(uint uiIndex);
-    bool                IsEntityHoverSelected(uint uiIndex);
-    uint                GetActiveControlEntity();
+    bool                IsEntitySelected(uint uiIndex) override;
+    bool                IsEntityHoverSelected(uint uiIndex) override;
+    uint                GetActiveControlEntity() override;
 
     bool                IsVisible(float fX, float fY);
 
     void                SendGameData(const IBuffer &buffer, bool bReliable);
-    void                SendGameData(int iClientNum, const IBuffer &buffer, bool bReliable) { SendGameData(buffer, bReliable); }
+    void                SendGameData(int iClientNum, const IBuffer &buffer, bool bReliable) override { SendGameData(buffer, bReliable); }
 
     void                MinimapPing(byte yX, byte yY);
-    const uint          GetMinimapHoverUnit() const                     { return m_uiMinimapHoverUnit; }
+    uint                GetMinimapHoverUnit() const                     { return m_uiMinimapHoverUnit; }
 
     void                SetCurrentEntity(CClientEntity *pCurrentEntity) { m_pCurrentEntity = pCurrentEntity; }
     void                SetEventTarget(EClientEventTarget eTarget)      { m_eEventTarget = eTarget; }
@@ -644,7 +606,7 @@ public:
     
     void                    ToggleMenu()                                    { m_bShowMenu = !m_bShowMenu; }
     void                    HideMenu()                                      { m_bShowMenu = false; }
-    bool                    GetShowMenu()                                   { return m_bShowMenu; }
+    bool                    GetShowMenu() const                             { return m_bShowMenu; }
 
     //void                  ToggleLobby()                                   { m_bShowLobby = !m_bShowLobby; }
     //void                  HideLobby()                                     { m_bShowLobby = false; }
@@ -655,24 +617,24 @@ public:
     bool                    IsFinishedLoadingHeroes() const                 { return m_deqHeroesToLoad.empty(); }
 
     // Input
-    CClientSnapshot*    GetCurrentSnapshot()                            { return &m_CurrentClientSnapshot; }
+    CClientSnapshot*    GetCurrentSnapshot() override                       { return &m_CurrentClientSnapshot; }
     bool                TraceCursor(STraceInfo &trace, int iIgnoreSurface);
     void                Cancel();
 
     // Resources
-    ResHandle           RegisterModel(const tstring &sPath);
-    ResHandle           RegisterEffect(const tstring &sPath);
-    ResHandle           RegisterIcon(const tstring &sPath);
-    ResHandle           RegisterSample(const tstring &sPath);
-    ResHandle           RegisterMaterial(const tstring &sPath);
+    ResHandle           RegisterModel(const tstring &sPath) override;
+    ResHandle           RegisterEffect(const tstring &sPath) override;
+    ResHandle           RegisterIcon(const tstring &sPath) override;
+    ResHandle           RegisterSample(const tstring &sPath) override;
+    ResHandle           RegisterMaterial(const tstring &sPath) override;
 
-    void                GetPrecacheList(const tstring &sName, EPrecacheScheme eScheme, const tstring &sModifier, HeroPrecacheList &deqPrecache);
-    void                Precache(const tstring &sName, EPrecacheScheme eScheme, const tstring &sModifier);
-    void                Precache(ushort unType, EPrecacheScheme eScheme, const tstring &sModifier);
+    void                GetPrecacheList(const tstring &sName, EPrecacheScheme eScheme, const tstring &sModifier, HeroPrecacheList &deqPrecache) override;
+    void                Precache(const tstring &sName, EPrecacheScheme eScheme, const tstring &sModifier) override;
+    void                Precache(ushort unType, EPrecacheScheme eScheme, const tstring &sModifier) override;
 
     // Visual
-    void                AddOverlay(const CVec4f &v4Color, ResHandle hMaterial);
-    void                AddOverlay(const CVec4f &v4Color);
+    void                AddOverlay(const CVec4f &v4Color, ResHandle hMaterial) override;
+    void                AddOverlay(const CVec4f &v4Color) override;
 
     void                StartEffect(const tstring &sEffect, int iChannel, int iTimeNudge);
     void                StopEffect(int iChannel);
@@ -688,7 +650,7 @@ public:
 
     CPlayer*            GetLocalPlayer() const                          { return m_pLocalPlayer; }
     uint                GetLocalPlayerIndex() const                     { return (m_pLocalPlayer == nullptr) ? INVALID_INDEX : m_pLocalPlayer->GetIndex(); }
-    CCamera*            GetCamera() const                               { return m_pCamera; }
+    CCamera*            GetCamera() const override                      { return m_pCamera; }
     CClientCommander*   GetClientCommander() const                      { return m_pClientCommander; }
     CClientEntity*      GetClientEntity(uint uiIndex) const;
     IVisualEntity*      GetClientEntityCurrent(uint uiIndex) const;
@@ -706,10 +668,10 @@ public:
     void                ForceInterfaceRefresh();
 
     // Camera
-    void                AddCameraEffectAngleOffset(const CVec3f &v3Angles)  { m_v3CameraEffectAngleOffset += v3Angles; } 
-    void                AddCameraEffectOffset(const CVec3f &v3Position)     { m_v3CameraEffectOffset += v3Position; }
+    void                AddCameraEffectAngleOffset(const CVec3f &v3Angles) override  { m_v3CameraEffectAngleOffset += v3Angles; }
+    void                AddCameraEffectOffset(const CVec3f &v3Position) override     { m_v3CameraEffectOffset += v3Position; }
 
-    virtual void        SendMessage(const tstring &sMsg, int iClientNum);
+    void                SendMessage(const tstring &sMsg, int iClientNum) override;
 
     void                SpawnPopupMessage(const tstring &sText, uint uiEntityIndex, const CVec4f &v4Color, float fStartX, float fStartY, float fSpeedX, float fSpeedY, uint uiLifeTime, uint uiFadeTime, uint uiServerTime = INVALID_TIME);
     void                SpawnMinimapPing(ResHandle hTexture, const CVec2f &v2Pos, const CVec4f &v4Color, bool bPlaySound = true);
@@ -717,14 +679,14 @@ public:
     void                StartPinging()                      { m_bPinging = true; }
     bool                StopPinging()                       { if (!m_bPinging) return false; m_bPinging = false; return true; }
 
-    virtual CStateString&   GetStateString(uint uiID);
-    virtual CStateBlock&    GetStateBlock(uint uiID);
+    CStateString&       GetStateString(uint uiID) override;
+    CStateBlock&        GetStateBlock(uint uiID) override;
 
-    virtual uint        GetServerFrame();
-    virtual uint        GetServerTime() const;
-    virtual uint        GetPrevServerTime();
-    virtual uint        GetServerFrameLength();
-    virtual tstring     GetServerVersion();
+    uint                GetServerFrame() override;
+    uint                GetServerTime() const override;
+    uint                GetPrevServerTime() override;
+    uint                GetServerFrameLength() override;
+    tstring             GetServerVersion();
 
     void                SetReplayClient(int iClientNum);
 
@@ -733,17 +695,17 @@ public:
     void                NextReplayClient();
     void                PrevReplayClient();
 
-    const tstring&      GetPropType(const tstring &sPath) const;
+    const tstring&      GetPropType(const tstring &sPath) const override;
 
     const tstring&      GetTerrainType();
 
     const vector<IVisualEntity *>&  GetVision() const                       { return m_vVision; }
 
-    int                 GetConnectedClientCount(int iTeam = -1);
+    int                 GetConnectedClientCount(int iTeam = -1) override;
 
     void                RemoveClient(int iClientNum);
 
-    uint                GetItemCursorIndex()                        { return m_uiItemCursorIndex; }
+    uint                GetItemCursorIndex() const                  { return m_uiItemCursorIndex; }
     void                SetItemCursorIndex(uint uiIndex)            { m_uiItemCursorIndex = uiIndex; }
     void                PrimaryAction(int iSlot);
     void                SecondaryAction(int iSlot);
@@ -791,13 +753,13 @@ public:
     CSnapshot&          GetCurrentServerSnapshot()  { return m_CurrentServerSnapshot; }
 
     tstring             GetGameMessage(const tstring &sKey, const tsmapts &sTokens = SMAPS_EMPTY);
-    const tstring&      GetEntityString(const tstring &sKey) const;
-    const tstring&      GetEntityString(uint uiIndex) const;
-    uint                GetEntityStringIndex(const tstring &sKey) const;
+    const tstring&      GetEntityString(const tstring &sKey) const override;
+    const tstring&      GetEntityString(uint uiIndex) const override;
+    uint                GetEntityStringIndex(const tstring &sKey) const override;
     
     void                PostProcessEntities();
 
-    void                AddResourceToLoadingQueue(EClientResource eResource, const tstring &sName, int iType)   { m_deqClientResources.push_back(SClientResourceLoadRequest(eResource, sName, iType)); }
+    void                AddResourceToLoadingQueue(EClientResource eResource, const tstring &sName, int iType)   { m_deqClientResources.emplace_back(eResource, sName, iType); }
     ResHandle           GetResource(EClientResource eResource)                                                  { return m_ahResources[eResource]; }
 
     uint                GetLastConfirmAttackSoundTime() const                               { return m_uiLastConfirmAttackSoundTime; }
@@ -816,7 +778,7 @@ public:
 
     bool                Purchase(int iSlot);
     bool                PurchaseComponent(int iSlot, int iVariation);
-    bool                PurchaseAllComponents(const tstring sName);
+    bool                PurchaseAllComponents(const tstring& sName);
     bool                PurchaseUsedIn(int iSlot);
     void                Shop(int iSlot);
 
@@ -826,8 +788,8 @@ public:
 
     ResHandle           GetLoadingTexture() const       { return m_hLoadingTexture; }
 
-    virtual bool        UsePlayerColors()               { return cg_unitPlayerColors; }
-    virtual bool        UseHeroIndicators()             { return cg_heroIndicators; }
+    bool                UsePlayerColors() override      { return cg_unitPlayerColors; }
+    bool                UseHeroIndicators() override    { return cg_heroIndicators; }
 
     int                 GetNumPlayersOnline() const     { return m_pHostClient->GetNumPlayersOnline(); }
     int                 GetNumPlayersInGame() const     { return m_pHostClient->GetNumPlayersInGame(); }
@@ -840,7 +802,7 @@ public:
     bool                DownloadReplay(const tstring &sUrl);
     float               GetReplayDownloadProgress();
     bool                ReplayDownloadErrorEncountered();
-    bool                ReplayDownloadInProgress()      { return m_bDownloadingReplay; }
+    bool                ReplayDownloadInProgress() const { return m_bDownloadingReplay; }
     void                StopReplayDownload();
 
     void                LoadStringTables();
@@ -859,7 +821,7 @@ public:
 
     SVoiceSet&          GetLocalVoiceSet();
 
-    virtual bool        CanAccessAltAvatar(const tstring &sHero, const tstring &sAltAvatar);
+    bool                CanAccessAltAvatar(const tstring &sHero, const tstring &sAltAvatar) override;
 
     void                ServerRefreshUpgrades();
 

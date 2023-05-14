@@ -30,23 +30,23 @@ enum EExceptionType
 //=============================================================================
 // CException
 //=============================================================================
-class K2_API CException
+class K2_API CException : public std::exception
 {
 private:
     EExceptionType  m_eType;
-    tstring         m_sMessage;
-
-    CException();
+    string          m_sMessage;
 
 public:
-    ~CException()   {}
+    CException() = delete;
     CException(const tstring &sMessage, EExceptionType eType);
 
     void            Process(const tstring &sPrefix, bool bThrow = THROW);
 
-    tstring         GetMsg() const                  { return m_sMessage; }
+    tstring         GetMsg() const                  { return StringToTString(m_sMessage); }
     EExceptionType  GetType() const                 { return m_eType; }
     void            SetType(EExceptionType eType)   { m_eType = eType; }
+
+    const char*     what() const noexcept override  { return m_sMessage.c_str(); }
 };
 //=============================================================================
 

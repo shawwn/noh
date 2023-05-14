@@ -120,8 +120,8 @@ m_sSceneHeight(style.GetProperty(_T("sceneheight"), _T("100%")))
     SetFlags(WFLAG_VISIBLE);
     SetFlagsRecursive(WFLAG_PROCESS_CURSOR);
 
-    SetWidth(Draw2D.GetScreenW());
-    SetHeight(Draw2D.GetScreenH());
+    CInterface::SetWidth(Draw2D.GetScreenW());
+    CInterface::SetHeight(Draw2D.GetScreenH());
     SetFlags(WFLAG_NO_DRAW);
 
     // Scene
@@ -229,7 +229,7 @@ void    CInterface::AddWidget(IWidget *pWidget)
         if (m_mapWidgets.find(sName) != m_mapWidgets.end())
         {
             Console.Warn << _T("Widget ") << QuoteStr(sName) << _T(" already exists in a loaded interface") << newl;
-            pWidget->SetName(sName + _T("_DUPLICATE_") + XtoA(rand() % 10000, FMT_PADZERO, 4));
+            pWidget->SetName(sName + _T("_DUPLICATE_") + XtoA(M_Randnum(0, 10000), FMT_PADZERO, 4));
         }
 
         m_mapWidgets[sName] = pWidget->GetID();
@@ -452,8 +452,8 @@ void    CInterface::DisableGroup(const tstring &sGroupName)
         return;
     }
 
-    for (WidgetGroup_it itWidget(pGroup->begin()); itWidget != pGroup->end(); ++itWidget)
-        (*itWidget)->Disable();
+    for (auto pWidget : *pGroup)
+        pWidget->Disable();
 }
 
 

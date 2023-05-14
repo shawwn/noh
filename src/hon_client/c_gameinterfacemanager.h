@@ -640,9 +640,8 @@ private:
     
     uivector            m_vUpdateSequence;
 
-    CSmartGameUITrigger();
-
 public:
+    CSmartGameUITrigger() = delete;
     ~CSmartGameUITrigger();
     CSmartGameUITrigger(const tstring &sName, uint uiCount);
 
@@ -847,8 +846,6 @@ public:
     }
 
     // Update functions
-    void    SetPersistantStat(int iStat, int iValue);
-
     void    Update();
     
     void    BuildingAttackAlert(const tstring &sName);
@@ -874,8 +871,6 @@ public:
     void    SetCursorHidden(bool bHidden)       { m_bCursorHidden = bHidden; }
 
     void    SetReplayInfo(const tstring &sReplay);
-    void    SetReplayGameInfo(const CXMLNode &cNode);
-    void    SetReplayPlayerInfo(const CXMLNode &cNode);
     void    SetPreviewMap(const tstring &sMap);
 
     void    StoreEndGameStats();

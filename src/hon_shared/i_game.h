@@ -8,6 +8,8 @@
 //=============================================================================
 // Headers
 //=============================================================================
+#include <utility>
+
 #include "../k2/c_world.h"
 
 #include "c_eventdirectory.h"
@@ -86,8 +88,8 @@ private:
     GAME_SHARED_API static IGame*   s_pGame;
 
     uint                            m_uiGameTime;
-    uint                            m_uiTotalTime; // game time + pause time
-    uint                            m_uiFrameLength;
+    uint                            m_uiTotalTime = 0; // game time + pause time
+    uint                            m_uiFrameLength = 1;
     CWorld*                         m_pWorld;
     IEntityDirectory*               m_pEntityDirectory;
 
@@ -127,14 +129,14 @@ protected:
 
 public:
     virtual ~IGame()    {}
-    IGame(const tstring &sTypeName) :
+    explicit IGame(tstring sTypeName) :
     m_sResourceCategory(_T("world")),
-    m_sTypeName(sTypeName),
+    m_sTypeName(std::move(sTypeName)),
     m_uiGameTime(0),
     m_pWorld(nullptr),
     m_pEntityDirectory(nullptr),
 
-    m_iWinningTeam(TEAM_INVALID),
+    m_iWinningTeam(int(TEAM_INVALID)),
     m_uiFinalMatchTime(INVALID_TIME),
     m_pGameInfo(nullptr),
     m_hGameMechanics(INVALID_RESOURCE),
@@ -168,7 +170,7 @@ public:
     uint                GetFrameLength() const              { return m_uiFrameLength; }
     uint                GetMatchTime() const;
 
-    float               GetTimeOfDay() const                { return ((MAX<int>(GetMatchTime(), g_dayTransitionTime / 2) + g_dayStartTime) % g_dayLength) / float(g_dayLength); }
+    float               GetTimeOfDay() const                { return float((MAX<int>(GetMatchTime(), g_dayTransitionTime / 2) + g_dayStartTime) % g_dayLength) / float(g_dayLength); }
     bool                IsNight() const                     { return (GetTimeOfDay() < 0.25f) || (GetTimeOfDay() > 0.75f); }
 
     // Game info
@@ -178,11 +180,11 @@ public:
     void                ClearFlags()                            {if (m_pGameInfo != nullptr) m_pGameInfo->ClearFlags(); }
     void                SetFlags(byte yFlags)                   { if (m_pGameInfo != nullptr) m_pGameInfo->SetFlags(yFlags); }
     void                RemoveFlags(byte yFlags)                { if (m_pGameInfo != nullptr) m_pGameInfo->RemoveFlags(yFlags); }
-    bool                HasFlags(byte yFlags) const             { return m_pGameInfo == nullptr ? false : m_pGameInfo->HasFlags(yFlags); }
+    bool                HasFlags(byte yFlags) const             { return m_pGameInfo != nullptr && m_pGameInfo->HasFlags(yFlags); }
 
     uint                GetGameMode() const                     { return m_pGameInfo == nullptr ? 0 : m_pGameInfo->GetGameMode(); }
     void                SetGameMode(uint uiMode)                { if (m_pGameInfo != nullptr) m_pGameInfo->SetGameMode(uiMode); }
-    bool                HasGameOptions(uint uiOptions) const    { return m_pGameInfo == nullptr ? false : m_pGameInfo->HasGameOptions(uiOptions); }
+    bool                HasGameOptions(uint uiOptions) const    { return m_pGameInfo != nullptr && m_pGameInfo->HasGameOptions(uiOptions); }
     void                SetGameOptions(uint uiOptions)          { if (m_pGameInfo != nullptr) m_pGameInfo->SetGameOptions(uiOptions); }
     void                ClearGameOptions(uint uiOptions)        { if (m_pGameInfo != nullptr) m_pGameInfo->ClearGameOptions(uiOptions); }
     uint                GetTeamSize() const                     { return m_pGameInfo == nullptr ? 0 : m_pGameInfo->GetTeamSize(); }
@@ -194,7 +196,7 @@ public:
     uint                GetMaxReferees() const                  { return m_pGameInfo == nullptr ? 0 : m_pGameInfo->GetMaxReferees(); }
     void                SetMaxReferees(uint uiMaxReferees)      { if (m_pGameInfo != nullptr) m_pGameInfo->SetMaxReferees(uiMaxReferees); }
     uint                GetStartingGold() const                 { return m_pGameInfo == nullptr ? 0 : m_pGameInfo->GetStartingGold(); }
-    bool                GetAlternatePicks() const               { return m_pGameInfo == nullptr ? 0 : m_pGameInfo->GetAlternatePicks(); }
+    bool                GetAlternatePicks() const               { return m_pGameInfo != nullptr && m_pGameInfo->GetAlternatePicks(); }
     uint                GetBanCount() const                     { return m_pGameInfo == nullptr ? 0 : m_pGameInfo->GetBanCount(); }
     uint                GetExtraTime() const                    { return m_pGameInfo == nullptr ? 0 : m_pGameInfo->GetExtraTime(); }
 
@@ -242,14 +244,14 @@ public:
     uint                LookupEffectType(const tstring &sName) const        { return m_pGameMechanics ? m_pGameMechanics->LookupEffectType(sName) : 0; }
     uint                LookupImmunityType(const tstring &sName) const      { return m_pGameMechanics ? m_pGameMechanics->LookupImmunityType(sName) : 0; }
     bool                IsImmune(uint uiEffect, uint uiImmunity) const      { return (uiEffect & uiImmunity) != 0; }
-    bool                IsDebuff(uint uiEffect) const                       { return m_pGameMechanics ? m_pGameMechanics->IsDebuff(uiEffect) : false; }
-    bool                IsBuff(uint uiEffect) const                         { return m_pGameMechanics ? m_pGameMechanics->IsBuff(uiEffect) : false; }
-    bool                IsAssist(uint uiEffect) const                       { return m_pGameMechanics ? m_pGameMechanics->IsAssist(uiEffect) : false; }
+    bool                IsDebuff(uint uiEffect) const                       { return m_pGameMechanics != nullptr && m_pGameMechanics->IsDebuff(uiEffect); }
+    bool                IsBuff(uint uiEffect) const                         { return m_pGameMechanics != nullptr && m_pGameMechanics->IsBuff(uiEffect); }
+    bool                IsAssist(uint uiEffect) const                       { return m_pGameMechanics != nullptr && m_pGameMechanics->IsAssist(uiEffect); }
 
     uint                LookupCooldownType(const tstring &sName) const      { return EntityRegistry.RegisterCooldownType(sName); }
 
     uint                LookupArmorType(const tstring &sName) const                     { return m_pGameMechanics ? m_pGameMechanics->LookupArmorType(sName) : INVALID_ARMOR_TYPE; }
-    bool                GetIsArmorEffective(uint uiArmorType, uint uiEffectType) const  { return m_pGameMechanics ? m_pGameMechanics->IsArmorEffective(uiArmorType, uiEffectType) : false; }
+    bool                GetIsArmorEffective(uint uiArmorType, uint uiEffectType) const  { return m_pGameMechanics != nullptr && m_pGameMechanics->IsArmorEffective(uiArmorType, uiEffectType); }
     float               GetArmorDamageAdjustment(uint uiArmorType, float fArmor) const  { return m_pGameMechanics ? m_pGameMechanics->GetArmorDamageAdjustment(uiArmorType, fArmor) : 0.0f; }
 
     uint                    LookupTargetScheme(const tstring &sName) const  { return m_pGameMechanics ? m_pGameMechanics->LookupTargetScheme(sName) : INVALID_TARGET_SCHEME; }
@@ -291,13 +293,13 @@ public:
     CVec3f          GetTerrainNormal(float fX, float fY)                    { return m_pWorld->GetTerrainNormal(fX, fY); }
     float           GetTerrainHeight(float fX, float fY)                    { return m_pWorld->GetTerrainHeight(fX, fY); }
     float           GetTerrainHeight(const CVec2f &v2Pos)                   { return m_pWorld->GetTerrainHeight(v2Pos.x, v2Pos.y); }
-    CVec3f          GetTerrainPosition(const CVec2f &v2Pos)                 { return CVec3f(v2Pos.x, v2Pos.y, m_pWorld->GetTerrainHeight(v2Pos.x, v2Pos.y)); }
+    CVec3f          GetTerrainPosition(const CVec2f &v2Pos)                 { return {v2Pos.x, v2Pos.y, m_pWorld->GetTerrainHeight(v2Pos.x, v2Pos.y)}; }
     float           CalcMinTerrainHeight(const CRecti &recArea)             { return m_pWorld->CalcMinHeight(recArea); }
     float           CalcMaxTerrainHeight(const CRecti &recArea)             { return m_pWorld->CalcMaxHeight(recArea); }
     bool            CalcBlocked(const CRecti &recArea)                      { return m_pWorld->CalcBlocked(recArea); }
     float           GetGroundLevel()                                        { return m_pWorld->GetGroundLevel(); }
     float           GetCameraHeight(float fX, float fY)                     { return m_pWorld->GetCameraHeight(fX, fY); }
-    CVec3f          GetCameraPosition(const CVec2f &v2Pos)                  { return CVec3f(v2Pos.x, v2Pos.y, m_pWorld->GetCameraHeight(v2Pos.x, v2Pos.y)); }
+    CVec3f          GetCameraPosition(const CVec2f &v2Pos)                  { return {v2Pos.x, v2Pos.y, m_pWorld->GetCameraHeight(v2Pos.x, v2Pos.y)}; }
     inline bool     IsInBounds(float fX, float fY)                          { return m_pWorld->IsInGameBounds(fX, fY); }
     const CRectf&   GetBounds() const                                       { return m_pWorld->GetGameBounds(); }
     const CRectf&   GetCameraBounds() const                                 { return m_pWorld->GetCameraBounds(); }

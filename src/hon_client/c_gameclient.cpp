@@ -343,7 +343,6 @@ m_uiLastConfirmMoveSoundTime(0),
 m_uiLastSelectedSoundTime(0),
 
 m_bPinging(false),
-m_bPingEffectActive(false),
 
 m_uiWeatherEffectCounter(0),
 
@@ -472,7 +471,6 @@ void    CGameClient::Reinitialize()
     m_uiOrderEvent = INVALID_INDEX;
 
     m_bPinging = false;
-    m_bPingEffectActive = false;
 
     m_pClientEntityDirectory->Clear();
 
@@ -789,7 +787,7 @@ void    CGameClient::SpawnNextWorldEntity()
                 if (hSample == INVALID_RESOURCE)
                     break;
             }
-            m_mapWorldSounds[thing.m_uiWorldIndex] = SWorldSound(INVALID_INDEX, hSample);
+            m_mapWorldSounds[thing.m_uiWorldIndex] = {INVALID_INDEX, hSample};
         }
         break;
 
@@ -1694,7 +1692,6 @@ void    CGameClient::PrecacheAll()
 
     public:
         CLoadWorldFunctions(const tstring &sTitle, EResourceType e) : m_sTitle(sTitle), m_eType(e)  {}
-        ~CLoadWorldFunctions() {}
 
         float   Frame(tsvector_it &it, float f) const       { SetTitle(m_sTitle); SetProgress(f); return 0.0f; }
         float   PostFrame(tsvector_it &it, float f) const
@@ -11471,7 +11468,7 @@ bool    CGameClient::PurchaseComponent(int iSlot, int iVariation)
 /*====================
   CGameClient::PurchaseAllComponents
   ====================*/
-bool    CGameClient::PurchaseAllComponents(const tstring sName)
+bool    CGameClient::PurchaseAllComponents(const tstring& sName)
 {
     if (sName.empty())
         return false;
