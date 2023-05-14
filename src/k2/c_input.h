@@ -78,7 +78,7 @@ struct SIEvent
 
     union UID
     {
-        TCHAR   chr;
+        wchar_t chr;
         EButton btn;
         EAxis   axis;
     }
@@ -229,7 +229,7 @@ public:
     K2_API float            GetAxisState(EAxis axis);
 
     // Event stream
-    K2_API void             AddEvent(TCHAR c);
+    K2_API void             AddEvent(wchar_t c);
     K2_API void             AddEvent(const CVec2f &v2Pos);
     K2_API void             AddEvent(EButton button, bool bDown);
     K2_API void             AddEvent(EAxis axis, float fValue, float fDelta);

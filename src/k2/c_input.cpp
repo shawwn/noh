@@ -568,7 +568,7 @@ void    CInput::AddEvent(EAxis axis, float fValue, float fDelta)
     m_deqStream.push_back(event);
 }
 
-void    CInput::AddEvent(TCHAR c)
+void    CInput::AddEvent(wchar_t c)
 {
     SIEvent event;
     event.eType = INPUT_CHARACTER;
