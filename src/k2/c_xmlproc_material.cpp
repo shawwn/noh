@@ -134,14 +134,14 @@ namespace XMLMaterial
         REGISTER_XML_PROCESSOR(material)
     END_XML_REGISTRATION
     BEGIN_XML_PROCESSOR(parameters, CMaterial)
-        pObject->SetDiffuseColor(AtoV3(node.GetProperty(_CWS("vDiffuseColor"), _CWS("1.0 1.0 1.0"))));
-        pObject->SetOpacity(node.GetPropertyFloat(_CWS("fOpacity"), 1.0f));
-        pObject->SetSpecularLevel(node.GetPropertyFloat(_CWS("fSpecularLevel"), 1.0f));
-        pObject->SetGlossiness(node.GetPropertyFloat(_CWS("fGlossiness"), 16.0f));
-        pObject->SetBumpLevel(node.GetPropertyFloat(_CWS("fBumpLevel"), 1.0f));
-        pObject->SetReflect(node.GetPropertyFloat(_CWS("fReflect"), 0.0f));
-        pObject->SetTreeScale(node.GetPropertyFloat(_CWS("fTreeScale"), 1.0f));
-        pObject->SetLightingScheme(GetLightingScheme(node.GetProperty(_CWS("eLightingScheme"), _CWS("default"))));
+        pObject->SetDiffuseColor(AtoV3(node.GetProperty(_CTS("vDiffuseColor"), _CTS("1.0 1.0 1.0"))));
+        pObject->SetOpacity(node.GetPropertyFloat(_CTS("fOpacity"), 1.0f));
+        pObject->SetSpecularLevel(node.GetPropertyFloat(_CTS("fSpecularLevel"), 1.0f));
+        pObject->SetGlossiness(node.GetPropertyFloat(_CTS("fGlossiness"), 16.0f));
+        pObject->SetBumpLevel(node.GetPropertyFloat(_CTS("fBumpLevel"), 1.0f));
+        pObject->SetReflect(node.GetPropertyFloat(_CTS("fReflect"), 0.0f));
+        pObject->SetTreeScale(node.GetPropertyFloat(_CTS("fTreeScale"), 1.0f));
+        pObject->SetLightingScheme(GetLightingScheme(node.GetProperty(_CTS("eLightingScheme"), _CTS("default"))));
     END_XML_PROCESSOR(pObject)
 
 
@@ -151,11 +151,11 @@ namespace XMLMaterial
         REGISTER_XML_PROCESSOR(parameters)
     END_XML_REGISTRATION
     BEGIN_XML_PROCESSOR(float, CMaterial)
-        const tstring &sName(node.GetProperty(_CWS("name")));
+        const tstring &sName(node.GetProperty(_CTS("name")));
         if (sName.empty())
             return false;
 
-        pObject->AddParameter(K2_NEW(ctx_Resources,  CMaterialParameter)<float>(sName, node.GetPropertyFloat(_CWS("value")), node.GetPropertyFloat(_CWS("valuespeed"))));
+        pObject->AddParameter(K2_NEW(ctx_Resources,  CMaterialParameter)<float>(sName, node.GetPropertyFloat(_CTS("value")), node.GetPropertyFloat(_CTS("valuespeed"))));
     END_XML_PROCESSOR_NO_CHILDREN
 
 
@@ -165,11 +165,11 @@ namespace XMLMaterial
         REGISTER_XML_PROCESSOR(parameters)
     END_XML_REGISTRATION
     BEGIN_XML_PROCESSOR(vec2, CMaterial)
-        const tstring &sName(node.GetProperty(_CWS("name")));
+        const tstring &sName(node.GetProperty(_CTS("name")));
         if (sName.empty())
             return false;
 
-        pObject->AddParameter(K2_NEW(ctx_Resources,  CMaterialParameter)<CVec2f>(sName, node.GetPropertyV2(_CWS("value")), node.GetPropertyV2(_CWS("valuespeed"))));
+        pObject->AddParameter(K2_NEW(ctx_Resources,  CMaterialParameter)<CVec2f>(sName, node.GetPropertyV2(_CTS("value")), node.GetPropertyV2(_CTS("valuespeed"))));
     END_XML_PROCESSOR_NO_CHILDREN
 
 
@@ -179,11 +179,11 @@ namespace XMLMaterial
         REGISTER_XML_PROCESSOR(parameters)
     END_XML_REGISTRATION
     BEGIN_XML_PROCESSOR(vec3, CMaterial)
-        const tstring &sName(node.GetProperty(_CWS("name")));
+        const tstring &sName(node.GetProperty(_CTS("name")));
         if (sName.empty())
             return false;
 
-        pObject->AddParameter(K2_NEW(ctx_Resources,  CMaterialParameter)<CVec3f>(sName, node.GetPropertyV3(_CWS("value")), node.GetPropertyV3(_CWS("valuespeed"))));
+        pObject->AddParameter(K2_NEW(ctx_Resources,  CMaterialParameter)<CVec3f>(sName, node.GetPropertyV3(_CTS("value")), node.GetPropertyV3(_CTS("valuespeed"))));
     END_XML_PROCESSOR_NO_CHILDREN
 
 
@@ -193,11 +193,11 @@ namespace XMLMaterial
         REGISTER_XML_PROCESSOR(parameters)
     END_XML_REGISTRATION
     BEGIN_XML_PROCESSOR(vec4, CMaterial)
-        const tstring &sName(node.GetProperty(_CWS("name")));
+        const tstring &sName(node.GetProperty(_CTS("name")));
         if (sName.empty())
             return false;
 
-        pObject->AddParameter(K2_NEW(ctx_Resources,  CMaterialParameter)<CVec4f>(sName, node.GetPropertyV4(_CWS("value")), node.GetPropertyV4(_CWS("valuespeed"))));
+        pObject->AddParameter(K2_NEW(ctx_Resources,  CMaterialParameter)<CVec4f>(sName, node.GetPropertyV4(_CTS("value")), node.GetPropertyV4(_CTS("valuespeed"))));
     END_XML_PROCESSOR_NO_CHILDREN
 
 
@@ -207,61 +207,61 @@ namespace XMLMaterial
         REGISTER_XML_PROCESSOR(material)
     END_XML_REGISTRATION
     BEGIN_XML_PROCESSOR(phase, CMaterial)
-        bool bTranslucent(node.GetPropertyBool(_CWS("translucent"), false));
-        int iDepthBias(node.GetPropertyInt(_CWS("depthbias")));
+        bool bTranslucent(node.GetPropertyBool(_CTS("translucent"), false));
+        int iDepthBias(node.GetPropertyInt(_CTS("depthbias")));
 
         int iFlags(0);
 
         if (bTranslucent)
             iFlags |= PHASE_TRANSLUCENT;
         
-        if (node.GetPropertyBool(_CWS("alphatest"), false))
+        if (node.GetPropertyBool(_CTS("alphatest"), false))
             iFlags |= PHASE_ALPHA_TEST;
         
-        if (node.GetPropertyBool(_CWS("depthwrite"), !bTranslucent))
+        if (node.GetPropertyBool(_CTS("depthwrite"), !bTranslucent))
             iFlags |= PHASE_DEPTH_WRITE;
         
-        if (node.GetPropertyBool(_CWS("depthread"), true))
+        if (node.GetPropertyBool(_CTS("depthread"), true))
             iFlags |= PHASE_DEPTH_READ;
         
-        if (node.GetPropertyBool(_CWS("depthslopebias"), iDepthBias != 0))
+        if (node.GetPropertyBool(_CTS("depthslopebias"), iDepthBias != 0))
             iFlags |= PHASE_DEPTH_SLOPE_BIAS;
 
-        if (!node.GetPropertyBool(_CWS("shadows"), true))
+        if (!node.GetPropertyBool(_CTS("shadows"), true))
             iFlags |= PHASE_NO_SHADOWS;
 
-        if (!node.GetPropertyBool(_CWS("lighting"), true))
+        if (!node.GetPropertyBool(_CTS("lighting"), true))
             iFlags |= PHASE_NO_LIGHTING;
 
-        if (!node.GetPropertyBool(_CWS("fog"), true))
+        if (!node.GetPropertyBool(_CTS("fog"), true))
             iFlags |= PHASE_NO_FOG;
 
-        if (node.GetPropertyBool(_CWS("refractive"), false))
+        if (node.GetPropertyBool(_CTS("refractive"), false))
             iFlags |= PHASE_REFRACTIVE;
 
-        if (node.GetPropertyBool(_CWS("colorwrite"), true))
+        if (node.GetPropertyBool(_CTS("colorwrite"), true))
             iFlags |= PHASE_COLOR_WRITE;
 
-        if (node.GetPropertyBool(_CWS("alphawrite"), true))
+        if (node.GetPropertyBool(_CTS("alphawrite"), true))
             iFlags |= PHASE_ALPHA_WRITE;
 
-        if (node.GetPropertyBool(_CWS("vampire"), false))
+        if (node.GetPropertyBool(_CTS("vampire"), false))
             iFlags |= PHASE_VAMPIRE;
 
-        if (node.GetPropertyBool(_CWS("wireframe"), false))
+        if (node.GetPropertyBool(_CTS("wireframe"), false))
             iFlags |= PHASE_WIREFRAME;
 
         CMaterialPhase cPhase
         (
-            GetMaterialPhase(node.GetProperty(_CWS("name"))),
-            node.GetProperty(_CWS("vs")),
-            node.GetProperty(_CWS("ps")),
-            GetBlendMode(node.GetProperty(_CWS("srcblend"), _CWS("BLEND_ONE"))),
-            GetBlendMode(node.GetProperty(_CWS("dstblend"), _CWS("BLEND_ZERO"))),
-            GetCullMode(node.GetProperty(_CWS("cull"))),
-            node.GetPropertyInt(_CWS("depthbias"), 0),
-            node.GetPropertyInt(_CWS("layer"), 0),
-            node.GetPropertyFloat(_CWS("depthsortbias"), 0),
+            GetMaterialPhase(node.GetProperty(_CTS("name"))),
+            node.GetProperty(_CTS("vs")),
+            node.GetProperty(_CTS("ps")),
+            GetBlendMode(node.GetProperty(_CTS("srcblend"), _CTS("BLEND_ONE"))),
+            GetBlendMode(node.GetProperty(_CTS("dstblend"), _CTS("BLEND_ZERO"))),
+            GetCullMode(node.GetProperty(_CTS("cull"))),
+            node.GetPropertyInt(_CTS("depthbias"), 0),
+            node.GetPropertyInt(_CTS("layer"), 0),
+            node.GetPropertyFloat(_CTS("depthsortbias"), 0),
             iFlags
         );
 
@@ -274,61 +274,61 @@ namespace XMLMaterial
         REGISTER_XML_PROCESSOR(phase)
     END_XML_REGISTRATION
     BEGIN_XML_PROCESSOR(multipass, CMaterialPhase)
-        bool bTranslucent(node.GetPropertyBool(_CWS("translucent"), false));
-        int iDepthBias(node.GetPropertyInt(_CWS("depthbias")));
+        bool bTranslucent(node.GetPropertyBool(_CTS("translucent"), false));
+        int iDepthBias(node.GetPropertyInt(_CTS("depthbias")));
 
         int iFlags(0);
 
         if (bTranslucent)
             iFlags |= PHASE_TRANSLUCENT;
         
-        if (node.GetPropertyBool(_CWS("alphatest"), false))
+        if (node.GetPropertyBool(_CTS("alphatest"), false))
             iFlags |= PHASE_ALPHA_TEST;
         
-        if (node.GetPropertyBool(_CWS("depthwrite"), !bTranslucent))
+        if (node.GetPropertyBool(_CTS("depthwrite"), !bTranslucent))
             iFlags |= PHASE_DEPTH_WRITE;
         
-        if (node.GetPropertyBool(_CWS("depthread"), true))
+        if (node.GetPropertyBool(_CTS("depthread"), true))
             iFlags |= PHASE_DEPTH_READ;
         
-        if (node.GetPropertyBool(_CWS("depthslopebias"), iDepthBias != 0))
+        if (node.GetPropertyBool(_CTS("depthslopebias"), iDepthBias != 0))
             iFlags |= PHASE_DEPTH_SLOPE_BIAS;
 
-        if (!node.GetPropertyBool(_CWS("shadows"), true))
+        if (!node.GetPropertyBool(_CTS("shadows"), true))
             iFlags |= PHASE_NO_SHADOWS;
 
-        if (!node.GetPropertyBool(_CWS("lighting"), true))
+        if (!node.GetPropertyBool(_CTS("lighting"), true))
             iFlags |= PHASE_NO_LIGHTING;
 
-        if (!node.GetPropertyBool(_CWS("fog"), true))
+        if (!node.GetPropertyBool(_CTS("fog"), true))
             iFlags |= PHASE_NO_FOG;
 
-        if (node.GetPropertyBool(_CWS("refractive"), false))
+        if (node.GetPropertyBool(_CTS("refractive"), false))
             iFlags |= PHASE_REFRACTIVE;
 
-        if (node.GetPropertyBool(_CWS("colorwrite"), true))
+        if (node.GetPropertyBool(_CTS("colorwrite"), true))
             iFlags |= PHASE_COLOR_WRITE;
 
-        if (node.GetPropertyBool(_CWS("alphawrite"), true))
+        if (node.GetPropertyBool(_CTS("alphawrite"), true))
             iFlags |= PHASE_ALPHA_WRITE;
 
-        if (node.GetPropertyBool(_CWS("vampire"), false))
+        if (node.GetPropertyBool(_CTS("vampire"), false))
             iFlags |= PHASE_VAMPIRE;
 
-        if (node.GetPropertyBool(_CWS("wireframe"), false))
+        if (node.GetPropertyBool(_CTS("wireframe"), false))
             iFlags |= PHASE_WIREFRAME;
 
         CMaterialPhase cPhase
         (
             EMaterialPhase(-1),
-            node.GetProperty(_CWS("vs")),
-            node.GetProperty(_CWS("ps")),
-            GetBlendMode(node.GetProperty(_CWS("srcblend"), _CWS("BLEND_ONE"))),
-            GetBlendMode(node.GetProperty(_CWS("dstblend"), _CWS("BLEND_ZERO"))),
-            GetCullMode(node.GetProperty(_CWS("cull"))),
-            node.GetPropertyInt(_CWS("depthbias"), 0),
-            node.GetPropertyInt(_CWS("layer"), 0),
-            node.GetPropertyFloat(_CWS("depthsortbias"), 0),
+            node.GetProperty(_CTS("vs")),
+            node.GetProperty(_CTS("ps")),
+            GetBlendMode(node.GetProperty(_CTS("srcblend"), _CTS("BLEND_ONE"))),
+            GetBlendMode(node.GetProperty(_CTS("dstblend"), _CTS("BLEND_ZERO"))),
+            GetCullMode(node.GetProperty(_CTS("cull"))),
+            node.GetPropertyInt(_CTS("depthbias"), 0),
+            node.GetPropertyInt(_CTS("layer"), 0),
+            node.GetPropertyFloat(_CTS("depthsortbias"), 0),
             iFlags
         );
 
@@ -343,44 +343,44 @@ namespace XMLMaterial
         REGISTER_XML_PROCESSOR(multipass)
     END_XML_REGISTRATION
     BEGIN_XML_PROCESSOR(sampler, CMaterialPhase)
-        tstring sName(node.GetProperty(_CWS("name")));
+        tstring sName(node.GetProperty(_CTS("name")));
 
         int iFlags(0);
-        if (!node.GetPropertyBool(_CWS("mipmaps"), true))
+        if (!node.GetPropertyBool(_CTS("mipmaps"), true))
             iFlags |= SAM_NO_MIPMAPS;
-        if (!node.GetPropertyBool(_CWS("filtering"), true))
+        if (!node.GetPropertyBool(_CTS("filtering"), true))
             iFlags |= SAM_NO_FILTERING;
-        if (node.GetPropertyBool(_CWS("border"), false))
+        if (node.GetPropertyBool(_CTS("border"), false))
             iFlags |= SAM_BORDER;
-        if (node.GetPropertyBool(_CWS("repeat"), false))
+        if (node.GetPropertyBool(_CTS("repeat"), false))
             iFlags |= SAM_REPEAT;
-        if (node.GetPropertyBool(_CWS("repeat_u"), true))
+        if (node.GetPropertyBool(_CTS("repeat_u"), true))
             iFlags |= SAM_REPEAT_U;
-        if (node.GetPropertyBool(_CWS("repeat_v"), true))
+        if (node.GetPropertyBool(_CTS("repeat_v"), true))
             iFlags |= SAM_REPEAT_V;
-        if (node.GetPropertyBool(_CWS("normalmap"), sName.compare(0, 9, _T("normalmap")) == 0))
+        if (node.GetPropertyBool(_CTS("normalmap"), sName.compare(0, 9, _T("normalmap")) == 0))
             iFlags |= SAM_NORMALMAP;
 
         int iTextureFlags(0);
-        if (!node.GetPropertyBool(_CWS("mipmaps"), true))
+        if (!node.GetPropertyBool(_CTS("mipmaps"), true))
             iTextureFlags |= TEX_NO_MIPMAPS;
-        if (node.GetPropertyBool(_CWS("fullquality"), false))
+        if (node.GetPropertyBool(_CTS("fullquality"), false))
             iTextureFlags |= TEX_FULL_QUALITY;
-        if (node.GetPropertyBool(_CWS("nocompress"), false))
+        if (node.GetPropertyBool(_CTS("nocompress"), false))
             iTextureFlags |= TEX_NO_COMPRESS;
 
-        tstring sTextureName(node.GetProperty(_CWS("texture")));
+        tstring sTextureName(node.GetProperty(_CTS("texture")));
         if (!sTextureName.empty() && sTextureName[0] != '$' && sTextureName[0] != '!')
             sTextureName = FileManager.SanitizePath(sTextureName);
 
         CMaterialSampler sampler
         (
             sName,
-            node.GetPropertyInt(_CWS("fps"), 15),
-            node.GetPropertyFloat(_CWS("offset_u"), 0.0f),
-            node.GetPropertyFloat(_CWS("offset_v"), 0.0f),
-            node.GetPropertyFloat(_CWS("scale_u"), 1.0f),
-            node.GetPropertyFloat(_CWS("scale_v"), 1.0f),
+            node.GetPropertyInt(_CTS("fps"), 15),
+            node.GetPropertyFloat(_CTS("offset_u"), 0.0f),
+            node.GetPropertyFloat(_CTS("offset_v"), 0.0f),
+            node.GetPropertyFloat(_CTS("scale_u"), 1.0f),
+            node.GetPropertyFloat(_CTS("scale_v"), 1.0f),
             iFlags,
             sTextureName,
             TEXTURE_2D,
@@ -399,41 +399,41 @@ namespace XMLMaterial
     END_XML_REGISTRATION
     BEGIN_XML_PROCESSOR(samplervolume, CMaterialPhase)
         int iFlags = 0;
-        if (!node.GetPropertyBool(_CWS("mipmaps"), true))
+        if (!node.GetPropertyBool(_CTS("mipmaps"), true))
             iFlags |= SAM_NO_MIPMAPS;
-        if (!node.GetPropertyBool(_CWS("filtering"), true))
+        if (!node.GetPropertyBool(_CTS("filtering"), true))
             iFlags |= SAM_NO_FILTERING;
-        if (node.GetPropertyBool(_CWS("border"), false))
+        if (node.GetPropertyBool(_CTS("border"), false))
             iFlags |= SAM_BORDER;
-        if (node.GetPropertyBool(_CWS("repeat"), false))
+        if (node.GetPropertyBool(_CTS("repeat"), false))
             iFlags |= SAM_REPEAT;
-        if (node.GetPropertyBool(_CWS("repeat_u"), true))
+        if (node.GetPropertyBool(_CTS("repeat_u"), true))
             iFlags |= SAM_REPEAT_U;
-        if (node.GetPropertyBool(_CWS("repeat_v"), true))
+        if (node.GetPropertyBool(_CTS("repeat_v"), true))
             iFlags |= SAM_REPEAT_V;
-        if (node.GetPropertyBool(_CWS("repeat_w"), true))
+        if (node.GetPropertyBool(_CTS("repeat_w"), true))
             iFlags |= SAM_REPEAT_W;
 
         int iTextureFlags(0);
-        if (!node.GetPropertyBool(_CWS("mipmaps"), true))
+        if (!node.GetPropertyBool(_CTS("mipmaps"), true))
             iTextureFlags |= TEX_NO_MIPMAPS;
-        if (node.GetPropertyBool(_CWS("fullquality"), false))
+        if (node.GetPropertyBool(_CTS("fullquality"), false))
             iTextureFlags |= TEX_FULL_QUALITY;
-        if (node.GetPropertyBool(_CWS("nocompress"), false))
+        if (node.GetPropertyBool(_CTS("nocompress"), false))
             iTextureFlags |= TEX_NO_COMPRESS;
 
-        tstring sTextureName = node.GetProperty(_CWS("texture"));
+        tstring sTextureName = node.GetProperty(_CTS("texture"));
         if (!sTextureName.empty() && sTextureName[0] != '$' && sTextureName[0] != '!')
             sTextureName = FileManager.SanitizePath(sTextureName);
 
         CMaterialSampler sampler
         (
-            node.GetProperty(_CWS("name")),
-            node.GetPropertyInt(_CWS("fps"), 15),
-            node.GetPropertyFloat(_CWS("offset_u"), 0.0f),
-            node.GetPropertyFloat(_CWS("offset_v"), 0.0f),
-            node.GetPropertyFloat(_CWS("scale_u"), 1.0f),
-            node.GetPropertyFloat(_CWS("scale_v"), 1.0f),
+            node.GetProperty(_CTS("name")),
+            node.GetPropertyInt(_CTS("fps"), 15),
+            node.GetPropertyFloat(_CTS("offset_u"), 0.0f),
+            node.GetPropertyFloat(_CTS("offset_v"), 0.0f),
+            node.GetPropertyFloat(_CTS("scale_u"), 1.0f),
+            node.GetPropertyFloat(_CTS("scale_v"), 1.0f),
             iFlags,
             sTextureName,
             TEXTURE_VOLUME,
@@ -452,39 +452,39 @@ namespace XMLMaterial
     END_XML_REGISTRATION
     BEGIN_XML_PROCESSOR(samplercube, CMaterialPhase)
         int iFlags(0);
-        if (!node.GetPropertyBool(_CWS("mipmaps"), true))
+        if (!node.GetPropertyBool(_CTS("mipmaps"), true))
             iFlags |= SAM_NO_MIPMAPS;
-        if (!node.GetPropertyBool(_CWS("filtering"), true))
+        if (!node.GetPropertyBool(_CTS("filtering"), true))
             iFlags |= SAM_NO_FILTERING;
-        if (node.GetPropertyBool(_CWS("border"), false))
+        if (node.GetPropertyBool(_CTS("border"), false))
             iFlags |= SAM_BORDER;
-        if (node.GetPropertyBool(_CWS("repeat"), false))
+        if (node.GetPropertyBool(_CTS("repeat"), false))
             iFlags |= SAM_REPEAT;
-        if (node.GetPropertyBool(_CWS("repeat_u"), true))
+        if (node.GetPropertyBool(_CTS("repeat_u"), true))
             iFlags |= SAM_REPEAT_U;
-        if (node.GetPropertyBool(_CWS("repeat_v"), true))
+        if (node.GetPropertyBool(_CTS("repeat_v"), true))
             iFlags |= SAM_REPEAT_V;
 
         int iTextureFlags(0);
-        if (!node.GetPropertyBool(_CWS("mipmaps"), true))
+        if (!node.GetPropertyBool(_CTS("mipmaps"), true))
             iTextureFlags |= TEX_NO_MIPMAPS;
-        if (node.GetPropertyBool(_CWS("fullquality"), false))
+        if (node.GetPropertyBool(_CTS("fullquality"), false))
             iTextureFlags |= TEX_FULL_QUALITY;
-        if (node.GetPropertyBool(_CWS("nocompress"), false))
+        if (node.GetPropertyBool(_CTS("nocompress"), false))
             iTextureFlags |= TEX_NO_COMPRESS;
 
-        tstring sTextureName = node.GetProperty(_CWS("texture"));
+        tstring sTextureName = node.GetProperty(_CTS("texture"));
         if (!sTextureName.empty() && sTextureName[0] != '$' && sTextureName[0] != '!')
             sTextureName = FileManager.SanitizePath(sTextureName);
 
         CMaterialSampler sampler
         (
-            node.GetProperty(_CWS("name")),
-            node.GetPropertyInt(_CWS("fps"), 15),
-            node.GetPropertyFloat(_CWS("offset_u"), 0.0f),
-            node.GetPropertyFloat(_CWS("offset_v"), 0.0f),
-            node.GetPropertyFloat(_CWS("scale_u"), 1.0f),
-            node.GetPropertyFloat(_CWS("scale_v"), 1.0f),
+            node.GetProperty(_CTS("name")),
+            node.GetPropertyInt(_CTS("fps"), 15),
+            node.GetPropertyFloat(_CTS("offset_u"), 0.0f),
+            node.GetPropertyFloat(_CTS("offset_v"), 0.0f),
+            node.GetPropertyFloat(_CTS("scale_u"), 1.0f),
+            node.GetPropertyFloat(_CTS("scale_v"), 1.0f),
             iFlags,
             sTextureName,
             TEXTURE_CUBE,

@@ -20,7 +20,7 @@
   ====================*/
 CChatSymbol::CChatSymbol(const tstring &sName, const tstring &sTexturePath) :
 m_sName(sName),
-//m_uiDisplayNameIndex(Game.GetEntityStringIndex(_CWS("ChatSymbol_") + sName)),
+//m_uiDisplayNameIndex(Game.GetEntityStringIndex(_CTS("ChatSymbol_") + sName)),
 m_uiDisplayNameIndex(INVALID_INDEX),
 m_sTexturePath(sTexturePath)
 {
@@ -42,7 +42,7 @@ const tstring&  CChatSymbol::GetDisplayName() const
   ====================*/
 CChatNameColor::CChatNameColor(const tstring &sName, const tstring &sTexturePath, const tstring &sColor, const tstring &sIngameColor, uint uiSortIndex) :
 m_sName(sName),
-//m_uiDisplayNameIndex(Game.GetEntityStringIndex(_CWS("ChatNameColor_") + sName)),
+//m_uiDisplayNameIndex(Game.GetEntityStringIndex(_CTS("ChatNameColor_") + sName)),
 m_uiDisplayNameIndex(INVALID_INDEX),
 m_sTexturePath(sTexturePath),
 m_sColor(sColor),
@@ -67,7 +67,7 @@ const tstring&  CChatNameColor::GetDisplayName() const
   ====================*/
 CAccountIcon::CAccountIcon(const tstring &sName, const tstring &sTexturePath) :
 m_sName(sName),
-//m_uiDisplayNameIndex(Game.GetEntityStringIndex(_CWS("AccountIcon_") + sName)),
+//m_uiDisplayNameIndex(Game.GetEntityStringIndex(_CTS("AccountIcon_") + sName)),
 m_uiDisplayNameIndex(INVALID_INDEX),
 m_sTexturePath(sTexturePath)
 {
@@ -89,7 +89,7 @@ const tstring&  CAccountIcon::GetDisplayName() const
   ====================*/
 CAnnouncerVoice::CAnnouncerVoice(const tstring &sName, const tstring &sVoiceSet, const tstring &sArcadeText) :
 m_sName(sName),
-//m_uiDisplayNameIndex(Game.GetEntityStringIndex(_CWS("AnnouncerVoice_") + sName)),
+//m_uiDisplayNameIndex(Game.GetEntityStringIndex(_CTS("AnnouncerVoice_") + sName)),
 m_uiDisplayNameIndex(INVALID_INDEX),
 m_sVoiceSet(sVoiceSet),
 m_sArcadeText(sArcadeText)
@@ -112,7 +112,7 @@ const tstring&  CAnnouncerVoice::GetDisplayName() const
   ====================*/
 CTaunt::CTaunt(const tstring &sName, const tstring &sModifier) :
 m_sName(sName),
-//m_uiDisplayNameIndex(Game.GetEntityStringIndex(_CWS("Taunt_") + sName)),
+//m_uiDisplayNameIndex(Game.GetEntityStringIndex(_CTS("Taunt_") + sName)),
 m_uiDisplayNameIndex(INVALID_INDEX),
 m_sModifier(sModifier)
 {
@@ -226,7 +226,7 @@ void    CUpgrades::PostLoad()
 {
 #if 0
     for (vector<CChatSymbol>::iterator it(m_vChatSymbols.begin()); it != m_vChatSymbols.end(); ++it)
-        it->SetDisplayNameIndex(Game.GetEntityStringIndex(_CWS("ChatSymbol_") + it->GetName()));
+        it->SetDisplayNameIndex(Game.GetEntityStringIndex(_CTS("ChatSymbol_") + it->GetName()));
 #endif
 }
 
@@ -426,19 +426,19 @@ uint    CUpgrades::LookupTaunt(const tstring &sName) const
   ====================*/
 void    CUpgrades::WriteStringTable(CFileHandle &hFile, size_t zTabStop, size_t zColumnOffset)
 {
-    hFile << _CWS("// Upgrades") << newl;
+    hFile << _CTS("// Upgrades") << newl;
 
     for (vector<CChatSymbol>::iterator it(m_vChatSymbols.begin()); it != m_vChatSymbols.end(); ++it)
-        hFile << TabPad(_CWS("ChatSymbol_") + it->GetName(), zTabStop, zColumnOffset) << EscapeWhiteSpace(it->GetDisplayName()) << newl;
+        hFile << TabPad(_CTS("ChatSymbol_") + it->GetName(), zTabStop, zColumnOffset) << EscapeWhiteSpace(it->GetDisplayName()) << newl;
 
     for (vector<CChatNameColor>::iterator it(m_vChatNameColors.begin()); it != m_vChatNameColors.end(); ++it)
-        hFile << TabPad(_CWS("ChatNameColor_") + it->GetName(), zTabStop, zColumnOffset) << EscapeWhiteSpace(it->GetDisplayName()) << newl;
+        hFile << TabPad(_CTS("ChatNameColor_") + it->GetName(), zTabStop, zColumnOffset) << EscapeWhiteSpace(it->GetDisplayName()) << newl;
 
     for (vector<CAccountIcon>::iterator it(m_vAccountIcons.begin()); it != m_vAccountIcons.end(); ++it)
-        hFile << TabPad(_CWS("AccountIcon_") + it->GetName(), zTabStop, zColumnOffset) << EscapeWhiteSpace(it->GetDisplayName()) << newl;
+        hFile << TabPad(_CTS("AccountIcon_") + it->GetName(), zTabStop, zColumnOffset) << EscapeWhiteSpace(it->GetDisplayName()) << newl;
 
     for (vector<CAnnouncerVoice>::iterator it(m_vAnnouncerVoices.begin()); it != m_vAnnouncerVoices.end(); ++it)
-        hFile << TabPad(_CWS("AnnouncerVoice_") + it->GetName(), zTabStop, zColumnOffset) << EscapeWhiteSpace(it->GetDisplayName()) << newl;
+        hFile << TabPad(_CTS("AnnouncerVoice_") + it->GetName(), zTabStop, zColumnOffset) << EscapeWhiteSpace(it->GetDisplayName()) << newl;
 
     hFile << newl;
 }

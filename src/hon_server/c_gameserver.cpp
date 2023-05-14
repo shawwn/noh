@@ -1021,8 +1021,8 @@ void    CGameServer::GetAccountAuth()
             return;
 
         m_pAccountAuthRequest->SetTargetURL(Host.GetServer()->GetMasterServerURL());
-        m_pAccountAuthRequest->AddVariable(L"f", L"aids2cookie");
-        m_pAccountAuthRequest->AddVariable(L"session", Host.GetServer()->GetSessionCookie());
+        m_pAccountAuthRequest->AddVariable(_T("f"), _T("aids2cookie"));
+        m_pAccountAuthRequest->AddVariable(_T("session"), Host.GetServer()->GetSessionCookie());
 
         bool bSendAccountAuth(false);
 
@@ -1048,7 +1048,7 @@ void    CGameServer::GetAccountAuth()
                 continue;
             
             bSendAccountAuth = true;
-            m_pAccountAuthRequest->AddVariable(L"aids[]", XtoA(pAccountStats->GetAccountID()));//GetSuperID()));
+            m_pAccountAuthRequest->AddVariable(_T("aids[]"), XtoA(pAccountStats->GetAccountID()));//GetSuperID()));
         }
 
         if (bSendAccountAuth)
@@ -1078,7 +1078,7 @@ void    CGameServer::GetAccountAuth()
         }
     
         // Read response
-        const wstring &sResponse(m_pAccountAuthRequest->GetResponse());
+        const tstring &sResponse(m_pAccountAuthRequest->GetResponse());
         CPHPData phpResponse(sResponse);
         
         Host.GetHTTPManager()->ReleaseRequest(m_pAccountAuthRequest);
@@ -1317,7 +1317,7 @@ void    CGameServer::RequestStartGame(int iClientNum)
         if (iNumTeam1 == 0 || iNumTeam2 == 0)
         {
             CBufferDynamic buffer;
-            buffer << GAME_CMD_GAME_MESSAGE << TStringToUTF8(_CWS("nosolo")) << byte(0);
+            buffer << GAME_CMD_GAME_MESSAGE << TStringToUTF8(_CTS("nosolo")) << byte(0);
             SendGameData(iClientNum, buffer, true);
 
             return;
@@ -1351,7 +1351,7 @@ void    CGameServer::RequestStartGame(int iClientNum)
 
             if (iSize > 0)
             {
-                SendGeneralMessage(_CWS("nomods"), iSize, iPlayerList);
+                SendGeneralMessage(_CTS("nomods"), iSize, iPlayerList);
                 return;
             }
         }
@@ -3685,14 +3685,14 @@ void    CGameServer::GetMatchIDFromMasterServer()
     }
 
     pRequest->SetTargetURL(m_pHostServer->GetMasterServerURL());
-    pRequest->AddVariable(L"f", L"start_game");
-    pRequest->AddVariable(L"session", m_pHostServer->GetSessionCookie());
-    pRequest->AddVariable(L"code", TSNULL);
-    pRequest->AddVariable(L"extra", TSNULL);
-    pRequest->AddVariable(L"map", GetWorldPointer()->GetName());
-    pRequest->AddVariable(L"version", K2System.GetVersionString());
-    pRequest->AddVariable(L"mname", m_sName);
-    pRequest->AddVariable(L"mstr", sv_masterName);
+    pRequest->AddVariable(_T("f"), _T("start_game"));
+    pRequest->AddVariable(_T("session"), m_pHostServer->GetSessionCookie());
+    pRequest->AddVariable(_T("code"), TSNULL);
+    pRequest->AddVariable(_T("extra"), TSNULL);
+    pRequest->AddVariable(_T("map"), GetWorldPointer()->GetName());
+    pRequest->AddVariable(_T("version"), K2System.GetVersionString());
+    pRequest->AddVariable(_T("mname"), m_sName);
+    pRequest->AddVariable(_T("mstr"), sv_masterName);
     pRequest->SendPostRequest();
     pRequest->Wait();
 
@@ -3742,8 +3742,8 @@ void    CGameServer::SendTrialGameIncrease()
     CHTTPRequest *pRequest(Host.GetHTTPManager()->SpawnRequest());
 
     pRequest->SetTargetURL(m_pHostServer->GetMasterServerURL());
-    pRequest->AddVariable(L"f", L"update_trial");
-    pRequest->AddVariable(L"session", m_pHostServer->GetSessionCookie());
+    pRequest->AddVariable(_T("f"), _T("update_trial"));
+    pRequest->AddVariable(_T("session"), m_pHostServer->GetSessionCookie());
 
     bool bTrialSent(false);
     for (PlayerMap_it itPlayer(m_mapClients.begin()); itPlayer != m_mapClients.end(); ++itPlayer)
@@ -3765,7 +3765,7 @@ void    CGameServer::SendTrialGameIncrease()
 
             int iTrialGamesCount(m_itPlayerAccountStats->second.GetTrialGamesPlayed());
 
-            pRequest->AddVariable(L"trial_ids[]", XtoA(iAccountId));
+            pRequest->AddVariable(_T("trial_ids[]"), XtoA(iAccountId));
 
             CBufferFixed<5> buffer;
             buffer << GAME_CMD_TRIAL_INC << iTrialGamesCount;
@@ -3812,12 +3812,12 @@ void    CGameServer::SendReconnectData(CPlayer *pClient)
 
     pReconnectInfo->SetTargetURL(m_pHostServer->GetMasterServerURL());
     pReconnectInfo->ClearVariables();
-    pReconnectInfo->AddVariable(L"f", L"set_reconnect");
-    pReconnectInfo->AddVariable(L"session", m_pHostServer->GetSessionCookie());
-    pReconnectInfo->AddVariable(L"account_id", XtoA(pClient->GetAccountID()));
-    pReconnectInfo->AddVariable(L"ip", sIP); 
-    pReconnectInfo->AddVariable(L"port", XtoA(m_pHostServer->GetPort()));
-    pReconnectInfo->AddVariable(L"match_id", XtoA(GetGameInfo()->GetMatchID()));
+    pReconnectInfo->AddVariable(_T("f"), _T("set_reconnect"));
+    pReconnectInfo->AddVariable(_T("session"), m_pHostServer->GetSessionCookie());
+    pReconnectInfo->AddVariable(_T("account_id"), XtoA(pClient->GetAccountID()));
+    pReconnectInfo->AddVariable(_T("ip"), sIP);
+    pReconnectInfo->AddVariable(_T("port"), XtoA(m_pHostServer->GetPort()));
+    pReconnectInfo->AddVariable(_T("match_id"), XtoA(GetGameInfo()->GetMatchID()));
     pReconnectInfo->SendPostRequest();
 }
 #endif
@@ -5788,7 +5788,7 @@ bool    CGameServer::ProcessGameData(int iClientNum, CPacket &pkt)
     case GAME_CMD_CHAT_EMOTE:
         try
         {
-            wstring sMsg(pkt.ReadWString().substr(0, 150));
+            tstring sMsg(pkt.ReadWStringAsTString().substr(0, 150));
 
             if (pPlayer == NULL)
                 EX_ERROR(_T("Invalid client ID"));
@@ -5850,7 +5850,7 @@ bool    CGameServer::ProcessGameData(int iClientNum, CPacket &pkt)
     case GAME_CMD_CHAT_TEAM:
         try
         {
-            wstring sMsg(pkt.ReadWString().substr(0, 150));
+            tstring sMsg(pkt.ReadWStringAsTString().substr(0, 150));
 
             if (pPlayer == NULL)
                 EX_ERROR(_T("Invalid client ID"));
@@ -6697,7 +6697,7 @@ bool    CGameServer::ProcessGameData(int iClientNum, CPacket &pkt)
 
     case GAME_CMD_SUBMIT_MATCH_COMMENT:
         {
-            wstring sComment(pkt.ReadWString());
+            tstring sComment(pkt.ReadWStringAsTString());
             if (pPlayer != NULL)
                 pPlayer->SetMatchComment(sComment.substr(0, 512));
         }
@@ -6897,8 +6897,8 @@ bool    CGameServer::ProcessGameData(int iClientNum, CPacket &pkt)
 
     case GAME_CMD_CREATE_GAME:
         {
-            wstring sName(pkt.ReadWString());
-            wstring sSettings(pkt.ReadWString());
+            tstring sName(pkt.ReadWStringAsTString());
+            tstring sSettings(pkt.ReadWStringAsTString());
 
             if (m_pHostServer->GetWorld() != NULL && m_pHostServer->GetWorld()->IsLoaded())
             {
@@ -6919,9 +6919,9 @@ bool    CGameServer::ProcessGameData(int iClientNum, CPacket &pkt)
             pkt << NETCMD_REMOTE_START_LOADING;
             pClientConnection->SendPacket(pkt);
 
-            wstring sUseSettings(sSettings);
+            tstring sUseSettings(sSettings);
             if (pClientConnection->HasFlags(CLIENT_CONNECTION_TRIAL))
-                sUseSettings += _CWS(" nostats:true");
+                sUseSettings += _CTS(" nostats:true");
 
             m_pHostServer->StartGame(sName, sUseSettings);
 
@@ -7250,8 +7250,8 @@ bool    CGameServer::ProcessGameData(int iClientNum, CPacket &pkt)
                     
     case GAME_CMD_SCRIPT_MESSAGE:
         {
-            tstring sName(WStringToTString(pkt.ReadWString()));
-            tstring sValue(WStringToTString(pkt.ReadWString()));
+            tstring sName(pkt.ReadWStringAsTString());
+            tstring sValue(pkt.ReadWStringAsTString());
 
             if (GetWorldPointer() != NULL && GetWorldPointer()->GetName() == _T("tutorial"))
             {
@@ -7264,8 +7264,8 @@ bool    CGameServer::ProcessGameData(int iClientNum, CPacket &pkt)
 
     case GAME_CMD_GAMEPLAY_OPTION:
         {
-            tstring sName(WStringToTString(pkt.ReadWString()));
-            tstring sValue(WStringToTString(pkt.ReadWString()));
+            tstring sName(pkt.ReadWStringAsTString());
+            tstring sValue(pkt.ReadWStringAsTString());
 
             if (pPlayer != NULL)
                 pPlayer->ProcessGameplayOption(sName, sValue);
@@ -7326,7 +7326,7 @@ bool    CGameServer::ProcessGameData(int iClientNum, CPacket &pkt)
                     if (pPlayer->HasNotificationFlags(NOTIFY_FLAG_CUSTOM_FILES))
                     {
                         if (GetGamePhase() <= GAME_PHASE_WAITING_FOR_PLAYERS)
-                            SendGeneralMessage(_CWS("warn_nomods"), pPlayer->GetClientNumber());
+                            SendGeneralMessage(_CTS("warn_nomods"), pPlayer->GetClientNumber());
                         else
                         {
                             if (pPlayer->GetTeam() >= TEAM_1 && pPlayer->GetTeam() <= TEAM_2)
@@ -7670,7 +7670,7 @@ bool    CGameServer::LoadWorld(const tstring &sName, const tstring &sGameSetting
         tsmapts_it itLocal(mapGameSettings.find(_T("local")));
         m_bLocal = AtoB(itLocal->second);
         
-        tsmapts_it itMap(mapGameSettings.find(_CWS("map")));
+        tsmapts_it itMap(mapGameSettings.find(_CTS("map")));
         if (itMap == mapGameSettings.end())
             EX_ERROR(_T("No map specified"));
 
@@ -10149,11 +10149,11 @@ void    CGameServer::GetServerInfo(CPacket &pkt)
   ====================*/
 void    CGameServer::GetReconnectInfo(CPacket &pkt, uint uiMatchID, uint uiAccountID, ushort unConnectionID)
 {
-    //Console << _CWS("Reconnect info request for match: ") << uiMatchID << _CWS(" account id: ") << uiAccountID << _CWS(" connection id: ") << unConnectionID << newl;
+    //Console << _CTS("Reconnect info request for match: ") << uiMatchID << _CTS(" account id: ") << uiAccountID << _CTS(" connection id: ") << unConnectionID << newl;
 
     if (GetGamePhase() <= GAME_PHASE_WAITING_FOR_PLAYERS || GetGamePhase() >= GAME_PHASE_ENDED)
     {
-        //Console << _CWS("No current match") << newl;
+        //Console << _CTS("No current match") << newl;
         pkt.WriteInt(0);
         return;
     }
@@ -10161,7 +10161,7 @@ void    CGameServer::GetReconnectInfo(CPacket &pkt, uint uiMatchID, uint uiAccou
     CGameInfo *pGameInfo(GetGameInfo());
     if (pGameInfo == NULL)
     {
-        //Console << _CWS("Invalid CGameInfo") << newl;
+        //Console << _CTS("Invalid CGameInfo") << newl;
         pkt.WriteInt(0);
         return;
     }
@@ -10188,13 +10188,13 @@ void    CGameServer::GetReconnectInfo(CPacket &pkt, uint uiMatchID, uint uiAccou
 
     if (pPlayer == NULL)
     {
-        //Console << _CWS("Player does not exist") << newl;
+        //Console << _CTS("Player does not exist") << newl;
         pkt.WriteInt(0);
         return;
     }
 
-    //Console << _CWS("Current match: ") << pGameInfo->GetMatchID() << newl;
-    //Console << _CWS("Player status: ") << (pPlayer->HasFlags(PLAYER_FLAG_TERMINATED) ? _CWS("terminated") : _CWS("active")) << newl;
+    //Console << _CTS("Current match: ") << pGameInfo->GetMatchID() << newl;
+    //Console << _CTS("Player status: ") << (pPlayer->HasFlags(PLAYER_FLAG_TERMINATED) ? _CTS("terminated") : _CTS("active")) << newl;
 
     if (pGameInfo->GetMatchID() != uiMatchID ||
         pPlayer->HasFlags(PLAYER_FLAG_TERMINATED) ||
@@ -10226,85 +10226,85 @@ void    CGameServer::GetHeartbeatInfo(CHTTPRequest *pHeartbeat)
     if (pHeartbeat == NULL)
         return;
 
-    pHeartbeat->AddVariable(L"mname", GetGameName());
+    pHeartbeat->AddVariable(_T("mname"), GetGameName());
 
     CGameInfo *pGameInfo(GetGameInfo());
     if (pGameInfo == NULL)
     {
-        Console.Err << L"Invalid game info!" << newl;
+        Console.Err << _T("Invalid game info!") << newl;
         return;
     }
 
     if (m_pHostServer->IsArrangedMatch())
-        pHeartbeat->AddVariable(L"new", 2);
+        pHeartbeat->AddVariable(_T("new"), 2);
     else if (m_pHostServer->IsTournMatch())
-        pHeartbeat->AddVariable(L"new", 3);
+        pHeartbeat->AddVariable(_T("new"), 3);
     else if (m_pHostServer->IsLeagueMatch())
-        pHeartbeat->AddVariable(L"new", 4);
+        pHeartbeat->AddVariable(_T("new"), 4);
     else
-        pHeartbeat->AddVariable(L"new", 1); 
+        pHeartbeat->AddVariable(_T("new"), 1);
             
-    pHeartbeat->AddVariable(L"match_id", pGameInfo->GetMatchID());
+    pHeartbeat->AddVariable(_T("match_id"), pGameInfo->GetMatchID());
 
     if (pGameInfo->GetMatchID() != -1)
-        pHeartbeat->AddVariable(L"option[officl]", 1);
+        pHeartbeat->AddVariable(_T("option[officl]"), 1);
 
-    pHeartbeat->AddVariable(L"max_players", pGameInfo->GetTeamSize());
+    pHeartbeat->AddVariable(_T("max_players"), pGameInfo->GetTeamSize());
 
     switch (pGameInfo->GetGameMode())
     {
-    case GAME_MODE_NORMAL:          pHeartbeat->AddVariable(L"mode", L"nm"); break;
-    case GAME_MODE_SINGLE_DRAFT:    pHeartbeat->AddVariable(L"mode", L"sd"); break;
-    case GAME_MODE_RANDOM_DRAFT:    pHeartbeat->AddVariable(L"mode", L"rd"); break;
-    case GAME_MODE_DEATHMATCH:      pHeartbeat->AddVariable(L"mode", L"dm"); break;
-    case GAME_MODE_BANNING_DRAFT:   pHeartbeat->AddVariable(L"mode", L"bd"); break;
-    case GAME_MODE_CAPTAINS_DRAFT:  pHeartbeat->AddVariable(L"mode", L"cd"); break;
-    case GAME_MODE_CAPTAINS_MODE:   pHeartbeat->AddVariable(L"mode", L"cm"); break;
-    case GAME_MODE_BANNING_PICK:    pHeartbeat->AddVariable(L"mode", L"bp"); break;
+    case GAME_MODE_NORMAL:          pHeartbeat->AddVariable(_T("mode"), _T("nm")); break;
+    case GAME_MODE_SINGLE_DRAFT:    pHeartbeat->AddVariable(_T("mode"), _T("sd")); break;
+    case GAME_MODE_RANDOM_DRAFT:    pHeartbeat->AddVariable(_T("mode"), _T("rd")); break;
+    case GAME_MODE_DEATHMATCH:      pHeartbeat->AddVariable(_T("mode"), _T("dm")); break;
+    case GAME_MODE_BANNING_DRAFT:   pHeartbeat->AddVariable(_T("mode"), _T("bd")); break;
+    case GAME_MODE_CAPTAINS_DRAFT:  pHeartbeat->AddVariable(_T("mode"), _T("cd")); break;
+    case GAME_MODE_CAPTAINS_MODE:   pHeartbeat->AddVariable(_T("mode"), _T("cm")); break;
+    case GAME_MODE_BANNING_PICK:    pHeartbeat->AddVariable(_T("mode"), _T("bp")); break;
     }
     
     if (pGameInfo->HasGameOptions(GAME_OPTION_ALL_HEROES))
-        pHeartbeat->AddVariable(L"option[ap]", 1);
+        pHeartbeat->AddVariable(_T("option[ap]"), 1);
     if (pGameInfo->HasGameOptions(GAME_OPTION_FORCE_RANDOM))
-        pHeartbeat->AddVariable(L"option[ar]", 1);
+        pHeartbeat->AddVariable(_T("option[ar]"), 1);
     if (pGameInfo->HasGameOptions(GAME_OPTION_EASY_MODE))
-        pHeartbeat->AddVariable(L"option[em]", 1);
+        pHeartbeat->AddVariable(_T("option[em]"), 1);
     if (pGameInfo->HasGameOptions(GAME_OPTION_CASUAL))
-        pHeartbeat->AddVariable(L"option[cas]", 1);
+        pHeartbeat->AddVariable(_T("option[cas]"), 1);
     if (pGameInfo->HasGameOptions(GAME_OPTION_SHUFFLE_TEAMS))
-        pHeartbeat->AddVariable(L"option[shuf]", 1);
+        pHeartbeat->AddVariable(_T("option[shuf]"), 1);
     if (pGameInfo->HasGameOptions(GAME_OPTION_AUTOBALANCE_TEAMS))
-        pHeartbeat->AddVariable(L"option[ab]", 1);
+        pHeartbeat->AddVariable(_T("option[ab]"), 1);
     if (pGameInfo->HasGameOptions(GAME_OPTION_NO_REPICK))
-        pHeartbeat->AddVariable(L"option[no_repick]", 1);
+        pHeartbeat->AddVariable(_T("option[no_repick]"), 1);
     if (pGameInfo->HasGameOptions(GAME_OPTION_NO_SWAP))
-        pHeartbeat->AddVariable(L"option[no_swap]", 1);
+        pHeartbeat->AddVariable(_T("option[no_swap]"), 1);
     if (pGameInfo->HasGameOptions(GAME_OPTION_NO_STRENGTH))
-        pHeartbeat->AddVariable(L"option[no_str]", 1);
+        pHeartbeat->AddVariable(_T("option[no_str]"), 1);
     if (pGameInfo->HasGameOptions(GAME_OPTION_NO_AGILITY))
-        pHeartbeat->AddVariable(L"option[no_agi]", 1);
+        pHeartbeat->AddVariable(_T("option[no_agi]"), 1);
     if (pGameInfo->HasGameOptions(GAME_OPTION_NO_INTELLIGENCE))
-        pHeartbeat->AddVariable(L"option[no_int]", 1);
+        pHeartbeat->AddVariable(_T("option[no_int]"), 1);
     if (pGameInfo->HasGameOptions(GAME_OPTION_DUPLICATE_HEROES))
-        pHeartbeat->AddVariable(L"option[dup_h]", 1);
+        pHeartbeat->AddVariable(_T("option[dup_h]"), 1);
     if (pGameInfo->HasGameOptions(GAME_OPTION_DROP_ITEMS))
-        pHeartbeat->AddVariable(L"option[drp_itm]", 1);
+        pHeartbeat->AddVariable(_T("option[drp_itm]"), 1);
     if (pGameInfo->HasGameOptions(GAME_OPTION_NO_RESPAWN_TIMER))
-        pHeartbeat->AddVariable(L"option[no_timer]", 1);
+        pHeartbeat->AddVariable(_T("option[no_timer]"), 1);
     if (pGameInfo->HasGameOptions(GAME_OPTION_REVERSE_SELECTION))
-        pHeartbeat->AddVariable(L"option[rev_hs]", 1);
+        pHeartbeat->AddVariable(_T("option[rev_hs]"), 1);
     if (pGameInfo->HasGameOptions(GAME_OPTION_ALTERNATE_SELECTION))
-        pHeartbeat->AddVariable(L"option[alt_pick]", 1);
+        pHeartbeat->AddVariable(_T("option[alt_pick]"), 1);
     if (pGameInfo->HasGameOptions(GAME_OPTION_NO_POWERUPS))
-        pHeartbeat->AddVariable(L"option[no_pups]", 1);
+        pHeartbeat->AddVariable(_T("option[no_pups]"), 1);
     if (pGameInfo->HasGameOptions(GAME_OPTION_ALLOW_VETO))
-        pHeartbeat->AddVariable(L"option[veto]", 1);
+        pHeartbeat->AddVariable(_T("option[veto]"), 1);
     if (pGameInfo->HasGameOptions(GAME_OPTION_TOURNAMENT_RULES))
-        pHeartbeat->AddVariable(L"option[tr]", 1);
+        pHeartbeat->AddVariable(_T("option[tr]"), 1);
     if (pGameInfo->HasGameOptions(GAME_OPTION_HARDCORE))
-        pHeartbeat->AddVariable(L"option[hardcore]", 1);
+        pHeartbeat->AddVariable(_T("option[hardcore]"), 1);
     if (pGameInfo->HasGameOptions(GAME_OPTION_DEV_HEROES))
-        pHeartbeat->AddVariable(L"option[dev_heroes]", 1);
+        pHeartbeat->AddVariable(_T("option[dev_heroes]"), 1);
 }
 #endif
 

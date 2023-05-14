@@ -1108,13 +1108,13 @@ CEvaluatorToken*    CExpressionEvaluator::GetToken(const tstring &sSymbol, CEval
     // Boolean
     else if (TStringCompare(sSymbol, _T("false")) == 0)
     {
-        pNewScriptToken = K2_NEW(ctx_Script,  CUIScriptToken)(pActiveWidget, _CWS("0"));
+        pNewScriptToken = K2_NEW(ctx_Script,  CUIScriptToken)(pActiveWidget, _CTS("0"));
     }
     else if (sSymbol.length() == 4)
     {
         if (TStringCompare(sSymbol, _T("true")) == 0)
         {
-            pNewScriptToken = K2_NEW(ctx_Script,  CUIScriptToken)(pActiveWidget, _CWS("1"));
+            pNewScriptToken = K2_NEW(ctx_Script,  CUIScriptToken)(pActiveWidget, _CTS("1"));
         }
         // Active widget value
         else if (TStringCompare(sSymbol, _T("this")) == 0)

@@ -11,21 +11,18 @@
 #include "c_hostserver.h"
 #include "c_hostclient.h"
 #include "c_world.h"
-#include "c_netdriver.h"
 #include "c_buffer.h"
 #include "c_networkresourcemanager.h"
 #include "c_updater.h"
 #include "md5.h"
 #include "c_voiceserver.h"
 #include "c_clientsnapshot.h"
-#include "c_date.h"
 #include "c_phpdata.h"
 #include "c_chatmanager.h"
 #include "c_httpmanager.h"
 #include "c_httprequest.h"
 #include "c_serverchatconnection.h"
 #include "c_servermanager.h"
-#include "c_resourceinfo.h"
 //=============================================================================
 
 //=============================================================================
@@ -416,9 +413,9 @@ bool    CHostServer::AddClient(const tstring &sAddress, ushort unPort, CPacket &
 #endif
 
         // Count connection attempts from each address
-        map<wstring, uint>::iterator itFind(m_mapConnectionRequests.find(sAddress));
+        map<tstring, uint>::iterator itFind(m_mapConnectionRequests.find(sAddress));
         if (itFind == m_mapConnectionRequests.end())
-            itFind = m_mapConnectionRequests.insert(pair<wstring, uint>(sAddress, 0)).first;
+            itFind = m_mapConnectionRequests.insert(pair<tstring, uint>(sAddress, 0)).first;
 
         if (itFind->second >= svr_connectReqThreshold)
             EX_ERROR(_T("rejected_too_many_attempts"));
@@ -426,16 +423,16 @@ bool    CHostServer::AddClient(const tstring &sAddress, ushort unPort, CPacket &
         ++itFind->second;
         
         // Validate connection request
-        wstring sGame(pkt.ReadWString());
-        wstring sVersion(pkt.ReadWString());
+        tstring sGame(pkt.ReadWStringAsTString());
+        tstring sVersion(pkt.ReadWStringAsTString());
         uint uiHostID(pkt.ReadInt());
         ushort unConnectionID(pkt.ReadShort());
-        wstring sPassWord(pkt.ReadWString());
-        wstring sName(pkt.ReadWString());
-        wstring sCookie(pkt.ReadWString());
-        wstring sIP(pkt.ReadWString());
-        wstring sMatchKey(pkt.ReadWString());
-        wstring sInvitationCode(pkt.ReadWString());
+        tstring sPassWord(pkt.ReadWStringAsTString());
+        tstring sName(pkt.ReadWStringAsTString());
+        tstring sCookie(pkt.ReadWStringAsTString());
+        tstring sIP(pkt.ReadWStringAsTString());
+        tstring sMatchKey(pkt.ReadWStringAsTString());
+        tstring sInvitationCode(pkt.ReadWStringAsTString());
         byte yHostRequest(pkt.ReadByte());
         if (pkt.HasFaults())
             EX_ERROR(_T("rejected_invalid_request"));
@@ -760,8 +757,8 @@ void    CHostServer::ProcessManagerPacket(CPacket &pkt)
 
     case NETCMD_MANAGER_CHAT:
         {
-            wstring sMsg(pkt.ReadWString());
-            Console.Execute(L"ServerChat " + QuoteStr(sMsg));
+            tstring sMsg(pkt.ReadWStringAsTString());
+            Console.Execute(_T("ServerChat ") + QuoteStr(sMsg));
             bProcessed = true;
         }
         break;
@@ -896,9 +893,9 @@ void    CHostServer::ReadPackets()
             {
                 uint uiMatchID(pkt.ReadInt());
                 uint uiChallenge(pkt.ReadInt());
-                wstring sKey(pkt.ReadWString());
-                wstring sName(pkt.ReadWString());
-                wstring sSettings(pkt.ReadWString());
+                tstring sKey(pkt.ReadWStringAsTString());
+                tstring sName(pkt.ReadWStringAsTString());
+                tstring sSettings(pkt.ReadWStringAsTString());
                 uint uiMatchStartTime(pkt.ReadInt());
 
                 if (pkt.HasFaults() || sKey.empty() || sName.empty())
@@ -958,7 +955,7 @@ void    CHostServer::ReadPackets()
 
                 if (m_pWorld != NULL && m_pWorld->IsLoaded() || m_pWorld->IsLoading())
                 {
-                    Console << L"Ignoring NETCMD_CREATE_TOURN_MATCH because a match is already loaded" << newl;
+                    Console << _T("Ignoring NETCMD_CREATE_TOURN_MATCH because a match is already loaded") << newl;
                     break;
                 }
 
@@ -1296,7 +1293,7 @@ CStateBlock&    CHostServer::GetStateBlock(ushort unID)
 
     if (unID >= m_vStateBlocks.size())
     {
-        Console.Err << L"Invalid state block ID: " << unID << newl;
+        Console.Err << _T("Invalid state block ID: ") << unID << newl;
         static CStateBlock blockInvalid;
         return blockInvalid;
     }
@@ -1355,14 +1352,14 @@ bool    CHostServer::RequestSessionCookie(bool bNew)
         return false;
 
     pNewSessionRequest->SetTargetURL(m_sMasterServerURL);
-    pNewSessionRequest->AddVariable(L"f", L"new_session");
-    pNewSessionRequest->AddVariable(L"login", svr_login);
-    pNewSessionRequest->AddVariable(L"pass", TStringToUTF8(svr_password));
-    pNewSessionRequest->AddVariable(L"port", svr_port.GetString());
-    pNewSessionRequest->AddVariable(L"name", svr_name);
-    pNewSessionRequest->AddVariable(L"desc", svr_desc);
-    pNewSessionRequest->AddVariable(L"location", svr_location);
-    pNewSessionRequest->AddVariable(L"ip", svr_ip);
+    pNewSessionRequest->AddVariable(_T("f"), _T("new_session"));
+    pNewSessionRequest->AddVariable(_T("login"), svr_login);
+    pNewSessionRequest->AddVariable(_T("pass"), TStringToUTF8(svr_password));
+    pNewSessionRequest->AddVariable(_T("port"), svr_port.GetString());
+    pNewSessionRequest->AddVariable(_T("name"), svr_name);
+    pNewSessionRequest->AddVariable(_T("desc"), svr_desc);
+    pNewSessionRequest->AddVariable(_T("location"), svr_location);
+    pNewSessionRequest->AddVariable(_T("ip"), svr_ip);
     pNewSessionRequest->SetTimeout(MsToSec(svr_requestSessionCookieTimeout));
     pNewSessionRequest->SendPostRequest();
     pNewSessionRequest->Wait();
@@ -1544,48 +1541,48 @@ void    CHostServer::SendHeartbeat()
 
     m_pHeartbeat->SetTargetURL(m_sMasterServerURL);
     m_pHeartbeat->ClearVariables();
-    m_pHeartbeat->AddVariable(L"f", L"set_online");
-    m_pHeartbeat->AddVariable(L"session", m_sSessionCookie);
-    m_pHeartbeat->AddVariable(L"num_conn", int(GetNumConnectedClients()));
-    m_pHeartbeat->AddVariable(L"cgt", sGameTime);
+    m_pHeartbeat->AddVariable(_T("f"), _T("set_online"));
+    m_pHeartbeat->AddVariable(_T("session"), m_sSessionCookie);
+    m_pHeartbeat->AddVariable(_T("num_conn"), int(GetNumConnectedClients()));
+    m_pHeartbeat->AddVariable(_T("cgt"), sGameTime);
 
     if (IsArrangedMatch() || m_bForceInviteOnly)
-        m_pHeartbeat->AddVariable(L"private", int(ACCESS_INVITEONLY));
+        m_pHeartbeat->AddVariable(_T("private"), int(ACCESS_INVITEONLY));
     else
-        m_pHeartbeat->AddVariable(L"private", int(GetServerAccess()));
+        m_pHeartbeat->AddVariable(_T("private"), int(GetServerAccess()));
 
     int iNewCState(-1);
 
     if (Host.IsSleeping())
     {
         iNewCState = 0;
-        m_pHeartbeat->AddVariable(L"c_state", iNewCState);
+        m_pHeartbeat->AddVariable(_T("c_state"), iNewCState);
     }
     else if (GetWorld() == NULL || !GetWorld()->IsLoaded())
     {
         iNewCState = 1;
-        m_pHeartbeat->AddVariable(L"c_state", iNewCState);
+        m_pHeartbeat->AddVariable(_T("c_state"), iNewCState);
     }
     else
     {
         iNewCState = m_bMatchStarted ? 3 : 2;
-        m_pHeartbeat->AddVariable(L"c_state", iNewCState);
+        m_pHeartbeat->AddVariable(_T("c_state"), iNewCState);
 
         if (m_bInitializeMatchHeartbeat)
         {
             m_GameLib.GetHeartbeatInfo(m_pHeartbeat);
-            m_pHeartbeat->AddVariable(L"league", 0);
-            m_pHeartbeat->AddVariable(L"tier", 0);  // Depreciated
+            m_pHeartbeat->AddVariable(_T("league"), 0);
+            m_pHeartbeat->AddVariable(_T("tier"), 0);  // Depreciated
             if (GetNoStats())
-                m_pHeartbeat->AddVariable(L"option[no_stats]", 1);
+                m_pHeartbeat->AddVariable(_T("option[no_stats]"), 1);
             if (GetNoLeaver())
-                m_pHeartbeat->AddVariable(L"option[nl]", 1);
+                m_pHeartbeat->AddVariable(_T("option[nl]"), 1);
 
             m_bInitializeMatchHeartbeat = false;
         }
     }
 
-    m_pHeartbeat->AddVariable(L"prev_c_state", m_iLastCState);
+    m_pHeartbeat->AddVariable(_T("prev_c_state"), m_iLastCState);
     m_iLastCState = iNewCState;
 
     if (svr_debugHeartbeat)
@@ -1735,8 +1732,8 @@ void    CHostServer::SendShutdown()
         return;
 
     pShutdowRequest->SetTargetURL(m_sMasterServerURL);
-    pShutdowRequest->AddVariable(L"f", L"shutdown");
-    pShutdowRequest->AddVariable(L"session", m_sSessionCookie);
+    pShutdowRequest->AddVariable(_T("f"), _T("shutdown"));
+    pShutdowRequest->AddVariable(_T("session"), m_sSessionCookie);
     pShutdowRequest->SendPostRequest();
     pShutdowRequest->Wait();
     m_pHTTPManager->ReleaseRequest(pShutdowRequest);
@@ -1930,12 +1927,12 @@ bool    CHostServer::Init(bool bPractice, bool bLocal)
 #endif
 
         // Successful start
-        Console.Server << L"Started server " << QuoteStr(m_GameLib.GetName()) << L" version "
-            << XtoA(m_GameLib.GetMajorVersion()) << L"." << XtoA(m_GameLib.GetMinorVersion()) << newl;
+        Console.Server << _T("Started server ") << QuoteStr(m_GameLib.GetName()) << _T(" version ")
+            << XtoA(m_GameLib.GetMajorVersion()) << _T(".") << XtoA(m_GameLib.GetMinorVersion()) << newl;
 
         m_GameLib.SetGamePointer();
         if (!m_GameLib.Init(this))
-            EX_ERROR(L"Failed to initialize server library");
+            EX_ERROR(_T("Failed to initialize server library"));
 
         NetworkResourceManager.Clear();
 
@@ -2028,29 +2025,29 @@ bool    CHostServer::StartGame(const tstring &sName, const tstring &sGameSetting
     }
 
     if (m_bPractice)
-        sNewGameSettings += _CWS(" solo:true");
+        sNewGameSettings += _CTS(" solo:true");
     else
-        sNewGameSettings += _CWS(" solo:false");
+        sNewGameSettings += _CTS(" solo:false");
 
     if (m_bLocal)
-        sNewGameSettings += _CWS(" local:true");
+        sNewGameSettings += _CTS(" local:true");
     else
-        sNewGameSettings += _CWS(" local:false");
+        sNewGameSettings += _CTS(" local:false");
 
     if (IsArrangedMatch())
-        sNewGameSettings += _CWS(" arranged:true");
+        sNewGameSettings += _CTS(" arranged:true");
     else
-        sNewGameSettings += _CWS(" arranged:false");
+        sNewGameSettings += _CTS(" arranged:false");
         
     if (m_bTournMatch)
-        sNewGameSettings += _CWS(" tourn:true");
+        sNewGameSettings += _CTS(" tourn:true");
     else
-        sNewGameSettings += _CWS(" tourn:false");
+        sNewGameSettings += _CTS(" tourn:false");
 
     if (m_bLeagueMatch)
-        sNewGameSettings += _CWS(" league:true");
+        sNewGameSettings += _CTS(" league:true");
     else
-        sNewGameSettings += _CWS(" league:false");
+        sNewGameSettings += _CTS(" league:false");
     
     m_GameLib.SetGamePointer();
     if (!m_GameLib.LoadWorld(sCleanName, sNewGameSettings))
@@ -2227,7 +2224,7 @@ void    CHostServer::Frame(uint uiHostFrameLength, bool bClientReady)
         {
             m_uiLastConnectRequestPeriod = Host.GetTime();
 
-            for (map<wstring, uint>::iterator it(m_mapConnectionRequests.begin()), itEnd(m_mapConnectionRequests.end()); it != itEnd; )
+            for (auto it(m_mapConnectionRequests.begin()), itEnd(m_mapConnectionRequests.end()); it != itEnd; )
             {
                 --it->second;
                 if (it->second == 0)

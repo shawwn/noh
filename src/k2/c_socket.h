@@ -41,7 +41,7 @@ private:
     word            m_wLocalPort;
 
     uint            m_uiReliableRecvLastSeq;
-    wstring         m_sRecvAddrName;            // address related to this packaet
+    tstring         m_sRecvAddrName;            // address related to this packaet
     word            m_wRecvPort;
 
     ReliablePktList m_UnackPackets;
@@ -77,7 +77,7 @@ public:
     tstring     GetName() const                             { return m_sName; }
     void        SetConnectionID(ushort unConnectionID)      { m_unConnectionID = unConnectionID; }
 
-    wstring     GetRecvAddrName() const                     { return m_sRecvAddrName; }
+    tstring     GetRecvAddrName() const                     { return m_sRecvAddrName; }
     word        GetRecvPort() const                         { return m_wRecvPort; }
 
     tstring     GetSendAddrName() const                     { return m_sSendAddrName; }

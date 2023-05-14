@@ -16,15 +16,12 @@
 #include "c_socket.h"
 #include "c_statestring.h"
 #include "c_networkresourcemanager.h"
-#include "c_clientlogin.h"
 #include "c_chatmanager.h"
 #include "c_zip.h"
 #include "c_sample.h"
-#include "c_soundmanager.h"
 #include "c_netstats.h"
 #include "c_updater.h"
 #include "c_eventmanager.h"
-#include "c_chatmanager.h"
 #include "c_inputstate.h"
 #include "c_actionregistry.h"
 #include "c_hostserver.h"
@@ -33,7 +30,6 @@
 #include "c_stringtable.h"
 #include "i_widget.h"
 #include "i_listwidget.h"
-#include "c_date.h"
 #include "c_phpdata.h"
 #include "c_httpmanager.h"
 #include "c_httprequest.h"
@@ -1362,7 +1358,7 @@ bool    CHostClient::ProcessPacket(CPacket &pkt)
                     ushort unConnectionID(pkt.ReadShort());
                     int iClientNum(pkt.ReadInt());
                     byte yAuthFlags(pkt.ReadByte());
-                    wstring sCompatVersion(pkt.ReadWString());
+                    tstring sCompatVersion(pkt.ReadWStringAsTString());
 
                     FileManager.SetCompatVersion(sCompatVersion);
 
@@ -1370,7 +1366,7 @@ bool    CHostClient::ProcessPacket(CPacket &pkt)
                     m_iClientNum = iClientNum;
                     m_yAuthFlags = yAuthFlags;
 
-                    Console.Client << L"Connection accepted. Connection ID: " << m_unConnectionID << L" Client number: " << m_iClientNum << (m_bGameHost ? L" [Host]" : WSNULL) << newl;
+                    Console.Client << _T("Connection accepted. Connection ID: ") << m_unConnectionID << _T(" Client number: ") << m_iClientNum << (m_bGameHost ? _T(" [Host]") : TSNULL) << newl;
                     m_sockGame.SetConnectionID(m_unConnectionID);
                     cl_connectionID = m_unConnectionID;
                     Host.SaveConfig();
@@ -1506,7 +1502,7 @@ bool    CHostClient::ProcessPacket(CPacket &pkt)
 
             case NETCMD_SERVER_INVITE:
                 {
-                    wstring sName(pkt.ReadWString());
+                    tstring sName(pkt.ReadWStringAsTString());
                     ChatManager.SendServerInvite(sName);
                 }
                 break;
@@ -2000,13 +1996,13 @@ void    CHostClient::PreloadWorldResources(const tstring &sWorldName)
 void    CHostClient::ProcessKickPacket(CPacket &pkt)
 {
     static tsvector vMessage(3);
-    wstring sReason(pkt.ReadWString());
+    tstring sReason(pkt.ReadWStringAsTString());
 
     // MikeG check for trial dc and pop up the gui to purchase
     if (sReason == _T("disconnect_trial_expired"))
     {
         m_ClientAccount.SetTrialExpired();
-        Console << L"Disconnected: " << sRed << sReason << newl;
+        Console << _T("Disconnected: ") << sRed << sReason << newl;
         static tsvector vAccountInfo(12);
         vAccountInfo[0] = XtoA(m_ClientAccount.GetAccountID());
         vAccountInfo[1] = m_ClientAccount.GetNickname();
@@ -2024,8 +2020,8 @@ void    CHostClient::ProcessKickPacket(CPacket &pkt)
     }
     else
     {
-        vMessage[0] = L"disconnect_title";
-        vMessage[1] = sReason.empty() ? L"disconnect_unknown" : sReason;
+        vMessage[0] = _T("disconnect_title");
+        vMessage[1] = sReason.empty() ? _T("disconnect_unknown") : sReason;
         
         if (sReason == _T("disconnect_duplicate_login"))
             vMessage[2] = XtoA(true);
@@ -2044,7 +2040,7 @@ void    CHostClient::ProcessKickPacket(CPacket &pkt)
             vMessage[1] = pClientMessages->Get(vMessage[1]);
         }
 
-        Console << L"Disconnected: " << sRed << sReason << newl;
+        Console << _T("Disconnected: ") << sRed << sReason << newl;
         HostErrorMessage.Trigger(vMessage);
     }
 
@@ -3306,19 +3302,19 @@ void    CServerList::RequestMasterServerList(const tstring &sCookie, const tstri
         return;
 
     m_pRequest->SetTargetURL(K2System.GetMasterServerAddress() + "/client_requester.php");
-    m_pRequest->AddVariable(L"f", L"server_list");
+    m_pRequest->AddVariable(_T("f"), _T("server_list"));
 
     if (!sRegion.empty())
-        m_pRequest->AddVariable(L"region", sRegion);
+        m_pRequest->AddVariable(_T("region"), sRegion);
 
-    m_pRequest->AddVariable(L"cookie", sCookie);
+    m_pRequest->AddVariable(_T("cookie"), sCookie);
 
 #ifdef K2_GARENA
-    m_pRequest->AddVariable(L"token", Host.GetGarenaToken());
+    m_pRequest->AddVariable(_T("token"), Host.GetGarenaToken());
 #endif
 
     if (!sQueryType.empty())
-        m_pRequest->AddVariable(L"gametype", sQueryType);
+        m_pRequest->AddVariable(_T("gametype"), sQueryType);
 
     m_pRequest->SendPostRequest();
 
@@ -3421,18 +3417,18 @@ void    CServerList::CheckReconnectStatus(const tstring &sAddress, uint uiMatchI
 bool    CServerList::ProcessServerResponse(const tstring &sAddress, CPacket &pkt)
 {
     ushort unChallenge(pkt.ReadShort());
-    wstring sServerName(pkt.ReadWString());
+    tstring sServerName(pkt.ReadWStringAsTString());
     byte yNumPlayers(pkt.ReadByte());
     byte yMaxPlayers(pkt.ReadByte());
-    wstring sMap(pkt.ReadWString());
-    wstring sVersion(pkt.ReadWString());
+    tstring sMap(pkt.ReadWStringAsTString());
+    tstring sVersion(pkt.ReadWStringAsTString());
     EServerAccess eAccess(EServerAccess(pkt.ReadByte()));
     int iTier(pkt.ReadByte());
     byte yHostFlags(pkt.ReadByte());
     bool bMatchStarted(pkt.ReadByte() != 0);
-    wstring sRegion(pkt.ReadWString());
-    wstring sGameName(pkt.ReadWString());
-    wstring sGameMode(pkt.ReadWString());
+    tstring sRegion(pkt.ReadWStringAsTString());
+    tstring sGameName(pkt.ReadWStringAsTString());
+    tstring sGameMode(pkt.ReadWStringAsTString());
     byte yTeamSize(pkt.ReadByte());
     uint uiGameOptions(pkt.ReadInt());
     byte yArrangedType(pkt.ReadByte());
@@ -3462,9 +3458,9 @@ bool    CServerList::ProcessServerResponse(const tstring &sAddress, CPacket &pkt
             (bMatchStarted && itFind->second.m_eList != LIST_ONGOING_GAME))
         {
             if (itFind->second.m_eList == LIST_SERVER)
-                Console.Client << L"^y" << sServerName << SPACE << sAddress << SPACE << XtoA(itFind->second.m_unPing) << L"ms" << L" " << ParenStr(XtoA(yNumPlayers)) << newl;
+                Console.Client << _T("^y") << sServerName << SPACE << sAddress << SPACE << XtoA(itFind->second.m_unPing) << _T("ms") << _T(" ") << ParenStr(XtoA(yNumPlayers)) << newl;
             else
-                Console.Client << L"^y" << sServerName << SPACE << sAddress << SPACE << XtoA(itFind->second.m_unPing) << L"ms" << L" - " << sGameName << L" " << ParenStr(XtoA(yNumPlayers)) << newl;
+                Console.Client << _T("^y") << sServerName << SPACE << sAddress << SPACE << XtoA(itFind->second.m_unPing) << _T("ms") << _T(" - ") << sGameName << _T(" ") << ParenStr(XtoA(yNumPlayers)) << newl;
 
             return true;
         }
@@ -3726,7 +3722,7 @@ bool    CServerList::ProcessReconnectInfoResponse(const tstring &sAddress, CPack
         return false;
 
     m_uiReconnectExpireTime = Host.GetTime() + iRemaingTime;
-    ReconnectShow.Trigger(iRemaingTime > 0 ? _CWS("true"): _CWS("false"));
+    ReconnectShow.Trigger(iRemaingTime > 0 ? _CTS("true"): _CTS("false"));
     ReconnectTimer.Trigger(XtoA(iRemaingTime));
     ReconnectAddress.Trigger(sAddress);
     return true;
@@ -4053,17 +4049,17 @@ void    CServerList::AddServerToList(SServerListEntry &cEntry, bool bLocal)
         int iServerType(0);
         if ((cEntry.m_yFlags & SERVER_OFFICIAL) && !(cEntry.m_yHostFlags & HOST_SERVER_NO_STATS))
         {
-            sId = _CWS("official");
+            sId = _CTS("official");
             iServerType = 1;
         }
         else if ((cEntry.m_yFlags & SERVER_OFFICIAL) && (cEntry.m_yHostFlags & HOST_SERVER_NO_STATS))
         {
-            sId = _CWS("official_2");
+            sId = _CTS("official_2");
             iServerType = 2;
         }
         else if (!(cEntry.m_yFlags & SERVER_OFFICIAL))
         {
-            sId = _CWS("invis");
+            sId = _CTS("invis");
             iServerType = 0;
         }
 
@@ -4207,7 +4203,7 @@ void    CServerList::RelistServers()
 /*====================
   CServerList::ProcessServerList
   ====================*/
-void    CServerList::ProcessServerList(const wstring &sResponse)
+void    CServerList::ProcessServerList(const tstring &sResponse)
 {
     CPHPData phpResponse(sResponse);
 

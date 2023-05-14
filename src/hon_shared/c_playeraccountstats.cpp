@@ -42,12 +42,12 @@ m_usAssists(0)
 {
     if (pMatch)
     {
-        tstring tsHeroDevName = pMatch->GetString(_CWS("cli_name"), TSNULL);
+        tstring tsHeroDevName = pMatch->GetString(_CTS("cli_name"), TSNULL);
         m_usHeroID = EntityRegistry.LookupID(tsHeroDevName);
-        m_bWin = pMatch->GetBool(_CWS("wins"), false);
-        m_usKills = pMatch->GetInteger(_CWS("herokills"), 0);
-        m_usDeaths = pMatch->GetInteger(_CWS("deaths"), 0);
-        m_usAssists = pMatch->GetInteger(_CWS("heroassists"), 0);
+        m_bWin = pMatch->GetBool(_CTS("wins"), false);
+        m_usKills = pMatch->GetInteger(_CTS("herokills"), 0);
+        m_usDeaths = pMatch->GetInteger(_CTS("deaths"), 0);
+        m_usAssists = pMatch->GetInteger(_CTS("heroassists"), 0);
     }
 }
 
@@ -61,9 +61,9 @@ m_uiSecondsPlayed(0)
 {
     if (pFavHero)
     {
-        tstring tsHeroDevName = pFavHero->GetString(_CWS("cli_name"), TSNULL);
+        tstring tsHeroDevName = pFavHero->GetString(_CTS("cli_name"), TSNULL);
         m_usHeroID = EntityRegistry.LookupID(tsHeroDevName);
-        m_uiSecondsPlayed = pFavHero->GetInteger(_CWS("ph_secs"), 0);
+        m_uiSecondsPlayed = pFavHero->GetInteger(_CTS("ph_secs"), 0);
     }
 }
 
@@ -76,8 +76,8 @@ CPlayerAccountHistory::CPlayerAccountHistory(const CPHPData *pData)
     if (pData == NULL)
         return;
         
-    const CPHPData *pMatchHistory(pData->GetVar(_CWS("match_history")));
-    const CPHPData *pFavoritHeroes(pData->GetVar(_CWS("fav_heroes")));
+    const CPHPData *pMatchHistory(pData->GetVar(_CTS("match_history")));
+    const CPHPData *pFavoritHeroes(pData->GetVar(_CTS("fav_heroes")));
     if (pMatchHistory != NULL)
     {
         for(uint uiLastMatch = 0; uiLastMatch < pMatchHistory->GetSize(); ++uiLastMatch)
@@ -130,63 +130,63 @@ m_uiSecondsGettingExp(0)
 
     if (yType == PLAYER_STATS_TYPE_RANKED)
     {
-        m_uiRating = pData->GetInteger(_CWS("rnk_amm_team_rating"), 1500);
-        m_uiTeamCount = pData->GetInteger(_CWS("rnk_amm_team_count"), 0);
-        m_fTeamConf = pData->GetFloat(_CWS("rnk_amm_team_conf"), 0.0f);
-        m_uiSoloCount = pData->GetInteger(_CWS("rnk_amm_solo_count"), 0);
-        m_fSoloConf = pData->GetFloat(_CWS("rnk_amm_solo_conf"), 0.0f);
-        m_uiWins = pData->GetInteger(_CWS("rnk_wins"), 0);
-        m_uiLosses = pData->GetInteger(_CWS("rnk_losses"), 0);
-        m_uiDisconnects = pData->GetInteger(_CWS("rnk_discos"), 0);
-        m_uiKills = pData->GetInteger(_CWS("rnk_herokills"), 0);
-        m_uiAssists = pData->GetInteger(_CWS("rnk_heroassists"), 0);
-        m_uiDeaths = pData->GetInteger(_CWS("rnk_deaths"), 0);
-        m_uiWards = pData->GetInteger(_CWS("rnk_wards"), 0);
-        m_uiGamesPlayed = pData->GetInteger(_CWS("rnk_games_played"), 0);
-        m_uiGoldTotal = pData->GetInteger(_CWS("rnk_gold"), 0);
-        m_uiExpTotal = pData->GetInteger(_CWS("rnk_exp"), 0);
-        m_uiSecondsPlayed = pData->GetInteger(_CWS("rnk_secs"), 0);
-        m_uiSecondsGettingExp = pData->GetInteger(_CWS("rnk_time_earning_exp"), 0);
+        m_uiRating = pData->GetInteger(_CTS("rnk_amm_team_rating"), 1500);
+        m_uiTeamCount = pData->GetInteger(_CTS("rnk_amm_team_count"), 0);
+        m_fTeamConf = pData->GetFloat(_CTS("rnk_amm_team_conf"), 0.0f);
+        m_uiSoloCount = pData->GetInteger(_CTS("rnk_amm_solo_count"), 0);
+        m_fSoloConf = pData->GetFloat(_CTS("rnk_amm_solo_conf"), 0.0f);
+        m_uiWins = pData->GetInteger(_CTS("rnk_wins"), 0);
+        m_uiLosses = pData->GetInteger(_CTS("rnk_losses"), 0);
+        m_uiDisconnects = pData->GetInteger(_CTS("rnk_discos"), 0);
+        m_uiKills = pData->GetInteger(_CTS("rnk_herokills"), 0);
+        m_uiAssists = pData->GetInteger(_CTS("rnk_heroassists"), 0);
+        m_uiDeaths = pData->GetInteger(_CTS("rnk_deaths"), 0);
+        m_uiWards = pData->GetInteger(_CTS("rnk_wards"), 0);
+        m_uiGamesPlayed = pData->GetInteger(_CTS("rnk_games_played"), 0);
+        m_uiGoldTotal = pData->GetInteger(_CTS("rnk_gold"), 0);
+        m_uiExpTotal = pData->GetInteger(_CTS("rnk_exp"), 0);
+        m_uiSecondsPlayed = pData->GetInteger(_CTS("rnk_secs"), 0);
+        m_uiSecondsGettingExp = pData->GetInteger(_CTS("rnk_time_earning_exp"), 0);
     }
     else if (yType == PLAYER_STATS_TYPE_PUBLIC)
     {
-        m_uiRating = pData->GetInteger(_CWS("acc_pub_skill"), 1500);
-        m_uiTeamCount = pData->GetInteger(_CWS("acc_pub_count"), 0);
-        m_fTeamConf = pData->GetFloat(_CWS("rnk_amm_team_conf"), 0.0f);
-        m_uiSoloCount = pData->GetInteger(_CWS("acc_pub_count"), 0);
-        m_fSoloConf = pData->GetFloat(_CWS("rnk_amm_solo_conf"), 0.0f);
-        m_uiWins = pData->GetInteger(_CWS("acc_wins"), 0);
-        m_uiLosses = pData->GetInteger(_CWS("acc_losses"), 0);
-        m_uiDisconnects = pData->GetInteger(_CWS("acc_discos"), 0);
-        m_uiKills = pData->GetInteger(_CWS("acc_herokills"), 0);
-        m_uiAssists = pData->GetInteger(_CWS("acc_heroassists"), 0);
-        m_uiDeaths = pData->GetInteger(_CWS("acc_deaths"), 0);
-        m_uiWards = pData->GetInteger(_CWS("acc_wards"), 0);
-        m_uiGamesPlayed = pData->GetInteger(_CWS("acc_games_played"), 0);
-        m_uiGoldTotal = pData->GetInteger(_CWS("acc_gold"), 0);
-        m_uiExpTotal = pData->GetInteger(_CWS("acc_exp"), 0);
-        m_uiSecondsPlayed = pData->GetInteger(_CWS("acc_secs"), 0);
-        m_uiSecondsGettingExp = pData->GetInteger(_CWS("acc_time_earning_exp"), 0);
+        m_uiRating = pData->GetInteger(_CTS("acc_pub_skill"), 1500);
+        m_uiTeamCount = pData->GetInteger(_CTS("acc_pub_count"), 0);
+        m_fTeamConf = pData->GetFloat(_CTS("rnk_amm_team_conf"), 0.0f);
+        m_uiSoloCount = pData->GetInteger(_CTS("acc_pub_count"), 0);
+        m_fSoloConf = pData->GetFloat(_CTS("rnk_amm_solo_conf"), 0.0f);
+        m_uiWins = pData->GetInteger(_CTS("acc_wins"), 0);
+        m_uiLosses = pData->GetInteger(_CTS("acc_losses"), 0);
+        m_uiDisconnects = pData->GetInteger(_CTS("acc_discos"), 0);
+        m_uiKills = pData->GetInteger(_CTS("acc_herokills"), 0);
+        m_uiAssists = pData->GetInteger(_CTS("acc_heroassists"), 0);
+        m_uiDeaths = pData->GetInteger(_CTS("acc_deaths"), 0);
+        m_uiWards = pData->GetInteger(_CTS("acc_wards"), 0);
+        m_uiGamesPlayed = pData->GetInteger(_CTS("acc_games_played"), 0);
+        m_uiGoldTotal = pData->GetInteger(_CTS("acc_gold"), 0);
+        m_uiExpTotal = pData->GetInteger(_CTS("acc_exp"), 0);
+        m_uiSecondsPlayed = pData->GetInteger(_CTS("acc_secs"), 0);
+        m_uiSecondsGettingExp = pData->GetInteger(_CTS("acc_time_earning_exp"), 0);
     }
     else if (yType == PLAYER_STATS_TYPE_CASUAL)
     {
-        m_uiRating = pData->GetInteger(_CWS("cs_amm_team_rating"), 1500);
-        m_uiTeamCount = pData->GetInteger(_CWS("cs_amm_team_count"), 0);
-        m_fTeamConf = pData->GetFloat(_CWS("cs_amm_team_conf"), 0.0f);
-        m_uiSoloCount = pData->GetInteger(_CWS("cs_amm_solo_count"), 0);
-        m_fSoloConf = pData->GetFloat(_CWS("cs_amm_solo_conf"), 0.0f);
-        m_uiWins = pData->GetInteger(_CWS("cs_wins"), 0);
-        m_uiLosses = pData->GetInteger(_CWS("cs_losses"), 0);
-        m_uiDisconnects = pData->GetInteger(_CWS("cs_discos"), 0);
-        m_uiKills = pData->GetInteger(_CWS("cs_herokills"), 0);
-        m_uiAssists = pData->GetInteger(_CWS("cs_heroassists"), 0);
-        m_uiDeaths = pData->GetInteger(_CWS("cs_deaths"), 0);
-        m_uiWards = pData->GetInteger(_CWS("cs_wards"), 0);
-        m_uiGamesPlayed = pData->GetInteger(_CWS("cs_games_played"), 0);
-        m_uiGoldTotal = pData->GetInteger(_CWS("cs_gold"), 0);
-        m_uiExpTotal = pData->GetInteger(_CWS("cs_exp"), 0);
-        m_uiSecondsPlayed = pData->GetInteger(_CWS("cs_secs"), 0);
-        m_uiSecondsGettingExp = pData->GetInteger(_CWS("cs_time_earning_exp"), 0);
+        m_uiRating = pData->GetInteger(_CTS("cs_amm_team_rating"), 1500);
+        m_uiTeamCount = pData->GetInteger(_CTS("cs_amm_team_count"), 0);
+        m_fTeamConf = pData->GetFloat(_CTS("cs_amm_team_conf"), 0.0f);
+        m_uiSoloCount = pData->GetInteger(_CTS("cs_amm_solo_count"), 0);
+        m_fSoloConf = pData->GetFloat(_CTS("cs_amm_solo_conf"), 0.0f);
+        m_uiWins = pData->GetInteger(_CTS("cs_wins"), 0);
+        m_uiLosses = pData->GetInteger(_CTS("cs_losses"), 0);
+        m_uiDisconnects = pData->GetInteger(_CTS("cs_discos"), 0);
+        m_uiKills = pData->GetInteger(_CTS("cs_herokills"), 0);
+        m_uiAssists = pData->GetInteger(_CTS("cs_heroassists"), 0);
+        m_uiDeaths = pData->GetInteger(_CTS("cs_deaths"), 0);
+        m_uiWards = pData->GetInteger(_CTS("cs_wards"), 0);
+        m_uiGamesPlayed = pData->GetInteger(_CTS("cs_games_played"), 0);
+        m_uiGoldTotal = pData->GetInteger(_CTS("cs_gold"), 0);
+        m_uiExpTotal = pData->GetInteger(_CTS("cs_exp"), 0);
+        m_uiSecondsPlayed = pData->GetInteger(_CTS("cs_secs"), 0);
+        m_uiSecondsGettingExp = pData->GetInteger(_CTS("cs_time_earning_exp"), 0);
     }
 }
 
@@ -207,17 +207,17 @@ m_sGameCookie(_T(""))
 {
     if (pData)
     {
-        m_iAccountID = pData->GetInteger(_CWS("account_id"), 0);
-        m_iSuperID = pData->GetInteger(_CWS("super_id"), 0);
-        m_uiAccountType = pData->GetInteger(_CWS("account_type"), 0);
-        m_uiTrialStatus = pData->GetInteger(_CWS("trial"), 0);
-        m_uiTrialGamesPlayed = pData->GetInteger(_CWS("acc_trial_games_played"), 0);
-        m_uiClan_id = pData->GetInteger(_CWS("clan_id"), 0);
-        m_sTag = pData->GetString(_CWS("tag"), TSNULL);
-        m_uiLevel = pData->GetInteger(_CWS("level"), 0);
-        m_sGameCookie = pData->GetString(_CWS("game_cookie"), TSNULL);
+        m_iAccountID = pData->GetInteger(_CTS("account_id"), 0);
+        m_iSuperID = pData->GetInteger(_CTS("super_id"), 0);
+        m_uiAccountType = pData->GetInteger(_CTS("account_type"), 0);
+        m_uiTrialStatus = pData->GetInteger(_CTS("trial"), 0);
+        m_uiTrialGamesPlayed = pData->GetInteger(_CTS("acc_trial_games_played"), 0);
+        m_uiClan_id = pData->GetInteger(_CTS("clan_id"), 0);
+        m_sTag = pData->GetString(_CTS("tag"), TSNULL);
+        m_uiLevel = pData->GetInteger(_CTS("level"), 0);
+        m_sGameCookie = pData->GetString(_CTS("game_cookie"), TSNULL);
 
-        pData = pData->GetVar(_CWS("infos"));
+        pData = pData->GetVar(_CTS("infos"));
         if (!pData)
             return;
 
@@ -230,8 +230,8 @@ m_sGameCookie(_T(""))
         m_RankedStats = CStats(pData, PLAYER_STATS_TYPE_RANKED);
         m_CasualStats = CStats(pData, PLAYER_STATS_TYPE_CASUAL);
         
-        /*const CPHPData *pMatchHistory(pData->GetVar(_CWS("match_history")));
-        const CPHPData *pFavoritHeroes(pData->GetVar(_CWS("fav_heroes")));
+        /*const CPHPData *pMatchHistory(pData->GetVar(_CTS("match_history")));
+        const CPHPData *pFavoritHeroes(pData->GetVar(_CTS("fav_heroes")));
         if (pMatchHistory != NULL)
         {
             for(uint uiLastMatch = 0; uiLastMatch < pMatchHistory->GetSize(); ++uiLastMatch)

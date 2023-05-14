@@ -146,7 +146,7 @@ void    CClientEntity::SetSkeleton(CSkeleton *pSkeleton)
     m_pCurrentState->SetSkeleton(m_pSkeleton);
 
     if (m_pSkeleton != NULL)
-        m_pSkeleton->SetDefaultAnim(_CWS("idle"));
+        m_pSkeleton->SetDefaultAnim(_CTS("idle"));
 }
 
 
@@ -506,7 +506,7 @@ void    CClientEntity::AddToScene()
                     if (m_aiActiveAnim[i] != -1)
                         m_pSkeleton->RequestStartAnim(asAnim[i], auiAnimStartTime[i], i, 0, afAnimSpeed[i]);
                     else
-                        m_pSkeleton->RequestStartAnim(_CWS("idle"), Game.GetGameTime(), i, 0, 1.0f);
+                        m_pSkeleton->RequestStartAnim(_CTS("idle"), Game.GetGameTime(), i, 0, 1.0f);
                 }
             }
         }

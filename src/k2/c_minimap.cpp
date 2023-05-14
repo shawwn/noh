@@ -932,18 +932,18 @@ UI_VOID_CMD(BreakDrag, 0)
 UI_CMD(GetMinimapDrawX, 2)
 {
     if (pThis == NULL || pThis->GetInterface() == NULL)
-        return _CWS("0");
+        return _CTS("0");
 
     tstring sWidgetName(vArgList[0]->Evaluate());
     IWidget *pWidget(pThis->GetInterface()->GetWidget(sWidgetName));
     if (pWidget == NULL)
     {
         Console << _T("Widget ") << SingleQuoteStr(sWidgetName) << _T(" not found") << newl;
-        return _CWS("0");
+        return _CTS("0");
     }
 
     if (pWidget->GetType() != WIDGET_MAP)
-        return _CWS("0");
+        return _CTS("0");
     else
         return XtoA(static_cast<CMinimap *>(pWidget)->GetMinimapDrawX(AtoF(vArgList[1]->Evaluate())));
 }
@@ -955,18 +955,18 @@ UI_CMD(GetMinimapDrawX, 2)
 UI_CMD(GetMinimapDrawY, 2)
 {
     if (pThis == NULL || pThis->GetInterface() == NULL)
-        return _CWS("0");
+        return _CTS("0");
 
     tstring sWidgetName(vArgList[0]->Evaluate());
     IWidget *pWidget(pThis->GetInterface()->GetWidget(sWidgetName));
     if (pWidget == NULL)
     {
         Console << _T("Widget ") << SingleQuoteStr(sWidgetName) << _T(" not found") << newl;
-        return _CWS("0");
+        return _CTS("0");
     }
 
     if (pWidget->GetType() != WIDGET_MAP)
-        return _CWS("0");
+        return _CTS("0");
     else
         return XtoA(static_cast<CMinimap *>(pWidget)->GetMinimapDrawY(AtoF(vArgList[1]->Evaluate())));
 }

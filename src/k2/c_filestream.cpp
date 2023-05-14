@@ -522,7 +522,7 @@ string  CFileStream::ReadLine()
 /*====================
   CFileStream::ReadLineW
   ====================*/
-tstring CFileStream::ReadLineW()
+wstring CFileStream::ReadLineW()
 {
     if (m_iMode & FILE_WRITE)
         return WSNULL;
@@ -763,7 +763,7 @@ bool    CFileStream::WriteString(const string &sText)
     return false;
 }
 
-bool    CFileStream::WriteString(const tstring &sText)
+bool    CFileStream::WriteString(const wstring &sText)
 {
     assert(false);
     return false;

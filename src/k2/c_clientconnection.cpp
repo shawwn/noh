@@ -1112,8 +1112,8 @@ void    CClientConnection::ConverseWithMasterServer()
         if (m_pRefreshUpgradesRequest != NULL)
         {
             m_pRefreshUpgradesRequest->SetTargetURL(m_pHostServer->GetMasterServerURL());
-            m_pRefreshUpgradesRequest->AddVariable(L"f", L"get_upgrades");
-            m_pRefreshUpgradesRequest->AddVariable(L"cookie", m_sCookie);
+            m_pRefreshUpgradesRequest->AddVariable(_T("f"), _T("get_upgrades"));
+            m_pRefreshUpgradesRequest->AddVariable(_T("cookie"), m_sCookie);
             m_pRefreshUpgradesRequest->SendPostRequest();
         }
     }
@@ -1199,20 +1199,20 @@ void    CClientConnection::SendAuthRequest()
     m_uiAuthRequestTime = Host.GetTime();
 
     m_pAuthenticateRequest->SetTargetURL(m_pHostServer->GetMasterServerURL());
-    m_pAuthenticateRequest->AddVariable(L"f", L"c_conn");
-    m_pAuthenticateRequest->AddVariable(L"session", m_pHostServer->GetSessionCookie());
-    m_pAuthenticateRequest->AddVariable(L"cookie", GetCookie());
-    m_pAuthenticateRequest->AddVariable(L"ip", GetPublicAddress());
-    m_pAuthenticateRequest->AddVariable(L"cas", m_pHostServer->GetGameLib().GetGameInfoString(L"IsCasual"));
+    m_pAuthenticateRequest->AddVariable(_T("f"), _T("c_conn"));
+    m_pAuthenticateRequest->AddVariable(_T("session"), m_pHostServer->GetSessionCookie());
+    m_pAuthenticateRequest->AddVariable(_T("cookie"), GetCookie());
+    m_pAuthenticateRequest->AddVariable(_T("ip"), GetPublicAddress());
+    m_pAuthenticateRequest->AddVariable(_T("cas"), m_pHostServer->GetGameLib().GetGameInfoString(_T("IsCasual")));
 
     if (m_pHostServer->IsArrangedMatch())
-        m_pAuthenticateRequest->AddVariable(L"new", 2);
+        m_pAuthenticateRequest->AddVariable(_T("new"), 2);
     else if (m_pHostServer->IsTournMatch())
-        m_pAuthenticateRequest->AddVariable(L"new", 3);
+        m_pAuthenticateRequest->AddVariable(_T("new"), 3);
     else if (m_pHostServer->IsLeagueMatch())
-        m_pAuthenticateRequest->AddVariable(L"new", 4);
+        m_pAuthenticateRequest->AddVariable(_T("new"), 4);
     else
-        m_pAuthenticateRequest->AddVariable(L"new", 1); 
+        m_pAuthenticateRequest->AddVariable(_T("new"), 1);
 
     m_pAuthenticateRequest->SendPostRequest();
 }
@@ -1244,7 +1244,7 @@ void    CClientConnection::CheckAuthResult()
     }
 
     // Read response
-    const wstring &sResponse(m_pAuthenticateRequest->GetResponse());
+    const tstring &sResponse(m_pAuthenticateRequest->GetResponse());
     Console << _T("Auth response for client #") << m_iClientNum << _T(": ") << sResponse << newl;
     CPHPData phpResponse(sResponse);
 
@@ -1310,8 +1310,8 @@ void    CClientConnection::CheckAuthResult()
     // MikeG Trial Account Check Server
     if (uiAccountType == 1)
     {
-        int iTrialStatus(phpResponse.GetInteger(L"trial", 0));
-        int iTrialGamesPlayed(pInfos->GetInteger(L"acc_trial_games_played", 0));
+        int iTrialStatus(phpResponse.GetInteger(_T("trial"), 0));
+        int iTrialGamesPlayed(pInfos->GetInteger(_T("acc_trial_games_played"), 0));
 
         if ( (iTrialStatus == 2 || iTrialGamesPlayed >= MAX_TRIAL_GAMES) && !m_pHostServer->GetGameLib().IsPlayerReconnecting(iAccountID) )
         {
@@ -1389,9 +1389,9 @@ void    CClientConnection::CheckAuthResult()
     if (m_pRecentMatchStatsRequest != NULL)
     {
         m_pRecentMatchStatsRequest->SetTargetURL(m_pHostServer->GetMasterServerURL());
-        m_pRecentMatchStatsRequest->AddVariable(L"f", L"get_quickstats");
-        m_pRecentMatchStatsRequest->AddVariable(L"session", m_pHostServer->GetSessionCookie());
-        m_pRecentMatchStatsRequest->AddVariable(L"account_id", iAccountID);
+        m_pRecentMatchStatsRequest->AddVariable(_T("f"), _T("get_quickstats"));
+        m_pRecentMatchStatsRequest->AddVariable(_T("session"), m_pHostServer->GetSessionCookie());
+        m_pRecentMatchStatsRequest->AddVariable(_T("account_id"), iAccountID);
         m_pRecentMatchStatsRequest->SendPostRequest();
     }
 
@@ -1492,9 +1492,9 @@ void    CClientConnection::ValidateMatchKey()
         if (m_pValidateMatchKeyRequest != NULL)
         {
             m_pValidateMatchKeyRequest->SetTargetURL(m_pHostServer->GetMasterServerURL());
-            m_pValidateMatchKeyRequest->AddVariable(L"f", L"accept_key");
-            m_pValidateMatchKeyRequest->AddVariable(L"session", m_pHostServer->GetSessionCookie());
-            m_pValidateMatchKeyRequest->AddVariable(L"acc_key", GetMatchKey());
+            m_pValidateMatchKeyRequest->AddVariable(_T("f"), _T("accept_key"));
+            m_pValidateMatchKeyRequest->AddVariable(_T("session"), m_pHostServer->GetSessionCookie());
+            m_pValidateMatchKeyRequest->AddVariable(_T("acc_key"), GetMatchKey());
             m_pValidateMatchKeyRequest->SendPostRequest();
             SetFlags(CLIENT_CONNECTION_KEY_VALIDATE_REQUESTED);
         }
@@ -1614,14 +1614,14 @@ void    CClientConnection::ResynchStateData()
   ====================*/
 bool    CClientConnection::ReadRemoteCommandPacket(CPacket &pkt)
 {
-    wstring sCommand(pkt.ReadWString());
+    tstring sCommand(pkt.ReadWStringAsTString());
 
     if (!HasFlags(CLIENT_CONNECTION_ADMIN) || sCommand.empty())
         return !pkt.HasFaults();
 
     try
     {
-        Console << L"Remote<" << GetName() << L">: " << sCommand << newl;
+        Console << _T("Remote<") << GetName() << _T(">: ") << sCommand << newl;
 
         Console.StartWatch();
 
@@ -1897,7 +1897,7 @@ void    CClientConnection::ProcessPacket(CPacket &pkt)
 
             case NETCMD_CLIENT_INVITE:
                 {
-                    wstring sName(pkt.ReadWString());
+                    tstring sName(pkt.ReadWStringAsTString());
                     if ((m_pHostServer->GetServerAccess() == ACCESS_PUBLIC || HasFlags(CLIENT_CONNECTION_GAME_HOST)) && !pkt.HasFaults())
                     {
                         m_pHostServer->InviteUser(sName);
@@ -1908,7 +1908,7 @@ void    CClientConnection::ProcessPacket(CPacket &pkt)
 #ifndef K2_CLIENT
             case NETCMD_CLIENT_COOKIE:
                 {
-                    wstring sCookie(pkt.ReadWString());
+                    tstring sCookie(pkt.ReadWStringAsTString());
                     SetCookie(sCookie);
                 }
                 break;

@@ -47,9 +47,9 @@ m_fOutlineOffset(style.GetPropertyFloat(_T("outlineoffset"), 1.0f)),
 m_v4OutlineColor(GetColorFromString(style.GetProperty(_T("outlinecolor"), _T("#000000")))),
 m_bFitX(style.GetPropertyBool(_T("fitx"), false)),//!style.HasProperty(_T("width")) && style.GetPropertyBool(_T("fitx"))),
 m_bFitY(style.GetPropertyBool(_T("fity"), false)),//!style.HasProperty(_T("height")) && style.GetPropertyBool(_T("fity"))),
-m_sFitXPadding(style.GetProperty(_T("fitxpadding"), _CWS("0"))),
-m_sFitYPadding(style.GetProperty(_T("fitypadding"), _CWS("0"))),
-m_sFitXMax(style.GetProperty(_T("fitxmax"), _CWS("0"))),
+m_sFitXPadding(style.GetProperty(_T("fitxpadding"), _CTS("0"))),
+m_sFitYPadding(style.GetProperty(_T("fitypadding"), _CTS("0"))),
+m_sFitXMax(style.GetProperty(_T("fitxmax"), _CTS("0"))),
 m_sRenderText(_T("")),
 m_bLineRet(false)
 {

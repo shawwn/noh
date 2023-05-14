@@ -68,7 +68,7 @@ template<> inline const wstring&    GetTimeString<wstring>(ETimeFormatString e) 
 #if defined(_WIN32)
 inline double WTOF(const wstring &s) { return _wtof(s.c_str()); }
 #elif defined(__APPLE__)
-inline double WTOF(const wstring &s) { return atof(TStringToNative(s).c_str()); }
+inline double WTOF(const wstring &s) { return atof(WStringToUTF8(s).c_str()); }
 #elif defined(linux)
 inline double WTOF(const wstring &s) { return wcstod(s.c_str(), NULL); }
 #endif

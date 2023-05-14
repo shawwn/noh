@@ -382,12 +382,12 @@ public:
     K2_API ULONGLONG        GetProcessVirtualMemoryUsage() const;
     K2_API ULONGLONG        GetVirtualMemoryLimit() const;
 
-    K2_API void             GetDriveList(wsvector &vNames) const;
-    K2_API EDriveType       GetDriveType(const wstring &sName) const;
-    K2_API size_t           GetDriveSize(const wstring &sName) const;
-    K2_API size_t           GetDriveFreeSpace(const wstring &sName) const;
-    K2_API ULONGLONG        GetDriveSizeEx(const wstring &sName) const;
-    K2_API ULONGLONG        GetDriveFreeSpaceEx(const wstring &sName) const;
+    K2_API void             GetDriveList(tsvector &vNames) const;
+    K2_API EDriveType       GetDriveType(const tstring &sName) const;
+    K2_API size_t           GetDriveSize(const tstring &sName) const;
+    K2_API size_t           GetDriveFreeSpace(const tstring &sName) const;
+    K2_API ULONGLONG        GetDriveSizeEx(const tstring &sName) const;
+    K2_API ULONGLONG        GetDriveFreeSpaceEx(const tstring &sName) const;
 
     K2_API void             SetConfig(const tstring &sConfig);
     K2_API void             SetAffinity(int iCPU);

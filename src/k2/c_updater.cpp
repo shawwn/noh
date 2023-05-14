@@ -237,9 +237,9 @@ void    CUpdater::GenerateUpdate(bool bResourceFilesOnly)
     }
 
     pRequest->SetTargetURL(m_sMasterServerURL);
-    pRequest->AddVariable(L"latest", WSNULL);
-    pRequest->AddVariable(L"os", K2System.GetBuildOSCodeString());
-    pRequest->AddVariable(L"arch", K2System.GetBuildArchString());
+    pRequest->AddVariable(_T("latest"), TSNULL);
+    pRequest->AddVariable(_T("os"), K2System.GetBuildOSCodeString());
+    pRequest->AddVariable(_T("arch"), K2System.GetBuildArchString());
     pRequest->SendPostRequest();
     pRequest->Wait();
 
@@ -975,9 +975,9 @@ void    CUpdater::UploadUpdate(const tstring &sAddress, const tstring &sUser, co
     }
 
     pRequest->SetTargetURL(m_sMasterServerURL);
-    pRequest->AddVariable(L"latest", WSNULL);
-    pRequest->AddVariable(L"os", K2System.GetBuildOSCodeString());
-    pRequest->AddVariable(L"arch", K2System.GetBuildArchString());
+    pRequest->AddVariable(_T("latest"), TSNULL);
+    pRequest->AddVariable(_T("os"), K2System.GetBuildOSCodeString());
+    pRequest->AddVariable(_T("arch"), K2System.GetBuildArchString());
     pRequest->SendPostRequest();
     pRequest->Wait();
 
@@ -1748,23 +1748,23 @@ void    CUpdater::UpdateDB(const tstring &sUsername, const tstring &sPassword)
         return;
     }
 
-    pRequest->SetTargetURL(L"masterserver.hon.s2games.com/patcher/auto_patcher.php");
+    pRequest->SetTargetURL(_T("masterserver.hon.s2games.com/patcher/auto_patcher.php"));
     
-    pRequest->AddVariable(L"username", sUsername);
-    pRequest->AddVariable(L"password", sPassword);
+    pRequest->AddVariable(_T("username"), sUsername);
+    pRequest->AddVariable(_T("password"), sPassword);
 
-    pRequest->AddVariable(L"alpha[0]", vsVersion[0]);
-    pRequest->AddVariable(L"beta[0]", vsVersion[1]);
-    pRequest->AddVariable(L"omega[0]", vsVersion[2]);
-    pRequest->AddVariable(L"hotfix[0]", vsVersion[3]);
+    pRequest->AddVariable(_T("alpha[0]"), vsVersion[0]);
+    pRequest->AddVariable(_T("beta[0]"), vsVersion[1]);
+    pRequest->AddVariable(_T("omega[0]"), vsVersion[2]);
+    pRequest->AddVariable(_T("hotfix[0]"), vsVersion[3]);
 
-    pRequest->AddVariable(L"name[0]", L"version");
-    pRequest->AddVariable(L"checksum[0]", L"0");
+    pRequest->AddVariable(_T("name[0]"), _T("version"));
+    pRequest->AddVariable(_T("checksum[0]"), _T("0"));
 
-    pRequest->AddVariable(L"os[0]", K2System.GetBuildOSCodeString());
-    pRequest->AddVariable(L"arch[0]", K2System.GetBuildArchString());
+    pRequest->AddVariable(_T("os[0]"), K2System.GetBuildOSCodeString());
+    pRequest->AddVariable(_T("arch[0]"), K2System.GetBuildArchString());
 
-    pRequest->AddVariable(L"remove[0]", L"0");
+    pRequest->AddVariable(_T("remove[0]"), _T("0"));
     
     int iMaxRetrys(10);
     for (int i(0); i < iMaxRetrys; ++i)
@@ -1803,9 +1803,9 @@ void    CUpdater::SilentUpdate()
         return;
 
     m_pRequest->SetTargetURL(m_sMasterServerURL);
-    m_pRequest->AddVariable(L"latest", WSNULL);
-    m_pRequest->AddVariable(L"os", K2System.GetBuildOSCodeString());
-    m_pRequest->AddVariable(L"arch", K2System.GetBuildArchString());
+    m_pRequest->AddVariable(_T("latest"), TSNULL);
+    m_pRequest->AddVariable(_T("os"), K2System.GetBuildOSCodeString());
+    m_pRequest->AddVariable(_T("arch"), K2System.GetBuildArchString());
     m_pRequest->SendPostRequest();
 
     m_eStatus = UPDATE_STATUS_SILENT;
@@ -1871,9 +1871,9 @@ void    CUpdater::CheckForUpdates(bool bRequireConfirmation)
     UpdatePercent.Trigger(_T("0"));
 
     m_pRequest->SetTargetURL(m_sMasterServerURL);
-    m_pRequest->AddVariable(L"version", L"0.0.0.0");
-    m_pRequest->AddVariable(L"os", K2System.GetBuildOSCodeString());
-    m_pRequest->AddVariable(L"arch", K2System.GetBuildArchString());
+    m_pRequest->AddVariable(_T("version"), _T("0.0.0.0"));
+    m_pRequest->AddVariable(_T("os"), K2System.GetBuildOSCodeString());
+    m_pRequest->AddVariable(_T("arch"), K2System.GetBuildArchString());
     m_pRequest->SendPostRequest();
 
     UpdateLocalVersion.Trigger(K2System.GetVersionString());
@@ -3902,9 +3902,9 @@ void    CUpdater::DownloadCompat(const tstring &sVersion)
     m_eStatus = UPDATE_STATUS_RETRIEVING_COMPAT_FILES;
 
     m_pRequest->SetTargetURL(m_sMasterServerURL);
-    m_pRequest->AddVariable(L"version", L"0.0.0.0");
-    m_pRequest->AddVariable(L"os", K2System.GetBuildOSCodeString());
-    m_pRequest->AddVariable(L"arch", K2System.GetBuildArchString());
+    m_pRequest->AddVariable(_T("version"), _T("0.0.0.0"));
+    m_pRequest->AddVariable(_T("os"), K2System.GetBuildOSCodeString());
+    m_pRequest->AddVariable(_T("arch"), K2System.GetBuildArchString());
     m_pRequest->SendPostRequest();
 
     m_vUpdateFiles.clear();

@@ -28,8 +28,8 @@
 CFloater::CFloater(CInterface *pInterface, IWidget *pParent, const CWidgetStyle& style) :
 IWidget(pInterface, pParent, WIDGET_FLOATER, style),
     //MikeG
-m_bLockToParent(style.GetPropertyBool(_CWS("locktoparent"), false)), 
-m_bKeepOnScren(style.GetPropertyBool(_CWS("keeponscreen"), true))
+m_bLockToParent(style.GetPropertyBool(_CTS("locktoparent"), false)),
+m_bKeepOnScren(style.GetPropertyBool(_CTS("keeponscreen"), true))
 {
     GetParent()->BringChildToFront(this);//m_vBringToFront.push_back(this);
     SetFlags(WFLAG_PROCESS_CURSOR | WFLAG_NO_CLICK | WFLAG_PASSIVE_CHILDREN);

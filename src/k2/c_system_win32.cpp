@@ -2005,7 +2005,7 @@ ULONGLONG   CSystem::GetVirtualMemoryLimit() const
 /*====================
   CSystem::GetDriveList
   ====================*/
-void    CSystem::GetDriveList(wsvector &vNames) const
+void    CSystem::GetDriveList(tsvector &vNames) const
 {
     static TCHAR szBuffer[2048];
     uint uiLength(::GetLogicalDriveStrings(2048, szBuffer));
@@ -2020,7 +2020,7 @@ void    CSystem::GetDriveList(wsvector &vNames) const
             ++uiCharIndex;
         }
 
-        vNames.push_back(TStringToWString(sName));
+        vNames.push_back(sName);
         sName.clear();
         ++uiCharIndex;
     }
@@ -2032,10 +2032,10 @@ void    CSystem::GetDriveList(wsvector &vNames) const
   ====================*/
 #pragma push_macro("GetDriveType")
 #undef GetDriveType
-EDriveType  CSystem::GetDriveType(const wstring &sName) const
+EDriveType  CSystem::GetDriveType(const tstring &sName) const
 #pragma pop_macro("GetDriveType")
 {
-    switch (::GetDriveType(sName.c_str()))
+    switch (::GetDriveType(TStringToWString(sName).c_str()))
     {
     case DRIVE_REMOVABLE:
         return DRIVETYPE_REMOVABLE;
@@ -2063,14 +2063,14 @@ EDriveType  CSystem::GetDriveType(const wstring &sName) const
 /*====================
   CSystem::GetDriveSize
   ====================*/
-size_t  CSystem::GetDriveSize(const wstring &sName) const
+size_t  CSystem::GetDriveSize(const tstring &sName) const
 {
     DWORD uiSectorsPerCluster(0);
     DWORD uiBytesPerSector(0);
     DWORD uiFreeClusters(0);
     DWORD uiTotalClusters(0);
 
-    if (!::GetDiskFreeSpace(sName.c_str(), &uiSectorsPerCluster, &uiBytesPerSector, &uiFreeClusters, &uiTotalClusters))
+    if (!::GetDiskFreeSpace(TStringToWString(sName).c_str(), &uiSectorsPerCluster, &uiBytesPerSector, &uiFreeClusters, &uiTotalClusters))
         return 0;
 
     return uiSectorsPerCluster * uiBytesPerSector * uiTotalClusters;
@@ -2080,14 +2080,14 @@ size_t  CSystem::GetDriveSize(const wstring &sName) const
 /*====================
   CSystem::GetDriveFreeSpace
   ====================*/
-size_t  CSystem::GetDriveFreeSpace(const wstring &sName) const
+size_t  CSystem::GetDriveFreeSpace(const tstring &sName) const
 {
     DWORD uiSectorsPerCluster(0);
     DWORD uiBytesPerSector(0);
     DWORD uiFreeClusters(0);
     DWORD uiTotalClusters(0);
 
-    if (!::GetDiskFreeSpace(sName.c_str(), &uiSectorsPerCluster, &uiBytesPerSector, &uiFreeClusters, &uiTotalClusters))
+    if (!::GetDiskFreeSpace(TStringToWString(sName).c_str(), &uiSectorsPerCluster, &uiBytesPerSector, &uiFreeClusters, &uiTotalClusters))
         return 0;
 
     return uiSectorsPerCluster * uiBytesPerSector * uiFreeClusters;
@@ -2097,13 +2097,13 @@ size_t  CSystem::GetDriveFreeSpace(const wstring &sName) const
 /*====================
   CSystem::GetDriveSizeEx
   ====================*/
-ULONGLONG   CSystem::GetDriveSizeEx(const wstring &sName) const
+ULONGLONG   CSystem::GetDriveSizeEx(const tstring &sName) const
 {
     ULARGE_INTEGER uliFreeSpace;
     ULARGE_INTEGER uliTotalSpace;
     ULARGE_INTEGER uliTotalFreeSpace;
 
-    if (!::GetDiskFreeSpaceEx(sName.c_str(), &uliFreeSpace, &uliTotalSpace, &uliTotalFreeSpace))
+    if (!::GetDiskFreeSpaceEx(TStringToWString(sName).c_str(), &uliFreeSpace, &uliTotalSpace, &uliTotalFreeSpace))
         return 0;
     
     return uliTotalSpace.QuadPart;
@@ -2113,13 +2113,13 @@ ULONGLONG   CSystem::GetDriveSizeEx(const wstring &sName) const
 /*====================
   CSystem::GetDriveFreeSpaceEx
   ====================*/
-ULONGLONG   CSystem::GetDriveFreeSpaceEx(const wstring &sName) const
+ULONGLONG   CSystem::GetDriveFreeSpaceEx(const tstring &sName) const
 {
     ULARGE_INTEGER uliFreeSpace;
     ULARGE_INTEGER uliTotalSpace;
     ULARGE_INTEGER uliTotalFreeSpace;
 
-    if (!::GetDiskFreeSpaceEx(sName.c_str(), &uliFreeSpace, &uliTotalSpace, &uliTotalFreeSpace))
+    if (!::GetDiskFreeSpaceEx(TStringToWString(sName).c_str(), &uliFreeSpace, &uliTotalSpace, &uliTotalFreeSpace))
         return 0;
 
     return uliTotalFreeSpace.QuadPart;

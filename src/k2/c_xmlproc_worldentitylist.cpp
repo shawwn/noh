@@ -28,7 +28,7 @@ BEGIN_XML_REGISTRATION(entity)
     REGISTER_XML_PROCESSOR(entitylist)
 END_XML_REGISTRATION
 BEGIN_XML_PROCESSOR(entity, CWorldEntityList)
-    uint uiIndex(node.GetPropertyInt(_CWS("index"), INVALID_INDEX));
+    uint uiIndex(node.GetPropertyInt(_CTS("index"), INVALID_INDEX));
     if (uiIndex != pObject->AllocateNewEntity(uiIndex))
     {
         Console.Warn << _T("Entity allocation failed for entity #") << uiIndex << newl;
@@ -48,17 +48,17 @@ BEGIN_XML_PROCESSOR(entity, CWorldEntityList)
         pEntity->SetProperty(it->first, it->second);
 
     pEntity->SetIndex(uiIndex);
-    pEntity->SetTeam(node.GetPropertyInt(_CWS("team")));
-    pEntity->SetType(node.GetProperty(_CWS("type")));
-    pEntity->SetSeed(node.GetPropertyInt(_CWS("seed")));
-    pEntity->SetName(node.GetProperty(_CWS("name")));
-    pEntity->SetPosition(node.GetPropertyV3(_CWS("position")));
-    pEntity->SetAngles(node.GetPropertyV3(_CWS("angles")));
-    pEntity->SetScale(node.GetPropertyFloat(_CWS("scale")));
-    pEntity->SetModelPath(node.GetProperty(_CWS("model")));
-    pEntity->SetSkinName(node.GetProperty(_CWS("skin")));
+    pEntity->SetTeam(node.GetPropertyInt(_CTS("team")));
+    pEntity->SetType(node.GetProperty(_CTS("type")));
+    pEntity->SetSeed(node.GetPropertyInt(_CTS("seed")));
+    pEntity->SetName(node.GetProperty(_CTS("name")));
+    pEntity->SetPosition(node.GetPropertyV3(_CTS("position")));
+    pEntity->SetAngles(node.GetPropertyV3(_CTS("angles")));
+    pEntity->SetScale(node.GetPropertyFloat(_CTS("scale")));
+    pEntity->SetModelPath(node.GetProperty(_CTS("model")));
+    pEntity->SetSkinName(node.GetProperty(_CTS("skin")));
 
-    if (node.GetPropertyBool(_CWS("notsolid")))
+    if (node.GetPropertyBool(_CTS("notsolid")))
         pEntity->AddFlags(WE_NOT_SOLID);
 
 END_XML_PROCESSOR(NULL)

@@ -70,7 +70,7 @@ bool    IResource::IsVirtualResource() const
     if (sPath.empty())
         return false;
 
-    if (sPath[0] == _T('$') || sPath[0] == _T('!') || sPath[0] == _T('*') || sPath.find(_CWS("%"), 0) != tstring::npos) 
+    if (sPath[0] == _T('$') || sPath[0] == _T('!') || sPath[0] == _T('*') || sPath.find(_CTS("%"), 0) != tstring::npos)
         return true;
 
     return false;

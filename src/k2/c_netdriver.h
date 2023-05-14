@@ -55,7 +55,7 @@ public:
 
     bool    OpenPort(dword &dwSocket, word &wRequestedPort, ESocketType eType, bool bBlocking, uint uiSendBuffer, uint uiRecvBuffer);
     bool    CloseConnection(dword dwSocket);
-    int     ReceivePacket(ESocketType eType, dword dwSocket, CPacket &recv, wstring &sAddrName, word &wPort, IBuffer &cBuffer);
+    int     ReceivePacket(ESocketType eType, dword dwSocket, CPacket &recv, tstring &sAddrName, word &wPort, IBuffer &cBuffer);
     size_t  SendPacket(dword dwSocket, const void *pVoidAddr, const CPacket &packet, bool bIncludeHeader);
     bool    SetSendAddr(tstring &sAddr, word &wPort, void *&pVoidNetAddr, bool &bIsLocalConnection, bool &bIsLANConnection);
     void    FreeSendAddr(void *&pVoidNetAddr);

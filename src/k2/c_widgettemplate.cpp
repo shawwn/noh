@@ -53,7 +53,7 @@ bool    xmlproc_dirlistitems(CInterface *pInterface, IWidget *pParent, const CWi
   CWidgetTemplate::CWidgetTemplate
   ====================*/
 CWidgetTemplate::CWidgetTemplate(CInterface *pInterface, const CXMLNode &node) :
-m_sName(node.GetProperty(_CWS("name"))),
+m_sName(node.GetProperty(_CTS("name"))),
 m_pParentInterface(pInterface)
 {
     m_stackDefinitions.push(&m_vChildren);
@@ -66,7 +66,7 @@ m_pParentInterface(pInterface)
 void    CWidgetTemplate::AddChild(const tstring &sType, const CXMLNode &node)
 {
     CWidgetDefinition def(m_pParentInterface, node);
-    def.GetStyle().SetProperty(_CWS("widget"), sType);
+    def.GetStyle().SetProperty(_CTS("widget"), sType);
 
     m_stackDefinitions.top()->push_back(def);
     m_stackDefinitions.push(m_stackDefinitions.top()->back().GetChildVector());
@@ -173,15 +173,15 @@ void    CWidgetDefinition::Instantiate(CInterface *pInterface, IWidget *pParent,
 
     CWidgetStyle style(m_style);
 
-    tstring sType(style.GetProperty(_CWS("widget")));
-    style.RemoveProperty(_CWS("widget"));
+    tstring sType(style.GetProperty(_CTS("widget")));
+    style.RemoveProperty(_CTS("widget"));
 
     style.ApplySubstitutions(styleInstance);
 
     IWidget *pNewWidget(NULL);
     if (TStringCompare(sType, _T("instance")) == 0)
     {
-        CWidgetTemplate *pTemplate(pInterface->GetTemplate(style.GetProperty(_CWS("name"))));
+        CWidgetTemplate *pTemplate(pInterface->GetTemplate(style.GetProperty(_CTS("name"))));
         if (pTemplate != NULL)
             pTemplate->Instantiate(pParent, style);
     }

@@ -37,7 +37,7 @@ private:
     CSocket*        m_pSocket;
     CPacket         m_pktSend;
 
-    wstring         m_sAddress;
+    tstring         m_sAddress;
     ushort          m_unPort;
 
     EState          m_eState;
@@ -65,7 +65,7 @@ public:
     ~CServerChatConnection();
     CServerChatConnection(CHostServer *pHostServer);
 
-    void        Connect(const wstring &sAddress, ushort unPort);
+    void        Connect(const tstring &sAddress, ushort unPort);
     void        Disconnect(const tstring &sReason = TSNULL);
     void        Frame();
 

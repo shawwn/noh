@@ -97,8 +97,8 @@ static tstring      VAlignToA(EAlignment eVAlignment)
 IWidget::IWidget(CInterface *pInterface, IWidget *pParent, EWidgetType widgetType, const CWidgetStyle &style, bool bLoadTextures) :
 m_pParent(pParent),
 m_pInterface(pInterface),
-m_sName(style.GetProperty(_CWS("name"))),
-m_sResourceContext(Trim(style.GetProperty(_CWS("resourcecontext")))),
+m_sName(style.GetProperty(_CTS("name"))),
+m_sResourceContext(Trim(style.GetProperty(_CTS("resourcecontext")))),
 m_uiID(INVALID_INDEX),
 m_fUOffset(0.0f),
 m_fVOffset(0.0f),
@@ -110,7 +110,7 @@ m_fRotation(0.0f),
 m_fPadding(0.0f),
 m_fSpacing(0.0f),
 m_uiFlags(0),
-m_uiTabOrder(style.GetPropertyInt(_CWS("taborder"), -1)),
+m_uiTabOrder(style.GetPropertyInt(_CTS("taborder"), -1)),
 m_eWidgetType(widgetType),
 m_eFloat(WFLOAT_NONE),
 m_eAdhere(WFLOAT_NONE),
@@ -122,8 +122,8 @@ m_refStickyTarget(this),
 #pragma warning(pop)
 m_fLastWidth(0),
 m_fLastHeight(0),
-m_sBaseX(style.GetProperty(_CWS("x"))),
-m_sBaseY(style.GetProperty(_CWS("y"))),
+m_sBaseX(style.GetProperty(_CTS("x"))),
+m_sBaseY(style.GetProperty(_CTS("y"))),
 
 m_fCropS0(0.0f), m_fCropS1(1.0f),
 m_fCropT0(0.0f), m_fCropT1(1.0f),
@@ -169,7 +169,7 @@ m_bMouseOut(true)
     PROFILE("IWidget::IWidget");
 
     // Flags
-    #define SET_WIDGET_FLAG(name, flag, def)    if (style.GetPropertyBool(_CWS(#name), def)) SetFlags(WFLAG_##flag)
+    #define SET_WIDGET_FLAG(name, flag, def)    if (style.GetPropertyBool(_CTS(#name), def)) SetFlags(WFLAG_##flag)
     SET_WIDGET_FLAG(visible, VISIBLE, true);
     SET_WIDGET_FLAG(enabled, ENABLED, true);
     SET_WIDGET_FLAG(noclick, NO_CLICK, false);
@@ -196,34 +196,34 @@ m_bMouseOut(true)
         m_fFadeCurrent = 0.0f;
 
     // Hotkey
-    const tstring &sHotkey(style.GetProperty(_CWS("hotkey")));
+    const tstring &sHotkey(style.GetProperty(_CTS("hotkey")));
     m_eHotkey = sHotkey.empty() ? BUTTON_INVALID : Input.MakeEButton(sHotkey);
 
     // Floating
-    const tstring &sFloating(LowerString(style.GetProperty(_CWS("float"))));
+    const tstring &sFloating(LowerString(style.GetProperty(_CTS("float"))));
     if (TStringCompare(sFloating, _T("right")) == 0)
         m_eFloat = WFLOAT_RIGHT;
     else if (TStringCompare(sFloating, _T("bottom")) == 0)
         m_eFloat = WFLOAT_BOTTOM;
 
     // Alignment
-    const tstring &sAlignment(LowerString(style.GetProperty(_CWS("align"))));
+    const tstring &sAlignment(LowerString(style.GetProperty(_CTS("align"))));
     if (TStringCompare(sAlignment, _T("center")) == 0)
         m_eAlignment = ALIGN_CENTER;
     else if (TStringCompare(sAlignment, _T("right")) == 0)
         m_eAlignment = ALIGN_RIGHT;
 
-    const tstring &sVAlignment(LowerString(style.GetProperty(_CWS("valign"))));
+    const tstring &sVAlignment(LowerString(style.GetProperty(_CTS("valign"))));
     if (TStringCompare(sVAlignment, _T("center")) == 0)
         m_eVAlignment = ALIGN_CENTER;
     else if (TStringCompare(sVAlignment, _T("bottom")) == 0)
         m_eVAlignment = ALIGN_BOTTOM;
 
-    m_sWidth = style.GetProperty(_CWS("width"), HasFlags(WFLAG_GROW_WITH_CHILDREN) ? _CWS("0") : _CWS("100%"));
-    m_sHeight = style.GetProperty(_CWS("height"), HasFlags(WFLAG_GROW_WITH_CHILDREN) ? _CWS("0") : _CWS("100%"));
+    m_sWidth = style.GetProperty(_CTS("width"), HasFlags(WFLAG_GROW_WITH_CHILDREN) ? _CTS("0") : _CTS("100%"));
+    m_sHeight = style.GetProperty(_CTS("height"), HasFlags(WFLAG_GROW_WITH_CHILDREN) ? _CTS("0") : _CTS("100%"));
 
-    m_sMarginH = style.GetProperty(_CWS("hmargin"), _CWS("0"));
-    m_sMarginV = style.GetProperty(_CWS("vmargin"), _CWS("0"));
+    m_sMarginH = style.GetProperty(_CTS("hmargin"), _CTS("0"));
+    m_sMarginV = style.GetProperty(_CTS("vmargin"), _CTS("0"));
 
     // Size
     float fParentWidth((m_pParent == NULL) ? Draw2D.GetScreenW() : m_pParent->GetWidth());
@@ -235,23 +235,23 @@ m_bMouseOut(true)
     SetWidth(ROUND(GetSizeFromString(m_sWidth, fParentWidth, fParentHeight)) - fMarginH * 2.0f);
     SetHeight(ROUND(GetSizeFromString(m_sHeight, fParentHeight, fParentWidth)) - fMarginV * 2.0f);
     if (m_eFloat == WFLOAT_RIGHT)
-        m_fPadding = ROUND(GetSizeFromString(style.GetProperty(_CWS("padding")), fParentWidth, fParentHeight));
+        m_fPadding = ROUND(GetSizeFromString(style.GetProperty(_CTS("padding")), fParentWidth, fParentHeight));
     else if (m_eFloat == WFLOAT_BOTTOM)
-        m_fPadding = ROUND(GetSizeFromString(style.GetProperty(_CWS("padding")), fParentHeight, fParentWidth));
+        m_fPadding = ROUND(GetSizeFromString(style.GetProperty(_CTS("padding")), fParentHeight, fParentWidth));
 
     // Adherence
-    const tstring &sAdherence(LowerString(style.GetProperty(_CWS("adhere"))));
+    const tstring &sAdherence(LowerString(style.GetProperty(_CTS("adhere"))));
     if (TStringCompare(sAdherence, _T("right")) == 0)
         m_eAdhere = WFLOAT_RIGHT;
     else if (TStringCompare(sAdherence, _T("bottom")) == 0)
         m_eAdhere = WFLOAT_BOTTOM;
 
-    SetRotation(style.GetPropertyFloat(_CWS("rotation"), 0.0f));
+    SetRotation(style.GetPropertyFloat(_CTS("rotation"), 0.0f));
 
     if (m_eAdhere == WFLOAT_RIGHT)
-        m_fSpacing = ROUND(GetSizeFromString(style.GetProperty(_CWS("spacing")), fParentWidth, fParentHeight));
+        m_fSpacing = ROUND(GetSizeFromString(style.GetProperty(_CTS("spacing")), fParentWidth, fParentHeight));
     else if (m_eAdhere == WFLOAT_BOTTOM)
-        m_fSpacing = ROUND(GetSizeFromString(style.GetProperty(_CWS("spacing")), fParentHeight, fParentWidth));
+        m_fSpacing = ROUND(GetSizeFromString(style.GetProperty(_CTS("spacing")), fParentHeight, fParentWidth));
     else if (m_pParent != NULL)
         m_fSpacing = m_pParent->m_fPadding;
 
@@ -292,8 +292,8 @@ m_bMouseOut(true)
     }
 
     // Color and texture
-    const tstring &sTexture(style.GetProperty(_CWS("texture")));
-    SetColor(style.GetProperty(_CWS("color"), sTexture.empty() ? _CWS("gray") : _CWS("white")));
+    const tstring &sTexture(style.GetProperty(_CTS("texture")));
+    SetColor(style.GetProperty(_CTS("color"), sTexture.empty() ? _CTS("gray") : _CTS("white")));
 
     // Check if we need to load the base texture. If not,
     // set the texture name properly for reference.
@@ -304,7 +304,7 @@ m_bMouseOut(true)
     for (int i(1); i < MAX_WIDGET_TEXTURES; ++i)
     {
         m_hTexture[i] = INVALID_RESOURCE;
-        tstring sProperty(_CWS("texture") + XtoA(i));
+        tstring sProperty(_CTS("texture") + XtoA(i));
         if (!style.HasProperty(sProperty))
             continue;
 
@@ -319,18 +319,18 @@ m_bMouseOut(true)
         LoadTextures();
 
     // Render mode
-    SetRenderMode(style.GetProperty(_CWS("rendermode")));
+    SetRenderMode(style.GetProperty(_CTS("rendermode")));
 
     // Texture coordinates
-    m_fUOffset = GetTextureOffsetFromString(style.GetProperty(_CWS("uoffset"), _CWS("0")), X);
-    m_fVOffset = GetTextureOffsetFromString(style.GetProperty(_CWS("voffset"), _CWS("0")), Y);
-    m_fUScale = GetTextureScaleFromString(style.GetProperty(_CWS("uscale"), _CWS("1")), X);
-    m_fVScale = GetTextureScaleFromString(style.GetProperty(_CWS("vscale"), _CWS("1")), Y);
-    m_fUSpeed = GetTextureOffsetFromString(style.GetProperty(_CWS("uspeed"), _CWS("0")), X);
-    m_fVSpeed = GetTextureOffsetFromString(style.GetProperty(_CWS("vspeed"), _CWS("0")), Y);
+    m_fUOffset = GetTextureOffsetFromString(style.GetProperty(_CTS("uoffset"), _CTS("0")), X);
+    m_fVOffset = GetTextureOffsetFromString(style.GetProperty(_CTS("voffset"), _CTS("0")), Y);
+    m_fUScale = GetTextureScaleFromString(style.GetProperty(_CTS("uscale"), _CTS("1")), X);
+    m_fVScale = GetTextureScaleFromString(style.GetProperty(_CTS("vscale"), _CTS("1")), Y);
+    m_fUSpeed = GetTextureOffsetFromString(style.GetProperty(_CTS("uspeed"), _CTS("0")), X);
+    m_fVSpeed = GetTextureOffsetFromString(style.GetProperty(_CTS("vspeed"), _CTS("0")), Y);
 
     // Watchers
-    const tstring &sWatch(style.GetProperty(_CWS("watch")));
+    const tstring &sWatch(style.GetProperty(_CTS("watch")));
     if (!sWatch.empty())
     {
         tsvector vWatchNames;
@@ -348,7 +348,7 @@ m_bMouseOut(true)
     // More Watchers
     for (int i(0); i <= 9; ++i)
     {
-        const tstring &sWatch(style.GetProperty(_CWS("watch") + XtoA(i)));
+        const tstring &sWatch(style.GetProperty(_CTS("watch") + XtoA(i)));
         if (!sWatch.empty())
         {
             tsvector    vWatchNames;
@@ -366,50 +366,50 @@ m_bMouseOut(true)
     }
 
     // Events
-    SetEventCommand(WEVENT_FRAME, style.GetProperty(_CWS("onframe")));
-    SetEventCommand(WEVENT_TRIGGER, style.GetProperty(_CWS("ontrigger")));
-    SetEventCommand(WEVENT_SHOW, style.GetProperty(_CWS("onshow")));
-    SetEventCommand(WEVENT_HIDE, style.GetProperty(_CWS("onhide")));
-    SetEventCommand(WEVENT_ENABLE, style.GetProperty(_CWS("onenable")));
-    SetEventCommand(WEVENT_DISABLE, style.GetProperty(_CWS("ondisable")));
-    SetEventCommand(WEVENT_CHANGE, style.GetProperty(_CWS("onchange")));
-    SetEventCommand(WEVENT_SLIDE, style.GetProperty(_CWS("onslide")));
-    SetEventCommand(WEVENT_SNAP, style.GetProperty(_CWS("onsnap")));
-    SetEventCommand(WEVENT_STARTDRAG, style.GetProperty(_CWS("onstartdrag")));
-    SetEventCommand(WEVENT_ENDDRAG, style.GetProperty(_CWS("onenddrag")));
-    SetEventCommand(WEVENT_SELECT, style.GetProperty(_CWS("onselect")));
-    SetEventCommand(WEVENT_HOTKEY, style.GetProperty(_CWS("onhotkey")));
-    SetEventCommand(WEVENT_CLICK, style.GetProperty(_CWS("onclick")));
-    SetEventCommand(WEVENT_DOUBLECLICK, style.GetProperty(_CWS("ondoubleclick")));
-    SetEventCommand(WEVENT_RIGHTCLICK, style.GetProperty(_CWS("onrightclick")));
-    SetEventCommand(WEVENT_FOCUS, style.GetProperty(_CWS("onfocus")));
-    SetEventCommand(WEVENT_LOSEFOCUS, style.GetProperty(_CWS("onlosefocus")));
-    SetEventCommand(WEVENT_LOAD, style.GetProperty(_CWS("onload")));
-    SetEventCommand(WEVENT_MOUSEOVER, style.GetProperty(_CWS("onmouseover")));
-    SetEventCommand(WEVENT_MOUSEOUT, style.GetProperty(_CWS("onmouseout")));
-    SetEventCommand(WEVENT_REFRESH, style.GetProperty(_CWS("onrefresh")));
-    SetEventCommand(WEVENT_WAKE, style.GetProperty(_CWS("onwake")));
-    SetEventCommand(WEVENT_MOUSELDOWN, style.GetProperty(_CWS("onmouseldown")));
-    SetEventCommand(WEVENT_MOUSELUP, style.GetProperty(_CWS("onmouselup")));
-    SetEventCommand(WEVENT_MOUSERDOWN, style.GetProperty(_CWS("onmouserdown")));
-    SetEventCommand(WEVENT_MOUSERUP, style.GetProperty(_CWS("onmouserup")));
-    SetEventCommand(WEVENT_RELOAD, style.GetProperty(_CWS("onreload")));
-    SetEventCommand(WEVENT_KEYDOWN, style.GetProperty(_CWS("onkeydown")));
-    SetEventCommand(WEVENT_KEYUP, style.GetProperty(_CWS("onkeyup")));
-    SetEventCommand(WEVENT_INSTANTIATE, style.GetProperty(_CWS("oninstantiate")));
-    SetEventCommand(WEVENT_TAB, style.GetProperty(_CWS("ontab")));
-    SetEventCommand(WEVENT_OPEN, style.GetProperty(_CWS("onopen")));
-    SetEventCommand(WEVENT_CLOSE, style.GetProperty(_CWS("onclose")));
+    SetEventCommand(WEVENT_FRAME, style.GetProperty(_CTS("onframe")));
+    SetEventCommand(WEVENT_TRIGGER, style.GetProperty(_CTS("ontrigger")));
+    SetEventCommand(WEVENT_SHOW, style.GetProperty(_CTS("onshow")));
+    SetEventCommand(WEVENT_HIDE, style.GetProperty(_CTS("onhide")));
+    SetEventCommand(WEVENT_ENABLE, style.GetProperty(_CTS("onenable")));
+    SetEventCommand(WEVENT_DISABLE, style.GetProperty(_CTS("ondisable")));
+    SetEventCommand(WEVENT_CHANGE, style.GetProperty(_CTS("onchange")));
+    SetEventCommand(WEVENT_SLIDE, style.GetProperty(_CTS("onslide")));
+    SetEventCommand(WEVENT_SNAP, style.GetProperty(_CTS("onsnap")));
+    SetEventCommand(WEVENT_STARTDRAG, style.GetProperty(_CTS("onstartdrag")));
+    SetEventCommand(WEVENT_ENDDRAG, style.GetProperty(_CTS("onenddrag")));
+    SetEventCommand(WEVENT_SELECT, style.GetProperty(_CTS("onselect")));
+    SetEventCommand(WEVENT_HOTKEY, style.GetProperty(_CTS("onhotkey")));
+    SetEventCommand(WEVENT_CLICK, style.GetProperty(_CTS("onclick")));
+    SetEventCommand(WEVENT_DOUBLECLICK, style.GetProperty(_CTS("ondoubleclick")));
+    SetEventCommand(WEVENT_RIGHTCLICK, style.GetProperty(_CTS("onrightclick")));
+    SetEventCommand(WEVENT_FOCUS, style.GetProperty(_CTS("onfocus")));
+    SetEventCommand(WEVENT_LOSEFOCUS, style.GetProperty(_CTS("onlosefocus")));
+    SetEventCommand(WEVENT_LOAD, style.GetProperty(_CTS("onload")));
+    SetEventCommand(WEVENT_MOUSEOVER, style.GetProperty(_CTS("onmouseover")));
+    SetEventCommand(WEVENT_MOUSEOUT, style.GetProperty(_CTS("onmouseout")));
+    SetEventCommand(WEVENT_REFRESH, style.GetProperty(_CTS("onrefresh")));
+    SetEventCommand(WEVENT_WAKE, style.GetProperty(_CTS("onwake")));
+    SetEventCommand(WEVENT_MOUSELDOWN, style.GetProperty(_CTS("onmouseldown")));
+    SetEventCommand(WEVENT_MOUSELUP, style.GetProperty(_CTS("onmouselup")));
+    SetEventCommand(WEVENT_MOUSERDOWN, style.GetProperty(_CTS("onmouserdown")));
+    SetEventCommand(WEVENT_MOUSERUP, style.GetProperty(_CTS("onmouserup")));
+    SetEventCommand(WEVENT_RELOAD, style.GetProperty(_CTS("onreload")));
+    SetEventCommand(WEVENT_KEYDOWN, style.GetProperty(_CTS("onkeydown")));
+    SetEventCommand(WEVENT_KEYUP, style.GetProperty(_CTS("onkeyup")));
+    SetEventCommand(WEVENT_INSTANTIATE, style.GetProperty(_CTS("oninstantiate")));
+    SetEventCommand(WEVENT_TAB, style.GetProperty(_CTS("ontab")));
+    SetEventCommand(WEVENT_OPEN, style.GetProperty(_CTS("onopen")));
+    SetEventCommand(WEVENT_CLOSE, style.GetProperty(_CTS("onclose")));
 
     for (int i(0); i <= 9; ++i)
         SetEventCommand(EWidgetEvent(WEVENT_TRIGGER0 + i), style.GetProperty(_TS("ontrigger") + XtoA(i)));
 
-    SetEventCommand(WEVENT_EVENT, style.GetProperty(_CWS("onevent")));
+    SetEventCommand(WEVENT_EVENT, style.GetProperty(_CTS("onevent")));
     for (int i(0); i <= 9; ++i)
         SetEventCommand(EWidgetEvent(WEVENT_EVENT0 + i), style.GetProperty(_TS("onevent") + XtoA(i)));
 
-    if (style.HasProperty(_CWS("sleeptime")))
-        m_uiWakeTime = Host.GetTime() + style.GetPropertyInt(_CWS("sleeptime"));
+    if (style.HasProperty(_CTS("sleeptime")))
+        m_uiWakeTime = Host.GetTime() + style.GetPropertyInt(_CTS("sleeptime"));
 
     if (pInterface)
     {
@@ -421,12 +421,12 @@ m_bMouseOut(true)
     }
 
     // Grouping
-    if (style.HasProperty(_CWS("group")))
-        SetGroup(style.GetProperty(_CWS("group")));
+    if (style.HasProperty(_CTS("group")))
+        SetGroup(style.GetProperty(_CTS("group")));
 
     // Register with a form
-    const tstring &sForm(style.GetProperty(_CWS("form")));
-    const tstring &sData(style.GetProperty(_CWS("data")));
+    const tstring &sForm(style.GetProperty(_CTS("form")));
+    const tstring &sData(style.GetProperty(_CTS("data")));
     if (!sForm.empty() && !sData.empty())
     {
         CUIForm *pForm(pInterface->GetForm(sForm));

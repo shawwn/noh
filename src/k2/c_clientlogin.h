@@ -97,22 +97,22 @@ private:
     uint                        m_uiAccountID;
     int                         m_iAccountType;
     int                         m_iTrialStatus;
-    wstring                     m_sCookie;
-    wstring                     m_sNick;
-    wstring                     m_sEmail;
-    wstring                     m_sIP;
+    tstring                     m_sCookie;
+    tstring                     m_sNick;
+    tstring                     m_sEmail;
+    tstring                     m_sIP;
     byte                        m_yFlags;
     
     uint                        m_uiClanID;
-    wstring                     m_sClanName;
-    wstring                     m_sClanTag;
+    tstring                     m_sClanName;
+    tstring                     m_sClanTag;
     EClanRank                   m_eClanRank;
 
     EClientLoginStatus          m_eStatus;
-    wstring                     m_sStatusDescription;
+    tstring                     m_sStatusDescription;
     
     EClientChangePasswordStatus m_eChangePasswordStatus;
-    wstring                     m_sChangePasswordStatusDescription;
+    tstring                     m_sChangePasswordStatusDescription;
 
     int                         m_iLevel;
     ushort                      m_unRank;
@@ -170,18 +170,18 @@ public:
     EClientChangePasswordStatus GetChangePasswordStatus() const             { return m_eChangePasswordStatus; }
     const tstring&              GetChangePasswordStatusDescription() const  { return m_sChangePasswordStatusDescription; }
     
-    const wstring&  GetCookie() const           { return m_sCookie; }
+    const tstring&  GetCookie() const           { return m_sCookie; }
     uint            GetAccountID() const        { return m_uiAccountID; }
     int             GetAccountType() const      { return m_iAccountType; }
-    const wstring&  GetIP() const               { return m_sIP; }
-    const wstring&  GetNickname() const         { return m_sNick; }
-    const wstring&  GetEmailAddress() const     { return m_sEmail; }
+    const tstring&  GetIP() const               { return m_sIP; }
+    const tstring&  GetNickname() const         { return m_sNick; }
+    const tstring&  GetEmailAddress() const     { return m_sEmail; }
     int             GetLevel() const            { return m_iLevel; }
     ushort          GetPSR() const              { return m_unRank; }
     int             GetGames() const            { return m_iGames; }
     int             GetDisconnects() const      { return m_iDisconnects; }
-    const wstring&  GetClanName() const         { return m_sClanName; }
-    const wstring&  GetClanTag() const          { return m_sClanTag; }
+    const tstring&  GetClanName() const         { return m_sClanName; }
+    const tstring&  GetClanTag() const          { return m_sClanTag; }
     uint            GetClanID() const           { return m_uiClanID; }
     EClanRank       GetClanRank() const         { return m_eClanRank; }
     byte            GetFlags() const            { return m_yFlags; }

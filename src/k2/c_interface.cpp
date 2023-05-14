@@ -223,13 +223,13 @@ void    CInterface::AddWidget(IWidget *pWidget)
         m_vWidgets[pWidget->GetID()] = pWidget;
     }
 
-    const wstring &sName(pWidget->GetName());
+    const tstring &sName(pWidget->GetName());
     if (!sName.empty())
     {
         if (m_mapWidgets.find(sName) != m_mapWidgets.end())
         {
             Console.Warn << _T("Widget ") << QuoteStr(sName) << _T(" already exists in a loaded interface") << newl;
-            pWidget->SetName(sName + L"_DUPLICATE_" + XtoA(rand() % 10000, FMT_PADZERO, 4));
+            pWidget->SetName(sName + _T("_DUPLICATE_") + XtoA(rand() % 10000, FMT_PADZERO, 4));
         }
 
         m_mapWidgets[sName] = pWidget->GetID();

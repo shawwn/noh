@@ -28,8 +28,8 @@ BEGIN_XML_REGISTRATION(material)
     REGISTER_XML_PROCESSOR(materiallist)
 END_XML_REGISTRATION
 BEGIN_XML_PROCESSOR(material, CMaterialList)
-    uint uiID(node.GetPropertyInt(_CWS("id"), -1));
-    const tstring &sName(node.GetProperty(_CWS("name")));
+    uint uiID(node.GetPropertyInt(_CTS("id"), -1));
+    const tstring &sName(node.GetProperty(_CTS("name")));
 
     if (uiID != uint(-1))
         pObject->AddMaterial(uiID, sName);

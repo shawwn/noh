@@ -570,46 +570,46 @@ void    CGameInfo::SetGameOptions(const tstring &sOptions)
   ====================*/
 void    CGameInfo::WriteStringTable(CFileHandle &hFile, size_t zTabStop, size_t zColumnOffset)
 {
-    hFile << _CWS("// Game Info") << newl;
+    hFile << _CTS("// Game Info") << newl;
 
-    hFile << TabPad(_CWS("Mode_Normal"), zTabStop, zColumnOffset) << EscapeWhiteSpace(GetGameModeString(GAME_MODE_NORMAL)) << newl;
-    hFile << TabPad(_CWS("Mode_RandomDraft"), zTabStop, zColumnOffset) << EscapeWhiteSpace(GetGameModeString(GAME_MODE_RANDOM_DRAFT)) << newl;
-    hFile << TabPad(_CWS("Mode_SingleDraft"), zTabStop, zColumnOffset) << EscapeWhiteSpace(GetGameModeString(GAME_MODE_SINGLE_DRAFT)) << newl;
-    hFile << TabPad(_CWS("Mode_Deathmatch"), zTabStop, zColumnOffset) << EscapeWhiteSpace(GetGameModeString(GAME_MODE_DEATHMATCH)) << newl;
-    hFile << TabPad(_CWS("Mode_BanningDraft"), zTabStop, zColumnOffset) << EscapeWhiteSpace(GetGameModeString(GAME_MODE_BANNING_DRAFT)) << newl;
-    hFile << TabPad(_CWS("Mode_CaptainsDraft"), zTabStop, zColumnOffset) << EscapeWhiteSpace(GetGameModeString(GAME_MODE_CAPTAINS_DRAFT)) << newl;
-    hFile << TabPad(_CWS("Mode_CaptainsMode"), zTabStop, zColumnOffset) << EscapeWhiteSpace(GetGameModeString(GAME_MODE_CAPTAINS_MODE)) << newl;
-    hFile << TabPad(_CWS("Mode_BanningPick"), zTabStop, zColumnOffset) << EscapeWhiteSpace(GetGameModeString(GAME_MODE_BANNING_PICK)) << newl;
-    hFile << TabPad(_CWS("Mode_Invalid"), zTabStop, zColumnOffset) << EscapeWhiteSpace(GetGameModeString(NUM_GAME_MODES)) << newl;
+    hFile << TabPad(_CTS("Mode_Normal"), zTabStop, zColumnOffset) << EscapeWhiteSpace(GetGameModeString(GAME_MODE_NORMAL)) << newl;
+    hFile << TabPad(_CTS("Mode_RandomDraft"), zTabStop, zColumnOffset) << EscapeWhiteSpace(GetGameModeString(GAME_MODE_RANDOM_DRAFT)) << newl;
+    hFile << TabPad(_CTS("Mode_SingleDraft"), zTabStop, zColumnOffset) << EscapeWhiteSpace(GetGameModeString(GAME_MODE_SINGLE_DRAFT)) << newl;
+    hFile << TabPad(_CTS("Mode_Deathmatch"), zTabStop, zColumnOffset) << EscapeWhiteSpace(GetGameModeString(GAME_MODE_DEATHMATCH)) << newl;
+    hFile << TabPad(_CTS("Mode_BanningDraft"), zTabStop, zColumnOffset) << EscapeWhiteSpace(GetGameModeString(GAME_MODE_BANNING_DRAFT)) << newl;
+    hFile << TabPad(_CTS("Mode_CaptainsDraft"), zTabStop, zColumnOffset) << EscapeWhiteSpace(GetGameModeString(GAME_MODE_CAPTAINS_DRAFT)) << newl;
+    hFile << TabPad(_CTS("Mode_CaptainsMode"), zTabStop, zColumnOffset) << EscapeWhiteSpace(GetGameModeString(GAME_MODE_CAPTAINS_MODE)) << newl;
+    hFile << TabPad(_CTS("Mode_BanningPick"), zTabStop, zColumnOffset) << EscapeWhiteSpace(GetGameModeString(GAME_MODE_BANNING_PICK)) << newl;
+    hFile << TabPad(_CTS("Mode_Invalid"), zTabStop, zColumnOffset) << EscapeWhiteSpace(GetGameModeString(NUM_GAME_MODES)) << newl;
 
     hFile << newl;
 
-    hFile << TabPad(_CWS("Option_None"), zTabStop, zColumnOffset) << EscapeWhiteSpace(GetGameOptionsString(GAME_OPTION_INVALID)) << newl;
-    hFile << TabPad(_CWS("Option_ForceRandom"), zTabStop, zColumnOffset) << EscapeWhiteSpace(GetGameOptionsString(GAME_OPTION_FORCE_RANDOM)) << newl;
-    hFile << TabPad(_CWS("Option_AlternateSelection"), zTabStop, zColumnOffset) << EscapeWhiteSpace(GetGameOptionsString(GAME_OPTION_ALTERNATE_SELECTION)) << newl;
-    hFile << TabPad(_CWS("Option_NoRepick"), zTabStop, zColumnOffset) << EscapeWhiteSpace(GetGameOptionsString(GAME_OPTION_NO_REPICK)) << newl;
-    hFile << TabPad(_CWS("Option_NoSwap"), zTabStop, zColumnOffset) << EscapeWhiteSpace(GetGameOptionsString(GAME_OPTION_NO_SWAP)) << newl;
-    hFile << TabPad(_CWS("Option_NoAgility"), zTabStop, zColumnOffset) << EscapeWhiteSpace(GetGameOptionsString(GAME_OPTION_NO_AGILITY)) << newl;
-    hFile << TabPad(_CWS("Option_NoIntelligence"), zTabStop, zColumnOffset) << EscapeWhiteSpace(GetGameOptionsString(GAME_OPTION_NO_INTELLIGENCE)) << newl;
-    hFile << TabPad(_CWS("Option_NoStrength"), zTabStop, zColumnOffset) << EscapeWhiteSpace(GetGameOptionsString(GAME_OPTION_NO_STRENGTH)) << newl;
-    hFile << TabPad(_CWS("Option_AllHeroes"), zTabStop, zColumnOffset) << EscapeWhiteSpace(GetGameOptionsString(GAME_OPTION_ALL_HEROES)) << newl;
-    hFile << TabPad(_CWS("Option_NoRespawnTimer"), zTabStop, zColumnOffset) << EscapeWhiteSpace(GetGameOptionsString(GAME_OPTION_NO_RESPAWN_TIMER)) << newl;
-    hFile << TabPad(_CWS("Option_DropItems"), zTabStop, zColumnOffset) << EscapeWhiteSpace(GetGameOptionsString(GAME_OPTION_DROP_ITEMS)) << newl;
-    hFile << TabPad(_CWS("Option_NoPowerups"), zTabStop, zColumnOffset) << EscapeWhiteSpace(GetGameOptionsString(GAME_OPTION_NO_POWERUPS)) << newl;
-    hFile << TabPad(_CWS("Option_SuperCreeps"), zTabStop, zColumnOffset) << EscapeWhiteSpace(GetGameOptionsString(GAME_OPTION_SUPER_CREEPS)) << newl;
-    hFile << TabPad(_CWS("Option_EasyMode"), zTabStop, zColumnOffset) << EscapeWhiteSpace(GetGameOptionsString(GAME_OPTION_EASY_MODE)) << newl;
-    hFile << TabPad(_CWS("Option_DuplicateHeroes"), zTabStop, zColumnOffset) << EscapeWhiteSpace(GetGameOptionsString(GAME_OPTION_DUPLICATE_HEROES)) << newl;
-    hFile << TabPad(_CWS("Option_ReverseSelection"), zTabStop, zColumnOffset) << EscapeWhiteSpace(GetGameOptionsString(GAME_OPTION_REVERSE_SELECTION)) << newl;
-    hFile << TabPad(_CWS("Option_NoTopLane"), zTabStop, zColumnOffset) << EscapeWhiteSpace(GetGameOptionsString(GAME_OPTION_NO_TOP_LANE)) << newl;
-    hFile << TabPad(_CWS("Option_NoMiddleLane"), zTabStop, zColumnOffset) << EscapeWhiteSpace(GetGameOptionsString(GAME_OPTION_NO_MIDDLE_LANE)) << newl;
-    hFile << TabPad(_CWS("Option_NoBottomLane"), zTabStop, zColumnOffset) << EscapeWhiteSpace(GetGameOptionsString(GAME_OPTION_NO_BOTTOM_LANE)) << newl;
-    hFile << TabPad(_CWS("Option_AllowVeto"), zTabStop, zColumnOffset) << EscapeWhiteSpace(GetGameOptionsString(GAME_OPTION_ALLOW_VETO)) << newl;
-    hFile << TabPad(_CWS("Option_ShuffleTeams"), zTabStop, zColumnOffset) << EscapeWhiteSpace(GetGameOptionsString(GAME_OPTION_SHUFFLE_TEAMS)) << newl;
-    hFile << TabPad(_CWS("Option_AutoBalanceTeams"), zTabStop, zColumnOffset) << EscapeWhiteSpace(GetGameOptionsString(GAME_OPTION_AUTOBALANCE_TEAMS)) << newl;
-    hFile << TabPad(_CWS("Option_TournamentRules"), zTabStop, zColumnOffset) << EscapeWhiteSpace(GetGameOptionsString(GAME_OPTION_TOURNAMENT_RULES)) << newl;
-    hFile << TabPad(_CWS("Option_Hardcore"), zTabStop, zColumnOffset) << EscapeWhiteSpace(GetGameOptionsString(GAME_OPTION_HARDCORE)) << newl;
-    hFile << TabPad(_CWS("Option_Casual"), zTabStop, zColumnOffset) << EscapeWhiteSpace(GetGameOptionsString(GAME_OPTION_CASUAL)) << newl;
-    hFile << TabPad(_CWS("Option_DevHeroes"), zTabStop, zColumnOffset) << EscapeWhiteSpace(GetGameOptionsString(GAME_OPTION_DEV_HEROES)) << newl;
+    hFile << TabPad(_CTS("Option_None"), zTabStop, zColumnOffset) << EscapeWhiteSpace(GetGameOptionsString(GAME_OPTION_INVALID)) << newl;
+    hFile << TabPad(_CTS("Option_ForceRandom"), zTabStop, zColumnOffset) << EscapeWhiteSpace(GetGameOptionsString(GAME_OPTION_FORCE_RANDOM)) << newl;
+    hFile << TabPad(_CTS("Option_AlternateSelection"), zTabStop, zColumnOffset) << EscapeWhiteSpace(GetGameOptionsString(GAME_OPTION_ALTERNATE_SELECTION)) << newl;
+    hFile << TabPad(_CTS("Option_NoRepick"), zTabStop, zColumnOffset) << EscapeWhiteSpace(GetGameOptionsString(GAME_OPTION_NO_REPICK)) << newl;
+    hFile << TabPad(_CTS("Option_NoSwap"), zTabStop, zColumnOffset) << EscapeWhiteSpace(GetGameOptionsString(GAME_OPTION_NO_SWAP)) << newl;
+    hFile << TabPad(_CTS("Option_NoAgility"), zTabStop, zColumnOffset) << EscapeWhiteSpace(GetGameOptionsString(GAME_OPTION_NO_AGILITY)) << newl;
+    hFile << TabPad(_CTS("Option_NoIntelligence"), zTabStop, zColumnOffset) << EscapeWhiteSpace(GetGameOptionsString(GAME_OPTION_NO_INTELLIGENCE)) << newl;
+    hFile << TabPad(_CTS("Option_NoStrength"), zTabStop, zColumnOffset) << EscapeWhiteSpace(GetGameOptionsString(GAME_OPTION_NO_STRENGTH)) << newl;
+    hFile << TabPad(_CTS("Option_AllHeroes"), zTabStop, zColumnOffset) << EscapeWhiteSpace(GetGameOptionsString(GAME_OPTION_ALL_HEROES)) << newl;
+    hFile << TabPad(_CTS("Option_NoRespawnTimer"), zTabStop, zColumnOffset) << EscapeWhiteSpace(GetGameOptionsString(GAME_OPTION_NO_RESPAWN_TIMER)) << newl;
+    hFile << TabPad(_CTS("Option_DropItems"), zTabStop, zColumnOffset) << EscapeWhiteSpace(GetGameOptionsString(GAME_OPTION_DROP_ITEMS)) << newl;
+    hFile << TabPad(_CTS("Option_NoPowerups"), zTabStop, zColumnOffset) << EscapeWhiteSpace(GetGameOptionsString(GAME_OPTION_NO_POWERUPS)) << newl;
+    hFile << TabPad(_CTS("Option_SuperCreeps"), zTabStop, zColumnOffset) << EscapeWhiteSpace(GetGameOptionsString(GAME_OPTION_SUPER_CREEPS)) << newl;
+    hFile << TabPad(_CTS("Option_EasyMode"), zTabStop, zColumnOffset) << EscapeWhiteSpace(GetGameOptionsString(GAME_OPTION_EASY_MODE)) << newl;
+    hFile << TabPad(_CTS("Option_DuplicateHeroes"), zTabStop, zColumnOffset) << EscapeWhiteSpace(GetGameOptionsString(GAME_OPTION_DUPLICATE_HEROES)) << newl;
+    hFile << TabPad(_CTS("Option_ReverseSelection"), zTabStop, zColumnOffset) << EscapeWhiteSpace(GetGameOptionsString(GAME_OPTION_REVERSE_SELECTION)) << newl;
+    hFile << TabPad(_CTS("Option_NoTopLane"), zTabStop, zColumnOffset) << EscapeWhiteSpace(GetGameOptionsString(GAME_OPTION_NO_TOP_LANE)) << newl;
+    hFile << TabPad(_CTS("Option_NoMiddleLane"), zTabStop, zColumnOffset) << EscapeWhiteSpace(GetGameOptionsString(GAME_OPTION_NO_MIDDLE_LANE)) << newl;
+    hFile << TabPad(_CTS("Option_NoBottomLane"), zTabStop, zColumnOffset) << EscapeWhiteSpace(GetGameOptionsString(GAME_OPTION_NO_BOTTOM_LANE)) << newl;
+    hFile << TabPad(_CTS("Option_AllowVeto"), zTabStop, zColumnOffset) << EscapeWhiteSpace(GetGameOptionsString(GAME_OPTION_ALLOW_VETO)) << newl;
+    hFile << TabPad(_CTS("Option_ShuffleTeams"), zTabStop, zColumnOffset) << EscapeWhiteSpace(GetGameOptionsString(GAME_OPTION_SHUFFLE_TEAMS)) << newl;
+    hFile << TabPad(_CTS("Option_AutoBalanceTeams"), zTabStop, zColumnOffset) << EscapeWhiteSpace(GetGameOptionsString(GAME_OPTION_AUTOBALANCE_TEAMS)) << newl;
+    hFile << TabPad(_CTS("Option_TournamentRules"), zTabStop, zColumnOffset) << EscapeWhiteSpace(GetGameOptionsString(GAME_OPTION_TOURNAMENT_RULES)) << newl;
+    hFile << TabPad(_CTS("Option_Hardcore"), zTabStop, zColumnOffset) << EscapeWhiteSpace(GetGameOptionsString(GAME_OPTION_HARDCORE)) << newl;
+    hFile << TabPad(_CTS("Option_Casual"), zTabStop, zColumnOffset) << EscapeWhiteSpace(GetGameOptionsString(GAME_OPTION_CASUAL)) << newl;
+    hFile << TabPad(_CTS("Option_DevHeroes"), zTabStop, zColumnOffset) << EscapeWhiteSpace(GetGameOptionsString(GAME_OPTION_DEV_HEROES)) << newl;
 
     hFile << newl;
 }

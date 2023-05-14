@@ -152,7 +152,7 @@ EStateStackType GetStateStackTypeFromString(const tstring &sName)
   ====================*/
 CTargetScheme::CTargetScheme(const tstring &sName, const tstring &sAllow, const tstring &sRestrict, const tstring &sAllow2, const tstring &sRestrict2, const CGameMechanics *pMechanics) :
 m_sName(sName),
-m_uiDisplayNameIndex(Game.GetEntityStringIndex(_CWS("TargetScheme_") + sName))
+m_uiDisplayNameIndex(Game.GetEntityStringIndex(_CTS("TargetScheme_") + sName))
 {
     tsvector vAllow(TokenizeString(sAllow, _T(',')));
     for (tsvector_it it(vAllow.begin()); it != vAllow.end(); ++it)
@@ -334,7 +334,7 @@ const tstring&  CTargetScheme::GetDisplayName() const
   ====================*/
 CCombatTable::CCombatTable(const tstring &sName, uint uiNumCombatTypes, const CGameMechanics *pMechanics) :
 m_sName(sName),
-m_uiDisplayNameIndex(Game.GetEntityStringIndex(_CWS("CombatType_") + sName)),
+m_uiDisplayNameIndex(Game.GetEntityStringIndex(_CTS("CombatType_") + sName)),
 m_pGameMechanics(pMechanics)
 {
     m_vAttackMultiplier.resize(uiNumCombatTypes);
@@ -362,7 +362,7 @@ CEffectType::CEffectType(const tstring &sName, uint uiEffectBit, bool bAssist) :
 m_sName(sName),
 m_uiEffectBit(uiEffectBit),
 m_bAssist(bAssist),
-m_uiDisplayNameIndex(Game.GetEntityStringIndex(_CWS("EffectType_") + sName))
+m_uiDisplayNameIndex(Game.GetEntityStringIndex(_CTS("EffectType_") + sName))
 {
 }
 
@@ -382,7 +382,7 @@ const tstring&  CEffectType::GetDisplayName() const
 CImmunityType::CImmunityType(const tstring &sName, uint uiImmunityBits) :
 m_sName(sName),
 m_uiImmunityBits(uiImmunityBits),
-m_uiDisplayNameIndex(Game.GetEntityStringIndex(_CWS("ImmunityType_") + sName))
+m_uiDisplayNameIndex(Game.GetEntityStringIndex(_CTS("ImmunityType_") + sName))
 {
 }
 
@@ -402,7 +402,7 @@ const tstring&  CImmunityType::GetDisplayName() const
 CStealthType::CStealthType(const tstring &sName, uint uiStealthBit) :
 m_sName(sName),
 m_uiStealthBit(uiStealthBit),
-m_uiDisplayNameIndex(Game.GetEntityStringIndex(_CWS("StealthType_") + sName))
+m_uiDisplayNameIndex(Game.GetEntityStringIndex(_CTS("StealthType_") + sName))
 {
 }
 
@@ -422,7 +422,7 @@ const tstring&  CStealthType::GetDisplayName() const
 CRevealType::CRevealType(const tstring &sName, uint uiRevealBits) :
 m_sName(sName),
 m_uiRevealBits(uiRevealBits),
-m_uiDisplayNameIndex(Game.GetEntityStringIndex(_CWS("RevealType_") + sName))
+m_uiDisplayNameIndex(Game.GetEntityStringIndex(_CTS("RevealType_") + sName))
 {
 }
 
@@ -441,7 +441,7 @@ const tstring&  CRevealType::GetDisplayName() const
   ====================*/
 CArmorType::CArmorType(const tstring &sName, uint uiEffectType, float fFactor) :
 m_sName(sName),
-m_uiDisplayNameIndex(Game.GetEntityStringIndex(_CWS("ArmorType_") + sName)),
+m_uiDisplayNameIndex(Game.GetEntityStringIndex(_CTS("ArmorType_") + sName)),
 m_uiEffectType(uiEffectType),
 m_fFactor(fFactor)
 {
@@ -462,7 +462,7 @@ const tstring&  CArmorType::GetDisplayName() const
   ====================*/
 CAttackType::CAttackType(const tstring &sName, float fDeniedExpMultiplier, float fUphillMissChance) :
 m_sName(sName),
-m_uiDisplayNameIndex(Game.GetEntityStringIndex(_CWS("AttackType_") + sName)),
+m_uiDisplayNameIndex(Game.GetEntityStringIndex(_CTS("AttackType_") + sName)),
 m_fDeniedExpMultiplier(fDeniedExpMultiplier),
 m_fUphillMissChance(fUphillMissChance)
 {
@@ -484,19 +484,19 @@ const tstring&  CAttackType::GetDisplayName() const
 CPopup::CPopup(const tstring &sName, byte yType, const CXMLNode &node) :
 m_sName(sName),
 m_yType(yType),
-m_uiMessageIndex(Game.GetEntityStringIndex(_CWS("Popup_") + sName)),
-m_bShowValue(node.GetPropertyBool(_CWS("value"))),
-m_bSelfOnly(node.GetProperty(_CWS("visibility")) == _CWS("self")),
-m_bTeamOnly(node.GetProperty(_CWS("visibility")) == _CWS("team")),
-m_bSpectatorOnly(node.GetProperty(_CWS("visibility")) == _CWS("spectator")),
-m_bUsePlayerColor(node.GetProperty(_CWS("color")) == _CWS("*")),
-m_v4Color(GetColorFromString(node.GetProperty(_CWS("color")))),
-m_fStartX(node.GetPropertyFloat(_CWS("startx"), 0.0f)),
-m_fStartY(node.GetPropertyFloat(_CWS("starty"), 0.0f)),
-m_fSpeedX(node.GetPropertyFloat(_CWS("speedx"), 0.0f)),
-m_fSpeedY(node.GetPropertyFloat(_CWS("speedy"), 2.0f)),
-m_uiDuration(node.GetPropertyInt(_CWS("duration"))),
-m_uiFadeTime(node.GetPropertyInt(_CWS("fadetime")))
+m_uiMessageIndex(Game.GetEntityStringIndex(_CTS("Popup_") + sName)),
+m_bShowValue(node.GetPropertyBool(_CTS("value"))),
+m_bSelfOnly(node.GetProperty(_CTS("visibility")) == _CTS("self")),
+m_bTeamOnly(node.GetProperty(_CTS("visibility")) == _CTS("team")),
+m_bSpectatorOnly(node.GetProperty(_CTS("visibility")) == _CTS("spectator")),
+m_bUsePlayerColor(node.GetProperty(_CTS("color")) == _CTS("*")),
+m_v4Color(GetColorFromString(node.GetProperty(_CTS("color")))),
+m_fStartX(node.GetPropertyFloat(_CTS("startx"), 0.0f)),
+m_fStartY(node.GetPropertyFloat(_CTS("starty"), 0.0f)),
+m_fSpeedX(node.GetPropertyFloat(_CTS("speedx"), 0.0f)),
+m_fSpeedY(node.GetPropertyFloat(_CTS("speedy"), 2.0f)),
+m_uiDuration(node.GetPropertyInt(_CTS("duration"))),
+m_uiFadeTime(node.GetPropertyInt(_CTS("fadetime")))
 {
 }
 
@@ -510,7 +510,7 @@ tstring CPopup::GetMessage(ushort unValue) const
 
     const tstring &sMessage(Game.GetEntityString(m_uiMessageIndex));
 
-    s_mapTokens[_CWS("value")] = XtoA(unValue);
+    s_mapTokens[_CTS("value")] = XtoA(unValue);
     return ReplaceTokens(sMessage, s_mapTokens);
 }
 
@@ -530,12 +530,12 @@ const tstring&  CPopup::GetRawMessage() const
 CPing::CPing(const tstring &sName, byte yType, const CXMLNode &node) :
 m_sName(sName),
 m_yType(yType),
-m_bSelfOnly(node.GetProperty(_CWS("visibility")) == _CWS("self")),
-m_bTargetOnly(node.GetProperty(_CWS("visibility")) == _CWS("target")),
-m_bTeamOnly(node.GetProperty(_CWS("visibility")) == _CWS("team")),
-m_bUsePlayerColor(node.GetProperty(_CWS("color")) == _CWS("*")),
-m_v4Color(GetColorFromString(node.GetProperty(_CWS("color")))),
-m_sEffectPath(node.GetProperty(_CWS("effect")))
+m_bSelfOnly(node.GetProperty(_CTS("visibility")) == _CTS("self")),
+m_bTargetOnly(node.GetProperty(_CTS("visibility")) == _CTS("target")),
+m_bTeamOnly(node.GetProperty(_CTS("visibility")) == _CTS("team")),
+m_bUsePlayerColor(node.GetProperty(_CTS("color")) == _CTS("*")),
+m_v4Color(GetColorFromString(node.GetProperty(_CTS("color")))),
+m_sEffectPath(node.GetProperty(_CTS("effect")))
 {
 }
 
@@ -572,7 +572,7 @@ BEGIN_XML_REGISTRATION(combattypes)
     REGISTER_XML_PROCESSOR(gamemechanics)
 END_XML_REGISTRATION
 BEGIN_XML_PROCESSOR(combattypes, CGameMechanics)
-    tsvector vTypes(TokenizeString(node.GetProperty(_CWS("list")), _T(',')));
+    tsvector vTypes(TokenizeString(node.GetProperty(_CTS("list")), _T(',')));
     for (tsvector_it it(vTypes.begin()); it != vTypes.end(); ++it)
         pObject->RegisterCombatType(*it, INT_SIZE(vTypes.size()));
 END_XML_PROCESSOR(pObject)
@@ -583,7 +583,7 @@ BEGIN_XML_REGISTRATION(combattable)
     REGISTER_XML_PROCESSOR(combattypes)
 END_XML_REGISTRATION
 BEGIN_XML_PROCESSOR(combattable, CGameMechanics)
-    const tstring &sName(node.GetProperty(_CWS("name")));
+    const tstring &sName(node.GetProperty(_CTS("name")));
     CCombatTable *pCombatTable(pObject->GetCombatTable(sName));
     if (pCombatTable == NULL)
     {
@@ -599,7 +599,7 @@ BEGIN_XML_REGISTRATION(attackmultiplier)
 END_XML_REGISTRATION
 BEGIN_XML_PROCESSOR(attackmultiplier, CCombatTable)
     const CGameMechanics *pGameMechanics(pObject->GetGameMechanics());
-    pObject->SetAttackMultiplier(pGameMechanics->LookupCombatType(node.GetProperty(_CWS("target"))), node.GetPropertyFloat(_CWS("value")));
+    pObject->SetAttackMultiplier(pGameMechanics->LookupCombatType(node.GetProperty(_CTS("target"))), node.GetPropertyFloat(_CTS("value")));
 END_XML_PROCESSOR_NO_CHILDREN
 
 // <spellmultiplier>
@@ -609,7 +609,7 @@ BEGIN_XML_REGISTRATION(spellmultiplier)
 END_XML_REGISTRATION
 BEGIN_XML_PROCESSOR(spellmultiplier, CCombatTable)
     const CGameMechanics *pGameMechanics(pObject->GetGameMechanics());
-    pObject->SetSpellMultiplier(pGameMechanics->LookupCombatType(node.GetProperty(_CWS("target"))), node.GetPropertyFloat(_CWS("value")));
+    pObject->SetSpellMultiplier(pGameMechanics->LookupCombatType(node.GetProperty(_CTS("target"))), node.GetPropertyFloat(_CTS("value")));
 END_XML_PROCESSOR_NO_CHILDREN
 
 // <aggropriority>
@@ -619,7 +619,7 @@ BEGIN_XML_REGISTRATION(aggropriority)
 END_XML_REGISTRATION
 BEGIN_XML_PROCESSOR(aggropriority, CCombatTable)
     const CGameMechanics *pGameMechanics(pObject->GetGameMechanics());
-    pObject->SetAggroPriority(pGameMechanics->LookupCombatType(node.GetProperty(_CWS("target"))), node.GetPropertyInt(_CWS("value")));
+    pObject->SetAggroPriority(pGameMechanics->LookupCombatType(node.GetProperty(_CTS("target"))), node.GetPropertyInt(_CTS("value")));
 END_XML_PROCESSOR_NO_CHILDREN
 
 // <attackpriority>
@@ -629,7 +629,7 @@ BEGIN_XML_REGISTRATION(attackpriority)
 END_XML_REGISTRATION
 BEGIN_XML_PROCESSOR(attackpriority, CCombatTable)
 const CGameMechanics *pGameMechanics(pObject->GetGameMechanics());
-    pObject->SetAttackPriority(pGameMechanics->LookupCombatType(node.GetProperty(_CWS("target"))), node.GetPropertyInt(_CWS("value")));
+    pObject->SetAttackPriority(pGameMechanics->LookupCombatType(node.GetProperty(_CTS("target"))), node.GetPropertyInt(_CTS("value")));
 END_XML_PROCESSOR_NO_CHILDREN
 
 // <proximitypriority>
@@ -639,7 +639,7 @@ BEGIN_XML_REGISTRATION(proximitypriority)
 END_XML_REGISTRATION
 BEGIN_XML_PROCESSOR(proximitypriority, CCombatTable)
     const CGameMechanics *pGameMechanics(pObject->GetGameMechanics());
-    pObject->SetProximityPriority(pGameMechanics->LookupCombatType(node.GetProperty(_CWS("target"))), node.GetPropertyInt(_CWS("value")));
+    pObject->SetProximityPriority(pGameMechanics->LookupCombatType(node.GetProperty(_CTS("target"))), node.GetPropertyInt(_CTS("value")));
 END_XML_PROCESSOR_NO_CHILDREN
 
 // <targetpriority>
@@ -649,7 +649,7 @@ BEGIN_XML_REGISTRATION(targetpriority)
 END_XML_REGISTRATION
 BEGIN_XML_PROCESSOR(targetpriority, CCombatTable)
     const CGameMechanics *pGameMechanics(pObject->GetGameMechanics());
-    pObject->SetTargetPriority(pGameMechanics->LookupCombatType(node.GetProperty(_CWS("target"))), node.GetPropertyInt(_CWS("value")));
+    pObject->SetTargetPriority(pGameMechanics->LookupCombatType(node.GetProperty(_CTS("target"))), node.GetPropertyInt(_CTS("value")));
 END_XML_PROCESSOR_NO_CHILDREN
 
 
@@ -659,7 +659,7 @@ BEGIN_XML_REGISTRATION(stealthtype)
     REGISTER_XML_PROCESSOR(gamemechanics)
 END_XML_REGISTRATION
 BEGIN_XML_PROCESSOR(stealthtype, CGameMechanics)
-    pObject->RegisterStealthType(node.GetProperty(_CWS("name")));
+    pObject->RegisterStealthType(node.GetProperty(_CTS("name")));
 END_XML_PROCESSOR_NO_CHILDREN
 
 // <revealtype>
@@ -668,7 +668,7 @@ BEGIN_XML_REGISTRATION(revealtype)
     REGISTER_XML_PROCESSOR(gamemechanics)
 END_XML_REGISTRATION
 BEGIN_XML_PROCESSOR(revealtype, CGameMechanics)
-    pObject->RegisterRevealType(node.GetProperty(_CWS("name")), node.GetProperty(_CWS("reveal")));
+    pObject->RegisterRevealType(node.GetProperty(_CTS("name")), node.GetProperty(_CTS("reveal")));
 END_XML_PROCESSOR_NO_CHILDREN
 
 
@@ -678,7 +678,7 @@ BEGIN_XML_REGISTRATION(effecttype)
     REGISTER_XML_PROCESSOR(gamemechanics)
 END_XML_REGISTRATION
 BEGIN_XML_PROCESSOR(effecttype, CGameMechanics)
-    pObject->RegisterEffectType(node.GetProperty(_CWS("name")), node.GetPropertyBool(_CWS("assist")));
+    pObject->RegisterEffectType(node.GetProperty(_CTS("name")), node.GetPropertyBool(_CTS("assist")));
 END_XML_PROCESSOR_NO_CHILDREN
 
 // <immunitytype>
@@ -687,7 +687,7 @@ BEGIN_XML_REGISTRATION(immunitytype)
     REGISTER_XML_PROCESSOR(gamemechanics)
 END_XML_REGISTRATION
 BEGIN_XML_PROCESSOR(immunitytype, CGameMechanics)
-    pObject->RegisterImmunityType(node.GetProperty(_CWS("name")), node.GetProperty(_CWS("immune")));
+    pObject->RegisterImmunityType(node.GetProperty(_CTS("name")), node.GetProperty(_CTS("immune")));
 END_XML_PROCESSOR_NO_CHILDREN
 
 // <armortype>
@@ -696,7 +696,7 @@ BEGIN_XML_REGISTRATION(armortype)
     REGISTER_XML_PROCESSOR(gamemechanics)
 END_XML_REGISTRATION
 BEGIN_XML_PROCESSOR(armortype, CGameMechanics)
-    pObject->RegisterArmorType(node.GetProperty(_CWS("name")), node.GetProperty(_CWS("effects")), node.GetPropertyFloat(_CWS("factor")));
+    pObject->RegisterArmorType(node.GetProperty(_CTS("name")), node.GetProperty(_CTS("effects")), node.GetPropertyFloat(_CTS("factor")));
 END_XML_PROCESSOR_NO_CHILDREN
 
 
@@ -706,11 +706,11 @@ BEGIN_XML_REGISTRATION(targetscheme)
     REGISTER_XML_PROCESSOR(gamemechanics)
 END_XML_REGISTRATION
 BEGIN_XML_PROCESSOR(targetscheme, CGameMechanics)
-    pObject->RegisterTargetScheme(node.GetProperty(_CWS("name")),
-        node.GetProperty(_CWS("allow")),
-        node.GetProperty(_CWS("restrict")),
-        node.GetProperty(_CWS("allow2")),
-        node.GetProperty(_CWS("restrict2"))
+    pObject->RegisterTargetScheme(node.GetProperty(_CTS("name")),
+        node.GetProperty(_CTS("allow")),
+        node.GetProperty(_CTS("restrict")),
+        node.GetProperty(_CTS("allow2")),
+        node.GetProperty(_CTS("restrict2"))
     );
 END_XML_PROCESSOR_NO_CHILDREN
 
@@ -783,44 +783,44 @@ void    CGameMechanics::Clear()
   ====================*/
 void    CGameMechanics::PostLoad()
 {
-    m_apPopups[POPUP_GOLD] = GetPopup(LookupPopup(_CWS("gold")));
-    m_apPopups[POPUP_EXPERIENCE] = GetPopup(LookupPopup(_CWS("experience")));
-    m_apPopups[POPUP_CRITICAL] = GetPopup(LookupPopup(_CWS("critical")));
-    m_apPopups[POPUP_DEFLECTION] = GetPopup(LookupPopup(_CWS("deflection")));
-    m_apPopups[POPUP_DENY] = GetPopup(LookupPopup(_CWS("deny")));
-    m_apPopups[POPUP_MISS] = GetPopup(LookupPopup(_CWS("miss")));
-    m_apPopups[POPUP_TOOFAR] = GetPopup(LookupPopup(_CWS("toofar")));
-    m_apPopups[POPUP_CREEP_KILL] = GetPopup(LookupPopup(_CWS("creep_kill")));
+    m_apPopups[POPUP_GOLD] = GetPopup(LookupPopup(_CTS("gold")));
+    m_apPopups[POPUP_EXPERIENCE] = GetPopup(LookupPopup(_CTS("experience")));
+    m_apPopups[POPUP_CRITICAL] = GetPopup(LookupPopup(_CTS("critical")));
+    m_apPopups[POPUP_DEFLECTION] = GetPopup(LookupPopup(_CTS("deflection")));
+    m_apPopups[POPUP_DENY] = GetPopup(LookupPopup(_CTS("deny")));
+    m_apPopups[POPUP_MISS] = GetPopup(LookupPopup(_CTS("miss")));
+    m_apPopups[POPUP_TOOFAR] = GetPopup(LookupPopup(_CTS("toofar")));
+    m_apPopups[POPUP_CREEP_KILL] = GetPopup(LookupPopup(_CTS("creep_kill")));
 
-    m_apPings[PING_ALERT] = GetPing(LookupPing(_CWS("alert")));
-    m_apPings[PING_BUILDING_ATTACK] = GetPing(LookupPing(_CWS("building_attack")));
-    m_apPings[PING_KILL_HERO] = GetPing(LookupPing(_CWS("kill_hero")));
-    m_apPings[PING_ALLY_BUILDING_KILL] = GetPing(LookupPing(_CWS("ally_building_kill")));
-    m_apPings[PING_ENEMY_BUILDING_KILL] = GetPing(LookupPing(_CWS("enemy_building_kill")));
+    m_apPings[PING_ALERT] = GetPing(LookupPing(_CTS("alert")));
+    m_apPings[PING_BUILDING_ATTACK] = GetPing(LookupPing(_CTS("building_attack")));
+    m_apPings[PING_KILL_HERO] = GetPing(LookupPing(_CTS("kill_hero")));
+    m_apPings[PING_ALLY_BUILDING_KILL] = GetPing(LookupPing(_CTS("ally_building_kill")));
+    m_apPings[PING_ENEMY_BUILDING_KILL] = GetPing(LookupPing(_CTS("enemy_building_kill")));
 
     for (vector<CAttackType>::iterator it(m_vAttackTypes.begin()); it != m_vAttackTypes.end(); ++it)
-        it->SetDisplayNameIndex(Game.GetEntityStringIndex(_CWS("AttackType_") + it->GetName()));
+        it->SetDisplayNameIndex(Game.GetEntityStringIndex(_CTS("AttackType_") + it->GetName()));
 
     for (vector<CEffectType>::iterator it(m_vEffectTypes.begin()); it != m_vEffectTypes.end(); ++it)
-        it->SetDisplayNameIndex(Game.GetEntityStringIndex(_CWS("EffectType_") + it->GetName()));
+        it->SetDisplayNameIndex(Game.GetEntityStringIndex(_CTS("EffectType_") + it->GetName()));
 
     for (vector<CImmunityType>::iterator it(m_vImmunityTypes.begin()); it != m_vImmunityTypes.end(); ++it)
-        it->SetDisplayNameIndex(Game.GetEntityStringIndex(_CWS("ImmunityType_") + it->GetName()));
+        it->SetDisplayNameIndex(Game.GetEntityStringIndex(_CTS("ImmunityType_") + it->GetName()));
 
     for (vector<CStealthType>::iterator it(m_vStealthTypes.begin()); it != m_vStealthTypes.end(); ++it)
-        it->SetDisplayNameIndex(Game.GetEntityStringIndex(_CWS("StealthType_") + it->GetName()));
+        it->SetDisplayNameIndex(Game.GetEntityStringIndex(_CTS("StealthType_") + it->GetName()));
 
     for (vector<CRevealType>::iterator it(m_vRevealTypes.begin()); it != m_vRevealTypes.end(); ++it)
-        it->SetDisplayNameIndex(Game.GetEntityStringIndex(_CWS("RevealType_") + it->GetName()));
+        it->SetDisplayNameIndex(Game.GetEntityStringIndex(_CTS("RevealType_") + it->GetName()));
 
     for (vector<CArmorType>::iterator it(m_vArmorTypes.begin()); it != m_vArmorTypes.end(); ++it)
-        it->SetDisplayNameIndex(Game.GetEntityStringIndex(_CWS("ArmorType_") + it->GetName()));
+        it->SetDisplayNameIndex(Game.GetEntityStringIndex(_CTS("ArmorType_") + it->GetName()));
 
     for (vector<CTargetScheme>::iterator it(m_vTargetSchemes.begin()); it != m_vTargetSchemes.end(); ++it)
-        it->SetDisplayNameIndex(Game.GetEntityStringIndex(_CWS("TargetScheme_") + it->GetName()));
+        it->SetDisplayNameIndex(Game.GetEntityStringIndex(_CTS("TargetScheme_") + it->GetName()));
 
     for (vector<CPopup>::iterator it(m_vPopups.begin()); it != m_vPopups.end(); ++it)
-        it->SetMessageIndex(Game.GetEntityStringIndex(_CWS("Popup_") + it->GetName()));
+        it->SetMessageIndex(Game.GetEntityStringIndex(_CTS("Popup_") + it->GetName()));
     
     if (Game.IsClient())
     {
@@ -831,9 +831,9 @@ void    CGameMechanics::PostLoad()
         }
     }
 
-    m_uiDebuffEffectType = LookupEffectType(_CWS("StatusDebuff"));
-    m_uiBuffEffectType = LookupEffectType(_CWS("StatusBuff"));
-    m_uiDisableEffectType = LookupEffectType(_CWS("StatusDisable"));
+    m_uiDebuffEffectType = LookupEffectType(_CTS("StatusDebuff"));
+    m_uiBuffEffectType = LookupEffectType(_CTS("StatusBuff"));
+    m_uiDisableEffectType = LookupEffectType(_CTS("StatusDisable"));
 }
 
 
@@ -842,7 +842,7 @@ void    CGameMechanics::PostLoad()
   ====================*/
 uint    CGameMechanics::RegisterAttackType(const CXMLNode &node)
 {
-    const tstring &sName(node.GetProperty(_CWS("name")));
+    const tstring &sName(node.GetProperty(_CTS("name")));
     if (sName.empty())
         return INVALID_ATTACK_TYPE;
     
@@ -851,7 +851,7 @@ uint    CGameMechanics::RegisterAttackType(const CXMLNode &node)
         return itFind->second;
 
     uint uiNewID(INT_SIZE(m_vAttackTypes.size()));
-    m_vAttackTypes.push_back(CAttackType(sName, node.GetPropertyFloat(_CWS("deniedexpmultiplier")), node.GetPropertyFloat(_CWS("uphillmisschance"))));
+    m_vAttackTypes.push_back(CAttackType(sName, node.GetPropertyFloat(_CTS("deniedexpmultiplier")), node.GetPropertyFloat(_CTS("uphillmisschance"))));
     m_mapAttackTypes[sName] = uiNewID;
     return uiNewID;
 }
@@ -883,7 +883,7 @@ uint    CGameMechanics::RegisterStealthType(const tstring &sName)
     
     if (m_uiStealthBitMarker == 0)
     {
-        Console.Err << _CWS("Stealth bit overflow: ") << sName << newl;
+        Console.Err << _CTS("Stealth bit overflow: ") << sName << newl;
         return 0;
     }
 
@@ -926,7 +926,7 @@ uint    CGameMechanics::RegisterRevealType(const tstring &sName, const tstring &
     map<tstring, uint>::iterator itFind(m_mapRevealTypes.find(sName));
     if (itFind != m_mapRevealTypes.end())
     {
-        Console.Warn << _CWS("Reveal type registered twice: ") << sName << newl;
+        Console.Warn << _CTS("Reveal type registered twice: ") << sName << newl;
         return itFind->second;
     }
 
@@ -1067,7 +1067,7 @@ uint    CGameMechanics::RegisterEffectType(const tstring &sName, bool bAssist)
     
     if (m_uiEffectTypeBitMarker == 0)
     {
-        Console.Err << _CWS("Effect type bit overflow: ") << sName << newl;
+        Console.Err << _CTS("Effect type bit overflow: ") << sName << newl;
         return 0;
     }
 
@@ -1183,7 +1183,7 @@ uint    CGameMechanics::RegisterImmunityType(const tstring &sName, const tstring
     map<tstring, uint>::iterator itFind(m_mapImmunityTypes.find(sName));
     if (itFind != m_mapImmunityTypes.end())
     {
-        Console.Warn << _CWS("Immunity type registered twice: ") << sName << newl;
+        Console.Warn << _CTS("Immunity type registered twice: ") << sName << newl;
         return m_vImmunityTypes[itFind->second].GetImmunityBits();
     }
 
@@ -1337,7 +1337,7 @@ uint    CGameMechanics::LookupTargetScheme(const tstring &sName) const
   ====================*/
 byte    CGameMechanics::RegisterPopup(const CXMLNode &node)
 {
-    const tstring &sName(node.GetProperty(_CWS("name")));
+    const tstring &sName(node.GetProperty(_CTS("name")));
     if (sName.empty())
         return INVALID_POPUP;
 
@@ -1373,7 +1373,7 @@ byte    CGameMechanics::LookupPopup(const tstring &sName) const
   ====================*/
 byte    CGameMechanics::RegisterPing(const CXMLNode &node)
 {
-    const tstring &sName(node.GetProperty(_CWS("name")));
+    const tstring &sName(node.GetProperty(_CTS("name")));
     if (sName.empty())
         return INVALID_PING;
 
@@ -1409,50 +1409,50 @@ byte    CGameMechanics::LookupPing(const tstring &sName) const
   ====================*/
 void    CGameMechanics::WriteStringTable(CFileHandle &hFile, size_t zTabStop, size_t zColumnOffset)
 {
-    hFile << _CWS("// Game Mechanics") << newl;
+    hFile << _CTS("// Game Mechanics") << newl;
 
     for (vector<CAttackType>::iterator it(m_vAttackTypes.begin()); it != m_vAttackTypes.end(); ++it)
-        hFile << TabPad(_CWS("AttackType_") + it->GetName(), zTabStop, zColumnOffset) << EscapeWhiteSpace(it->GetDisplayName()) << newl;
+        hFile << TabPad(_CTS("AttackType_") + it->GetName(), zTabStop, zColumnOffset) << EscapeWhiteSpace(it->GetDisplayName()) << newl;
 
     hFile << newl;
 
     for (vector<CCombatTable>::iterator it(m_vCombatTables.begin()); it != m_vCombatTables.end(); ++it)
-        hFile << TabPad(_CWS("CombatType_") + it->GetName(), zTabStop, zColumnOffset) << EscapeWhiteSpace(it->GetDisplayName()) << newl;
+        hFile << TabPad(_CTS("CombatType_") + it->GetName(), zTabStop, zColumnOffset) << EscapeWhiteSpace(it->GetDisplayName()) << newl;
 
     hFile << newl;
 
     for (vector<CEffectType>::iterator it(m_vEffectTypes.begin()); it != m_vEffectTypes.end(); ++it)
-        hFile << TabPad(_CWS("EffectType_") + it->GetName(), zTabStop, zColumnOffset) << EscapeWhiteSpace(it->GetDisplayName()) << newl;
+        hFile << TabPad(_CTS("EffectType_") + it->GetName(), zTabStop, zColumnOffset) << EscapeWhiteSpace(it->GetDisplayName()) << newl;
 
     hFile << newl;
 
     for (vector<CImmunityType>::iterator it(m_vImmunityTypes.begin()); it != m_vImmunityTypes.end(); ++it)
-        hFile << TabPad(_CWS("ImmunityType_") + it->GetName(), zTabStop, zColumnOffset) << EscapeWhiteSpace(it->GetDisplayName()) << newl;
+        hFile << TabPad(_CTS("ImmunityType_") + it->GetName(), zTabStop, zColumnOffset) << EscapeWhiteSpace(it->GetDisplayName()) << newl;
 
     hFile << newl;
 
     for (vector<CStealthType>::iterator it(m_vStealthTypes.begin()); it != m_vStealthTypes.end(); ++it)
-        hFile << TabPad(_CWS("StealthType_") + it->GetName(), zTabStop, zColumnOffset) << EscapeWhiteSpace(it->GetDisplayName()) << newl;
+        hFile << TabPad(_CTS("StealthType_") + it->GetName(), zTabStop, zColumnOffset) << EscapeWhiteSpace(it->GetDisplayName()) << newl;
 
     hFile << newl;
 
     for (vector<CRevealType>::iterator it(m_vRevealTypes.begin()); it != m_vRevealTypes.end(); ++it)
-        hFile << TabPad(_CWS("RevealType_") + it->GetName(), zTabStop, zColumnOffset) << EscapeWhiteSpace(it->GetDisplayName()) << newl;
+        hFile << TabPad(_CTS("RevealType_") + it->GetName(), zTabStop, zColumnOffset) << EscapeWhiteSpace(it->GetDisplayName()) << newl;
 
     hFile << newl;
 
     for (vector<CArmorType>::iterator it(m_vArmorTypes.begin()); it != m_vArmorTypes.end(); ++it)
-        hFile << TabPad(_CWS("ArmorType_") + it->GetName(), zTabStop, zColumnOffset) << EscapeWhiteSpace(it->GetDisplayName()) << newl;
+        hFile << TabPad(_CTS("ArmorType_") + it->GetName(), zTabStop, zColumnOffset) << EscapeWhiteSpace(it->GetDisplayName()) << newl;
 
     hFile << newl;
 
     for (vector<CTargetScheme>::iterator it(m_vTargetSchemes.begin()); it != m_vTargetSchemes.end(); ++it)
-        hFile << TabPad(_CWS("TargetScheme_") + it->GetName(), zTabStop, zColumnOffset) << EscapeWhiteSpace(it->GetDisplayName()) << newl;
+        hFile << TabPad(_CTS("TargetScheme_") + it->GetName(), zTabStop, zColumnOffset) << EscapeWhiteSpace(it->GetDisplayName()) << newl;
 
     hFile << newl;
 
     for (vector<CPopup>::iterator it(m_vPopups.begin()); it != m_vPopups.end(); ++it)
-        hFile << TabPad(_CWS("Popup_") + it->GetName(), zTabStop, zColumnOffset) << EscapeWhiteSpace(it->GetRawMessage()) << newl;
+        hFile << TabPad(_CTS("Popup_") + it->GetName(), zTabStop, zColumnOffset) << EscapeWhiteSpace(it->GetRawMessage()) << newl;
 
     hFile << newl;
 }

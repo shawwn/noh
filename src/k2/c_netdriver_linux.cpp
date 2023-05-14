@@ -321,7 +321,7 @@ int     CNetDriver::ReceivePacket(ESocketType eType, dword dwSocket, CPacket &pk
     if (m_bBlockIncoming)
         return 0;
     
-    sAddrName = SingleToWide(inet_ntoa(from.sin_addr));
+    sAddrName = StringToTString(inet_ntoa(from.sin_addr));
     wPort = ntohs(from.sin_port);
     
     if (eType == K2_SOCKET_GAME)

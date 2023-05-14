@@ -70,7 +70,7 @@ public:
     bool        WriteInt32(int i, bool bUseBigEndian);
     bool        WriteInt64(LONGLONG ll, bool bUseBigEndian);
     bool        WriteString(const string &sText);
-    bool        WriteString(const tstring &sText);
+    bool        WriteString(const wstring &sText);
 
     uint        Tell() const;
     bool        Seek(uint uiOffset, ESeekOrigin eOrigin = SEEK_ORIGIN_START);

@@ -17,6 +17,7 @@
 #include <sys/wait.h>
 #include <glob.h>
 #include <string.h>
+#include <fcntl.h>
 //=============================================================================
 
 
@@ -331,7 +332,7 @@ ULONGLONG   CSystem::GetVirtualMemoryLimit() const
 /*====================
   CSystem::GetDriveList
   ====================*/
-void    CSystem::GetDriveList(wsvector &vNames) const
+void    CSystem::GetDriveList(tsvector &vNames) const
 {
     return;
 }
@@ -340,7 +341,7 @@ void    CSystem::GetDriveList(wsvector &vNames) const
 /*====================
   CSystem::GetDriveType
   ====================*/
-EDriveType  CSystem::GetDriveType(const wstring &sName) const
+EDriveType  CSystem::GetDriveType(const tstring &sName) const
 {
     return DRIVETYPE_INVALID;
 }
@@ -349,7 +350,7 @@ EDriveType  CSystem::GetDriveType(const wstring &sName) const
 /*====================
   CSystem::GetDriveSize
   ====================*/
-size_t  CSystem::GetDriveSize(const wstring &sName) const
+size_t  CSystem::GetDriveSize(const tstring &sName) const
 {
     return 0;
 }
@@ -358,7 +359,7 @@ size_t  CSystem::GetDriveSize(const wstring &sName) const
 /*====================
   CSystem::GetDriveFreeSpace
   ====================*/
-size_t  CSystem::GetDriveFreeSpace(const wstring &sName) const
+size_t  CSystem::GetDriveFreeSpace(const tstring &sName) const
 {
     return 0;
 }
@@ -367,7 +368,7 @@ size_t  CSystem::GetDriveFreeSpace(const wstring &sName) const
 /*====================
   CSystem::GetDriveSizeEx
   ====================*/
-ULONGLONG   CSystem::GetDriveSizeEx(const wstring &sName) const
+ULONGLONG   CSystem::GetDriveSizeEx(const tstring &sName) const
 {
     return 0;
 }
@@ -376,7 +377,7 @@ ULONGLONG   CSystem::GetDriveSizeEx(const wstring &sName) const
 /*====================
   CSystem::GetDriveFreeSpace
   ====================*/
-ULONGLONG   CSystem::GetDriveFreeSpaceEx(const wstring &sName) const
+ULONGLONG   CSystem::GetDriveFreeSpaceEx(const tstring &sName) const
 {
     return 0;
 }

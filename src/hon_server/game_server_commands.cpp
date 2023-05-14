@@ -816,8 +816,8 @@ SERVER_CMD(ReplayParse)
   --------------------*/
 SERVER_CMD(ListPlayers)
 {
-    Console << _CWS(" #       Status  Index    Player Name    Hero Name   Last Input   Ping ") << newl;
-    Console << _CWS("-- ------------ ------ -------------- ------------ ------------ ------ ") << newl;
+    Console << _CTS(" #       Status  Index    Player Name    Hero Name   Last Input   Ping ") << newl;
+    Console << _CTS("-- ------------ ------ -------------- ------------ ------------ ------ ") << newl;
     const PlayerMap &mapPlayers(GameServer.GetPlayerMap());
     for (PlayerMap_cit itPlayer(mapPlayers.begin()); itPlayer != mapPlayers.end(); ++itPlayer)
     {
@@ -827,25 +827,25 @@ SERVER_CMD(ListPlayers)
 
         if (pPlayer == NULL)
         {
-            Console << XtoA(_CWS("Invalid"), FMT_NONE, 12) << newl;
+            Console << XtoA(_CTS("Invalid"), FMT_NONE, 12) << newl;
             continue;
         }
 
         Console << XtoA(pPlayer->GetIndex(), FMT_NONE, 6) << SPACE;
 
         if (pPlayer->HasFlags(PLAYER_FLAG_TERMINATED))
-            Console << XtoA(_CWS("Terminated"), FMT_NONE, 12) << SPACE;
+            Console << XtoA(_CTS("Terminated"), FMT_NONE, 12) << SPACE;
         else if (pPlayer->HasFlags(PLAYER_FLAG_DISCONNECTED))
-            Console << XtoA(_CWS("Disconnected"), FMT_NONE, 12) << SPACE;
+            Console << XtoA(_CTS("Disconnected"), FMT_NONE, 12) << SPACE;
         else if (pPlayer->HasFlags(PLAYER_FLAG_LOADING))
-            Console << XtoA(_CWS("Loading (") + XtoA(pPlayer->GetLoadingProgress() * 100.0f, FMT_PADZERO, 2, 0) + _CWS("%)"), FMT_NONE, 12) << SPACE;
+            Console << XtoA(_CTS("Loading (") + XtoA(pPlayer->GetLoadingProgress() * 100.0f, FMT_PADZERO, 2, 0) + _CTS("%)"), FMT_NONE, 12) << SPACE;
         else
-            Console << XtoA(_CWS("Connected"), FMT_NONE, 12) << SPACE;
+            Console << XtoA(_CTS("Connected"), FMT_NONE, 12) << SPACE;
 
         Console << XtoA(pPlayer->GetName(), FMT_NONE, 14) << SPACE;
 
         IHeroEntity *pHero(pPlayer->GetHero());
-        Console << XtoA(pHero ? pHero->GetDisplayName() : _CWS("<none>") , FMT_NONE, 14) << SPACE;
+        Console << XtoA(pHero ? pHero->GetDisplayName() : _CTS("<none>") , FMT_NONE, 14) << SPACE;
 
         Console << XtoA(Game.GetGameTime() - pPlayer->GetLastInputTime(), FMT_NONE, 12) << SPACE;
 

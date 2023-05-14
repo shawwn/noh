@@ -2989,17 +2989,17 @@ void    CGameClient::WriteConnectionInfo()
     
     m_pHostClient->SetReconnect(m_pHostClient->GetConnectedAddress(), GetGameInfo()->GetMatchID());
 
-    CFileHandle hFile(_CWS("~/reconnect.cfg"), FILE_TEXT | FILE_WRITE | FILE_TRUNCATE);
+    CFileHandle hFile(_CTS("~/reconnect.cfg"), FILE_TEXT | FILE_WRITE | FILE_TRUNCATE);
     if (!hFile.IsOpen())
     {
-        Console.Err << _CWS("Failed to write reconnect.cfg") << newl;
+        Console.Err << _CTS("Failed to write reconnect.cfg") << newl;
         return;
     }
 
-    hFile << _CWS("cl_reconnectAddress ") << m_pHostClient->GetConnectedAddress() << newl;
-    hFile << _CWS("cl_reconnectMatchID ") << GetGameInfo()->GetMatchID() << newl;
-    //hFile << _CWS("cl_connectionID ") << m_pHostClient->GetConnectionID() << newl;
-    //hFile << _CWS("CheckReconnect ") << m_pHostClient->GetConnectedAddress() << SPACE << GetGameInfo()->GetMatchID() << newl;
+    hFile << _CTS("cl_reconnectAddress ") << m_pHostClient->GetConnectedAddress() << newl;
+    hFile << _CTS("cl_reconnectMatchID ") << GetGameInfo()->GetMatchID() << newl;
+    //hFile << _CTS("cl_connectionID ") << m_pHostClient->GetConnectionID() << newl;
+    //hFile << _CTS("CheckReconnect ") << m_pHostClient->GetConnectedAddress() << SPACE << GetGameInfo()->GetMatchID() << newl;
 }
 
 
@@ -3986,7 +3986,7 @@ bool    CGameClient::ProcessGameData(CPacket &pkt)
     case GAME_CMD_CHAT_EMOTE:
         {
             int iSender(pkt.ReadInt());
-            wstring sMsg(pkt.ReadWString());
+            tstring sMsg(pkt.ReadWStringAsTString());
 
             if (cg_censorChat)
                 ChatManager.CensorChat(sMsg);
@@ -4043,7 +4043,7 @@ bool    CGameClient::ProcessGameData(CPacket &pkt)
     case GAME_CMD_CHAT_TEAM:
         {
             int iSender(pkt.ReadInt());
-            wstring sMsg(pkt.ReadWString());
+            tstring sMsg(pkt.ReadWStringAsTString());
 
             if (cg_censorChat)
                 ChatManager.CensorChat(sMsg);
@@ -4083,7 +4083,7 @@ bool    CGameClient::ProcessGameData(CPacket &pkt)
 
     case GAME_CMD_SERVERCHAT_ALL:
         {
-            wstring sMsg(pkt.ReadWString());
+            tstring sMsg(pkt.ReadWStringAsTString());
 
             if (!cg_drawChat)
                 break;
@@ -4100,7 +4100,7 @@ bool    CGameClient::ProcessGameData(CPacket &pkt)
     case GAME_CMD_MESSAGE:
     case GAME_CMD_PAUSE_COUNTDOWN:
         {
-            wstring sMessage(pkt.ReadWString());
+            tstring sMessage(pkt.ReadWStringAsTString());
 
             Console << sMessage << newl;
             ChatManager.AddGameChatMessage(CHAT_MESSAGE_ADD, sMessage);
@@ -4644,7 +4644,7 @@ bool    CGameClient::ProcessGameData(CPacket &pkt)
 
             if (iClientNumber == -1)
             {
-                sKey = _CWS("hero_ban_random");
+                sKey = _CTS("hero_ban_random");
             }
             else
             {
@@ -4652,16 +4652,16 @@ bool    CGameClient::ProcessGameData(CPacket &pkt)
                 if (pPlayer == NULL)
                     break;
 
-                sKey = _CWS("hero_ban");
-                mapTokens[_CWS("player")] = pPlayer->GetName();
-                mapTokens[_CWS("player_color")] = GetInlineColorString<tstring>(pPlayer->GetColor());
+                sKey = _CTS("hero_ban");
+                mapTokens[_CTS("player")] = pPlayer->GetName();
+                mapTokens[_CTS("player_color")] = GetInlineColorString<tstring>(pPlayer->GetColor());
             }
 
             CHeroDefinition *pHeroDef(EntityRegistry.GetDefinition<CHeroDefinition>(unHero));
             if (pHeroDef == NULL)
                 break;
 
-            mapTokens[_CWS("hero_name")] = pHeroDef->GetDisplayName();
+            mapTokens[_CTS("hero_name")] = pHeroDef->GetDisplayName();
 
             const tstring &sMessage(GetGameMessage(sKey, mapTokens));
             Console.Std << sMessage << newl;
@@ -5562,10 +5562,10 @@ bool    CGameClient::ProcessGameData(CPacket &pkt)
             else
                 v4PlayerColor = pPlayer->GetColor();
                 
-            mapTokens[_CWS("player_color")] = GetInlineColorString<tstring>(v4PlayerColor);
-            mapTokens[_CWS("player")] = pPlayer->GetName();
+            mapTokens[_CTS("player_color")] = GetInlineColorString<tstring>(v4PlayerColor);
+            mapTokens[_CTS("player")] = pPlayer->GetName();
 
-            const tstring &sMessage(GetGameMessage(_CWS("client_disconnected"), mapTokens));
+            const tstring &sMessage(GetGameMessage(_CTS("client_disconnected"), mapTokens));
             Console.Std << sMessage << newl;
             if (cg_drawMessages)
                 ChatManager.AddGameChatMessage(CHAT_MESSAGE_ADD, sMessage);
@@ -5589,10 +5589,10 @@ bool    CGameClient::ProcessGameData(CPacket &pkt)
             else
                 v4PlayerColor = pPlayer->GetColor();
                 
-            mapTokens[_CWS("player_color")] = GetInlineColorString<tstring>(v4PlayerColor);
-            mapTokens[_CWS("player")] = pPlayer->GetName();
+            mapTokens[_CTS("player_color")] = GetInlineColorString<tstring>(v4PlayerColor);
+            mapTokens[_CTS("player")] = pPlayer->GetName();
 
-            const tstring &sMessage(GetGameMessage(_CWS("client_connected"), mapTokens));
+            const tstring &sMessage(GetGameMessage(_CTS("client_connected"), mapTokens));
             Console.Std << sMessage << newl;
             if (cg_drawMessages)
                 ChatManager.AddGameChatMessage(CHAT_MESSAGE_ADD, sMessage);
@@ -5609,11 +5609,11 @@ bool    CGameClient::ProcessGameData(CPacket &pkt)
                 break;
 
             tsmapts mapTokens;
-            mapTokens[_CWS("player")] = pPlayer->GetName();
-            mapTokens[_CWS("player_color")] = GetInlineColorString<tstring>(pPlayer->GetColor());
-            mapTokens[_CWS("time")] = FormatTime(uiTotalDisconnectedTime, 1, 0, FMT_NONE);
+            mapTokens[_CTS("player")] = pPlayer->GetName();
+            mapTokens[_CTS("player_color")] = GetInlineColorString<tstring>(pPlayer->GetColor());
+            mapTokens[_CTS("time")] = FormatTime(uiTotalDisconnectedTime, 1, 0, FMT_NONE);
 
-            const tstring &sMessage(GetGameMessage(_CWS("client_reconnected"), mapTokens));
+            const tstring &sMessage(GetGameMessage(_CTS("client_reconnected"), mapTokens));
             Console.Std << sMessage << newl;
             if (cg_drawMessages)
                 ChatManager.AddGameChatMessage(CHAT_MESSAGE_ADD, sMessage);
@@ -5640,9 +5640,9 @@ bool    CGameClient::ProcessGameData(CPacket &pkt)
             CHeroDefinition *pHeroDef(EntityRegistry.GetDefinition<CHeroDefinition>(unHero));
 
             tsmapts mapTokens;
-            mapTokens[_CWS("player")] = pPlayer->GetName();
-            mapTokens[_CWS("player_color")] = GetInlineColorString<tstring>(pPlayer->GetColor());
-            mapTokens[_CWS("hero_name")] = pHeroDef != NULL ? pHeroDef->GetDisplayName() : TSNULL;
+            mapTokens[_CTS("player")] = pPlayer->GetName();
+            mapTokens[_CTS("player_color")] = GetInlineColorString<tstring>(pPlayer->GetColor());
+            mapTokens[_CTS("hero_name")] = pHeroDef != NULL ? pHeroDef->GetDisplayName() : TSNULL;
 
             if (m_ahResources[CLIENT_RESOURCE_HERO_SELECT_SAMPLE] != INVALID_RESOURCE)
                 m_deqHeroAnnouncements.push_back(m_ahResources[CLIENT_RESOURCE_HERO_SELECT_SAMPLE]);
@@ -5657,10 +5657,10 @@ bool    CGameClient::ProcessGameData(CPacket &pkt)
 
             tstring sMessage;
             if (pHeroDef != NULL)
-                sMessage = GetGameMessage(_CWS("hero_pick"), mapTokens);
+                sMessage = GetGameMessage(_CTS("hero_pick"), mapTokens);
             else
             {
-                sMessage = GetGameMessage(_CWS("hero_pick_blind"), mapTokens);
+                sMessage = GetGameMessage(_CTS("hero_pick_blind"), mapTokens);
                 pPlayer->SetBlindPick(true);
             }
             Console.Std << sMessage << newl;
@@ -5697,9 +5697,9 @@ bool    CGameClient::ProcessGameData(CPacket &pkt)
             CHeroDefinition *pHeroDef(EntityRegistry.GetDefinition<CHeroDefinition>(unHero));
 
             tsmapts mapTokens;
-            mapTokens[_CWS("player")] = pPlayer->GetName();
-            mapTokens[_CWS("player_color")] = GetInlineColorString<tstring>(pPlayer->GetColor());
-            mapTokens[_CWS("hero_name")] = pHeroDef ? pHeroDef->GetDisplayName() : TSNULL;
+            mapTokens[_CTS("player")] = pPlayer->GetName();
+            mapTokens[_CTS("player_color")] = GetInlineColorString<tstring>(pPlayer->GetColor());
+            mapTokens[_CTS("hero_name")] = pHeroDef ? pHeroDef->GetDisplayName() : TSNULL;
 
             if (!HasGameOptions(GAME_OPTION_FORCE_RANDOM) || m_deqHeroAnnouncements.empty())
             {
@@ -5717,10 +5717,10 @@ bool    CGameClient::ProcessGameData(CPacket &pkt)
 
             tstring sMessage;
             if (pHeroDef != NULL)
-                sMessage = GetGameMessage(_CWS("hero_random"), mapTokens);
+                sMessage = GetGameMessage(_CTS("hero_random"), mapTokens);
             else
             {
-                sMessage = GetGameMessage(_CWS("hero_random_blind"), mapTokens);
+                sMessage = GetGameMessage(_CTS("hero_random_blind"), mapTokens);
                 pPlayer->SetBlindPick(true);
             }
             Console.Std << sMessage << newl;
@@ -5740,16 +5740,16 @@ bool    CGameClient::ProcessGameData(CPacket &pkt)
             CHeroDefinition *pHeroDef(EntityRegistry.GetDefinition<CHeroDefinition>(unHero));
 
             tsmapts mapTokens;
-            mapTokens[_CWS("player")] = pPlayer->GetName();
-            mapTokens[_CWS("player_color")] = GetInlineColorString<tstring>(pPlayer->GetColor());
-            mapTokens[_CWS("hero_name")] = pHeroDef != NULL ? pHeroDef->GetDisplayName() : TSNULL;
+            mapTokens[_CTS("player")] = pPlayer->GetName();
+            mapTokens[_CTS("player_color")] = GetInlineColorString<tstring>(pPlayer->GetColor());
+            mapTokens[_CTS("hero_name")] = pHeroDef != NULL ? pHeroDef->GetDisplayName() : TSNULL;
 
             tstring sMessage;
             if (pHeroDef != NULL)
-                sMessage = GetGameMessage(_CWS("hero_repick"), mapTokens);
+                sMessage = GetGameMessage(_CTS("hero_repick"), mapTokens);
             else
             {
-                sMessage = GetGameMessage(_CWS("hero_repick_blind"), mapTokens);
+                sMessage = GetGameMessage(_CTS("hero_repick_blind"), mapTokens);
                 pPlayer->SetBlindPick(true);
             }
             Console.Std << sMessage << newl;
@@ -5771,12 +5771,12 @@ bool    CGameClient::ProcessGameData(CPacket &pkt)
                 break;
 
             tsmapts mapTokens;
-            mapTokens[_CWS("player")] = pPlayer->GetName();
-            mapTokens[_CWS("player_color")] = GetInlineColorString<tstring>(pPlayer->GetColor());
-            mapTokens[_CWS("player2")] = pPlayer2->GetName();
-            mapTokens[_CWS("player2_color")] = GetInlineColorString<tstring>(pPlayer2->GetColor());
+            mapTokens[_CTS("player")] = pPlayer->GetName();
+            mapTokens[_CTS("player_color")] = GetInlineColorString<tstring>(pPlayer->GetColor());
+            mapTokens[_CTS("player2")] = pPlayer2->GetName();
+            mapTokens[_CTS("player2_color")] = GetInlineColorString<tstring>(pPlayer2->GetColor());
 
-            const tstring &sMessage(GetGameMessage(_CWS("hero_swap"), mapTokens));
+            const tstring &sMessage(GetGameMessage(_CTS("hero_swap"), mapTokens));
             Console.Std << sMessage << newl;
             ChatManager.AddGameChatMessage(CHAT_MESSAGE_ADD, sMessage);
         }
@@ -5791,10 +5791,10 @@ bool    CGameClient::ProcessGameData(CPacket &pkt)
                 break;
 
             tsmapts mapTokens;
-            mapTokens[_CWS("player")] = pPlayer->GetName();
-            mapTokens[_CWS("player_color")] = GetInlineColorString<tstring>(pPlayer->GetColor());
+            mapTokens[_CTS("player")] = pPlayer->GetName();
+            mapTokens[_CTS("player_color")] = GetInlineColorString<tstring>(pPlayer->GetColor());
 
-            const tstring &sMessage(GetGameMessage(_CWS("hero_swap_request"), mapTokens));
+            const tstring &sMessage(GetGameMessage(_CTS("hero_swap_request"), mapTokens));
             Console.Std << sMessage << newl;
             ChatManager.AddGameChatMessage(CHAT_MESSAGE_ADD, sMessage);
         }
@@ -5802,7 +5802,7 @@ bool    CGameClient::ProcessGameData(CPacket &pkt)
         
     case GAME_CMD_MATCH_CANCEL_MESSAGE:
         {
-            const tstring &sMessage(GetGameMessage(_CWS("lobby_countdown_cancel")));
+            const tstring &sMessage(GetGameMessage(_CTS("lobby_countdown_cancel")));
             Console.Std << sMessage << newl;
             ChatManager.AddGameChatMessage(CHAT_MESSAGE_ADD, sMessage);
         }
@@ -5817,10 +5817,10 @@ bool    CGameClient::ProcessGameData(CPacket &pkt)
                 break;
 
             tsmapts mapTokens;
-            mapTokens[_CWS("player")] = pPlayer->GetName();
-            mapTokens[_CWS("player_color")] = GetInlineColorString<tstring>(pPlayer->GetColor());
+            mapTokens[_CTS("player")] = pPlayer->GetName();
+            mapTokens[_CTS("player_color")] = GetInlineColorString<tstring>(pPlayer->GetColor());
 
-            const tstring &sMessage(GetGameMessage(_CWS("player_ready"), mapTokens));
+            const tstring &sMessage(GetGameMessage(_CTS("player_ready"), mapTokens));
             Console.Std << sMessage << newl;
             ChatManager.AddGameChatMessage(CHAT_MESSAGE_ADD, sMessage);
         }
@@ -5835,10 +5835,10 @@ bool    CGameClient::ProcessGameData(CPacket &pkt)
                 break;
 
             tsmapts mapTokens;
-            mapTokens[_CWS("player")] = pPlayer->GetName();
-            mapTokens[_CWS("player_color")] = GetInlineColorString<tstring>(pPlayer->GetColor());
+            mapTokens[_CTS("player")] = pPlayer->GetName();
+            mapTokens[_CTS("player_color")] = GetInlineColorString<tstring>(pPlayer->GetColor());
 
-            const tstring &sMessage(GetGameMessage(_CWS("player_unready"), mapTokens));
+            const tstring &sMessage(GetGameMessage(_CTS("player_unready"), mapTokens));
             Console.Std << sMessage << newl;
             ChatManager.AddGameChatMessage(CHAT_MESSAGE_ADD, sMessage);
         }
@@ -5854,42 +5854,42 @@ bool    CGameClient::ProcessGameData(CPacket &pkt)
             if (pPlayer == NULL)
                 break;
 
-            tstring sBaseMessage(_CWS("vote_called"));
+            tstring sBaseMessage(_CTS("vote_called"));
 
             tsmapts mapTokens;
-            mapTokens[_CWS("player_color")] = GetInlineColorString<tstring>(pPlayer->GetColor());
-            mapTokens[_CWS("player")] = pPlayer->GetName();
+            mapTokens[_CTS("player_color")] = GetInlineColorString<tstring>(pPlayer->GetColor());
+            mapTokens[_CTS("player")] = pPlayer->GetName();
 
             switch (yVoteType)
             {
             case VOTE_TYPE_CONCEDE:
                 {
-                    sBaseMessage += _CWS("_concede");
+                    sBaseMessage += _CTS("_concede");
                     CTeamInfo *pTeam(GetTeam(iTarget));
-                    mapTokens[_CWS("team")] = pTeam ? pTeam->GetName() : TSNULL;
-                    mapTokens[_CWS("team_color")] = pTeam ? GetInlineColorString<tstring>(pTeam->GetColor()) : TSNULL;
+                    mapTokens[_CTS("team")] = pTeam ? pTeam->GetName() : TSNULL;
+                    mapTokens[_CTS("team_color")] = pTeam ? GetInlineColorString<tstring>(pTeam->GetColor()) : TSNULL;
                 }
                 break;
 
             case VOTE_TYPE_REMAKE:
-                sBaseMessage += _CWS("_remake");
+                sBaseMessage += _CTS("_remake");
                 break;
 
             case VOTE_TYPE_KICK:
                 {
-                    sBaseMessage += _CWS("_kick");
+                    sBaseMessage += _CTS("_kick");
                     CPlayer *pTargetPlayer(GetPlayer(iTarget));
-                    mapTokens[_CWS("target")] = pTargetPlayer ? pTargetPlayer->GetName() : TSNULL;
-                    mapTokens[_CWS("target_color")] = pTargetPlayer ? GetInlineColorString<tstring>(pTargetPlayer->GetColor()) : TSNULL;
+                    mapTokens[_CTS("target")] = pTargetPlayer ? pTargetPlayer->GetName() : TSNULL;
+                    mapTokens[_CTS("target_color")] = pTargetPlayer ? GetInlineColorString<tstring>(pTargetPlayer->GetColor()) : TSNULL;
                 }
                 break;
 
             case VOTE_TYPE_PAUSE:
                 {
-                    sBaseMessage += _CWS("_pause");
+                    sBaseMessage += _CTS("_pause");
                     CTeamInfo *pTeam(GetTeam(iTarget));
-                    mapTokens[_CWS("team")] = pTeam ? pTeam->GetName() : TSNULL;
-                    mapTokens[_CWS("team_color")] = pTeam ? GetInlineColorString<tstring>(pTeam->GetColor()) : TSNULL;
+                    mapTokens[_CTS("team")] = pTeam ? pTeam->GetName() : TSNULL;
+                    mapTokens[_CTS("team_color")] = pTeam ? GetInlineColorString<tstring>(pTeam->GetColor()) : TSNULL;
                 }
                 break;
             }
@@ -5905,7 +5905,7 @@ bool    CGameClient::ProcessGameData(CPacket &pkt)
 
     case GAME_CMD_VOTE_PASSED_MESSAGE:
         {
-            const tstring &sMessage(GetGameMessage(_CWS("vote_passed")));
+            const tstring &sMessage(GetGameMessage(_CTS("vote_passed")));
             Console.Std << sMessage << newl;
             ChatManager.AddGameChatMessage(CHAT_MESSAGE_ADD, sMessage);
 
@@ -5916,7 +5916,7 @@ bool    CGameClient::ProcessGameData(CPacket &pkt)
 
     case GAME_CMD_VOTE_FAILED_MESSAGE:
         {
-            const tstring &sMessage(GetGameMessage(_CWS("vote_failed")));
+            const tstring &sMessage(GetGameMessage(_CTS("vote_failed")));
             Console.Std << sMessage << newl;
             ChatManager.AddGameChatMessage(CHAT_MESSAGE_ADD, sMessage);
 
@@ -5927,12 +5927,12 @@ bool    CGameClient::ProcessGameData(CPacket &pkt)
 
     case GAME_CMD_UNPAUSE:
         {
-            wstring sName(pkt.ReadWString());
+            tstring sName(pkt.ReadWStringAsTString());
 
             tsmapts mapTokens;
-            mapTokens[_CWS("name")] = sName;
+            mapTokens[_CTS("name")] = sName;
 
-            const tstring &sMessage(GetGameMessage(_CWS("game_unpause"), mapTokens));
+            const tstring &sMessage(GetGameMessage(_CTS("game_unpause"), mapTokens));
             Console.Std << sMessage << newl;
             ChatManager.AddGameChatMessage(CHAT_MESSAGE_ADD, sMessage);
 
@@ -5950,10 +5950,10 @@ bool    CGameClient::ProcessGameData(CPacket &pkt)
                 break;
 
             tsmapts mapTokens;
-            mapTokens[_CWS("color")] = GetInlineColorString<tstring>(pTeam->GetColor());
-            mapTokens[_CWS("team")] = pTeam->GetName();
+            mapTokens[_CTS("color")] = GetInlineColorString<tstring>(pTeam->GetColor());
+            mapTokens[_CTS("team")] = pTeam->GetName();
 
-            const tstring &sMessage(GetGameMessage(_CWS("team_concede"), mapTokens));
+            const tstring &sMessage(GetGameMessage(_CTS("team_concede"), mapTokens));
             Console.Std << sMessage << newl;
             ChatManager.AddGameChatMessage(CHAT_MESSAGE_ADD, sMessage);
         }
@@ -5961,7 +5961,7 @@ bool    CGameClient::ProcessGameData(CPacket &pkt)
 
     case GAME_CMD_ABANDONED_MESSAGE:
         {
-            const tstring &sMessage(GetGameMessage(_CWS("game_abandoned")));
+            const tstring &sMessage(GetGameMessage(_CTS("game_abandoned")));
             Console.Std << sMessage << newl;
             ChatManager.AddGameChatMessage(CHAT_MESSAGE_ADD, sMessage);
         }
@@ -5969,7 +5969,7 @@ bool    CGameClient::ProcessGameData(CPacket &pkt)
 
     case GAME_CMD_AFK_WARNING_MESSAGE:
         {
-            const tstring &sMessage(GetGameMessage(_CWS("afk_warning")));
+            const tstring &sMessage(GetGameMessage(_CTS("afk_warning")));
             Console.Std << sMessage << newl;
             ChatManager.AddGameChatMessage(CHAT_MESSAGE_ADD, sMessage);
         }
@@ -5977,7 +5977,7 @@ bool    CGameClient::ProcessGameData(CPacket &pkt)
 
     case GAME_CMD_AFK_MESSAGE:
         {
-            const tstring &sMessage(GetGameMessage(_CWS("afk_message")));
+            const tstring &sMessage(GetGameMessage(_CTS("afk_message")));
             Console.Std << sMessage << newl;
             ChatManager.AddGameChatMessage(CHAT_MESSAGE_ADD, sMessage);
         }
@@ -6160,7 +6160,7 @@ bool    CGameClient::ProcessGameData(CPacket &pkt)
             IGameEntity *pEntity(GetEntity(uiIndex));
             if (pEntity == NULL)
             {
-                Console.Warn << _CWS("Bad entity #") << uiIndex << _CWS(" in GAME_CMD_EXTENDED_ENTITY_DATA message") << newl;
+                Console.Warn << _CTS("Bad entity #") << uiIndex << _CTS(" in GAME_CMD_EXTENDED_ENTITY_DATA message") << newl;
                 pkt.Advance(unLength);
             }
             else
@@ -6401,18 +6401,18 @@ bool    CGameClient::ProcessGameData(CPacket &pkt)
 
     case GAME_CMD_LOBBY_CONNECT_MESSAGE:
         {
-            wstring sPlayer(pkt.ReadWString());
+            tstring sPlayer(pkt.ReadWStringAsTString());
             ushort unFlags(pkt.ReadShort());
 
             tsmapts mapTokens;
             mapTokens[_T("player")] = sPlayer;
 
             if (unFlags & PLAYER_FLAG_STAFF)
-                mapTokens[_CWS("color")] = sRed;
+                mapTokens[_CTS("color")] = sRed;
             else if (unFlags & PLAYER_FLAG_PREMIUM)
-                mapTokens[_CWS("color")] = GetInlineColorString<tstring>(GOLDENSHIELD);
+                mapTokens[_CTS("color")] = GetInlineColorString<tstring>(GOLDENSHIELD);
             else
-                mapTokens[_CWS("color")] = sNoColor;
+                mapTokens[_CTS("color")] = sNoColor;
 
             const tstring &sMessage(GetGameMessage(_T("lobby_connect"), mapTokens));
 
@@ -6424,7 +6424,7 @@ bool    CGameClient::ProcessGameData(CPacket &pkt)
 
     case GAME_CMD_LOBBY_CONNECT_MESSAGE2:
         {
-            wstring sPlayer(pkt.ReadWString());
+            tstring sPlayer(pkt.ReadWStringAsTString());
             ushort unFlags(pkt.ReadShort());
             pkt.ReadInt(); // uiAccountIcon
             pkt.ReadInt(); // uiChatSymbol;
@@ -6436,13 +6436,13 @@ bool    CGameClient::ProcessGameData(CPacket &pkt)
             CVec4f v4Color(WHITE);
 
             if (uiChatNameColor != INVALID_INDEX)
-                mapTokens[_CWS("color")] = GetInlineColorString<tstring>(GetColorFromString(Host.GetChatNameColorString(uiChatNameColor)));
+                mapTokens[_CTS("color")] = GetInlineColorString<tstring>(GetColorFromString(Host.GetChatNameColorString(uiChatNameColor)));
             else if (unFlags & PLAYER_FLAG_STAFF)
-                mapTokens[_CWS("color")] = sRed;
+                mapTokens[_CTS("color")] = sRed;
             else if (unFlags & PLAYER_FLAG_PREMIUM)
-                mapTokens[_CWS("color")] = GetInlineColorString<tstring>(GOLDENSHIELD);
+                mapTokens[_CTS("color")] = GetInlineColorString<tstring>(GOLDENSHIELD);
             else
-                mapTokens[_CWS("color")] = sNoColor;
+                mapTokens[_CTS("color")] = sNoColor;
 
             const tstring &sMessage(GetGameMessage(_T("lobby_connect"), mapTokens));
 
@@ -6498,8 +6498,8 @@ bool    CGameClient::ProcessGameData(CPacket &pkt)
             else
                 v4PlayerColor = pPlayer->GetColor();
                 
-            mapTokens[_CWS("color")] = GetInlineColorString<tstring>(v4PlayerColor);
-            mapTokens[_CWS("player")] = pPlayer->GetName();
+            mapTokens[_CTS("color")] = GetInlineColorString<tstring>(v4PlayerColor);
+            mapTokens[_CTS("player")] = pPlayer->GetName();
 
             const tstring &sMessage(GetGameMessage(_T("lobby_disconnect"), mapTokens));
 
@@ -6511,7 +6511,7 @@ bool    CGameClient::ProcessGameData(CPacket &pkt)
 
     case GAME_CMD_GAME_MESSAGE:
         {
-            wstring sGameMsg(pkt.ReadWString());
+            tstring sGameMsg(pkt.ReadWStringAsTString());
 
             const tstring &sMessage(GetGameMessage(sGameMsg));
 
@@ -6682,10 +6682,10 @@ bool    CGameClient::ProcessGameData(CPacket &pkt)
             else
                 v4PlayerColor = pPlayer->GetColor();
                 
-            mapTokens[_CWS("player_color")] = GetInlineColorString<tstring>(v4PlayerColor);
-            mapTokens[_CWS("player")] = pPlayer->GetName();
+            mapTokens[_CTS("player_color")] = GetInlineColorString<tstring>(v4PlayerColor);
+            mapTokens[_CTS("player")] = pPlayer->GetName();
 
-            const tstring &sMessage(GetGameMessage(_CWS("client_timedout"), mapTokens));
+            const tstring &sMessage(GetGameMessage(_CTS("client_timedout"), mapTokens));
             Console.Std << sMessage << newl;
             ChatManager.AddGameChatMessage(CHAT_MESSAGE_ADD, sMessage);
         }
@@ -6693,7 +6693,7 @@ bool    CGameClient::ProcessGameData(CPacket &pkt)
 
     case GAME_CMD_SPAWN_CLIENT_THREAD:
         {
-            wstring sName(pkt.ReadWString());
+            tstring sName(pkt.ReadWStringAsTString());
 
             Game.SpawnThread(sName, GetGameTime());
         }
@@ -9287,7 +9287,7 @@ uint    CGameClient::GetPrevServerTime()
   ====================*/
 uint    CGameClient::GetServerFrameLength()
 {
-    return SecToMs(1.0f / GetStateString(STATE_STRING_SERVER_INFO).GetInt(_CWS("svr_gameFPS")));
+    return SecToMs(1.0f / GetStateString(STATE_STRING_SERVER_INFO).GetInt(_CTS("svr_gameFPS")));
 }
 
 
@@ -9296,7 +9296,7 @@ uint    CGameClient::GetServerFrameLength()
   ====================*/
 tstring CGameClient::GetServerVersion()
 {
-    return GetStateString(STATE_STRING_SERVER_INFO).GetString(_CWS("svr_version"));
+    return GetStateString(STATE_STRING_SERVER_INFO).GetString(_CTS("svr_version"));
 }
 
 

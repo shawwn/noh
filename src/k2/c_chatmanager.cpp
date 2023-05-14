@@ -450,9 +450,9 @@ void    CChatManager::Connect(bool bInvisible)
         HandleDisconnect();
 
     if (m_uiConnectRetries == 0 || m_uiConnectRetries == -1)
-        AddIRCChatMessage(CHAT_MESSAGE_ADD, Translate(L"chat_connecting"));
+        AddIRCChatMessage(CHAT_MESSAGE_ADD, Translate(_T("chat_connecting")));
     else
-        AddIRCChatMessage(CHAT_MESSAGE_ADD, Translate(L"chat_reconnecting", L"attempt", XtoW(m_uiConnectRetries), L"maxattempts", XtoW(chat_maxReconnectAttempts)));
+        AddIRCChatMessage(CHAT_MESSAGE_ADD, Translate(_T("chat_reconnecting"), _T("attempt"), XtoA(m_uiConnectRetries), _T("maxattempts"), XtoA(chat_maxReconnectAttempts)));
         
     // set the clients chat mode type to be 'available' upon connecting, or set it to be 'invisible'
     if (bInvisible)
@@ -652,7 +652,7 @@ void    CChatManager::Frame()
 {
     DatabaseFrame();
 
-    ChatStatus.Trigger(XtoW(IsConnected()));
+    ChatStatus.Trigger(XtoA(IsConnected()));
 
     if (m_uiAccountID != INVALID_ACCOUNT)
     {
@@ -834,10 +834,10 @@ void    CChatManager::ProcessAddBuddyLookupIDSuccess(SChatDBRequest *pRequest)
             return;
 
         pHTTPRequest->SetTargetURL(m_sMasterServerURL);
-        pHTTPRequest->AddVariable(L"f", L"new_buddy");
-        pHTTPRequest->AddVariable(L"account_id", m_uiAccountID);
-        pHTTPRequest->AddVariable(L"buddy_id", pAccountID->GetInteger());
-        pHTTPRequest->AddVariable(L"cookie", m_sCookie);
+        pHTTPRequest->AddVariable(_T("f"), _T("new_buddy"));
+        pHTTPRequest->AddVariable(_T("account_id"), m_uiAccountID);
+        pHTTPRequest->AddVariable(_T("buddy_id"), pAccountID->GetInteger());
+        pHTTPRequest->AddVariable(_T("cookie"), m_sCookie);
         pHTTPRequest->SendPostRequest();
 
         SChatDBRequest *pNewRequest(K2_NEW(ctx_Net) SChatDBRequest(pHTTPRequest, REQUEST_ADD_BUDDY, pAccountID->GetInteger()));
@@ -1117,11 +1117,11 @@ void    CChatManager::ProcessBanLookupIDSuccess(SChatDBRequest *pRequest)
             return;
 
         pHTTPRequest->SetTargetURL(m_sMasterServerURL);
-        pHTTPRequest->AddVariable(L"f", L"new_banned");
-        pHTTPRequest->AddVariable(L"account_id", m_uiAccountID);
-        pHTTPRequest->AddVariable(L"banned_id", pAccountID->GetInteger());
-        pHTTPRequest->AddVariable(L"reason", pRequest->sText);
-        pHTTPRequest->AddVariable(L"cookie", m_sCookie);
+        pHTTPRequest->AddVariable(_T("f"), _T("new_banned"));
+        pHTTPRequest->AddVariable(_T("account_id"), m_uiAccountID);
+        pHTTPRequest->AddVariable(_T("banned_id"), pAccountID->GetInteger());
+        pHTTPRequest->AddVariable(_T("reason"), pRequest->sText);
+        pHTTPRequest->AddVariable(_T("cookie"), m_sCookie);
         pHTTPRequest->SendPostRequest();
 
         SChatDBRequest *pNewRequest(K2_NEW(ctx_Net,  SChatDBRequest)(pHTTPRequest, REQUEST_ADD_BANNED, pAccountID->GetInteger(), pRequest->sText));
@@ -1198,10 +1198,10 @@ void    CChatManager::ProcessIgnoreLookupIDSuccess(SChatDBRequest *pRequest)
             return;
 
         pHTTPRequest->SetTargetURL(m_sMasterServerURL);
-        pHTTPRequest->AddVariable(L"f", L"new_ignored");
-        pHTTPRequest->AddVariable(L"account_id", m_uiAccountID);
-        pHTTPRequest->AddVariable(L"ignored_id", pAccountID->GetInteger());
-        pHTTPRequest->AddVariable(L"cookie", m_sCookie);
+        pHTTPRequest->AddVariable(_T("f"), _T("new_ignored"));
+        pHTTPRequest->AddVariable(_T("account_id"), m_uiAccountID);
+        pHTTPRequest->AddVariable(_T("ignored_id"), pAccountID->GetInteger());
+        pHTTPRequest->AddVariable(_T("cookie"), m_sCookie);
         pHTTPRequest->SendPostRequest();
 
         SChatDBRequest *pNewRequest(K2_NEW(ctx_Net,  SChatDBRequest)(pHTTPRequest, REQUEST_ADD_IGNORED, pAccountID->GetInteger()));
@@ -1580,7 +1580,7 @@ bool    CChatManager::ProcessData(CPacket &pkt)
     {
         ushort unCmd(pkt.ReadShort(NET_CHAT_INVALID));
 
-        //Console << L"Chat server: " << SHORT_HEX_STR(unCmd) << newl;
+        //Console << _T("Chat server: ") << SHORT_HEX_STR(unCmd) << newl;
         
         switch (unCmd)
         {
@@ -1600,7 +1600,7 @@ bool    CChatManager::ProcessData(CPacket &pkt)
                 CPacket pktSend;
                 pktSend << NET_CHAT_CL_CHANNEL_LIST_ACK;
                 m_sockChat.SendPacket(pktSend);
-                ChatChannelList.Execute(L"SortByCol(0);");
+                ChatChannelList.Execute(_T("SortByCol(0);"));
             }
             break;
 
@@ -1621,7 +1621,7 @@ bool    CChatManager::ProcessData(CPacket &pkt)
         case NET_CHAT_CL_CHANNEL_SUBLIST_START:
             {
                 byte ySequence(pkt.ReadByte());
-                tstring sHead(WStringToTString(pkt.ReadWString()));
+                tstring sHead(pkt.ReadWStringAsTString());
                 
                 //Console << _T("Start Channel sublist: ") << ySequence << newl;
 
@@ -2023,10 +2023,10 @@ bool    CChatManager::ProcessData(CPacket &pkt)
             
         default:
         case NET_CHAT_INVALID:
-            Console << L"Invalid command from chat server: " << SHORT_HEX_STR(unCmd) << newl;
+            Console << _T("Invalid command from chat server: ") << SHORT_HEX_STR(unCmd) << newl;
 
             if (unPrevCmd != NET_CHAT_INVALID)
-                Console << L"Last valid cmd: " << SHORT_HEX_STR(unPrevCmd) << newl;
+                Console << _T("Last valid cmd: ") << SHORT_HEX_STR(unPrevCmd) << newl;
             
             HandleDisconnect();
             return false;
@@ -2036,7 +2036,7 @@ bool    CChatManager::ProcessData(CPacket &pkt)
 
         if (pkt.HasFaults())
         {
-            Console << L"Bad packet from chat server" << newl;
+            Console << _T("Bad packet from chat server") << newl;
             HandleDisconnect();
             return false;
         }
@@ -2443,11 +2443,11 @@ void CChatManager::RequestSaveNotification(byte yType, const tstring &sParam1, c
         return;     
 
     pHTTPRequest->SetTargetURL(m_sMasterServerURL);
-    pHTTPRequest->AddVariable(L"f", L"test_create_notification");   
-    pHTTPRequest->AddVariable(L"account_id[]", m_uiAccountID);
-    pHTTPRequest->AddVariable(L"member_ck", m_sCookie);
-    pHTTPRequest->AddVariable(L"type", yType);
-    pHTTPRequest->AddVariable(L"params[notification]", sNotification);
+    pHTTPRequest->AddVariable(_T("f"), _T("test_create_notification"));
+    pHTTPRequest->AddVariable(_T("account_id[]"), m_uiAccountID);
+    pHTTPRequest->AddVariable(_T("member_ck"), m_sCookie);
+    pHTTPRequest->AddVariable(_T("type"), yType);
+    pHTTPRequest->AddVariable(_T("params[notification]"), sNotification);
     pHTTPRequest->SendPostRequest();
 
     SChatDBRequest *pNewRequest(K2_NEW(ctx_Net,  SChatDBRequest)(pHTTPRequest, REQUEST_SAVE_NOTIFICATION, TSNULL, TSNULL));
@@ -2465,11 +2465,11 @@ void CChatManager::RequestRemoveNotification(const uint uiInternalNotificationID
         return;     
 
     pHTTPRequest->SetTargetURL(m_sMasterServerURL);
-    pHTTPRequest->AddVariable(L"f", L"delete_notification");    
-    pHTTPRequest->AddVariable(L"account_id", m_uiAccountID);
-    pHTTPRequest->AddVariable(L"member_ck", m_sCookie);
-    pHTTPRequest->AddVariable(L"internal_id", uiInternalNotificationID);
-    pHTTPRequest->AddVariable(L"notify_id", uiExternalNotificationID);
+    pHTTPRequest->AddVariable(_T("f"), _T("delete_notification"));
+    pHTTPRequest->AddVariable(_T("account_id"), m_uiAccountID);
+    pHTTPRequest->AddVariable(_T("member_ck"), m_sCookie);
+    pHTTPRequest->AddVariable(_T("internal_id"), uiInternalNotificationID);
+    pHTTPRequest->AddVariable(_T("notify_id"), uiExternalNotificationID);
     pHTTPRequest->SendPostRequest();
 
     SChatDBRequest *pNewRequest(K2_NEW(ctx_Net,  SChatDBRequest)(pHTTPRequest, REQUEST_REMOVE_NOTIFICATION, TSNULL, TSNULL));
@@ -2487,9 +2487,9 @@ void CChatManager::RequestRemoveAllNotifications()
         return;     
 
     pHTTPRequest->SetTargetURL(m_sMasterServerURL);
-    pHTTPRequest->AddVariable(L"f", L"remove_all_notifications");   
-    pHTTPRequest->AddVariable(L"account_id", m_uiAccountID);
-    pHTTPRequest->AddVariable(L"member_ck", m_sCookie);
+    pHTTPRequest->AddVariable(_T("f"), _T("remove_all_notifications"));
+    pHTTPRequest->AddVariable(_T("account_id"), m_uiAccountID);
+    pHTTPRequest->AddVariable(_T("member_ck"), m_sCookie);
     pHTTPRequest->SendPostRequest();
 
     SChatDBRequest *pNewRequest(K2_NEW(ctx_Net,  SChatDBRequest)(pHTTPRequest, REQUEST_REMOVE_ALL_NOTIFICATIONS, TSNULL, TSNULL));
@@ -2678,10 +2678,10 @@ void    CChatManager::HandleDisconnect()
   ====================*/
 void    CChatManager::HandleChannelChange(CPacket &pkt)
 {
-    wstring sChannel(pkt.ReadWString());
+    tstring sChannel(pkt.ReadWStringAsTString());
     uint uiChannelID(pkt.ReadInt());
     byte yChannelFlags(pkt.ReadByte());
-    wstring sTopic(pkt.ReadWString());
+    tstring sTopic(pkt.ReadWStringAsTString());
     uint uiNumAdmins(pkt.ReadInt());
     
     m_mapChannels[uiChannelID].sChannelName = sChannel;
@@ -2739,7 +2739,7 @@ void    CChatManager::HandleChannelChange(CPacket &pkt)
         if (pkt.HasFaults())
             break;
 
-        wstring sName(pkt.ReadWString());
+        tstring sName(pkt.ReadWStringAsTString());
         uint uiAccountID(pkt.ReadInt());
         byte yStatus(pkt.ReadByte());
         byte yUserFlags(pkt.ReadByte());
@@ -2892,7 +2892,7 @@ void    CChatManager::HandleChannelChange(CPacket &pkt)
   ====================*/
 void    CChatManager::HandleChannelJoin(CPacket &pkt)
 {
-    wstring sName(pkt.ReadWString());
+    tstring sName(pkt.ReadWStringAsTString());
     uint uiAccountID(pkt.ReadInt());
     uint uiChannelID(pkt.ReadInt());
     byte yStatus(pkt.ReadByte());
@@ -2955,7 +2955,7 @@ void    CChatManager::HandleChannelMessage(CPacket &pkt)
 {
     uint uiAccountID(pkt.ReadInt());
     uint uiChannelID(pkt.ReadInt());
-    wstring sMessage(pkt.ReadWString());
+    tstring sMessage(pkt.ReadWStringAsTString());
 
     ChatClientMap_it it(m_mapUserList.find(uiAccountID));
 
@@ -3023,8 +3023,8 @@ void    CChatManager::HandleChannelLeave(CPacket &pkt)
   ====================*/
 void    CChatManager::HandleWhisper(CPacket &pkt)
 {
-    const wstring sSenderName(pkt.ReadWString());
-    const wstring sMessage(pkt.ReadWString());
+    tstring sSenderName(pkt.ReadWStringAsTString());
+    tstring sMessage(pkt.ReadWStringAsTString());
 
     if (IsIgnored(sSenderName))
         return;
@@ -3042,8 +3042,8 @@ void    CChatManager::HandleWhisper(CPacket &pkt)
   ====================*/
 void    CChatManager::HandleWhisperBuddies(CPacket &pkt)
 {
-    const wstring sSenderName(pkt.ReadWString());
-    const wstring sMessage(pkt.ReadWString());
+    const tstring sSenderName(pkt.ReadWStringAsTString());
+    const tstring sMessage(pkt.ReadWStringAsTString());
 
     if (IsIgnored(sSenderName))
         return;
@@ -3070,8 +3070,8 @@ void    CChatManager::HandleWhisperFailed()
   ====================*/
 void    CChatManager::HandleIM(CPacket &pkt)
 {
-    const wstring sSenderName(RemoveClanTag(pkt.ReadWString()));
-    const wstring sMessage(pkt.ReadWString());
+    const tstring sSenderName(RemoveClanTag(pkt.ReadWStringAsTString()));
+    const tstring sMessage(pkt.ReadWStringAsTString());
 
     if (IsIgnored(sSenderName))
         return;
@@ -3097,8 +3097,8 @@ void    CChatManager::HandleIM(CPacket &pkt)
   ====================*/
 void    CChatManager::HandleIMFailed(CPacket &pkt)
 {
-    const wstring sTarget(RemoveClanTag(pkt.ReadWString()));
-    const wstring sFinal(Translate(L"chat_im_failed", L"target", sTarget));
+    tstring sTarget(RemoveClanTag(pkt.ReadWStringAsTString()));
+    tstring sFinal(Translate(_T("chat_im_failed"), _T("target"), sTarget));
 
     m_mapIMs[sTarget].push_back(sFinal);
 
@@ -3135,13 +3135,13 @@ void    CChatManager::HandleInitialStatusUpdate(CPacket &pkt)
         uint uiAccountID(pkt.ReadInt());
         byte yStatus(pkt.ReadByte());
         byte yFlags(pkt.ReadByte());
-        wstring sServerAddressPort;
-        wstring sGameName;
+        tstring sServerAddressPort;
+        tstring sGameName;
 
         if (yStatus > CHAT_STATUS_CONNECTED)
         {
-            sServerAddressPort = pkt.ReadWString();
-            sGameName = pkt.ReadWString();
+            sServerAddressPort = pkt.ReadWStringAsTString();
+            sGameName = pkt.ReadWStringAsTString();
         }
 
         it = m_mapUserList.find(uiAccountID);
@@ -3171,21 +3171,21 @@ void    CChatManager::HandleStatusUpdate(CPacket &pkt)
     byte yStatus(pkt.ReadByte());
     byte yFlags(pkt.ReadByte());
     int iClanID(pkt.ReadInt());
-    wstring sClan(pkt.ReadWString());
+    tstring sClan(pkt.ReadWStringAsTString());
     uint uiChatSymbol(Host.LookupChatSymbol(pkt.ReadTString()));
     uint uiChatNameColor(Host.LookupChatNameColor(pkt.ReadTString()));  
     uint uiAccountIcon(Host.LookupAccountIcon(pkt.ReadTString()));
         
-    wstring sServerAddressPort(WSNULL);
-    wstring sGameName(WSNULL);
+    tstring sServerAddressPort(TSNULL);
+    tstring sGameName(TSNULL);
     uint uiMatchID(-1);
             
     byte    yArrangedType(0);
-    wstring sPlayerName(WSNULL);
-    wstring sRegion(WSNULL);;
-    wstring sGameModeName(WSNULL);;
+    tstring sPlayerName(TSNULL);
+    tstring sRegion(TSNULL);;
+    tstring sGameModeName(TSNULL);;
     byte    yTeamSize(0);
-    wstring sMapName(WSNULL);
+    tstring sMapName(TSNULL);
     byte    yTier(0);
     byte    yNoStats(0);
     byte    yNoLeavers(0);
@@ -3202,12 +3202,12 @@ void    CChatManager::HandleStatusUpdate(CPacket &pkt)
         
     if (yStatus > CHAT_STATUS_CONNECTED)
     {
-        sServerAddressPort = pkt.ReadWString();
+        sServerAddressPort = pkt.ReadWStringAsTString();
     }
     
     if (yStatus == CHAT_STATUS_IN_GAME)
     {
-        sGameName = pkt.ReadWString();
+        sGameName = pkt.ReadWStringAsTString();
         uiMatchID = pkt.ReadInt();
 
         byte yExtendedInfo(pkt.ReadByte());
@@ -3216,11 +3216,11 @@ void    CChatManager::HandleStatusUpdate(CPacket &pkt)
         {
             // new stuff the chat server will send related to game info
             yArrangedType = pkt.ReadByte();
-            sPlayerName = pkt.ReadWString();
-            sRegion = pkt.ReadWString();
-            sGameModeName = pkt.ReadWString();
+            sPlayerName = pkt.ReadWStringAsTString();
+            sRegion = pkt.ReadWStringAsTString();
+            sGameModeName = pkt.ReadWStringAsTString();
             yTeamSize = pkt.ReadByte();
-            sMapName = pkt.ReadWString();
+            sMapName = pkt.ReadWStringAsTString();
             yTier = pkt.ReadByte();
             yNoStats = pkt.ReadByte();
             yNoLeavers = pkt.ReadByte();
@@ -3416,7 +3416,7 @@ void    CChatManager::HandleStatusUpdate(CPacket &pkt)
 void    CChatManager::HandleClanWhisper(CPacket &pkt)
 {
     const uint uiAccountID(pkt.ReadInt());
-    const wstring sMessage(pkt.ReadWString());
+    const tstring sMessage(pkt.ReadWStringAsTString());
 
     ChatClientMap_it itFind(m_mapUserList.find(uiAccountID));
 
@@ -3456,7 +3456,7 @@ void    CChatManager::HandleMultipleLookingForClan(CPacket &pkt)
         if (pkt.HasFaults())
             break;
 
-        wstring sName(pkt.ReadWString());
+        tstring sName(pkt.ReadWStringAsTString());
 
         sset_it it(m_setLookingForClan.find(sName));
 
@@ -3473,7 +3473,7 @@ void    CChatManager::HandleMultipleLookingForClan(CPacket &pkt)
   ====================*/
 void    CChatManager::HandleLookingForClan(CPacket &pkt)
 {
-    wstring sName(pkt.ReadWString());
+    tstring sName(pkt.ReadWStringAsTString());
 
     sset_it it(m_setLookingForClan.find(sName));
 
@@ -3490,7 +3490,7 @@ void    CChatManager::HandleLookingForClan(CPacket &pkt)
   ====================*/
 void    CChatManager::HandleNotLookingForClan(CPacket &pkt)
 {
-    wstring sName(pkt.ReadWString());
+    tstring sName(pkt.ReadWStringAsTString());
 
     sset_it it(m_setLookingForClan.find(sName));
 
@@ -3527,7 +3527,7 @@ void    CChatManager::HandleMaxChannels()
 void    CChatManager::HandleChannelInfo(CPacket &pkt)
 {
     uint uiID(pkt.ReadInt());
-    wstring sName(pkt.ReadWString());
+    tstring sName(pkt.ReadWStringAsTString());
     ushort unUsers(pkt.ReadShort());
     if (pkt.HasFaults())
         return;
@@ -3536,8 +3536,8 @@ void    CChatManager::HandleChannelInfo(CPacket &pkt)
     channel.sChannelName = sName;
     channel.uiUserCount = unUsers;
 
-    ChatChannelList.Execute(L"Data('" + XtoW(uiID) + L"','" + sName + L"','" + XtoW(unUsers) + L"');");
-    ChatChannelList.Execute(L"SortByCol(0);");
+    ChatChannelList.Execute(_T("Data('") + XtoA(uiID) + _T("','") + sName + _T("','") + XtoA(unUsers) + _T("');"));
+    ChatChannelList.Execute(_T("SortByCol(0);"));
 
     //Console << sName << _T(" ") << uiID << _T(" ") << unUsers << newl;
 }
@@ -3550,7 +3550,7 @@ void    CChatManager::HandleChannelInfoSub(CPacket &pkt)
 {
     byte ySequence(pkt.ReadByte());
     uint uiID(pkt.ReadInt());
-    wstring sName(pkt.ReadWString());
+    tstring sName(pkt.ReadWStringAsTString());
     ushort unUsers(pkt.ReadShort());
     if (pkt.HasFaults())
         return;
@@ -3568,8 +3568,8 @@ void    CChatManager::HandleChannelInfoSub(CPacket &pkt)
     //channel.sChannelName = sName;
     //channel.uiUserCount = unUsers;
 
-    //ChatChannelList.Execute(L"Data('" + XtoW(uiID) + L"','" + sName + L"','" + XtoW(unUsers) + L"');");
-    //ChatChannelList.Execute(L"SortByCol(0);");
+    //ChatChannelList.Execute(_T("Data('") + XtoA(uiID) + _T("','") + sName + _T("','") + XtoA(unUsers) + _T("');"));
+    //ChatChannelList.Execute(_T("SortByCol(0);"));
 
     ChatAutoCompleteAdd.Trigger(sName);
 
@@ -3582,7 +3582,7 @@ void    CChatManager::HandleChannelInfoSub(CPacket &pkt)
   ====================*/
 void    CChatManager::HandleUserStatus(CPacket &pkt)
 {
-    wstring sName(pkt.ReadWString());
+    tstring sName(pkt.ReadWStringAsTString());
     byte yStatus(pkt.ReadByte());
     if (pkt.HasFaults())
         return;
@@ -3600,9 +3600,9 @@ void    CChatManager::HandleUserStatus(CPacket &pkt)
   ====================*/
 void    CChatManager::HandleServerInvite(CPacket &pkt)
 {
-    wstring sInviterName(pkt.ReadWString());
+    tstring sInviterName(pkt.ReadWStringAsTString());
     int iInviterAccountID(pkt.ReadInt());
-    wstring sAddressPort(pkt.ReadWString());
+    tstring sAddressPort(pkt.ReadWStringAsTString());
 
     if (IsIgnored(iInviterAccountID) || !cc_showGameInvites)
     {
@@ -3652,9 +3652,9 @@ void    CChatManager::HandleInviteRejected(CPacket &pkt)
   ====================*/
 void    CChatManager::HandleUserInfoNoExist(CPacket &pkt)
 {
-    wstring sName(pkt.ReadWString());
+    tstring sName(pkt.ReadWStringAsTString());
 
-    AddIRCChatMessage(CHAT_MESSAGE_ADD, Translate(L"chat_info_not_found", L"name", sName));
+    AddIRCChatMessage(CHAT_MESSAGE_ADD, Translate(_T("chat_info_not_found"), _T("name"), sName));
 }
 
 
@@ -3663,10 +3663,10 @@ void    CChatManager::HandleUserInfoNoExist(CPacket &pkt)
   ====================*/
 void    CChatManager::HandleUserInfoOffline(CPacket &pkt)
 {
-    wstring sName(pkt.ReadWString());
-    wstring sLastOnline(pkt.ReadWString());
+    tstring sName(pkt.ReadWStringAsTString());
+    tstring sLastOnline(pkt.ReadWStringAsTString());
 
-    AddIRCChatMessage(CHAT_MESSAGE_ADD, Translate(L"chat_info_offline", L"name", sName, L"seen", sLastOnline));
+    AddIRCChatMessage(CHAT_MESSAGE_ADD, Translate(_T("chat_info_offline"), _T("name"), sName, _T("seen"), sLastOnline));
 }
 
 
@@ -3675,14 +3675,14 @@ void    CChatManager::HandleUserInfoOffline(CPacket &pkt)
   ====================*/
 void    CChatManager::HandleUserInfoInGame(CPacket &pkt)
 {
-    wstring sName(pkt.ReadWString());
-    wstring sGameName(pkt.ReadWString());
-    wstring sCGT(pkt.ReadWString());
+    tstring sName(pkt.ReadWStringAsTString());
+    tstring sGameName(pkt.ReadWStringAsTString());
+    tstring sCGT(pkt.ReadWStringAsTString());
 
     if (sCGT.empty())
-        AddIRCChatMessage(CHAT_MESSAGE_ADD, Translate(L"chat_info_in_game", L"name", sName, L"game", sGameName));
+        AddIRCChatMessage(CHAT_MESSAGE_ADD, Translate(_T("chat_info_in_game"), _T("name"), sName, _T("game"), sGameName));
     else
-        AddIRCChatMessage(CHAT_MESSAGE_ADD, Translate(L"chat_info_in_game_time", L"name", sName, L"game", sGameName, L"cgt", sCGT));
+        AddIRCChatMessage(CHAT_MESSAGE_ADD, Translate(_T("chat_info_in_game_time"), _T("name"), sName, _T("game"), sGameName, _T("cgt"), sCGT));
 }
 
 
@@ -3691,16 +3691,16 @@ void    CChatManager::HandleUserInfoInGame(CPacket &pkt)
   ====================*/
 void    CChatManager::HandleUserInfoOnline(CPacket &pkt)
 {
-    wstring sName(pkt.ReadWString());
+    tstring sName(pkt.ReadWStringAsTString());
     uint uiNumChannels(pkt.ReadInt());
     
     if (uiNumChannels == 0)
-        AddIRCChatMessage(CHAT_MESSAGE_ADD, Translate(L"chat_info_online_no_channels", L"name", sName));
+        AddIRCChatMessage(CHAT_MESSAGE_ADD, Translate(_T("chat_info_online_no_channels"), _T("name"), sName));
     else if (uiNumChannels == 1)
-        AddIRCChatMessage(CHAT_MESSAGE_ADD, Translate(L"chat_info_online_one_channel", L"name", sName, L"channel", pkt.ReadWString()));
+        AddIRCChatMessage(CHAT_MESSAGE_ADD, Translate(_T("chat_info_online_one_channel"), _T("name"), sName, _T("channel"), pkt.ReadWStringAsTString()));
     else
     {
-        wstring sChannels;
+        tstring sChannels;
 
         for (uint i(0); i < uiNumChannels; ++i)
         {
@@ -3708,12 +3708,12 @@ void    CChatManager::HandleUserInfoOnline(CPacket &pkt)
                 break;
 
             if (i == 0)
-                sChannels = pkt.ReadWString();
+                sChannels = pkt.ReadWStringAsTString();
             else
-                sChannels += L", " + pkt.ReadWString();
+                sChannels += _T(", ") + pkt.ReadWStringAsTString();
         }
 
-        AddIRCChatMessage(CHAT_MESSAGE_ADD, Translate(L"chat_info_online_multi_channels", L"name", sName, L"channels", sChannels));
+        AddIRCChatMessage(CHAT_MESSAGE_ADD, Translate(_T("chat_info_online_multi_channels"), _T("name"), sName, _T("channels"), sChannels));
     }
 }
 
@@ -3724,9 +3724,9 @@ void    CChatManager::HandleUserInfoOnline(CPacket &pkt)
 void    CChatManager::HandleChannelUpdate(CPacket &pkt)
 {
     uint uiChannelID(pkt.ReadInt());
-    wstring sName(pkt.ReadWString());
+    tstring sName(pkt.ReadWStringAsTString());
     byte yFlags(pkt.ReadByte());
-    wstring sTopic(pkt.ReadWString());
+    tstring sTopic(pkt.ReadWStringAsTString());
 
     m_mapChannels[uiChannelID].sChannelName = sName;
     m_mapChannels[uiChannelID].uiFlags = yFlags;
@@ -3757,11 +3757,11 @@ void    CChatManager::HandleChannelUpdate(CPacket &pkt)
 void    CChatManager::HandleChannelTopic(CPacket &pkt)
 {
     uint uiChannelID(pkt.ReadInt());
-    wstring sTopic(pkt.ReadWString());
+    tstring sTopic(pkt.ReadWStringAsTString());
 
     m_mapChannels[uiChannelID].sTopic = sTopic;
 
-    wsvector vsTopic(2);
+    tsvector vsTopic(2);
     vsTopic[0] = m_mapChannels[uiChannelID].sChannelName;
     vsTopic[1] = m_mapChannels[uiChannelID].sTopic;
 
@@ -3802,11 +3802,11 @@ void    CChatManager::HandleChannelBan(CPacket &pkt)
 {
     uint uiChannelID(pkt.ReadInt());
     uint uiBanningID(pkt.ReadInt());
-    wstring sBannedName(pkt.ReadWString());
+    tstring sBannedName(pkt.ReadWStringAsTString());
 
     ChatClientMap_it it = m_mapUserList.find(uiBanningID);
 
-    wstring sBanner;
+    tstring sBanner;
     if (it != m_mapUserList.end())
         sBanner = it->second.sName;
 
@@ -3834,11 +3834,11 @@ void    CChatManager::HandleChannelUnban(CPacket &pkt)
 {
     uint uiChannelID(pkt.ReadInt());
     uint uiUnbanningID(pkt.ReadInt());
-    wstring sBannedName(pkt.ReadWString());
+    tstring sBannedName(pkt.ReadWStringAsTString());
 
     ChatClientMap_it it = m_mapUserList.find(uiUnbanningID);
 
-    wstring sBanner;
+    tstring sBanner;
     if (it != m_mapUserList.end())
         sBanner = it->second.sName;
 
@@ -3852,9 +3852,9 @@ void    CChatManager::HandleChannelUnban(CPacket &pkt)
     else
     {
         if (sBanner.empty())
-            AddIRCChatMessage(CHAT_MESSAGE_ADD, Translate(L"chat_unbanned_no_name", L"channel", GetChannelName(uiChannelID)));
+            AddIRCChatMessage(CHAT_MESSAGE_ADD, Translate(_T("chat_unbanned_no_name"), _T("channel"), GetChannelName(uiChannelID)));
         else
-            AddIRCChatMessage(CHAT_MESSAGE_ADD, Translate(L"chat_unbanned", L"unbanner", sBanner, L"channel", GetChannelName(uiChannelID)));
+            AddIRCChatMessage(CHAT_MESSAGE_ADD, Translate(_T("chat_unbanned"), _T("unbanner"), sBanner, _T("channel"), GetChannelName(uiChannelID)));
     }
 }
 
@@ -3864,7 +3864,7 @@ void    CChatManager::HandleChannelUnban(CPacket &pkt)
   ====================*/
 void    CChatManager::HandleBannedFromChannel(CPacket &pkt)
 {
-    wstring sChannelName(pkt.ReadWString());
+    tstring sChannelName(pkt.ReadWStringAsTString());
     
     for (sset_it it(m_setAutoJoinChannels.begin()), itEnd(m_setAutoJoinChannels.end()); it != itEnd; ++it)
     {
@@ -3878,7 +3878,7 @@ void    CChatManager::HandleBannedFromChannel(CPacket &pkt)
         }
     }       
     
-    AddIRCChatMessage(CHAT_MESSAGE_ADD, Translate(L"chat_banned_from_channel", L"channel", sChannelName));
+    AddIRCChatMessage(CHAT_MESSAGE_ADD, Translate(_T("chat_banned_from_channel"), _T("channel"), sChannelName));
 }
 
 
@@ -3898,8 +3898,8 @@ void    CChatManager::HandleChannelSilenced(CPacket &pkt)
   ====================*/
 void    CChatManager::HandleChannelSilenceLifted(CPacket &pkt)
 {
-    wstring sChannelName(pkt.ReadWString());
-    AddIRCChatMessage(CHAT_MESSAGE_ADD, Translate(L"chat_silence_lifted", L"channel", sChannelName));
+    tstring sChannelName(pkt.ReadWStringAsTString());
+    AddIRCChatMessage(CHAT_MESSAGE_ADD, Translate(_T("chat_silence_lifted"), _T("channel"), sChannelName));
 }
 
 
@@ -3988,17 +3988,17 @@ void    CChatManager::HandleChannelDemote(CPacket &pkt)
   ====================*/
 void    CChatManager::HandleSilencePlaced(CPacket &pkt)
 {
-    wstring sChannel(pkt.ReadWString());
-    wstring sName(pkt.ReadWString());
-    wstring sSilenced(pkt.ReadWString());
+    tstring sChannel(pkt.ReadWStringAsTString());
+    tstring sName(pkt.ReadWStringAsTString());
+    tstring sSilenced(pkt.ReadWStringAsTString());
     uint uiDuration(pkt.ReadInt());
 
     uiDuration = MsToMin(uiDuration);
 
     if (CompareNames(sSilenced, m_mapUserList[m_uiAccountID].sName))
-        AddIRCChatMessage(CHAT_MESSAGE_ADD, Translate(L"chat_silence_placed", L"channel", sChannel, L"name", sName, L"duration", XtoW(uiDuration)));
+        AddIRCChatMessage(CHAT_MESSAGE_ADD, Translate(_T("chat_silence_placed"), _T("channel"), sChannel, _T("name"), sName, _T("duration"), XtoA(uiDuration)));
     else
-        AddIRCChatMessage(CHAT_MESSAGE_ADD, Translate(L"chat_user_silence_placed", L"name", sName, L"silenced", sSilenced, L"duration", XtoW(uiDuration)), sChannel);
+        AddIRCChatMessage(CHAT_MESSAGE_ADD, Translate(_T("chat_user_silence_placed"), _T("name"), sName, _T("silenced"), sSilenced, _T("duration"), XtoA(uiDuration)), sChannel);
 }
 
 
@@ -4007,11 +4007,11 @@ void    CChatManager::HandleSilencePlaced(CPacket &pkt)
   ====================*/
 void    CChatManager::HandleMessageAll(CPacket &pkt)
 {
-    wstring sName(pkt.ReadWString());
-    wstring sMessage(pkt.ReadWString());
+    tstring sName(pkt.ReadWStringAsTString());
+    tstring sMessage(pkt.ReadWStringAsTString());
 
     // Always show date/time when displaying a server message
-    AddIRCChatMessage(CHAT_MESSAGE_ADD, Translate(L"chat_message_all", L"name", sName, L"message", sMessage), WSNULL, true);
+    AddIRCChatMessage(CHAT_MESSAGE_ADD, Translate(_T("chat_message_all"), _T("name"), sName, _T("message"), sMessage), TSNULL, true);
 }
 
 
@@ -4129,9 +4129,9 @@ void    CChatManager::HandleChannelAuthDisabled(CPacket &pkt)
 void    CChatManager::HandleChannelAddAuthUser(CPacket &pkt)
 {
     uint uiChannelID(pkt.ReadInt());
-    wstring sName(pkt.ReadWString());
+    tstring sName(pkt.ReadWStringAsTString());
 
-    AddIRCChatMessage(CHAT_MESSAGE_ADD, Translate(L"chat_auth_add_success", L"name", sName), GetChannelName(uiChannelID));
+    AddIRCChatMessage(CHAT_MESSAGE_ADD, Translate(_T("chat_auth_add_success"), _T("name"), sName), GetChannelName(uiChannelID));
 }
 
 
@@ -4141,9 +4141,9 @@ void    CChatManager::HandleChannelAddAuthUser(CPacket &pkt)
 void    CChatManager::HandleChannelAddAuthUserFailed(CPacket &pkt)
 {
     uint uiChannelID(pkt.ReadInt());
-    wstring sName(pkt.ReadWString());
+    tstring sName(pkt.ReadWStringAsTString());
 
-    AddIRCChatMessage(CHAT_MESSAGE_ADD, Translate(L"chat_auth_add_failure", L"name", sName), GetChannelName(uiChannelID));
+    AddIRCChatMessage(CHAT_MESSAGE_ADD, Translate(_T("chat_auth_add_failure"), _T("name"), sName), GetChannelName(uiChannelID));
 }
 
 
@@ -4153,9 +4153,9 @@ void    CChatManager::HandleChannelAddAuthUserFailed(CPacket &pkt)
 void    CChatManager::HandleChannelRemoveAuthUser(CPacket &pkt)
 {
     uint uiChannelID(pkt.ReadInt());
-    wstring sName(pkt.ReadWString());
+    tstring sName(pkt.ReadWStringAsTString());
 
-    AddIRCChatMessage(CHAT_MESSAGE_ADD, Translate(L"chat_auth_remove_success", L"name", sName), GetChannelName(uiChannelID));
+    AddIRCChatMessage(CHAT_MESSAGE_ADD, Translate(_T("chat_auth_remove_success"), _T("name"), sName), GetChannelName(uiChannelID));
 }
 
 
@@ -4165,7 +4165,7 @@ void    CChatManager::HandleChannelRemoveAuthUser(CPacket &pkt)
 void    CChatManager::HandleChannelRemoveAuthUserFailed(CPacket &pkt)
 {
     uint uiChannelID(pkt.ReadInt());
-    wstring sName(pkt.ReadWString());
+    tstring sName(pkt.ReadWStringAsTString());
 
     AddIRCChatMessage(CHAT_MESSAGE_ADD, Translate(_T("chat_auth_remove_failure"), _T("name"), sName), GetChannelName(uiChannelID));
 }
@@ -4188,7 +4188,7 @@ void    CChatManager::HandleChannelListAuth(CPacket &pkt)
             if (pkt.HasFaults())
                 break;
 
-            wstring sName(pkt.ReadWString());
+            tstring sName(pkt.ReadWStringAsTString());
             AddIRCChatMessage(CHAT_MESSAGE_ADD, Translate(_T("chat_command_auth_list_entry"), _T("name"), sName), GetChannelName(uiChannelID));
         }
     }
@@ -4201,7 +4201,7 @@ void    CChatManager::HandleChannelListAuth(CPacket &pkt)
 void    CChatManager::HandleChannelSetPassword(CPacket &pkt)
 {
     uint uiChannelID(pkt.ReadInt());
-    wstring sName(pkt.ReadWString());
+    tstring sName(pkt.ReadWStringAsTString());
 
     AddIRCChatMessage(CHAT_MESSAGE_ADD, Translate(_T("chat_password_change"), _T("name"), sName), GetChannelName(uiChannelID));
 }
@@ -4212,7 +4212,7 @@ void    CChatManager::HandleChannelSetPassword(CPacket &pkt)
   ====================*/
 void    CChatManager::HandleChannelJoinPassword(CPacket &pkt)
 {
-    wstring sChannelName(pkt.ReadWString());
+    tstring sChannelName(pkt.ReadWStringAsTString());
     AddIRCChatMessage(CHAT_MESSAGE_ADD, Translate(_T("chat_password_required"), _T("name"), sChannelName));
 
     ChatPasswordRequired.Trigger(sChannelName);
@@ -4224,8 +4224,8 @@ void    CChatManager::HandleChannelJoinPassword(CPacket &pkt)
   ====================*/
 void    CChatManager::HandleClanInvite(CPacket &pkt)
 {
-    const wstring sName(pkt.ReadWString());
-    const wstring sClan(pkt.ReadWString());
+    const tstring sName(pkt.ReadWStringAsTString());
+    const tstring sClan(pkt.ReadWStringAsTString());
 
     if (IsIgnored(sName))
     {
@@ -4235,13 +4235,13 @@ void    CChatManager::HandleClanInvite(CPacket &pkt)
         return;
     }
 
-    static wsvector vMiniParams(2);
+    static tsvector vMiniParams(2);
     vMiniParams[0] = sName;
     vMiniParams[1] = sClan;
 
     ChatClanInvite.Trigger(vMiniParams);
 
-    AddIRCChatMessage(CHAT_MESSAGE_ADD, Translate(L"chat_clan_invite_received", L"name", sName, L"clan", sClan));
+    AddIRCChatMessage(CHAT_MESSAGE_ADD, Translate(_T("chat_clan_invite_received"), _T("name"), sName, _T("clan"), sClan));
 }
 
 
@@ -4250,8 +4250,8 @@ void    CChatManager::HandleClanInvite(CPacket &pkt)
   ====================*/
 void    CChatManager::HandleClanInviteRejected(CPacket &pkt)
 {
-    wstring sName(pkt.ReadWString());
-    AddIRCChatMessage(CHAT_MESSAGE_ADD, Translate(L"chat_clan_invite_rejected", L"name", sName));
+    tstring sName(pkt.ReadWStringAsTString());
+    AddIRCChatMessage(CHAT_MESSAGE_ADD, Translate(_T("chat_clan_invite_rejected"), _T("name"), sName));
 }
 
 
@@ -4296,7 +4296,7 @@ void    CChatManager::HandleClanInviteFailedPermissions(CPacket &pkt)
   ====================*/
 void    CChatManager::HandleClanInviteFailedUnknown(CPacket &pkt)
 {
-    wstring sName(pkt.ReadWString());
+    tstring sName(pkt.ReadWStringAsTString());
 
     if (!CompareNames(sName, m_mapUserList[m_uiAccountID].sName))
         AddIRCChatMessage(CHAT_MESSAGE_ADD, Translate(_T("chat_clan_invite_failed_unknown"), _T("name"), sName));
@@ -4310,7 +4310,7 @@ void    CChatManager::HandleClanInviteFailedUnknown(CPacket &pkt)
   ====================*/
 void    CChatManager::HandleClanCreateFailedClan(CPacket &pkt)
 {
-    wstring sName(pkt.ReadWString());
+    tstring sName(pkt.ReadWStringAsTString());
     AddIRCChatMessage(CHAT_MESSAGE_ADD, Translate(_T("chat_clan_create_fail_clan"), _T("name"), sName));
     ChatClanCreateFail.Trigger(Translate(_T("chat_clan_create_result_fail_clan"), _T("name"), sName));
 }
@@ -4321,7 +4321,7 @@ void    CChatManager::HandleClanCreateFailedClan(CPacket &pkt)
   ====================*/
 void    CChatManager::HandleClanCreateFailedInvite(CPacket &pkt)
 {
-    wstring sName(pkt.ReadWString());
+    tstring sName(pkt.ReadWStringAsTString());
     AddIRCChatMessage(CHAT_MESSAGE_ADD, Translate(_T("chat_clan_create_fail_invite"), _T("name"), sName));
     ChatClanCreateFail.Trigger(Translate(_T("chat_clan_create_result_fail_invite"), _T("name"), sName));
 }
@@ -4332,9 +4332,9 @@ void    CChatManager::HandleClanCreateFailedInvite(CPacket &pkt)
   ====================*/
 void    CChatManager::HandleClanCreateFailedNotFound(CPacket &pkt)
 {
-    wstring sName(pkt.ReadWString());
-    AddIRCChatMessage(CHAT_MESSAGE_ADD, Translate(L"chat_clan_create_fail_not_found", L"name", sName));
-    ChatClanCreateFail.Trigger(Translate(L"chat_clan_create_result_fail_not_found", L"name", sName));
+    tstring sName(pkt.ReadWStringAsTString());
+    AddIRCChatMessage(CHAT_MESSAGE_ADD, Translate(_T("chat_clan_create_fail_not_found"), _T("name"), sName));
+    ChatClanCreateFail.Trigger(Translate(_T("chat_clan_create_result_fail_not_found"), _T("name"), sName));
 }
 
 
@@ -4394,7 +4394,7 @@ void    CChatManager::HandleClanCreateFailedUnknown(CPacket &pkt)
 void    CChatManager::HandleNameChange(CPacket &pkt)
 {
     uint uiAccountID(pkt.ReadInt());
-    wstring sName(pkt.ReadWString());
+    tstring sName(pkt.ReadWStringAsTString());
 
     ChatClientMap_it it(m_mapUserList.find(uiAccountID));
 
@@ -4488,10 +4488,10 @@ void    CChatManager::HandleNameChange(CPacket &pkt)
 void    CChatManager::HandleAutoMatchConnect(CPacket &pkt)
 {
     const uint uiMatchupID(pkt.ReadInt());
-    const wstring sAddress(pkt.ReadWString());
+    const tstring sAddress(pkt.ReadWStringAsTString());
     const ushort unPort(pkt.ReadShort());
 
-    Console << L"Received AutoMatchConnect for MatchupID#" << XtoA(uiMatchupID) << L" " << XtoA(sAddress) << L":" << XtoA(unPort) << L"..." << newl;
+    Console << _T("Received AutoMatchConnect for MatchupID#") << XtoA(uiMatchupID) << _T(" ") << XtoA(sAddress) << _T(":") << XtoA(unPort) << _T("...") << newl;
 
     if (sAddress.empty() || unPort == 0 || Host.IsConnected() || pkt.HasFaults())
         return;
@@ -4501,11 +4501,11 @@ void    CChatManager::HandleAutoMatchConnect(CPacket &pkt)
     TMMReset.Trigger(TSNULL, cc_forceTMMInterfaceUpdate);
     TMMJoinMatch.Trigger(TSNULL, cc_forceTMMInterfaceUpdate);
 
-    Console << L"Connecting to " << XtoA(sAddress) << L":" << XtoA(unPort) << L"..." << newl;
+    Console << _T("Connecting to ") << XtoA(sAddress) << _T(":") << XtoA(unPort) << _T("...") << newl;
 
     UnFollow();
 
-    Host.Connect(sAddress + L":" + XtoW(unPort), false, false, _T("loading_matchmaking_connecting"));
+    Host.Connect(sAddress + _T(":") + XtoA(unPort), false, false, _T("loading_matchmaking_connecting"));
 }
 
 
@@ -4515,10 +4515,10 @@ void    CChatManager::HandleAutoMatchConnect(CPacket &pkt)
 void    CChatManager::HandleServerNotIdle(CPacket &pkt)
 {
     const uint uiMatchupID(pkt.ReadInt());
-    const wstring sAddress(pkt.ReadWString());
+    const tstring sAddress(pkt.ReadWStringAsTString());
     const ushort unPort(pkt.ReadShort());
 
-    Console << L"Received ServerNotIdle for MatchupID#" << XtoA(uiMatchupID) << L" " << XtoA(sAddress) << L":" << XtoA(unPort) << L"..." << newl;
+    Console << _T("Received ServerNotIdle for MatchupID#") << XtoA(uiMatchupID) << _T(" ") << XtoA(sAddress) << _T(":") << XtoA(unPort) << _T("...") << newl;
 
     if (sAddress.empty() || unPort == 0 || Host.IsConnected() || pkt.HasFaults())
         return;
@@ -4535,17 +4535,17 @@ void    CChatManager::HandleServerNotIdle(CPacket &pkt)
   ====================*/
 void    CChatManager::HandleTournMatchReady(CPacket &pkt)
 {
-    wstring sAddress(pkt.ReadWString());
+    tstring sAddress(pkt.ReadWStringAsTString());
     ushort unPort(pkt.ReadShort());
     uint uiTournMatchID(pkt.ReadInt());
-    wstring sMatchName(pkt.ReadWString());
+    tstring sMatchName(pkt.ReadWStringAsTString());
 
     if (pkt.HasFaults() || sAddress.empty() || unPort == 0 || uiTournMatchID == -1 || m_mapTournGameAddresses.find(uiTournMatchID) != m_mapTournGameAddresses.end())
         return;
 
-    ChatManager.AddIRCChatMessage(CHAT_MESSAGE_ADD, Translate(L"chat_tourn_match_ready", L"name", sMatchName));
+    ChatManager.AddIRCChatMessage(CHAT_MESSAGE_ADD, Translate(_T("chat_tourn_match_ready"), _T("name"), sMatchName));
 
-    m_mapTournGameAddresses.insert(pair<uint, tstring>(uiTournMatchID, sAddress + L":" + XtoA(unPort)));
+    m_mapTournGameAddresses.insert(pair<uint, tstring>(uiTournMatchID, sAddress + _T(":") + XtoA(unPort)));
 }
 
 
@@ -4566,7 +4566,7 @@ void    CChatManager::HandleChatRoll(CPacket &pkt)
 {
     uint uiAccountID(pkt.ReadInt());
     uint uiChannelID(pkt.ReadInt());
-    wstring sMessage(pkt.ReadWString());
+    tstring sMessage(pkt.ReadWStringAsTString());
 
     ChatClientMap_it it(m_mapUserList.find(uiAccountID));
 
@@ -4587,7 +4587,7 @@ void    CChatManager::HandleChatEmote(CPacket &pkt)
 {
     uint uiAccountID(pkt.ReadInt());
     uint uiChannelID(pkt.ReadInt());
-    wstring sMessage(pkt.ReadWString());
+    tstring sMessage(pkt.ReadWStringAsTString());
 
     ChatClientMap_it it(m_mapUserList.find(uiAccountID));
 
@@ -4607,7 +4607,7 @@ void    CChatManager::HandleChatEmote(CPacket &pkt)
 void    CChatManager::HandleSetChatModeType(CPacket &pkt)
 {
     uint uiChatModeType(pkt.ReadInt());
-    wstring sReason(pkt.ReadWString());
+    tstring sReason(pkt.ReadWStringAsTString());
     
     m_uiChatModeType = uiChatModeType;
     
@@ -4618,11 +4618,11 @@ void    CChatManager::HandleSetChatModeType(CPacket &pkt)
             break;
             
         case CHAT_MODE_AFK:
-            AddIRCChatMessage(CHAT_MESSAGE_ADD, Translate(L"chat_command_afk_message", L"reason", sReason));
+            AddIRCChatMessage(CHAT_MESSAGE_ADD, Translate(_T("chat_command_afk_message"), _T("reason"), sReason));
             break;
             
         case CHAT_MODE_DND:             
-            AddIRCChatMessage(CHAT_MESSAGE_ADD, Translate(L"chat_command_dnd_message", L"reason", sReason));
+            AddIRCChatMessage(CHAT_MESSAGE_ADD, Translate(_T("chat_command_dnd_message"), _T("reason"), sReason));
             break;
             
         case CHAT_MODE_INVISIBLE:       
@@ -4640,17 +4640,17 @@ void    CChatManager::HandleSetChatModeType(CPacket &pkt)
 void    CChatManager::HandleChatModeAutoResponse(CPacket &pkt)
 {
     uint uiChatModeType(pkt.ReadInt());
-    wstring sTargetName(pkt.ReadWString());
-    wstring sMessage(pkt.ReadWString());
+    tstring sTargetName(pkt.ReadWStringAsTString());
+    tstring sMessage(pkt.ReadWStringAsTString());
 
     switch (uiChatModeType)
     {
         case CHAT_MODE_AFK:
-            AddIRCChatMessage(CHAT_MESSAGE_ADD, Translate(L"chat_mode_afk_auto_response", L"target", sTargetName, L"message", sMessage), WSNULL, true); 
+            AddIRCChatMessage(CHAT_MESSAGE_ADD, Translate(_T("chat_mode_afk_auto_response"), _T("target"), sTargetName, _T("message"), sMessage), TSNULL, true);
             break;
         
         case CHAT_MODE_DND:
-            AddIRCChatMessage(CHAT_MESSAGE_ADD, Translate(L"chat_mode_dnd_auto_response", L"target", sTargetName, L"message", sMessage), WSNULL, true); 
+            AddIRCChatMessage(CHAT_MESSAGE_ADD, Translate(_T("chat_mode_dnd_auto_response"), _T("target"), sTargetName, _T("message"), sMessage), TSNULL, true);
             break;      
             
         default:
@@ -4770,7 +4770,7 @@ void    CChatManager::HandleTMMPlayerUpdates(CPacket &pkt)
         const byte yLoadingPercent(m_aGroupInfo[i].yLoadingPercent);
         const byte yReadyStatus(m_aGroupInfo[i].yReadyStatus);
 
-        vParams[uiIndex++] = XtoA(XtoA(yLoadingPercent) + L"|" + XtoA(yReadyStatus));       // Player Loading TMM Status | Player Ready Status
+        vParams[uiIndex++] = XtoA(XtoA(yLoadingPercent) + _T("|") + XtoA(yReadyStatus));       // Player Loading TMM Status | Player Ready Status
 
         // If someone is leaving or being kicked from the group
         if (yUpdateType == TMM_PLAYER_LEFT_GROUP || yUpdateType == TMM_PLAYER_KICKED_FROM_GROUP)
@@ -4803,19 +4803,19 @@ void    CChatManager::HandleTMMPlayerUpdates(CPacket &pkt)
 
     if (yUpdateType == TMM_CREATE_TEAM_GROUP)
     {
-        Console << L"Created team TMM group..." << newl;
+        Console << _T("Created team TMM group...") << newl;
 
         m_bInGroup = true;
     }
     else if (yUpdateType == TMM_GROUP_UPDATE)
     {
-        Console << L"Received TMM group update..." << newl;
+        Console << _T("Received TMM group update...") << newl;
 
         m_bInGroup = true;
     }
     else if (yUpdateType == TMM_PLAYER_JOINED_GROUP)
     {
-        Console << L"AccountID " << uiAccountID << L" connected to the TMM group..." << newl;
+        Console << _T("AccountID ") << uiAccountID << _T(" connected to the TMM group...") << newl;
         
         m_bInGroup = true;
 
@@ -4824,40 +4824,40 @@ void    CChatManager::HandleTMMPlayerUpdates(CPacket &pkt)
             UnFollow();
 
             TMMJoinGroup.Trigger(TSNULL, cc_forceTMMInterfaceUpdate);
-            Console << L"You (" << uiAccountID << L") joined the TMM group..." << newl;
+            Console << _T("You (") << uiAccountID << _T(") joined the TMM group...") << newl;
         }
     }
     else if (yUpdateType == TMM_PLAYER_FINISHED_LOADING)
     {
-        Console << L"AccountID " << uiAccountID << L" finished loading into the TMM group..." << newl;
+        Console << _T("AccountID ") << uiAccountID << _T(" finished loading into the TMM group...") << newl;
         
         m_bInGroup = true;
     }
     else if (yUpdateType == TMM_PLAYER_LEFT_GROUP)
     {
-        Console << L"AccountID " << uiAccountID << L" left the TMM group..." << newl;
+        Console << _T("AccountID ") << uiAccountID << _T(" left the TMM group...") << newl;
         
         if (uiAccountID == uiGroupLeaderAccountID)
         {
             LeaveTMMGroup(true, _T("disbanded"));
-            Console << L"The group was disbanded by the group leader " << uiAccountID << newl;
+            Console << _T("The group was disbanded by the group leader ") << uiAccountID << newl;
         }
         
         if (uiAccountID == GetAccountID())
         {
             LeaveTMMGroup(true, _T("left"));
-            Console << L"You (" << uiAccountID << L") left the TMM group..." << newl;
+            Console << _T("You (") << uiAccountID << _T(") left the TMM group...") << newl;
             bTriggerReset = true;
         }
     }
     else if (yUpdateType == TMM_PLAYER_KICKED_FROM_GROUP)
     {
-        Console << L"AccountID " << uiAccountID << L" was kicked from TMM group..." << newl;
+        Console << _T("AccountID ") << uiAccountID << _T(" was kicked from TMM group...") << newl;
         
         if (uiAccountID == GetAccountID())
         {
             LeaveTMMGroup(true, _T("kicked"));
-            Console << L"You (" << uiAccountID << L") were kicked from the TMM group..." << newl;
+            Console << _T("You (") << uiAccountID << _T(") were kicked from the TMM group...") << newl;
         }
     }
     
@@ -4919,10 +4919,10 @@ void    CChatManager::HandleTMMPlayerUpdates(CPacket &pkt)
 void    CChatManager::HandleTMMPopularityUpdates(CPacket &pkt)
 {
     const byte yTMMEnabled(pkt.ReadByte());
-    const string sAvailableMapNames(pkt.ReadString());
-    const string sAvailableGameTypes(pkt.ReadString());
-    const string sAvailableGameModes(pkt.ReadString());
-    const string sRegions(pkt.ReadString());
+    const tstring sAvailableMapNames(pkt.ReadStringAsTString());
+    const tstring sAvailableGameTypes(pkt.ReadStringAsTString());
+    const tstring sAvailableGameModes(pkt.ReadStringAsTString());
+    const tstring sRegions(pkt.ReadStringAsTString());
 
     const byte yNormalGameType(pkt.ReadByte());
     const byte yCasualGameType(pkt.ReadByte());
@@ -4938,7 +4938,7 @@ void    CChatManager::HandleTMMPopularityUpdates(CPacket &pkt)
     if (pkt.HasFaults())
         return;
 
-    static wsvector vParams(10);
+    static tsvector vParams(10);
 
     vParams[0] = XtoA(yNormalGameType);
     vParams[1] = XtoA(yCasualGameType);
@@ -4953,12 +4953,12 @@ void    CChatManager::HandleTMMPopularityUpdates(CPacket &pkt)
 
     TMMDisplayPopularity.Trigger(vParams, cc_forceTMMInterfaceUpdate);
 
-    static wsvector vOptionsAvailableParams(5);
+    static tsvector vOptionsAvailableParams(5);
 
-    vOptionsAvailableParams[0] = SingleToWide(sAvailableGameTypes);
-    vOptionsAvailableParams[1] = SingleToWide(sAvailableMapNames);
-    vOptionsAvailableParams[2] = SingleToWide(sAvailableGameModes);
-    vOptionsAvailableParams[3] = SingleToWide(sRegions);
+    vOptionsAvailableParams[0] = sAvailableGameTypes;
+    vOptionsAvailableParams[1] = sAvailableMapNames;
+    vOptionsAvailableParams[2] = sAvailableGameModes;
+    vOptionsAvailableParams[3] = sRegions;
     vOptionsAvailableParams[4] = XtoA(yTMMEnabled);
     
     TMMOptionsAvailable.Trigger(vOptionsAvailableParams, cc_forceTMMInterfaceUpdate);
@@ -5018,7 +5018,7 @@ void    CChatManager::HandleTMMJoinQueue(CPacket &pkt)
 {
     m_uiTMMStartTime = Host.GetTime();
 
-    Console << L"Your group joined the TMM queue..." << newl;
+    Console << _T("Your group joined the TMM queue...") << newl;
 
     TMMJoinQueue.Trigger(TSNULL, cc_forceTMMInterfaceUpdate);
 
@@ -5043,7 +5043,7 @@ void    CChatManager::HandleTMMLeaveQueue(CPacket &pkt)
 
     TMMTime.Trigger(vMiniParams, cc_forceTMMInterfaceUpdate);   
 
-    Console << L"Your group left the TMM queue..." << newl;
+    Console << _T("Your group left the TMM queue...") << newl;
 
     TMMLeaveQueue.Trigger(TSNULL, cc_forceTMMInterfaceUpdate);
 
@@ -5056,11 +5056,11 @@ void    CChatManager::HandleTMMLeaveQueue(CPacket &pkt)
   ====================*/
 void    CChatManager::HandleTMMInviteToGroup(CPacket &pkt)
 {
-    const wstring sInviter(pkt.ReadWString());
-    const wstring sMapName(pkt.ReadWString());
+    const tstring sInviter(pkt.ReadWStringAsTString());
+    const tstring sMapName(pkt.ReadWStringAsTString());
     const byte yGameType(pkt.ReadByte());
-    const wstring sGameModes(pkt.ReadWString());
-    const wstring sRegions(pkt.ReadWString());
+    const tstring sGameModes(pkt.ReadWStringAsTString());
+    const tstring sRegions(pkt.ReadWStringAsTString());
     
     if (pkt.HasFaults())
         return;
@@ -5068,13 +5068,13 @@ void    CChatManager::HandleTMMInviteToGroup(CPacket &pkt)
     if (IsIgnored(sInviter))
         return;
 
-    static wsvector vInvite(4); 
+    static tsvector vInvite(4);
     vInvite[0] = sMapName;
     vInvite[1] = XtoA(yGameType);
     vInvite[2] = sGameModes;
     vInvite[3] = sRegions;
     
-    Console << L"You were invited to join the TMM group by " << sInviter << newl;
+    Console << _T("You were invited to join the TMM group by ") << sInviter << newl;
     
     PushNotification(NOTIFY_TYPE_TMM_GROUP_INVITE, sInviter, TSNULL, TSNULL, vInvite);
 }
@@ -5085,13 +5085,13 @@ void    CChatManager::HandleTMMInviteToGroup(CPacket &pkt)
   ====================*/
 void    CChatManager::HandleTMMInviteToGroupBroadcast(CPacket &pkt)
 {
-    const wstring sInvited(pkt.ReadWString());
-    const wstring sInviter(pkt.ReadWString());
+    const tstring sInvited(pkt.ReadWStringAsTString());
+    const tstring sInviter(pkt.ReadWStringAsTString());
     
     if (pkt.HasFaults())
         return;
     
-    Console << sInvited << L" was invited to join the TMM group by " << sInviter << L"..." << newl;
+    Console << sInvited << _T(" was invited to join the TMM group by ") << sInviter << _T("...") << newl;
 }
 
 
@@ -5100,13 +5100,13 @@ void    CChatManager::HandleTMMInviteToGroupBroadcast(CPacket &pkt)
   ====================*/
 void    CChatManager::HandleTMMRejectInvite(CPacket &pkt)
 {
-    const wstring sInvited(pkt.ReadWString());
-    const wstring sInviter(pkt.ReadWString());
+    const tstring sInvited(pkt.ReadWStringAsTString());
+    const tstring sInviter(pkt.ReadWStringAsTString());
     
     if (pkt.HasFaults())
         return;
     
-    Console << sInvited << L" rejected the TMM group invite from " << sInviter << L"..." << newl;
+    Console << sInvited << _T(" rejected the TMM group invite from ") << sInviter << _T("...") << newl;
 }
 
 
@@ -5115,42 +5115,42 @@ void    CChatManager::HandleTMMRejectInvite(CPacket &pkt)
   ====================*/
 void    CChatManager::HandleTMMMatchFound(CPacket &pkt)
 {
-    const wstring sMapName(pkt.ReadWString());
+    const tstring sMapName(pkt.ReadWStringAsTString());
     const byte yTeamSize(pkt.ReadByte());
     const byte yGameType(pkt.ReadByte());
-    const wstring sGameMode(pkt.ReadWString());
-    const wstring sRegion(pkt.ReadWString());
-    wstring sExtraMatchInfo(pkt.ReadWString());
+    const tstring sGameMode(pkt.ReadWStringAsTString());
+    const tstring sRegion(pkt.ReadWStringAsTString());
+    tstring sExtraMatchInfo(pkt.ReadWStringAsTString());
     
     if (pkt.HasFaults())
         return;
 
     TMMFoundMatch.Trigger(TSNULL, cc_forceTMMInterfaceUpdate);
 
-    wstring sOtherMatchInfo;
-    sOtherMatchInfo = L"Game Type:" + XtoA(yGameType);
-    sOtherMatchInfo += L"|Map Name:" + sMapName;
-    sOtherMatchInfo += L"|Team Size:" + XtoA(yTeamSize);
-    sOtherMatchInfo += L"|Game Mode:" + sGameMode;
-    sOtherMatchInfo += L"|Region:" + sRegion + L"|";
+    tstring sOtherMatchInfo;
+    sOtherMatchInfo = _T("Game Type:") + XtoA(yGameType);
+    sOtherMatchInfo += _T("|Map Name:") + sMapName;
+    sOtherMatchInfo += _T("|Team Size:") + XtoA(yTeamSize);
+    sOtherMatchInfo += _T("|Game Mode:") + sGameMode;
+    sOtherMatchInfo += _T("|Region:") + sRegion + _T("|");
     
     sExtraMatchInfo = sOtherMatchInfo + sExtraMatchInfo;
 
     TMMDebugInfo.Trigger(sExtraMatchInfo, cc_forceTMMInterfaceUpdate);
     
     // Just add in some newlines so the console appears properly
-    sExtraMatchInfo = StringReplace(sExtraMatchInfo, L"Team1:", L"\nTeam1:");
-    sExtraMatchInfo = StringReplace(sExtraMatchInfo, L"Team2:", L"\nTeam2:");
-    sExtraMatchInfo = StringReplace(sExtraMatchInfo, L"Group Count:", L"\nGroup Count:");
-    sExtraMatchInfo = StringReplace(sExtraMatchInfo, L"Average Matchup %:", L"\nAverage Matchup %:");
-    sExtraMatchInfo = StringReplace(sExtraMatchInfo, L"Group Mismatch %:", L"\nGroup Mismatch %:"); 
+    sExtraMatchInfo = StringReplace(sExtraMatchInfo, _T("Team1:"), _T("\nTeam1:"));
+    sExtraMatchInfo = StringReplace(sExtraMatchInfo, _T("Team2:"), _T("\nTeam2:"));
+    sExtraMatchInfo = StringReplace(sExtraMatchInfo, _T("Group Count:"), _T("\nGroup Count:"));
+    sExtraMatchInfo = StringReplace(sExtraMatchInfo, _T("Average Matchup %:"), _T("\nAverage Matchup %:"));
+    sExtraMatchInfo = StringReplace(sExtraMatchInfo, _T("Group Mismatch %:"), _T("\nGroup Mismatch %:"));
 
-    Console << L"Your TMM group left the queue and was placed into a match!!" << newl;
-    Console << L"Game Type: " << yGameType << newl;
-    Console << L"Map Name: " << sMapName << L" Team Size:" << yTeamSize << newl;
-    Console << L"Game Mode: " << sGameMode << newl;
-    Console << L"Region: " << sRegion << newl;
-    Console << L"Extra Match Info: " << sExtraMatchInfo << newl;
+    Console << _T("Your TMM group left the queue and was placed into a match!!") << newl;
+    Console << _T("Game Type: ") << yGameType << newl;
+    Console << _T("Map Name: ") << sMapName << _T(" Team Size:") << yTeamSize << newl;
+    Console << _T("Game Mode: ") << sGameMode << newl;
+    Console << _T("Region: ") << sRegion << newl;
+    Console << _T("Extra Match Info: ") << sExtraMatchInfo << newl;
 }
 
 
@@ -5169,47 +5169,47 @@ void    CChatManager::HandleTMMJoinFailed(CPacket &pkt)
     if (yUpdateType == 0)
     {
         sReason = _T("isleaver");
-        Console << L"Players who are leavers are not allowed in TMM games..." << newl;
+        Console << _T("Players who are leavers are not allowed in TMM games...") << newl;
     }
     else if (yUpdateType == 1)
     {
         sReason = _T("disabled");
-        Console << L"TMM is currently disabled, please try back at a later time." << newl;
+        Console << _T("TMM is currently disabled, please try back at a later time.") << newl;
     }
     else if (yUpdateType == 2)
     {
         sReason = _T("busy");
-        Console << L"TMM is currently too busy to accept new groups, please try again in a few minutes." << newl;
+        Console << _T("TMM is currently too busy to accept new groups, please try again in a few minutes.") << newl;
     }
     else if (yUpdateType == 3)
     {
         sReason = _T("optionunavailable");
-        Console << L"You have tried to create a group using options that are disabled or invalid, please try again." << newl;
+        Console << _T("You have tried to create a group using options that are disabled or invalid, please try again.") << newl;
     }
     else if (yUpdateType == 4)
     {
         sReason = _T("invalidversion");
-        Console << L"The version of your client is not compatible with the matchmaking server.  Please update your client and try again." << newl;
+        Console << _T("The version of your client is not compatible with the matchmaking server.  Please update your client and try again.") << newl;
     }
     else if (yUpdateType == 5)
     {
         sReason = _T("groupfull");
-        Console << L"Unable to join, the group you are trying to join is full." << newl;
+        Console << _T("Unable to join, the group you are trying to join is full.") << newl;
     }
     else if (yUpdateType == 6)
     {
         sReason = _T("badstats");
-        Console << L"Unable to join, invalid stats." << newl;
+        Console << _T("Unable to join, invalid stats.") << newl;
     }
     else if (yUpdateType == 7)
     {
         sReason = _T("groupqueued");
-        Console << L"Unable to join, the group has already entered the queue." << newl;
+        Console << _T("Unable to join, the group has already entered the queue.") << newl;
     }
     else
     {
         sReason = _T("unknown");
-        Console << L"Unable to join, unknown reason." << newl;
+        Console << _T("Unable to join, unknown reason.") << newl;
     }
 
     LeaveTMMGroup(true, sReason);
@@ -5304,9 +5304,9 @@ void    CChatManager::HandleRequestBuddyApproveResponse(CPacket &pkt)
   ====================*/
 void    CChatManager::HandleClanCreateAccept(CPacket &pkt)
 {
-    wstring sName(pkt.ReadWString());
+    tstring sName(pkt.ReadWStringAsTString());
 
-    AddIRCChatMessage(CHAT_MESSAGE_ADD, Translate(L"chat_clan_create_accept", L"name", sName));
+    AddIRCChatMessage(CHAT_MESSAGE_ADD, Translate(_T("chat_clan_create_accept"), _T("name"), sName));
     ChatClanCreateAccept.Trigger(sName);
 }
 
@@ -5328,9 +5328,9 @@ void    CChatManager::HandleClanCreateComplete(CPacket &pkt)
   ====================*/
 void    CChatManager::HandleClanCreateRejected(CPacket &pkt)
 {
-    wstring sName(pkt.ReadWString());
-    AddIRCChatMessage(CHAT_MESSAGE_ADD, Translate(L"chat_clan_create_reject", L"name", sName));
-    ChatClanCreateFail.Trigger(Translate(L"chat_clan_create_result_reject", L"name", sName));
+    tstring sName(pkt.ReadWStringAsTString());
+    AddIRCChatMessage(CHAT_MESSAGE_ADD, Translate(_T("chat_clan_create_reject"), _T("name"), sName));
+    ChatClanCreateFail.Trigger(Translate(_T("chat_clan_create_result_reject"), _T("name"), sName));
 }
 
 
@@ -5357,8 +5357,8 @@ void    CChatManager::HandleNewClanMember(CPacket &pkt)
     else
     {
         it->second.iClanID = pkt.ReadInt();
-        it->second.sClan = pkt.ReadWString();
-        it->second.sClanTag = pkt.ReadWString();
+        it->second.sClan = pkt.ReadWStringAsTString();
+        it->second.sClanTag = pkt.ReadWStringAsTString();
 
         m_setClanList.insert(uiAccountID);
 
@@ -5367,8 +5367,8 @@ void    CChatManager::HandleNewClanMember(CPacket &pkt)
             return;
 
         pHTTPRequest->SetTargetURL(m_sMasterServerURL);
-        pHTTPRequest->AddVariable(L"f", L"clan_list");
-        pHTTPRequest->AddVariable(L"clan_id", it->second.iClanID);
+        pHTTPRequest->AddVariable(_T("f"), _T("clan_list"));
+        pHTTPRequest->AddVariable(_T("clan_id"), it->second.iClanID);
         pHTTPRequest->SendPostRequest();
 
         SChatDBRequest *pNewRequest(K2_NEW(ctx_Net,  SChatDBRequest)(pHTTPRequest, REQUEST_UPDATE_CLAN, 0, it->second.sClanTag));
@@ -5517,9 +5517,9 @@ void    CChatManager::CheckClanName(const tstring &sName, const tstring &sTag)
         return;
 
     pHTTPRequest->SetTargetURL(m_sMasterServerURL);
-    pHTTPRequest->AddVariable(L"f", L"clan_nameCheck");
-    pHTTPRequest->AddVariable(L"name", sName);
-    pHTTPRequest->AddVariable(L"tag", sTag);
+    pHTTPRequest->AddVariable(_T("f"), _T("clan_nameCheck"));
+    pHTTPRequest->AddVariable(_T("name"), sName);
+    pHTTPRequest->AddVariable(_T("tag"), sTag);
     pHTTPRequest->SendPostRequest();
 
     SChatDBRequest *pNewRequest(K2_NEW(ctx_Net,  SChatDBRequest)(pHTTPRequest, REQUEST_CHECK_CLAN_NAME, sName, sTag));
@@ -5820,10 +5820,10 @@ void    CChatManager::RequestBuddyRemove(const uint uiAccountID)
         return;
 
     pHTTPRequest->SetTargetURL(m_sMasterServerURL);
-    pHTTPRequest->AddVariable(L"f", L"remove_buddy2");
-    pHTTPRequest->AddVariable(L"account_id", m_uiAccountID);
-    pHTTPRequest->AddVariable(L"buddy_id", uiAccountID);
-    pHTTPRequest->AddVariable(L"cookie", m_sCookie);
+    pHTTPRequest->AddVariable(_T("f"), _T("remove_buddy2"));
+    pHTTPRequest->AddVariable(_T("account_id"), m_uiAccountID);
+    pHTTPRequest->AddVariable(_T("buddy_id"), uiAccountID);
+    pHTTPRequest->AddVariable(_T("cookie"), m_sCookie);
     pHTTPRequest->SendPostRequest();
 
     SChatDBRequest *pNewRequest(K2_NEW(ctx_Net,  SChatDBRequest)(pHTTPRequest, REQUEST_DELETE_BUDDY, uiAccountID));
@@ -5857,8 +5857,8 @@ void    CChatManager::RequestBanlistAdd(const tstring &sName, const tstring &sRe
         return;
 
     pHTTPRequest->SetTargetURL(m_sMasterServerURL);
-    pHTTPRequest->AddVariable(L"f", L"nick2id");
-    pHTTPRequest->AddVariable(L"nickname[0]", sName);
+    pHTTPRequest->AddVariable(_T("f"), _T("nick2id"));
+    pHTTPRequest->AddVariable(_T("nickname[0]"), sName);
     pHTTPRequest->SendPostRequest();
 
     SChatDBRequest *pNewRequest(K2_NEW(ctx_Net,  SChatDBRequest)(pHTTPRequest, REQUEST_ADD_BANNED_NICK2ID, sName, sReason));
@@ -5887,10 +5887,10 @@ void    CChatManager::RequestBanlistRemove(uint uiAccountID)
         return;
 
     pHTTPRequest->SetTargetURL(m_sMasterServerURL);
-    pHTTPRequest->AddVariable(L"f", L"remove_banned");
-    pHTTPRequest->AddVariable(L"account_id", m_uiAccountID);
-    pHTTPRequest->AddVariable(L"banned_id", uiAccountID);
-    pHTTPRequest->AddVariable(L"cookie", m_sCookie);
+    pHTTPRequest->AddVariable(_T("f"), _T("remove_banned"));
+    pHTTPRequest->AddVariable(_T("account_id"), m_uiAccountID);
+    pHTTPRequest->AddVariable(_T("banned_id"), uiAccountID);
+    pHTTPRequest->AddVariable(_T("cookie"), m_sCookie);
     pHTTPRequest->SendPostRequest();
 
     SChatDBRequest *pNewRequest(K2_NEW(ctx_Net,  SChatDBRequest)(pHTTPRequest, REQUEST_REMOVE_BANNED, uiAccountID));
@@ -5924,8 +5924,8 @@ void    CChatManager::RequestIgnoreAdd(const tstring &sName)
         return;
 
     pHTTPRequest->SetTargetURL(m_sMasterServerURL);
-    pHTTPRequest->AddVariable(L"f", L"nick2id");
-    pHTTPRequest->AddVariable(L"nickname[0]", sName);
+    pHTTPRequest->AddVariable(_T("f"), _T("nick2id"));
+    pHTTPRequest->AddVariable(_T("nickname[0]"), sName);
     pHTTPRequest->SendPostRequest();
 
     SChatDBRequest *pNewRequest(K2_NEW(ctx_Net,  SChatDBRequest)(pHTTPRequest, REQUEST_ADD_IGNORED_NICK2ID, sName));
@@ -5954,10 +5954,10 @@ void    CChatManager::RequestIgnoreRemove(const uint uiAccountID)
         return;
 
     pHTTPRequest->SetTargetURL(m_sMasterServerURL);
-    pHTTPRequest->AddVariable(L"f", L"remove_ignored");
-    pHTTPRequest->AddVariable(L"account_id", m_uiAccountID);
-    pHTTPRequest->AddVariable(L"ignored_id", uiAccountID);
-    pHTTPRequest->AddVariable(L"cookie", m_sCookie);
+    pHTTPRequest->AddVariable(_T("f"), _T("remove_ignored"));
+    pHTTPRequest->AddVariable(_T("account_id"), m_uiAccountID);
+    pHTTPRequest->AddVariable(_T("ignored_id"), uiAccountID);
+    pHTTPRequest->AddVariable(_T("cookie"), m_sCookie);
     pHTTPRequest->SendPostRequest();
 
     SChatDBRequest *pNewRequest(K2_NEW(ctx_Net,  SChatDBRequest)(pHTTPRequest, REQUEST_REMOVE_IGNORED, uiAccountID));
@@ -5999,11 +5999,11 @@ void    CChatManager::RequestPromoteClanMember(const tstring &sName)
             return;
 
         pHTTPRequest->SetTargetURL(m_sMasterServerURL);
-        pHTTPRequest->AddVariable(L"f", L"set_rank");
-        pHTTPRequest->AddVariable(L"member_ck", m_sCookie);
-        pHTTPRequest->AddVariable(L"target_id", it->second.uiAccountID);
-        pHTTPRequest->AddVariable(L"clan_id", m_mapUserList[m_uiAccountID].iClanID);
-        pHTTPRequest->AddVariable(L"rank", L"Officer");
+        pHTTPRequest->AddVariable(_T("f"), _T("set_rank"));
+        pHTTPRequest->AddVariable(_T("member_ck"), m_sCookie);
+        pHTTPRequest->AddVariable(_T("target_id"), it->second.uiAccountID);
+        pHTTPRequest->AddVariable(_T("clan_id"), m_mapUserList[m_uiAccountID].iClanID);
+        pHTTPRequest->AddVariable(_T("rank"), _T("Officer"));
         pHTTPRequest->SendPostRequest();
 
         SChatDBRequest *pNewRequest(K2_NEW(ctx_Net,  SChatDBRequest)(pHTTPRequest, REQUEST_CLAN_PROMOTE, it->first));
@@ -6051,11 +6051,11 @@ void    CChatManager::RequestDemoteClanMember(const tstring &sName)
             return;
 
         pHTTPRequest->SetTargetURL(m_sMasterServerURL);
-        pHTTPRequest->AddVariable(L"f", L"set_rank");
-        pHTTPRequest->AddVariable(L"member_ck", m_sCookie);
-        pHTTPRequest->AddVariable(L"target_id", it->second.uiAccountID);
-        pHTTPRequest->AddVariable(L"clan_id", m_mapUserList[m_uiAccountID].iClanID);
-        pHTTPRequest->AddVariable(L"rank", L"Member");
+        pHTTPRequest->AddVariable(_T("f"), _T("set_rank"));
+        pHTTPRequest->AddVariable(_T("member_ck"), m_sCookie);
+        pHTTPRequest->AddVariable(_T("target_id"), it->second.uiAccountID);
+        pHTTPRequest->AddVariable(_T("clan_id"), m_mapUserList[m_uiAccountID].iClanID);
+        pHTTPRequest->AddVariable(_T("rank"), _T("Member"));
         pHTTPRequest->SendPostRequest();
 
         SChatDBRequest *pNewRequest(K2_NEW(ctx_Net,  SChatDBRequest)(pHTTPRequest, REQUEST_CLAN_DEMOTE, it->first));
@@ -6103,11 +6103,11 @@ void    CChatManager::RequestRemoveClanMember(const tstring &sName)
             return;
 
         pHTTPRequest->SetTargetURL(m_sMasterServerURL);
-        pHTTPRequest->AddVariable(L"f", L"set_rank");
-        pHTTPRequest->AddVariable(L"member_ck", m_sCookie);
-        pHTTPRequest->AddVariable(L"target_id", it->second.uiAccountID);
-        pHTTPRequest->AddVariable(L"clan_id", m_mapUserList[m_uiAccountID].iClanID);
-        pHTTPRequest->AddVariable(L"rank", L"Remove");
+        pHTTPRequest->AddVariable(_T("f"), _T("set_rank"));
+        pHTTPRequest->AddVariable(_T("member_ck"), m_sCookie);
+        pHTTPRequest->AddVariable(_T("target_id"), it->second.uiAccountID);
+        pHTTPRequest->AddVariable(_T("clan_id"), m_mapUserList[m_uiAccountID].iClanID);
+        pHTTPRequest->AddVariable(_T("rank"), _T("Remove"));
         pHTTPRequest->SendPostRequest();
 
         SChatDBRequest *pNewRequest(K2_NEW(ctx_Net,  SChatDBRequest)(pHTTPRequest, REQUEST_CLAN_REMOVE, it->first));
@@ -6289,9 +6289,9 @@ void    CChatManager::GetBanList()
         return;
 
     pHTTPRequest->SetTargetURL(m_sMasterServerURL);
-    pHTTPRequest->AddVariable(L"f", L"ban_list");
-    pHTTPRequest->AddVariable(L"account_id", m_uiAccountID);
-    pHTTPRequest->AddVariable(L"cookie", m_sCookie);
+    pHTTPRequest->AddVariable(_T("f"), _T("ban_list"));
+    pHTTPRequest->AddVariable(_T("account_id"), m_uiAccountID);
+    pHTTPRequest->AddVariable(_T("cookie"), m_sCookie);
     pHTTPRequest->SendPostRequest();
 
     SChatDBRequest *pNewRequest(K2_NEW(ctx_Net,  SChatDBRequest)(pHTTPRequest, REQUEST_GET_BANNED, INVALID_ACCOUNT));
@@ -6974,10 +6974,10 @@ void    CChatManager::SaveChannel(const tstring &sChannel)
         return;
 
     pHTTPRequest->SetTargetURL(m_sMasterServerURL);
-    pHTTPRequest->AddVariable(L"f", L"add_room");
-    pHTTPRequest->AddVariable(L"account_id", m_uiAccountID);
-    pHTTPRequest->AddVariable(L"chatroom_name", sChannel);
-    pHTTPRequest->AddVariable(L"cookie", m_sCookie);
+    pHTTPRequest->AddVariable(_T("f"), _T("add_room"));
+    pHTTPRequest->AddVariable(_T("account_id"), m_uiAccountID);
+    pHTTPRequest->AddVariable(_T("chatroom_name"), sChannel);
+    pHTTPRequest->AddVariable(_T("cookie"), m_sCookie);
     pHTTPRequest->SendPostRequest();
 
     SChatDBRequest *pNewRequest(K2_NEW(ctx_Net,  SChatDBRequest)(pHTTPRequest, REQUEST_SAVE_CHANNEL, sChannel));
@@ -6998,10 +6998,10 @@ void    CChatManager::RemoveChannel(const tstring &sChannel)
         return;
 
     pHTTPRequest->SetTargetURL(m_sMasterServerURL);
-    pHTTPRequest->AddVariable(L"f", L"remove_room");
-    pHTTPRequest->AddVariable(L"account_id", m_uiAccountID);
-    pHTTPRequest->AddVariable(L"chatroom_name", sChannel);
-    pHTTPRequest->AddVariable(L"cookie", m_sCookie);
+    pHTTPRequest->AddVariable(_T("f"), _T("remove_room"));
+    pHTTPRequest->AddVariable(_T("account_id"), m_uiAccountID);
+    pHTTPRequest->AddVariable(_T("chatroom_name"), sChannel);
+    pHTTPRequest->AddVariable(_T("cookie"), m_sCookie);
     pHTTPRequest->SendPostRequest();
 
     SChatDBRequest *pNewRequest(K2_NEW(ctx_Net,  SChatDBRequest)(pHTTPRequest, REQUEST_REMOVE_CHANNEL, sChannel));
@@ -7795,7 +7795,7 @@ void    CChatManager::RequestUserStatus(const tstring &sName)
 /*====================
   CChatManager::GetAccountIDFromName
   ====================*/
-uint    CChatManager::GetAccountIDFromName(const wstring &sName)
+uint    CChatManager::GetAccountIDFromName(const tstring &sName)
 {
     for (ChatClientMap_it itUser(m_mapUserList.begin()), itEnd(m_mapUserList.end()); itUser != itEnd; ++itUser)
     {
@@ -8065,8 +8065,8 @@ void    CChatManager::AutoCompleteNick(const tstring &sName)
         return;
 
     pHTTPRequest->SetTargetURL(m_sMasterServerURL);
-    pHTTPRequest->AddVariable(L"f", L"autocompleteNicks");
-    pHTTPRequest->AddVariable(L"nickname", sName);
+    pHTTPRequest->AddVariable(_T("f"), _T("autocompleteNicks"));
+    pHTTPRequest->AddVariable(_T("nickname"), sName);
     pHTTPRequest->SendPostRequest();
 
     SChatDBRequest *pNewRequest(K2_NEW(ctx_Net,  SChatDBRequest)(pHTTPRequest, REQUEST_COMPLETE_NICK, sName));
@@ -9668,7 +9668,7 @@ bool    CChatManager::SubmitChatMessage(const tstring &sMessage, uint uiChannelI
                 
                 ChatClientMap_it findit(m_mapUserList.find(m_uiAccountID));
                 
-                const wstring sRollMessage = Translate(_T("chat_roll_message"), _T("player"), findit->second.sName, _T("low"), _T("1"), _T("high"), XtoA(AtoI(vsTokens[1])), _T("number"), XtoA(uiRand));
+                const tstring sRollMessage = Translate(_T("chat_roll_message"), _T("player"), findit->second.sName, _T("low"), _T("1"), _T("high"), XtoA(AtoI(vsTokens[1])), _T("number"), XtoA(uiRand));
                 
                 if (!sRollMessage.empty() && uiChannelID != -1)
                 {
@@ -9691,7 +9691,7 @@ bool    CChatManager::SubmitChatMessage(const tstring &sMessage, uint uiChannelI
                 
                 ChatClientMap_it findit(m_mapUserList.find(m_uiAccountID));
                 
-                const wstring sRollMessage = Translate(_T("chat_roll_message"), _T("player"), findit->second.sName, _T("low"), XtoA(vsTokens[1]), _T("high"), XtoA(vsTokens[2]), _T("number"), XtoA(uiRand));               
+                const tstring sRollMessage = Translate(_T("chat_roll_message"), _T("player"), findit->second.sName, _T("low"), XtoA(vsTokens[1]), _T("high"), XtoA(vsTokens[2]), _T("number"), XtoA(uiRand));
                 
                 if (!sRollMessage.empty() && uiChannelID != -1)
                 {
@@ -9713,7 +9713,7 @@ bool    CChatManager::SubmitChatMessage(const tstring &sMessage, uint uiChannelI
         {       
             ChatClientMap_it findit(m_mapUserList.find(m_uiAccountID));
                         
-            const wstring sEmoteMessage = findit->second.sName + _T(" ") + ConcatinateArgs(vsTokens.begin() + 1, vsTokens.end());
+            const tstring sEmoteMessage = findit->second.sName + _T(" ") + ConcatinateArgs(vsTokens.begin() + 1, vsTokens.end());
             
             if (!sEmoteMessage.empty() && uiChannelID != -1)
             {
@@ -9869,7 +9869,7 @@ bool    CChatManager::SubmitChatMessage(const tstring &sMessage, uint uiChannelI
 /*====================
   CChatManager::UpdateFollow
   ====================*/
-void CChatManager::UpdateFollow(const wstring &sServer)
+void CChatManager::UpdateFollow(const tstring &sServer)
 {
     if (!m_bFollow)
         return;
@@ -10139,7 +10139,7 @@ UI_VOID_CMD(CreateTMMGroup, 1)
 /*====================
   CChatManager::JoinTMMGroup
   ====================*/
-void CChatManager::JoinTMMGroup(const wstring sNickname)
+void CChatManager::JoinTMMGroup(const tstring sNickname)
 {
     CPacket pktSend;
     pktSend << NET_CHAT_CL_TMM_GROUP_JOIN << K2_Version3(K2System.GetVersionString()) << sNickname;
@@ -10235,7 +10235,7 @@ UI_VOID_CMD(LeaveTMMGroup, 0)
 /*====================
   CChatManager::InviteToTMMGroup
   ====================*/
-void CChatManager::InviteToTMMGroup(const wstring sNickname)
+void CChatManager::InviteToTMMGroup(const tstring sNickname)
 {
     CPacket pktSend;
     pktSend << NET_CHAT_CL_TMM_GROUP_INVITE << sNickname;
@@ -10331,7 +10331,7 @@ UI_VOID_CMD(LeaveTMMQueue, 0)
 /*====================
   CChatManager::RejectTMMInvite
   ====================*/
-void CChatManager::RejectTMMInvite(const wstring sNickname)
+void CChatManager::RejectTMMInvite(const tstring sNickname)
 {
     CPacket pktSend;
     pktSend << NET_CHAT_CL_TMM_GROUP_REJECT_INVITE << sNickname;
@@ -11119,7 +11119,7 @@ CMD(ChatPushNotification)
     }
     else
     {
-        Console << L"Notification type specified is > " << NUM_NOTIFICATIONS << ", choose a valid notification type." << newl;
+        Console << _T("Notification type specified is > ") << NUM_NOTIFICATIONS << ", choose a valid notification type." << newl;
         return false;
     }
 }
@@ -11811,7 +11811,7 @@ UI_VOID_CMD(ChatRefreshUpgrades, 0)
 /*====================
   CChatManager::RequestGameInfo
   ====================*/
-void CChatManager::RequestGameInfo(const wstring sNickname)
+void CChatManager::RequestGameInfo(const tstring sNickname)
 {
     CPacket pktSend;
     pktSend << CHAT_CMD_REQUEST_GAME_INFO << sNickname;
@@ -11849,29 +11849,29 @@ UI_VOID_CMD(RequestGameInfo, 1)
   ====================*/
 void CChatManager::HandleRequestGameInfo(CPacket &pkt)
 {
-    const wstring sNickName(pkt.ReadWString());
-    const wstring sGameName(pkt.ReadWString());
-    const wstring sMapName(pkt.ReadWString());
+    const tstring sNickName(pkt.ReadWStringAsTString());
+    const tstring sGameName(pkt.ReadWStringAsTString());
+    const tstring sMapName(pkt.ReadWStringAsTString());
     const byte yGameType(pkt.ReadByte());
-    const wstring sGameModeName(pkt.ReadWString());
-    const wstring sCGT(pkt.ReadWString());
-    const wstring sTeamInfo1(pkt.ReadWString());
-    const wstring sTeamInfo2(pkt.ReadWString());
-    const wstring sPlayerInfo0(pkt.ReadWString());
-    const wstring sPlayerInfo1(pkt.ReadWString());
-    const wstring sPlayerInfo2(pkt.ReadWString());
-    const wstring sPlayerInfo3(pkt.ReadWString());
-    const wstring sPlayerInfo4(pkt.ReadWString());
-    const wstring sPlayerInfo5(pkt.ReadWString());
-    const wstring sPlayerInfo6(pkt.ReadWString());
-    const wstring sPlayerInfo7(pkt.ReadWString());
-    const wstring sPlayerInfo8(pkt.ReadWString());
-    const wstring sPlayerInfo9(pkt.ReadWString());
+    const tstring sGameModeName(pkt.ReadWStringAsTString());
+    const tstring sCGT(pkt.ReadWStringAsTString());
+    const tstring sTeamInfo1(pkt.ReadWStringAsTString());
+    const tstring sTeamInfo2(pkt.ReadWStringAsTString());
+    const tstring sPlayerInfo0(pkt.ReadWStringAsTString());
+    const tstring sPlayerInfo1(pkt.ReadWStringAsTString());
+    const tstring sPlayerInfo2(pkt.ReadWStringAsTString());
+    const tstring sPlayerInfo3(pkt.ReadWStringAsTString());
+    const tstring sPlayerInfo4(pkt.ReadWStringAsTString());
+    const tstring sPlayerInfo5(pkt.ReadWStringAsTString());
+    const tstring sPlayerInfo6(pkt.ReadWStringAsTString());
+    const tstring sPlayerInfo7(pkt.ReadWStringAsTString());
+    const tstring sPlayerInfo8(pkt.ReadWStringAsTString());
+    const tstring sPlayerInfo9(pkt.ReadWStringAsTString());
     
     if (pkt.HasFaults())
         return;
     
-    static wsvector vParams(18);
+    static tsvector vParams(18);
     
     vParams[0] = sNickName;
     vParams[1] = sTeamInfo1;

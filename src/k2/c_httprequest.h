@@ -43,7 +43,7 @@ private:
     CBufferDynamic          m_bufferResponse;
     EHTTPPostStatus         m_eStatus;
     StringPairVector        m_vVariables;
-    wstring                 m_sResponse;
+    tstring                 m_sResponse;
 
     bool                    m_bReleaseOnCompletion;
     uint                    m_uiTimeStamp;
@@ -83,11 +83,11 @@ public:
     inline bool     GetReleaseOnCompletion() const                              { return m_bReleaseOnCompletion; }
 
     inline void     ClearVariables()                                            { m_vVariables.clear(); }
-    inline void     AddVariable(const wstring &sName, const string &sValue)     { m_vVariables.push_back(StringPair(URLEncode(sName), URLEncode(sValue))); }
-    inline void     AddVariable(const wstring &sName, const wstring &sValue)    { m_vVariables.push_back(StringPair(URLEncode(sName), URLEncode(WStringToUTF8(sValue)))); }
-    inline void     AddVariable(const wstring &sName, uint uiVal)               { m_vVariables.push_back(StringPair(URLEncode(sName), URLEncode(XtoS(uiVal)))); }
-    inline void     AddVariable(const wstring &sName, int iVal)                 { m_vVariables.push_back(StringPair(URLEncode(sName), URLEncode(XtoS(iVal)))); }
-    inline void     AddVariable(const wstring &sName, float fVal)               { m_vVariables.push_back(StringPair(URLEncode(sName), URLEncode(XtoS(fVal)))); }
+    inline void     AddVariable(const tstring &sName, const string &sValue)     { m_vVariables.push_back(StringPair(URLEncode(sName), URLEncode(sValue))); }
+    inline void     AddVariable(const tstring &sName, const wstring &sValue)    { m_vVariables.push_back(StringPair(URLEncode(sName), URLEncode(WStringToUTF8(sValue)))); }
+    inline void     AddVariable(const tstring &sName, uint uiVal)               { m_vVariables.push_back(StringPair(URLEncode(sName), URLEncode(XtoS(uiVal)))); }
+    inline void     AddVariable(const tstring &sName, int iVal)                 { m_vVariables.push_back(StringPair(URLEncode(sName), URLEncode(XtoS(iVal)))); }
+    inline void     AddVariable(const tstring &sName, float fVal)               { m_vVariables.push_back(StringPair(URLEncode(sName), URLEncode(XtoS(fVal)))); }
 
     inline void     SetTimeout(uint uiSeconds)                                  { m_uiTimeout = uiSeconds; }
     inline void     SetConnectTimeout(uint uiSeconds)                           { m_uiConnectTimeout = uiSeconds; }
@@ -102,9 +102,9 @@ public:
     K2_API void     Wait();
 
     inline uint             GetNumVariables()                                   { return INT_SIZE(m_vVariables.size()); }
-    inline const wstring&   GetResponse() const                                 { return m_sResponse; }
+    inline const tstring&   GetResponse() const                                 { return m_sResponse; }
     inline EHTTPPostStatus  GetStatus() const                                   { return m_eStatus; }
-    inline wstring          GetErrorBuffer() const                              { return m_pErrorBuffer ? SingleToWide(m_pErrorBuffer) : WSNULL; }
+    inline tstring          GetErrorBuffer() const                              { return m_pErrorBuffer ? StringToTString(m_pErrorBuffer) : TSNULL; }
 
     inline bool     IsActive() const                                            { return m_eStatus == HTTP_REQUEST_SENDING; }
     inline bool     WasSuccessful() const                                       { return m_eStatus == HTTP_REQUEST_SUCCESS; }

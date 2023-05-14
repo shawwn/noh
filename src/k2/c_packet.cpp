@@ -461,6 +461,15 @@ string  CPacket::ReadString(const string &sFailed)
 
 
 /*====================
+  CPacket::ReadStringAsTString
+  ====================*/
+tstring  CPacket::ReadStringAsTString(const tstring &sFailed)
+{
+    return std::move(StringToTString(ReadString(TStringToString(sFailed))));
+}
+
+
+/*====================
   CPacket::ReadWString
   ====================*/
 wstring CPacket::ReadWString(const wstring &sFailed)
@@ -475,6 +484,14 @@ wstring CPacket::ReadWString(const wstring &sFailed)
     uint uiPos(m_Buffer.GetReadPos());
     m_Buffer.Seek(uiEnd + 1);
     return UTF8ToWString(m_Buffer.Get(uiPos));
+}
+
+/*====================
+  CPacket::ReadWStringAsTString
+  ====================*/
+tstring CPacket::ReadWStringAsTString(const tstring &sFailed)
+{
+    return std::move(WStringToTString(ReadWString(TStringToWString(sFailed))));
 }
 
 

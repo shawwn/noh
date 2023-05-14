@@ -177,7 +177,7 @@ UI_VOID_CMD(For, 4)
 
                 while(zFound != -1)
                 {
-                    sTmp.replace(zFound, size_t(6), XtoW(i));
+                    sTmp.replace(zFound, size_t(6), XtoA(i));
                     zStringPos = zFound;
                     zFound = sTmp.find(_T("iParam"), zStringPos);
                 }
@@ -195,7 +195,7 @@ UI_VOID_CMD(For, 4)
 
                 while(zFound != -1)
                 {
-                    sTmp.replace(zFound, size_t(6), XtoW(i));
+                    sTmp.replace(zFound, size_t(6), XtoA(i));
                     zStringPos = zFound;
                     zFound = sTmp.find(_T("iParam"), zStringPos);
                 }
@@ -290,7 +290,7 @@ UI_VOID_CMD(ExplodeString, 3)
     while (iFoundTimes < sList.length() + 1)
     {
         sNameTmp = sVariable;
-        sNameTmp += XtoW(iFoundTimes);
+        sNameTmp += XtoA(iFoundTimes);
 
         sValueTmp = sList.substr(stLastPosition, (stPosition == -1) ? (sList.length() - stLastPosition) : (stPosition - stLastPosition));
 
@@ -324,7 +324,7 @@ UI_VOID_CMD(ExplodeInt, 3)
     while (iFoundTimes < sList.length() + 1)
     {
         sNameTmp = sVariable;
-        sNameTmp += XtoW(iFoundTimes);
+        sNameTmp += XtoA(iFoundTimes);
 
         sValueTmp = sList.substr(stLastPosition, (stPosition == -1) ? (sList.length() - stLastPosition) : (stPosition - stLastPosition));
 
@@ -358,7 +358,7 @@ UI_VOID_CMD(ExplodeUInt, 3)
     while (iFoundTimes < sList.length() + 1)
     {
         sNameTmp = sVariable;
-        sNameTmp += XtoW(iFoundTimes);
+        sNameTmp += XtoA(iFoundTimes);
 
         sValueTmp = sList.substr(stLastPosition, (stPosition == -1) ? (sList.length() - stLastPosition) : (stPosition - stLastPosition));
 
@@ -392,7 +392,7 @@ UI_VOID_CMD(ExplodeFloat, 3)
     while (iFoundTimes < sList.length() + 1)
     {
         sNameTmp = sVariable;
-        sNameTmp += XtoW(iFoundTimes);
+        sNameTmp += XtoA(iFoundTimes);
 
         sValueTmp = sList.substr(stLastPosition, (stPosition == -1) ? (sList.length() - stLastPosition) : (stPosition - stLastPosition));
 
@@ -425,8 +425,7 @@ UI_VOID_CMD(ExplodeBool, 3)
 
     while (iFoundTimes < sList.length() + 1)
     {
-        sNameTmp = sVariable;
-        sNameTmp += XtoW(iFoundTimes);
+        sNameTmp += XtoA(iFoundTimes);
 
         sValueTmp = sList.substr(stLastPosition, (stPosition == -1) ? (sList.length() - stLastPosition) : (stPosition - stLastPosition));
 
@@ -1138,14 +1137,14 @@ UI_CMD(FilenameGetName, 1)
 UI_CMD(GetWidgetAbsoluteFractionX, 2)
 {
     if (pThis == NULL || pThis->GetInterface() == NULL)
-        return _CWS("0");
+        return _CTS("0");
 
     tstring sWidgetName(vArgList[0]->Evaluate());
     IWidget *pWidget(pThis->GetInterface()->GetWidget(sWidgetName));
     if (pWidget == NULL)
     {
         Console << _T("Widget ") << SingleQuoteStr(sWidgetName) << _T(" not found") << newl;
-        return _CWS("0");
+        return _CTS("0");
     }
 
     return XtoA(pWidget->GetAbsoluteFractionX(AtoF(vArgList[1]->Evaluate())));
@@ -1158,14 +1157,14 @@ UI_CMD(GetWidgetAbsoluteFractionX, 2)
 UI_CMD(GetWidgetAbsoluteFractionY, 2)
 {
     if (pThis == NULL || pThis->GetInterface() == NULL)
-        return _CWS("0");
+        return _CTS("0");
 
     tstring sWidgetName(vArgList[0]->Evaluate());
     IWidget *pWidget(pThis->GetInterface()->GetWidget(sWidgetName));
     if (pWidget == NULL)
     {
         Console << _T("Widget ") << SingleQuoteStr(sWidgetName) << _T(" not found") << newl;
-        return _CWS("0");
+        return _CTS("0");
     }
 
     return XtoA(pWidget->GetAbsoluteFractionY(AtoF(vArgList[1]->Evaluate())));

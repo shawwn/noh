@@ -48,11 +48,11 @@ namespace XMLInterface
             pForm->SetTargetURI(node.GetProperty(_T("target")));
             pForm->SetStatusTrigger(node.GetProperty(_T("statustrigger")));
             pForm->SetResultTrigger(node.GetProperty(_T("resulttrigger")));
-            if (StringCompare(node.GetProperty(L"method"), L"get") == 0)
+            if (StringCompare(node.GetProperty(_T("method")), _T("get")) == 0)
                 pForm->SetMethod(FORM_METHOD_GET);
-            else if (StringCompare(node.GetProperty(L"method"), L"post") == 0)
+            else if (StringCompare(node.GetProperty(_T("method")), _T("post")) == 0)
                 pForm->SetMethod(FORM_METHOD_POST);
-            pForm->SetUseSSL(node.GetPropertyBool(L"ssl"));
+            pForm->SetUseSSL(node.GetPropertyBool(_T("ssl")));
 
             tstring sParam;
             for (uint ui(0); ui <= 199; ++ui)

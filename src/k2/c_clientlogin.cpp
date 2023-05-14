@@ -138,7 +138,7 @@ void    CClientAccount::Disconnect(const tstring &sReason, EClientLoginStatus eS
     m_iAccountType = 0;
     m_iTrialStatus = 0;
     m_sCookie.clear();
-    m_sNick = L"UnnamedNewbie";
+    m_sNick = _T("UnnamedNewbie");
     m_sClanName.clear();
     m_sClanTag.clear();
     m_sEmail.clear();
@@ -173,7 +173,7 @@ void    CClientAccount::Disconnect(const tstring &sReason, EClientLoginStatus eS
   ====================*/
 void    CClientAccount::Cancel()
 {
-    Disconnect(L"Canceled");
+    Disconnect(_T("Canceled"));
     m_eStatus = CLIENT_LOGIN_OFFLINE;
     m_eChangePasswordStatus = CLIENT_CHANGE_PASSWORD_UNUSED;
 }
@@ -189,12 +189,12 @@ void    CClientAccount::Logout()
         return;
 
     pLogoutRequest->SetTargetURL(K2System.GetMasterServerAddress() + "/client_requester.php");
-    pLogoutRequest->AddVariable(L"f", L"logout");
-    pLogoutRequest->AddVariable(L"cookie", m_sCookie);
+    pLogoutRequest->AddVariable(_T("f"), _T("logout"));
+    pLogoutRequest->AddVariable(_T("cookie"), m_sCookie);
     pLogoutRequest->SetReleaseOnCompletion(true);
     pLogoutRequest->SendPostRequest();
 
-    Disconnect(L"Logged out");
+    Disconnect(_T("Logged out"));
     m_eStatus = CLIENT_LOGIN_OFFLINE;
     m_eChangePasswordStatus = CLIENT_CHANGE_PASSWORD_UNUSED;
 }
@@ -212,7 +212,7 @@ void    CClientAccount::Connect(const tstring &sUser, const tstring &sPassword)
 #ifndef K2_GARENA
     if (sUser.empty() || sPassword.empty())
     {
-        Console << L"No username or password specified" << newl;
+        Console << _T("No username or password specified") << newl;
         return;
     }
 #endif
@@ -223,7 +223,7 @@ void    CClientAccount::Connect(const tstring &sUser, const tstring &sPassword)
     m_iAccountType = 0;
     m_iTrialStatus = 0;
     m_sCookie.clear();
-    m_sNick = L"UnnamedNewbie";
+    m_sNick = _T("UnnamedNewbie");
     m_sEmail.clear();
     m_setAvailableUpgrades.clear();
     m_mapSelectedUpgrades.clear();
@@ -247,13 +247,13 @@ void    CClientAccount::Connect(const tstring &sUser, const tstring &sPassword)
             return;
 
         m_pPreAuthRequest->SetTargetURL(K2System.GetMasterServerAddress() + "/client_requester.php");
-        m_pPreAuthRequest->AddVariable(L"f", L"pre_auth");
-        m_pPreAuthRequest->AddVariable(L"login", sUser);
-        m_pPreAuthRequest->AddVariable(L"A", sA);
+        m_pPreAuthRequest->AddVariable(_T("f"), _T("pre_auth"));
+        m_pPreAuthRequest->AddVariable(_T("login"), sUser);
+        m_pPreAuthRequest->AddVariable(_T("A"), sA);
 #ifdef WIN32
-        m_pPreAuthRequest->AddVariable(L"SysInfo", "running on windows");
+        m_pPreAuthRequest->AddVariable(_T("SysInfo"), "running on windows");
 #else
-        m_pPreAuthRequest->AddVariable(L"SysInfo", "not running on windows");
+        m_pPreAuthRequest->AddVariable(_T("SysInfo"), "not running on windows");
 #endif
 
         m_pPreAuthRequest->SetTimeout(0);
@@ -272,12 +272,12 @@ void    CClientAccount::Connect(const tstring &sUser, const tstring &sPassword)
         m_pAuthRequest->SetTargetURL(K2System.GetMasterServerAddress() + "/client_requester.php");
 
 #ifdef K2_GARENA
-        m_pAuthRequest->AddVariable(L"f", L"token_auth");
-        m_pAuthRequest->AddVariable(L"token", sToken);
+        m_pAuthRequest->AddVariable(_T("f"), _T("token_auth"));
+        m_pAuthRequest->AddVariable(_T("token"), sToken);
 #else
-        m_pAuthRequest->AddVariable(L"f", L"auth");
-        m_pAuthRequest->AddVariable(L"login", sUser);
-        m_pAuthRequest->AddVariable(L"password", sPassword);
+        m_pAuthRequest->AddVariable(_T("f"), _T("auth"));
+        m_pAuthRequest->AddVariable(_T("login"), sUser);
+        m_pAuthRequest->AddVariable(_T("password"), sPassword);
 #endif
 
         m_pAuthRequest->SetTimeout(0);
@@ -312,11 +312,11 @@ void    CClientAccount::ChangePassword(const tstring &sUser, const tstring &sOld
     if (m_pChangePasswordRequest == NULL)
         return;
 
-    m_pChangePasswordRequest->SetTargetURL(L"www.heroesofnewerth.com/clientPassUpdate.php");
-    m_pChangePasswordRequest->AddVariable(L"username", sUser);
-    m_pChangePasswordRequest->AddVariable(L"old_password", sOldPassword);
-    m_pChangePasswordRequest->AddVariable(L"new_password", sNewPassword);
-    m_pChangePasswordRequest->AddVariable(L"confirm_password", sConfirmPassword);
+    m_pChangePasswordRequest->SetTargetURL(_T("www.heroesofnewerth.com/clientPassUpdate.php"));
+    m_pChangePasswordRequest->AddVariable(_T("username"), sUser);
+    m_pChangePasswordRequest->AddVariable(_T("old_password"), sOldPassword);
+    m_pChangePasswordRequest->AddVariable(_T("new_password"), sNewPassword);
+    m_pChangePasswordRequest->AddVariable(_T("confirm_password"), sConfirmPassword);
     
     m_pChangePasswordRequest->SetTimeout(0);
     m_pChangePasswordRequest->SetConnectTimeout(0);
@@ -343,7 +343,7 @@ void    CClientAccount::Frame()
         else
         {
             Disconnect(_T("Connection failed"));
-            ClientLoginError.Trigger(L"1");
+            ClientLoginError.Trigger(_T("1"));
         }
 
         m_pHTTPManager->ReleaseRequest(m_pPreAuthRequest);
@@ -359,7 +359,7 @@ void    CClientAccount::Frame()
         else
         {
             Disconnect(_T("Connection failed"));
-            ClientLoginError.Trigger(L"1");
+            ClientLoginError.Trigger(_T("1"));
         }
 
         m_pHTTPManager->ReleaseRequest(m_pAuthRequest);
@@ -522,10 +522,10 @@ void    CClientAccount::ProcessLoginPreAuth(const tstring &sResponse)
     m_pAuthRequest->SetTargetURL(K2System.GetMasterServerAddress() + "/client_requester.php");
 
     tstring sUser(m_pSRP->GetUsername());
-    m_pAuthRequest->AddVariable(L"f", L"srpAuth");
-    m_pAuthRequest->AddVariable(L"login", sUser);
-    m_pAuthRequest->AddVariable(L"proof", sProof);
-    m_pAuthRequest->AddVariable(L"SysInfo", L"0");
+    m_pAuthRequest->AddVariable(_T("f"), _T("srpAuth"));
+    m_pAuthRequest->AddVariable(_T("login"), sUser);
+    m_pAuthRequest->AddVariable(_T("proof"), sProof);
+    m_pAuthRequest->AddVariable(_T("SysInfo"), _T("0"));
 
     m_pAuthRequest->SetTimeout(0);
     m_pAuthRequest->SetConnectTimeout(0);
@@ -570,7 +570,7 @@ void    CClientAccount::ProcessLoginResponse(const tstring &sResponse)
     
     if (!phpResponse.GetString(_T("garena_auth")).empty())
     {
-        wstring sResponse(phpResponse.GetString(L"garena_auth"));
+        tstring sResponse(phpResponse.GetString(_T("garena_auth")));
         GarenaClientLoginResponse.Trigger(sResponse);
         Disconnect(sResponse);
         return;
@@ -589,7 +589,7 @@ void    CClientAccount::ProcessLoginResponse(const tstring &sResponse)
         tsvector vParams(3);
         vParams[0] = _T("1");
         vParams[1] = XtoA(m_uiAccountID);   
-        vParams[2] = phpResponse.GetString(L"nickname");
+        vParams[2] = phpResponse.GetString(_T("nickname"));
         ClientLoginMustPurchase.Trigger(vParams);
         Disconnect(phpResponse.GetString(_T("auth")));
         return;
@@ -601,34 +601,34 @@ void    CClientAccount::ProcessLoginResponse(const tstring &sResponse)
         tsvector vParams(3);
         vParams[0] = _T("1");
         vParams[1] = XtoA(m_uiAccountID);   
-        vParams[2] = phpResponse.GetString(L"nickname");
+        vParams[2] = phpResponse.GetString(_T("nickname"));
         ClientLoginMustPurchase.Trigger(vParams);
         Disconnect(phpResponse.GetString(_T("auth")));
         return;
     }           
 
     // Authed successfully and got our data.
-    m_iAccountType = phpResponse.GetInteger(L"account_type", -1);
+    m_iAccountType = phpResponse.GetInteger(_T("account_type"), -1);
     if (_testTrialAccount)
         m_iAccountType = 1;
 
     // MikeG Trial Account info
     if (m_iAccountType == 1)
     {
-        m_iTrialStatus = phpResponse.GetInteger(L"trial", CLIENT_TRIAL_NONE);
+        m_iTrialStatus = phpResponse.GetInteger(_T("trial"), CLIENT_TRIAL_NONE);
         tsvector vParams(3);
         vParams[0] = _T("0"); // dont pop up the add just fill in the name.
         vParams[1] = XtoA(m_uiAccountID);   
-        vParams[2] = phpResponse.GetString(L"nickname");
+        vParams[2] = phpResponse.GetString(_T("nickname"));
         ClientLoginMustPurchase.Trigger(vParams);
     }
     else
         m_iTrialStatus = CLIENT_TRIAL_NONE;
 
-    m_sNick = phpResponse.GetString(L"nickname");
-    m_sEmail = phpResponse.GetString(L"email");
-    m_sIP = phpResponse.GetString(L"ip");
-    m_sCookie = phpResponse.GetString(L"cookie");
+    m_sNick = phpResponse.GetString(_T("nickname"));
+    m_sEmail = phpResponse.GetString(_T("email"));
+    m_sIP = phpResponse.GetString(_T("ip"));
+    m_sCookie = phpResponse.GetString(_T("cookie"));
     
     // pass_exp null, no passchange needed, 
     // pass_exp > 0 show the passchange dialogue
@@ -903,7 +903,7 @@ void    CClientAccount::ProcessLoginResponse(const tstring &sResponse)
     }
 
     // Check Reconnect
-    Console.ExecuteScript(_CWS("~/reconnect.cfg"));
+    Console.ExecuteScript(_CTS("~/reconnect.cfg"));
     Host.GetActiveClient()->SetReconnect(cl_reconnectAddress, cl_reconnectMatchID); 
 
     //phpResponse.Print();
@@ -1175,11 +1175,11 @@ void    CClientAccount::SendSelectUpgradesRequest()
         return;
 
     m_pSelectUpgradesRequest->SetTargetURL(K2System.GetMasterServerAddress() + "/client_requester.php");
-    m_pSelectUpgradesRequest->AddVariable(L"f", L"selected_upgrades");
-    m_pSelectUpgradesRequest->AddVariable(L"cookie", m_sCookie);
+    m_pSelectUpgradesRequest->AddVariable(_T("f"), _T("selected_upgrades"));
+    m_pSelectUpgradesRequest->AddVariable(_T("cookie"), m_sCookie);
 
     for (tsmapts_it it(m_mapSelectedUpgrades.begin()); it != m_mapSelectedUpgrades.end(); ++it)
-        m_pSelectUpgradesRequest->AddVariable(L"selected_upgrades[]", Upgrade_GetName(it->second));
+        m_pSelectUpgradesRequest->AddVariable(_T("selected_upgrades[]"), Upgrade_GetName(it->second));
     
     m_pSelectUpgradesRequest->SendPostRequest();
 }
@@ -1284,8 +1284,8 @@ void    CClientAccount::RefreshUpgrades()
         return;
 
     m_pRefreshUpgradesRequest->SetTargetURL(K2System.GetMasterServerAddress() + "/client_requester.php");
-    m_pRefreshUpgradesRequest->AddVariable(L"f", L"get_upgrades");
-    m_pRefreshUpgradesRequest->AddVariable(L"cookie", m_sCookie);
+    m_pRefreshUpgradesRequest->AddVariable(_T("f"), _T("get_upgrades"));
+    m_pRefreshUpgradesRequest->AddVariable(_T("cookie"), m_sCookie);
     m_pRefreshUpgradesRequest->SendPostRequest();
 }
 
@@ -1301,8 +1301,8 @@ void    CClientAccount::RefreshInfos()
         return;
 
     m_pRefreshInfosRequest->SetTargetURL(K2System.GetMasterServerAddress() + "/client_requester.php");
-    m_pRefreshInfosRequest->AddVariable(L"f", L"get_initStats");
-    m_pRefreshInfosRequest->AddVariable(L"cookie", m_sCookie);
+    m_pRefreshInfosRequest->AddVariable(_T("f"), _T("get_initStats"));
+    m_pRefreshInfosRequest->AddVariable(_T("cookie"), m_sCookie);
     m_pRefreshInfosRequest->SendPostRequest();
 }
 
@@ -1559,7 +1559,7 @@ UI_VOID_CMD(CheckReconnect, 0)
     Host.GetActiveClient()->CheckReconnect();
 
 #if 0   //Moved to CheckReconnect
-    Console.ExecuteScript(_CWS("~/reconnect.cfg"));
+    Console.ExecuteScript(_CTS("~/reconnect.cfg"));
 #endif
 }
 
@@ -1569,21 +1569,21 @@ UI_VOID_CMD(CheckReconnect, 0)
   --------------------*/
 UI_VOID_CMD(SaveLoginInfo, 0)
 {
-    CFileHandle hFile(_CWS("~/login.cfg"), FILE_WRITE | FILE_TEXT | FILE_TRUNCATE);
+    CFileHandle hFile(_CTS("~/login.cfg"), FILE_WRITE | FILE_TEXT | FILE_TRUNCATE);
     if (!hFile.IsOpen())
         return;
 
-    hFile << _CWS("// *** DO NOT EVER SHARE THIS FILE WITH ANYONE *** ") << newl;
-    hFile << _CWS("// *** S2 STAFF WILL NOT ASK FOR THIS FILE *** ") << newl;
-    hFile << _CWS("// *** EVEN THOUGH YOUR PASSWORD IS NOT VISIBLE *** ") << newl;
-    hFile << _CWS("// *** THIS INFORMATION CAN BE USED TO STEAL YOUR ACCOUNT *** ") << newl;
+    hFile << _CTS("// *** DO NOT EVER SHARE THIS FILE WITH ANYONE *** ") << newl;
+    hFile << _CTS("// *** S2 STAFF WILL NOT ASK FOR THIS FILE *** ") << newl;
+    hFile << _CTS("// *** EVEN THOUGH YOUR PASSWORD IS NOT VISIBLE *** ") << newl;
+    hFile << _CTS("// *** THIS INFORMATION CAN BE USED TO STEAL YOUR ACCOUNT *** ") << newl;
 
-    hFile << _CWS("login_rememberName ") << login_rememberName << newl;
+    hFile << _CTS("login_rememberName ") << login_rememberName << newl;
     if (login_rememberName)
-        hFile << _CWS("login_name ") << login_name << newl;
-    hFile << _CWS("login_rememberPassword ") << login_rememberPassword << newl;
+        hFile << _CTS("login_name ") << login_name << newl;
+    hFile << _CTS("login_rememberPassword ") << login_rememberPassword << newl;
     if (login_rememberPassword)
-        hFile << _CWS("login_password ") << login_password << newl;
+        hFile << _CTS("login_password ") << login_password << newl;
 }
 
 
@@ -1626,7 +1626,7 @@ UI_CMD(IsTrialAccount, 0)
 {
     CHostClient *pClient(Host.GetActiveClient());
     if (pClient == NULL)
-        return WSNULL;
+        return TSNULL;
         
     return XtoA(pClient->GetAccount().GetAccountType() == 1);
 }

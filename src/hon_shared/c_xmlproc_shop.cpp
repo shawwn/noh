@@ -11,10 +11,6 @@
 #include "i_shopentity.h"
 #include "c_shopdefinition.h"
 
-#include "i_entitystate.h"
-#include "c_statedefinition.h"
-
-#include "../k2/i_xmlprocessor.h"
 #include "../k2/c_xmlprocroot.h"
 //=============================================================================
 

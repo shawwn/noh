@@ -77,7 +77,7 @@ private:
 
     bool            m_bMuted;
 
-    CVoiceUser();
+    CVoiceUser() {}
 
 public:
     CVoiceUser(uint uiClientNum, bool bMuted);

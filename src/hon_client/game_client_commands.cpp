@@ -924,7 +924,7 @@ bool    HandleGameSlashCommands(const tstring sText)
             {               
                 const uint uiRand(M_Randnum(1, AtoI(vsTokens[1])));
                 
-                const wstring sRollMessage = ChatManager.Translate(_T("chat_roll_message"), _T("player"), Game.GetLocalPlayer()->GetName(), _T("low"), _T("1"), _T("high"), XtoA(AtoI(vsTokens[1])), _T("number"), XtoA(uiRand));
+                const tstring sRollMessage = ChatManager.Translate(_T("chat_roll_message"), _T("player"), Game.GetLocalPlayer()->GetName(), _T("low"), _T("1"), _T("high"), XtoA(AtoI(vsTokens[1])), _T("number"), XtoA(uiRand));
                 
                 if (!sRollMessage.empty())
                 {                   
@@ -950,7 +950,7 @@ bool    HandleGameSlashCommands(const tstring sText)
         
             const uint uiRand(M_Randnum(AtoI(vsTokens[1]), AtoI(vsTokens[2])));
             
-            const wstring sRollMessage = ChatManager.Translate(_T("chat_roll_message"), _T("player"), Game.GetLocalPlayer()->GetName(), _T("low"), XtoA(AtoI(vsTokens[1])), _T("high"), XtoA(AtoI(vsTokens[2])), _T("number"), XtoA(uiRand));
+            const tstring sRollMessage = ChatManager.Translate(_T("chat_roll_message"), _T("player"), Game.GetLocalPlayer()->GetName(), _T("low"), XtoA(AtoI(vsTokens[1])), _T("high"), XtoA(AtoI(vsTokens[2])), _T("number"), XtoA(uiRand));
             
             if (!sRollMessage.empty())
             {
@@ -977,7 +977,7 @@ bool    HandleGameSlashCommands(const tstring sText)
 
         if (vsTokens.size() >= 2)
         {       
-            const wstring sEmoteMessage = Game.GetLocalPlayer()->GetName() + _T(" ") + ConcatinateArgs(vsTokens.begin() + 1, vsTokens.end());
+            const tstring sEmoteMessage = Game.GetLocalPlayer()->GetName() + _T(" ") + ConcatinateArgs(vsTokens.begin() + 1, vsTokens.end());
                         
             if (!sEmoteMessage.empty())
             {
@@ -1156,8 +1156,8 @@ bool    HandleGameSlashCommands(const tstring sText)
 
         if (vsTokens.size() >= 2)
         {
-            const wstring  sWeatherName(ConcatinateArgs(vsTokens.begin() + 1, vsTokens.end()));
-            const wstring& sWeatherLower(LowerString(sWeatherName));
+            const tstring  sWeatherName(ConcatinateArgs(vsTokens.begin() + 1, vsTokens.end()));
+            const tstring& sWeatherLower(LowerString(sWeatherName));
             for (size_t i(0); i < vWeather.size(); ++i)
             {
                 SWeatherInfo& cInfo(vWeather[i]);
@@ -3042,17 +3042,17 @@ UI_VOID_CMD(AddItemTypes, 1)
 
 #define WRITE_STRING(def, name, tag) \
 if (def != NULL && (bWriteEmpty || def->Get##name##Index() != INVALID_INDEX)) \
-    hFile << TabPad(sName + _CWS(#tag), zTabStop, zColumnOffset) << EscapeWhiteSpace(def->Get##name()) << newl;
+    hFile << TabPad(sName + _CTS(#tag), zTabStop, zColumnOffset) << EscapeWhiteSpace(def->Get##name()) << newl;
 
 #define WRITE_STRING_MOD(basedef, def, name, tag) \
 if (def != NULL && (bWriteEmpty || def->Get##name##Index() != INVALID_INDEX) && def->Get##name() != basedef->Get##name()) \
-    hFile << TabPad(sName + _CWS(#tag _T(":")) + sModifierName, zTabStop, zColumnOffset) << EscapeWhiteSpace(def->Get##name()) << newl;
+    hFile << TabPad(sName + _CTS(#tag _T(":")) + sModifierName, zTabStop, zColumnOffset) << EscapeWhiteSpace(def->Get##name()) << newl;
 
 #define WRITE_SCRIPT_STRING_NO_MOD \
-hFile << TabPad(sName + _CWS("_") + GetActionScriptName(iScript) + _CWS("_effect"), zTabStop, zColumnOffset) << EscapeWhiteSpace(pScript->GetEffectDescription()) << newl;
+hFile << TabPad(sName + _CTS("_") + GetActionScriptName(iScript) + _CTS("_effect"), zTabStop, zColumnOffset) << EscapeWhiteSpace(pScript->GetEffectDescription()) << newl;
 
 #define WRITE_SCRIPT_STRING_MOD \
-hFile << TabPad(sName + _CWS("_") + GetActionScriptName(iScript) + _CWS("_effect:") + sModifierName, zTabStop, zColumnOffset) << EscapeWhiteSpace(pScript->GetEffectDescription()) << newl;
+hFile << TabPad(sName + _CTS("_") + GetActionScriptName(iScript) + _CTS("_effect:") + sModifierName, zTabStop, zColumnOffset) << EscapeWhiteSpace(pScript->GetEffectDescription()) << newl;
 
 #define WRITE_SCRIPT_STRINGS(basedef, def, mod) \
 for (int iScript(0); iScript < NUM_ACTION_SCRIPTS; ++iScript) \
@@ -3086,15 +3086,15 @@ CMD(GenerateEntityStringTable)
     GameClient.AddResourceToLoadingQueue(CLIENT_RESOURCE_ENTITY_STRING_TABLE, _T("/stringtables/entities.str"), RES_STRINGTABLE);
     GameClient.LoadNextResource();
 
-    CFileHandle hFile(_CWS("/stringtables/entities_") + ICvar::GetString(_CWS("host_language")) + _CWS(".str"), FILE_WRITE | FILE_TEXT | FILE_UTF16);
+    CFileHandle hFile(_CTS("/stringtables/entities_") + ICvar::GetString(_CTS("host_language")) + _CTS(".str"), FILE_WRITE | FILE_TEXT | FILE_UTF16);
     if (!hFile.IsOpen())
         return false;
 
-    GameClient.RegisterGameMechanics(_CWS("/base.gamemechanics"));
+    GameClient.RegisterGameMechanics(_CTS("/base.gamemechanics"));
     GameClient.FetchGameMechanics();
     CGameMechanics *pGameMechanics(GameClient.GetGameMechanics());
     if (pGameMechanics == NULL)
-        Console.Err << _CWS("Missing game mechanics!") << newl;
+        Console.Err << _CTS("Missing game mechanics!") << newl;
     else
         pGameMechanics->WriteStringTable(hFile, zTabStop, zColumnOffset);
 
@@ -3118,7 +3118,7 @@ CMD(GenerateEntityStringTable)
             const tstring &sName(pShopDefinition->GetName());
 
             // Base definition
-            hFile << _CWS("// ") << sName << newl;
+            hFile << _CTS("// ") << sName << newl;
 
             WRITE_STRING(pShopDefinition, DisplayName, _name)
             WRITE_STRING(pShopDefinition, Description, _description)
@@ -3134,7 +3134,7 @@ CMD(GenerateEntityStringTable)
             const tstring &sName(pUnitDefinition->GetName());
 
             // Base definition
-            hFile << _CWS("// ") << sName << newl;
+            hFile << _CTS("// ") << sName << newl;
 
             WRITE_STRING(pUnitDefinition, DisplayName, _name)
             WRITE_STRING(pUnitDefinition, Description, _description)
@@ -3170,7 +3170,7 @@ CMD(GenerateEntityStringTable)
             const tstring &sName(pSlaveDefinition->GetName());
 
             // Base definitions
-            hFile << _CWS("// ") << sName << newl;
+            hFile << _CTS("// ") << sName << newl;
             WRITE_STRING(pSlaveDefinition, DisplayName, _name)
             WRITE_STRING(pSlaveDefinition, Description, _description)
             WRITE_STRING(pSlaveDefinition, Description2, _description2)
@@ -3456,7 +3456,7 @@ UI_CMD(GetModifier1, 0)
 {
     CClientCommander *pCommander(GameClient.GetClientCommander());
     if (pCommander == NULL)
-        return _CWS("false");
+        return _CTS("false");
     else
         return XtoA(pCommander->GetModifier1());
 }
@@ -3469,7 +3469,7 @@ UI_CMD(GetModifier2, 0)
 {
     CClientCommander *pCommander(GameClient.GetClientCommander());
     if (pCommander == NULL)
-        return _CWS("false");
+        return _CTS("false");
     else
         return XtoA(pCommander->GetModifier2());
 }
@@ -3482,7 +3482,7 @@ UI_CMD(GetModifier3, 0)
 {
     CClientCommander *pCommander(GameClient.GetClientCommander());
     if (pCommander == NULL)
-        return _CWS("false");
+        return _CTS("false");
     else
         return XtoA(pCommander->GetModifier3());
 }
@@ -3602,12 +3602,12 @@ CMD(SendScriptMessage)
   --------------------*/
 UI_CMD(StripClanTag, 1)
 {
-    const wstring &sName(vArgList[0]->Evaluate());
-    if (sName.empty() || sName[0] != L'[')
+    const tstring &sName(vArgList[0]->Evaluate());
+    if (sName.empty() || sName[0] != _T('['))
         return sName;
 
-    const size_t zPos(sName.find(L"]"));
-    if (zPos == wstring::npos)
+    const size_t zPos(sName.find(_T("]")));
+    if (zPos == tstring::npos)
         return sName;
 
     return sName.substr(zPos + 1);
@@ -3738,7 +3738,7 @@ CMD(TestAltAnnouncement)
     }
     else if (vArgList.size() == 3)
     {
-        wsvector vMiniParams(2);
+        tsvector vMiniParams(2);
         vMiniParams[0] = vArgList[1];
         vMiniParams[1] = vArgList[2];
         
@@ -3761,7 +3761,7 @@ UI_CMD(GetPing, 0)
     CPlayer *pPlayer(Game.GetLocalPlayer());
     
     if (pPlayer == NULL)
-        return L"";
+        return TSNULL;
     else
         return XtoA(pPlayer->GetPing());
 }

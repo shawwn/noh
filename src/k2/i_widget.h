@@ -300,7 +300,7 @@ public: \
     bool                    Is##name() const    { return true; } \
     class type*             GetAs##name()       { return this; } \
     const class type*       GetAs##name() const { return this; } \
-    static const tstring&   GetBaseTypeName()   { static const tstring sBaseTypeName(_CWS(#name)); return sBaseTypeName; }
+    static const tstring&   GetBaseTypeName()   { static const tstring sBaseTypeName(_CTS(#name)); return sBaseTypeName; }
 //=============================================================================
 
 //=============================================================================
@@ -380,7 +380,7 @@ protected:
     IWidget*            m_pParent;
     CInterface*         m_pInterface;
     uint                m_uiID;
-    wstring             m_sName;
+    tstring             m_sName;
     tstring             m_sGroupName;
     tstring             m_sResourceContext;
     float               m_fPadding;
@@ -493,7 +493,7 @@ public:
     uint                GetID() const                                   { return m_uiID; }
     void                SetID(uint uiID)                                { m_uiID = uiID; }
 
-    const wstring&      GetName() const                                 { return m_sName; }
+    const tstring&      GetName() const                                 { return m_sName; }
     void                SetName(const tstring &sName)                   { m_sName = sName; }
     const tstring&      GetGroupName() const                            { return m_sGroupName; }
 

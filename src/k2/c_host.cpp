@@ -1708,6 +1708,6 @@ UI_VOID_CMD(SetLanguage, 1)
   --------------------*/
 UI_CMD(GetFPS, 0)
 {   
-    return XtoA(INT_ROUND(1.0f / ((Host.GetSystemTime() - Host.GetLastSystemTime()) / 1000.0f))) + L" FPS";
+    return XtoA(INT_ROUND(1.0f / ((Host.GetSystemTime() - Host.GetLastSystemTime()) / 1000.0f))) + _T(" FPS");
 }
 

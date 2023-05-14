@@ -324,9 +324,9 @@ ENT_DEF_TEMPORAL_ARRAY_PROPERTY(name##PerCharge, type)
 #define PRECACHE_LOCALIZED_STRING(name, tag) \
 Set##name(INVALID_INDEX); \
 if (GetModifierID() != INVALID_INDEX) \
-    Set##name(Game.GetEntityStringIndex(GetName() + _CWS("_" _T(#tag) _T(":")) + EntityRegistry.LookupModifierKey(GetModifierID()))); \
+    Set##name(Game.GetEntityStringIndex(GetName() + _CTS("_" _T(#tag) _T(":")) + EntityRegistry.LookupModifierKey(GetModifierID()))); \
 if (Get##name##Index() == INVALID_INDEX) \
-    Set##name(Game.GetEntityStringIndex(GetName() + _CWS("_" _T(#tag)))); \
+    Set##name(Game.GetEntityStringIndex(GetName() + _CTS("_" _T(#tag)))); \
 
 // PRECACHE_ENTITY_ARRAY
 #define PRECACHE_ENTITY_ARRAY(n, e, m) \
@@ -415,9 +415,9 @@ namespace XML##type \
 
 // READ_ENTITY_DEFINITION_PROPERTY
 #define READ_ENTITY_DEFINITION_PROPERTY(name, attribute) \
-if (!bMod || node.HasProperty(_CWS(#attribute))) \
+if (!bMod || node.HasProperty(_CTS(#attribute))) \
 { \
-    pDefinition->Set##name(node.GetProperty(_CWS(#attribute))); \
+    pDefinition->Set##name(node.GetProperty(_CTS(#attribute))); \
     pDefinition->Set##name##Priority(pDefinition->GetPriority()); \
 } \
 else if (pDefinition->GetAltAvatar()) \
@@ -431,11 +431,11 @@ else \
 
 // READ_SPLIT_ENTITY_DEFINITION_PROPERTY
 #define READ_SPLIT_ENTITY_DEFINITION_PROPERTY(base, A, B, attribute, a, b) \
-if (!bMod || node.HasProperty(_CWS(#attribute))) \
+if (!bMod || node.HasProperty(_CTS(#attribute))) \
 { \
-    pDefinition->Set##base##A(node.GetProperty(_CWS(#attribute))); \
+    pDefinition->Set##base##A(node.GetProperty(_CTS(#attribute))); \
     pDefinition->Set##base##A##Priority(pDefinition->GetPriority()); \
-    pDefinition->Set##base##B(node.GetProperty(_CWS(#attribute))); \
+    pDefinition->Set##base##B(node.GetProperty(_CTS(#attribute))); \
     pDefinition->Set##base##B##Priority(pDefinition->GetPriority()); \
 } \
 else if (pDefinition->GetAltAvatar()) \
@@ -449,25 +449,25 @@ else \
     pDefinition->Set##base##B##Priority(0); \
 } \
 \
-if (node.HasProperty(_CWS(#attribute _T(#a)))) \
+if (node.HasProperty(_CTS(#attribute _T(#a)))) \
 { \
-    pDefinition->Set##base##A(node.GetProperty(_CWS(#attribute _T(#a)))); \
+    pDefinition->Set##base##A(node.GetProperty(_CTS(#attribute _T(#a)))); \
     pDefinition->Set##base##A##Priority(pDefinition->GetPriority()); \
 } \
 \
-if (node.HasProperty(_CWS(#attribute _T(#b)))) \
+if (node.HasProperty(_CTS(#attribute _T(#b)))) \
 { \
-    pDefinition->Set##base##B(node.GetProperty(_CWS(#attribute _T(#b)))); \
+    pDefinition->Set##base##B(node.GetProperty(_CTS(#attribute _T(#b)))); \
     pDefinition->Set##base##B##Priority(pDefinition->GetPriority()); \
 }
 
 // READ_SPLIT_ENTITY_DEFINITION_PROPERTY_SUFFIXED
 #define READ_SPLIT_ENTITY_DEFINITION_PROPERTY_SUFFIXED(base, A, B, C, attribute, a, b, c) \
-if (!bMod || node.HasProperty(_CWS(#attribute _T(#c)))) \
+if (!bMod || node.HasProperty(_CTS(#attribute _T(#c)))) \
 { \
-    pDefinition->Set##base##A##C(node.GetProperty(_CWS(#attribute _T(#c)))); \
+    pDefinition->Set##base##A##C(node.GetProperty(_CTS(#attribute _T(#c)))); \
     pDefinition->Set##base##A##C##Priority(pDefinition->GetPriority()); \
-    pDefinition->Set##base##B##C(node.GetProperty(_CWS(#attribute _T(#c)))); \
+    pDefinition->Set##base##B##C(node.GetProperty(_CTS(#attribute _T(#c)))); \
     pDefinition->Set##base##B##C##Priority(pDefinition->GetPriority()); \
 } \
 else if (pDefinition->GetAltAvatar()) \
@@ -481,23 +481,23 @@ else \
     pDefinition->Set##base##B##C##Priority(0); \
 } \
 \
-if (node.HasProperty(_CWS(#attribute _T(#a) _T(#c)))) \
+if (node.HasProperty(_CTS(#attribute _T(#a) _T(#c)))) \
 { \
-    pDefinition->Set##base##A##C(node.GetProperty(_CWS(#attribute _T(#a) _T(#c)))); \
+    pDefinition->Set##base##A##C(node.GetProperty(_CTS(#attribute _T(#a) _T(#c)))); \
     pDefinition->Set##base##A##C##Priority(pDefinition->GetPriority()); \
 } \
 \
-if (node.HasProperty(_CWS(#attribute _T(#b) _T(#c)))) \
+if (node.HasProperty(_CTS(#attribute _T(#b) _T(#c)))) \
 { \
-    pDefinition->Set##base##B##C(node.GetProperty(_CWS(#attribute _T(#b) _T(#c)))); \
+    pDefinition->Set##base##B##C(node.GetProperty(_CTS(#attribute _T(#b) _T(#c)))); \
     pDefinition->Set##base##B##C##Priority(pDefinition->GetPriority()); \
 }
 
 // READ_ENTITY_DEFINITION_PROPERTY_EX
 #define READ_ENTITY_DEFINITION_PROPERTY_EX(name, attribute, def) \
-if (!bMod || node.HasProperty(_CWS(#attribute))) \
+if (!bMod || node.HasProperty(_CTS(#attribute))) \
 { \
-    pDefinition->Set##name(node.GetProperty(_CWS(#attribute), _CWS(#def))); \
+    pDefinition->Set##name(node.GetProperty(_CTS(#attribute), _CTS(#def))); \
     pDefinition->Set##name##Priority(pDefinition->GetPriority()); \
 } \
 else if (pDefinition->GetAltAvatar()) \

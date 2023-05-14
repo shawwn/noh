@@ -26,16 +26,16 @@ class CUIForm;
 // General widget storage and reference
 typedef vector<IWidget*>                WidgetVector;
 
-typedef map<wstring, uint>              WidgetMap;
+typedef map<tstring, uint>              WidgetMap;
 typedef WidgetMap::iterator             WidgetMap_it;
 typedef WidgetMap::const_iterator       WidgetMap_cit;
-typedef pair<wstring, uint>             WidgetMapEntry;
+typedef pair<tstring, uint>             WidgetMapEntry;
 
 // Groups
 typedef set<IWidget*>                   WidgetGroup;
 typedef set<IWidget*>::iterator         WidgetGroup_it;
 
-typedef map<wstring, WidgetGroup*>      WidgetGroupMap;
+typedef map<tstring, WidgetGroup*>      WidgetGroupMap;
 typedef WidgetGroupMap::iterator        WidgetGroupMap_it;
 typedef WidgetGroupMap::const_iterator  WidgetGroupMap_cit;
 typedef pair<tstring, WidgetGroup*>     WidgetGroupMapEntry;

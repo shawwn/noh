@@ -895,9 +895,9 @@ IUnitEntity*    ICombatAction::GetTargetUnit() const
   ====================*/
 void    CCombatActionScript::FetchEffectDescription(const tstring &sName)
 {
-    tstring sKey(sName + _CWS("_") + GetActionScriptName(m_eAction) + _CWS("_effect"));
+    tstring sKey(sName + _CTS("_") + GetActionScriptName(m_eAction) + _CTS("_effect"));
     if (m_uiModifierID != INVALID_INDEX)
-        sKey += _CWS(":") + EntityRegistry.LookupModifierKey(m_uiModifierID);
+        sKey += _CTS(":") + EntityRegistry.LookupModifierKey(m_uiModifierID);
 
     m_uiEffectDescriptionIndex = Game.GetEntityStringIndex(sKey);
 }
@@ -1070,8 +1070,8 @@ bool    EvaluateConditionalString(const tstring &sTest, IGameEntity *pThis, IGam
 {
     PROFILE("EvaluateConditionalString");
 
-    tstring::size_type zAnd(sTest.find(_CWS(" and ")));
-    tstring::size_type zOr(sTest.find(_CWS(" or ")));
+    tstring::size_type zAnd(sTest.find(_CTS(" and ")));
+    tstring::size_type zOr(sTest.find(_CTS(" or ")));
 
     tstring::size_type zPos(MIN(zAnd, zOr));
     if (zPos != tstring::npos)

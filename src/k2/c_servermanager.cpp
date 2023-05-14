@@ -246,9 +246,9 @@ bool    CServerManager::SendManagerAuth()
         return false;
 
     pAuthRequest->SetTargetURL(m_sMasterServerURL);
-    pAuthRequest->AddVariable(L"f", L"replay_auth");
-    pAuthRequest->AddVariable(L"login", man_masterLogin);
-    pAuthRequest->AddVariable(L"pass", MD5String(TStringToUTF8(man_masterPassword)));
+    pAuthRequest->AddVariable(_T("f"), _T("replay_auth"));
+    pAuthRequest->AddVariable(_T("login"), man_masterLogin);
+    pAuthRequest->AddVariable(_T("pass"), MD5String(TStringToUTF8(man_masterPassword)));
     pAuthRequest->SendPostRequest();
     pAuthRequest->Wait();
 
@@ -288,7 +288,7 @@ void    CServerManager::Frame()
         {
         case NETCMD_MANAGER_INITIALIZED:
             {
-                Console.Std << L"Slave " << itServer->first << L" initialized" << newl;
+                Console.Std << _T("Slave ") << itServer->first << _T(" initialized") << newl;
                 m_Log.WriteSlave(MAN_LOG_SLAVE_INITIALIZED, itServer->second);
 
                 bProcessed = true;
@@ -297,7 +297,7 @@ void    CServerManager::Frame()
 
         case NETCMD_MANAGER_SHUTDOWN:
             {
-                Console.Std << L"Slave " << itServer->first << L" shutdown" << newl;
+                Console.Std << _T("Slave ") << itServer->first << _T(" shutdown") << newl;
                 m_Log.WriteSlave(MAN_LOG_SLAVE_SHUTDOWN, itServer->second);
 
                 if (itServer->second.yServerStatus != SERVER_STATUS_KILLED)
@@ -310,12 +310,12 @@ void    CServerManager::Frame()
         case NETCMD_MANAGER_MATCH_START:
             {
                 uint uiMatchID(pkt.ReadInt(-1));
-                wstring sMap(pkt.ReadWString());
-                wstring sGameName(pkt.ReadWString());
-                wstring sGameMode(pkt.ReadWString());
+                tstring sMap(pkt.ReadWStringAsTString());
+                tstring sGameName(pkt.ReadWStringAsTString());
+                tstring sGameMode(pkt.ReadWStringAsTString());
                 pkt.ReadByte(0); // byte yTeamSize
 
-                Console.Std << L"Slave " << itServer->first << L" match start [" << (uiMatchID == uint(-1) ? L"Local" : XtoA(uiMatchID)) << L"]" << newl;
+                Console.Std << _T("Slave ") << itServer->first << _T(" match start [") << (uiMatchID == uint(-1) ? _T("Local") : XtoA(uiMatchID)) << _T("]") << newl;
 
                 itServer->second.uiMatchID = uiMatchID;
                 itServer->second.sMap = sMap;
@@ -329,12 +329,12 @@ void    CServerManager::Frame()
 
         case NETCMD_MANAGER_MATCH_END:
             {               
-                Console.Std << L"Slave " << itServer->first << L" match end [" << (itServer->second.uiMatchID == uint(-1) ? L"Local" : XtoA(itServer->second.uiMatchID)) << L"]" << newl;
+                Console.Std << _T("Slave ") << itServer->first << _T(" match end [") << (itServer->second.uiMatchID == uint(-1) ? _T("Local") : XtoA(itServer->second.uiMatchID)) << _T("]") << newl;
 
-                wstring sReplayHost(pkt.ReadWString());
-                wstring sReplayDir(pkt.ReadWString());
-                wstring sReplayFilename(pkt.ReadWString());
-                wstring sLogFilename(pkt.ReadWString());
+                tstring sReplayHost(pkt.ReadWStringAsTString());
+                tstring sReplayDir(pkt.ReadWStringAsTString());
+                tstring sReplayFilename(pkt.ReadWStringAsTString());
+                tstring sLogFilename(pkt.ReadWStringAsTString());
 
                 m_Log.WriteSlave(MAN_LOG_MATCH_END, itServer->second);
 
@@ -1080,22 +1080,22 @@ void    CServerManager::PrintStatus()
         Console << _T("Core ") << ui << _T(": ") << XtoA(auiLoad[ui] / 50000.0f, 0, 0, 2) << _T("%") << newl;
 
     // Disk space
-    wsvector vDrives;
+    tsvector vDrives;
     K2System.GetDriveList(vDrives);
-    for (wsvector_it itDrive(vDrives.begin()), itEnd(vDrives.end()); itDrive != itEnd; ++itDrive)
+    for (tsvector_it itDrive(vDrives.begin()), itEnd(vDrives.end()); itDrive != itEnd; ++itDrive)
     {
         if (K2System.GetDriveType(*itDrive) != DRIVETYPE_FIXED)
             continue;
 
         ULONGLONG ulFree(K2System.GetDriveFreeSpaceEx(*itDrive));
         ULONGLONG ulTotal(K2System.GetDriveSizeEx(*itDrive));
-        Console << *itDrive << L" " << GetByteString(ulFree) << L" / " << GetByteString(ulTotal) << L" (" << INT_ROUND(100.0f * (ulFree / float(ulTotal))) << L"%)" << newl;
+        Console << *itDrive << _T(" ") << GetByteString(ulFree) << _T(" / ") << GetByteString(ulTotal) << _T(" (") << INT_ROUND(100.0f * (ulFree / float(ulTotal))) << _T("%)") << newl;
     }
 
     // Memory
     ULONGLONG ullFreePhysical(K2System.GetFreePhysicalMemory());
     ULONGLONG ullTotalPhysical(K2System.GetTotalPhysicalMemory());
-    Console << GetByteString(ullFreePhysical) << L" / " << GetByteString(ullTotalPhysical) << L" (" << INT_ROUND(100.0f * (ullFreePhysical / float(ullTotalPhysical))) << L"%)" << newl;
+    Console << GetByteString(ullFreePhysical) << _T(" / ") << GetByteString(ullTotalPhysical) << _T(" (") << INT_ROUND(100.0f * (ullFreePhysical / float(ullTotalPhysical))) << _T("%)") << newl;
 
     Console << iNumClients << _T(" clients") << newl;
 }

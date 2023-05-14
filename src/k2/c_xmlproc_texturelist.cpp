@@ -27,8 +27,8 @@ BEGIN_XML_REGISTRATION(texture)
     REGISTER_XML_PROCESSOR(texturelist)
 END_XML_REGISTRATION
 BEGIN_XML_PROCESSOR(texture, CTextureList)
-    uint uiID(node.GetPropertyInt(_CWS("id"), -1));
-    const tstring &sName(node.GetProperty(_CWS("name")));
+    uint uiID(node.GetPropertyInt(_CTS("id"), -1));
+    const tstring &sName(node.GetProperty(_CTS("name")));
 
     if (uiID != INVALID_INDEX)
         pObject->AddTexture(uiID, sName);

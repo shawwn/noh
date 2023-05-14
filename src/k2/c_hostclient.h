@@ -181,7 +181,7 @@ private:
     void    AddServerToList(SServerListEntry &cEntry, bool bLocal);
     void    RelistServers();
     bool    IsGameVisible(SServerListEntry &cEntry);
-    void    ProcessServerList(const wstring &sResponse);
+    void    ProcessServerList(const tstring &sResponse);
 
     CServerList();
 
@@ -424,7 +424,7 @@ public:
     const CClientAccount&   GetAccount() const                                      { return m_ClientAccount; }
     bool                    IsLoggedIn() const                                      { return m_ClientAccount.IsLoggedIn(); }
     int                     GetAccountID() const                                    { return m_ClientAccount.GetAccountID(); }
-    const wstring&          GetCookie() const                                       { return m_ClientAccount.GetCookie(); }
+    const tstring&          GetCookie() const                                       { return m_ClientAccount.GetCookie(); }
 
     void                    SetNickname(const tstring &sName)                       { m_ClientAccount.SetNickname(sName); }
     void                    SetTrialGamesCount(uint uiTrial)                        { m_ClientAccount.SetTrialGames(uiTrial); }

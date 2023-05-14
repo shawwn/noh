@@ -1300,7 +1300,7 @@ bool    CFileManager::GetFileListCompat(const tstring &sPath, const tstring &sFi
         tstring sCompatPath(*it + sPath);
         for (StringSet::iterator itNew(m_setNewCompatFiles.begin()), itNewEnd(m_setNewCompatFiles.end()); itNew != itNewEnd; ++itNew)
         {
-            if (itNew->find(_CWS(".s2z/")) != tstring::npos)
+            if (itNew->find(_CTS(".s2z/")) != tstring::npos)
                 continue;
 
             size_t zPos(itNew->find(sCompatPath));
@@ -2493,7 +2493,7 @@ CMD(ValidateResources0)
         pGameResources0
     };
 
-    const wchar_t* pArchiveNames[] = {
+    const TCHAR* pArchiveNames[] = {
         _T("base"),
         _T("game")
     };
@@ -2501,7 +2501,7 @@ CMD(ValidateResources0)
     for (uint i = 0; i < 2; ++i)
     {
         CArchive* pArchive(pArchives[i]);
-        const wchar_t* pArchiveName(pArchiveNames[i]);
+        const TCHAR* pArchiveName(pArchiveNames[i]);
 
         tsvector vModifiedFiles;
         pArchive->GetModifiedFilesList(vModifiedFiles);

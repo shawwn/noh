@@ -124,7 +124,7 @@ private:
     map<ushort, int>        m_mapClientNumbers;
 
     uint                    m_uiLastConnectRequestPeriod;
-    map<wstring, uint>      m_mapConnectionRequests;
+    map<tstring, uint>      m_mapConnectionRequests;
 
 #ifdef K2_CLIENT
     CClientConnection*      m_pClient;
@@ -245,11 +245,11 @@ public:
 
     inline byte                 GetHostFlags() const                    { return m_yHostFlags; }
     inline uint                 GetServerID() const                     { return m_uiServerID; }
-    const wstring&              GetLocation() const                     { return svr_location.GetValue(); }
-    const wstring&              GetName() const                         { return svr_name.GetValue(); }
-    const wstring&              GetAddress() const                      { return svr_ip.GetValue(); }
+    const tstring&              GetLocation() const                     { return svr_location.GetValue(); }
+    const tstring&              GetName() const                         { return svr_name.GetValue(); }
+    const tstring&              GetAddress() const                      { return svr_ip.GetValue(); }
     const ushort                GetPort() const                         { return svr_port; }
-    const wstring&              GetVersion() const                      { return svr_version.GetValue(); }
+    const tstring&              GetVersion() const                      { return svr_version.GetValue(); }
 
     int                         GetTier() const                         { return m_iTier; }
     void                        SetTier(int iTier)                      { m_iTier = iTier; }

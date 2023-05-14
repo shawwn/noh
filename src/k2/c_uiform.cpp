@@ -138,7 +138,7 @@ void    CUIForm::Frame()
         return;
 
     if (m_pStatusTrigger != NULL)
-        m_pStatusTrigger->Trigger(XtoW(m_pRequest->GetStatus()));
+        m_pStatusTrigger->Trigger(XtoA(m_pRequest->GetStatus()));
 
     if (m_pRequest->IsActive())
         return;

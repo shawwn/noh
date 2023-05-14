@@ -218,19 +218,19 @@ template<> inline EActionOperator   GetDefaultEmptyValue<EActionOperator>() { re
 
 inline EActionOperator  GetActionOperatorFromString(const tstring &sActionMultiplier)
 {
-    if (CompareNoCase(sActionMultiplier, _CWS("none")) == 0)
+    if (CompareNoCase(sActionMultiplier, _CTS("none")) == 0)
         return OPERATOR_NONE;
-    else if (CompareNoCase(sActionMultiplier, _CWS("add")) == 0)
+    else if (CompareNoCase(sActionMultiplier, _CTS("add")) == 0)
         return OPERATOR_ADD;
-    else if (CompareNoCase(sActionMultiplier, _CWS("sub")) == 0)
+    else if (CompareNoCase(sActionMultiplier, _CTS("sub")) == 0)
         return OPERATOR_SUB;
-    else if (CompareNoCase(sActionMultiplier, _CWS("mult")) == 0)
+    else if (CompareNoCase(sActionMultiplier, _CTS("mult")) == 0)
         return OPERATOR_MULT;
-    else if (CompareNoCase(sActionMultiplier, _CWS("div")) == 0)
+    else if (CompareNoCase(sActionMultiplier, _CTS("div")) == 0)
         return OPERATOR_DIV;
-    else if (CompareNoCase(sActionMultiplier, _CWS("min")) == 0)
+    else if (CompareNoCase(sActionMultiplier, _CTS("min")) == 0)
         return OPERATOR_MIN;
-    else if (CompareNoCase(sActionMultiplier, _CWS("max")) == 0)
+    else if (CompareNoCase(sActionMultiplier, _CTS("max")) == 0)
         return OPERATOR_MAX;
     else
         return OPERATOR_NONE;
@@ -253,19 +253,19 @@ template<> inline EActionCmpOperator    GetDefaultEmptyValue<EActionCmpOperator>
 
 inline EActionCmpOperator   GetActionCmpOperatorFromString(const tstring &sOperator)
 {
-    if (CompareNoCase(sOperator, _CWS("none")) == 0)
+    if (CompareNoCase(sOperator, _CTS("none")) == 0)
         return OPERATOR_CMP_NONE;
-    else if (CompareNoCase(sOperator, _CWS("eq")) == 0)
+    else if (CompareNoCase(sOperator, _CTS("eq")) == 0)
         return OPERATOR_CMP_EQUALS;
-    else if (CompareNoCase(sOperator, _CWS("ne")) == 0)
+    else if (CompareNoCase(sOperator, _CTS("ne")) == 0)
         return OPERATOR_CMP_NOT_EQUALS;
-    else if (CompareNoCase(sOperator, _CWS("lt")) == 0)
+    else if (CompareNoCase(sOperator, _CTS("lt")) == 0)
         return OPERATOR_CMP_LESS_THAN;
-    else if (CompareNoCase(sOperator, _CWS("le")) == 0)
+    else if (CompareNoCase(sOperator, _CTS("le")) == 0)
         return OPERATOR_CMP_LESS_THAN_OR_EQUALS;
-    else if (CompareNoCase(sOperator, _CWS("gt")) == 0)
+    else if (CompareNoCase(sOperator, _CTS("gt")) == 0)
         return OPERATOR_CMP_GREATER_THAN;
-    else if (CompareNoCase(sOperator, _CWS("ge")) == 0)
+    else if (CompareNoCase(sOperator, _CTS("ge")) == 0)
         return OPERATOR_CMP_GREATER_THAN_OR_EQUALS;
     else
         return OPERATOR_CMP_NONE;
@@ -409,223 +409,223 @@ template<> inline EDynamicActionValue   GetDefaultEmptyValue<EDynamicActionValue
 
 inline EDynamicActionValue  GetDynamicActionValueFromString(const tstring &sActionMultiplier)
 {
-    if (CompareNoCase(sActionMultiplier, _CWS("result")) == 0)
+    if (CompareNoCase(sActionMultiplier, _CTS("result")) == 0)
         return DYNAMIC_VALUE_RESULT;
-    else if (CompareNoCase(sActionMultiplier, _CWS("stack")) == 0)
+    else if (CompareNoCase(sActionMultiplier, _CTS("stack")) == 0)
         return DYNAMIC_VALUE_STACK;
-    else if (CompareNoCase(sActionMultiplier, _CWS("var0")) == 0)
+    else if (CompareNoCase(sActionMultiplier, _CTS("var0")) == 0)
         return DYNAMIC_VALUE_VAR0;
-    else if (CompareNoCase(sActionMultiplier, _CWS("var1")) == 0)
+    else if (CompareNoCase(sActionMultiplier, _CTS("var1")) == 0)
         return DYNAMIC_VALUE_VAR1;
-    else if (CompareNoCase(sActionMultiplier, _CWS("var2")) == 0)
+    else if (CompareNoCase(sActionMultiplier, _CTS("var2")) == 0)
         return DYNAMIC_VALUE_VAR2;
-    else if (CompareNoCase(sActionMultiplier, _CWS("var3")) == 0)
+    else if (CompareNoCase(sActionMultiplier, _CTS("var3")) == 0)
         return DYNAMIC_VALUE_VAR3;
 
-    else if (CompareNoCase(sActionMultiplier, _CWS("frametime")) == 0)
+    else if (CompareNoCase(sActionMultiplier, _CTS("frametime")) == 0)
         return DYNAMIC_VALUE_PER_SECOND;
-    else if (CompareNoCase(sActionMultiplier, _CWS("lifetime_remaining")) == 0)
+    else if (CompareNoCase(sActionMultiplier, _CTS("lifetime_remaining")) == 0)
         return DYNAMIC_VALUE_LIFETIME_REMAINING;
-    else if (CompareNoCase(sActionMultiplier, _CWS("charges")) == 0)
+    else if (CompareNoCase(sActionMultiplier, _CTS("charges")) == 0)
         return DYNAMIC_VALUE_CHARGES;
 
-    else if (CompareNoCase(sActionMultiplier, _CWS("healthlost")) == 0)
+    else if (CompareNoCase(sActionMultiplier, _CTS("healthlost")) == 0)
         return DYNAMIC_VALUE_HEALTH_LOST;
-    else if (CompareNoCase(sActionMultiplier, _CWS("movement")) == 0)
+    else if (CompareNoCase(sActionMultiplier, _CTS("movement")) == 0)
         return DYNAMIC_VALUE_MOVEMENT;
-    else if (CompareNoCase(sActionMultiplier, _CWS("accumulator")) == 0)
+    else if (CompareNoCase(sActionMultiplier, _CTS("accumulator")) == 0)
         return DYNAMIC_VALUE_ACCUMULATOR;
-    else if (CompareNoCase(sActionMultiplier, _CWS("param")) == 0)
+    else if (CompareNoCase(sActionMultiplier, _CTS("param")) == 0)
         return DYNAMIC_VALUE_PARAM;
-    else if (CompareNoCase(sActionMultiplier, _CWS("lifetime")) == 0)
+    else if (CompareNoCase(sActionMultiplier, _CTS("lifetime")) == 0)
         return DYNAMIC_VALUE_LIFETIME;
-    else if (CompareNoCase(sActionMultiplier, _CWS("team")) == 0)
+    else if (CompareNoCase(sActionMultiplier, _CTS("team")) == 0)
         return DYNAMIC_VALUE_TEAM;
-    else if (CompareNoCase(sActionMultiplier, _CWS("time")) == 0)
+    else if (CompareNoCase(sActionMultiplier, _CTS("time")) == 0)
         return DYNAMIC_VALUE_TIME;
-    else if (CompareNoCase(sActionMultiplier, _CWS("castduration")) == 0)
+    else if (CompareNoCase(sActionMultiplier, _CTS("castduration")) == 0)
         return DYNAMIC_VALUE_CASTDURATION;
-    else if (CompareNoCase(sActionMultiplier, _CWS("owner_counter")) == 0)
+    else if (CompareNoCase(sActionMultiplier, _CTS("owner_counter")) == 0)
         return DYNAMIC_VALUE_OWNER_COUNTER;
-    else if (CompareNoCase(sActionMultiplier, _CWS("level")) == 0)
+    else if (CompareNoCase(sActionMultiplier, _CTS("level")) == 0)
         return DYNAMIC_VALUE_LEVEL;
 
-    else if (CompareNoCase(sActionMultiplier, _CWS("source_entity")) == 0)
+    else if (CompareNoCase(sActionMultiplier, _CTS("source_entity")) == 0)
         return DYNAMIC_VALUE_SOURCE_ENTITY;
-    else if (CompareNoCase(sActionMultiplier, _CWS("target_entity")) == 0)
+    else if (CompareNoCase(sActionMultiplier, _CTS("target_entity")) == 0)
         return DYNAMIC_VALUE_TARGET_ENTITY;
-    else if (CompareNoCase(sActionMultiplier, _CWS("inflictor_entity")) == 0)
+    else if (CompareNoCase(sActionMultiplier, _CTS("inflictor_entity")) == 0)
         return DYNAMIC_VALUE_INFLICTOR_ENTITY;
-    else if (CompareNoCase(sActionMultiplier, _CWS("proxy_entity")) == 0)
+    else if (CompareNoCase(sActionMultiplier, _CTS("proxy_entity")) == 0)
         return DYNAMIC_VALUE_PROXY_ENTITY;
-    else if (CompareNoCase(sActionMultiplier, _CWS("owner_entity")) == 0)
+    else if (CompareNoCase(sActionMultiplier, _CTS("owner_entity")) == 0)
         return DYNAMIC_VALUE_OWNER_ENTITY;
-    else if (CompareNoCase(sActionMultiplier, _CWS("stack_entity")) == 0)
+    else if (CompareNoCase(sActionMultiplier, _CTS("stack_entity")) == 0)
         return DYNAMIC_VALUE_STACK_ENTITY;
-    else if (CompareNoCase(sActionMultiplier, _CWS("this_proxy_entity")) == 0)
+    else if (CompareNoCase(sActionMultiplier, _CTS("this_proxy_entity")) == 0)
         return DYNAMIC_VALUE_THIS_PROXY_ENTITY;
 
-    else if (CompareNoCase(sActionMultiplier, _CWS("target_damage")) == 0)
+    else if (CompareNoCase(sActionMultiplier, _CTS("target_damage")) == 0)
         return DYNAMIC_VALUE_TARGET_DAMAGE;
-    else if (CompareNoCase(sActionMultiplier, _CWS("source_damage")) == 0)
+    else if (CompareNoCase(sActionMultiplier, _CTS("source_damage")) == 0)
         return DYNAMIC_VALUE_SOURCE_DAMAGE;
 
-    else if (CompareNoCase(sActionMultiplier, _CWS("target_health")) == 0)
+    else if (CompareNoCase(sActionMultiplier, _CTS("target_health")) == 0)
         return DYNAMIC_VALUE_TARGET_HEALTH;
-    else if (CompareNoCase(sActionMultiplier, _CWS("target_health_percent")) == 0)
+    else if (CompareNoCase(sActionMultiplier, _CTS("target_health_percent")) == 0)
         return DYNAMIC_VALUE_TARGET_HEALTH_PERCENT;
-    else if (CompareNoCase(sActionMultiplier, _CWS("target_maxhealth")) == 0)
+    else if (CompareNoCase(sActionMultiplier, _CTS("target_maxhealth")) == 0)
         return DYNAMIC_VALUE_TARGET_TOTAL_HEALTH;
-    else if (CompareNoCase(sActionMultiplier, _CWS("target_missinghealth")) == 0)
+    else if (CompareNoCase(sActionMultiplier, _CTS("target_missinghealth")) == 0)
         return DYNAMIC_VALUE_TARGET_MISSING_HEALTH;
-    else if (CompareNoCase(sActionMultiplier, _CWS("target_missinghealth_percent")) == 0)
+    else if (CompareNoCase(sActionMultiplier, _CTS("target_missinghealth_percent")) == 0)
         return DYNAMIC_VALUE_TARGET_MISSING_HEALTH_PERCENT;
-    else if (CompareNoCase(sActionMultiplier, _CWS("target_mana")) == 0)
+    else if (CompareNoCase(sActionMultiplier, _CTS("target_mana")) == 0)
         return DYNAMIC_VALUE_TARGET_MANA;
-    else if (CompareNoCase(sActionMultiplier, _CWS("target_mana_percent")) == 0)
+    else if (CompareNoCase(sActionMultiplier, _CTS("target_mana_percent")) == 0)
         return DYNAMIC_VALUE_TARGET_MANA_PERCENT;
-    else if (CompareNoCase(sActionMultiplier, _CWS("target_maxmana")) == 0)
+    else if (CompareNoCase(sActionMultiplier, _CTS("target_maxmana")) == 0)
         return DYNAMIC_VALUE_TARGET_TOTAL_MANA;
-    else if (CompareNoCase(sActionMultiplier, _CWS("target_missingmana")) == 0)
+    else if (CompareNoCase(sActionMultiplier, _CTS("target_missingmana")) == 0)
         return DYNAMIC_VALUE_TARGET_MISSING_MANA;
-    else if (CompareNoCase(sActionMultiplier, _CWS("target_missingmana_percent")) == 0)
+    else if (CompareNoCase(sActionMultiplier, _CTS("target_missingmana_percent")) == 0)
         return DYNAMIC_VALUE_TARGET_MISSING_MANA_PERCENT;
-    else if (CompareNoCase(sActionMultiplier, _CWS("target_strength")) == 0)
+    else if (CompareNoCase(sActionMultiplier, _CTS("target_strength")) == 0)
         return DYNAMIC_VALUE_TARGET_STRENGTH;
-    else if (CompareNoCase(sActionMultiplier, _CWS("target_intelligence")) == 0)
+    else if (CompareNoCase(sActionMultiplier, _CTS("target_intelligence")) == 0)
         return DYNAMIC_VALUE_TARGET_INTELLIGENCE;
-    else if (CompareNoCase(sActionMultiplier, _CWS("target_agility")) == 0)
+    else if (CompareNoCase(sActionMultiplier, _CTS("target_agility")) == 0)
         return DYNAMIC_VALUE_TARGET_AGILITY;
-    else if (CompareNoCase(sActionMultiplier, _CWS("target_attackspeed")) == 0)
+    else if (CompareNoCase(sActionMultiplier, _CTS("target_attackspeed")) == 0)
         return DYNAMIC_VALUE_TARGET_ATTACKSPEED;
-    else if (CompareNoCase(sActionMultiplier, _CWS("target_castspeed")) == 0)
+    else if (CompareNoCase(sActionMultiplier, _CTS("target_castspeed")) == 0)
         return DYNAMIC_VALUE_TARGET_CASTSPEED;
-    else if (CompareNoCase(sActionMultiplier, _CWS("target_movespeed")) == 0)
+    else if (CompareNoCase(sActionMultiplier, _CTS("target_movespeed")) == 0)
         return DYNAMIC_VALUE_TARGET_MOVESPEED;
-    else if (CompareNoCase(sActionMultiplier, _CWS("target_attackactiontime")) == 0)
+    else if (CompareNoCase(sActionMultiplier, _CTS("target_attackactiontime")) == 0)
         return DYNAMIC_VALUE_TARGET_ATTACKACTIONTIME;
-    else if (CompareNoCase(sActionMultiplier, _CWS("target_attackduration")) == 0)
+    else if (CompareNoCase(sActionMultiplier, _CTS("target_attackduration")) == 0)
         return DYNAMIC_VALUE_TARGET_ATTACKDURATION;
-    else if (CompareNoCase(sActionMultiplier, _CWS("target_attackcooldown")) == 0)
+    else if (CompareNoCase(sActionMultiplier, _CTS("target_attackcooldown")) == 0)
         return DYNAMIC_VALUE_TARGET_ATTACKCOOLDOWN;
-    else if (CompareNoCase(sActionMultiplier, _CWS("target_attackdamage")) == 0)
+    else if (CompareNoCase(sActionMultiplier, _CTS("target_attackdamage")) == 0)
         return DYNAMIC_VALUE_TARGET_ATTACKDAMAGE;
-    else if (CompareNoCase(sActionMultiplier, _CWS("target_accumulator")) == 0)
+    else if (CompareNoCase(sActionMultiplier, _CTS("target_accumulator")) == 0)
         return DYNAMIC_VALUE_TARGET_ACCUMULATOR;
-    else if (CompareNoCase(sActionMultiplier, _CWS("target_lifetime")) == 0)
+    else if (CompareNoCase(sActionMultiplier, _CTS("target_lifetime")) == 0)
         return DYNAMIC_VALUE_TARGET_LIFETIME;
-    else if (CompareNoCase(sActionMultiplier, _CWS("target_team")) == 0)
+    else if (CompareNoCase(sActionMultiplier, _CTS("target_team")) == 0)
         return DYNAMIC_VALUE_TARGET_TEAM;
     
-    else if (CompareNoCase(sActionMultiplier, _CWS("source_health")) == 0)
+    else if (CompareNoCase(sActionMultiplier, _CTS("source_health")) == 0)
         return DYNAMIC_VALUE_SOURCE_HEALTH;
-    else if (CompareNoCase(sActionMultiplier, _CWS("source_health_percent")) == 0)
+    else if (CompareNoCase(sActionMultiplier, _CTS("source_health_percent")) == 0)
         return DYNAMIC_VALUE_SOURCE_HEALTH_PERCENT;
-    else if (CompareNoCase(sActionMultiplier, _CWS("source_maxhealth")) == 0)
+    else if (CompareNoCase(sActionMultiplier, _CTS("source_maxhealth")) == 0)
         return DYNAMIC_VALUE_SOURCE_TOTAL_HEALTH;
-    else if (CompareNoCase(sActionMultiplier, _CWS("source_missinghealth")) == 0)
+    else if (CompareNoCase(sActionMultiplier, _CTS("source_missinghealth")) == 0)
         return DYNAMIC_VALUE_SOURCE_MISSING_HEALTH;
-    else if (CompareNoCase(sActionMultiplier, _CWS("source_missinghealth_percent")) == 0)
+    else if (CompareNoCase(sActionMultiplier, _CTS("source_missinghealth_percent")) == 0)
         return DYNAMIC_VALUE_SOURCE_MISSING_HEALTH_PERCENT;
-    else if (CompareNoCase(sActionMultiplier, _CWS("source_mana")) == 0)
+    else if (CompareNoCase(sActionMultiplier, _CTS("source_mana")) == 0)
         return DYNAMIC_VALUE_SOURCE_MANA;
-    else if (CompareNoCase(sActionMultiplier, _CWS("source_mana_percent")) == 0)
+    else if (CompareNoCase(sActionMultiplier, _CTS("source_mana_percent")) == 0)
         return DYNAMIC_VALUE_SOURCE_MANA_PERCENT;
-    else if (CompareNoCase(sActionMultiplier, _CWS("source_maxmana")) == 0)
+    else if (CompareNoCase(sActionMultiplier, _CTS("source_maxmana")) == 0)
         return DYNAMIC_VALUE_SOURCE_TOTAL_MANA;
-    else if (CompareNoCase(sActionMultiplier, _CWS("source_missingmana")) == 0)
+    else if (CompareNoCase(sActionMultiplier, _CTS("source_missingmana")) == 0)
         return DYNAMIC_VALUE_SOURCE_MISSING_MANA;
-    else if (CompareNoCase(sActionMultiplier, _CWS("source_missingmana_percent")) == 0)
+    else if (CompareNoCase(sActionMultiplier, _CTS("source_missingmana_percent")) == 0)
         return DYNAMIC_VALUE_SOURCE_MISSING_MANA_PERCENT;
-    else if (CompareNoCase(sActionMultiplier, _CWS("source_strength")) == 0)
+    else if (CompareNoCase(sActionMultiplier, _CTS("source_strength")) == 0)
         return DYNAMIC_VALUE_SOURCE_STRENGTH;
-    else if (CompareNoCase(sActionMultiplier, _CWS("source_intelligence")) == 0)
+    else if (CompareNoCase(sActionMultiplier, _CTS("source_intelligence")) == 0)
         return DYNAMIC_VALUE_SOURCE_INTELLIGENCE;
-    else if (CompareNoCase(sActionMultiplier, _CWS("source_agility")) == 0)
+    else if (CompareNoCase(sActionMultiplier, _CTS("source_agility")) == 0)
         return DYNAMIC_VALUE_SOURCE_AGILITY;
-    else if (CompareNoCase(sActionMultiplier, _CWS("source_attackspeed")) == 0)
+    else if (CompareNoCase(sActionMultiplier, _CTS("source_attackspeed")) == 0)
         return DYNAMIC_VALUE_SOURCE_ATTACKSPEED;
-    else if (CompareNoCase(sActionMultiplier, _CWS("source_castspeed")) == 0)
+    else if (CompareNoCase(sActionMultiplier, _CTS("source_castspeed")) == 0)
         return DYNAMIC_VALUE_SOURCE_CASTSPEED;
-    else if (CompareNoCase(sActionMultiplier, _CWS("source_movespeed")) == 0)
+    else if (CompareNoCase(sActionMultiplier, _CTS("source_movespeed")) == 0)
         return DYNAMIC_VALUE_SOURCE_MOVESPEED;
-    else if (CompareNoCase(sActionMultiplier, _CWS("source_attackactiontime")) == 0)
+    else if (CompareNoCase(sActionMultiplier, _CTS("source_attackactiontime")) == 0)
         return DYNAMIC_VALUE_SOURCE_ATTACKACTIONTIME;
-    else if (CompareNoCase(sActionMultiplier, _CWS("source_attackduration")) == 0)
+    else if (CompareNoCase(sActionMultiplier, _CTS("source_attackduration")) == 0)
         return DYNAMIC_VALUE_SOURCE_ATTACKDURATION;
-    else if (CompareNoCase(sActionMultiplier, _CWS("source_attackcooldown")) == 0)
+    else if (CompareNoCase(sActionMultiplier, _CTS("source_attackcooldown")) == 0)
         return DYNAMIC_VALUE_SOURCE_ATTACKCOOLDOWN;
-    else if (CompareNoCase(sActionMultiplier, _CWS("source_attackdamage")) == 0)
+    else if (CompareNoCase(sActionMultiplier, _CTS("source_attackdamage")) == 0)
         return DYNAMIC_VALUE_SOURCE_ATTACKDAMAGE;   
-    else if (CompareNoCase(sActionMultiplier, _CWS("source_accumulator")) == 0)
+    else if (CompareNoCase(sActionMultiplier, _CTS("source_accumulator")) == 0)
         return DYNAMIC_VALUE_SOURCE_ACCUMULATOR;
-    else if (CompareNoCase(sActionMultiplier, _CWS("source_lifetime")) == 0)
+    else if (CompareNoCase(sActionMultiplier, _CTS("source_lifetime")) == 0)
         return DYNAMIC_VALUE_SOURCE_LIFETIME;
-    else if (CompareNoCase(sActionMultiplier, _CWS("source_team")) == 0)
+    else if (CompareNoCase(sActionMultiplier, _CTS("source_team")) == 0)
         return DYNAMIC_VALUE_SOURCE_TEAM;
 
-    else if (CompareNoCase(sActionMultiplier, _CWS("total_adjusted_damage")) == 0)
+    else if (CompareNoCase(sActionMultiplier, _CTS("total_adjusted_damage")) == 0)
         return DYNAMIC_VALUE_TOTAL_ADJUSTED_DAMAGE;
-    else if (CompareNoCase(sActionMultiplier, _CWS("applied_damage")) == 0)
+    else if (CompareNoCase(sActionMultiplier, _CTS("applied_damage")) == 0)
         return DYNAMIC_VALUE_APPLIED_DAMAGE;
-    else if (CompareNoCase(sActionMultiplier, _CWS("combat_target")) == 0)
+    else if (CompareNoCase(sActionMultiplier, _CTS("combat_target")) == 0)
         return DYNAMIC_COMBAT_TARGET;
-    else if (CompareNoCase(sActionMultiplier, _CWS("combat_effecttype")) == 0)
+    else if (CompareNoCase(sActionMultiplier, _CTS("combat_effecttype")) == 0)
         return DYNAMIC_COMBAT_EFFECTTYPE;
-    else if (CompareNoCase(sActionMultiplier, _CWS("combat_damagetype")) == 0)
+    else if (CompareNoCase(sActionMultiplier, _CTS("combat_damagetype")) == 0)
         return DYNAMIC_COMBAT_DAMAGETYPE;
-    else if (CompareNoCase(sActionMultiplier, _CWS("combat_supertype")) == 0)
+    else if (CompareNoCase(sActionMultiplier, _CTS("combat_supertype")) == 0)
         return DYNAMIC_COMBAT_SUPERTYPE;
-    else if (CompareNoCase(sActionMultiplier, _CWS("combat_basedamage")) == 0)
+    else if (CompareNoCase(sActionMultiplier, _CTS("combat_basedamage")) == 0)
         return DYNAMIC_COMBAT_BASEDAMAGE;
-    else if (CompareNoCase(sActionMultiplier, _CWS("combat_additionaldamage")) == 0)
+    else if (CompareNoCase(sActionMultiplier, _CTS("combat_additionaldamage")) == 0)
         return DYNAMIC_COMBAT_ADDITIONALDAMAGE;
-    else if (CompareNoCase(sActionMultiplier, _CWS("combat_damagemultiplier")) == 0)
+    else if (CompareNoCase(sActionMultiplier, _CTS("combat_damagemultiplier")) == 0)
         return DYNAMIC_COMBAT_DAMAGEMULTIPLIER;
-    else if (CompareNoCase(sActionMultiplier, _CWS("combat_bonusdamage")) == 0)
+    else if (CompareNoCase(sActionMultiplier, _CTS("combat_bonusdamage")) == 0)
         return DYNAMIC_COMBAT_BONUSDAMAGE;
-    else if (CompareNoCase(sActionMultiplier, _CWS("combat_bonusmultiplier")) == 0)
+    else if (CompareNoCase(sActionMultiplier, _CTS("combat_bonusmultiplier")) == 0)
         return DYNAMIC_COMBAT_BONUSMULTIPLIER;
-    else if (CompareNoCase(sActionMultiplier, _CWS("combat_lifesteal")) == 0)
+    else if (CompareNoCase(sActionMultiplier, _CTS("combat_lifesteal")) == 0)
         return DYNAMIC_COMBAT_LIFESTEAL;
-    else if (CompareNoCase(sActionMultiplier, _CWS("combat_evasion")) == 0)
+    else if (CompareNoCase(sActionMultiplier, _CTS("combat_evasion")) == 0)
         return DYNAMIC_COMBAT_EVASION;
-    else if (CompareNoCase(sActionMultiplier, _CWS("combat_misschance")) == 0)
+    else if (CompareNoCase(sActionMultiplier, _CTS("combat_misschance")) == 0)
         return DYNAMIC_COMBAT_MISSCHANCE;
-    else if (CompareNoCase(sActionMultiplier, _CWS("combat_nonlethal")) == 0)
+    else if (CompareNoCase(sActionMultiplier, _CTS("combat_nonlethal")) == 0)
         return DYNAMIC_COMBAT_NONLETHAL;
-    else if (CompareNoCase(sActionMultiplier, _CWS("combat_truestrike")) == 0)
+    else if (CompareNoCase(sActionMultiplier, _CTS("combat_truestrike")) == 0)
         return DYNAMIC_COMBAT_TRUESTRIKE;
-    else if (CompareNoCase(sActionMultiplier, _CWS("combat_negated")) == 0)
+    else if (CompareNoCase(sActionMultiplier, _CTS("combat_negated")) == 0)
         return DYNAMIC_COMBAT_NEGATED;
-    else if (CompareNoCase(sActionMultiplier, _CWS("combat_deflection")) == 0)
+    else if (CompareNoCase(sActionMultiplier, _CTS("combat_deflection")) == 0)
         return DYNAMIC_COMBAT_DEFLECTION;
-    else if (CompareNoCase(sActionMultiplier, _CWS("combat_manacost")) == 0)
+    else if (CompareNoCase(sActionMultiplier, _CTS("combat_manacost")) == 0)
         return DYNAMIC_COMBAT_MANACOST;
-    else if (CompareNoCase(sActionMultiplier, _CWS("combat_cooldowntime")) == 0)
+    else if (CompareNoCase(sActionMultiplier, _CTS("combat_cooldowntime")) == 0)
         return DYNAMIC_COMBAT_COOLDOWNTIME;
-    else if (CompareNoCase(sActionMultiplier, _CWS("combat_attackability")) == 0)
+    else if (CompareNoCase(sActionMultiplier, _CTS("combat_attackability")) == 0)
         return DYNAMIC_COMBAT_ATTACKABILITY;
 
-    else if (CompareNoCase(sActionMultiplier, _CWS("damage_supertype")) == 0)
+    else if (CompareNoCase(sActionMultiplier, _CTS("damage_supertype")) == 0)
         return DYNAMIC_DAMAGE_SUPERTYPE;
-    else if (CompareNoCase(sActionMultiplier, _CWS("damage_effecttype")) == 0)
+    else if (CompareNoCase(sActionMultiplier, _CTS("damage_effecttype")) == 0)
         return DYNAMIC_DAMAGE_EFFECTTYPE;
-    else if (CompareNoCase(sActionMultiplier, _CWS("damage_attempted")) == 0)
+    else if (CompareNoCase(sActionMultiplier, _CTS("damage_attempted")) == 0)
         return DYNAMIC_DAMAGE_ATTEMPTED;
-    else if (CompareNoCase(sActionMultiplier, _CWS("damage_applied")) == 0)
+    else if (CompareNoCase(sActionMultiplier, _CTS("damage_applied")) == 0)
         return DYNAMIC_DAMAGE_APPLIED;
-    else if (CompareNoCase(sActionMultiplier, _CWS("damage_deflection")) == 0)
+    else if (CompareNoCase(sActionMultiplier, _CTS("damage_deflection")) == 0)
         return DYNAMIC_DAMAGE_DEFLECTION;
-    else if (CompareNoCase(sActionMultiplier, _CWS("damage_target")) == 0)
+    else if (CompareNoCase(sActionMultiplier, _CTS("damage_target")) == 0)
         return DYNAMIC_DAMAGE_TARGET;
-    else if (CompareNoCase(sActionMultiplier, _CWS("damage_attacker")) == 0)
+    else if (CompareNoCase(sActionMultiplier, _CTS("damage_attacker")) == 0)
         return DYNAMIC_DAMAGE_ATTACKER;
-    else if (CompareNoCase(sActionMultiplier, _CWS("damage_inflictor")) == 0)
+    else if (CompareNoCase(sActionMultiplier, _CTS("damage_inflictor")) == 0)
         return DYNAMIC_DAMAGE_INFLICTOR;
-    else if (CompareNoCase(sActionMultiplier, _CWS("damage_armorpierce")) == 0)
+    else if (CompareNoCase(sActionMultiplier, _CTS("damage_armorpierce")) == 0)
         return DYNAMIC_DAMAGE_ARMORPIERCE;
-    else if (CompareNoCase(sActionMultiplier, _CWS("damage_magicarmorpierce")) == 0)
+    else if (CompareNoCase(sActionMultiplier, _CTS("damage_magicarmorpierce")) == 0)
         return DYNAMIC_DAMAGE_MAGICARMORPIERCE;
     
     else
@@ -651,21 +651,21 @@ template<> inline EPositionModifier GetDefaultEmptyValue<EPositionModifier>()   
 
 inline EPositionModifier    GetPositionModifierFromString(const tstring &sPositionModifier)
 {
-    if (CompareNoCase(sPositionModifier, _CWS("start")) == 0)
+    if (CompareNoCase(sPositionModifier, _CTS("start")) == 0)
         return POSITION_START;
-    else if (CompareNoCase(sPositionModifier, _CWS("end")) == 0)
+    else if (CompareNoCase(sPositionModifier, _CTS("end")) == 0)
         return POSITION_END;
-    else if (CompareNoCase(sPositionModifier, _CWS("pointonline")) == 0)
+    else if (CompareNoCase(sPositionModifier, _CTS("pointonline")) == 0)
         return POSITION_POINT_ON_LINE;
-    else if (CompareNoCase(sPositionModifier, _CWS("maxonline")) == 0)
+    else if (CompareNoCase(sPositionModifier, _CTS("maxonline")) == 0)
         return POSITION_MAX_ON_LINE;
-    else if (CompareNoCase(sPositionModifier, _CWS("minonline")) == 0)
+    else if (CompareNoCase(sPositionModifier, _CTS("minonline")) == 0)
         return POSITION_MIN_ON_LINE;
-    else if (CompareNoCase(sPositionModifier, _CWS("percentonline")) == 0)
+    else if (CompareNoCase(sPositionModifier, _CTS("percentonline")) == 0)
         return POSITION_PERCENT_ON_LINE;
-    else if (CompareNoCase(sPositionModifier, _CWS("pointpastline")) == 0)
+    else if (CompareNoCase(sPositionModifier, _CTS("pointpastline")) == 0)
         return POSITION_POINT_PAST_LINE;
-    else if (CompareNoCase(sPositionModifier, _CWS("directionoffset")) == 0)
+    else if (CompareNoCase(sPositionModifier, _CTS("directionoffset")) == 0)
         return POSITION_DIRECTION_OFFSET;
     else
         return POSITION_END;

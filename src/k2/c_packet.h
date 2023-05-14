@@ -124,7 +124,9 @@ public:
     K2_API byte     ReadByte(byte yFailed = 0);
     K2_API void     ReadString(char *buf, uint uiSize);
     K2_API string   ReadString(const string &sFailed = SNULL);
+    K2_API tstring  ReadStringAsTString(const tstring &sFailed = SNULL);
     K2_API wstring  ReadWString(const wstring &sFailed = WSNULL);
+    K2_API tstring  ReadWStringAsTString(const tstring &sFailed = TSNULL);
     K2_API tstring  ReadTString(const tstring &sFailed = TSNULL);
     K2_API size_t   ReadArray(char *str, uint uiMaxSize);
     K2_API float    ReadFloat(float fFailed = 0.0f);

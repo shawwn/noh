@@ -58,15 +58,15 @@ m_uiNextConnectReminder(INVALID_TIME)
 /*====================
   CServerChatConnection::Connect
   ====================*/
-void    CServerChatConnection::Connect(const wstring &sAddress, ushort unPort)
+void    CServerChatConnection::Connect(const tstring &sAddress, ushort unPort)
 {
     if (!svr_broadcast)
         return;
 
-    Console.Server << L"Attempting to connect to chat server: " << sAddress << L":" << unPort << newl;
+    Console.Server << _T("Attempting to connect to chat server: ") << sAddress << _T(":") << unPort << newl;
 
     Disconnect();
-    m_pSocket = K2_NEW(ctx_Net,  CSocket)(L"ServerChat");
+    m_pSocket = K2_NEW(ctx_Net,  CSocket)(_T("ServerChat"));
     if (!m_pSocket->Init(K2_SOCKET_TCP2))
         Disconnect();
 
@@ -93,7 +93,7 @@ void    CServerChatConnection::Reconnect(uint uiTimeout, const tstring &sReason)
 {
     Disconnect(sReason);
 
-    Console.Server << L"Will attempt to reconnect to chat server in " << uiTimeout << L"ms" << newl;
+    Console.Server << _T("Will attempt to reconnect to chat server in ") << uiTimeout << _T("ms") << newl;
 
     m_uiReconnectTime = K2System.Milliseconds() + uiTimeout;
 }
@@ -107,7 +107,7 @@ void    CServerChatConnection::Disconnect(const tstring &sReason)
     if (m_pSocket == NULL)
         return;
 
-    Console.Server << L"Connection to chat server terminated. " << ParenStr(sReason) << newl;
+    Console.Server << _T("Connection to chat server terminated. ") << ParenStr(sReason) << newl;
 
     m_pktSend.Clear();
     m_pktSend << NET_CHAT_GS_DISCONNECT;
@@ -128,7 +128,7 @@ void    CServerChatConnection::Handshake()
     if (m_pSocket == NULL)
         return;
 
-    Console.Server << L"Sending handshake to chat server." << newl;
+    Console.Server << _T("Sending handshake to chat server.") << newl;
 
     m_pktSend.Clear();
     m_pktSend << NET_CHAT_GS_CONNECT << m_pHostServer->GetServerID() << m_pHostServer->GetSessionCookie() << CHAT_PROTOCOL_VERSION;
@@ -148,7 +148,7 @@ void    CServerChatConnection::SendStatusUpdate()
     if (m_pSocket == NULL || m_eState != STATE_CONNECTED)
         return;
 
-    Console.Server << L"Sending status update." << newl;
+    Console.Server << _T("Sending status update.") << newl;
     m_pktSend.Clear();
     m_pktSend
         << NET_CHAT_GS_STATUS
@@ -176,32 +176,32 @@ void    CServerChatConnection::SendStatusUpdate()
             << byte(m_pHostServer->GetServerAccess())                                       // Private (1), Not Private (0)
             << m_pHostServer->GetWorld()->GetName()                                         // Map Name             
             << byte(m_pHostServer->GetTier())                                               // Tier - Noobs Only (0), Noobs Allowed (1), Pro (2) (Depreciated)          
-            << m_pHostServer->GetGameLib().GetGameInfoString(L"GetGameName")                // Game Name
-            << m_pHostServer->GetGameLib().GetGameInfoString(L"GetGameModeName")            // Game Mode Name               
-            << byte(m_pHostServer->GetGameLib().GetGameInfoInt(L"GetTeamSize"))             // Team Size
-            << byte(m_pHostServer->GetGameLib().GetGameInfoInt(L"GetAllHeroes"))            // All Heroes (1), Not All Heroes (0)
-            << byte(m_pHostServer->GetGameLib().GetGameInfoInt(L"GetCasualMode"))           // Casual Mode (1), Not Casual Mode (0)
-            << byte(m_pHostServer->GetGameLib().GetGameInfoInt(L"GetForceRandom"))          // Force Random (1), Not Force Random (0)                           
-            << byte(m_pHostServer->GetGameLib().GetGameInfoInt(L"GetAutoBalanced"))         // Auto Balanced (1), Non Auto Balanced (0)
-            << byte(m_pHostServer->GetGameLib().GetGameInfoInt(L"GetAdvancedOptions"))      // Advanced Options (1), No Advanced Options (0)
+            << m_pHostServer->GetGameLib().GetGameInfoString(_T("GetGameName"))                // Game Name
+            << m_pHostServer->GetGameLib().GetGameInfoString(_T("GetGameModeName"))            // Game Mode Name
+            << byte(m_pHostServer->GetGameLib().GetGameInfoInt(_T("GetTeamSize")))             // Team Size
+            << byte(m_pHostServer->GetGameLib().GetGameInfoInt(_T("GetAllHeroes")))            // All Heroes (1), Not All Heroes (0)
+            << byte(m_pHostServer->GetGameLib().GetGameInfoInt(_T("GetCasualMode")))           // Casual Mode (1), Not Casual Mode (0)
+            << byte(m_pHostServer->GetGameLib().GetGameInfoInt(_T("GetForceRandom")))          // Force Random (1), Not Force Random (0)
+            << byte(m_pHostServer->GetGameLib().GetGameInfoInt(_T("GetAutoBalanced")))         // Auto Balanced (1), Non Auto Balanced (0)
+            << byte(m_pHostServer->GetGameLib().GetGameInfoInt(_T("GetAdvancedOptions")))      // Advanced Options (1), No Advanced Options (0)
             << m_pHostServer->GetMinPSR()                                                   // Min PSR
             << m_pHostServer->GetMaxPSR()                                                   // Max PSR
-            << byte(m_pHostServer->GetGameLib().GetGameInfoInt(L"GetDevHeroes"))            // Dev Heroes (1), Non Dev Heroes (0)
-            << byte(m_pHostServer->GetGameLib().GetGameInfoInt(L"GetHardcore"))             // Hardcore (1), Non Hardcore (0)
-            << m_pHostServer->GetGameLib().GetGameInfoInt(L"GetCurrentGameTime")            // Current Game Time
-            << m_pHostServer->GetGameLib().GetGameInfoInt(L"GetCurrentGamePhase")           // Current Game Phase
-            << m_pHostServer->GetGameLib().GetGameInfoString(L"GetTeamInfo1")               // Get Legion Team Info
-            << m_pHostServer->GetGameLib().GetGameInfoString(L"GetTeamInfo2")               // Get Hellbourne Team Info
-            << m_pHostServer->GetGameLib().GetGameInfoString(L"GetPlayerInfo0")             // Get Player 0 Info
-            << m_pHostServer->GetGameLib().GetGameInfoString(L"GetPlayerInfo1")             // Get Player 1 Info
-            << m_pHostServer->GetGameLib().GetGameInfoString(L"GetPlayerInfo2")             // Get Player 2 Info
-            << m_pHostServer->GetGameLib().GetGameInfoString(L"GetPlayerInfo3")             // Get Player 3 Info
-            << m_pHostServer->GetGameLib().GetGameInfoString(L"GetPlayerInfo4")             // Get Player 4 Info
-            << m_pHostServer->GetGameLib().GetGameInfoString(L"GetPlayerInfo5")             // Get Player 5 Info
-            << m_pHostServer->GetGameLib().GetGameInfoString(L"GetPlayerInfo6")             // Get Player 6 Info
-            << m_pHostServer->GetGameLib().GetGameInfoString(L"GetPlayerInfo7")             // Get Player 7 Info
-            << m_pHostServer->GetGameLib().GetGameInfoString(L"GetPlayerInfo8")             // Get Player 8 Info
-            << m_pHostServer->GetGameLib().GetGameInfoString(L"GetPlayerInfo9");            // Get Player 9 Info
+            << byte(m_pHostServer->GetGameLib().GetGameInfoInt(_T("GetDevHeroes")))            // Dev Heroes (1), Non Dev Heroes (0)
+            << byte(m_pHostServer->GetGameLib().GetGameInfoInt(_T("GetHardcore")))             // Hardcore (1), Non Hardcore (0)
+            << m_pHostServer->GetGameLib().GetGameInfoInt(_T("GetCurrentGameTime"))            // Current Game Time
+            << m_pHostServer->GetGameLib().GetGameInfoInt(_T("GetCurrentGamePhase"))           // Current Game Phase
+            << m_pHostServer->GetGameLib().GetGameInfoString(_T("GetTeamInfo1"))               // Get Legion Team Info
+            << m_pHostServer->GetGameLib().GetGameInfoString(_T("GetTeamInfo2"))               // Get Hellbourne Team Info
+            << m_pHostServer->GetGameLib().GetGameInfoString(_T("GetPlayerInfo0"))             // Get Player 0 Info
+            << m_pHostServer->GetGameLib().GetGameInfoString(_T("GetPlayerInfo1"))             // Get Player 1 Info
+            << m_pHostServer->GetGameLib().GetGameInfoString(_T("GetPlayerInfo2"))             // Get Player 2 Info
+            << m_pHostServer->GetGameLib().GetGameInfoString(_T("GetPlayerInfo3"))             // Get Player 3 Info
+            << m_pHostServer->GetGameLib().GetGameInfoString(_T("GetPlayerInfo4"))             // Get Player 4 Info
+            << m_pHostServer->GetGameLib().GetGameInfoString(_T("GetPlayerInfo5"))             // Get Player 5 Info
+            << m_pHostServer->GetGameLib().GetGameInfoString(_T("GetPlayerInfo6"))             // Get Player 6 Info
+            << m_pHostServer->GetGameLib().GetGameInfoString(_T("GetPlayerInfo7"))             // Get Player 7 Info
+            << m_pHostServer->GetGameLib().GetGameInfoString(_T("GetPlayerInfo8"))             // Get Player 8 Info
+            << m_pHostServer->GetGameLib().GetGameInfoString(_T("GetPlayerInfo9"));            // Get Player 9 Info
     }
     else
     {
@@ -214,10 +214,10 @@ void    CServerChatConnection::SendStatusUpdate()
             << yDefault                                                     // 0 - Unofficial, 1 - Official w/ stats, 2 - Official w/o stats
             << yDefault                                                     // No Leavers (1), Leavers (0)
             << yDefault                                                     // Private (1), Not Private (0)
-            << L""                                                          // Map Name             
+            << _T("")                                                          // Map Name
             << yDefault                                                     // Tier - Noobs Only (0), Noobs Allowed (1), Pro (2) (Depreciated)
-            << L""                                                          // Game Name
-            << L""                                                          // Game Mode Name               
+            << _T("")                                                          // Game Name
+            << _T("")                                                          // Game Mode Name
             << yDefault                                                     // Team Size
             << yDefault                                                     // All Heroes (1), Not All Heroes (0)
             << yDefault                                                     // Casual Mode (1), Not Casual Mode (0)
@@ -230,18 +230,18 @@ void    CServerChatConnection::SendStatusUpdate()
             << yDefault                                                     // Hardcore (1), Non Hardcore (0)           
             << uiDefault                                                    // Current Game Time
             << uiDefault                                                    // Current Game Phase
-            << L""                                                          // Get Legion Team Info
-            << L""                                                          // Get Hellbourne Team Info
-            << L""                                                          // Get Player 0 Info
-            << L""                                                          // Get Player 1 Info
-            << L""                                                          // Get Player 2 Info
-            << L""                                                          // Get Player 3 Info
-            << L""                                                          // Get Player 4 Info
-            << L""                                                          // Get Player 5 Info
-            << L""                                                          // Get Player 6 Info
-            << L""                                                          // Get Player 7 Info
-            << L""                                                          // Get Player 8 Info
-            << L"";                                                         // Get Player 9 Info
+            << _T("")                                                          // Get Legion Team Info
+            << _T("")                                                          // Get Hellbourne Team Info
+            << _T("")                                                          // Get Player 0 Info
+            << _T("")                                                          // Get Player 1 Info
+            << _T("")                                                          // Get Player 2 Info
+            << _T("")                                                          // Get Player 3 Info
+            << _T("")                                                          // Get Player 4 Info
+            << _T("")                                                          // Get Player 5 Info
+            << _T("")                                                          // Get Player 6 Info
+            << _T("")                                                          // Get Player 7 Info
+            << _T("")                                                          // Get Player 8 Info
+            << _T("");                                                         // Get Player 9 Info
     }
     
     // Strip off the drive from the RootDir (C:\)
@@ -284,7 +284,7 @@ void    CServerChatConnection::SendConnectionReminder(uint uiAccountID)
         << uiAccountID;
     m_pSocket->SendPacket(m_pktSend);
 
-    Console.Server << L"Reminding player #" << uiAccountID << L" to connect." << newl;
+    Console.Server << _T("Reminding player #") << uiAccountID << _T(" to connect.") << newl;
 }
 
 
@@ -302,7 +302,7 @@ void    CServerChatConnection::ReplacePlayer(uint uiAccountID)
         << uiAccountID;
     m_pSocket->SendPacket(m_pktSend);
 
-    Console.Server << L"Requesting replacement of player #" << uiAccountID << L"." << newl;
+    Console.Server << _T("Requesting replacement of player #") << uiAccountID << _T(".") << newl;
 }
 
 
@@ -353,7 +353,7 @@ void    CServerChatConnection::SendMatchAborted(EMatchAbortedReason eReason)
   ====================*/
 bool    CServerChatConnection::HandleAccept(CPacket &pkt)
 {
-    Console.Server << L"Connected to chat server." << newl;
+    Console.Server << _T("Connected to chat server.") << newl;
     m_eState = STATE_CONNECTED;
     m_bSentPing = false;
     SendStatusUpdate();
@@ -368,19 +368,19 @@ bool    CServerChatConnection::HandleReject(CPacket &pkt)
 {
     byte yReason(pkt.ReadByte(SERVER_REJECT_UNKNOWN));
     
-    Console.Server << L"Chat server rejected connection: ";
+    Console.Server << _T("Chat server rejected connection: ");
     switch (yReason)
     {
     case SERVER_REJECT_UNKNOWN:
-        Console.Net << L"Unknown reason" << newl;
+        Console.Net << _T("Unknown reason") << newl;
         break;
 
     case SERVER_REJECT_BAD_VERSION:
-        Console.Net << L"Version mismatch" << newl;
+        Console.Net << _T("Version mismatch") << newl;
         break;
 
     case SERVER_REJECT_AUTH_FAILED:
-        Console.Net << L"Auth failed" << newl;
+        Console.Net << _T("Auth failed") << newl;
         break;
     }
 
@@ -395,8 +395,8 @@ bool    CServerChatConnection::HandleCreateMatch(CPacket &pkt)
 {
     const uint uiMatchupID(pkt.ReadInt());
     const uint uiChallenge(pkt.ReadInt());
-    const wstring sName(pkt.ReadWString());
-    const wstring sSettings(pkt.ReadWString());
+    const tstring sName(pkt.ReadWStringAsTString());
+    const tstring sSettings(pkt.ReadWStringAsTString());
 
     if (pkt.HasFaults() || sName.empty() || sSettings.empty())
         return false;
@@ -435,7 +435,7 @@ bool    CServerChatConnection::HandleCreateMatch(CPacket &pkt)
 
         m_pSocket->SendPacket(m_pktSend);
 
-        Console << L"Ignoring request to create match because server is not idle!" << newl;
+        Console << _T("Ignoring request to create match because server is not idle!") << newl;
         return true;
     }
 
@@ -453,7 +453,7 @@ bool    CServerChatConnection::HandleCreateMatch(CPacket &pkt)
 
         if (uiAccountID != INVALID_ACCOUNT)
         {
-            Console << L"Adding AccountID#" << uiAccountID << L", Slot#" << uiSlot << L" to the roster..." << newl;
+            Console << _T("Adding AccountID#") << uiAccountID << _T(", Slot#") << uiSlot << _T(" to the roster...") << newl;
             m_pHostServer->AddToRoster(uiAccountID, uiTeam, uiSlot);
         }
     }
@@ -476,7 +476,7 @@ bool    CServerChatConnection::HandleCreateMatch(CPacket &pkt)
         m_uiNextConnectReminder = K2System.Milliseconds() + svr_clientReminderInterval;
 
         m_pktSend.Clear();
-        m_pktSend << NET_CHAT_GS_ANNOUNCE_MATCH << uiMatchupID << uiChallenge << uiGroupCount << m_pHostServer->GetGameLib().GetGameInfoInt(L"GetMatchID");
+        m_pktSend << NET_CHAT_GS_ANNOUNCE_MATCH << uiMatchupID << uiChallenge << uiGroupCount << m_pHostServer->GetGameLib().GetGameInfoInt(_T("GetMatchID"));
         
         // Loop over each GroupID that was sent to us and echo them back
         for (uivector_cit citGroup(vGroupIDs.begin()), citGroupEnd(vGroupIDs.end()); citGroup != citGroupEnd; ++citGroup)
@@ -509,14 +509,14 @@ bool    CServerChatConnection::HandleRosterSubstitute(CPacket &pkt)
   ====================*/
 bool    CServerChatConnection::HandleRemoteCommand(CPacket &pkt)
 {
-    wstring sSession(pkt.ReadWString());
-    wstring sCommand(pkt.ReadWString());
+    tstring sSession(pkt.ReadWStringAsTString());
+    tstring sCommand(pkt.ReadWStringAsTString());
     if (pkt.HasFaults())
         return false;
 
     if (sSession != m_pHostServer->GetSessionCookie())
     {
-        Console << L"HandleRemoteCommand() - invalid session cookie." << newl;
+        Console << _T("HandleRemoteCommand() - invalid session cookie.") << newl;
         return true;
     }
 
@@ -548,7 +548,7 @@ void    CServerChatConnection::ReadSocket()
         {
             if (iRecvLength < 0)
             {
-                Console.Server << L"Error reading chat socket." << newl;
+                Console.Server << _T("Error reading chat socket.") << newl;
                 bStayConnected = false;
             }
             break;
@@ -568,7 +568,7 @@ void    CServerChatConnection::ReadSocket()
                 break;
 
             case NET_CHAT_PONG:
-                //Console.Server << L"Chat server PONG @ " << m_uiLastReceiveTime << newl;
+                //Console.Server << _T("Chat server PONG @ ") << m_uiLastReceiveTime << newl;
 
                 m_bSentPing = false;
                 break;
@@ -577,47 +577,47 @@ void    CServerChatConnection::ReadSocket()
                 bStayConnected = HandleAccept(pktRecv);
 
                 if (!bStayConnected)
-                    Console.Server << L"Bad NET_CHAT_GS_ACCEPT from chat server" << newl;
+                    Console.Server << _T("Bad NET_CHAT_GS_ACCEPT from chat server") << newl;
                 break;
 
             case NET_CHAT_GS_REJECT:
                 bStayConnected = HandleReject(pktRecv);
 
                 if (!bStayConnected)
-                    Console.Server << L"Bad NET_CHAT_GS_REJECT from chat server" << newl;
+                    Console.Server << _T("Bad NET_CHAT_GS_REJECT from chat server") << newl;
                 break;
 
             case NET_CHAT_GS_CREATE_MATCH:
                 bStayConnected = HandleCreateMatch(pktRecv);
 
                 if (!bStayConnected)
-                    Console.Server << L"Bad NET_CHAT_GS_CREATE_MATCH from chat server" << newl;
+                    Console.Server << _T("Bad NET_CHAT_GS_CREATE_MATCH from chat server") << newl;
                 break;
 
             case NET_CHAT_GS_ROSTER_SUBSTITUTE:
                 bStayConnected = HandleRosterSubstitute(pktRecv);
 
                 if (!bStayConnected)
-                    Console.Server << L"Bad NET_CHAT_GS_ROSTER_SUBSTITUTE from chat server" << newl;
+                    Console.Server << _T("Bad NET_CHAT_GS_ROSTER_SUBSTITUTE from chat server") << newl;
                 break;
 
             case NET_CHAT_GS_REMOTE_COMMAND:
                 bStayConnected = HandleRemoteCommand(pktRecv);
 
                 if (!bStayConnected)
-                    Console.Server << L"Bad NET_CHAT_GS_REMOTE_COMMAND from chat server" << newl;
+                    Console.Server << _T("Bad NET_CHAT_GS_REMOTE_COMMAND from chat server") << newl;
                 break;
 
             default:
             case NET_CHAT_INVALID:
-                Console.Server << L"Game server received bad data from chat server." << newl;
+                Console.Server << _T("Game server received bad data from chat server.") << newl;
                 bStayConnected = false;
                 break;
             }
 
             if (pktRecv.HasFaults())
             {
-                Console.Server << L"Game server received bad data from chat server." << newl;
+                Console.Server << _T("Game server received bad data from chat server.") << newl;
                 bStayConnected = false;
             }
 
@@ -695,7 +695,7 @@ void    CServerChatConnection::Frame()
         if (!m_bSentPing && K2System.Milliseconds() - m_uiLastReceiveTime >= svr_chatConnectedTimeout / 2)
         {
             if (_debugTimeout)
-                Console.Server << L"Game server PING @ " << K2System.Milliseconds() << newl;
+                Console.Server << _T("Game server PING @ ") << K2System.Milliseconds() << newl;
 
             m_pktSend.Clear();
             m_pktSend << NET_CHAT_PING;

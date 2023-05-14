@@ -28,140 +28,140 @@ tstring GetActionScriptName(uint uiActionScript)
     switch (uiActionScript)
     {
     case ACTION_SCRIPT_FRAME:
-        return _CWS("FRAME");
+        return _CTS("FRAME");
     case ACTION_SCRIPT_FRAME_IMPACT:
-        return _CWS("FRAME_IMPACT");
+        return _CTS("FRAME_IMPACT");
     case ACTION_SCRIPT_INTERVAL:
-        return _CWS("INTERVAL");
+        return _CTS("INTERVAL");
     case ACTION_SCRIPT_START:
-        return _CWS("START");
+        return _CTS("START");
     case ACTION_SCRIPT_PRE_COST:
-        return _CWS("PRE_COST");
+        return _CTS("PRE_COST");
     case ACTION_SCRIPT_ACTION:
-        return _CWS("ACTION");
+        return _CTS("ACTION");
     case ACTION_SCRIPT_PRE_IMPACT:
-        return _CWS("PRE_IMPACT");
+        return _CTS("PRE_IMPACT");
     case ACTION_SCRIPT_PRE_DAMAGE:
-        return _CWS("PRE_DAMAGE");
+        return _CTS("PRE_DAMAGE");
     case ACTION_SCRIPT_DAMAGE_EVENT:
-        return _CWS("DAMAGE_EVENT");
+        return _CTS("DAMAGE_EVENT");
     case ACTION_SCRIPT_IMPACT:
-        return _CWS("IMPACT");
+        return _CTS("IMPACT");
     case ACTION_SCRIPT_IMPACT_INVALID:
-        return _CWS("IMPACT_INVALID");
+        return _CTS("IMPACT_INVALID");
     case ACTION_SCRIPT_COMPLETE:
-        return _CWS("COMPLETE");
+        return _CTS("COMPLETE");
     case ACTION_SCRIPT_CANCEL:
-        return _CWS("CANCEL");
+        return _CTS("CANCEL");
     case ACTION_SCRIPT_ACTIVATE_START:
-        return _CWS("ACTIVATE_START");
+        return _CTS("ACTIVATE_START");
     case ACTION_SCRIPT_ACTIVATE_PRE_IMPACT:
-        return _CWS("ACTIVATE_PRE_IMPACT");
+        return _CTS("ACTIVATE_PRE_IMPACT");
     case ACTION_SCRIPT_ACTIVATE_IMPACT:
-        return _CWS("ACTIVATE_IMPACT");
+        return _CTS("ACTIVATE_IMPACT");
     case ACTION_SCRIPT_ACTIVATE_END:
-        return _CWS("ACTIVATE_END");
+        return _CTS("ACTIVATE_END");
     case ACTION_SCRIPT_ABILITY_START:
-        return _CWS("ABILITY_START");
+        return _CTS("ABILITY_START");
     case ACTION_SCRIPT_ABILITY_IMPACT:
-        return _CWS("ABILITY_IMPACT");
+        return _CTS("ABILITY_IMPACT");
     case ACTION_SCRIPT_ABILITY_FINISH:
-        return _CWS("ABILITY_FINISH");
+        return _CTS("ABILITY_FINISH");
     case ACTION_SCRIPT_ABILITY_END:
-        return _CWS("ABILITY_END");
+        return _CTS("ABILITY_END");
     case ACTION_SCRIPT_TOGGLE_ON:
-        return _CWS("TOGGLE_ON");
+        return _CTS("TOGGLE_ON");
     case ACTION_SCRIPT_TOGGLE_OFF:
-        return _CWS("TOGGLE_OFF");
+        return _CTS("TOGGLE_OFF");
 
     case ACTION_SCRIPT_CHANNEL_START:
-        return _CWS("CHANNEL_START");
+        return _CTS("CHANNEL_START");
     case ACTION_SCRIPT_CHANNEL_FRAME:
-        return _CWS("CHANNEL_FRAME");
+        return _CTS("CHANNEL_FRAME");
     case ACTION_SCRIPT_CHANNEL_BROKEN:
-        return _CWS("CHANNEL_BROKEN");
+        return _CTS("CHANNEL_BROKEN");
     case ACTION_SCRIPT_CHANNEL_END:
-        return _CWS("CHANNEL_END");
+        return _CTS("CHANNEL_END");
 
     case ACTION_SCRIPT_CHANNELING_START:
-        return _CWS("CHANNELING_START");
+        return _CTS("CHANNELING_START");
     case ACTION_SCRIPT_CHANNELING_FRAME:
-        return _CWS("CHANNELING_FRAME");
+        return _CTS("CHANNELING_FRAME");
     case ACTION_SCRIPT_CHANNELING_BROKEN:
-        return _CWS("CHANNELING_BROKEN");
+        return _CTS("CHANNELING_BROKEN");
     case ACTION_SCRIPT_CHANNELING_END:
-        return _CWS("CHANNELING_END");
+        return _CTS("CHANNELING_END");
 
     case ACTION_SCRIPT_ATTACK_START:
-        return _CWS("ATTACK_START");
+        return _CTS("ATTACK_START");
     case ACTION_SCRIPT_ATTACK:
-        return _CWS("ATTACK");
+        return _CTS("ATTACK");
     case ACTION_SCRIPT_ATTACK_PRE_IMPACT:
-        return _CWS("ATTACK_PRE_IMPACT");
+        return _CTS("ATTACK_PRE_IMPACT");
     case ACTION_SCRIPT_ATTACK_PRE_DAMAGE:
-        return _CWS("ATTACK_PRE_DAMAGE");
+        return _CTS("ATTACK_PRE_DAMAGE");
     case ACTION_SCRIPT_ATTACK_DAMAGE_EVENT:
-        return _CWS("ATTACK_DAMAGE_EVENT");
+        return _CTS("ATTACK_DAMAGE_EVENT");
     case ACTION_SCRIPT_ATTACK_IMPACT:
-        return _CWS("ATTACK_IMPACT");
+        return _CTS("ATTACK_IMPACT");
     case ACTION_SCRIPT_ATTACK_END:
-        return _CWS("ATTACK_END");
+        return _CTS("ATTACK_END");
     case ACTION_SCRIPT_ATTACKED_START:
-        return _CWS("ATTACKED_START");
+        return _CTS("ATTACKED_START");
     case ACTION_SCRIPT_ATTACKED_PRE_IMPACT:
-        return _CWS("ATTACKED_PRE_IMPACT");
+        return _CTS("ATTACKED_PRE_IMPACT");
     case ACTION_SCRIPT_ATTACKED_PRE_DAMAGE:
-        return _CWS("ATTACKED_PRE_DAMAGE");
+        return _CTS("ATTACKED_PRE_DAMAGE");
     case ACTION_SCRIPT_ATTACKED_DAMAGE_EVENT:
-        return _CWS("ATTACKED_DAMAGE_EVENT");
+        return _CTS("ATTACKED_DAMAGE_EVENT");
     case ACTION_SCRIPT_ATTACKED_POST_IMPACT:
-        return _CWS("ATTACKED_POST_IMPACT");
+        return _CTS("ATTACKED_POST_IMPACT");
     case ACTION_SCRIPT_DAMAGE:
-        return _CWS("DAMAGE");
+        return _CTS("DAMAGE");
     case ACTION_SCRIPT_DAMAGED:
-        return _CWS("DAMAGED");
+        return _CTS("DAMAGED");
     case ACTION_SCRIPT_STUNNED:
-        return _CWS("STUNNED");
+        return _CTS("STUNNED");
     case ACTION_SCRIPT_KILLED:
-        return _CWS("KILLED");
+        return _CTS("KILLED");
     case ACTION_SCRIPT_EXPIRED:
-        return _CWS("EXPIRED");
+        return _CTS("EXPIRED");
     case ACTION_SCRIPT_DEATH:
-        return _CWS("DEATH");
+        return _CTS("DEATH");
     case ACTION_SCRIPT_KILL:
-        return _CWS("KILL");
+        return _CTS("KILL");
     case ACTION_SCRIPT_INDIRECT_KILL:
-        return _CWS("INDIRECT_KILL");
+        return _CTS("INDIRECT_KILL");
     case ACTION_SCRIPT_ASSIST:
-        return _CWS("ASSIST");
+        return _CTS("ASSIST");
     case ACTION_SCRIPT_SPAWN:
-        return _CWS("SPAWN");
+        return _CTS("SPAWN");
     case ACTION_SCRIPT_RESPAWN:
-        return _CWS("RESPAWN");
+        return _CTS("RESPAWN");
     case ACTION_SCRIPT_INFLICT:
-        return _CWS("INFLICT");
+        return _CTS("INFLICT");
     case ACTION_SCRIPT_REFRESH:
-        return _CWS("REFRESH");
+        return _CTS("REFRESH");
     case ACTION_SCRIPT_INFLICTED:
-        return _CWS("INFLICTED");
+        return _CTS("INFLICTED");
     case ACTION_SCRIPT_OWNER_RESPAWN:
-        return _CWS("OWNER_RESPAWN");
+        return _CTS("OWNER_RESPAWN");
     case ACTION_SCRIPT_RELEASE:
-        return _CWS("RELEASE");
+        return _CTS("RELEASE");
     case ACTION_SCRIPT_TOUCH:
-        return _CWS("TOUCH");
+        return _CTS("TOUCH");
     case ACTION_SCRIPT_TOUCHED:
-        return _CWS("TOUCHED");
+        return _CTS("TOUCHED");
     case ACTION_SCRIPT_THINK:
-        return _CWS("THINK");
+        return _CTS("THINK");
     case ACTION_SCRIPT_TARGET_ACQUIRED:
-        return _CWS("TARGET_ACQUIRED");
+        return _CTS("TARGET_ACQUIRED");
     case ACTION_SCRIPT_LEARN:
-        return _CWS("LEARN");
+        return _CTS("LEARN");
     case ACTION_SCRIPT_UPGRADE:
-        return _CWS("UPGRADE");
+        return _CTS("UPGRADE");
     case ACTION_SCRIPT_ACTIVATE_COST:
-        return _CWS("ACTIVATE_COST");
+        return _CTS("ACTIVATE_COST");
     }
 
     return TSNULL;

@@ -63,7 +63,7 @@ m_uiType(-1)
 void    CHTTPRequest::Completed()
 {
     m_bufferResponse << byte(0);
-    m_sResponse = UTF8ToWString(m_bufferResponse.Get());
+    m_sResponse = UTF8ToTString(m_bufferResponse.Get());
 
     m_eStatus = HTTP_REQUEST_SUCCESS;
     m_bufferResponse.Clear();
@@ -104,25 +104,25 @@ int CURLDebugCallback(CURL *pCurlEasy, curl_infotype type, char *pString, size_t
     switch (type)
     {
     case CURLINFO_TEXT:
-        Console.Net << L"CURL: " << buffer.Get();
+        Console.Net << _T("CURL: ") << buffer.Get();
         break;
     case CURLINFO_HEADER_IN:
-        Console.Net << L"CURL (header in): " << NormalizeLineBreaks(buffer.Get());
+        Console.Net << _T("CURL (header in): ") << NormalizeLineBreaks(buffer.Get());
         break;
     case CURLINFO_HEADER_OUT:
-        Console.Net << L"CURL (header out): " << NormalizeLineBreaks(buffer.Get());
+        Console.Net << _T("CURL (header out): ") << NormalizeLineBreaks(buffer.Get());
         break;
     case CURLINFO_DATA_IN:
-        Console.Net << L"CURL (data in): " << NormalizeLineBreaks(buffer.Get()) << newl;
+        Console.Net << _T("CURL (data in): ") << NormalizeLineBreaks(buffer.Get()) << newl;
         break;
     case CURLINFO_DATA_OUT:
-        Console.Net << L"CURL (data out): " << NormalizeLineBreaks(buffer.Get()) << newl;
+        Console.Net << _T("CURL (data out): ") << NormalizeLineBreaks(buffer.Get()) << newl;
         break;
     case CURLINFO_SSL_DATA_IN:
-        Console.Net << L"CURL (SSL data in): " << NormalizeLineBreaks(buffer.Get()) << newl;
+        Console.Net << _T("CURL (SSL data in): ") << NormalizeLineBreaks(buffer.Get()) << newl;
         break;
     case CURLINFO_SSL_DATA_OUT:
-        Console.Net << L"CURL (SSL data out): " << NormalizeLineBreaks(buffer.Get()) << newl;
+        Console.Net << _T("CURL (SSL data out): ") << NormalizeLineBreaks(buffer.Get()) << newl;
         break;
     case CURLINFO_END:
         K2_UNREACHABLE();
@@ -151,7 +151,7 @@ void    CHTTPRequest::SendRequest(const string &sURL, bool bPost, bool bSSL)
 #ifdef __APPLE__
         // hack to work around buggy network monitoring when managed account is used: it is changing the last 2 chars in the post data to "Pr"
         // add a dummy variable/value at the end so none of the actual data gets corrupted
-        AddVariable(L"neverusethisvar", L"xx");
+        AddVariable(_T("neverusethisvar"), _T("xx"));
 #endif
         string sVarString;
         for (StringPairVector_it it(m_vVariables.begin()); it != m_vVariables.end(); ++it) {

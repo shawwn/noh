@@ -3491,7 +3491,7 @@ CMD(PrintGameInfo)
             continue;
 
         IHeroEntity *pHero(pPlayer->GetHero());
-        Console << XtoA(pHero ? pHero->GetDisplayName() : _CWS("<none>") , FMT_NONE, 14) << SPACE;
+        Console << XtoA(pHero ? pHero->GetDisplayName() : _CTS("<none>") , FMT_NONE, 14) << SPACE;
         Console << _T("gold: ") << pPlayer->GetGold() << SPACE;
         if (pHero)
         {

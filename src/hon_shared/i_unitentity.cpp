@@ -5063,7 +5063,7 @@ bool    IUnitEntity::AddToScene(const CVec4f &v4Color, int iFlags)
         m_pMount->UpdateSkeleton(true);
 
         CSkeleton *pSkeleton(m_pMount->GetSkeleton());
-        uint uiBone(pSkeleton->GetBone(_CWS("_bone_hero")));
+        uint uiBone(pSkeleton->GetBone(_CTS("_bone_hero")));
         if (uiBone != INVALID_BONE)
         {
             SBoneState *pBone(pSkeleton->GetBoneState(uiBone));
@@ -6268,7 +6268,7 @@ void    IUnitEntity::UpdateEffectThreadSource(CEffectThread *pEffectThread)
         m_pMount->UpdateSkeleton(true);
 
         CSkeleton *pSkeleton(m_pMount->GetSkeleton());
-        uint uiBone(pSkeleton->GetBone(_CWS("_bone_hero")));
+        uint uiBone(pSkeleton->GetBone(_CTS("_bone_hero")));
         if (uiBone != INVALID_BONE)
         {
             SBoneState *pBone(pSkeleton->GetBoneState(uiBone));
@@ -6320,7 +6320,7 @@ void    IUnitEntity::UpdateEffectThreadTarget(CEffectThread *pEffectThread)
         m_pMount->UpdateSkeleton(true);
 
         CSkeleton *pSkeleton(m_pMount->GetSkeleton());
-        uint uiBone(pSkeleton->GetBone(_CWS("_bone_hero")));
+        uint uiBone(pSkeleton->GetBone(_CTS("_bone_hero")));
         if (uiBone != INVALID_BONE)
         {
             SBoneState *pBone(pSkeleton->GetBoneState(uiBone));

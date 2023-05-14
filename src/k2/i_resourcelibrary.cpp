@@ -107,11 +107,11 @@ ResHandle   IResourceLibrary::Register(const tstring &sDirtyPath, uint uiIgnoreF
 
     tstring sLocalizedPath(sPath);
     bool bLocalized(true);
-    if (m_bLoadRaw && !sPath.empty() && sPath[0] != _T('$') && sPath[0] != _T('!') && sPath[0] != _T('*') && sPath.find(_CWS("%"), 0) == tstring::npos) // check for virtual resources (like procedural textures)
+    if (m_bLoadRaw && !sPath.empty() && sPath[0] != _T('$') && sPath[0] != _T('!') && sPath[0] != _T('*') && sPath.find(_CTS("%"), 0) == tstring::npos) // check for virtual resources (like procedural textures)
     {
         if (!host_language.empty())
         {
-            sLocalizedPath = Filename_StripExtension(sLocalizedPath) + _CWS("_") + host_language + _CWS(".") + Filename_GetExtension(sLocalizedPath);
+            sLocalizedPath = Filename_StripExtension(sLocalizedPath) + _CTS("_") + host_language + _CTS(".") + Filename_GetExtension(sLocalizedPath);
             if (!FileManager.Exists(sLocalizedPath, FILE_READ))
             {
                 bLocalized = false;
@@ -131,11 +131,11 @@ ResHandle   IResourceLibrary::Register(const tstring &sDirtyPath, uint uiIgnoreF
     {
         // Allocate a new resource object
         if (m_fnAlloc == NULL)
-            EX_ERROR(_CWS("No allocator provided for this resource type"));
+            EX_ERROR(_CTS("No allocator provided for this resource type"));
 
         pNewResource = m_fnAlloc(sPath);
         if (pNewResource == NULL)
-            EX_WARN(_CWS("Failed to allocate resource"));
+            EX_WARN(_CTS("Failed to allocate resource"));
 
         if (!sPath.empty() && sPath[0] != _T('$') && sPath[0] != _T('!') && sPath[0] != _T('*'))
             FileManager.SetWorkingDirectory(Filename_GetPath(FileManager.SanitizePath(sPath)));
@@ -154,7 +154,7 @@ ResHandle   IResourceLibrary::Register(const tstring &sDirtyPath, uint uiIgnoreF
         if (!sName.empty())
         {
             if (LookUpName(sName) != INVALID_RESOURCE)
-                EX_ERROR(_CWS("Name collision for ") + QuoteStr(sName));
+                EX_ERROR(_CTS("Name collision for ") + QuoteStr(sName));
         }
     }
     catch (CException &ex)
@@ -168,7 +168,7 @@ ResHandle   IResourceLibrary::Register(const tstring &sDirtyPath, uint uiIgnoreF
             pNewResource->LoadNull();
         }
 
-        ex.Process(_CWS("IResourceLibrary::Register(") + sPath + _CWS(") - "), NO_THROW);
+        ex.Process(_CTS("IResourceLibrary::Register(") + sPath + _CTS(") - "), NO_THROW);
     }
 
     CResourceManager::GetInstance()->EndResLoadProfile(m_uiType, K2System.GetTicks(), K2System.GetProcessVirtualMemoryUsage());

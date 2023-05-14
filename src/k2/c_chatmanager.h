@@ -379,13 +379,13 @@ enum EAdminLevel
     CHAT_NUM_ADMIN_LEVELS,
 };
 
-const wstring g_sAdminNames[CHAT_NUM_ADMIN_LEVELS] =
+const tstring g_sAdminNames[CHAT_NUM_ADMIN_LEVELS] =
 {
-    L"chat_admin_level_none",
-    L"chat_admin_level_officer",
-    L"chat_admin_level_leader",
-    L"chat_admin_level_administrator",
-    L"chat_admin_level_staff",
+    _T("chat_admin_level_none"),
+    _T("chat_admin_level_officer"),
+    _T("chat_admin_level_leader"),
+    _T("chat_admin_level_administrator"),
+    _T("chat_admin_level_staff"),
 };
 
 struct SGroupMemberInfo
@@ -563,7 +563,7 @@ private:
 
     bool                m_bInGameLobby;
 
-    uint                GetAccountIDFromName(const wstring &sName);
+    uint                GetAccountIDFromName(const tstring &sName);
     const tstring&      GetAccountNameFromID(uint uiAccountID);
 
     void                UpdateClientChannelStatus(const tstring &sNewChannel, const tstring &sName, uint uiAccountID, byte yStatus, byte yFlags, uint uiChatSymbol, uint uiChatNameColor, uint uiAccountIcon);
@@ -728,7 +728,7 @@ public:
     bool                IsFollowing(const tstring &sName);
     K2_API tstring      GetFollowing();
     K2_API void         UnFollow();
-    void                UpdateFollow(const wstring &sServer);
+    void                UpdateFollow(const tstring &sServer);
     bool                SetFollowing(const tstring &sName);
 
     void                InviteUser(const tstring &sName);
@@ -876,12 +876,12 @@ public:
 
     // Functions to handle TMM stuff
     K2_API void     CreateTMMGroup(const byte yGameType = 1, const tstring &sMapName = _T("caldavar"), const tstring &sGameModes = _T("ap|sd|bd|bp|ar"), const tstring &sRegions = _T("USE|USW|EU"));
-    K2_API void     JoinTMMGroup(const wstring sNickname);
+    K2_API void     JoinTMMGroup(const tstring sNickname);
     K2_API void     LeaveTMMGroup(bool bLocalOnly = false, const tstring &sReason = TSNULL);
-    K2_API void     InviteToTMMGroup(const wstring sNickname);
+    K2_API void     InviteToTMMGroup(const tstring sNickname);
     K2_API void     JoinTMMQueue();
     K2_API void     LeaveTMMQueue();
-    K2_API void     RejectTMMInvite(const wstring sNickname);
+    K2_API void     RejectTMMInvite(const tstring sNickname);
     K2_API void     KickFromTMMGroup(const byte ySlotNumber);
     K2_API void     SendTMMGroupOptionsUpdate(byte yGameType, const tstring &sMapName, const tstring &sGameModes, const tstring &sRegions);
     K2_API void     RequestTMMPopularityUpdate();
@@ -923,7 +923,7 @@ public:
 
     void                RequestRefreshUpgrades();
     
-    void                RequestGameInfo(const wstring sNickname);
+    void                RequestGameInfo(const tstring sNickname);
 
     // Functions to handle data recieved from server
     void                HandlePing();
