@@ -900,23 +900,38 @@ void    CSystem::HandleOSMessages()
                     Input.AddEvent(button, type == NSEventTypeKeyDown);
                 if (type == NSEventTypeKeyDown && !Input.IsCommandDown() && !Input.IsCtrlDown()) // ignore chars typed when command or control is down
                 {
-                    NSString *chars = [event characters];
-                    string sCharsUTF8([chars UTF8String]);
-                    tstring sChars(UTF8ToTString(sCharsUTF8));
+                    static auto IsValidCharacter = [](wchar_t c) {
+                        if (unsigned(c) < 0x20)
+                            return false;
+                        // filter out control chars
+                        if (c == 0x7f)
+                            return false;
+                        // filter out the first private use plane (arrow keys produce values here)
+                        if (c >= 0xe000 && c <= 0xf8ff)
+                            return false;
+                        return true;
+                    };
+                    static auto EventToCodepoints = [](NSEvent* event) -> wstring {
+                        return std::move(UTF8ToWString([[event characters] UTF8String]));
+                    };
+                    static auto CodepointsToCharacters = [](const auto& sCodes) -> wstring {
+                        wstring sChars;
+                        for (auto c : sCodes)
+                            if (IsValidCharacter(c))
+                                sChars += c;
+                        return std::move(sChars);
+                    };
+                    wstring sCodes(EventToCodepoints(event));
+                    wstring sChars(CodepointsToCharacters(sCodes));
                     if (key_debugEvents)
                     {
-                        Console << _T("Chars: "); // << sChars; // TKTK: This breaks when pressing F8
-                        for (tstring::iterator it(sChars.begin()); it != sChars.end(); ++it)
-                            Console << _T(", ") << XtoA(uint(*it));
+                        Console << _T("Chars: ") << sChars;
+                        for (auto c : sCodes)
+                            Console << _T(", ") << XtoA(uint(c));
                         Console << newl;
                     }
-                    for (tstring::iterator it(sChars.begin()); it != sChars.end(); ++it)
-                        if (unsigned(*it) >= 0x20 && unsigned(*it) != 0x7f // filter out control chars
-#ifdef UNICODE
-                            && (*it < 0xe000 || *it > 0xf8ff) // filter out the first private use plane (arrow keys, produce values here)
-#endif
-                            )
-                            Input.AddEvent(*it);
+                    for (auto c : sChars)
+                        Input.AddEvent(c);
                 }
             }
                 break;
