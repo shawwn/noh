@@ -17,7 +17,10 @@
 #include "c_fontmap.h"
 #include "c_uicmd.h"
 
+#define K2_USE_CODECVT 0
+#if K2_USE_CODECVT
 #include <codecvt>
+#endif
 //=============================================================================
 
 //=============================================================================
@@ -1691,7 +1694,7 @@ string  UTF8ToString(const string &sIn)
   ====================*/
 wstring UTF8ToWString(const string &sIn)
 {
-#if defined(__APPLE__) || defined(WIN32)
+#if K2_USE_CODECVT && (defined(__APPLE__) || defined(WIN32))
     std::wstring_convert< std::codecvt_utf8_utf16<wchar_t> > myconv;
     return myconv.from_bytes(sIn);
 #else // TKTK
@@ -1752,7 +1755,7 @@ wstring UTF8ToWString(const string &sIn)
 
 string  WStringToUTF8(const wstring &in)
 {
-#if defined(__APPLE__) || defined(WIN32)
+#if K2_USE_CODECVT && (defined(__APPLE__) || defined(WIN32))
     std::wstring_convert< std::codecvt_utf8_utf16<wchar_t> > myconv;
     return myconv.to_bytes(in);
 #else // TKTK
