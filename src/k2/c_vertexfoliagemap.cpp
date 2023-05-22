@@ -282,8 +282,8 @@ bool    CVertexFoliageMap::SetRegion(const CRecti &recArea, void *pSource, int i
   ====================*/
 float   CVertexFoliageMap::GetFoliageDensity(int iX, int iY, int iLayer)
 {
-    assert(m_pFoliageVertices != nullptr);
     assert(iLayer >= 0 && iLayer < NUM_FOLIAGE_LAYERS);
+    assert(m_pFoliageVertices[iLayer] != nullptr);
     assert(m_pWorld->IsInBounds(iX, iY, GRID_SPACE));
 
     return m_pFoliageVertices[iLayer][m_pWorld->GetGridIndex(iX, iY)].fDensity;
@@ -295,8 +295,8 @@ float   CVertexFoliageMap::GetFoliageDensity(int iX, int iY, int iLayer)
   ====================*/
 const CVec3f&   CVertexFoliageMap::GetFoliageSize(int iX, int iY, int iLayer)
 {
-    assert(m_pFoliageVertices != nullptr);
     assert(iLayer >= 0 && iLayer < NUM_FOLIAGE_LAYERS);
+    assert(m_pFoliageVertices[iLayer] != nullptr);
     assert(m_pWorld->IsInBounds(iX, iY, GRID_SPACE));
 
     return m_pFoliageVertices[iLayer][m_pWorld->GetGridIndex(iX, iY)].v3Size;
@@ -308,8 +308,8 @@ const CVec3f&   CVertexFoliageMap::GetFoliageSize(int iX, int iY, int iLayer)
   ====================*/
 const CVec3f&   CVertexFoliageMap::GetFoliageVariance(int iX, int iY, int iLayer)
 {
-    assert(m_pFoliageVertices != nullptr);
     assert(iLayer >= 0 && iLayer < NUM_FOLIAGE_LAYERS);
+    assert(m_pFoliageVertices[iLayer] != nullptr);
     assert(m_pWorld->IsInBounds(iX, iY, GRID_SPACE));
 
     return m_pFoliageVertices[iLayer][m_pWorld->GetGridIndex(iX, iY)].v3Variance;
@@ -321,8 +321,8 @@ const CVec3f&   CVertexFoliageMap::GetFoliageVariance(int iX, int iY, int iLayer
   ====================*/
 const CVec3f&   CVertexFoliageMap::GetFoliageColor(int iX, int iY, int iLayer)
 {
-    assert(m_pFoliageVertices != nullptr);
     assert(iLayer >= 0 && iLayer < NUM_FOLIAGE_LAYERS);
+    assert(m_pFoliageVertices[iLayer] != nullptr);
     assert(m_pWorld->IsInBounds(iX, iY, GRID_SPACE));
 
     return m_pFoliageVertices[iLayer][m_pWorld->GetGridIndex(iX, iY)].v3Color;
