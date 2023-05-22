@@ -1197,12 +1197,12 @@ void    CSceneManager::PrepCamera(const CCamera &camera)
         }
     }
 
-    if (camera.GetZNear())
+    if (camera.GetZNear() != 0.0f)
         m_Camera.SetZNear(camera.GetZNear());
     else
         m_Camera.SetZNear(scene_nearClip);
 
-    if (camera.GetZFar())
+    if (camera.GetZFar() != 0.0f)
         m_Camera.SetZFar(camera.GetZFar());
     else
         m_Camera.SetZFar(MIN(scene_farClip, scene_worldFarClip));
