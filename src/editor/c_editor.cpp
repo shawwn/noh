@@ -77,7 +77,7 @@ CVAR_BOOL   (le_camDebug,               false);
 CVAR_BOOL   (le_globalScript,           false);
 CVAR_STRING (le_currentScript,          "");
 CVAR_STRING (le_scriptData,             "");
-CVAR_STRING (le_rulerModel,             "/heroes/femmeflame/model.mdf");
+CVAR_STRING (le_rulerModel,             "/heroes/witch_slayer/model.mdf");
 CVAR_FLOAT  (le_rulerScale,             1.75f);
 CVAR_BOOL   (le_drawNavGrid,            false);
 CVAR_INT    (le_drawNavGridDownsize,    0);
