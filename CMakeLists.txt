@@ -33,6 +33,12 @@ if(APPLE)
     set (CMAKE_XCODE_ATTRIBUTE_MACOSX_DEPLOYMENT_TARGET[arch=arm64] "13.1" CACHE STRING "arm 64 minimum deployment target" FORCE)
 endif()
 
+# default to RelWithDebInfo
+# https://stackoverflow.com/questions/48832233/have-a-cmake-project-default-to-the-release-build-type
+if (NOT CMAKE_BUILD_TYPE OR CMAKE_BUILD_TYPE STREQUAL "")
+    set(CMAKE_BUILD_TYPE "RelWithDebInfo" CACHE STRING "" FORCE)
+endif()
+
 #
 # Heroes of Newerth
 #
