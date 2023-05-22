@@ -653,16 +653,18 @@ void    GL_Start()
     AA_MODE(32);*/
 #undef AA_MODE
     
-    CGLDestroyRendererInfo(rend);   
+    CGLDestroyRendererInfo(rend);
+
+    string sGameName(TStringToUTF8(K2System.GetGameName()));
     
     g_pWindow = [[Window alloc] initWithContentRect:rect styleMask:(NSWindowStyleMaskTitled | NSWindowStyleMaskClosable | NSWindowStyleMaskMiniaturizable) backing:NSBackingStoreBuffered defer:NO];
-    [g_pWindow setTitle:@"Heroes of Newerth"];
+    [g_pWindow setTitle:[NSString stringWithUTF8String:sGameName.c_str()]];
     [g_pWindow setDelegate:static_cast<id<NSWindowDelegate>>(g_pWindow)];
     g_pActiveWindow = g_pWindow;
     K2System.SetWindowHandle(g_pActiveWindow);
     
     g_pFullscreenWindow = [[FullscreenWindow alloc] initWithContentRect:rect styleMask:NSWindowStyleMaskBorderless backing:NSBackingStoreBuffered defer:NO];
-    [g_pFullscreenWindow setTitle:@"Heroes of Newerth"];
+    [g_pFullscreenWindow setTitle:[NSString stringWithUTF8String:sGameName.c_str()]];
     [g_pFullscreenWindow setDelegate:static_cast<id<NSWindowDelegate>>(g_pFullscreenWindow)];
 
     GL_SetMode();
