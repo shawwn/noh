@@ -1545,7 +1545,7 @@ void    CListBox::SortListNumericValue()
 
 
 // template parameters need external linkage!
-struct FCompareSortIndex : public std::binary_function<const CListItem *, const CListItem *, bool>
+struct FCompareSortIndex
 {
     int     m_iIndex;
 
@@ -1563,7 +1563,7 @@ struct FCompareSortIndex : public std::binary_function<const CListItem *, const 
     }
 };
 
-struct FCompareSortIndexNumeric : public std::binary_function<const CListItem *, const CListItem *, bool>
+struct FCompareSortIndexNumeric
 {
     int     m_iIndex;
 

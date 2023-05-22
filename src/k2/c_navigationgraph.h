@@ -19,7 +19,7 @@ class CSearchNode;
 
 // Functor for operator>
 template<class _Ty>
-struct greaterDeref : public std::binary_function<_Ty, _Ty, bool>
+struct greaterDeref
 {
     bool operator()(const _Ty& _Left, const _Ty& _Right) const
     {
