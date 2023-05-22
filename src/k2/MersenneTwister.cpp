@@ -100,8 +100,8 @@ MersenneTwister::genrand_buf(void *buf, uint32_t buflen) {
 
 #include <stdio.h>
 
-int
-main() {
+void
+TestMersenneTwister() {
     int i;
     uint32_t init[4]={0x123, 0x234, 0x345, 0x456}, length=4;
     MersenneTwister *mt = K2_NEW(ctx_Singleton,  MersenneTwister)(init, length);
@@ -116,5 +116,4 @@ main() {
         if (i%5==4) printf("\n");
     }
     K2_DELETE(mt);
-    return 0;
 }
