@@ -22,8 +22,8 @@
 #endif
 
 #define TCHAR wchar_t
-#define _T2(x) L ## x
-#define _T(x) _T2(x)
+#define _L(x) L ## x
+#define _T(x) _L(x)
 
 #define _stscanf swscanf
 #define _tcschr wcschr
@@ -46,6 +46,7 @@ int wcscasecmp(const wchar_t *s1, const wchar_t *s2);
 #else //UNICODE
 
 #define TCHAR char
+#define _L(x) L ## x
 #define _T(x) x
 
 #define _stscanf sscanf
