@@ -237,7 +237,7 @@ bool    CFileHandle::IsEOF() const
 tstring CFileHandle::ReadLine()
 {
     if (m_pFile == nullptr)
-        return 0;
+        return TSNULL;
     return m_pFile->ReadLine();
 }
 
@@ -465,7 +465,7 @@ void    CFileHandle::Flush()
 wstring CFileHandle::ReadWString()
 {
     if (m_pFile == nullptr)
-        return wstring();
+        return WSNULL;
 
     wstring sStr;
 
