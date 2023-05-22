@@ -251,8 +251,8 @@ void F_CALLBACK Sound_FMODFree(void *ptr, FMOD_MEMORY_TYPE type, const char *sou
   ====================*/
 struct SInfoHandle
 {
-    void* handle;
-    void* userdata;
+    void* pHandle = nullptr;
+    bool bIsStream = false;
 };
 
 
@@ -261,7 +261,7 @@ struct SInfoHandle
   ====================*/
 FMOD_RESULT F_CALLBACK Sound_CallbackFileOpen(const char* name, unsigned int *filesize, void **handle, void *userdata)
 {
-    tstring sPath((TCHAR*)name);
+    tstring sPath(UTF8ToTString(name));
 
     tstring sZipFile;
     bool bStream(false);
@@ -299,8 +299,8 @@ FMOD_RESULT F_CALLBACK Sound_CallbackFileOpen(const char* name, unsigned int *fi
 
         *filesize = (int)pFile->GetLength();
         SInfoHandle* pInfo = new SInfoHandle();
-        pInfo->handle = (void*)pFile;
-        pInfo->userdata = 0;
+        pInfo->pHandle = (void*)pFile;
+        pInfo->bIsStream = false;
         *handle = pInfo;
     }
     else
@@ -335,11 +335,11 @@ FMOD_RESULT F_CALLBACK Sound_CallbackFileOpen(const char* name, unsigned int *fi
             }
         }
 
-        *filesize = (int)pFile->GetLength();
+        *filesize = (unsigned int)pFile->GetLength();
         
         SInfoHandle* pInfo = new SInfoHandle();
-        pInfo->handle = (void*)pFile;
-        pInfo->userdata = (void*)1;
+        pInfo->pHandle = (void*)pFile;
+        pInfo->bIsStream = true;
         *handle = pInfo;
     }
 
@@ -353,20 +353,25 @@ FMOD_RESULT F_CALLBACK Sound_CallbackFileOpen(const char* name, unsigned int *fi
 FMOD_RESULT F_CALLBACK Sound_CallbackFileClose(void *handle, void *userdata)
 {
     SInfoHandle* pInfo = (SInfoHandle*)handle;
-    if (pInfo && !pInfo->userdata)
+    if (pInfo)
     {
-        CFileHandle *pFile((CFileHandle*)(pInfo->handle));
-
-        SAFE_DELETE(pFile);
+        if (void* pHandle = pInfo->pHandle; pHandle)
+        {
+            pInfo->pHandle = nullptr;
+            if (!pInfo->bIsStream)
+            {
+                CFileHandle *pFile((CFileHandle*)(pHandle));
+                SAFE_DELETE(pFile);
+            }
+            else
+            {
+                CFileStream *pFile((CFileStream*)(pHandle));
+                SAFE_DELETE(pFile);
+            }
+        }
+        SAFE_DELETE(pInfo);
     }
-    else if (pInfo)
-    {
-        CFileStream *pFile((CFileStream*)(pInfo->handle));
-
-        SAFE_DELETE(pFile);
-    }
-    SAFE_DELETE(pInfo);
-    return FMOD_OK; 
+    return FMOD_OK;
 }
 
 
@@ -375,18 +380,26 @@ FMOD_RESULT F_CALLBACK Sound_CallbackFileClose(void *handle, void *userdata)
   ====================*/
 FMOD_RESULT F_CALLBACK Sound_CallbackFileRead(void *handle, void *buffer, unsigned int sizebytes, unsigned int *bytesread, void *userdata)
 {
+    *bytesread = 0;
+
     SInfoHandle* pInfo = (SInfoHandle*)handle;
-    if (pInfo && !pInfo->userdata)
+    if (pInfo)
     {
-        CFileHandle *pFile((CFileHandle*)(pInfo->handle));
+        if (void* pHandle = pInfo->pHandle; pHandle)
+        {
+            if (!pInfo->bIsStream)
+            {
+                CFileHandle *pFile((CFileHandle*)(pHandle));
 
-        *bytesread = pFile->Read((char*)buffer, sizebytes);
-    }
-    else if (pInfo)
-    {
-        CFileStream *pFile((CFileStream*)(pInfo->handle));
+                *bytesread = pFile->Read((char*)buffer, sizebytes);
+            }
+            else
+            {
+                CFileStream *pFile((CFileStream*)(pHandle));
 
-        *bytesread = pFile->Read((char*)buffer, sizebytes);
+                *bytesread = pFile->Read((char*)buffer, sizebytes);
+            }
+        }
     }
 
     if (*bytesread < sizebytes)
@@ -423,22 +436,28 @@ FMOD_RESULT F_CALLBACK Sound_CallbackFileCancelAsync(FMOD_ASYNCREADINFO *pInfo, 
 FMOD_RESULT F_CALLBACK Sound_CallbackFileSeek(void *handle, unsigned int pos, void *userdata)
 {
     SInfoHandle* pInfo = (SInfoHandle*)handle;
-    if (pInfo && !pInfo->userdata)
+    if (pInfo)
     {
-        CFileHandle *pFile((CFileHandle*)(pInfo->handle));
+        if (void* pHandle = pInfo->pHandle; pHandle)
+        {
+            if (!pInfo->bIsStream)
+            {
+                CFileHandle *pFile((CFileHandle*)(pHandle));
 
-        if (!pFile->Seek(pos, SEEK_ORIGIN_START))
-            return FMOD_ERR_FILE_COULDNOTSEEK;
+                if (pFile->Seek(pos, SEEK_ORIGIN_START))
+                    return FMOD_OK;
+            }
+            else
+            {
+                CFileStream *pFile((CFileStream*)(pHandle));
+
+                if (pFile->Seek(pos, SEEK_ORIGIN_START))
+                    return FMOD_OK;
+            }
+        }
     }
-    else if (pInfo)
-    {
-        CFileStream *pFile((CFileStream*)(pInfo->handle));
 
-        if (!pFile->Seek(pos, SEEK_ORIGIN_START))
-            return FMOD_ERR_FILE_COULDNOTSEEK;
-    }
-
-    return FMOD_OK;
+    return FMOD_ERR_FILE_COULDNOTSEEK;
 }
 
 
