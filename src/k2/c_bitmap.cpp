@@ -2486,8 +2486,12 @@ bool    CBitmap::LoadGIF(const tstring &sFilename)
         if (!hFile.IsOpen())
             EX_ERROR(_T("Failed to open file"));
 
+#if GIFLIB_MAJOR < 5
+        GifFileType *GifFile(DGifOpen(&hFile, GIF_Read));
+#else
         int iError = 0;
         GifFileType *GifFile(DGifOpen(&hFile, GIF_Read, &iError));
+#endif
         if (GifFile == nullptr)
             EX_ERROR(_T("DGifOpen failed"));
 
@@ -2588,8 +2592,12 @@ bool    CBitmap::LoadGIF(const tstring &sFilename)
     catch (CException &ex)
     {
         if (GifFile != nullptr) {
+#if GIFLIB_MAJOR < 5
+            DGifCloseFile(GifFile);
+#else
             int iError = 0;
             DGifCloseFile(GifFile, &iError);
+#endif
         }
 
         ex.Process(_TS("CBitmap::LoadGIF(") + sFilename + _T(") - "), NO_THROW);
