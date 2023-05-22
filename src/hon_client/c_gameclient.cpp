@@ -1194,7 +1194,7 @@ void    CGameClient::StartLoadingResources()
     AddResourceToLoadingQueue(CLIENT_RESOURCE_VOTE_PASSED_SAMPLE, _T("/shared/sounds/symbolic/vote_pass.wav"), RES_SAMPLE);
     AddResourceToLoadingQueue(CLIENT_RESOURCE_VOTE_FAILED_SAMPLE, _T("/shared/sounds/symbolic/vote_fail.wav"), RES_SAMPLE);
 
-    std::unique(m_deqClientResources.begin(), m_deqClientResources.end());
+    (void)std::unique(m_deqClientResources.begin(), m_deqClientResources.end());
 
     // Dynamic entity definitions
     CStateBlock *pEntityStateBlock(m_pHostClient->GetStateBlock(STATE_BLOCK_ENTITY_TYPES));
@@ -1983,7 +1983,7 @@ void    CGameClient::LoadHeroesFrame()
         m_zTotalHeroesToLoad = m_deqHeroesToLoad.size();
         m_bStartedLoadingHeroes = true;
 
-        std::unique(m_deqHeroesToLoad.begin(), m_deqHeroesToLoad.end());
+        (void)std::unique(m_deqHeroesToLoad.begin(), m_deqHeroesToLoad.end());
 
         // Notify the chat server the match has started... Weird place to put it, but better than adding some hacky code elsewhere.
         ChatManager.MatchStarted();

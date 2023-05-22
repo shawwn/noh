@@ -8487,7 +8487,7 @@ void    CGameServer::PrecacheEntities(bool bHeroes)
     vPrecacheList.push_back(g_creepTeam2Siege);
     vPrecacheList.push_back(g_waypoint);
     
-    std::unique(vPrecacheList.begin(), vPrecacheList.end());
+    (void)std::unique(vPrecacheList.begin(), vPrecacheList.end());
 
     for (tsvector_it it(vPrecacheList.begin()); it != vPrecacheList.end(); ++it)
     {
