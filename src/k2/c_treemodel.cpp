@@ -25,11 +25,22 @@ CVAR_BOOL   (trees_useGPUWind,  true);
 DEFINE_MODEL_ALLOCATOR(CTreeModel, SpeedTree);
 //=============================================================================
 
+//=============================================================================
+// Definitions
+//=============================================================================
+class CTreeModelImpl
+{
+public:
+    CSpeedTreeRT::SGeometry Geometry;
+};
+//=============================================================================
+
 /*====================
   CTreeModel::~CTreeModel
   ====================*/
 CTreeModel::~CTreeModel()
 {
+    SAFE_DELETE(m);
 }
 
 
@@ -38,12 +49,14 @@ CTreeModel::~CTreeModel()
   ====================*/
 CTreeModel::CTreeModel() :
 IModel(MODEL_SPEEDTREE),
+m(K2_NEW(ctx_Models, CTreeModelImpl)),
 m_pSpeedTree(nullptr),
 
 m_uiVidDefIndex(INVALID_INDEX),
 
 m_fWindPrevStrength(-1.0f),
-m_fWindFreqOffset(-1.0f)
+m_fWindFreqOffset(-1.0f),
+m_uiSeed(0)
 {
 }
 
@@ -158,8 +171,8 @@ void    CTreeModel::LoadBranchGeometry()
 {
     for (unsigned short usLOD(0); usLOD < m_pSpeedTree->GetNumBranchLodLevels(); ++usLOD)
     {
-        m_pSpeedTree->GetGeometry(m_Geometry, SpeedTree_BranchGeometry, usLOD, -1, -1);
-        CSpeedTreeRT::SGeometry::SIndexed &branches = m_Geometry.m_sBranches;
+        m_pSpeedTree->GetGeometry(m->Geometry, SpeedTree_BranchGeometry, usLOD, -1, -1);
+        CSpeedTreeRT::SGeometry::SIndexed &branches = m->Geometry.m_sBranches;
 
         if (branches.m_usVertexCount == 0)
             continue;
@@ -170,7 +183,7 @@ void    CTreeModel::LoadBranchGeometry()
             EX_WARN(_T("CTreeModel::LoadBranchGeometry() - Failed to allocate geometry chunk"));
 
         // Store misc data
-        pBranchGeometry->fAlphaTest = m_Geometry.m_fBranchAlphaTestValue;
+        pBranchGeometry->fAlphaTest = m->Geometry.m_fBranchAlphaTestValue;
 
         // Allocate memory for verts
         pBranchGeometry->usNumVerts = branches.m_usVertexCount;
@@ -455,12 +468,12 @@ void    CTreeModel::ComputeLODLevel() const
   ====================*/
 SLODData    CTreeModel::GetDiscreetBranchLOD() const
 {
-    m_pSpeedTree->GetGeometry(m_Geometry, SpeedTree_BranchGeometry);
+    m_pSpeedTree->GetGeometry(m->Geometry, SpeedTree_BranchGeometry);
 
     SLODData lod;
     lod.m_bActive = true;
-    lod.m_iLOD = static_cast<dword>(m_Geometry.m_sBranches.m_nDiscreteLodLevel);
-    lod.m_dwAlphaTest = static_cast<dword>(m_Geometry.m_fBranchAlphaTestValue);
+    lod.m_iLOD = static_cast<dword>(m->Geometry.m_sBranches.m_nDiscreteLodLevel);
+    lod.m_dwAlphaTest = static_cast<dword>(m->Geometry.m_fBranchAlphaTestValue);
 
     return lod;
 }
@@ -471,12 +484,12 @@ SLODData    CTreeModel::GetDiscreetBranchLOD() const
   ====================*/
 SLODData    CTreeModel::GetDiscreetFrondLOD() const
 {
-    m_pSpeedTree->GetGeometry(m_Geometry, SpeedTree_FrondGeometry);
+    m_pSpeedTree->GetGeometry(m->Geometry, SpeedTree_FrondGeometry);
 
     SLODData lod;
     lod.m_bActive = true;
-    lod.m_iLOD = static_cast<dword>(m_Geometry.m_sFronds.m_nDiscreteLodLevel);
-    lod.m_dwAlphaTest = static_cast<dword>(m_Geometry.m_fFrondAlphaTestValue);
+    lod.m_iLOD = static_cast<dword>(m->Geometry.m_sFronds.m_nDiscreteLodLevel);
+    lod.m_dwAlphaTest = static_cast<dword>(m->Geometry.m_fFrondAlphaTestValue);
 
     return lod;
 }
@@ -488,12 +501,12 @@ SLODData    CTreeModel::GetDiscreetFrondLOD() const
 void    CTreeModel::GetLeafLODData(SLODData avLeafLODs[]) const
 {
     // Get the discrete leaf data
-    m_pSpeedTree->GetGeometry(m_Geometry, SpeedTree_LeafGeometry | SpeedTree_LeafLods);
+    m_pSpeedTree->GetGeometry(m->Geometry, SpeedTree_LeafGeometry | SpeedTree_LeafLods);
 
-    if (m_Geometry.m_sLeaves0.m_bIsActive)
-        avLeafLODs[0] = SLODData(true, m_Geometry.m_sLeaves0.m_nDiscreteLodLevel, dword(m_Geometry.m_sLeaves0.m_fAlphaTestValue));
-    if (m_Geometry.m_sLeaves1.m_bIsActive)
-        avLeafLODs[1] = SLODData(true, m_Geometry.m_sLeaves1.m_nDiscreteLodLevel, dword(m_Geometry.m_sLeaves1.m_fAlphaTestValue));
+    if (m->Geometry.m_sLeaves0.m_bIsActive)
+        avLeafLODs[0] = SLODData(true, m->Geometry.m_sLeaves0.m_nDiscreteLodLevel, dword(m->Geometry.m_sLeaves0.m_fAlphaTestValue));
+    if (m->Geometry.m_sLeaves1.m_bIsActive)
+        avLeafLODs[1] = SLODData(true, m->Geometry.m_sLeaves1.m_nDiscreteLodLevel, dword(m->Geometry.m_sLeaves1.m_fAlphaTestValue));
 }
 
 
@@ -503,12 +516,12 @@ void    CTreeModel::GetLeafLODData(SLODData avLeafLODs[]) const
 void    CTreeModel::GetBillboardData(STreeBillboardData avBillboards[]) const
 {
     // Get the discrete leaf data
-    m_pSpeedTree->GetGeometry(m_Geometry, SpeedTree_BillboardGeometry);
+    m_pSpeedTree->GetGeometry(m->Geometry, SpeedTree_BillboardGeometry);
 
-    if (m_Geometry.m_sBillboard0.m_bIsActive)
-        avBillboards[0] = STreeBillboardData(true, dword(m_Geometry.m_sBillboard0.m_fAlphaTestValue), m_Geometry.m_sBillboard0.m_pCoords, m_Geometry.m_sBillboard0.m_pTexCoords);
-    if (m_Geometry.m_sBillboard1.m_bIsActive)
-        avBillboards[1] = STreeBillboardData(true, dword(m_Geometry.m_sBillboard1.m_fAlphaTestValue), m_Geometry.m_sBillboard1.m_pCoords, m_Geometry.m_sBillboard1.m_pTexCoords);
+    if (m->Geometry.m_sBillboard0.m_bIsActive)
+        avBillboards[0] = STreeBillboardData(true, dword(m->Geometry.m_sBillboard0.m_fAlphaTestValue), m->Geometry.m_sBillboard0.m_pCoords, m->Geometry.m_sBillboard0.m_pTexCoords);
+    if (m->Geometry.m_sBillboard1.m_bIsActive)
+        avBillboards[1] = STreeBillboardData(true, dword(m->Geometry.m_sBillboard1.m_fAlphaTestValue), m->Geometry.m_sBillboard1.m_pCoords, m->Geometry.m_sBillboard1.m_pTexCoords);
 }
 
 
@@ -558,7 +571,7 @@ const float*    CTreeModel::GetLeafBillboardTable(uint &uiSize) const
 {
     // Update the base LOD (required for GPU wind)
     if (trees_useGPUWind)
-        m_pSpeedTree->GetGeometry(m_Geometry, SpeedTree_LeafGeometry, -1, -1, 0);
+        m_pSpeedTree->GetGeometry(m->Geometry, SpeedTree_LeafGeometry, -1, -1, 0);
 
     return m_pSpeedTree->GetLeafBillboardTable(uiSize);
 }

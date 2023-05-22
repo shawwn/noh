@@ -9,7 +9,6 @@
 // Headers
 //=============================================================================
 #include "i_model.h"
-#include "SpeedTreeRT.h"
 //=============================================================================
 
 //=============================================================================
@@ -90,6 +89,7 @@ typedef map<unsigned short, STreeGeometry*> TreeLODMap;
 // Declarations
 //=============================================================================
 class CSpeedTreeRT;
+class CTreeModelImpl;
 //=============================================================================
 
 //=============================================================================
@@ -128,7 +128,7 @@ private:
 
     vector<CBBoxf>  m_bbCollisionBounds;
         
-    mutable CSpeedTreeRT::SGeometry m_Geometry;
+    CTreeModelImpl* m;
 
 public:
     K2_API ~CTreeModel();
