@@ -1941,12 +1941,12 @@ FMOD::Sound*    CSoundManager::LoadSample(const tstring &sInPath, int iSoundFlag
             // decompressing the entire file)
             uiFlags |= FMOD_IGNORETAGS;
 
-            result = m_pFMODSystem->createStream((const char*)sFinalPath.c_str(), uiFlags, nullptr, &pNewSound);
+            result = m_pFMODSystem->createStream(sFinalPath.c_str(), uiFlags, nullptr, &pNewSound);
         }
     }
     else
     {
-        result = m_pFMODSystem->createSound((const char*)sPath.c_str(), uiFlags, nullptr, &pNewSound);
+        result = m_pFMODSystem->createSound(sPath.c_str(), uiFlags, nullptr, &pNewSound);
     }
 
     if (result != FMOD_OK)
