@@ -7605,7 +7605,7 @@ void    CGameClient::UpdateMinimap()
                 IUnitEntity *pUnit(pClEnt->GetCurrentEntity()->GetAsUnit());
                 if (pUnit == nullptr)
                     continue;
-                if (pTeam->IsTeamTarget(pUnit->GetIndex()))
+                if (pTeam && pTeam->IsTeamTarget(pUnit->GetIndex()))
                     continue;
                 if (pUnit->GetIndex() == m_uiMinimapHoverUnit)
                     continue;
