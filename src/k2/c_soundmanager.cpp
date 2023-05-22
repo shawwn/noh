@@ -3026,11 +3026,9 @@ void    CSoundManager::UpdateMusic()
         }
     }
 
-#if TKTK // Skip music due to multithreading crash
     // If the music channel is null, attempt to start the next specified track
     if (m_pMusicChannel == nullptr)
         StartNextMusic();
-#endif
 
     // If the music channel is still null, it means that no next track has been specified or it failed
     // to start.
