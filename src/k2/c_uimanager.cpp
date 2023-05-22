@@ -529,7 +529,8 @@ void    CUIManager::ProcessInput()
 
         bool bBlocked(false);
 
-        for (OverlayList::reverse_iterator rit(m_lOverlayInterfaces.rbegin()); rit != m_lOverlayInterfaces.rend(); rit++)
+        auto lOverlayInterfaces(m_lOverlayInterfaces);
+        for (OverlayList::reverse_iterator rit(lOverlayInterfaces.rbegin()); rit != lOverlayInterfaces.rend(); rit++)
         {
             m_itActiveInterface = *rit;
 
