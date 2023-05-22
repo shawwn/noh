@@ -153,7 +153,7 @@ INPUT_STATE_BOOL(ClearBlocker);
 CHostClient     *g_pHostClient(nullptr);
 CWorld          *g_pWorld(nullptr);
 
-UI_TRIGGER(AnimList)
+UI_TRIGGER(AnimList);
 
 void    CL_RasterCircle(byte *pBuffer, uint uiBufferSpan, int x0, int y0, int radius);
 void    CL_RasterCircle2(byte *pBuffer, uint uiBufferSpan, int x0, int y0, int radius);
@@ -163,9 +163,9 @@ void    CL_RasterRect(byte *pBuffer, uint uiBufferSpan, int x0, int y0, int x1, 
 void    MV_DrawPath();
 #endif
 
-UI_TRIGGER(Ctrl)
-UI_TRIGGER(Shift)
-UI_TRIGGER(Alt)
+UI_TRIGGER(Ctrl);
+UI_TRIGGER(Shift);
+UI_TRIGGER(Alt);
 //=============================================================================
 
 /*--------------------
