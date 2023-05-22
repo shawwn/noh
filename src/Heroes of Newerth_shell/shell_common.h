@@ -9,7 +9,7 @@
 //=============================================================================
 // Settings
 //=============================================================================
-#include "k2_settings.h"
+#include "../k2/k2_settings.h"
 //=============================================================================
 
 //=============================================================================
@@ -30,7 +30,7 @@
 #define MINOR_VERSION   0
 #define MICRO_VERSION   61
 #define HOTFIX_VERSION  0
-#include "buildnumber.h"
+#include "../shell/buildnumber.h"
 
 #define _MAKE_VERSION_STRING(a, b, c, d)    _T(#a) _T(".") _T(#b) _T(".") _T(#c) _T(".") _T(#d)
 #define MAKE_VERSION_STRING(a, b, c, d)     _MAKE_VERSION_STRING(a, b, c, d)
