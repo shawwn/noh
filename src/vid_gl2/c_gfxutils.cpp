@@ -176,6 +176,9 @@ bool    GL_CheckFrameBufferStatus(const tstring &sName)
     case GL_FRAMEBUFFER_UNSUPPORTED_EXT:
         Console.Warn << sName << _T(" - Unsupported framebuffer format") << newl;
         return false;
+    case GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT_EXT:
+        Console.Warn << sName << _T(" - Framebuffer incomplete attachment") << newl;
+        return false;
     case GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT_EXT:
         Console.Warn << sName << _T(" - Framebuffer incomplete, missing attachment") << newl;
         return false;
