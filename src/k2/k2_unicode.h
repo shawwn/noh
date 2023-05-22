@@ -109,9 +109,9 @@
 #include <fstream>
 
 #ifdef _WIN32
-#define tfopen( path, mode )        _wfopen( path, _T( mode ) )
+#define tfopen( path, mode )        _wfopen( TStringToWString(path).c_str(), L ## mode )
 #else
-#define tfopen( path, mode )        fopen( path, mode )
+#define tfopen( path, mode )        fopen( TStringToUTF8(path).c_str(), mode )
 #endif
 //=============================================================================
 

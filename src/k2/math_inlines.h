@@ -791,7 +791,7 @@ float   M_SmoothStepN(float fValue)
 inline
 void    M_SinCos(float a, float &s, float &c)
 {
-#ifdef _WIN32
+#if defined(_WIN32) && !defined(_WIN64)
     _asm
     {
         fld     a

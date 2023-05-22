@@ -210,7 +210,7 @@ void    CHTTPRequest::SendRequest(const string &sURL, bool bPost, bool bSSL)
         curl_easy_setopt(m_pCurlEasy, CURLOPT_SSL_VERIFYPEER, 1l);
         curl_easy_setopt(m_pCurlEasy, CURLOPT_SSL_VERIFYHOST, 2l);
 #ifdef _WIN32
-        string sCertPath(WCSToMBS(FileManager.GetSystemPath(_T(":/ca-bundle.crt"))));
+        string sCertPath(TStringToNative(FileManager.GetSystemPath(_T(":/ca-bundle.crt"))));
 #else
         string sCertPath(TStringToNative(FileManager.GetSystemPath(_T(":/ca-bundle.crt"))));
 //        curl_easy_setopt(m_pCurlEasy, CURLOPT_CAPATH, _T("/etc/ssl/certs"));

@@ -16,19 +16,19 @@
     "version>=" : "2.12.1#3"
   }, {
     "name" : "libjpeg-turbo",
-    "version>=" : "2.1.5.1"
+    "version>=" : "2.1.5.1#1"
   }, {
     "name" : "libxml2",
     "version>=" : "2.10.3#1"
   }, {
     "name" : "openssl",
-    "version>=" : "3.1.0#1"
+    "version>=" : "3.1.0#4"
   }, {
     "name" : "speex",
     "version>=" : "1.2.1#1"
   }, {
     "name" : "speexdsp",
-    "version>=" : "1.2.1"
+    "version>=" : "1.2.1#1"
   }, {
     "name" : "libzip",
     "version>=" : "1.9.2#1"

@@ -2078,7 +2078,9 @@ CMD(Hitch)
   --------------------*/
 CMD(Break)
 {
-#ifdef WIN32
+#ifdef _WIN64
+    // TODO
+#elif defined(WIN32)
     __asm int 0x03;
 #elif defined(__GNUC__) && !defined(__APPLE__)
     asm("int $0x03");

@@ -28,7 +28,6 @@
 #include "c_cmd.h"
 #include "c_function.h"
 #include "c_vid.h"
-#include "resource.h"
 #include "c_soundmanager.h"
 #include "c_bitmap.h"
 //=============================================================================
@@ -192,7 +191,7 @@ LONG WINAPI System_ExceptionFilter(EXCEPTION_POINTERS *pExceptionInfo)
     MINIDUMP_EXCEPTION_INFORMATION ExInfo;
     ExInfo.ThreadId = GetCurrentThreadId();
     ExInfo.ExceptionPointers = pExceptionInfo;
-    ExInfo.ClientPointers = nullptr;
+    ExInfo.ClientPointers = FALSE;
 
     if (fnDump(GetCurrentProcess(), GetCurrentProcessId(), hFile, MINIDUMP_TYPE(MiniDumpWithDataSegs | MiniDumpWithIndirectlyReferencedMemory), &ExInfo, nullptr, nullptr) == FALSE)
     {
@@ -534,7 +533,11 @@ void    CSystem::Sleep(uint uiMsecs)
   ====================*/
 void    CSystem::DebugBreak()
 {
+#ifndef _WIN64
     __asm int 0x03;
+#else
+    // TODO
+#endif
 }
 
 
@@ -974,8 +977,8 @@ void*   CSystem::LoadLibrary(const tstring &sLibFilename)
 
     tstring sFullPath(FileManager.GetLibraryPath(sLibFilename));
 
-    _tchdir(Filename_GetPath(sFullPah).c_str());
-    void* pLib(::LoadLibrary(sFullPah.c_str()));
+    _tchdir(Filename_GetPath(sFullPath).c_str());
+    void* pLib(::LoadLibrary(sFullPath.c_str()));
     _tchdir(m_sRootDir.c_str());
 
     if (pLib == nullptr)
@@ -1631,7 +1634,7 @@ SSysInfo    CSystem::GetSystemInfo()
 
         IWbemServices *pSvc = nullptr;
         
-        hres = pLoc->ConnectServer(_bstr_t(L"ROOT\\CIMV2"), nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, &pSvc);
+        hres = pLoc->ConnectServer(_bstr_t(L"ROOT\\CIMV2"), nullptr, nullptr, nullptr, 0, nullptr, nullptr, &pSvc);
         
         if (hres < 0)
         {
@@ -1799,7 +1802,7 @@ SSysInfo    CSystem::GetSystemInfo()
             }
         }
 
-        SAFE_DELETE_ARRAY(pAdapterInfo)
+        SAFE_DELETE_ARRAY(pAdapterInfo);
 
         // Get processor availability, status, type and speed
         hres = pSvc->ExecQuery(bstr_t("WQL"), bstr_t("SELECT Availability, CpuStatus, StatusInfo, ProcessorType, CurrentClockSpeed, Name FROM Win32_Processor"), WBEM_FLAG_FORWARD_ONLY | WBEM_FLAG_RETURN_IMMEDIATELY, nullptr, &pEnumerator);
@@ -2035,7 +2038,7 @@ void    CSystem::GetDriveList(tsvector &vNames) const
 EDriveType  CSystem::GetDriveType(const tstring &sName) const
 #pragma pop_macro("GetDriveType")
 {
-    switch (::GetDriveType(TStringToWString(sName).c_str()))
+    switch (::GetDriveTypeW(TStringToWString(sName).c_str()))
     {
     case DRIVE_REMOVABLE:
         return DRIVETYPE_REMOVABLE;
@@ -2070,7 +2073,7 @@ size_t  CSystem::GetDriveSize(const tstring &sName) const
     DWORD uiFreeClusters(0);
     DWORD uiTotalClusters(0);
 
-    if (!::GetDiskFreeSpace(TStringToWString(sName).c_str(), &uiSectorsPerCluster, &uiBytesPerSector, &uiFreeClusters, &uiTotalClusters))
+    if (!::GetDiskFreeSpaceW(TStringToWString(sName).c_str(), &uiSectorsPerCluster, &uiBytesPerSector, &uiFreeClusters, &uiTotalClusters))
         return 0;
 
     return uiSectorsPerCluster * uiBytesPerSector * uiTotalClusters;
@@ -2087,7 +2090,7 @@ size_t  CSystem::GetDriveFreeSpace(const tstring &sName) const
     DWORD uiFreeClusters(0);
     DWORD uiTotalClusters(0);
 
-    if (!::GetDiskFreeSpace(TStringToWString(sName).c_str(), &uiSectorsPerCluster, &uiBytesPerSector, &uiFreeClusters, &uiTotalClusters))
+    if (!::GetDiskFreeSpaceW(TStringToWString(sName).c_str(), &uiSectorsPerCluster, &uiBytesPerSector, &uiFreeClusters, &uiTotalClusters))
         return 0;
 
     return uiSectorsPerCluster * uiBytesPerSector * uiFreeClusters;
@@ -2103,7 +2106,7 @@ ULONGLONG   CSystem::GetDriveSizeEx(const tstring &sName) const
     ULARGE_INTEGER uliTotalSpace;
     ULARGE_INTEGER uliTotalFreeSpace;
 
-    if (!::GetDiskFreeSpaceEx(TStringToWString(sName).c_str(), &uliFreeSpace, &uliTotalSpace, &uliTotalFreeSpace))
+    if (!::GetDiskFreeSpaceExW(TStringToWString(sName).c_str(), &uliFreeSpace, &uliTotalSpace, &uliTotalFreeSpace))
         return 0;
     
     return uliTotalSpace.QuadPart;
@@ -2119,7 +2122,7 @@ ULONGLONG   CSystem::GetDriveFreeSpaceEx(const tstring &sName) const
     ULARGE_INTEGER uliTotalSpace;
     ULARGE_INTEGER uliTotalFreeSpace;
 
-    if (!::GetDiskFreeSpaceEx(TStringToWString(sName).c_str(), &uliFreeSpace, &uliTotalSpace, &uliTotalFreeSpace))
+    if (!::GetDiskFreeSpaceExW(TStringToWString(sName).c_str(), &uliFreeSpace, &uliTotalSpace, &uliTotalFreeSpace))
         return 0;
 
     return uliTotalFreeSpace.QuadPart;
@@ -2163,7 +2166,7 @@ void    CSystem::SetConfig(const tstring &sConfig)
   ====================*/
 void    CSystem::SetAffinity(int iCPU)
 {
-    DWORD dwProcessAffinityMask, dwSystemAffinityMask;
+    DWORD_PTR dwProcessAffinityMask, dwSystemAffinityMask;
     if (::GetProcessAffinityMask(::GetCurrentProcess(), &dwProcessAffinityMask, &dwSystemAffinityMask))
     {
         if (iCPU < 0 || iCPU >= 32 || (BIT(iCPU) & dwSystemAffinityMask) == 0 || (BIT(iCPU) & dwProcessAffinityMask) == 0)
@@ -2189,7 +2192,7 @@ void    CSystem::SetAffinity(int iCPU)
   ====================*/
 uint    CSystem::GetAffinityMask() const
 {
-    DWORD dwProcessAffinityMask, dwSystemAffinityMask;
+    DWORD_PTR dwProcessAffinityMask, dwSystemAffinityMask;
     if (::GetProcessAffinityMask(::GetCurrentProcess(), &dwProcessAffinityMask, &dwSystemAffinityMask))
         return uint(dwProcessAffinityMask & dwSystemAffinityMask);
     else
@@ -2305,7 +2308,7 @@ uint    CSystem::GetUniqueID() const
             uiReturn |= pAdapterInfo->Address[ui] << (8 * ui);
     }
 
-    SAFE_DELETE_ARRAY(pAdapterInfo)
+    SAFE_DELETE_ARRAY(pAdapterInfo);
     return uiReturn;
 }
 

@@ -40,19 +40,16 @@
 //=============================================================================
 // External Libraries
 //=============================================================================
+#ifdef _WIN32
+#include "../k2/k2_include_windows.h"
+#include <windows.h>
+#endif
+
 #include "GLEW/glew.h"
 #if defined(_WIN32)
 #include "GLEW/wglew.h"
 #elif defined(linux)
 #include "GLEW/glxew.h"
-#endif
-
-#ifdef _WIN32
-#include "../k2/k2_include_windows.h"
-#include <resource.h>
-#include <windows.h>
-#else
-// TODO
 #endif
 
 #ifdef __APPLE__

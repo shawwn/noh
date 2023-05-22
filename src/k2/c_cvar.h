@@ -1205,9 +1205,8 @@ tstring operator+(const CCvar<tstring> &var, const tstring &s)
 /*====================
   operator==
   ====================*/
-template <class T>
 inline
-bool    operator==(const tstring &s, const CCvar<T> &var)
+bool    operator==(const tstring &s, const CCvar<tstring> &var)
 {
     return s == tstring(var);
 }

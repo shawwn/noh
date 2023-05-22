@@ -982,7 +982,7 @@ void    CGfxShaders::Init()
     vid_sceneBufferMipmap.SetModified(false);
     vid_postEffects.SetModified(false);
 
-    g_iMaxDynamicLights = (vid_dynamicLights && vid_shaderLightingQuality == 0) ? MIN(MAX_POINT_LIGHTS, int(vid_maxDynamicLights)) : 0;
+    g_iMaxDynamicLights = (vid_dynamicLights && static_cast<int>(vid_shaderLightingQuality) == 0) ? MIN(MAX_POINT_LIGHTS, int(vid_maxDynamicLights)) : 0;
     g_iNumActivePointLights = 0;
     g_iNumActiveBones = 0;
     g_bLighting = true;

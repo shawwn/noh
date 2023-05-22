@@ -121,7 +121,7 @@ FILE*   CFileStream::LocateCompressedFile(const tstring& sZipFilePath, const tst
     uiRawSize = 0;
 
     // Invalid zip file?
-    FILE* fp(tfopen(TStringToNative(sZipFilePath).c_str(), "rb"));
+    FILE* fp(tfopen(sZipFilePath, "rb"));
     if (fp != nullptr)
     {
         fseek(fp, 0, SEEK_END);
@@ -304,7 +304,7 @@ bool    CFileStream::Open(const tstring &sPath, int iMode)
     }
 
     // open
-    m_File = tfopen(TStringToNative(sPath).c_str(), "rb");
+    m_File = tfopen(sPath, "rb");
 
     // default behavior is to buffer
     if (!(m_iMode & FILE_NOBUFFER))

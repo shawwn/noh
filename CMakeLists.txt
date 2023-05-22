@@ -22,6 +22,7 @@ enable_language(C CXX)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 add_definitions(-D_LIBCPP_ENABLE_CXX20_REMOVED_ALLOCATOR_MEMBERS)
+add_definitions(-D_HAS_DEPRECATED_ALLOCATOR_MEMBERS)
 
 # from https://gitlab.kitware.com/cmake/cmake/-/issues/22184
 if(APPLE)
@@ -77,7 +78,7 @@ elseif(WIN32)
   set(EXE_TYPE WIN32)
   set(LIB_EXT "${SUFFIX}.lib")
   set(DLL_EXT "${SUFFIX}.dll")
-  set(EXE_EXT "${TITLE_SUFFIX}.exe")
+  set(EXE_EXT "${TITLE_SUFFIX}")
   set(LIB_DIR "${CMAKE_BINARY_DIR}")
   set(BIN_DIR "${CMAKE_BINARY_DIR}")
 else()
@@ -136,11 +137,13 @@ function(app_configure_exe exe_target exe_output_name exe_icon content_dir)
     OUTPUT_NAME              "${exe_name}"
     )
   app_configure_mods("${exe_target}" "${exe_dir}" "${content_dir}" ${ARGN})
-  # Create a symlink in the main directory called e.g. NoH (or NoH_debug) pointing to the freshly-built executable.
-  target_symlink(${exe_target}
-    "${exe_dir}/${exe_name}"
-    "${noh_SOURCE_DIR}/${exe_name}"
-    )
+  if(UNIX)
+    # Create a symlink in the main directory called e.g. NoH (or NoH_debug) pointing to the freshly-built executable.
+    target_symlink(${exe_target}
+      "${exe_dir}/${exe_name}"
+      "${noh_SOURCE_DIR}/${exe_name}"
+      )
+  endif()
   # Set file icon
   # https://apple.stackexchange.com/questions/6901/how-can-i-change-a-file-or-folder-icon-using-the-terminal
   if(APPLE)
@@ -152,7 +155,7 @@ function(app_configure_exe exe_target exe_output_name exe_icon content_dir)
     foreach(game ${NOH_GAMES})
       target_copy(${exe_target} "${exe_dir}/${exe_name}" "${${game}_CONTENT_DIR}/${exe_name}")
     endforeach()
-  else()
+  elseif(UNIX)
     # Create a symlink in the build directory pointing to the content dir's executable
     target_symlink(${exe_target}
       "${exe_dir}/${exe_name}"
@@ -325,11 +328,27 @@ set(FMOD_ROOT "${noh_SOURCE_DIR}/lib/fmodex/api/core" CACHE STRING "FMOD SDK cor
 find_include_dir(FMOD_INCLUDE_DIR "${FMOD_ROOT}"
   fmod.h
   inc)
-find_library(FMOD_LIBRARY
-  NAMES fmod_vc fmod
-  NAMES_PER_DIR
-  PATH_SUFFIXES lib lib/x86 lib/x86_64 lib/x64
-  PATHS "${FMOD_ROOT}" ENV FMOD_ROOT REQUIRED)
+if(WIN32)
+  if(CMAKE_SIZEOF_VOID_P EQUAL 8)
+    find_library(FMOD_LIBRARY
+      NAMES fmod_vc
+      NAMES_PER_DIR
+      PATH_SUFFIXES lib/x64
+      PATHS "${FMOD_ROOT}" ENV FMOD_ROOT REQUIRED)
+  else()
+    find_library(FMOD_LIBRARY
+      NAMES fmod_vc
+      NAMES_PER_DIR
+      PATH_SUFFIXES lib/x86
+      PATHS "${FMOD_ROOT}" ENV FMOD_ROOT REQUIRED)
+  endif()
+else()
+  find_library(FMOD_LIBRARY
+    NAMES fmod_vc fmod
+    NAMES_PER_DIR
+    PATH_SUFFIXES lib lib/x86 lib/x86_64 lib/x64
+    PATHS "${FMOD_ROOT}" ENV FMOD_ROOT REQUIRED)
+endif()
 add_package_for_k2(FMOD)
 # get the directory of the found library
 get_filename_component(FMOD_LIBRARY_DIR ${FMOD_LIBRARY} DIRECTORY)
@@ -385,7 +404,12 @@ find_package_for_k2(JPEG JPEG)
 find_package_for_k2(LibXml2 LIBXML2)
 find_package_for_k2(Freetype FREETYPE)
 list(APPEND K2_INCLUDE_DIRS "${noh_SOURCE_DIR}/lib/libpng/include")
-find_package_for_k2(OpenGL OPENGL)
+if(WIN32)
+  find_package(OpenGL REQUIRED)
+  list(APPEND K2_LIBRARIES ${OPENGL_LIBRARIES})
+else()
+  find_package_for_k2(OpenGL OPENGL)
+endif()
 if(UNIX)
   find_package_for_k2(Curses CURSES)
 endif()
@@ -1239,7 +1263,7 @@ list(APPEND VID_GL2_LIBRARY_DEPENDENCIES
 
 # vid_gl2 libraries
 list(APPEND VID_GL2_LIBRARIES
-  "${K2_LIBRARY_LIB}"
+  "${K2_LIBRARY}"
   ${OPENGL_LIBRARIES}
   )
 
@@ -1667,7 +1691,7 @@ target_compile_definitions(${HON_SHARED_LIBRARY} PUBLIC ${HON_SHARED_PUBLIC_DEFI
 target_precompile_headers(${HON_SHARED_LIBRARY} PRIVATE src/hon_shared/game_shared_common.h)
 target_link_libraries(${HON_SHARED_LIBRARY}
   ${HON_SHARED_LIBRARIES}
-  "${K2_LIBRARY_LIB}"
+  "${K2_LIBRARY}"
   )
 
 #========================================
@@ -1704,8 +1728,8 @@ app_configure_lib(${HON_CLIENT_LIBRARY})
 target_compile_definitions(${HON_CLIENT_LIBRARY} PRIVATE GAME_CLIENT_EXPORTS)
 target_precompile_headers(${HON_CLIENT_LIBRARY} PRIVATE src/hon_client/game_client_common.h)
 target_link_libraries(${HON_CLIENT_LIBRARY}
-  "${K2_LIBRARY_LIB}"
-  "${HON_SHARED_LIBRARY_LIB}"
+  "${K2_LIBRARY}"
+  "${HON_SHARED_LIBRARY}"
   )
 
 #========================================
@@ -1747,8 +1771,8 @@ app_configure_lib(${HON_SERVER_LIBRARY})
 target_compile_definitions(${HON_SERVER_LIBRARY} PRIVATE GAME_SERVER_EXPORTS)
 target_precompile_headers(${HON_SERVER_LIBRARY} PRIVATE src/hon_server/game_server_common.h)
 target_link_libraries(${HON_SERVER_LIBRARY}
-  "${K2_LIBRARY_LIB}"
-  "${HON_SHARED_LIBRARY_LIB}"
+  "${K2_LIBRARY}"
+  "${HON_SHARED_LIBRARY}"
   )
 
 #========================================
@@ -1775,7 +1799,7 @@ app_configure_lib(${MODELVIEWER_LIBRARY})
 target_compile_definitions(${MODELVIEWER_LIBRARY} PRIVATE MODELVIEWER_EXPORTS)
 target_precompile_headers(${MODELVIEWER_LIBRARY} PRIVATE src/modelviewer/mv_common.h)
 target_link_libraries(${MODELVIEWER_LIBRARY}
-  "${K2_LIBRARY_LIB}"
+  "${K2_LIBRARY}"
   )
 
 #========================================
@@ -1822,8 +1846,8 @@ app_configure_game_settings(${EDITOR_LIBRARY} "${HON_GAME_NAME}" "Editor")
 target_compile_definitions(${EDITOR_LIBRARY} PRIVATE EDITOR_EXPORTS)
 target_precompile_headers(${EDITOR_LIBRARY} PRIVATE src/editor/editor_common.h)
 target_link_libraries(${EDITOR_LIBRARY}
-  "${K2_LIBRARY_LIB}"
-  "${HON_SHARED_LIBRARY_LIB}"
+  "${K2_LIBRARY}"
+  "${HON_SHARED_LIBRARY}"
   )
 
 #========================================
@@ -1861,7 +1885,7 @@ list(APPEND K2_MODELVIEWER_SOURCES
   ${SHELL_MAIN}
   )
 list(APPEND K2_MODELVIEWER_LIBRARIES
-  ${K2_LIBRARY_LIB}
+  ${K2_LIBRARY}
   shell
   )
 
@@ -1890,7 +1914,7 @@ list(APPEND NOH_SOURCES
   ${SHELL_MAIN}
   )
 list(APPEND NOH_LIBRARIES
-  ${K2_LIBRARY_LIB}
+  ${K2_LIBRARY}
   shell
   )
 
@@ -1947,7 +1971,7 @@ list(APPEND BET_SOURCES
   ${SHELL_MAIN}
   )
 list(APPEND BET_LIBRARIES
-  ${K2_LIBRARY_LIB}
+  ${K2_LIBRARY}
   shell
   )
 

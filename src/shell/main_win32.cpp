@@ -25,7 +25,7 @@
 #include <shellapi.h>
 #pragma pop_macro("Console")
 
-#include "resource.h"
+#include "../Heroes of Newerth_shell/resource.h"
 
 #include "../k2/c_vid.h"
 //=============================================================================

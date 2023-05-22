@@ -518,7 +518,7 @@ void    CGfx3D::Setup3D()
 
     CVec4f v4SunPos(SceneManager.GetSunPos(), 0.0f);
 
-    g_iMaxDynamicLights = (vid_dynamicLights && vid_shaderLightingQuality == 0) ? MIN(MAX_POINT_LIGHTS, int(vid_maxDynamicLights)) : 0;
+    g_iMaxDynamicLights = (vid_dynamicLights && static_cast<int>(vid_shaderLightingQuality) == 0) ? MIN(MAX_POINT_LIGHTS, int(vid_maxDynamicLights)) : 0;
     g_bLighting = true;
     g_iNumActiveBones = 0;
     g_iNumActivePointLights = 0;

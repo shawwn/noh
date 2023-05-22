@@ -185,7 +185,9 @@ void    GL_Start()
         wc.lpfnWndProc = MainWndProc;
         wc.hInstance = g_hInstance;
         wc.lpszClassName = _T("K2_OpenGL");
-        wc.hIcon = LoadIcon(wc.hInstance, MAKEINTRESOURCE(IDI_ICON1)); 
+#if TKTK // LoadIcon
+        wc.hIcon = LoadIcon(wc.hInstance, MAKEINTRESOURCE(IDI_ICON1));
+#endif
 
         if (!RegisterClass(&wc))
             K2System.Error(_T("GL_Start: RegisterClass() failed"));
@@ -530,7 +532,11 @@ void    GL_SetCursor(ResHandle hCursor)
 
     g_hCursorIcon = CreateIconIndirect(&g_IconInfo);
 
+#ifdef _WIN64
+    SetClassLongPtr(g_hWnd, GCLP_HCURSOR, LONG_PTR(g_hCursorIcon));
+#else
     SetClassLongPtr(g_hWnd, GCL_HCURSOR, LONG_PTR(g_hCursorIcon));
+#endif
 }
 
 
@@ -595,5 +601,9 @@ void    GL_EndFrame()
   ====================*/
 void    GL_Break()
 {
+#ifndef _WIN64
     __asm int 0x03;
+#else
+    // TODO
+#endif
 }

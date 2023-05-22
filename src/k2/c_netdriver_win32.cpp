@@ -377,7 +377,7 @@ tstring CNetDriver::GetBroadcastAddress(dword dwSocket)
     MemManager.Set(&netAddr, 0, sizeof(netAddr_t));
 
     DWORD dwBytesWritten;
-    WSAIoctl(dwSocket, SIO_GET_BROADCAST_ADDRESS, nullptr, nullptr, &netAddr, sizeof(netAddr_t), &dwBytesWritten, nullptr, nullptr);
+    WSAIoctl(dwSocket, SIO_GET_BROADCAST_ADDRESS, nullptr, NULL, &netAddr, sizeof(netAddr_t), &dwBytesWritten, nullptr, nullptr);
 
     return StringToTString(inet_ntoa(netAddr.sin_addr));
 }
@@ -537,7 +537,7 @@ bool    CNetDriver::Connected(dword dwSocket, uint uiMSecToWait)
         timeWait.tv_sec = 0;
         timeWait.tv_usec = 0;
 
-        if (select(nullptr, nullptr, &fdSocketSet, nullptr, &timeWait) > 0)
+        if (select(NULL, nullptr, &fdSocketSet, nullptr, &timeWait) > 0)
             return true;
 
         if (uiMSecToWait == 0)
@@ -572,7 +572,7 @@ bool    CNetDriver::HasError(dword dwSocket, uint uiMSecToWait)
         timeWait.tv_sec = 0;
         timeWait.tv_usec = 0;
 
-        if (select(nullptr, nullptr, nullptr, &fdSocketSet, &timeWait) > 0)
+        if (select(NULL, nullptr, nullptr, &fdSocketSet, &timeWait) > 0)
             return true;
 
         if (uiMSecToWait == 0)
@@ -617,7 +617,7 @@ bool    CNetDriver::DataWaiting(dword dwSocket, IBuffer &cTCPBuffer, uint uiWait
         timeWait.tv_sec = 0;
         timeWait.tv_usec = 0;
 
-        int iReturn(select(nullptr, &fdSocketSet, nullptr, nullptr, &timeWait));
+        int iReturn(select(NULL, &fdSocketSet, nullptr, nullptr, &timeWait));
 
         if (iReturn != SOCKET_ERROR && iReturn > 0)
             return true;

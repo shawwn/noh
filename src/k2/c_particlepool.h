@@ -46,10 +46,8 @@ template<class T>
 class CParticleAllocator : public std::allocator<T>
 {
 public:
-#ifdef __GNUC__
     typedef typename std::allocator<T>::size_type   size_type;
     typedef typename std::allocator<T>::pointer     pointer;
-#endif
 
 #ifndef WIN32
     template<class _Other>
@@ -68,7 +66,7 @@ public:
     ~CParticleAllocator() {}
 #else
     template<class _Other>
-    allocator<T>& operator=(const allocator<_Other>&)
+    std::allocator<T>& operator=(const std::allocator<_Other>&)
     {   // assign from a related allocator (do nothing)
     return (*this);
     }
