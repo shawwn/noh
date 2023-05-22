@@ -1704,6 +1704,70 @@ tstring CFileManager::GetGamePath(const tstring &sSystemPath)
 
 
 /*====================
+  CFileManager::GetLibraryPath
+  ====================*/
+tstring CFileManager::GetLibraryPath(const tstring &sLibFilename)
+{
+    const TCHAR* psExtensions[] = {
+#ifdef WIN32
+            _T(".dll"),
+#else
+#ifdef __APPLE__
+            _T(".dylib"),
+#endif
+#ifdef __x86_64__
+            _T("-x86_64.so"),
+#endif
+#ifdef __x86__
+            _T("-x86.so"),
+#endif
+#ifdef __arm64__
+            _T("-arm64.so"),
+#endif
+            _T(".so"),
+#endif // WIN32
+    };
+    bool bSimpleName(IsCleanPath(sLibFilename, false) && sLibFilename.find(_T('/')) == tstring::npos);
+    tstring sFullPath;
+    for (auto sExtension : psExtensions)
+    {
+        tstring sSuffix;
+#ifdef _DEBUG
+        sSuffix += _T("_debug");
+#endif
+        sSuffix += sExtension;
+        if (bSimpleName)
+        {
+            auto vMods(GetModStack());
+            std::reverse(vMods.begin(), vMods.end());
+            for (const auto& sMod : vMods)
+            {
+                tstring sName;
+                sName += _T(":");
+                sName += sMod;
+                sName += _T("_");
+                sName += sLibFilename;
+                sName += sSuffix;
+                sFullPath = GetSystemPath(sName);
+                if (!sFullPath.empty())
+                    break;
+            }
+            if (!sFullPath.empty())
+                break;
+        }
+        sFullPath = GetSystemPath(sLibFilename + sSuffix);
+        if (!sFullPath.empty())
+            break;
+    }
+    if (!sFullPath.empty())
+    {
+        Console.Dev << sLibFilename << _T(" -> ") << sFullPath << newl;
+    }
+    return sFullPath;
+}
+
+
+/*====================
   CFileManager::InitCRC32
   ====================*/
 void    CFileManager::InitCRC32()

@@ -74,15 +74,11 @@
 
 - (void)applicationDidFinishLaunching:(NSNotification*)aNotification
 {
-#ifdef BUILD_OS_CODE
-    K2System.Init(GAME_NAME, VERSION_STRING, BUILD_INFO_STRING, BUILDNUMBER, BUILD_OS, BUILD_OS_CODE, BUILD_ARCH, MASTER_SERVER_ADDRESS);
-#else
-    K2System.Init(GAME_NAME, VERSION_STRING, BUILD_INFO_STRING, BUILDNUMBER, BUILD_OS, BUILD_OS, BUILD_ARCH, MASTER_SERVER_ADDRESS);
-#endif
+    K2System.Init(_T(GAME_NAME), VERSION_STRING, BUILD_INFO_STRING, BUILDNUMBER, BUILD_OS_INFO, BUILD_OS, BUILD_ARCH, MASTER_SERVER_ADDRESS);
 
     try
     {
-        Host.Init(DEFAULT_EDITOR);
+        Host.Init(_T(GAME_MODS ";editor"));
         Host.Execute();
     }
     catch (CException &ex)

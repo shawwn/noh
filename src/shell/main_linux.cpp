@@ -267,15 +267,11 @@ int main(int argc, char *argv[])
     setlocale(LC_NUMERIC, "C");
 #endif
 
-#ifdef BUILD_OS_CODE
-    K2System.Init(GAME_NAME, VERSION_STRING, BUILD_INFO_STRING, BUILDNUMBER, BUILD_OS, BUILD_OS_CODE, BUILD_ARCH, MASTER_SERVER_ADDRESS, argc, argv);
-#else
-    K2System.Init(GAME_NAME, VERSION_STRING, BUILD_INFO_STRING, BUILDNUMBER, BUILD_OS, BUILD_OS, BUILD_ARCH, MASTER_SERVER_ADDRESS, argc, argv);
-#endif
+    K2System.Init(_T(GAME_TITLE), VERSION_STRING, BUILD_INFO_STRING, BUILDNUMBER, BUILD_OS, BUILD_OS_INFO, BUILD_ARCH, MASTER_SERVER_ADDRESS, argc, argv);
 
     try
     {
-        Host.Init(DEFAULT_GAME);
+        Host.Init(GAME_MODS);
         Host.Execute();
     }
     catch (CException &ex)

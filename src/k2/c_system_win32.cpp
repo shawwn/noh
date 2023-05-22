@@ -972,7 +972,7 @@ void*   CSystem::LoadLibrary(const tstring &sLibFilename)
 {
     PROFILE("CSystem::LoadLibrary");
 
-    tstring sFullPah(FileManager.GetSystemPath(sLibFilename + _T(".dll")));
+    tstring sFullPath(FileManager.GetLibraryPath(sLibFilename));
 
     _tchdir(Filename_GetPath(sFullPah).c_str());
     void* pLib(::LoadLibrary(sFullPah.c_str()));

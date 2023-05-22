@@ -103,6 +103,7 @@ public:
     K2_API bool             IsCleanPath(const tstring &sPath, bool bResolveToRoot = true);
     K2_API tstring          GetSystemPath(const tstring &sPath, const tstring &sMod = TSNULL, bool bWrite = false, bool bForce = false, bool bFileOnly = false, tstring *psBasePathOut = nullptr);
     K2_API tstring          GetGamePath(const tstring &sSystemPath);
+    K2_API tstring          GetLibraryPath(const tstring &sLibFilename);
 
     const tstring&          GetWorkingDirectory()   { return m_sCurrentDir; }
 

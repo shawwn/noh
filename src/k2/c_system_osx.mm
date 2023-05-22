@@ -96,11 +96,7 @@ CVAR_BOOLF  (sys_fileChangeNotify,      true,   CONEL_DEV);
 
 CVAR_BOOLF  (sys_dedicatedConsole,      true,   CVAR_SAVECONFIG);
 CVAR_BOOL   (sys_interactive,           true);
-#if defined(_DEBUG)
 CVAR_BOOL   (sys_debugOutput,           true);
-#else
-CVAR_BOOL   (sys_debugOutput,           false);
-#endif
 
 CVAR_BOOLF  (key_splitShift,            false,  CVAR_SAVECONFIG);
 CVAR_BOOLF  (key_splitOption,           false,  CVAR_SAVECONFIG);
@@ -204,8 +200,14 @@ void    CSystem::Init(const tstring &sGameName, const tstring &sVersion, const t
         m_sCommandLine += _T(" ");
     }
     
+    #if TKTK
     // Set the root path
     m_sRootDir = NativeToTString([[[NSBundle mainBundle] bundlePath] UTF8String]);
+    #else
+    // Set the root path, also resolving symlinks
+    m_sRootDir = NativeToTString([[[[[NSBundle mainBundle] executablePath] stringByResolvingSymlinksInPath] stringByDeletingLastPathComponent] UTF8String]);
+
+    #endif
     m_sRootDir += _T('/');
     
     // Change the working directory to the proper location
@@ -887,7 +889,7 @@ void    CSystem::HandleOSMessages()
                 EButton button(keyCodeToEButton(unKeyCode));
                 // Ensure that menu events get passed on
                 if (Input.IsCommandDown() &&
-                    ((Input.IsShiftDown() && button == EButton('Q'))
+                    (button == EButton('Q') 
                      || (Input.IsShiftDown() && button == EButton('E'))
                      || button == EButton('M')
                      || button == EButton('H')
@@ -1250,8 +1252,10 @@ void    CSystem::Error(const tstring &sMsg)
     Vid.Shutdown(); // shutdown video so that error message will always appear (would be hidden behind fullscreen window otherwise)
     
     NSAlert *pAlert = [[NSAlert alloc] init];
-    [pAlert setMessageText:@"Heroes of Newerth - Fatal Error"];
-    [pAlert setInformativeText:[NSString stringWithUTF8String:TStringToNative(sMsg).c_str()]];
+    string sTitle(TStringToUTF8(m_sGameName + _T(" - Fatal Error")));
+    string sMessage(TStringToUTF8(sMsg));
+    [pAlert setMessageText:[NSString stringWithUTF8String:sTitle.c_str()]];
+    [pAlert setInformativeText:[NSString stringWithUTF8String:sMessage.c_str()]];
     [pAlert runModal];
     [pAlert release];
     
@@ -2123,7 +2127,11 @@ void    CSystem::SetTitle(const tstring &sTitle)
     
     m_sConsoleTitle = sTitle;
     
-    // TODO
+    if (m_WindowHandle)
+    {
+        Console << "Setting title " << sTitle << newl;
+        [(NSWindow*)m_WindowHandle setTitle:[NSString stringWithUTF8String:sTitle.c_str()]];
+    }
 }
 
 

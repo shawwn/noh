@@ -1,27 +1,27 @@
-// (C)2005 S2 Games
+// (C)2023 S3 Games
 // shell_common.h
 //
-// Heroes of Newerth shell
+// Beatopia shell
 //=============================================================================
-#ifndef __HON_SHELL_COMMON_H__
-#define __HON_SHELL_COMMON_H__
+#ifndef __BET_SHELL_COMMON_H__
+#define __BET_SHELL_COMMON_H__
 
 //=============================================================================
 // Game info strings
 //=============================================================================
 #ifndef GAME_NAME
-#define GAME_NAME       "Heroes of Newerth"
+#define GAME_NAME       "Beatopia"
 #endif
 #ifndef GAME_MODS
-#define GAME_MODS       "hon;game"
+#define GAME_MODS       "hon;bet;game"
 #endif
 
 #define MAJOR_VERSION   0
 #define MINOR_VERSION   0
-#define MICRO_VERSION   61
+#define MICRO_VERSION   1
 #define HOTFIX_VERSION  0
 //=============================================================================
 
 #include "../shell/shell.h"
 
-#endif // __HON_SHELL_COMMON_H__
+#endif // __BET_SHELL_COMMON_H__

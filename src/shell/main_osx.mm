@@ -41,12 +41,15 @@
 @implementation AppDelegate
 - (void)applicationWillFinishLaunching:(NSNotification*)aNotification
 {
+    // ensure the menu won't freeze: https://stackoverflow.com/questions/34469718/top-left-menu-bar-is-frozen-when-main-window-shows-up
+    [NSApp setActivationPolicy:NSApplicationActivationPolicyRegular];
     // set up the menu
-    [NSApp setMainMenu:[[NSMenu alloc] init]];
-    NSMenu *pMenu = [[NSMenu alloc] initWithTitle:@"Heroes of Newerth"];
+    NSMenu *pMainMenu = [[NSMenu alloc] init];
+    NSMenu *pMenu = [[NSMenu alloc] initWithTitle:@(GAME_TITLE)];
     // about (standard entry)
-    [pMenu addItemWithTitle:@"About Heroes of Newerth" action:@selector(orderFrontStandardAboutPanel:) keyEquivalent:@""];
+    [pMenu addItemWithTitle:@("About " GAME_TITLE) action:@selector(orderFrontStandardAboutPanel:) keyEquivalent:@""];
     [pMenu addItem:[NSMenuItem separatorItem]];
+    // editor/modelviewer
     NSMenuItem *pMenuItem;
     // toggle fullscreen
     pMenuItem = (NSMenuItem*)[[NSMenuItem alloc] initWithTitle:@"Toggle Fullscreen" action:@selector(toggleFullscreen:) keyEquivalent:@"f"];
@@ -55,33 +58,45 @@
     pMenuItem = (NSMenuItem*)[[NSMenuItem alloc] initWithTitle:@"Minimize" action:@selector(minimize:) keyEquivalent:@"m"];
     [pMenu addItem:pMenuItem];
     // hide/show (standard entries)
-    [pMenu addItemWithTitle:@"Hide Heroes of Newerth" action:@selector(hide:) keyEquivalent:@"h"];
+    [pMenu addItemWithTitle:@("Hide " GAME_TITLE) action:@selector(hide:) keyEquivalent:@"h"];
     pMenuItem = (NSMenuItem*)[pMenu addItemWithTitle:@"Hide Others" action:@selector(hideOtherApplications:) keyEquivalent:@"h"];
     [pMenuItem setKeyEquivalentModifierMask:(NSEventModifierFlagOption|NSEventModifierFlagCommand)];
     [pMenu addItemWithTitle:@"Show All" action:@selector(unhideAllApplications:) keyEquivalent:@""];
     // quit
     [pMenu addItem:[NSMenuItem separatorItem]];
-    pMenuItem = (NSMenuItem*)[pMenu addItemWithTitle:@"Quit Heroes of Newerth" action:@selector(quit:) keyEquivalent:@"q"];
-    [pMenuItem setKeyEquivalentModifierMask:(NSEventModifierFlagShift|NSEventModifierFlagCommand)];
+    pMenuItem = (NSMenuItem*)[pMenu addItemWithTitle:@("Quit " GAME_TITLE) action:@selector(quit:) keyEquivalent:@"q"];
+    [pMenuItem setKeyEquivalentModifierMask:(NSEventModifierFlagCommand)];
     // add to menu bar
     pMenuItem = [[NSMenuItem alloc] initWithTitle:@"" action:nil keyEquivalent:@""];
     [pMenuItem setSubmenu:pMenu];
-    [[NSApp mainMenu] addItem:pMenuItem];
+    [pMainMenu addItem:pMenuItem];
+    #if TKTK
     // private method that we need to call to set this to be the main/"apple" menu
     [NSApp performSelector:NSSelectorFromString(@"setAppleMenu:") withObject:pMenu];
+    #else
+    [NSApp setMainMenu:pMainMenu];
+    #endif
 }
 
 - (void)applicationDidFinishLaunching:(NSNotification*)aNotification
 {
-#ifdef BUILD_OS_CODE
-    K2System.Init(GAME_NAME, VERSION_STRING, BUILD_INFO_STRING, BUILDNUMBER, BUILD_OS, BUILD_OS_CODE, BUILD_ARCH, MASTER_SERVER_ADDRESS);
-#else
-    K2System.Init(GAME_NAME, VERSION_STRING, BUILD_INFO_STRING, BUILDNUMBER, BUILD_OS, BUILD_OS, BUILD_ARCH, MASTER_SERVER_ADDRESS);
-#endif
+    // ensure the menu won't freeze: https://stackoverflow.com/questions/34469718/top-left-menu-bar-is-frozen-when-main-window-shows-up
+    [NSApp setActivationPolicy:NSApplicationActivationPolicyRegular];
+    [[[NSApplication sharedApplication] mainWindow] makeKeyAndOrderFront:self];
+    // bring the window to the front
+    #if 1
+    int processID = [[NSProcessInfo processInfo] processIdentifier];
+    NSRunningApplication* app = [NSRunningApplication runningApplicationWithProcessIdentifier: processID];
+    [app activateWithOptions: NSApplicationActivateAllWindows | NSApplicationActivateIgnoringOtherApps];
+    #elif 0
+    Console.Execute(_T("BringActiveWindowToFront"));
+    #endif
+
+    K2System.Init(_T(GAME_TITLE), VERSION_STRING, BUILD_INFO_STRING, BUILDNUMBER, BUILD_OS, BUILD_OS_INFO, BUILD_ARCH, MASTER_SERVER_ADDRESS);
 
     try
     {
-        Host.Init(DEFAULT_GAME);
+        Host.Init(_T(GAME_MODS));
         Host.Execute();
     }
     catch (CException &ex)
@@ -177,7 +192,7 @@ static void signal_handler_quit(int signal, siginfo_t* info, void* context)
 
 int main(int argc, char *argv[])
 {
-    struct sigaction act;
+    struct sigaction act {};
     sigemptyset(&act.sa_mask);
     act.sa_flags = SA_SIGINFO;
     act.sa_sigaction = signal_handler_quit;
@@ -191,24 +206,31 @@ int main(int argc, char *argv[])
     // transform it to a gui application & bring it to the front
     ProcessSerialNumber psn = { 0, kCurrentProcess };
     TransformProcessType(&psn, kProcessTransformToForegroundApplication);
-#if TKTK || 1 // This is deprecated
+#if TKTK  // SetFrontProcess is deprecated
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
     SetFrontProcess(&psn);
 #pragma clang diagnostic pop
 #else
-    NSProcessInfo *processInfo = [NSProcessInfo processInfo];
-//    NSString *processName = [processInfo processName];
-    int processID = [processInfo processIdentifier];
+    int processID = [[NSProcessInfo processInfo] processIdentifier];
     NSRunningApplication* app = [NSRunningApplication runningApplicationWithProcessIdentifier: processID];
     [app activateWithOptions: NSApplicationActivateAllWindows];
 #endif
     
+    #if TKTK
     NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
     [NSApplication sharedApplication];
     [NSApp setDelegate:[[AppDelegate alloc] init]];
     [NSApp run];
     [pool release];
+    #else
+    @autoreleasepool {
+        NSApplication *pApplication = [NSApplication sharedApplication];
+        AppDelegate *delegate = [AppDelegate new];
+        [pApplication setDelegate:delegate];
+        [pApplication run];
+    }
+    #endif
     
     return 0;
 }

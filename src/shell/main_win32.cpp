@@ -320,11 +320,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 {
     g_hInstance = hInstance;
 
-#ifdef BUILD_OS_CODE
-    K2System.Init(GAME_NAME, VERSION_STRING, BUILD_INFO_STRING, BUILDNUMBER, BUILD_OS, BUILD_OS_CODE, BUILD_ARCH, MASTER_SERVER_ADDRESS);
-#else
-    K2System.Init(GAME_NAME, VERSION_STRING, BUILD_INFO_STRING, BUILDNUMBER, BUILD_OS, BUILD_OS, BUILD_ARCH, MASTER_SERVER_ADDRESS);
-#endif
+    K2System.Init(_T(GAME_TITLE), VERSION_STRING, BUILD_INFO_STRING, BUILDNUMBER, BUILD_OS, BUILD_OS_INFO, BUILD_ARCH, MASTER_SERVER_ADDRESS);
 
     K2System.SetInstanceHandle(hInstance);
     K2System.SetMainWndProc(System_MainWndProc);
@@ -334,7 +330,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
     try
     {
-        Host.Init(DEFAULT_GAME);
+        Host.Init(GAME_MODS);
         Host.Execute();
     }
     catch (CException &ex)

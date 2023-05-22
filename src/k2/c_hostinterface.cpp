@@ -3,11 +3,7 @@
 #include "c_hostinterface.h"
 #include "c_interface.h"
 
-#ifdef _DEBUG
-const tstring INTERFACE_LIBRARY_NAME(_T("cinterface_debug"));
-#else
-const tstring INTERFACE_LIBRARY_NAME(_T("cinterface"));
-#endif
+const tstring INTERFACE_LIBRARY_NAME(_T("clientinterface"));
 
 const int MAX_CHANNELS (8);
 

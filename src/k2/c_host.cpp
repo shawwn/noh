@@ -12,7 +12,6 @@
 #include "c_hostserver.h"
 #include "c_hostclient.h"
 
-#include "k2_api.h"
 #include "c_date.h"
 #include "c_vid.h"
 #include "c_bitmap.h"
@@ -20,7 +19,6 @@
 #include "c_draw2d.h"
 #include "c_input.h"
 #include "c_movie.h"
-#include "c_texture.h"
 #include "c_xmlmanager.h"
 #include "c_soundmanager.h"
 #include "c_netdriver.h"
@@ -31,8 +29,6 @@
 #include "c_filehttp.h"
 #include "c_updater.h"
 #include "c_scenestats.h"
-#include "c_clientlogin.h"
-#include "c_updater.h"
 #include "c_netstats.h"
 #include "c_eventmanager.h"
 #include "c_actionregistry.h"
@@ -137,6 +133,10 @@ CHost::~CHost()
 CHost::CHost() :
 m_pHTTPManager(nullptr),
 
+m_uiSystemTime(0),
+m_uiLastSystemTime(0),
+m_uiTickAccumulator(0),
+m_bUpdateAvailable(false),
 m_uiThisFrameEnd(0),
 m_fThisFrameEndSeconds(0.0f),
 m_uiThisFrameLength(0),
@@ -368,7 +368,7 @@ void    CHost::Init(const tstring &sGame)
         Console.OpenLog();
         
         Console << _T("************************************************************") << newl
-                << _T("K2 Engine start up...") << newl
+                << _T("K2 Engine start up: ") << sGame << newl
                 << _T("[") << host_date << _T("]") << newl
                 << _T("[") << host_time << _T("]") << newl
                 << _T("[") << K2System.GetVersionString() << _T("]") << newl
@@ -379,11 +379,11 @@ void    CHost::Init(const tstring &sGame)
         if (FileManager.GetUsingCustomFiles() == true)
             Console << _T("Modded files are in use.") << newl;
         
-        m_vsVersionStampText.push_back(K2System.GetGameName());
-        m_vsVersionStampText.push_back(K2_Version(K2System.GetVersionString()));
-        m_vsVersionStampText.push_back(K2System.GetBuildOSString() + _T(" ") + K2System.GetBuildArchString());
-        m_vsVersionStampText.push_back(K2System.GetBuildInfoString());
-        m_vsVersionStampText.push_back(_T("Build date: ") _T(__DATE__));
+        m_vsVersionStampText.emplace_back(K2System.GetGameName());
+        m_vsVersionStampText.emplace_back(K2_Version(K2System.GetVersionString()));
+        m_vsVersionStampText.emplace_back(K2System.GetBuildOSString() + _T(" ") + K2System.GetBuildArchString());
+        m_vsVersionStampText.emplace_back(K2System.GetBuildInfoString());
+        m_vsVersionStampText.emplace_back(_T("Build date: ") _T(__DATE__));
 
         XMLManager.PrintVersion();
         

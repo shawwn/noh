@@ -7675,7 +7675,7 @@ bool    CGameServer::LoadWorld(const tstring &sName, const tstring &sGameSetting
             EX_ERROR(_T("No map specified"));
 
         if (sName.empty())
-            m_sName = _T("Heroes of Newerth");
+            m_sName = K2System.GetGameName();
         else
             m_sName = sName;
 

@@ -390,7 +390,7 @@ void    CL_StartLoading(const tstring &sWorldName)
   ====================*/
 K2_DLL_EXPORT void InitLibrary(CClientGameLib &GameLib)
 {
-    GameLib.SetName(_T("Heroes of Newerth - Game Client"));
+    GameLib.SetName(K2System.GetGameName());
     GameLib.SetTypeName(_T("honclient"));
     GameLib.SetMajorVersion(1);
     GameLib.SetMinorVersion(0);

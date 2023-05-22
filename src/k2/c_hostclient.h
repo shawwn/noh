@@ -32,11 +32,7 @@ class CPHPData;
 //=============================================================================
 // Definitions
 //=============================================================================
-#ifdef _DEBUG
-const tstring CLIENT_LIBRARY_NAME(_T("cgame_debug"));
-#else
-const tstring CLIENT_LIBRARY_NAME(_T("cgame"));
-#endif
+const tstring CLIENT_LIBRARY_NAME(_T("client"));
 
 enum EClientState
 {

@@ -2085,7 +2085,7 @@ void    CL_FileDropNotify(const tsvector &vsFiles)
   ====================*/
 K2_DLL_EXPORT void InitLibrary(CClientGameLib &GameLib)
 {
-    GameLib.SetName(_T("K2 Model Viewer"));
+    GameLib.SetName(K2System.GetGameName());
     GameLib.SetTypeName(_T("modelviewer"));
     GameLib.SetMajorVersion(1);
     GameLib.SetMinorVersion(1);

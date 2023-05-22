@@ -617,7 +617,7 @@ void    SV_UpdateUpgrades(int iClientNum)
   ====================*/
 K2_DLL_EXPORT void InitLibrary(CServerGameLib &GameLib)
 {
-    GameLib.SetName(_T("Heroes of Newerth - Game Server"));
+    GameLib.SetName(K2System.GetGameName() + _T(" - Game Server"));
     GameLib.SetTypeName(_T("honserver"));
     GameLib.SetVersion(1, 0);
     GameLib.AssignSetGamePointerFn(SV_SetGamePointer);

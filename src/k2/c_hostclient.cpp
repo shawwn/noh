@@ -500,6 +500,11 @@ void    CHostClient::Init()
         Console.Client << _T("Started client ") << QuoteStr(m_pGameLib->GetName()) << _T(" version ")
                 << XtoA(m_pGameLib->GetMajorVersion()) << _T(".") << XtoA(m_pGameLib->GetMinorVersion()) << newl;
         m_pGameLib->Init(this);
+#ifdef _DEBUG
+        K2System.SetTitle(m_pGameLib->GetName() + _T(" [DEBUG]"));
+#else
+        K2System.SetTitle(m_pGameLib->GetName());
+#endif
 
         IModalDialog::SetNumLoadingJobs(5);
     }

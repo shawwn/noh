@@ -586,7 +586,7 @@ void    CL_Shutdown()
   ====================*/
 K2_DLL_EXPORT void InitLibrary(CClientGameLib &GameLib)
 {
-    GameLib.SetName(_T("Heroes of Newerth - Level Editor"));
+    GameLib.SetName(K2System.GetGameName());
     GameLib.SetTypeName(_T("honeditor"));
     GameLib.SetMajorVersion(1);
     GameLib.SetMinorVersion(0);

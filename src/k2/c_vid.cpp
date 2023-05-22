@@ -101,11 +101,7 @@ void    CVid::SetDriver(const tstring &sDriverName)
         Console.ExecuteScript(host_startupCfg);
     }
 
-#ifdef _DEBUG
-    LoadVidModule(sDriverName + _T("_debug"));
-#else
     LoadVidModule(sDriverName);
-#endif
 
     StartDriver();
 

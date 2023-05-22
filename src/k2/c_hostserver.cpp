@@ -75,11 +75,7 @@ CVAR_UINTF(     svr_connectReqPeriod,       3000,                       CVAR_SAV
 
 CVAR_UINTF(     svr_maxReminders,               5,                      CVAR_SAVECONFIG);
 
-#ifdef _DEBUG
-const tstring SERVER_LIBRARY_NAME(_T("game_debug"));
-#else
-const tstring SERVER_LIBRARY_NAME(_T("game"));
-#endif
+const tstring SERVER_LIBRARY_NAME(_T("server"));
 
 CVAR_UINTF(     _svr_ms,                            0,  CVAR_READONLY);
 CVAR_UINTF(     _svr_frame,                         0,  CVAR_READONLY);

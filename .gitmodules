@@ -4,3 +4,6 @@
 [submodule "Heroes of Newerth"]
 	path = Heroes of Newerth
 	url = https://github.com/shawwn/noh-game
+[submodule "Beatopia"]
+	path = Beatopia
+	url = https://github.com/shawwn/noh-beatopia

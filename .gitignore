@@ -1058,3 +1058,6 @@ xcuserdata/
 /.idea/*
 !/.idea/runConfigurations
 !/.idea/cmake.xml
+/NoH*
+/K2*
+/BeT*

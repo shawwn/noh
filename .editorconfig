@@ -316,6 +316,8 @@ ij_c_while_on_new_line = true
 ij_c_wrap_property_declaration = off
 
 [{*.cmake,*.cmake.in,CMakeLists.txt}]
+indent_size = 2
+tab_width = 2
 ij_cmake_align_multiline_parameters_in_calls = false
 ij_cmake_force_commands_case = 1
 ij_cmake_keep_blank_lines_in_code = 2

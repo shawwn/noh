@@ -268,16 +268,8 @@ void*   CSystem::LoadLibrary(const tstring &sLibFilename)
 {
     PROFILE("CSystem::LoadLibrary");
     
-#ifdef __APPLE__
-    tstring sFullPath(FileManager.GetSystemPath(sLibFilename + _T(".dylib")));
-#else
-#ifdef __x86_64__
-    tstring sFullPath(FileManager.GetSystemPath(sLibFilename + _T("-x86_64.so")));
-#else
-    tstring sFullPath(FileManager.GetSystemPath(sLibFilename + _T("-x86.so")));
-#endif
-#endif
-    
+    tstring sFullPath(FileManager.GetLibraryPath(sLibFilename));
+
     if (sFullPath == TSNULL)
         return nullptr;
     else
