@@ -708,7 +708,7 @@ float   ICombatAction::GetDynamicValue(EDynamicActionValue eMultiplier) const
     case DYNAMIC_VALUE_CASTDURATION: return (m_pEnv->pInflictor != nullptr && m_pEnv->pInflictor->IsTool()) ? m_pEnv->pInflictor->GetAsTool()->GetAdjustedCastTime() : 0.0f; break;
     case DYNAMIC_VALUE_LEVEL: return m_pEnv->uiLevel; break;
 
-    case DYNAMIC_COMBAT_TARGET: return m_pEnv->pCombatEvent ? m_pEnv->pCombatEvent->GetTarget() : INVALID_INDEX;
+    case DYNAMIC_COMBAT_TARGET: return m_pEnv->pCombatEvent ? m_pEnv->pCombatEvent->GetTarget() : (int)INVALID_INDEX;
     case DYNAMIC_COMBAT_EFFECTTYPE: return m_pEnv->pCombatEvent ? m_pEnv->pCombatEvent->GetEffectType() : 0;
     case DYNAMIC_COMBAT_DAMAGETYPE: return m_pEnv->pCombatEvent ? m_pEnv->pCombatEvent->GetDamageType() : 0;
     case DYNAMIC_COMBAT_SUPERTYPE: return m_pEnv->pCombatEvent ? m_pEnv->pCombatEvent->GetSuperType() : 0;
@@ -735,9 +735,9 @@ float   ICombatAction::GetDynamicValue(EDynamicActionValue eMultiplier) const
     case DYNAMIC_DAMAGE_ATTEMPTED: return m_pEnv->pDamageEvent ? m_pEnv->pDamageEvent->GetAttemptedDamage() : 0.0f;
     case DYNAMIC_DAMAGE_APPLIED: return m_pEnv->pDamageEvent ? m_pEnv->pDamageEvent->GetAppliedDamage() : 0.0f;
     case DYNAMIC_DAMAGE_DEFLECTION: return m_pEnv->pDamageEvent ? m_pEnv->pDamageEvent->GetDeflection() : 0.0f;
-    case DYNAMIC_DAMAGE_TARGET: return m_pEnv->pDamageEvent ? m_pEnv->pDamageEvent->GetTargetIndex() : INVALID_INDEX;
-    case DYNAMIC_DAMAGE_ATTACKER: return m_pEnv->pDamageEvent ? m_pEnv->pDamageEvent->GetAttackerIndex() : INVALID_INDEX;
-    case DYNAMIC_DAMAGE_INFLICTOR: return m_pEnv->pDamageEvent ? m_pEnv->pDamageEvent->GetInflictorIndex() : INVALID_INDEX;
+    case DYNAMIC_DAMAGE_TARGET: return m_pEnv->pDamageEvent ? m_pEnv->pDamageEvent->GetTargetIndex() : (int)INVALID_INDEX;
+    case DYNAMIC_DAMAGE_ATTACKER: return m_pEnv->pDamageEvent ? m_pEnv->pDamageEvent->GetAttackerIndex() : (int)INVALID_INDEX;
+    case DYNAMIC_DAMAGE_INFLICTOR: return m_pEnv->pDamageEvent ? m_pEnv->pDamageEvent->GetInflictorIndex() : (int)INVALID_INDEX;
     case DYNAMIC_DAMAGE_ARMORPIERCE: return m_pEnv->pDamageEvent ? m_pEnv->pDamageEvent->GetArmorPierce() : 0.0f;
     case DYNAMIC_DAMAGE_MAGICARMORPIERCE: return m_pEnv->pDamageEvent ? m_pEnv->pDamageEvent->GetMagicArmorPierce() : 0.0f;
     }

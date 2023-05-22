@@ -176,7 +176,7 @@ void    CNetStats::Draw()
         fLines += NUM_NETSOCKET_TYPES + 1;
         break;
     case NS_DETAILS:
-        fLines += NUM_NETSOCKET_TYPES * float(NUM_NETSAMPLE_TYPES + 2);
+        fLines += int(NUM_NETSOCKET_TYPES) * int(NUM_NETSAMPLE_TYPES + 2);
         break;
     case NUM_NETSTAT_MODES:
         K2_UNREACHABLE();
