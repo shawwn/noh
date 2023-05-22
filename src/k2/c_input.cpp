@@ -1104,7 +1104,9 @@ void    CInput::SetCursor(ECursor eCursor, ResHandle hCursor)
 
     m_Cursor[eCursor].hCursor = hCursor;
 
-    if (hCursor != hOldCursor)
+    ResHandle hNewCursor(GetCursor());
+
+    if (hNewCursor != hOldCursor)
         m_iCursorChange = 1;
 }
 
