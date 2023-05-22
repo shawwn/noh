@@ -56,7 +56,7 @@ typedef unsigned __int64    ULONGLONG;
 #endif
 #endif
 
-#ifdef K2_64
+#if defined(K2_64)
 #define INT_SIZE(size)  ULONGLONG(size)
 #else
 #define INT_SIZE(size)  uint(size)

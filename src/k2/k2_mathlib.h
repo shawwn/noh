@@ -146,7 +146,6 @@ public:
 const float TOLERANCE(0.00001f);
 
 template<class T>
-inline
 const T& MIN(const T& _Left, const T& _Right)
 {
     // return smaller of _Left and _Right
@@ -154,7 +153,6 @@ const T& MIN(const T& _Left, const T& _Right)
 }
 
 template<class T>
-inline
 const T& MAX(const T& _Left, const T& _Right)
 {
     // return larger of _Left and _Right

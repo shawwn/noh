@@ -7539,7 +7539,7 @@ void    CGameServer::BuildHeroLists()
         if (vHeroes.size() > GetGameInfo()->GetHeroPoolSize())
             vHeroes.resize(GetGameInfo()->GetHeroPoolSize());
 
-        for (uint ui(0); ui < MIN(INT_SIZE(vHeroes.size()), GetGameInfo()->GetHeroPoolSize()); ++ui)
+        for (uint ui(0); ui < MIN(uint(vHeroes.size()), GetGameInfo()->GetHeroPoolSize()); ++ui)
             m_vHeroLists[0].push_back(HeroListEntry(vHeroes[ui], HERO_LIST_AVAILABLE_ALL));
     }
     else if (GetGameMode() == GAME_MODE_CAPTAINS_DRAFT || GetGameMode() == GAME_MODE_BANNING_DRAFT)
@@ -7569,11 +7569,11 @@ void    CGameServer::BuildHeroLists()
         K2::random_shuffle(vIntHeroes.begin(), vIntHeroes.end());
         K2::random_shuffle(vStrHeroes.begin(), vStrHeroes.end());
 
-        for (uint ui(0); ui < MIN(INT_SIZE(vAgiHeroes.size()), GetGameInfo()->GetHeroPoolSize() / 3); ++ui)
+        for (uint ui(0); ui < MIN(uint(vAgiHeroes.size()), GetGameInfo()->GetHeroPoolSize() / 3); ++ui)
             m_vHeroLists[0].push_back(HeroListEntry(vAgiHeroes[ui], HERO_LIST_AVAILABLE_ALL));
-        for (uint ui(0); ui < MIN(INT_SIZE(vIntHeroes.size()), GetGameInfo()->GetHeroPoolSize() / 3); ++ui)
+        for (uint ui(0); ui < MIN(uint(vIntHeroes.size()), GetGameInfo()->GetHeroPoolSize() / 3); ++ui)
             m_vHeroLists[0].push_back(HeroListEntry(vIntHeroes[ui], HERO_LIST_AVAILABLE_ALL));
-        for (uint ui(0); ui < MIN(INT_SIZE(vStrHeroes.size()), GetGameInfo()->GetHeroPoolSize() / 3); ++ui)
+        for (uint ui(0); ui < MIN(uint(vStrHeroes.size()), GetGameInfo()->GetHeroPoolSize() / 3); ++ui)
             m_vHeroLists[0].push_back(HeroListEntry(vStrHeroes[ui], HERO_LIST_AVAILABLE_ALL));
     }
     else

@@ -39,7 +39,7 @@ public: \
         if (GetLevel() == 0 || m_v##name.empty()) \
             return GetDefaultEmptyValue<type>(); \
     \
-        return m_v##name[MIN(GetLevel() - 1, INT_SIZE(m_v##name.size() - 1))]; \
+        return m_v##name[MIN(GetLevel() - 1, uint(m_v##name.size() - 1))]; \
     } \
 
 // COMBAT_ACTION_VALUE_PROPERTY
@@ -64,7 +64,7 @@ public: \
         if (GetLevel() == 0 || m_v##name##Dynamic.empty()) \
             return 0.0f; \
 \
-        int iIndex(MIN(GetLevel() - 1, INT_SIZE(m_v##name##Dynamic.size() - 1))); \
+        int iIndex(MIN(GetLevel() - 1, uint(m_v##name##Dynamic.size() - 1))); \
         if (m_v##name##Dynamic[iIndex] == DYNAMIC_VALUE_INVALID) \
             return m_v##name##Static[iIndex]; \
         return GetDynamicValue(m_v##name##Dynamic[iIndex]); \
@@ -92,7 +92,7 @@ public: \
         if (GetLevel() == 0 || m_v##name##Dynamic.empty()) \
             return GetDefaultEmptyValue<type>(); \
 \
-        int iIndex(MIN(GetLevel() - 1, INT_SIZE(m_v##name##Dynamic.size() - 1))); \
+        int iIndex(MIN(GetLevel() - 1, uint(m_v##name##Dynamic.size() - 1))); \
         if (m_v##name##Dynamic[iIndex] == DYNAMIC_VALUE_INVALID) \
             return function(m_v##name##Static[iIndex]); \
         return function(GetDynamicValue(m_v##name##Dynamic[iIndex])); \
@@ -116,7 +116,7 @@ public: \
         if (GetLevel() == 0 || m_v##name.empty()) \
             return GetDefaultEmptyValue<type>(); \
     \
-        return m_v##name[MIN(GetLevel() - 1, INT_SIZE(m_v##name.size() - 1))]; \
+        return m_v##name[MIN(GetLevel() - 1, uint(m_v##name.size() - 1))]; \
     } \
 
 // COMBAT_ACTION_STRING_PROPERTY
@@ -135,10 +135,10 @@ public: \
         if (GetLevel() == 0 || m_v##name.empty()) \
             return TSNULL; \
     \
-        return m_v##name[MIN(GetLevel() - 1, INT_SIZE(m_v##name.size() - 1))]; \
+        return m_v##name[MIN(GetLevel() - 1, uint(m_v##name.size() - 1))]; \
     } \
 \
-    uint            Get##name##Size() const         { return INT_SIZE(m_v##name.size()); } \
+    uint            Get##name##Size() const         { return uint(m_v##name.size()); } \
     const tstring&  Get##name(uint uiIndex) const   { return uiIndex < m_v##name.size() ? m_v##name[uiIndex] : TSNULL; }
 
 // COMBAT_ACTION_RESOURCE_PROPERTY
@@ -160,7 +160,7 @@ public: \
         if (GetLevel() == 0 || m_v##name##Path.empty()) \
             return TSNULL; \
 \
-        return m_v##name##Path[MIN(GetLevel() - 1, INT_SIZE(m_v##name##Path.size() - 1))]; \
+        return m_v##name##Path[MIN(GetLevel() - 1, uint(m_v##name##Path.size() - 1))]; \
     } \
 \
     ResHandle   Get##name() const \
@@ -168,10 +168,10 @@ public: \
         if (GetLevel() == 0 || m_v##name.empty()) \
             return INVALID_RESOURCE; \
 \
-        return m_v##name[MIN(GetLevel() - 1, INT_SIZE(m_v##name.size() - 1))]; \
+        return m_v##name[MIN(GetLevel() - 1, uint(m_v##name.size() - 1))]; \
     } \
 \
-    uint            Get##name##Size() const             { return INT_SIZE(m_v##name.size()); } \
+    uint            Get##name##Size() const             { return uint(m_v##name.size()); } \
     const tstring&  Get##name##Path(uint uiIndex) const { return uiIndex < m_v##name##Path.size() ? m_v##name##Path[uiIndex] : TSNULL; } \
     ResHandle       Get##name(uint uiIndex) const       { return uiIndex < m_v##name.size() ? m_v##name[uiIndex] : INVALID_RESOURCE; } \
 \

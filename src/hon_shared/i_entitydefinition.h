@@ -141,10 +141,10 @@ type    Get##name(uint uiIndex) const \
 { \
     if (m_v##name.empty()) \
         return GetDefaultEmptyValue<type>(); \
-    return m_v##name[MIN(uiIndex, INT_SIZE(m_v##name.size()) - 1)]; \
+    return m_v##name[MIN(uiIndex, uint(m_v##name.size()) - 1)]; \
 } \
 \
-uint    Get##name##Size() const     { return INT_SIZE(m_v##name.size()); }
+uint    Get##name##Size() const     { return uint(m_v##name.size()); }
 
 // ENT_DEF_ARRAY_PROPERTY
 #define ENT_DEF_ARRAY_PROPERTY(name, type) \
@@ -179,10 +179,10 @@ public: \
     { \
         if (m_vs##name.empty()) \
             return TSNULL; \
-        return m_vs##name[MIN(uiIndex, INT_SIZE(m_vs##name.size()) - 1)]; \
+        return m_vs##name[MIN(uiIndex, uint(m_vs##name.size()) - 1)]; \
     } \
 \
-    uint    Get##name##Size() const     { return INT_SIZE(m_vs##name.size()); }
+    uint    Get##name##Size() const     { return uint(m_vs##name.size()); }
 
 // ENT_DEF_STRING_VECTOR_ARRAY_PROPERTY
 #define ENT_DEF_STRING_VECTOR_ARRAY_PROPERTY(name) \
@@ -202,10 +202,10 @@ public: \
     { \
         if (m_vvs##name.empty()) \
             return VSNULL; \
-        return m_vvs##name[MIN(uiIndex, INT_SIZE(m_vvs##name.size()) - 1)]; \
+        return m_vvs##name[MIN(uiIndex, uint(m_vvs##name.size()) - 1)]; \
     } \
 \
-    uint    Get##name##Size() const     { return INT_SIZE(m_vvs##name.size()); }
+    uint    Get##name##Size() const     { return uint(m_vvs##name.size()); }
 
 // ENT_DEF_RESOURCE_ARRAY_PROPERTY
 #define ENT_DEF_RESOURCE_ARRAY_PROPERTY(name, type) \
@@ -225,17 +225,17 @@ public: \
     { \
         if (m_vs##name.empty()) \
             return TSNULL; \
-        return m_vs##name[MIN(uiIndex, INT_SIZE(m_vs##name.size()) - 1)]; \
+        return m_vs##name[MIN(uiIndex, uint(m_vs##name.size()) - 1)]; \
     } \
 \
     ResHandle   Get##name(uint uiIndex) const \
     { \
         if (m_v##name.empty()) \
             return INVALID_RESOURCE; \
-        return m_v##name[MIN(uiIndex, INT_SIZE(m_v##name.size()) - 1)]; \
+        return m_v##name[MIN(uiIndex, uint(m_v##name.size()) - 1)]; \
     } \
 \
-    uint    Get##name##Size() const     { return INT_SIZE(m_vs##name.size()); } \
+    uint    Get##name##Size() const     { return uint(m_vs##name.size()); } \
 \
     void    Precache##name() \
     { \

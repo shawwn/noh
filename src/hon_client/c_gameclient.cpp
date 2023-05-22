@@ -11413,7 +11413,7 @@ bool    CGameClient::PurchaseComponent(int iSlot, int iVariation)
 
     const tsvector &vComponents(pRecipeItem->GetComponents(uiComponentList));
     uint uiSlot(iSlot);
-    uiSlot = MIN(uiSlot, INT_SIZE(vComponents.size()));
+    uiSlot = MIN(uiSlot, uint(vComponents.size()));
 
     const tstring &sName(uiSlot == vComponents.size() ? GetActiveRecipe() : vComponents[uiSlot]);
 

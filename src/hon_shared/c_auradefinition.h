@@ -111,7 +111,7 @@ public:
     bool    GetNoTooltip() const            { return m_bNoTooltip; }
 
 #define AURA_ATTRIBUTE_ACCESSOR(name, type) \
-type    Get##name(uint uiLevel) const   { if (m_v##name.empty()) return GetDefaultEmptyValue<type>(); return m_v##name[MIN(uiLevel > 0 ? uiLevel - 1 : 0, INT_SIZE(m_v##name.size()) - 1)]; }
+type    Get##name(uint uiLevel) const   { if (m_v##name.empty()) return GetDefaultEmptyValue<type>(); return m_v##name[MIN(uiLevel > 0 ? uiLevel - 1 : 0, uint(m_v##name.size()) - 1)]; }
 
     AURA_ATTRIBUTE_ACCESSOR(StateName, const tstring&)
     AURA_ATTRIBUTE_ACCESSOR(GadgetName, const tstring&)

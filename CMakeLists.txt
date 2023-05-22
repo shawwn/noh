@@ -315,21 +315,8 @@ macro(find_include_dir VAR ROOT header)
     PATHS "${ROOT}" ENV ${ROOT} REQUIRED)
 endmacro()
 
-if(NOT WIN32)
-  add_definitions(-DK2_X64)
-endif()
-if(BUILD_STATIC)
-  add_definitions(-DK2_LIB)
-  add_definitions(-DGAME_SHARED_LIB)
-else()
-  add_definitions(-DK2_DLL)
-  add_definitions(-DGAME_SHARED_DLL)
-endif()
-
 message(STATUS "CMAKE_CXX_FLAGS: " ${CMAKE_CXX_FLAGS})
 message(STATUS "CMAKE_OBJC_FLAGS: " ${CMAKE_OBJC_FLAGS})
-
-list(APPEND K2_INCLUDE_DIRS_PUBLIC lib/k2public)
 
 #
 # fmod
@@ -379,7 +366,7 @@ if(APPLE)
     NAMES_PER_DIR
     PATH_SUFFIXES lib
     PATHS "${FSWATCH_ROOT}" ENV FSWATCH_ROOT)
-  list(APPEND K2_INCLUDE_DIRS lib/fswatch/include)
+  list(APPEND K2_INCLUDE_DIRS "${noh_SOURCE_DIR}/lib/fswatch/include")
   add_package_for_k2(FSWATCH)
 endif()
 
@@ -397,7 +384,7 @@ find_package_for_k2(ZLIB ZLIB)
 find_package_for_k2(JPEG JPEG)
 find_package_for_k2(LibXml2 LIBXML2)
 find_package_for_k2(Freetype FREETYPE)
-list(APPEND K2_INCLUDE_DIRS lib/libpng/include)
+list(APPEND K2_INCLUDE_DIRS "${noh_SOURCE_DIR}/lib/libpng/include")
 find_package_for_k2(OpenGL OPENGL)
 if(UNIX)
   find_package_for_k2(Curses CURSES)
@@ -405,6 +392,20 @@ endif()
 if(LINUX)
   find_package_for_k2(Xrandr XRANDR)
 endif()
+
+if(CMAKE_SIZEOF_VOID_P EQUAL 8)
+  list(APPEND K2_PUBLIC_DEFINITIONS -DK2_64)
+endif()
+
+if(BUILD_STATIC)
+  list(APPEND K2_PUBLIC_DEFINITIONS -DK2_LIB)
+  list(APPEND HON_SHARED_PUBLIC_DEFINITIONS -DGAME_SHARED_LIB)
+else()
+  list(APPEND K2_PUBLIC_DEFINITIONS -DK2_DLL)
+  list(APPEND HON_SHARED_PUBLIC_DEFINITIONS -DGAME_SHARED_DLL)
+endif()
+
+list(APPEND K2_INCLUDE_DIRS_PUBLIC "${noh_SOURCE_DIR}/lib/k2public")
 
 #========================================
 # k2
@@ -1192,6 +1193,7 @@ endif()
 add_library(${K2_LIBRARY} SHARED ${K2_SOURCES})
 app_configure_lib(${K2_LIBRARY})
 target_compile_definitions(${K2_LIBRARY} PRIVATE K2_EXPORTS)
+target_compile_definitions(${K2_LIBRARY} PUBLIC ${K2_PUBLIC_DEFINITIONS})
 target_precompile_headers(${K2_LIBRARY} PRIVATE src/k2/k2_common.h)
 target_link_libraries(${K2_LIBRARY} ${K2_LIBRARIES})
 target_include_directories(${K2_LIBRARY} PRIVATE ${K2_INCLUDE_DIRS})
@@ -1661,6 +1663,7 @@ set(HON_SHARED_SOURCES
 add_library(${HON_SHARED_LIBRARY} SHARED ${HON_SHARED_SOURCES})
 app_configure_lib(${HON_SHARED_LIBRARY})
 target_compile_definitions(${HON_SHARED_LIBRARY} PRIVATE GAME_SHARED_EXPORTS)
+target_compile_definitions(${HON_SHARED_LIBRARY} PUBLIC ${HON_SHARED_PUBLIC_DEFINITIONS})
 target_precompile_headers(${HON_SHARED_LIBRARY} PRIVATE src/hon_shared/game_shared_common.h)
 target_link_libraries(${HON_SHARED_LIBRARY}
   ${HON_SHARED_LIBRARIES}

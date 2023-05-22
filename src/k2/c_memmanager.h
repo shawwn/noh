@@ -221,7 +221,7 @@ public:
 
 
 template<class T>
-inline const T& MIN(const T& _Left, const T& _Right);
+const T& MIN(const T& _Left, const T& _Right);
 
 /*====================
   CMemManager::Reallocate
