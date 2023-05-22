@@ -55,8 +55,8 @@ enum EEntityBaseType0
 
     ENTITY_BASE_TYPE0_ENTITY,
 
-    NUM_ENTITY_BASE_TYPE0
 };
+static const int NUM_ENTITY_BASE_TYPE0 = int(ENTITY_BASE_TYPE0_ENTITY + 1);
 
 enum EEntityBaseType1
 {
@@ -77,8 +77,8 @@ enum EEntityBaseType1
     ENTITY_BASE_TYPE1_PLAYER,
     ENTITY_BASE_TYPE1_SHOP_INFO,
 
-    NUM_ENTITY_BASE_TYPE1
 };
+static const int NUM_ENTITY_BASE_TYPE1 = int(ENTITY_BASE_TYPE1_SHOP_INFO + 1);
 
 enum EEntityBaseType2
 {
@@ -96,8 +96,8 @@ enum EEntityBaseType2
     ENTITY_BASE_TYPE2_TOOL,
     ENTITY_BASE_TYPE2_STATE,
 
-    NUM_ENTITY_BASE_TYPE2
 };
+static const int NUM_ENTITY_BASE_TYPE2 = int(ENTITY_BASE_TYPE2_STATE + 1);
 
 enum EEntityBaseType3
 {
@@ -108,8 +108,8 @@ enum EEntityBaseType3
 
     ENTITY_BASE_TYPE3_STATE_NET_ACCUM,
 
-    NUM_ENTITY_BASE_TYPE3
 };
+static const int NUM_ENTITY_BASE_TYPE3 = int(ENTITY_BASE_TYPE3_STATE_NET_ACCUM + 1);
 
 enum EEntityBaseType4
 {
@@ -117,8 +117,8 @@ enum EEntityBaseType4
 
     ENTITY_BASE_TYPE4_ABILITY_ATTRIBUTE,
 
-    NUM_ENTITY_BASE_TYPE4
 };
+static const int NUM_ENTITY_BASE_TYPE4 = int(ENTITY_BASE_TYPE4_ABILITY_ATTRIBUTE + 1);
 
 #define ENTITY_BASE_TYPE0(x) (x)
 #define ENTITY_BASE_TYPE1(x) (NUM_ENTITY_BASE_TYPE0 * x)
