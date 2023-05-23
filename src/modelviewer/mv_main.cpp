@@ -412,6 +412,15 @@ CMD(StartEffect)
 
 
 /*--------------------
+  PlayEffect  <effect> <channel>
+  --------------------*/
+UI_VOID_CMD(PlayEffect,2)
+{
+    cmdStartEffect(vArgList[0]->Evaluate(), vArgList[1]->Evaluate());
+}
+
+
+/*--------------------
   StopEffects
   --------------------*/
 CMD(StopEffects)
