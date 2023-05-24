@@ -520,40 +520,50 @@ bool    CBitmap::LoadPNG(const tstring &sFilename, bool bMonoAsAlpha)
         }
 #endif
 
+#if TKTK
         uint png_transforms(PNG_TRANSFORM_EXPAND);
-        bool needToUpdate(false);
 
         png_read_png(pPNGRead, pPNGInfo, png_transforms, nullptr);
+#else
+        png_read_info(pPNGRead, pPNGInfo);
 
         /* Expand paletted or RGB images with transparency to full alpha channels
         * so the data will be available as RGBA quartets.
         */
         if (png_get_valid(pPNGRead, pPNGInfo, PNG_INFO_tRNS))
-        {
             png_set_tRNS_to_alpha(pPNGRead);
-            needToUpdate = true;
-        }
 
         if (pPNGInfo->color_type == PNG_COLOR_TYPE_PALETTE)
-        {
             png_set_palette_to_rgb(pPNGRead);
-            png_read_png(pPNGRead, pPNGInfo, png_transforms, nullptr);
-            needToUpdate = true;
-        }
 
         if (pPNGInfo->color_type == PNG_COLOR_TYPE_GRAY)
-        {
             if (pPNGInfo->bit_depth < 8)
-            {
                 png_set_expand_gray_1_2_4_to_8(pPNGRead);
 
-                png_read_png(pPNGRead, pPNGInfo, png_transforms, nullptr);
-                needToUpdate = true;
-            }
+        png_set_expand(pPNGRead);
+        png_set_interlace_handling(pPNGRead);
+        png_read_update_info(pPNGRead, pPNGInfo);
+
+        png_free_data(pPNGRead, pPNGInfo, PNG_FREE_ROWS, 0);
+        if (pPNGInfo->row_pointers == nullptr)
+        {
+            pPNGInfo->row_pointers = static_cast<png_bytepp>(png_malloc(pPNGRead, pPNGInfo->height * (sizeof (png_bytep))));
+
+            for (png_uint_32 iptr=0; iptr<pPNGInfo->height; iptr++)
+                pPNGInfo->row_pointers[iptr] = nullptr;
+
+            pPNGInfo->free_me |= PNG_FREE_ROWS;
+
+            for (png_uint_32 iptr = 0; iptr < pPNGInfo->height; iptr++)
+                pPNGInfo->row_pointers[iptr] = static_cast<png_bytep>(png_malloc(pPNGRead, pPNGInfo->rowbytes));
         }
 
-        if (needToUpdate)
-            png_read_update_info(pPNGRead, pPNGInfo);
+        png_read_image(pPNGRead, pPNGInfo->row_pointers);
+        pPNGInfo->valid |= PNG_INFO_IDAT;
+
+        /* Read rest of file, and get additional chunks in pPNGInfo - REQUIRED */
+        png_read_end(pPNGRead, pPNGInfo);
+#endif
 
         if (pPNGInfo->color_type == PNG_COLOR_TYPE_PALETTE)
             EX_ERROR(_T("Paletted PNG files are not supported"));
@@ -637,7 +647,7 @@ bool    CBitmap::LoadPNG(const tstring &sFilename, bool bMonoAsAlpha)
         if (pPNGRead != nullptr)
             png_destroy_read_struct(&pPNGRead, &pPNGInfo, nullptr);
 
-        ex.Process(_T("CBitmap::LoadPNG() - "), NO_THROW);
+        ex.Process(_T("CBitmap::LoadPNG(\"") + sFilename + _T("\") - "), NO_THROW);
         return false;
     }
 
