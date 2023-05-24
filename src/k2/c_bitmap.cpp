@@ -186,12 +186,31 @@ CBitmap::~CBitmap()
 /*====================
   CBitmap::Load
   ====================*/
-bool    CBitmap::Load(const tstring &sFilename, bool bMonoAsAlpha)
+bool    CBitmap::Load(const tstring &sOriginalFilename, bool bMonoAsAlpha)
 {
     PROFILE("CBitmap::Load");
 
+    tstring sFilename = sOriginalFilename;
+
     if (sFilename.empty())
         return false;
+
+    if (!FileManager.Exists(sFilename))
+    {
+        tstring sExt(Filename_GetExtension(sFilename));
+        // try fallbacks
+        for (const auto& sFallbackExt : tsvector({_T("png"), _T("jpg"), _T("tga")}))
+        {
+            if (CompareNoCase(sExt, sFallbackExt) == 0)
+                continue;
+            tstring sNewFilename = Filename_StripExtension(sFilename) + _T(".") + sFallbackExt;
+            if (FileManager.Exists(sNewFilename))
+            {
+                sFilename = sNewFilename;
+                break;
+            }
+        }
+    }
 
     tstring sExt(Filename_GetExtension(sFilename));
 

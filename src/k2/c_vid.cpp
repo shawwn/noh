@@ -669,7 +669,24 @@ bool    CVid::GetCurrentAAMode(SAAMode *pAAMode)
 bool    CVid::TextureExists(const tstring &sFilename, uint uiTextureFlags)
 {
     if (m_bInitialized)
+    {
+#if TKTK
         return m_Driver.TextureExists(sFilename, uiTextureFlags);
+#else
+        if (m_Driver.TextureExists(sFilename, uiTextureFlags))
+            return true;
+        // try each image fallback extension.
+        for (auto sFallbackExt : {_T("png"), _T("dds"), _T("tga")})
+        {
+            if (CompareNoCase(Filename_GetExtension(sFilename), sFallbackExt) == 0)
+                continue;
+            tstring sNewFilename(Filename_StripExtension(sFilename) + _T(".") + sFallbackExt);
+            if (m_Driver.TextureExists(sNewFilename, uiTextureFlags))
+                return true;
+        }
+        return false;
+#endif
+    }
     else
         return false;
 }

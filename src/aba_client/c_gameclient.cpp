@@ -1241,6 +1241,7 @@ void    CGameClient::PrecacheAll()
     {
         vFileList.clear();
         FileManager.GetFileList(_T("/maps/"), _T("*.tga"), true, vFileList);
+        FileManager.GetFileList(_T("/maps/"), _T("*.png"), true, vFileList);
 
         class CLoadFunctions : public CLoadJob<tsvector>::IFunctions
         {

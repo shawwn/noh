@@ -320,6 +320,7 @@ UI_VOID_CMD(AddTextureList, 3)
     vFileList.clear();
     Vid.GetTextureList(vArgList[1]->Evaluate(), vArgList[2]->Evaluate() + _T(".dds"), vFileList);
     FileManager.GetFileList(vArgList[1]->Evaluate(), _T("*") + vArgList[2]->Evaluate() + _T(".tga"), true, vFileList);
+    FileManager.GetFileList(vArgList[1]->Evaluate(), _T("*") + vArgList[2]->Evaluate() + _T(".png"), true, vFileList);
     FileManager.GetFileList(vArgList[1]->Evaluate(), _T("*") + vArgList[2]->Evaluate() + _T(".dds"), true, vFileList);
     
     std::sort(vFileList.begin(), vFileList.end());
@@ -330,7 +331,7 @@ UI_VOID_CMD(AddTextureList, 3)
     for (tsvector_it it(vFileList.begin()); it != vFileList.end(); ++it)
     {
         tstring sExt((*it).substr((*it).length() - 3));
-        if (sExt == _T("dds"))
+        if (sExt == _T("dds") || sExt == _T("png"))
             *it = (*it).substr(0, (*it).length() - 3) + _T("tga");
         mapParams[_T("content")] =  Filename_StripPath(*it);
         mapParams[_T("label")] = Filename_StripPath(*it);//.substr(8);

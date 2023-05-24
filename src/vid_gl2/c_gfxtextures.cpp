@@ -1395,6 +1395,19 @@ bool    GL_TextureExists(const tstring &sFilename, uint uiTextureFlags)
 {
     if (GfxTextures->ArchivedTextureExists(sFilename, uiTextureFlags))
         return true;
-    else
-        return FileManager.Exists(sFilename);
+    else if (FileManager.Exists(sFilename))
+        return true;
+
+    // try each fallback extension.
+    for (auto sFallbackExt : {_T("png"), _T("dds"), _T("tga")})
+    {
+        if (CompareNoCase(Filename_GetExtension(sFilename), sFallbackExt) == 0)
+            continue;
+        tstring sNewFilename(Filename_StripExtension(sFilename) + _T(".") + sFallbackExt);
+        if (GfxTextures->ArchivedTextureExists(sNewFilename, uiTextureFlags))
+            return true;
+        else if (FileManager.Exists(sNewFilename))
+            return true;
+    }
+    return false;
 }
