@@ -1850,6 +1850,47 @@ target_link_libraries(${EDITOR_LIBRARY}
   "${HON_SHARED_LIBRARY}"
   )
 
+
+#========================================
+# bet_client
+#========================================
+set(BET_CLIENT_LIBRARY bet_client)
+set(BET_CLIENT_LIBRARY_LIB "${BET_CLIENT_LIBRARY}")
+set(BET_CLIENT_LIBRARY_DLL "${BIN_DIR}/${BET_CLIENT_LIBRARY}${DLL_EXT}")
+if (WIN32)
+  set(BET_CLIENT_LIBRARY_LIB "${LIB_DIR}/${BET_CLIENT_LIBRARY}${LIB_EXT}")
+endif()
+
+# bet_client sources
+set(BET_CLIENT_SOURCES
+  #  src/bet_client/c_clientcommander.cpp
+  #  src/bet_client/c_clientcommander.h
+  #  src/bet_client/c_cliententity.cpp
+  #  src/bet_client/c_cliententity.h
+  #  src/bet_client/c_cliententitydirectory.cpp
+  #  src/bet_client/c_cliententitydirectory.h
+  src/bet_client/c_gameclient.cpp
+  src/bet_client/c_gameclient.h
+  #  src/bet_client/c_gameinterfacemanager.cpp
+  #  src/bet_client/c_gameinterfacemanager.h
+  #  src/bet_client/game_client_actions.cpp
+  #  src/bet_client/game_client_commands.cpp
+  #  src/bet_client/game_client_common.cpp
+  #  src/bet_client/game_client_common.h
+  src/bet_client/game_client_main.cpp
+  src/bet_client/bet_client_common.cpp
+  src/bet_client/bet_client_common.h
+  )
+
+add_library(${BET_CLIENT_LIBRARY} MODULE ${BET_CLIENT_SOURCES})
+app_configure_lib(${BET_CLIENT_LIBRARY})
+target_compile_definitions(${BET_CLIENT_LIBRARY} PRIVATE GAME_CLIENT_EXPORTS)
+target_precompile_headers(${BET_CLIENT_LIBRARY} PRIVATE src/bet_client/bet_client_common.h)
+target_link_libraries(${BET_CLIENT_LIBRARY}
+  "${K2_LIBRARY}"
+  "${HON_SHARED_LIBRARY}"
+  )
+
 #========================================
 # shell
 #========================================
@@ -1965,6 +2006,7 @@ list(APPEND BET_DEPENDENCIES
   ${VID_GL2_LIBRARY}
   ${HON_CLIENT_LIBRARY}
   ${HON_SERVER_LIBRARY}
+  ${BET_CLIENT_LIBRARY}
   )
 
 list(APPEND BET_SOURCES
