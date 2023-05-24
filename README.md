@@ -54,7 +54,7 @@ Coming soon. Building on Windows should be roughly similar to the macOS steps be
 
 ##### Install dependencies
 ```
-brew install speex speexdsp giflib openssl fswatch fileicon
+brew install llvm speex speexdsp giflib openssl fswatch fileicon
 ```
 ##### Clone the repository (`--recursive` is important!)
 ```
