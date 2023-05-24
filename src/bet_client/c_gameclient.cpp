@@ -25,6 +25,8 @@
 #include "../k2/c_draw2d.h"
 #include "../k2/c_fontmap.h"
 
+#include "../hon_shared/i_unitdefinition.h"
+
 #include "c_gameclient.h"
 //=============================================================================
 
@@ -189,12 +191,13 @@ bool CGameClient::Init(CHostClient *pHostClient)
 #if 0
         m_hMinimapReference = g_ResourceManager.Register(_T("!minimap_texture"), RES_REFERENCE);
         g_ResourceManager.UpdateReference(m_hMinimapReference, g_ResourceManager.GetBlackTexture());
+#endif
 
         tsvector vFileList;
         FileManager.GetFileList(_T("/"), _T("*.entity"), true, vFileList);
-        for (tsvector_it it(vFileList.begin()); it != vFileList.end(); ++it)
-            g_ResourceManager.Register(*it, RES_ENTITY_DEF);
-#endif
+        Console << _T("Loading ") << vFileList.size() << _T(" entities...") << newl;
+        for (tstring sFilename : vFileList)
+            g_ResourceManager.Register(sFilename, RES_ENTITY_DEF);
 
         {
             PROFILE("Load interface");
@@ -417,9 +420,9 @@ bool    CGameClient::LoadWorld(const tstring &sWorldName)
         m_pWorld->AnalyzeTerrain();
 
         WorldEntList &vEntities(m_pWorld->GetEntityList());
-        for (WorldEntList_cit cit(vEntities.begin()), citEnd(vEntities.end()); cit != citEnd; ++cit)
+        for (PoolHandle hEntity : vEntities)
         {
-            CWorldEntity *pWorldEnt(m_pWorld->GetEntityByHandle(*cit));
+            CWorldEntity *pWorldEnt(m_pWorld->GetEntityByHandle(hEntity));
             if (pWorldEnt == nullptr)
                 continue;
 
@@ -432,7 +435,6 @@ bool    CGameClient::LoadWorld(const tstring &sWorldName)
 
             Console.Script << sType << newl;
 
-#if 0
             IUnitDefinition *pDefinition(EntityRegistry.GetDefinition<IUnitDefinition>(sType));
             if (pDefinition != nullptr)
             {
@@ -440,7 +442,6 @@ bool    CGameClient::LoadWorld(const tstring &sWorldName)
                 pWorldEnt->SetModelHandle(g_ResourceManager.Register(pDefinition->GetModelPath(0), RES_MODEL));
                 pWorldEnt->SetSkin(g_ResourceManager.GetSkin(pWorldEnt->GetModelHandle(), pDefinition->GetSkin(0)));
             }
-#endif
 
             g_ResourceManager.PrecacheSkin(pWorldEnt->GetModelHandle(), pWorldEnt->GetSkin());
 
