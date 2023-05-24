@@ -265,6 +265,7 @@ public:
     K2_API bool     GetSampleData(CSample *pSample, byte *pTarget, uint uLength, uint uOffset);
     K2_API uint     GetSampleLength(CSample *pSample);
     K2_API void     FreeSample(FMOD::Sound* pSample);
+    K2_API void     ReleaseSoundNextTick(FMOD::Sound* pSample);
     K2_API FMOD::Sound* CreateSound(int iFrequency, int iNumChannels, int iNumBits, uint uiBufferSize, int iSoundFlags = 0);
     K2_API FMOD::Sound* CreateExtendedSound(FMOD_CREATESOUNDEXINFO &exInfo, int iSoundFlags = 0);
 

@@ -504,7 +504,7 @@ FMOD_RESULT F_CALLBACK Sound_CallbackStopActiveStream(FMOD_CHANNELCONTROL *pCont
             FMOD::Sound *pStream = nullptr;
             ((FMOD::Channel *)pControl)->getCurrentSound(&pStream);
             K2SoundManager.StopActiveSound((FMOD::Channel *)pControl);
-            pStream->release();
+            K2SoundManager.ReleaseSoundNextTick(pStream);
         } else {
             FMOD::ChannelGroup *pGroup = (FMOD::ChannelGroup *)pControl;
             int iNumChannels = 0;
@@ -516,7 +516,7 @@ FMOD_RESULT F_CALLBACK Sound_CallbackStopActiveStream(FMOD_CHANNELCONTROL *pCont
                     FMOD::Sound *pStream = nullptr;
                     pChannel->getCurrentSound(&pStream);
                     K2SoundManager.StopActiveSound(pChannel);
-                    pStream->release();
+                    K2SoundManager.ReleaseSoundNextTick(pStream);
                 }
             }
         }
@@ -2193,6 +2193,8 @@ void    CSoundManager::StopHandle(SoundHandle hHandle)
     if (itFind == m_mapActiveSounds.end())
         return;
 
+    FMOD::Channel* pChannel = itFind->second;
+
     for (int i(0); i < NUM_ASSIGNED_CHANNELS; ++i)
     {
         if (m_ahSoundHandle[i] == hHandle)
@@ -2203,12 +2205,17 @@ void    CSoundManager::StopHandle(SoundHandle hHandle)
     if (itFind2 == m_mapFadeOutSounds.end())
     {
         if (m_mapFadingOutSounds.find(hHandle) == m_mapFadingOutSounds.end())
-            itFind->second->stop();
+        {
+            if (m_mapActiveSounds.contains(hHandle))
+            {
+                pChannel->stop();
+            }
+        }
     }
     else
     {
         m_mapFadingOutSounds[hHandle] = itFind2->second;
-        m_mapFadingOutSounds[hHandle]->Start(itFind->second, Host.GetTime(), false);
+        m_mapFadingOutSounds[hHandle]->Start(pChannel, Host.GetTime(), false);
         m_mapFadeOutSounds.erase(itFind2);
 
         map<SoundHandle, CSoundFade*>::iterator itFind3(m_mapFadingInSounds.find(hHandle));
@@ -2218,8 +2225,6 @@ void    CSoundManager::StopHandle(SoundHandle hHandle)
             STL_ERASE(m_mapFadingInSounds, itFind3);
         }
     }
-
-    return;
 }
 
 
@@ -2313,6 +2318,18 @@ void    CSoundManager::FreeSample(FMOD::Sound* pSample)
 
     if (pSample != nullptr)
         pSample->release();
+}
+
+
+/*====================
+  CSoundManager::ReleaseSoundNextTick
+  ====================*/
+void     CSoundManager::ReleaseSoundNextTick(FMOD::Sound* pSample)
+{
+    if (pSample != nullptr)
+    {
+        m_setReleaseSounds.insert(pSample);
+    }
 }
 
 
