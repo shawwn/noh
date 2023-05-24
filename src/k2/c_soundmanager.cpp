@@ -2309,6 +2309,72 @@ uint    CSoundManager::GetChannelPosition(SoundHandle hHandle)
 
 
 /*====================
+  CSoundManager::GetTime
+  ====================*/
+uint    CSoundManager::GetTime(SoundHandle hHandle)
+{
+    try
+    {
+        if (!m_bInitialized)
+            EX_ERROR(_T("Sound manager not initialized"));
+
+        map<SoundHandle, FMOD::Channel*>::iterator itFind(m_mapActiveSounds.find(hHandle));
+        if (itFind == m_mapActiveSounds.end())
+            EX_ERROR(_T("Sound handle not found"));
+
+        uint uPos;
+        FMOD_RESULT result(itFind->second->getPosition(&uPos, FMOD_TIMEUNIT_MS));
+        if (result != FMOD_OK)
+            EX_ERROR(_TS("FMOD::Channel::getPosition failed: ") + StringToTString(FMOD_ErrorString(result)));
+
+        return uPos;
+    }
+    catch (CException &ex)
+    {
+        ex.Process(_T("CSoundManager::GetTime() - "), NO_THROW);
+        return -1;
+    }
+}
+
+
+/*====================
+  CSoundManager::GetDuration
+  ====================*/
+uint    CSoundManager::GetDuration(SoundHandle hHandle)
+{
+    try
+    {
+        if (!m_bInitialized)
+            EX_ERROR(_T("Sound manager not initialized"));
+
+        map<SoundHandle, FMOD::Channel*>::iterator itFind(m_mapActiveSounds.find(hHandle));
+        if (itFind == m_mapActiveSounds.end())
+            EX_ERROR(_T("Sound handle not found"));
+
+        FMOD::Channel *pChannel = itFind->second;
+        FMOD::Sound *pSound(nullptr);
+        {
+            FMOD_RESULT result(pChannel->getCurrentSound(&pSound));
+            if (result != FMOD_OK)
+                EX_ERROR(_TS("FMOD::Channel::getCurrentSound failed: ") + StringToTString(FMOD_ErrorString(result)));
+        }
+        assert(pSound != nullptr);
+        uint uiDuration(0);
+        FMOD_RESULT result(pSound->getLength(&uiDuration, FMOD_TIMEUNIT_MS));
+        if (result != FMOD_OK)
+            EX_ERROR(_TS("FMOD::Sound::getLength failed: ") + StringToTString(FMOD_ErrorString(result)));
+
+        return uiDuration;
+    }
+    catch (CException &ex)
+    {
+        ex.Process(_T("CSoundManager::GetDuration() - "), NO_THROW);
+        return -1;
+    }
+}
+
+
+/*====================
   CSoundManager::FreeSample
   ====================*/
 void    CSoundManager::FreeSample(FMOD::Sound* pSample)

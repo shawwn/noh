@@ -310,6 +310,8 @@ public:
     K2_API void     SetMusicVolume(float fVolume);
 
     K2_API uint         GetChannelPosition(SoundHandle hHandle);
+    K2_API uint         GetTime(SoundHandle hPlaying);
+    K2_API uint         GetDuration(SoundHandle hPlaying);
 
     K2_API const tstring&   GetCurrentMusicName();
     K2_API uint     GetCurrentMusicTime();
