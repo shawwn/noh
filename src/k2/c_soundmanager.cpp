@@ -68,7 +68,7 @@ CVAR_INTF   (sound_activeSounds,        0,          CVAR_READONLY | CVAR_DONTSAV
 CVAR_BOOLF  (sound_useCompressedSamples,true,       CVAR_SAVECONFIG);
 CVAR_FLOAT  (sound_stereoSpread,        140.0f);
 CVAR_FLOAT  (sound_falloffHalfLife,     0.1f);
-CVAR_STRING (sound_compressedFormat,    "ogg");
+CVAR_STRING (sound_compressedFormat,    "ogg,mp3");
 
 CVAR_BOOLF  (sound_downsample,          true,       CVAR_DONTSAVE);
 CVAR_INTR   (sound_downsampleQuality,   3,          CVAR_VALUERANGE | CVAR_DONTSAVE, 0, 10);
@@ -280,21 +280,23 @@ FMOD_RESULT F_CALLBACK Sound_CallbackFileOpen(const char* name, unsigned int *fi
 
         if (pFile == nullptr || !pFile->IsOpen())
         {
-            K2_DELETE(pFile);
+            SAFE_DELETE(pFile);
 
-            if (CompareNoCase(Filename_GetExtension(sPath), sound_compressedFormat) == 0)
-                return FMOD_ERR_FILE_NOTFOUND;
-
-            // Try compressed if the current file didn't exist
-            sPath = Filename_StripExtension(sPath) + _T(".") + sound_compressedFormat;
-
-            pFile = K2_NEW(ctx_Sound,  CFileHandle)(sPath, FILE_READ | FILE_BINARY | FILE_TEST);
-
-            if (pFile == nullptr || !pFile->IsOpen())
+            for (auto&& sCompressedFormat : TokenizeString(sound_compressedFormat, _T(',')))
             {
-                K2_DELETE(pFile);
-                return FMOD_ERR_FILE_NOTFOUND;
+                if (CompareNoCase(Filename_GetExtension(sPath), sCompressedFormat) != 0)
+                {
+                    // Try compressed if the current file didn't exist
+                    sPath = Filename_StripExtension(sPath) + _T(".") + sCompressedFormat;
+
+                    pFile = K2_NEW(ctx_Sound,  CFileHandle)(sPath, FILE_READ | FILE_BINARY | FILE_TEST);
+                    if (pFile && pFile->IsOpen())
+                        break;
+                    SAFE_DELETE(pFile);
+                }
             }
+            if (pFile == nullptr)
+                return FMOD_ERR_FILE_NOTFOUND;
         }
 
         *filesize = (int)pFile->GetLength();
@@ -314,25 +316,28 @@ FMOD_RESULT F_CALLBACK Sound_CallbackFileOpen(const char* name, unsigned int *fi
 
         if (!bResult)
         {
-            K2_DELETE(pFile);
+            SAFE_DELETE(pFile);
 
-            if (CompareNoCase(Filename_GetExtension(sPath), sound_compressedFormat) == 0)
-                return FMOD_ERR_FILE_NOTFOUND;
-
-            // Try compressed if the current file didn't exist
-            sPath = Filename_StripExtension(sPath) + _T(".") + sound_compressedFormat;
-
-            pFile = K2_NEW(global,  CFileStream)();
-            if (sZipFile.empty())
-                bResult = pFile->Open(sPath, FILE_READ | FILE_BINARY | FILE_TEST | FILE_NOBUFFER);
-            else
-                bResult = pFile->OpenCompressed(sZipFile, sPath, FILE_READ | FILE_BINARY | FILE_TEST | FILE_NOBUFFER);
-
-            if (!bResult)
+            for (auto&& sCompressedFormat : TokenizeString(sound_compressedFormat, _T(',')))
             {
-                K2_DELETE(pFile);
-                return FMOD_ERR_FILE_NOTFOUND;
+                if (CompareNoCase(Filename_GetExtension(sPath), sCompressedFormat) != 0)
+                {
+                    // Try compressed if the current file didn't exist
+                    sPath = Filename_StripExtension(sPath) + _T(".") + sCompressedFormat;
+
+                    pFile = K2_NEW(global,  CFileStream)();
+                    if (sZipFile.empty())
+                        bResult = pFile->Open(sPath, FILE_READ | FILE_BINARY | FILE_TEST | FILE_NOBUFFER);
+                    else
+                        bResult = pFile->OpenCompressed(sZipFile, sPath, FILE_READ | FILE_BINARY | FILE_TEST | FILE_NOBUFFER);
+
+                    if (bResult)
+                        break;
+                    SAFE_DELETE(pFile);
+                }
             }
+            if (pFile == nullptr)
+                return FMOD_ERR_FILE_NOTFOUND;
         }
 
         *filesize = (unsigned int)pFile->GetLength();
@@ -1941,11 +1946,16 @@ FMOD::Sound*    CSoundManager::LoadSample(const tstring &sInPath, int iSoundFlag
         tstring sFinalPath(FileManager.FindFilePath(sPath, FILE_READ | FILE_BINARY));
         if (sFinalPath.empty())
         {
-            if (CompareNoCase(Filename_GetExtension(sPath), sound_compressedFormat) != 0)
+            for (auto&& sCompressedFormat : TokenizeString(sound_compressedFormat, _T(',')))
             {
-                // Try compressed if the current file didn't exist
-                sPath = Filename_StripExtension(sPath) + _T(".") + sound_compressedFormat;
-                sFinalPath = FileManager.FindFilePath(sPath, FILE_READ | FILE_BINARY);
+                if (CompareNoCase(Filename_GetExtension(sPath), sCompressedFormat) != 0)
+                {
+                    // Try compressed if the current file didn't exist
+                    sPath = Filename_StripExtension(sPath) + _T(".") + sCompressedFormat;
+                    sFinalPath = FileManager.FindFilePath(sPath, FILE_READ | FILE_BINARY);
+                    if (!sFinalPath.empty())
+                        break;
+                }
             }
         }
 
