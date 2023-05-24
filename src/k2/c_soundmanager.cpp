@@ -1941,7 +1941,11 @@ FMOD::Sound*    CSoundManager::LoadSample(const tstring &sInPath, int iSoundFlag
 
     FMOD_RESULT result;
 
+#if TKTK // Try disabling streaming until we figure out why Sound_CallbackFileRead crashes from fmod's thread
     if (iSoundFlags & SND_STREAM)
+#else
+    if (false)
+#endif
     {
         tstring sFinalPath(FileManager.FindFilePath(sPath, FILE_READ | FILE_BINARY));
         if (sFinalPath.empty())
@@ -2520,7 +2524,11 @@ SoundHandle CSoundManager::PlaySound
         }
     }
 
+#if TKTK // Try disabling streaming until we figure out why Sound_CallbackFileRead crashes from fmod's thread
     bool bStream((pSample->GetSoundFlags() & SND_STREAM) == SND_STREAM);
+#else
+    bool bStream(false);
+#endif
 
 #if 0
     if (!sound_noCull && pv3Pos)
