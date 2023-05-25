@@ -64,7 +64,7 @@ find_path(XRANDR_INCLUDE_DIR
 	)
 
 include(FindPackageHandleStandardArgs)
-find_package_handle_standard_args(XRANDR
+find_package_handle_standard_args(Xrandr
 	DEFAULT_MSG
 	XRANDR_LIBRARY
 	XRANDR_INCLUDE_DIR
