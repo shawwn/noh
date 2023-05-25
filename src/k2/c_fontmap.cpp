@@ -452,7 +452,14 @@ const SCharacterMapInfo*    CFontMap::ActuallyGetCharMapInfo(uint uiIndex)
             continue;
 
         if (uiIndex >= g_aCharacterRanges[ui].GetFirstChar() && uiIndex <= g_aCharacterRanges[ui].GetLastChar())
-            return &m_vCharInfo[g_aCharacterRanges[ui].GetRange()][uiIndex - g_aCharacterRanges[ui].GetFirstChar()];
+        {
+            auto& vCharInfo(m_vCharInfo[g_aCharacterRanges[ui].GetRange()]);
+            auto uiOffset = uiIndex - g_aCharacterRanges[ui].GetFirstChar();
+            if (uiOffset < vCharInfo.size())
+            {
+                return &vCharInfo[uiOffset];
+            }
+        }
     }
 
     /*
