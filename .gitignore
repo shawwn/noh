@@ -1046,6 +1046,8 @@ dkms.conf
 
 # Build artifacts
 Debug Lite/
+/build
+/build-*
 
 # Xcode
 XCBuildData/
@@ -1058,6 +1060,9 @@ xcuserdata/
 /.idea/*
 !/.idea/runConfigurations
 !/.idea/cmake.xml
+
+
+# Executables
 /NoH*
 /K2*
 /BeT*
