@@ -1295,6 +1295,7 @@ set(VID_GL2_C_SOURCES
   src/vid_gl2/SOIL/stb_image_aug.c
   )
 add_library(vid_gl2_c STATIC ${VID_GL2_C_SOURCES})
+target_include_directories(vid_gl2_c PUBLIC src/vid_gl2)
 app_configure_static_lib(vid_gl2_c)
 list(APPEND VID_GL2_LIBRARIES vid_gl2_c)
 endif() # if(NOT K2_NOVID)
