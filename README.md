@@ -6,6 +6,34 @@ An open source implementation of [dota](https://www.youtube.com/watch?v=qTsaS1Tm
 
 Cross platform; multiplayer; lobby system; map editor; replay system; semicolon. Builds in 3 minutes flat on an M1 Air.
 
+
+Table of Contents
+=================
+
+* [Newerth of Heroes](#newerth-of-heroes)
+   * [About](#about)
+   * [Media](#media)
+      * [Newerth dev stream #1](#newerth-dev-stream-1)
+      * ["I was a former HoN dev. AMA"](#i-was-a-former-hon-dev-ama)
+   * [License](#license)
+   * [Compiling NoH](#compiling-noh)
+      * [Building NoH on macOS](#building-noh-on-macos)
+            * [Install macOS dependencies](#install-macos-dependencies)
+            * [Clone the repository (--recursive is important!)](#clone-the-repository---recursive-is-important)
+            * [Build on macOS with CMake](#build-on-macos-with-cmake)
+      * [Building NoH on macOS with <a href="https://www.jetbrains.com/clion/download/#section=mac" rel="nofollow">CLion</a>](#building-noh-on-macos-with-clion)
+            * [Open the repo in <a href="https://www.jetbrains.com/clion/download/#section=mac" rel="nofollow">CLion</a>:](#open-the-repo-in-clion)
+            * [Once CLion is open](#once-clion-is-open)
+         * [If things go wrong](#if-things-go-wrong)
+      * [Building NoH on Windows](#building-noh-on-windows)
+            * [Install Git for Windows](#install-git-for-windows)
+            * [Install CMake for Windows](#install-cmake-for-windows)
+            * [Install Visual Studio](#install-visual-studio)
+            * [Install CLion](#install-clion)
+            * [Build with CLion](#build-with-clion)
+
+<!-- Created by https://github.com/ekalinin/github-markdown-toc -->
+
 ## About
 
 Intended to be the game engine that my 13yo self wished he'd had. Think of it as a baseline "here's a fully working game engine, along with an actual game" reference that you can use for whatever you want. It's small enough that you can understand it, build it yourself, and customize.
