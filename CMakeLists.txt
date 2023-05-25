@@ -27,7 +27,7 @@ add_definitions(-D_HAS_DEPRECATED_ALLOCATOR_MEMBERS)
 # from https://gitlab.kitware.com/cmake/cmake/-/issues/22184
 if(APPLE)
   enable_language(OBJCXX)
-  set (CMAKE_OSX_DEPLOYMENT_TARGET "11.4" CACHE STRING "Minimum OS X deployment version" FORCE)
+  set (CMAKE_OSX_DEPLOYMENT_TARGET "13.0" CACHE STRING "Minimum OS X deployment version" FORCE)
   # Someday try to build universal binaries. Currently this causes a bunch of missing symbol errors on my M1 Air,
   # since homebrew only installs arm64 versions of the libraries we depend on. I suspect vcpkg might work.
   #set (CMAKE_OSX_ARCHITECTURES "x86_64;arm64" CACHE STRING "Architectures" FORCE)
