@@ -55,9 +55,6 @@ INPUT_STATE_BOOL(MoveUp);
 INPUT_STATE_BOOL(MoveDown);
 
 INPUT_STATE_BOOL(Start);
-
-EXTERN_CVAR_FLOAT(scene_nearClip);
-EXTERN_CVAR_FLOAT(scene_farClip);
 //=============================================================================
 
 

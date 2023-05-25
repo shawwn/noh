@@ -36,6 +36,7 @@ const uint  POLY_LINELIST           BIT(7);
 const uint  POLY_TRILIST            BIT(8);
 const uint  POLY_POINTLIST          BIT(9);
 
+K2_API EXTERN_CVAR_FLOAT(scene_nearClip);
 K2_API EXTERN_CVAR_FLOAT(scene_farClip);
 K2_API EXTERN_CVAR_FLOAT(scene_worldFarClip);
 K2_API EXTERN_CVAR_FLOAT(scene_brightMin);
