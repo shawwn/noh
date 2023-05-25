@@ -155,6 +155,11 @@ If things still aren't working, [post an issue](https://github.com/shawwn/noh/is
 
 ### Building NoH on Ubuntu
 
+Clone the repo:
+```
+git clone --recursive https://github.com/shawwn/noh && cd noh
+```
+
 Install dependencies:
 ```
 sudo apt update
@@ -174,7 +179,6 @@ sudo apt-get install -y libspeex-dev libspeexdsp-dev libssl-dev libgif-dev libpn
 (Useful for servers)
 
 ```
-cd noh
 cmake -DK2_NOVID=1 -S . -B build -G Ninja && cmake --build build
 ```
 
@@ -188,7 +192,6 @@ sudo apt-get install -y libgl-dev libglu1-mesa-dev libxrandr-dev xorg-dev
 ```
 
 ```
-cd noh
 cmake -S . -B build -G Ninja && cmake --build build
 ```
 
