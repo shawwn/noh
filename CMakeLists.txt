@@ -18,6 +18,8 @@ if(APPLE)
 endif()
 enable_language(C CXX)
 
+string(TOLOWER "${CMAKE_SYSTEM_PROCESSOR}" K2_PROCESSOR)
+
 set(K2_NOVID FALSE CACHE BOOL "Whether to build without graphics dependencies (OpenGL, etc)")
 set(K2_NOSOUND FALSE CACHE BOOL "Whether to build without sound dependencies (FMOD)")
 
@@ -350,13 +352,13 @@ if(WIN32)
       PATH_SUFFIXES lib/x86
       PATHS "${FMOD_ROOT}" ENV FMOD_ROOT REQUIRED)
   endif()
-elseif(LINUX AND ("${CMAKE_SYSTEM_PROCESSOR}" STREQUAL "ARM64"))
+elseif("${K2_PROCESSOR}" STREQUAL "arm64")
   find_library(FMOD_LIBRARY
     NAMES fmod
     NAMES_PER_DIR
-    PATH_SUFFIXES lib/arm64
+    PATH_SUFFIXES lib lib/arm64
     PATHS "${FMOD_ROOT}" ENV FMOD_ROOT REQUIRED)
-elseif(LINUX AND (CMAKE_SIZEOF_VOID_P EQUAL 8))
+elseif(CMAKE_SIZEOF_VOID_P EQUAL 8)
   find_library(FMOD_LIBRARY
     NAMES fmod
     NAMES_PER_DIR
@@ -366,7 +368,7 @@ else()
   find_library(FMOD_LIBRARY
     NAMES fmod_vc fmod
     NAMES_PER_DIR
-    PATH_SUFFIXES lib lib/x86 lib/x86_64 lib/x64
+    PATH_SUFFIXES lib/x86
     PATHS "${FMOD_ROOT}" ENV FMOD_ROOT REQUIRED)
 endif()
 if(K2_NOSOUND)
