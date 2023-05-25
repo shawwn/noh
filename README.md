@@ -176,9 +176,11 @@ During setup, click "Add CMake to the system PATH for the current user":
 If you have Visual Studio 2019 or later instsalled, you can skip this step.
 
 Install [Visual Studio 2022 Community](https://visualstudio.microsoft.com/downloads/):
+
 <img width="478" alt="image" src="https://github.com/shawwn/noh/assets/59632/4fde72d4-204b-4a16-a7d6-40e3b2640de2">
 
 During setup, choose "Desktop development with C++":
+
 <img width="1238" alt="image" src="https://github.com/shawwn/noh/assets/59632/ebbeaefd-9d92-4bff-a3e3-f5dd6116e0d3">
 
 (If you want to save around 6GB, you can you can uncheck ".NET desktop development")
@@ -186,6 +188,7 @@ During setup, choose "Desktop development with C++":
 Check "Install", then wait awhile.
 
 Eventually you'll see this:
+
 <img width="985" alt="image" src="https://github.com/shawwn/noh/assets/59632/ad9953d8-685d-4489-b251-a8d7b0daf1ba">
 
 ##### Install CLion
@@ -195,41 +198,52 @@ Install CLion: [https://www.jetbrains.com/clion/download/](https://www.jetbrains
 ##### Build with CLion
 
 Open CLion and clone the repo:
+
 <img width="804" alt="image" src="https://github.com/shawwn/noh/assets/59632/67ec32d6-b4b3-4287-9281-6cb7bc8fc009">
 
 Click "Trust Project"
+
 <img width="505" alt="image" src="https://github.com/shawwn/noh/assets/59632/49fdfb05-fb27-46d3-ae26-d4539ef233ad">
 
 Configure Microsoft Defender:
+
 <img width="310" alt="image" src="https://github.com/shawwn/noh/assets/59632/6826b757-5465-4a0e-ab07-b114c310c118">
 
 Go to File -> Settings, then "Build, Execution, Deployment" and click "Toolchains". Verify that your settings look similar to this:
+
 <img width="1247" alt="image" src="https://github.com/shawwn/noh/assets/59632/cf06074e-1935-4e92-a8b2-5cc232c72688">
 
 Open the Project tool window (Press `Alt-1`):
+
 <img width="501" alt="image" src="https://github.com/shawwn/noh/assets/59632/d7760437-8338-4ca0-8b3b-10345c50619d">
 
 Open CMakeLists.txt, then click "Load CMake project" in the upper right:
+
 ![image](https://github.com/shawwn/noh/assets/59632/eb0f2eda-3d61-4b32-b529-b1a9ea073d52)
 
 You'll see some errors:
+
 <img width="1247" alt="image" src="https://github.com/shawwn/noh/assets/59632/467b950c-6f3c-48fb-a9c7-b39c704fc769">
 
 Click the Vcpkg tab:
+
 <img width="553" alt="image" src="https://github.com/shawwn/noh/assets/59632/0d2b9025-8096-4f36-8985-bd445142510c">
 
 Click the plus sign ("Add vcpkg")
+
 <img width="206" alt="image" src="https://github.com/shawwn/noh/assets/59632/e9cc456a-c127-457b-8082-949e65dc9f66">
 
 Verify that "Add vcpkg integration to existing CMake profiles" is selected, then click ok:
+
 <img width="335" alt="image" src="https://github.com/shawwn/noh/assets/59632/18ab935b-bf8d-405d-8560-8130ce486014">
 
 Vcpkg will now start building the required dependencies:
+
 <img width="855" alt="image" src="https://github.com/shawwn/noh/assets/59632/db1b4bf2-f744-48df-bb21-1e1a6f5ad295">
 
 You can click the "CMake" tab to watch its progress:
-<img width="1052" alt="image" src="https://github.com/shawwn/noh/assets/59632/ae0bdfbb-8d0f-4ce3-883e-b042e12f2c4b">
 
+<img width="1052" alt="image" src="https://github.com/shawwn/noh/assets/59632/ae0bdfbb-8d0f-4ce3-883e-b042e12f2c4b">
 
 <img width="1240" alt="image" src="https://github.com/shawwn/noh/assets/59632/72e1e901-abf8-4c1a-8ff4-43d598f01c02">
 
@@ -240,12 +254,14 @@ Eventually "Loading CMake project..." in the status bar will disappear.
 <img width="1260" alt="image" src="https://github.com/shawwn/noh/assets/59632/29028649-0feb-4a7c-abaa-32daab3c98b4">
 
 Click the run button.
+
 <img width="683" alt="image" src="https://github.com/shawwn/noh/assets/59632/b43a48cf-9432-46c9-b9c3-ec9ddbfda110">
 
 The engine will start building:
+
 <img width="1264" alt="image" src="https://github.com/shawwn/noh/assets/59632/53d043bf-fdc9-4bab-91a7-41a0f8c90f02">
 
 With any luck, it'll launch. You're done!
 
-(To get into a game, change the configuration to NoH and run it. Then click "Local Game" -> Create Game, join a lobby
-slot, start game, and choose a hero.)
+To get into a game, change the configuration to NoH, then click the run button again. Once NoH starts, click "Local Game" -> Create Game, join a lobby
+slot, start game, then choose a hero.
