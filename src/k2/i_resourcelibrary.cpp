@@ -486,8 +486,7 @@ bool    IResourceLibrary::Reload(ResHandle hResource, uint uiIgnoreFlags)
             // External resources with valid paths set should just Free+Load
             pResource->Free();
             g_ResourceInfo.OnResourceUnregistered(hResource);
-            CGraphResource cGraphResource;
-            cGraphResource.SetHandle(hResource);
+            CGraphResource cGraphResource(hResource);
             pResource->Load(pResource->GetIgnoreFlags() & uiIgnoreFlags, pResource->GetData(), pResource->GetSize());
         }
         else
@@ -505,8 +504,7 @@ bool    IResourceLibrary::Reload(ResHandle hResource, uint uiIgnoreFlags)
     catch (CException &ex)
     {
         g_ResourceInfo.OnResourceUnregistered(hResource);
-        CGraphResource cGraphResource;
-        cGraphResource.SetHandle(hResource);
+        CGraphResource cGraphResource(hResource);
 
         pResource->AddFlags(RES_LOAD_FAILED);
         pResource->LoadNull();
@@ -515,9 +513,9 @@ bool    IResourceLibrary::Reload(ResHandle hResource, uint uiIgnoreFlags)
     }
 
     // Handle the dependents
-    for (set<ResHandle>::iterator it(setDependents.begin()); it != setDependents.end(); ++it)
+    for (ResHandle hDependent : setDependents)
     {
-        IResource *pChildResource(g_ResourceManager.Get(*it));
+        IResource *pChildResource(g_ResourceManager.Get(hDependent));
         if (pChildResource == nullptr)
         {
             Console.Warn << _T("Couldn't retrieve a dependant resource") << newl;
@@ -530,16 +528,15 @@ bool    IResourceLibrary::Reload(ResHandle hResource, uint uiIgnoreFlags)
         {
             pChildResource->Free();
             g_ResourceInfo.OnResourceUnregistered(hResource);
-            CGraphResource cGraphResource;
-            cGraphResource.SetHandle(hResource);
+            CGraphResource cGraphResource(hResource);
             pChildResource->Load(pChildResource->GetIgnoreFlags(), pChildResource->GetData(), pChildResource->GetSize());
         }
         else
         {
-            g_ResourceManager.Reload(*it);
+            g_ResourceManager.Reload(hDependent);
         }
 
-        pResource->AddDependent(*it);
+        pResource->AddDependent(hDependent);
     }
 
     // notify the resource watchers that this resource has been reloaded.

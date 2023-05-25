@@ -59,16 +59,17 @@ private:
     tstring             m_sPath;
 #endif
 
-    CGraphResource*     m_pPrevParent;
+    CGraphResource*     m_pPrevParent = nullptr;
     ResourceSet         m_setChildren;
-    ResHandle           m_hResource;
-    bool                m_bValid;
-    bool                m_bDone;
-    bool                m_bLinking;
+    ResHandle           m_hResource = INVALID_RESOURCE;
+    bool                m_bValid = true;
+    bool                m_bDone = false;
+    bool                m_bLinking = false;
 
 public:
     ~CGraphResource();
     CGraphResource();
+    explicit CGraphResource(ResHandle hResource);
 
     // for debugging purposes only.
     void            SetDebugPath(const tstring &sPath);
@@ -112,9 +113,8 @@ private:
 
     static const uint RI_TOPLEVEL   = BIT(0);
     static const uint RI_ORPAHNED   = BIT(1);
-    static const uint RI_TOUCHED    = BIT(2);
-    static const uint RI_MATCHED    = BIT(3);
-    static const uint RI_RELEVANT   = BIT(4);
+    static const uint RI_MATCHED    = BIT(2);
+    static const uint RI_RELEVANT   = BIT(3);
 
     typedef pair<IResource*, SResInfo*>     ResInfoPair;
     typedef vector<ResInfoPair>             ResInfoStack;
@@ -287,10 +287,12 @@ private:
     CResourceInfo::ResContextMap::iterator      m_itContext;
 
 public:
-    CResourceScope(const tstring &sResourceContextName)
+    CResourceScope() = delete;
+
+    explicit CResourceScope(const tstring &sResourceContextName)
     {
         assert(!sResourceContextName.empty());
-        assert(sResourceContextName.find(_T(" ")) == tstring::npos);
+        assert(sResourceContextName.find(_T(' ')) == tstring::npos);
 
         g_ResourceInfo.ExecCommandLine(_TS("context push ") + sResourceContextName);
         m_itContext = g_ResourceInfo.m_mapResContexts.find(sResourceContextName);

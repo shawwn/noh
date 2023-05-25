@@ -106,17 +106,22 @@ CGraphResource::~CGraphResource()
   CGraphResource::CGraphResource
   ====================*/
 CGraphResource::CGraphResource()
-: m_pPrevParent(nullptr)
-, m_hResource(INVALID_RESOURCE)
-, m_bValid(true)
-, m_bDone(false)
-, m_bLinking(false)
 {
     // store the current parent.
     m_pPrevParent = s_pCurrentParent;
-    
+
     // make ourselves the current parent.
     s_pCurrentParent = this;
+}
+
+
+/*====================
+  CGraphResource::CGraphResource
+  ====================*/
+CGraphResource::CGraphResource(ResHandle hResource)
+: CGraphResource()
+{
+    SetHandle(hResource);
 }
 
 
