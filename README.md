@@ -165,13 +165,13 @@ Install dependencies:
 sudo apt update
 
 # Compiler deps
-sudo apt install build-essential libtool autoconf -y
+sudo apt install -y build-essential libtool autoconf
 
 # Build deps
-sudo apt install cmake ninja-build -y
+sudo apt install -y cmake ninja-build
 
 # K2 engine deps
-sudo apt install -y libspeex-dev libspeexdsp-dev libssl-dev libgif-dev libpng-dev libcurl4-openssl-dev libjpeg-dev libxml2-dev libfreetype-dev libncurses-dev libxrandr-dev -y
+sudo apt install -y libspeex-dev libspeexdsp-dev libssl-dev libgif-dev libpng-dev libcurl4-openssl-dev libjpeg-dev libxml2-dev libfreetype-dev libncurses-dev libxrandr-dev
 ```
 
 #### Build without graphics
