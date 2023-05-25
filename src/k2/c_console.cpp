@@ -2084,7 +2084,7 @@ CMD(Break)
     __asm int 0x03;
 #elif defined(__GNUC__) && (__i386__||__i386)
     asm("int $0x03");
-#else // __APPLE__
+#else
     // TODO
 #endif
     return true;
