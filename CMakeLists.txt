@@ -326,7 +326,7 @@ message(STATUS "CMAKE_OBJC_FLAGS: " ${CMAKE_OBJC_FLAGS})
 #
 # fmod
 #
-set(FMOD_ROOT "${noh_SOURCE_DIR}/lib/fmodex/api/core" CACHE STRING "FMOD SDK core API directory")
+set(FMOD_ROOT "${noh_SOURCE_DIR}/lib/fmodex/api/core" CACHE PATH "FMOD SDK core API directory")
 find_include_dir(FMOD_INCLUDE_DIR "${FMOD_ROOT}"
   fmod.h
   inc)
@@ -388,7 +388,7 @@ add_package_for_k2(SPEEDTREE)
 
 if(APPLE)
   # brew install fswatch
-  set(FSWATCH_ROOT /opt/homebrew/opt/fswatch CACHE STRING "Path to fswatch directory")
+  set(FSWATCH_ROOT /opt/homebrew/opt/fswatch CACHE PATH "Path to fswatch directory")
   find_include_dir(FSWATCH_INCLUDE_DIR
     "${FSWATCH_ROOT}"
     libfswatch/c/libfswatch.h
