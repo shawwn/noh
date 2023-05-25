@@ -162,13 +162,16 @@ static void signal_handler_fatal (int signal, siginfo_t* info, void* context)
         
         pFile->WriteString("State:\n");
         ucontext_t *uc = (ucontext_t *)context;
+#if defined(__x86_64__) || (__i386__||__i386) // TODO: ARM64
         for (int i(0); i < NGREG; ++i)
 #ifdef __x86_64__
             pFile->WriteString(string(register_names[i]) + " " + XtoS(uc->uc_mcontext.gregs[i], FMT_PADZERO, 18, 16) + "\n");
 #else
             pFile->WriteString(string(register_names[i]) + " " + XtoS(uc->uc_mcontext.gregs[i], FMT_PADZERO, 10, 16) + "\n");
 #endif
-        fprintf(stderr, "Crash log saved as '%ls'\n", pFile->GetPath().c_str());
+#endif
+        wstring sPath(TStringToWString(pFile->GetPath()));
+        fprintf(stderr, "Crash log saved as '%ls'\n", sPath.c_str());
         pFile->Close();
     }
     
