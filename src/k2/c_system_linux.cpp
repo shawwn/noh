@@ -38,8 +38,12 @@
 #include <dlfcn.h>
 #include <ctype.h>
 
+#if TKTK // Try just relying on sys/inotify.h, since arm64 ubuntu isn't supported
 #include "inotify.h"
 #include "inotify-syscalls.h"
+#else
+#include <sys/inotify.h>
+#endif
 
 #include "c_filemanager.h"
 #include "c_input.h"
