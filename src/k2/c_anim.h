@@ -73,7 +73,7 @@ public:
     (
         CK2Model *pModel,
         uint uiIndex,
-        const tstring &sName,
+        tstring sName,
         const tstring &sClip,
         int iStartFrame,
         int iNumFrames,

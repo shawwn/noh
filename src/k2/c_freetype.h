@@ -20,8 +20,6 @@ protected:
     static FT_Library   s_FTLibrary;
     static bool         s_bInitialized;
 
-    IFreeTypeResource();
-
 public:
     virtual ~IFreeTypeResource();
     IFreeTypeResource(const tstring &sPath, const tstring &sName);

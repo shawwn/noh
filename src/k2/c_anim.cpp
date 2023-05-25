@@ -34,7 +34,7 @@ CAnim::CAnim
 (
     CK2Model *pModel,
     uint uiIndex,
-    const tstring &sName,
+    tstring sName,
     const tstring &sClip,
     int iStartFrame,
     int iNumFrames,
@@ -50,7 +50,7 @@ CAnim::CAnim
 ) :
 IResourceWatcher(),
 m_uiIndex(uiIndex),
-m_sName(sName),
+m_sName(std::move(sName)),
 m_ppMotions(nullptr),
 m_iStartFrame(iStartFrame),
 m_iNumFrames(iNumFrames),
@@ -74,7 +74,7 @@ m_iMaxStartFrameDef(iMaxStartFrame)
 
     g_ResourceManager.AddResourceWatcher(this, m_hClip);
 
-    Rebuild(m_hClip);
+    CAnim::Rebuild(m_hClip);
 }
 
 

@@ -463,6 +463,9 @@ protected:
     friend class CWidgetReference;
 
 public:
+    IWidget() = delete;
+    IWidget(const IWidget&) = delete;
+
     virtual ~IWidget();
     IWidget(CInterface *pInterface, IWidget *pParent, EWidgetType widgetType, const CWidgetStyle &style, bool bLoadTextures = true);
 

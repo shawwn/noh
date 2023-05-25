@@ -25,15 +25,9 @@ IResource::~IResource()
 /*====================
   IResource::IResource
   ====================*/
-IResource::IResource(const tstring &sPath, const tstring &sName) :
-m_sPath(FileManager.SanitizePath(sPath)),
-m_sName(sName),
-m_iFlags(0),
-m_pData(nullptr),
-m_uiSize(0),
-m_hHandle(INVALID_RESOURCE),
-m_uiNetIndex(INVALID_INDEX),
-m_uiIgnoreFlags(0)
+IResource::IResource(const tstring &sPath, tstring sName)
+: m_sPath(FileManager.SanitizePath(sPath))
+, m_sName(std::move(sName))
 {
 }
 
@@ -41,14 +35,14 @@ m_uiIgnoreFlags(0)
 /*====================
   IResource::IResource
   ====================*/
-IResource::IResource(const IResource &c) :
-m_sPath(c.m_sPath),
-m_sName(c.m_sName),
-m_iFlags(c.m_iFlags),
-m_uiSize(c.m_uiSize),
-m_hHandle(c.m_hHandle),
-m_uiNetIndex(c.m_uiNetIndex),
-m_uiIgnoreFlags(c.m_uiIgnoreFlags)
+IResource::IResource(const IResource &c)
+: m_sPath(c.m_sPath)
+, m_sName(c.m_sName)
+, m_iFlags(c.m_iFlags)
+, m_uiSize(c.m_uiSize)
+, m_hHandle(c.m_hHandle)
+, m_uiNetIndex(c.m_uiNetIndex)
+, m_uiIgnoreFlags(c.m_uiIgnoreFlags)
 {
     if (c.m_pData != nullptr)
     {

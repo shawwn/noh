@@ -25,10 +25,7 @@ class CFontFace : public IFreeTypeResource
 private:
     FT_Face     m_FTFace;
 
-    CFontFace();
-
 public:
-    ~CFontFace()    {}
     CFontFace(const tstring &sPath);
 
     K2_API  virtual uint            GetResType() const          { return RES_FONTFACE; }

@@ -24,21 +24,21 @@ protected:
     tstring         m_sPath;
     tstring         m_sLocalizedPath;
     tstring         m_sName;
-    int             m_iFlags;
-    const char*     m_pData;
-    uint            m_uiSize;
-    ResHandle       m_hHandle;
-    uint            m_uiNetIndex;
-    uint            m_uiIgnoreFlags;
+    int             m_iFlags = 0;
+    const char*     m_pData = nullptr;
+    uint            m_uiSize = 0;
+    ResHandle       m_hHandle = INVALID_RESOURCE;
+    uint            m_uiNetIndex = INVALID_INDEX;
+    uint            m_uiIgnoreFlags = 0;
 
-    set<ResHandle>              m_setDependents;
+    set<ResHandle>  m_setDependents;
 
-    IResource();
     IResource(const IResource&);
 
 public:
+    IResource() = delete;
     K2_API virtual ~IResource();
-    K2_API IResource(const tstring &sPath, const tstring &sName);
+    K2_API IResource(const tstring &sPath, tstring sName);
 
     K2_API virtual uint             GetResType() const=0;
     K2_API virtual const tstring&   GetResTypeName() const=0;
