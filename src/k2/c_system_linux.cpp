@@ -1815,7 +1815,7 @@ SSysInfo    CSystem::GetSystemInfo()
         struct utsname uts;
         uname(&uts);
 
-        structInfo.sOS = NativeToTString(uts.sysname) + _T(" ") + NativeToTString(uts.release) + _T(" ") + ParenStr(NativeToTString(uts.machine));
+        structInfo.sOS = tstring(NativeToTString(uts.sysname)) + _T(" ") + NativeToTString(uts.release) + _T(" ") + ParenStr(NativeToTString(uts.machine));
 
         // Memory
         struct sysinfo info;
