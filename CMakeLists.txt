@@ -340,7 +340,7 @@ if(WIN32)
     if("${K2_PROCESSOR}" STREQUAL "arm64")
       # Windows ARM64 is unsupported
       # https://qa.fmod.com/t/is-there-a-plan-for-releasing-fmod-dll-for-windows-on-arm/17876
-      set(K2_NOSOUND CACHE BOOL "Whether to build without sound dependencies (FMOD)" FORCE)
+      set(K2_NOSOUND TRUE CACHE BOOL "Whether to build without sound dependencies (FMOD)" FORCE)
     else()
       find_library(FMOD_LIBRARY
         NAMES fmod_vc
