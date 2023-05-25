@@ -111,6 +111,13 @@ function(app_configure_game_settings target game_name game_subtitle)
   endif()
 endfunction()
 
+function(app_configure_static_lib library)
+  set_target_properties(${library} PROPERTIES
+    # https://cmake.org/cmake/help/latest/manual/cmake-buildsystem.7.html#compatible-interface-properties
+    POSITION_INDEPENDENT_CODE ON
+    )
+endfunction()
+
 function(app_configure_lib library)
   set(library_dir "${LIB_DIR}")
   set(library_dll "${library}${DLL_EXT}")
@@ -401,6 +408,7 @@ find_include_dir(SPEEDTREE_INCLUDE_DIR "${SPEEDTREE_ROOT}"
 set(SPEEDTREE_LIBRARIES SpeedTree)
 list(APPEND CMAKE_MODULE_PATH "${SPEEDTREE_ROOT}/cmake")
 include(SpeedTree)
+app_configure_static_lib(SpeedTree)
 add_package_for_k2(SPEEDTREE)
 
 if(APPLE)
@@ -1287,6 +1295,7 @@ set(VID_GL2_C_SOURCES
   src/vid_gl2/SOIL/stb_image_aug.c
   )
 add_library(vid_gl2_c STATIC ${VID_GL2_C_SOURCES})
+app_configure_static_lib(vid_gl2_c)
 list(APPEND VID_GL2_LIBRARIES vid_gl2_c)
 endif() # if(NOT K2_NOVID)
 
