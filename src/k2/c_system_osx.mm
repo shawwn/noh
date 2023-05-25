@@ -368,8 +368,10 @@ void    CSystem::InitMore()
         hidMatchDictionary = IOServiceMatching(kIOHIDDeviceKey);
         
         io_iterator_t hidObjectIterator;
+#pragma clang diagnostic push // kIOMasterPortDefault
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         IOServiceGetMatchingServices(kIOMasterPortDefault, hidMatchDictionary, &hidObjectIterator);
-        
+#pragma clang diagnostic pop
         io_object_t hidDevice;
         int iJoystick(0);
         
@@ -1844,7 +1846,10 @@ SSysInfo    CSystem::GetSystemInfo()
                 CFDictionarySetValue(propertyMatchDict, CFSTR(kIOPrimaryInterface), kCFBooleanTrue);
                 CFDictionarySetValue(matchingDict, CFSTR(kIOPropertyMatchKey), propertyMatchDict);
                 CFRelease(propertyMatchDict);
+#pragma clang diagnostic push // kIOMasterPortDefault
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
                 if (IOServiceGetMatchingServices(kIOMasterPortDefault, matchingDict, &matchingServices) == KERN_SUCCESS)
+#pragma clang diagnostic pop
                 {
                     io_object_t intfService, controllerService;
                     while ((intfService = IOIteratorNext(matchingServices)))

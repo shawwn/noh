@@ -250,11 +250,14 @@ static int hash_init( SRP_HashAlgorithm alg, HashCTX *c )
 {
     switch (alg)
     {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
       case SRP_SHA1  : return SHA1_Init( &c->sha );
       case SRP_SHA224: return SHA224_Init( &c->sha256 );
       case SRP_SHA256: return SHA256_Init( &c->sha256 );
       case SRP_SHA384: return SHA384_Init( &c->sha512 );
       case SRP_SHA512: return SHA512_Init( &c->sha512 );
+#pragma clang diagnostic pop
       default:
         return -1;
     };
@@ -263,11 +266,14 @@ static int hash_update( SRP_HashAlgorithm alg, HashCTX *c, const void *data, siz
 {
     switch (alg)
     {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
       case SRP_SHA1  : return SHA1_Update( &c->sha, data, len );
       case SRP_SHA224: return SHA224_Update( &c->sha256, data, len );
       case SRP_SHA256: return SHA256_Update( &c->sha256, data, len );
       case SRP_SHA384: return SHA384_Update( &c->sha512, data, len );
       case SRP_SHA512: return SHA512_Update( &c->sha512, data, len );
+#pragma clang diagnostic pop
       default:
         return -1;
     };
@@ -276,11 +282,14 @@ static int hash_final( SRP_HashAlgorithm alg, HashCTX *c, unsigned char *md )
 {
     switch (alg)
     {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
       case SRP_SHA1  : return SHA1_Final( md, &c->sha );
       case SRP_SHA224: return SHA224_Final( md, &c->sha256 );
       case SRP_SHA256: return SHA256_Final( md, &c->sha256 );
       case SRP_SHA384: return SHA384_Final( md, &c->sha512 );
       case SRP_SHA512: return SHA512_Final( md, &c->sha512 );
+#pragma clang diagnostic pop
       default:
         return -1;
     };
