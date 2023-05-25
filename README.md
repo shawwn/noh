@@ -52,14 +52,44 @@ Coming soon. Building on Windows should be roughly similar to the macOS steps be
 
 ### Building NoH on macOS
 
-##### Install dependencies
+##### Install macOS dependencies
+
+Install [Homebrew](https://brew.sh/):
 ```
-brew install llvm speex speexdsp giflib openssl fswatch fileicon
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 ```
+
+Install the dependencies:
+
+```
+brew install cmake llvm ninja speex speexdsp giflib libpng libjpeg openssl@1.1 freetype fswatch fileicon
+```
+
 ##### Clone the repository (`--recursive` is important!)
+
 ```
 git clone --recursive https://github.com/shawwn/noh
 ```
+
+##### Build on macOS with CMake
+
+```
+cd noh
+mkdir build
+cd build
+cmake ..
+cmake --build .
+```
+
+Things you can do:
+
+- Run `./K2\ Model\ Viewer` and play with some effects
+- Run `./NoH` and click "Local Game" to start a game
+- Run `./NoH\ Editor`
+
+
+### Building NoH on macOS with [CLion](https://www.jetbrains.com/clion/download/#section=mac)
+
 ##### Open the repo in [CLion](https://www.jetbrains.com/clion/download/#section=mac):
 ```
 cd noh
