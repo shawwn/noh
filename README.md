@@ -101,7 +101,7 @@ cd noh
 mkdir build
 cd build
 cmake ..
-cmake --build .
+cmake --build . -j12
 ```
 
 Things you can do:
