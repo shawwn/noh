@@ -854,7 +854,7 @@ bool    CResourceInfo::ExecCommand(const tstring &sCommand, const tsvector& vArg
                             Console << _T("ResContext: deleted context '^y") << sCurCtxNameCopy << _T("^*'") << newl;
                         else if (uiResult == RESCTX_SCHEDULED_FOR_DELETION)
                             Console << _T("ResContext: scheduled context '^y") << sCurCtxNameCopy << _T("^*' to be deleted when it goes inactive.") << newl;
-                        else if (uiResult == RESCTX_SCHEDULED_FOR_DELETION)
+                        else if (uiResult == RESCTX_ALREADY_DELETING)
                             Console << _T("ResContext: context '^y") << sCurCtxNameCopy << _T("^*' was already scheduled to be deleted when it goes inactive.") << newl;
                         else
                             assert(false);
