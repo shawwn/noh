@@ -28,7 +28,6 @@
 CButtonCatcher::CButtonCatcher(CInterface *pInterface, IWidget *pParent, const CWidgetStyle& style) :
 IWidget(pInterface, pParent, WIDGET_BUTTONCATCHER, style),
 m_eLastButton(BUTTON_INVALID),
-m_iLastModifier(0),
 m_bImpulse(style.GetPropertyBool(_T("impulse"), false))
 {
     if (IsAbsoluteVisible())
@@ -74,7 +73,6 @@ void    CButtonCatcher::UpdateButtonName(EButton button)
 #endif
 
     m_eLastButton = button;
-    m_iLastModifier = iModifier;
     m_sLastButtonName = Input.GetBindString(button, iModifier);
 }
 

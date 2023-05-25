@@ -16,8 +16,7 @@
 //=============================================================================
 class CButtonCatcher : public IWidget
 {
-    EButton     m_eLastButton;
-    int         m_iLastModifier;
+    EButton     m_eLastButton = BUTTON_INVALID;
     tstring     m_sLastButtonName;
 
     bool        m_bImpulse;
