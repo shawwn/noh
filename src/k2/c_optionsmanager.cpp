@@ -53,6 +53,7 @@ CVAR_STRING (options_sound_output, "");
 extern CCvar<float>     scene_farClip;
 extern CCvar<float>     scene_entityDrawDistance;
 extern CCvar<float>     scene_foliageDrawDistance;
+#ifndef K2_NOSOUND
 extern CCvar<float>     sound_masterVolume;
 extern CCvar<float>     sound_sfxVolume;
 extern CCvar<float>     sound_interfaceVolume;
@@ -67,6 +68,7 @@ extern CCvar<int>       sound_maxVariations;
 extern CCvar<int>       sound_resampler;
 extern CCvar<int>       sound_numChannels;
 extern CCvar<tstring>   sound_output;
+#endif
 extern CCvar<float>     input_mouseSensitivity;
 extern CCvar<bool>      input_mouseInvertY;
 extern CCvar<float>     cam_smoothPositionHalfLife;
@@ -215,6 +217,7 @@ void    COptionsManager::Frame()
     if (options_shadowQuality == m_iSavedShadowQuality)
         options_shadowQuality.SetModified(false);
 
+#ifndef K2_NOSOUND
     if (options_sound_output.GetString() != sound_output.GetString() ||
         options_sound_driver.GetValue() != sound_driver.GetValue() || 
         options_sound_recording_driver.GetValue() != sound_recording_driver.GetValue() ||
@@ -224,6 +227,9 @@ void    COptionsManager::Frame()
         m_bNeedSoundRestart = true;
     else
         m_bNeedSoundRestart = false;
+#else
+    m_bNeedSoundRestart = false;
+#endif
 
     OptionsChangeVideo.Trigger(XtoA(m_bNeedChangeVideo));
 
@@ -305,6 +311,7 @@ void    COptionsManager::LoadCurrentSettings()
     m_iSavedShadowQuality = options_shadowQuality;
     m_iSavedEffectQuality = options_effectQuality;
 
+#ifndef K2_NOSOUND
     m_fSavedMasterVolume = sound_masterVolume;
     m_fSavedSoundEffectsVolume = sound_sfxVolume;
     m_fSavedSoundInterfaceVolume = sound_interfaceVolume;
@@ -317,6 +324,7 @@ void    COptionsManager::LoadCurrentSettings()
     m_iSavedSoundQuality = options_soundQuality;
     options_sound_disable = sound_disable.GetValue();
     options_sound_output = sound_output.GetString();
+#endif
         
     m_fSavedMouseSensitivity = input_mouseSensitivity;
     m_bSavedMouseInvertY = input_mouseInvertY;
@@ -396,13 +404,15 @@ void    COptionsManager::RestoreCurrentSettings()
     options_shaderQuality = m_iSavedShaderQuality;
     options_shadowQuality = m_iSavedShadowQuality;
     options_effectQuality = m_iSavedEffectQuality;
-    
+
+#ifndef K2_NOSOUND
     sound_masterVolume = m_fSavedMasterVolume;
     sound_sfxVolume = m_fSavedSoundEffectsVolume;
     sound_interfaceVolume = m_fSavedSoundInterfaceVolume;
     sound_musicVolume = m_fSavedMusicVolume;
     sound_voiceChatVolume = m_fSavedVoiceChatVolume;
     sound_voiceMicMuted = m_bSavedVoiceMicMuted;
+#endif
 
     input_mouseSensitivity = m_fSavedMouseSensitivity;
     input_mouseInvertY = m_bSavedMouseInvertY;
@@ -625,6 +635,7 @@ void    COptionsManager::Apply()
     if (m_bNeedShaderReload)
         Console.Execute(_T("ReloadShaders"));
 
+#ifndef K2_NOSOUND
     if (m_bNeedSoundRestart)
     {
         SetSoundQualityCvars(options_soundQuality);
@@ -635,6 +646,7 @@ void    COptionsManager::Apply()
         sound_disable = options_sound_disable.GetValue();
         K2SoundManager.Restart();
     }
+#endif
 
     if (m_bNeedModelReload)
     {
@@ -778,6 +790,7 @@ void    COptionsManager::SetEffectQualityCvars(int iEffectQuality)
   ====================*/
 void    COptionsManager::SetSoundQualityCvars(int iSoundQuality)
 {
+#ifndef K2_NOSOUND
     switch (iSoundQuality)
     {
     case 0:
@@ -795,6 +808,7 @@ void    COptionsManager::SetSoundQualityCvars(int iSoundQuality)
         sound_maxVariations = 2;
         sound_resampler = 1;
     }
+#endif
 }
 
 
@@ -888,6 +902,7 @@ int     COptionsManager::DetermineEffectQuality()
   ====================*/
 int     COptionsManager::DetermineSoundQuality()
 {
+#ifndef K2_NOSOUND
     if (sound_mixrate == 44100 && sound_maxVariations == 16 && sound_resampler == 2)
         return 0;
     else if (sound_mixrate == 22050 && sound_maxVariations == 8 && sound_resampler == 1)
@@ -896,6 +911,9 @@ int     COptionsManager::DetermineSoundQuality()
         return 2;
     else
         return -1;
+#else
+    return 0;
+#endif
 }
 
 
