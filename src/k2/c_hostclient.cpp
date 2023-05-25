@@ -4620,8 +4620,7 @@ CMD(RegenerateConnectionID)
 CMD(CheckReconnect)
 {
     CHostClient *pClient(Host.GetActiveClient());
-
-    if (pClient != nullptr)
+    if (pClient == nullptr)
         return false;
 
     if (vArgList.size() < 2)
