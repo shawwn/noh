@@ -2916,7 +2916,11 @@ void    GL_EndFrame()
 
 void    GL_Break()
 {
+#if defined(__GNUC__) && (__i386__||__i386)
     asm ("int $0x03");
+#else
+    // TODO
+#endif
 }
 
 void    GL_X11_Event(XEvent* pEvent)
