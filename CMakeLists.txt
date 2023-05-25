@@ -329,11 +329,17 @@ find_include_dir(FMOD_INCLUDE_DIR "${FMOD_ROOT}"
   inc)
 if(WIN32)
   if(CMAKE_SIZEOF_VOID_P EQUAL 8)
-    find_library(FMOD_LIBRARY
-      NAMES fmod_vc
-      NAMES_PER_DIR
-      PATH_SUFFIXES lib/x64
-      PATHS "${FMOD_ROOT}" ENV FMOD_ROOT REQUIRED)
+    if("${CMAKE_SYSTEM_PROCESSOR}" STREQUAL "ARM64")
+      # Windows ARM64 is unsupported
+      # https://qa.fmod.com/t/is-there-a-plan-for-releasing-fmod-dll-for-windows-on-arm/17876
+      set(K2_NOSOUND TRUE)
+    else()
+      find_library(FMOD_LIBRARY
+        NAMES fmod_vc
+        NAMES_PER_DIR
+        PATH_SUFFIXES lib/x64
+        PATHS "${FMOD_ROOT}" ENV FMOD_ROOT REQUIRED)
+    endif()
   else()
     find_library(FMOD_LIBRARY
       NAMES fmod_vc
@@ -348,16 +354,21 @@ else()
     PATH_SUFFIXES lib lib/x86 lib/x86_64 lib/x64
     PATHS "${FMOD_ROOT}" ENV FMOD_ROOT REQUIRED)
 endif()
-add_package_for_k2(FMOD)
-# get the directory of the found library
-get_filename_component(FMOD_LIBRARY_DIR ${FMOD_LIBRARY} DIRECTORY)
-# construct the path to the dll
-if(WIN32)
-  set(FMOD_DLL_PATH "${FMOD_LIBRARY_DIR}/fmod.dll")
-elseif(APPLE)
-  set(FMOD_DLL_PATH "${FMOD_LIBRARY_DIR}/libfmod.dylib")
+if(K2_NOSOUND)
+  list(APPEND K2_PUBLIC_DEFINITIONS -DK2_NOSOUND)
 else()
-  set(FMOD_DLL_PATH "${FMOD_LIBRARY_DIR}/libfmod.so")
+  add_package_for_k2(FMOD)
+
+  # get the directory of the found library
+  get_filename_component(FMOD_LIBRARY_DIR ${FMOD_LIBRARY} DIRECTORY)
+  # construct the path to the dll
+  if(WIN32)
+    set(FMOD_DLL_PATH "${FMOD_LIBRARY_DIR}/fmod.dll")
+  elseif(APPLE)
+    set(FMOD_DLL_PATH "${FMOD_LIBRARY_DIR}/libfmod.dylib")
+  else()
+    set(FMOD_DLL_PATH "${FMOD_LIBRARY_DIR}/libfmod.so")
+  endif()
 endif()
 
 #
@@ -1233,11 +1244,13 @@ target_precompile_headers(${K2_LIBRARY} PRIVATE src/k2/k2_common.h)
 target_link_libraries(${K2_LIBRARY} ${K2_LIBRARIES})
 target_include_directories(${K2_LIBRARY} PRIVATE ${K2_INCLUDE_DIRS})
 target_include_directories(${K2_LIBRARY} PUBLIC ${K2_INCLUDE_DIRS_PUBLIC})
-# copy the fmod DLL to each content directory, along with the build directory.
-target_copy(${K2_LIBRARY} "${FMOD_DLL_PATH}" "${BIN_DIR}")
-foreach(game ${NOH_GAMES})
-  target_copy(${K2_LIBRARY} "${FMOD_DLL_PATH}" "${${game}_CONTENT_DIR}")
-endforeach()
+if(NOT K2_NOSOUND)
+  # copy the fmod DLL to each content directory, along with the build directory.
+  target_copy(${K2_LIBRARY} "${FMOD_DLL_PATH}" "${BIN_DIR}")
+  foreach(game ${NOH_GAMES})
+    target_copy(${K2_LIBRARY} "${FMOD_DLL_PATH}" "${${game}_CONTENT_DIR}")
+  endforeach()
+endif()
 
 #========================================
 # vid_gl2_c
