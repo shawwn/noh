@@ -24,6 +24,9 @@ Table of Contents
         * [Open the repo in CLion](#open-the-repo-in-clion)
         * [Once CLion is open](#once-clion-is-open)
         * [If things go wrong](#if-things-go-wrong)
+  * [Building NoH on Ubuntu](#building-noh-on-ubuntu)
+     * [Build without graphics](#build-without-graphics)
+     * [Build with graphics](#build-with-graphics)
   * [Building NoH on Windows](#building-noh-on-windows)
      * [Install Git for Windows](#install-git-for-windows)
      * [Install CMake for Windows](#install-cmake-for-windows)
@@ -149,6 +152,47 @@ Build -> Rebuild all in Release
 Run -> Run NoH, or just click the play button
 
 If things still aren't working, [post an issue](https://github.com/shawwn/noh/issues) or DM me on Twitter: [@theshawwn](https://twitter.com/theshawwn)
+
+### Building NoH on Ubuntu
+
+Install dependencies:
+```
+sudo apt update
+
+# Compiler deps
+sudo apt install build-essential libtool autoconf -y
+
+# Build deps
+sudo apt install cmake ninja-build -y
+
+# K2 engine deps
+sudo apt-get install -y libspeex-dev libspeexdsp-dev libssl-dev libgif-dev libpng-dev libcurl4-openssl-dev libjpeg-dev libxml2-dev libfreetype-dev libncurses-dev libxrandr-dev -y
+```
+
+#### Build without graphics
+
+(Useful for servers)
+
+```
+cd noh
+cmake -DK2_NOVID=1 -S . -B build -G Ninja && cmake --build build
+```
+
+Now you can run `./NoH -dedicated` to start a server
+
+#### Build with graphics
+
+Install graphics dependencies:
+```
+sudo apt-get install -y libgl-dev libglu1-mesa-dev libxrandr-dev xorg-dev
+```
+
+```
+cd noh
+cmake -S . -B build -G Ninja && cmake --build build
+```
+
+Now you can run `./NoH` or `./NoH\ Editor` or `./K2\ Model\ Viewer`
 
 ### Building NoH on Windows
 
