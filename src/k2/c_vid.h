@@ -75,12 +75,12 @@ struct SVidMode
     tstring sDisplay;
 #endif
 #ifdef __APPLE__
-    int     iDisplay;
+    int     iDisplay = 0;
 #endif
-    int     iWidth;
-    int     iHeight;
-    int     iBpp;
-    int     iRefreshRate;
+    int     iWidth = 1280;
+    int     iHeight = 800;
+    int     iBpp = 32;
+    int     iRefreshRate = 60;
 };
 //=============================================================================
 

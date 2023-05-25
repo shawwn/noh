@@ -18,6 +18,9 @@ if(APPLE)
 endif()
 enable_language(C CXX)
 
+set(K2_NOVID FALSE CACHE BOOL "Whether to build without graphics dependencies (OpenGL, etc)")
+set(K2_NOSOUND FALSE CACHE BOOL "Whether to build without sound dependencies (FMOD)")
+
 # C++ 20
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -332,7 +335,7 @@ if(WIN32)
     if("${CMAKE_SYSTEM_PROCESSOR}" STREQUAL "ARM64")
       # Windows ARM64 is unsupported
       # https://qa.fmod.com/t/is-there-a-plan-for-releasing-fmod-dll-for-windows-on-arm/17876
-      set(K2_NOSOUND TRUE)
+      set(K2_NOSOUND CACHE BOOL "Whether to build without sound dependencies (FMOD)" FORCE)
     else()
       find_library(FMOD_LIBRARY
         NAMES fmod_vc
@@ -426,12 +429,16 @@ find_package_for_k2(JPEG JPEG)
 find_package_for_k2(LibXml2 LIBXML2)
 find_package_for_k2(Freetype FREETYPE)
 list(APPEND K2_INCLUDE_DIRS "${noh_SOURCE_DIR}/lib/libpng/include")
-if(WIN32)
-  find_package(OpenGL REQUIRED)
-  list(APPEND K2_LIBRARIES ${OPENGL_LIBRARIES})
+if(K2_NOVID)
+  list(APPEND K2_PUBLIC_DEFINITIONS -DK2_NOVID)
 else()
-  find_package_for_k2(OpenGL OPENGL)
-endif()
+  if(WIN32)
+    find_package(OpenGL REQUIRED)
+    list(APPEND K2_LIBRARIES ${OPENGL_LIBRARIES})
+  else()
+    find_package_for_k2(OpenGL OPENGL)
+  endif()
+endif() # if(K2_NOVID)
 if(UNIX)
   find_package_for_k2(Curses CURSES)
 endif()
@@ -1255,6 +1262,7 @@ endif()
 #========================================
 # vid_gl2_c
 #========================================
+if(NOT K2_NOVID)
 set(VID_GL2_C_SOURCES
   src/vid_gl2/SOIL/SOIL.c
   src/vid_gl2/SOIL/image_DXT.c
@@ -1263,10 +1271,12 @@ set(VID_GL2_C_SOURCES
   )
 add_library(vid_gl2_c STATIC ${VID_GL2_C_SOURCES})
 list(APPEND VID_GL2_LIBRARIES vid_gl2_c)
+endif() # if(NOT K2_NOVID)
 
 #========================================
 # vid_gl2
 #========================================
+if(NOT K2_NOVID)
 set(VID_GL2_LIBRARY vid_gl2)
 set(VID_GL2_LIBRARY_LIB "${VID_GL2_LIBRARY}")
 set(VID_GL2_LIBRARY_DLL "${BIN_DIR}/${VID_GL2_LIBRARY}${DLL_EXT}")
@@ -1431,6 +1441,7 @@ target_precompile_headers(${VID_GL2_LIBRARY} PRIVATE src/vid_gl2/vid_common.h)
 target_compile_definitions(${VID_GL2_LIBRARY} PRIVATE ${VID_GL2_LIBRARY_DEFINITIONS})
 target_link_libraries(${VID_GL2_LIBRARY} ${VID_GL2_LIBRARIES})
 add_dependencies(${VID_GL2_LIBRARY} ${VID_GL2_LIBRARY_DEPENDENCIES})
+endif() # if(NOT K2_NOVID)
 
 #========================================
 # hon_shared

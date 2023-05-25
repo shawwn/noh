@@ -845,8 +845,10 @@ inline static bool HandleEscapeSequence()
 void    CSystem::HandleOSMessages()
 {
     PROFILE("CSystem::HandleOSMessages");
-    
+
+#ifndef K2_NOVID
     if (IsDedicatedServer() || IsServerManager())
+#endif
     {
         if (sys_dedicatedConsole && m_ConsoleWindowHandle)
         {

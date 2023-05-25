@@ -413,7 +413,9 @@ void    CHost::Init(const tstring &sGame)
         K2System.SetAffinity(host_affinity);
         PrintInitDebugInfo(_T("Finished Setting Host Affinity..."));
 
+#ifndef K2_NOVID
         if (K2System.IsDedicatedServer() || K2System.IsServerManager())
+#endif
         {
             K2System.InitDedicatedConsole();
 
@@ -462,10 +464,12 @@ void    CHost::Init(const tstring &sGame)
             Bitmap_Init();
             MoviePlayer_Initialize();
 
+#ifndef K2_NOVID
             PrintInitDebugInfo(_T("Initializing Vid Driver..."));   
             // Initialize graphics
             Vid.SetDriver(host_vidDriver);
-            PrintInitDebugInfo(_T("Finished Initializing Vid Driver..."));  
+            PrintInitDebugInfo(_T("Finished Initializing Vid Driver..."));
+#endif
         }
 
         PrintInitDebugInfo(_T("Loading Standard Resources..."));    
