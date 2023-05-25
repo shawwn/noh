@@ -47,7 +47,7 @@ class CParticleAllocator : public std::allocator<T>
 {
 public:
     typedef typename std::allocator<T>::size_type   size_type;
-    typedef typename std::allocator<T>::pointer     pointer;
+    typedef T*                                      pointer;
 
 #ifndef WIN32
     template<class _Other>
