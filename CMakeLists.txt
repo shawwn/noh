@@ -392,7 +392,12 @@ endif()
 find_package_for_k2(Speex SPEEX)
 # brew install speexdsp
 find_package_for_k2(SpeexDSP SPEEXDSP)
-# brew install openssl
+# brew install openssl@1.1
+if(APPLE)
+  # Fix debugger crash in OpenSSL 3 (by using OpenSSL 1.1 instead):
+  # https://github.com/openssl/openssl/issues/20753
+  set(OPENSSL_ROOT_DIR /opt/homebrew/opt/openssl@1.1)
+endif()
 find_package_for_k2(OpenSSL OPENSSL)
 # brew install giflib
 find_package_for_k2(GIF GIF)
