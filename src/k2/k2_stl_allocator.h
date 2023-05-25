@@ -27,8 +27,8 @@ class K2Allocator : public std::allocator<T>
 {
 public:
     typedef typename std::allocator<T>::size_type   size_type;
-    typedef typename std::allocator<T>::pointer     pointer;
-    
+    typedef T*                                      pointer;
+
     template<class _Other>
     struct rebind
     {
@@ -67,8 +67,8 @@ class K2StringAllocator : public std::allocator<T>
 {
 public:
     typedef typename std::allocator<T>::size_type   size_type;
-    typedef typename std::allocator<T>::pointer     pointer;
-    
+    typedef T*                                      pointer;
+
     template<class _Other>
     struct rebind
     {
@@ -107,8 +107,8 @@ class K2VectorAllocator : public std::allocator<T>
 {
 public:
     typedef typename std::allocator<T>::size_type   size_type;
-    typedef typename std::allocator<T>::pointer     pointer;
-    
+    typedef T*                                      pointer;
+
     template<class _Other>
     struct rebind
     {
@@ -147,8 +147,8 @@ class K2ListAllocator : public std::allocator<T>
 {
 public:
     typedef typename std::allocator<T>::size_type   size_type;
-    typedef typename std::allocator<T>::pointer     pointer;
-    
+    typedef T*                                      pointer;
+
     template<class _Other>
     struct rebind
     {
@@ -187,8 +187,8 @@ class K2DequeAllocator : public std::allocator<T>
 {
 public:
     typedef typename std::allocator<T>::size_type   size_type;
-    typedef typename std::allocator<T>::pointer     pointer;
-    
+    typedef T*                                      pointer;
+
     template<class _Other>
     struct rebind
     {
@@ -227,8 +227,8 @@ class K2MapAllocator : public std::allocator<T>
 {
 public:
     typedef typename std::allocator<T>::size_type   size_type;
-    typedef typename std::allocator<T>::pointer     pointer;
-    
+    typedef T*                                      pointer;
+
     template<class _Other>
     struct rebind
     {
@@ -267,8 +267,8 @@ class K2SetAllocator : public std::allocator<T>
 {
 public:
     typedef typename std::allocator<T>::size_type   size_type;
-    typedef typename std::allocator<T>::pointer     pointer;
-    
+    typedef T*                                      pointer;
+
     template<class _Other>
     struct rebind
     {
@@ -307,8 +307,8 @@ class K2HashMapAllocator : public std::allocator<T>
 {
 public:
     typedef typename std::allocator<T>::size_type   size_type;
-    typedef typename std::allocator<T>::pointer     pointer;
-    
+    typedef T*                                      pointer;
+
     template<class _Other>
     struct rebind
     {
@@ -347,8 +347,8 @@ class K2HashSetAllocator : public std::allocator<T>
 {
 public:
     typedef typename std::allocator<T>::size_type   size_type;
-    typedef typename std::allocator<T>::pointer     pointer;
-    
+    typedef T*                                      pointer;
+
     template<class _Other>
     struct rebind
     {
