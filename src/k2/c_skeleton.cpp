@@ -1079,10 +1079,8 @@ void    CSkeleton::RotateBone(const tstring &sBoneName, float yaw_offset, float 
   ====================*/
 void    CSkeleton::SetModel(ResHandle hModel)
 {
-    if (m_hModel != INVALID_RESOURCE)
-        g_ResourceManager.RemoveResourceWatcher(this, m_hModel);
-
     // store the new model and add it as a resource dependent.
+    g_ResourceManager.RemoveResourceWatcher(this, m_hModel);
     m_hModel = hModel;
     g_ResourceManager.AddResourceWatcher(this, hModel);
 
