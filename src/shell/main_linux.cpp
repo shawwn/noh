@@ -19,7 +19,6 @@
 #include <string.h>
 #include <ucontext.h>
 
-#include "resource.h"
 #include "../k2/c_vid.h"
 //=============================================================================
 
