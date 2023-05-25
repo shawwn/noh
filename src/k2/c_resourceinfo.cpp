@@ -32,19 +32,16 @@ CVAR_BOOL(res_debugContext, false);
   ForEachResInfo
   ====================*/
 #define ForEachResInfo(resPtrDecl, infoPtrDecl)                                                     \
-    for (ResInfoMap::iterator                                                                       \
-        FOREACH_it(m_mapResInfo.begin()),                                                           \
-        FOREACH_itEnd(m_mapResInfo.end());                                                          \
-        FOREACH_it != FOREACH_itEnd;                                                                \
-        ++FOREACH_it)                                                                               \
-        if (resPtrDecl = g_ResourceManager.LookUpHandle(FOREACH_it->first))                         \
-            if (infoPtrDecl = &FOREACH_it->second)
+    for (auto &&[FOREACH_hResource, FOREACH_sResInfo] : m_mapResInfo)                               \
+        if (resPtrDecl = g_ResourceManager.LookUpHandle(FOREACH_hResource))                         \
+            if (infoPtrDecl = &FOREACH_sResInfo)
 
 
 /*====================
   ForEachResChain
   ====================*/
 #define ForEachResChain(stkParentsDecl, depthDecl, resPtrDecl, infoPtrDecl)                         \
+    do                                                                                              \
     {                                                                                               \
         class FOREACH_Iterator : public IResourceGraphIterator                                      \
         {                                                                                           \
@@ -53,11 +50,11 @@ CVAR_BOOL(res_debugContext, false);
 #define ForEachResChainEnd_DoAllToplevel()                                                          \
         };                                                                                          \
         IterateToplevel(FOREACH_Iterator());                                                        \
-    }
+    } while (0)
 #define ForEachResChainEnd_DoContext(sCtxName, pCurCtx)                                             \
         };                                                                                          \
         IterateContext(FOREACH_Iterator(), sCtxName, pCurCtx);                                      \
-    }
+    } while (0)
 
 #define ForEachResChain_ForEachParent(stkParents, resPtrDecl, infoPtrDecl)                          \
     for (ResInfoStack::const_reverse_iterator                                                       \
@@ -73,13 +70,9 @@ CVAR_BOOL(res_debugContext, false);
   ForEachResInfo
   ====================*/
 #define ForEachResHandle(resContainerType, resContainer, resPtrDecl, infoPtrDecl)                   \
-    for (resContainerType::iterator                                                                 \
-        FOREACH_it((resContainer).begin()),                                                         \
-        FOREACH_itEnd((resContainer).end());                                                        \
-        FOREACH_it != FOREACH_itEnd;                                                                \
-        ++FOREACH_it)                                                                               \
-        if (resPtrDecl = g_ResourceManager.LookUpHandle(*FOREACH_it))                                   \
-            if (infoPtrDecl = g_ResourceInfo.LookupInfo(*FOREACH_it))
+    for (const auto& FOREACH_res : resContainer)                                                    \
+        if (resPtrDecl = g_ResourceManager.LookUpHandle(FOREACH_res))                               \
+            if (infoPtrDecl = g_ResourceInfo.LookupInfo(FOREACH_res))
 
 
 /*====================
@@ -207,7 +200,7 @@ void    CGraphResource::Done()
         ResHandle hChild(*it);
         assert(hChild != INVALID_RESOURCE);
 
-        assert(hChild !=  m_hResource);
+        assert(hChild != m_hResource);
         if (hChild == m_hResource)
             m_setChildren.erase(it++);
         else
@@ -315,11 +308,8 @@ void    CResourceInfo::InfoAddChildren(ResHandle hRes, const ResourceSet& setChi
         return;
 
     // merge.
-    for (ResourceSet::const_iterator it(setChildren.begin()), itEnd(setChildren.end());
-        it != itEnd;
-        ++it)
+    for (ResHandle hChild : setChildren)
     {
-        ResHandle hChild(*it);
         pInfo->setChildren.insert(hChild);
     }
 }
@@ -392,7 +382,7 @@ void    CResourceInfo::IResourceGraphIterator::DoResource(CResourceInfo::ResInfo
 
     if (!pInfo->setChildren.empty())
     {
-        stkParents.push_back(std::make_pair(pRes, pInfo));
+        stkParents.emplace_back(std::make_pair(pRes, pInfo));
         ++uiDepth;
         ForEachResHandle(ResourceSet, pInfo->setChildren, IResource* pChildRes, SResInfo* pChildInfo)
         {
@@ -671,7 +661,7 @@ bool    CResourceInfo::ExecCommand(const tstring &sCommand, const tsvector& vArg
     //*********************
     if (sCommand == _T("graph"))
     {
-        if (vArgs.size() < 1)
+        if (vArgs.empty())
         {
             Console << _T("^r'ResourceCmdEx graph' command failed (not enough args): specify a graph command.") << newl;
             return false;
@@ -706,11 +696,10 @@ bool    CResourceInfo::ExecCommand(const tstring &sCommand, const tsvector& vArg
 
             ForEachResChain(const ResInfoStack& stkParents, uint uiDepth, IResource* pRes, SResInfo* pInfo)
             {
-                bool bExactMatch(false);
                 bool bMatched(pInfo->HasFlags(RI_MATCHED));
 
                 if (!pInfo->HasFlags(RI_MATCHED))
-                    if (bExactMatch || !pInfo->HasFlags(RI_RELEVANT))
+                    if (!pInfo->HasFlags(RI_RELEVANT))
                         return;
 
                 CConsoleStream& cStream(Console.DefaultStream());
@@ -755,7 +744,7 @@ bool    CResourceInfo::ExecCommand(const tstring &sCommand, const tsvector& vArg
     //*********************
     if (sCommand == _T("context"))
     {
-        if (vArgs.size() < 1)
+        if (vArgs.empty())
         {
             Console << _T("^r'ResourceCmdEx context' command failed (not enough args): specify a context command.") << newl;
             return false;
@@ -926,7 +915,6 @@ bool    CResourceInfo::ExecCommand(const tstring &sCommand, const tsvector& vArg
                 ex.Process(_T("'ResourceCmdEx context copy <srcContextName> <dstContextName>' command: "), NO_THROW);
                 return false;
             }
-            return false;
         }
 
         //*********************
@@ -987,7 +975,6 @@ bool    CResourceInfo::ExecCommand(const tstring &sCommand, const tsvector& vArg
                 ex.Process(_T("'ResourceCmdEx context move <srcContextName> <dstContextName>' command: "), NO_THROW);
                 return false;
             }
-            return false;
         }
 
         //*********************
@@ -1016,7 +1003,6 @@ bool    CResourceInfo::ExecCommand(const tstring &sCommand, const tsvector& vArg
                 ex.Process(_T("'ResourceCmdEx context exists <contextName>' command: "), NO_THROW);
                 return false;
             }
-            return false;
         }
 
         //*********************
@@ -1049,7 +1035,7 @@ bool    CResourceInfo::ExecCommand(const tstring &sCommand, const tsvector& vArg
     //*********************
     if (sCommand == _T("orphans"))
     {
-        if (vArgs.size() < 1)
+        if (vArgs.empty())
         {
             Console << _T("^r'ResourceCmdEx orphans' command failed (not enough args): specify an orphans command.") << newl;
             return false;
@@ -1141,7 +1127,7 @@ bool    CResourceInfo::ExecCommandLine(const tstring &sCommandLine)
     // execute with args.
     tsvector vArgs;
     SplitBy(vArgs, sCommandLine, _TS(" "), uiPos + 1, SPLITBY_ERASE_EMPTY_SPLITS);
-    assert(vArgs.size() >= 1);
+    assert(!vArgs.empty());
     return ExecCommand(sCommandLine.substr(0, uiPos), vArgs);
 }
 
@@ -1152,7 +1138,7 @@ bool    CResourceInfo::ExecCommandLine(const tstring &sCommandLine)
   --------------------*/
 CMD(ResourceCmdEx)
 {
-    if (vArgList.size() < 1)
+    if (vArgList.empty())
     {
         Console << _T("ResourceCmdEx <string sCommand>") << newl;
         return false;
@@ -1171,7 +1157,7 @@ CMD(ResourceCmdEx)
 CMD(ListResourceGraph)
 {
     tstring sWildcard(_T("*"));
-    if (vArgList.size() >= 1)
+    if (!vArgList.empty())
         sWildcard = vArgList[0];
 
     tsvector vArgs;
