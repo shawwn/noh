@@ -171,7 +171,7 @@ sudo apt install build-essential libtool autoconf -y
 sudo apt install cmake ninja-build -y
 
 # K2 engine deps
-sudo apt-get install -y libspeex-dev libspeexdsp-dev libssl-dev libgif-dev libpng-dev libcurl4-openssl-dev libjpeg-dev libxml2-dev libfreetype-dev libncurses-dev libxrandr-dev -y
+sudo apt install -y libspeex-dev libspeexdsp-dev libssl-dev libgif-dev libpng-dev libcurl4-openssl-dev libjpeg-dev libxml2-dev libfreetype-dev libncurses-dev libxrandr-dev -y
 ```
 
 #### Build without graphics
@@ -188,7 +188,7 @@ Now you can run `./NoH -dedicated` to start a server
 
 Install graphics dependencies:
 ```
-sudo apt-get install -y libgl-dev libglu1-mesa-dev libxrandr-dev xorg-dev
+sudo apt install -y libgl-dev libglu1-mesa-dev libxrandr-dev xorg-dev
 ```
 
 ```
