@@ -337,7 +337,7 @@ find_include_dir(FMOD_INCLUDE_DIR "${FMOD_ROOT}"
   inc)
 if(WIN32)
   if(CMAKE_SIZEOF_VOID_P EQUAL 8)
-    if("${CMAKE_SYSTEM_PROCESSOR}" STREQUAL "ARM64")
+    if("${K2_PROCESSOR}" STREQUAL "arm64")
       # Windows ARM64 is unsupported
       # https://qa.fmod.com/t/is-there-a-plan-for-releasing-fmod-dll-for-windows-on-arm/17876
       set(K2_NOSOUND CACHE BOOL "Whether to build without sound dependencies (FMOD)" FORCE)
