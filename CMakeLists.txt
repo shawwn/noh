@@ -19,6 +19,9 @@ endif()
 enable_language(C CXX)
 
 string(TOLOWER "${CMAKE_SYSTEM_PROCESSOR}" K2_PROCESSOR)
+if("${K2_PROCESSOR}" STREQUAL "aarch64")
+  set(K2_PROCESSOR "arm64")
+endif()
 
 set(K2_NOVID FALSE CACHE BOOL "Whether to build without graphics dependencies (OpenGL, etc)")
 set(K2_NOSOUND FALSE CACHE BOOL "Whether to build without sound dependencies (FMOD)")
