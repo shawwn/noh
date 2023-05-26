@@ -1178,6 +1178,7 @@ set(K2_SOURCES
   src/k2/i_modelallocator.h
   src/k2/i_resource.cpp
   src/k2/i_resource.h
+  src/k2/i_resourcecommon.h
   src/k2/i_resourcelibrary.cpp
   src/k2/i_resourcelibrary.h
   src/k2/i_resourcewatcher2.cpp
