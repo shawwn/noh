@@ -25,6 +25,7 @@ endif()
 
 set(K2_NOVID FALSE CACHE BOOL "Whether to build without graphics dependencies (OpenGL, etc)")
 set(K2_NOSOUND FALSE CACHE BOOL "Whether to build without sound dependencies (FMOD)")
+set(K2_NONVCTRL FALSE CACHE BOOL "Whether to build without libXNVCtrl dependencies")
 
 # C++ 20
 set(CMAKE_CXX_STANDARD 20)
@@ -504,6 +505,9 @@ if(APPLE)
 elseif(LINUX)
   list(APPEND K2_LIBRARIES
     X11)
+  if(K2_NONVCTRL)
+    list(APPEND K2_PUBLIC_DEFINITIONS -DK2_NONVCTRL)
+  endif()
 elseif(WIN32)
   list(APPEND K2_LIBRARIES
     wsock32

@@ -9,7 +9,9 @@
 #include <X11/extensions/Xinerama.h>
 #include <X11/extensions/xf86vmode.h>
 #include <X11/Xcursor/Xcursor.h>
+#ifndef K2_NONVCTRL
 #include "libXNVCtrl/NVCtrlLib.h"
+#endif
 
 #include "../k2/c_draw2d.h"
 #include "../k2/c_cursor.h"
@@ -50,7 +52,11 @@ Atom    XA_UTF8_STRING;
 EXTERN_CVAR_INT(gl_swapInterval);
 CVAR_BOOLF  (gl_debugModes,     false,                  CVAR_SAVECONFIG);
 CVAR_BOOLF  (gl_hardwareCursor, true,                   CVAR_SAVECONFIG);
+#ifndef K2_NONVCTRL
 CVAR_STRINGF(gl_modesetting,    "nvctrl,randr,randr11", CVAR_SAVECONFIG); // would use an ARRAY_CVAR, but it doesn't appear to load modified versions from the config file right
+#else
+CVAR_STRINGF(gl_modesetting,    "randr,randr11",        CVAR_SAVECONFIG); // would use an ARRAY_CVAR, but it doesn't appear to load modified versions from the config file right
+#endif
 
 //=============================================================================
 // handles all glx stuff; uses SGIX extensions for fbconfigs when GLX version is less than 1.3
@@ -350,6 +356,7 @@ public:
 } *g_pDisplayManager(nullptr);
 
 
+#ifndef K2_NONVCTRL
 // XNVCtrl + XRandR 1.1
 class CXNVCtrl : public IDisplayManager
 {
@@ -424,6 +431,7 @@ public:
     virtual void    Reset();
     virtual CRecti  GetDisplayBounds(const tstring &sDisplay);
 };
+#endif
 
 
 static svector Tokenize(const string &sStr, const string &sSeperators)
@@ -441,6 +449,7 @@ static svector Tokenize(const string &sStr, const string &sSeperators)
     return vReturn;
 }
 
+#ifndef K2_NONVCTRL
 string CXNVCtrl::ParseModeLine(const char *szModeLine, SModeLineMode &Mode)
 {
     // Modeline will be in the following format:
@@ -1107,6 +1116,7 @@ CRecti CXNVCtrl::GetDisplayBounds(const tstring &sDisplay)
     
     return CRecti(0, 0, 0, 0);
 }
+#endif // K2_NONVCTRL
 
 
 // XRandR 1.2+
@@ -2711,9 +2721,12 @@ void    GL_InitModesetting()
     {
         try
         {
+#ifndef K2_NONVCTRL
             if (vsModeSettingOrder[i].compare(_T("nvctrl")) == 0)
                 g_pDisplayManager = K2_NEW(global,    CXNVCtrl)(g_pX11Info->dpy);
-            else if (vsModeSettingOrder[i].compare(_T("randr")) == 0)
+            else
+#endif
+            if (vsModeSettingOrder[i].compare(_T("randr")) == 0)
                 g_pDisplayManager = K2_NEW(global,    CXRandR)(g_pX11Info->dpy);
             else if (vsModeSettingOrder[i].compare(_T("randr11")) == 0)
                 g_pDisplayManager = K2_NEW(global,    CXRandR11)(g_pX11Info->dpy);
