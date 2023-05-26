@@ -4,4 +4,4 @@
 * text=auto
 
 # Ensure .idea/shelf/*.xml files are in crlf format
-.idea/shelf/*.xml eol=crlf
+.idea/shelf/*.xml eol=lf
