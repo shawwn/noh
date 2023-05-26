@@ -162,12 +162,14 @@ void    CVid::StartDriver()
 
     m_Driver.Init();
 
-    SVidMode vm;
-    for (int i(0); m_Driver.GetMode(i, &vm); ++i)
     {
-        // Create two cvars, one for each direction
-        ICvar::CreateString(_T("SetVideoMode") + XtoA(i, FMT_PADZERO, 2), vm.sName);
-        ICvar::CreateInt(vm.sName, i);
+        SVidMode vm;
+        for (int i(0); m_Driver.GetMode(i, &vm); ++i)
+        {
+            // Create two cvars, one for each direction
+            ICvar::CreateString(_T("SetVideoMode") + XtoA(i, FMT_PADZERO, 2), vm.sName);
+            ICvar::CreateInt(vm.sName, i);
+        }
     }
 
     for (int i(0); i < NUM_TEXTUREFILTERING_MODES; ++i)
