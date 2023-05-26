@@ -183,7 +183,7 @@ void    CVid::StartDriver()
         // some devices report a refresh rate of 0 under OS X
         || !vid_refreshRate
 #endif
-        )
+            )
     {
         SVidMode vm;
         if (m_Driver.GetMode(0, &vm))
