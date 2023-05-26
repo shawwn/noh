@@ -1,0 +1,309 @@
+Index: src/k2/xtoa.cpp
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>// (C)2005 S2 Games\n// xtoa.cpp\n//\n//=============================================================================\n\n//=============================================================================\n// Headers\n//=============================================================================\n#include \"k2_common.h\"\n\n#include \"xtoa.h\"\n#include \"stringutils.h\"\n\n#include <iostream>\n#include <iomanip>\n\nusing std::ios;\nusing std::setw;\nusing std::setprecision;\nusing std::streamsize;\n//=============================================================================\n\n/*====================\n  FormatInt\n ====================*/\nvoid    FormatInt(ULONGLONG ull, int flags, size_t width, int base, char sign, string &sStr)\n{\n    // Determine sign character, unless it's\n    // already been determined negative\n    if (sign == 0)\n    {\n        if (flags & FMT_SIGN)\n            sign = '+';\n        else if (flags & FMT_PADSIGN)\n            sign = ' ';\n    }\n\n    // Set up Delimeter\n    int dspacing(0);\n    char dchar(0);\n    if (flags & FMT_DELIMIT)\n    {\n        switch (base)\n        {\n        case 2:\n            dchar = ' ';\n            dspacing = 8;\n            break;\n\n        case 10:\n            dchar = ',';\n            dspacing = 3;\n        }\n    }\n\n    // Build the string of digits\n    ULONGLONG n(base);\n    int d(1);\n    do\n    {\n        TCHAR c = TCHAR((ull % n) / (n / base));\n        c += (c > 9) ? ((c > 35) ? ('A' - 36) : ('a' - 10)) : '0';\n        sStr += c;\n        ull -= ull % n;\n        if (dchar != 0 && ull != 0 && d == dspacing)\n        {\n            sStr += dchar;\n            d = 0;\n        }\n        ++d;\n        n *= base;\n    }\n    while (ull);\n\n    int padcount(0);\n\n    // Prefixes\n    char prefix[3] = { 0, 0, 0 };\n    if (!(flags & FMT_NOPREFIX))\n    {\n        if (base == 2)\n        {\n            prefix[0] = 'b';\n            padcount -= 1;\n        }\n        else if (base == 8)\n        {\n            prefix[0] = '0';\n            padcount -= 1;\n        }\n        else if (base == 16)\n        {\n            //backwards, the string will be reversed\n            prefix[0] = 'x';\n            prefix[1] = '0';\n            padcount -= 2;\n        }\n    }\n\n    // Prefix is included before non-zero padding\n    if (prefix[0] && !(flags & FMT_PADZERO))\n    {\n        sStr += prefix;\n        padcount = 0;\n    }\n\n    padcount += int(width) - int(sStr.length()) - ((sign == 0) ? 0 : 1);\n\n    // If padding is space, add sign before padding\n    if (!(flags & FMT_PADZERO) && sign != 0)\n        sStr += sign;\n\n    // Padding\n    char padchar(' ');\n    if (flags & FMT_PADZERO && !(flags & FMT_ALIGNLEFT))\n        padchar = '0';\n    if (padcount < 0)\n        padcount = 0;\n    string padding(padcount, padchar);\n    // special case to delimit leading zeros\n    if (dchar != 0 && padchar == '0')\n    {\n        for (size_t z(0); z < padding.length(); ++z)\n        {\n            if (z == padding.length() - 1)\n                dchar = ' ';    // last delimiter always looks better as a blank\n\n            if (d == dspacing + 1)\n            {\n                padding[z] = dchar;\n                d = 0;\n            }\n            ++d;\n        }\n    }\n    if (!(flags & FMT_ALIGNLEFT))\n        sStr += padding;\n\n    // Add prefix after zero padding\n    if (prefix[0] && (flags & FMT_PADZERO))\n        sStr += prefix;\n\n    // If padding is 0, add sign after the padding\n    if ((flags & FMT_PADZERO) && sign != 0)\n        sStr += sign;\n\n    reverse(sStr.begin(), sStr.end());\n\n    // Left aligned padding\n    if ((flags & FMT_ALIGNLEFT) && padchar != '0')\n        sStr += padding;\n}\n\nvoid    FormatInt(ULONGLONG ull, int flags, size_t width, int base, wchar_t sign, wstring &sStr)\n{\n    // Determine sign character, unless it's\n    // already been determined negative\n    if (sign == 0)\n    {\n        if (flags & FMT_SIGN)\n            sign = L'+';\n        else if (flags & FMT_PADSIGN)\n            sign = L' ';\n    }\n\n    // Set up Delimeter\n    int dspacing(0);\n    wchar_t dchar(0);\n    if (flags & FMT_DELIMIT)\n    {\n        switch (base)\n        {\n        case 2:\n            dchar = L' ';\n            dspacing = 8;\n            break;\n\n        case 10:\n            dchar = L',';\n            dspacing = 3;\n        }\n    }\n\n    // Build the string of digits\n    ULONGLONG n(base);\n    int d(1);\n    do\n    {\n        TCHAR c = TCHAR((ull % n) / (n / base));\n        c += (c > 9) ? ((c > 35) ? (L'A' - 36) : (L'a' - 10)) : L'0';\n        sStr += c;\n        ull -= ull % n;\n        if (dchar != 0 && ull != 0 && d == dspacing)\n        {\n            sStr += dchar;\n            d = 0;\n        }\n        ++d;\n        n *= base;\n    }\n    while (ull);\n\n    int padcount(0);\n\n    // Prefixes\n    wchar_t prefix[3] = { 0, 0, 0 };\n    if (!(flags & FMT_NOPREFIX))\n    {\n        if (base == 2)\n        {\n            prefix[0] = L'b';\n            padcount -= 1;\n        }\n        else if (base == 8)\n        {\n            prefix[0] = L'0';\n            padcount -= 1;\n        }\n        else if (base == 16)\n        {\n            //backwards, the string will be reversed\n            prefix[0] = L'x';\n            prefix[1] = L'0';\n            padcount -= 2;\n        }\n    }\n\n    // Prefix is included before non-zero padding\n    if (prefix[0] && !(flags & FMT_PADZERO))\n    {\n        sStr += prefix;\n        padcount = 0;\n    }\n\n    padcount += int(width) - int(sStr.length()) - ((sign == 0) ? 0 : 1);\n\n    // If padding is space, add sign before padding\n    if (!(flags & FMT_PADZERO) && sign != 0)\n        sStr += sign;\n\n    // Padding\n    wchar_t padchar(L' ');\n    if (flags & FMT_PADZERO && !(flags & FMT_ALIGNLEFT))\n        padchar = L'0';\n    if (padcount < 0)\n        padcount = 0;\n    wstring padding(padcount, padchar);\n    // special case to delimit leading zeros\n    if (dchar != 0 && padchar == L'0')\n    {\n        for (size_t z(0); z < padding.length(); ++z)\n        {\n            if (z == padding.length() - 1)\n                dchar = L' ';   // last delimiter always looks better as a blank\n\n            if (d == dspacing + 1)\n            {\n                padding[z] = dchar;\n                d = 0;\n            }\n            ++d;\n        }\n    }\n    if (!(flags & FMT_ALIGNLEFT))\n        sStr += padding;\n\n    // Add prefix after zero padding\n    if (prefix[0] && (flags & FMT_PADZERO))\n        sStr += prefix;\n\n    // If padding is 0, add sign after the padding\n    if ((flags & FMT_PADZERO) && sign != 0)\n        sStr += sign;\n\n    reverse(sStr.begin(), sStr.end());\n\n    // Left aligned padding\n    if ((flags & FMT_ALIGNLEFT) && padchar != L'0')\n        sStr += padding;\n}\n\n\n/*====================\n  FormatFloat\n ====================*/\nvoid    FormatFloat(double d, int flags, size_t width, int precision, string &sStr)\n{\n#if defined(__APPLE__)\n    // fcvt is buggy when ndigit = 0, so lets just convert this to an int and format it that way\n    if (!precision)\n    {\n        FormatInt((d < 0 ? -d : d), flags, width, 10, (d < 0 ? '-' : 0), sStr);\n        return;\n    }\n#endif\n    // Determine sign character\n    char sign(0);\n    if (d < 0)\n    {\n        sign = '-';\n    }\n    else\n    {\n        if (flags & FMT_SIGN)\n            sign = '+';\n        else if (flags & FMT_PADSIGN)\n            sign = ' ';\n    }\n\n    if (_isnan(d))\n    {\n        sStr += \"#NAN\";\n        return;\n    }\n\n    if (!_finite(d))\n    {\n        sStr += \"#INF\";\n        return;\n    }\n\n    char szBuffer[256];\n    int iDec;\n    int iSign;\n\n#if defined(_WIN32)\n    _fcvt_s(szBuffer, 256, d, precision, &iDec, &iSign);\n#else\n    strncpy(szBuffer, fcvt(d, precision, &iDec, &iSign), 256);\n#endif\n\n    // Set up Delimeter\n    int dspacing(0);\n    char dchar(0);\n    if (flags & FMT_DELIMIT)\n    {\n        dchar = ',';\n        dspacing = 3;\n    }\n\n    // Build the string of digits\n    if (iDec <= 0)\n    {\n        if (iDec < -precision)\n            iDec = -precision;\n\n        sStr += '0';\n        if (precision > 0)\n            sStr += '.';\n        for (int i(iDec); i < 0; ++i)\n            sStr += '0';\n        for (char *sz(szBuffer); *sz; ++sz)\n            sStr += *sz;\n    }\n    else\n    {\n        int i(0);\n\n        for (char *sz(szBuffer); *sz; ++sz, ++i)\n        {\n            if (i == iDec && precision > 0)\n                sStr += '.';\n            if (dchar != 0 && i > 0 && i < iDec && (iDec - i) % dspacing == 0)\n                sStr += dchar;\n            sStr += *sz;\n        }\n    }\n\n    // Create padding\n    char padchar(' ');\n    int padcount(int(width) - ((sign == 0) ? 0 : 1) - (MAX(iDec, 1)) - ((precision > 0) ? 1 : 0) - precision);\n    if (flags & FMT_PADZERO && !(flags & FMT_ALIGNLEFT))\n        padchar = '0';\n    if (padcount < 0)\n        padcount = 0;\n\n    // Assemble the parts\n    if (padcount > 0)\n    {\n        string padding(padcount, padchar);\n\n        if (sign != 0)\n        {\n            if (flags & FMT_ALIGNLEFT)\n            {\n                sStr = sign + sStr + padding;\n            }\n            else\n            {\n                if (padchar == '0')\n                    sStr = sign + padding + sStr;\n                else\n                    sStr = padding + sign + sStr;\n            }\n        }\n        else\n        {\n            if (flags & FMT_ALIGNLEFT)\n                sStr = sStr + padding;\n            else\n                sStr = padding + sStr;\n        }\n    }\n    else\n    {\n        if (sign != 0)\n            sStr = sign + sStr;\n    }\n}\n\nvoid    FormatFloat(double d, int flags, size_t width, int precision, wstring &sStr)\n{\n#if defined(__APPLE__)\n    // fcvt is buggy when ndigit = 0, so lets just convert this to an int and format it that way\n    if (!precision)\n    {\n        FormatInt((d < 0 ? -d : d), flags, width, 10, (d < 0 ? L'-' : 0), sStr);\n        return;\n    }\n#endif\n    if (_isnan(d))\n    {\n        sStr += L\"#NAN\";\n        return;\n    }\n\n    if (!_finite(d))\n    {\n        sStr += L\"#INF\";\n        return;\n    }\n\n    // Determine sign character\n    wchar_t sign(0);\n    if (d < 0)\n    {\n        sign = L'-';\n    }\n    else\n    {\n        if (flags & FMT_SIGN)\n            sign = L'+';\n        else if (flags & FMT_PADSIGN)\n            sign = L' ';\n    }\n\n    char szBuffer[256];\n    wchar_t szBufferW[256];\n    int iDec;\n    int iSign;\n\n#ifdef _WIN32\n    _fcvt_s(szBuffer, 256, d, precision, &iDec, &iSign);\n#else\n    strncpy(szBuffer, fcvt(d, precision, &iDec, &iSign), 256);\n#endif\n    SingleToWide(szBufferW, szBuffer, 256);\n\n    // Set up Delimeter\n    int dspacing(0);\n    wchar_t dchar(0);\n    if (flags & FMT_DELIMIT)\n    {\n        dchar = L',';\n        dspacing = 3;\n    }\n\n    // Build the string of digits\n    if (iDec <= 0)\n    {\n        if (iDec < -precision)\n            iDec = -precision;\n\n        sStr += L'0';\n        if (precision > 0)\n            sStr += L'.';\n        for (int i(iDec); i < 0; ++i)\n            sStr += L'0';\n        for (wchar_t *sz(szBufferW); *sz; ++sz)\n            sStr += *sz;\n    }\n    else\n    {\n        int i(0);\n\n        for (wchar_t *sz(szBufferW); *sz; ++sz, ++i)\n        {\n            if (i == iDec && precision > 0)\n                sStr += L'.';\n            if (dchar != 0 && i > 0 && i < iDec && (iDec - i) % dspacing == 0)\n                sStr += dchar;\n            sStr += *sz;\n        }\n    }\n\n    // Create padding\n    wchar_t padchar(L' ');\n    int padcount(int(width) - ((sign == 0) ? 0 : 1) - (MAX(iDec, 1)) - ((precision > 0) ? 1 : 0) - precision);\n    if (flags & FMT_PADZERO && !(flags & FMT_ALIGNLEFT))\n        padchar = L'0';\n    if (padcount < 0)\n        padcount = 0;\n\n    // Assemble the parts\n    if (padcount > 0)\n    {\n        wstring padding(padcount, padchar);\n\n        if (sign != 0)\n        {\n            if (flags & FMT_ALIGNLEFT)\n            {\n                sStr = sign + sStr + padding;\n            }\n            else\n            {\n                if (padchar == L'0')\n                    sStr = sign + padding + sStr;\n                else\n                    sStr = padding + sign + sStr;\n            }\n        }\n        else\n        {\n            if (flags & FMT_ALIGNLEFT)\n                sStr = sStr + padding;\n            else\n                sStr = padding + sStr;\n        }\n    }\n    else\n    {\n        if (sign != 0)\n            sStr = sign + sStr;\n    }\n}\n\nvoid    FormatFloat(double d, int flags, size_t width, int iMinPrecision, int iMaxPrecision, string &sStr)\n{\n#if defined(__APPLE__)\n    // fcvt is buggy when ndigit = 0, so lets just convert this to an int and format it that way\n    if (!iMaxPrecision)\n    {\n        FormatInt((d < 0 ? -d : d), flags, width, 10, (d < 0 ? '-' : 0), sStr);\n        return;\n    }\n#endif\n    // Determine sign character\n    char sign(0);\n    if (d < 0)\n    {\n        sign = '-';\n    }\n    else\n    {\n        if (flags & FMT_SIGN)\n            sign = '+';\n        else if (flags & FMT_PADSIGN)\n            sign = ' ';\n    }\n\n    if (_isnan(d))\n    {\n        sStr += \"#NAN\";\n        return;\n    }\n\n    if (!_finite(d))\n    {\n        sStr += \"#INF\";\n        return;\n    }\n\n    char szBuffer[256];\n    int iDec;\n    int iSign;\n\n#ifdef _WIN32\n    _fcvt_s(szBuffer, 256, d, iMaxPrecision, &iDec, &iSign);\n#else\n    strncpy(szBuffer, fcvt(d, iMaxPrecision, &iDec, &iSign), 256);\n#endif\n\n    int iLength(int(strlen(szBuffer)));\n\n    // Trim trailing zeros up to min precision\n    while (iLength > iDec && szBuffer[iLength - 1] == '0' && iMaxPrecision > iMinPrecision)\n    {\n        --iLength;\n        --iMaxPrecision;\n    }\n\n    szBuffer[iLength] = '\\0';\n\n    // Set up Delimeter\n    int dspacing(0);\n    char dchar(0);\n    if (flags & FMT_DELIMIT)\n    {\n        dchar = ',';\n        dspacing = 3;\n    }\n\n    // Build the string of digits\n    if (iDec <= 0)\n    {\n        if (iDec < -iMaxPrecision)\n            iDec = -iMaxPrecision;\n\n        sStr += '0';\n        if (iMaxPrecision > 0)\n            sStr += '.';\n        for (int i(iDec); i < 0; ++i)\n            sStr += '0';\n        for (char *sz(szBuffer); *sz; ++sz)\n            sStr += *sz;\n    }\n    else\n    {\n        int i(0);\n\n        for (char *sz(szBuffer); *sz; ++sz, ++i)\n        {\n            if (i == iDec && iMaxPrecision > 0)\n                sStr += '.';\n            if (dchar != 0 && i > 0 && i < iDec && (iDec - i) % dspacing == 0)\n                sStr += dchar;\n            sStr += *sz;\n        }\n    }\n\n    // Create padding\n    char padchar(' ');\n    int padcount(int(width) - ((sign == 0) ? 0 : 1) - (MAX(iDec, 1)) - ((iMaxPrecision > 0) ? 1 : 0) - iMaxPrecision);\n    if (flags & FMT_PADZERO && !(flags & FMT_ALIGNLEFT))\n        padchar = '0';\n    if (padcount < 0)\n        padcount = 0;\n\n    // Assemble the parts\n    if (padcount > 0)\n    {\n        string padding(padcount, padchar);\n\n        if (sign != 0)\n        {\n            if (flags & FMT_ALIGNLEFT)\n            {\n                sStr = sign + sStr + padding;\n            }\n            else\n            {\n                if (padchar == '0')\n                    sStr = sign + padding + sStr;\n                else\n                    sStr = padding + sign + sStr;\n            }\n        }\n        else\n        {\n            if (flags & FMT_ALIGNLEFT)\n                sStr = sStr + padding;\n            else\n                sStr = padding + sStr;\n        }\n    }\n    else\n    {\n        if (sign != 0)\n            sStr = sign + sStr;\n    }\n}\n\nvoid    FormatFloat(double d, int flags, size_t width, int iMinPrecision, int iMaxPrecision, wstring &sStr)\n{\n#if defined(__APPLE__)\n    // fcvt is buggy when ndigit = 0, so lets just convert this to an int and format it that way\n    if (!iMaxPrecision)\n    {\n        FormatInt((d < 0 ? -d : d), flags, width, 10, (d < 0 ? L'-' : 0), sStr);\n        return;\n    }\n#endif\n    // Determine sign character\n    wchar_t sign(0);\n    if (d < 0)\n    {\n        sign = L'-';\n    }\n    else\n    {\n        if (flags & FMT_SIGN)\n            sign = L'+';\n        else if (flags & FMT_PADSIGN)\n            sign = L' ';\n    }\n\n    if (_isnan(d))\n    {\n        sStr += L\"#NAN\";\n        return;\n    }\n\n    if (!_finite(d))\n    {\n        sStr += L\"#INF\";\n        return;\n    }\n\n    char szBuffer[256];\n    wchar_t szBufferW[256];\n    int iDec;\n    int iSign;\n\n#ifdef _WIN32\n    _fcvt_s(szBuffer, 256, d, iMaxPrecision, &iDec, &iSign);\n#else\n    strncpy((char*)szBuffer, fcvt(d, iMaxPrecision, &iDec, &iSign), 256);\n#endif\n    SingleToWide(szBufferW, szBuffer, 256);\n\n    int iLength(int(wcslen(szBufferW)));\n\n    // Trim trailing zeros up to min precision\n    while (iLength > iDec && szBufferW[iLength - 1] == L'0' && iMaxPrecision > iMinPrecision)\n    {\n        --iLength;\n        --iMaxPrecision;\n    }\n\n    szBufferW[iLength] = L'\\0';\n\n    // Set up Delimeter\n    int dspacing(0);\n    wchar_t dchar(0);\n    if (flags & FMT_DELIMIT)\n    {\n        dchar = L',';\n        dspacing = 3;\n    }\n\n    // Build the string of digits\n    if (iDec <= 0)\n    {\n        if (iDec < -iMaxPrecision)\n            iDec = -iMaxPrecision;\n\n        sStr += L'0';\n        if (iMaxPrecision > 0)\n            sStr += L'.';\n        for (int i(iDec); i < 0; ++i)\n            sStr += L'0';\n        for (wchar_t *sz(szBufferW); *sz; ++sz)\n            sStr += *sz;\n    }\n    else\n    {\n        int i(0);\n\n        for (wchar_t *sz(szBufferW); *sz; ++sz, ++i)\n        {\n            if (i == iDec && iMaxPrecision > 0)\n                sStr += L'.';\n            if (dchar != 0 && i > 0 && i < iDec && (iDec - i) % dspacing == 0)\n                sStr += dchar;\n            sStr += *sz;\n        }\n    }\n\n    // Create padding\n    wchar_t padchar(L' ');\n    int padcount(int(width) - ((sign == 0) ? 0 : 1) - (MAX(iDec, 1)) - ((iMaxPrecision > 0) ? 1 : 0) - iMaxPrecision);\n    if (flags & FMT_PADZERO && !(flags & FMT_ALIGNLEFT))\n        padchar = L'0';\n    if (padcount < 0)\n        padcount = 0;\n\n    // Assemble the parts\n    if (padcount > 0)\n    {\n        wstring padding(padcount, padchar);\n\n        if (sign != 0)\n        {\n            if (flags & FMT_ALIGNLEFT)\n            {\n                sStr = sign + sStr + padding;\n            }\n            else\n            {\n                if (padchar == L'0')\n                    sStr = sign + padding + sStr;\n                else\n                    sStr = padding + sign + sStr;\n            }\n        }\n        else\n        {\n            if (flags & FMT_ALIGNLEFT)\n                sStr = sStr + padding;\n            else\n                sStr = padding + sStr;\n        }\n    }\n    else\n    {\n        if (sign != 0)\n            sStr = sign + sStr;\n    }\n}\n\n\n/*====================\n  XtoA\n ====================*/\nwstring XtoW(const CVec2f &vec, int flags, int width, int precision)\n{\n    wstring sX, sY;\n\n    FormatFloat(vec.x, flags, 0, precision, sX);\n    FormatFloat(vec.y, flags, 0, precision, sY);\n\n    wstring str(sX + L\" \" + sY);\n\n    return XtoW(str, flags, width);\n}\n\nwstring XtoW(const CVec3f &vec, int flags, int width, int precision)\n{\n    wstring sX, sY, sZ;\n\n    FormatFloat(vec.x, flags, 0, precision, sX);\n    FormatFloat(vec.y, flags, 0, precision, sY);\n    FormatFloat(vec.z, flags, 0, precision, sZ);\n\n    wstring str(sX + L\" \" + sY + L\" \" + sZ);\n\n    return XtoW(str, flags, width);\n}\n\nwstring XtoW(const CVec3<double> &vec, int flags, int width, int precision)\n{\n    wstring sX, sY, sZ;\n\n    FormatFloat(vec.x, flags, 0, precision, sX);\n    FormatFloat(vec.y, flags, 0, precision, sY);\n    FormatFloat(vec.z, flags, 0, precision, sZ);\n\n    wstring str(sX + L\" \" + sY + L\" \" + sZ);\n\n    return XtoW(str, flags, width);\n}\n\nwstring XtoW(const CVec4f &v4, int flags, int width, int precision)\n{\n    wstring sX, sY, sZ, sW;\n\n    FormatFloat(v4.x, flags, 0, precision, sX);\n    FormatFloat(v4.y, flags, 0, precision, sY);\n    FormatFloat(v4.z, flags, 0, precision, sZ);\n    FormatFloat(v4.w, flags, 0, precision, sW);\n\n    wstring str(sX + L\" \" + sY + L\" \" + sZ + L\" \" + sW);\n\n    return XtoW(str, flags, width);\n}\n\nstring  XtoS(const CVec2f &vec, int flags, int width, int precision)\n{\n    string sX, sY;\n\n    FormatFloat(vec.x, flags, 0, precision, sX);\n    FormatFloat(vec.y, flags, 0, precision, sY);\n\n    string str(sX + \" \" + sY);\n\n    return XtoS(str, flags, width);\n}\n\nstring  XtoS(const CVec3f &vec, int flags, int width, int precision)\n{\n    string sX, sY, sZ;\n\n    FormatFloat(vec.x, flags, 0, precision, sX);\n    FormatFloat(vec.y, flags, 0, precision, sY);\n    FormatFloat(vec.z, flags, 0, precision, sZ);\n\n    string str(sX + \" \" + sY + \" \" + sZ);\n\n    return XtoS(str, flags, width);\n}\n\nstring  XtoS(const CVec3<double> &vec, int flags, int width, int precision)\n{\n    string sX, sY, sZ;\n\n    FormatFloat(vec.x, flags, 0, precision, sX);\n    FormatFloat(vec.y, flags, 0, precision, sY);\n    FormatFloat(vec.z, flags, 0, precision, sZ);\n\n    string str(sX + \" \" + sY + \" \" + sZ);\n\n    return XtoS(str, flags, width);\n}\n\nstring  XtoS(const CVec4f &v4, int flags, int width, int precision)\n{\n    string sX, sY, sZ, sW;\n\n    FormatFloat(v4.x, flags, 0, precision, sX);\n    FormatFloat(v4.y, flags, 0, precision, sY);\n    FormatFloat(v4.z, flags, 0, precision, sZ);\n    FormatFloat(v4.w, flags, 0, precision, sW);\n\n    string str(sX + \" \" + sY + \" \" + sZ + \" \" + sW);\n\n    return XtoS(str, flags, width);\n}\n\nwstring XtoW(const wstring &s, int flags, size_t width)\n{\n    if (s.length() >= width)\n        return s;\n\n    if (flags & FMT_ALIGNLEFT)\n        return s + wstring(width - s.length(), L' ');\n    else\n        return wstring(width - s.length(), L' ') + s;\n}\n\nstring XtoS(const string &s, int flags, size_t width)\n{\n    if (s.length() >= width)\n        return s;\n\n    if (flags & FMT_ALIGNLEFT)\n        return s + string(width - s.length(), ' ');\n    else\n        return string(width - s.length(), ' ') + s;\n}\n\n\n/*====================\n  AtoX\n ====================*/\nCVec2f& AtoX(const tstring &s, CVec2f &v2)\n{\n    const tsvector &vComponents = TokenizeString(s, _T(' '));\n    float   x, y;\n    if (vComponents.size() < 2)\n    {\n        x = y = 0.0f;\n    }\n    else\n    {\n        AtoX(vComponents[0], x);\n        AtoX(vComponents[1], y);\n    }\n    v2.Set(x, y);\n    return v2;\n}\n\nCVec3f& AtoX(const tstring &s, CVec3f &v3)\n{\n    const tsvector &vComponents = TokenizeString(s, _T(' '));\n    float   x, y, z;\n    if (vComponents.size() < 3)\n    {\n        x = y = z = 0.0f;\n    }\n    else\n    {\n        AtoX(vComponents[0], x);\n        AtoX(vComponents[1], y);\n        AtoX(vComponents[2], z);\n    }\n    v3.Set(x, y, z);\n    return v3;\n}\n\nCVec4f& AtoX(const tstring &s, CVec4f &v4)\n{\n    const tsvector &vComponents = TokenizeString(s, _T(' '));\n    float   x, y, z, w;\n    if (vComponents.size() < 4)\n    {\n        x = y = z = w = 0.0f;\n    }\n    else\n    {\n        AtoX(vComponents[0], x);\n        AtoX(vComponents[1], y);\n        AtoX(vComponents[2], z);\n        AtoX(vComponents[3], w);\n    }\n    v4.Set(x, y, z, w);\n    return v4;\n}\n\n\n/*====================\n  AtoV2\n ====================*/\nK2_API CVec2f   AtoV2(const tstring &s)\n{\n    CVec2f vRet;\n\n    _STSCANF_S_BEGIN(s.c_str(), _T(\"%f %f\"))\n        &vRet.x, &vRet.y\n    _STSCANF_S_END;\n\n    return vRet;\n}\n\n\n/*====================\n  AtoV3\n ====================*/\nK2_API CVec3f   AtoV3(const tstring &s)\n{\n    CVec3f vRet;\n\n    int iFields(_STSCANF_S_BEGIN(s.c_str(), _T(\"%f %f %f\"))\n        &vRet.x, &vRet.y, &vRet.z\n    _STSCANF_S_END);\n\n    if (iFields == 1)\n        vRet.z = vRet.y = vRet.x;\n\n    return vRet;\n}\n\n\n/*====================\n  AtoV4\n ====================*/\nCVec4f  AtoV4(const tstring &s)\n{\n    CVec4f vRet;\n\n    _STSCANF_S_BEGIN(s.c_str(), _T(\"%f %f %f %f\"))\n        &vRet.x, &vRet.y, &vRet.z, &vRet.w\n    _STSCANF_S_END;\n\n    return vRet;\n}\n\n\n/*====================\n  PtoI\n  ====================*/\nint     PtoI(const tstring &s)\n{\n    if (s[s.length() - 1] != _T('%'))\n        return 0;\n\n    int iRet(AtoI(s.substr(0, s.length() - 1)));\n    CLAMP(iRet, 0, 100);\n    return iRet;\n}\n\n\n/*====================\n  PtoF\n  ====================*/\nfloat   PtoF(const tstring &s)\n{\n    if (s[s.length() - 1] != _T('%'))\n        return 0.0f;\n\n    float fRet(AtoF(s.substr(0, s.length() - 1)));\n    return fRet;\n}\n\n\n/*====================\n  P2toF\n  ====================*/\nfloat   P2toF(const tstring &s)\n{\n    if (s[s.length() - 1] != _T('@'))\n        return 0.0f;\n\n    float fRet(AtoF(s.substr(0, s.length() - 1)));\n    return fRet;\n}\n\n\n/*====================\n  BytesToHexString\n  ====================*/\ntstring         BytesToHexString(const byte* pData, size_t uiLen)\n{\n    // https://stackoverflow.com/questions/14050452/how-to-convert-byte-array-to-hex-string-in-visual-c\n    std::stringstream ss;\n    ss << std::hex;\n\n    for( size_t i(0) ; i < uiLen; ++i ) {\n        ss << std::setw(2) << std::setfill('0') << (int)pData[i];\n    }\n\n    return StringToTString(ss.str());\n}\n\n/*====================\n  HexStringToBytes\n  ====================*/\nvector<byte>    HexStringToBytes(const tstring& sData)\n{\n    // https://stackoverflow.com/questions/17261798/converting-a-hex-string-to-a-byte-array\n    std::stringstream ss;\n    ss << TStringToUTF8(sData);\n\n    std::vector<byte> resBytes;\n    size_t count = 0;\n    const auto len = sData.size();\n    while(ss.good() && count < len)\n    {\n        unsigned short num;\n        char hexNum[2];\n        ss.read(hexNum, 2);\n        sscanf(hexNum, \"%2hX\", &num);\n        assert(num >= 0 && num <= 255);\n        resBytes.push_back(static_cast<byte>(num));\n        count += 2;\n    }\n    return resBytes;\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/k2/xtoa.cpp b/src/k2/xtoa.cpp
+--- a/src/k2/xtoa.cpp	(revision cc0db3d5a5b841c7373406d703d64d21d2f4ba82)
++++ b/src/k2/xtoa.cpp	(date 1685014604627)
+@@ -280,6 +280,144 @@
+ }
+ 
+ 
++void    FormatFloat(double d, int flags, size_t width, int iMinPrecision, int iMaxPrecision, wstring &sStr)
++{
++#if defined(__APPLE__)
++    // fcvt is buggy when ndigit = 0, so lets just convert this to an int and format it that way
++    if (iMaxPrecision <= 0)
++    {
++        FormatInt(ULONGLONG(d < 0 ? -d : d), flags, width, 10, (d < 0 ? L'-' : 0), sStr);
++        return;
++    }
++#endif
++    // Determine sign character
++    wchar_t sign(0);
++    if (d < 0)
++    {
++        sign = L'-';
++    }
++    else
++    {
++        if (flags & FMT_SIGN)
++            sign = L'+';
++        else if (flags & FMT_PADSIGN)
++            sign = L' ';
++    }
++
++    if (_isnan(d))
++    {
++        sStr += L"#NAN";
++        return;
++    }
++
++    if (!_finite(d))
++    {
++        sStr += L"#INF";
++        return;
++    }
++
++    char szBuffer[256];
++    wchar_t szBufferW[256];
++    int iDec;
++    int iSign;
++
++#ifdef _WIN32
++    _fcvt_s(szBuffer, 256, d, iMaxPrecision, &iDec, &iSign);
++#else
++    strncpy((char*)szBuffer, fcvt(d, iMaxPrecision, &iDec, &iSign), 256);
++#endif
++    SingleToWide(szBufferW, szBuffer, 256);
++
++    int iLength(int(wcslen(szBufferW)));
++
++    // Trim trailing zeros up to min precision
++    while (iLength > iDec && szBufferW[iLength - 1] == L'0' && iMaxPrecision > iMinPrecision)
++    {
++        --iLength;
++        --iMaxPrecision;
++    }
++
++    szBufferW[iLength] = L'\0';
++
++    // Set up Delimeter
++    int dspacing(0);
++    wchar_t dchar(0);
++    if (flags & FMT_DELIMIT)
++    {
++        dchar = L',';
++        dspacing = 3;
++    }
++
++    // Build the string of digits
++    if (iDec <= 0)
++    {
++        if (iDec < -iMaxPrecision)
++            iDec = -iMaxPrecision;
++
++        sStr += L'0';
++        if (iMaxPrecision > 0)
++            sStr += L'.';
++        for (int i(iDec); i < 0; ++i)
++            sStr += L'0';
++        for (wchar_t *sz(szBufferW); *sz; ++sz)
++            sStr += *sz;
++    }
++    else
++    {
++        int i(0);
++
++        for (wchar_t *sz(szBufferW); *sz; ++sz, ++i)
++        {
++            if (i == iDec && iMaxPrecision > 0)
++                sStr += L'.';
++            if (dchar != 0 && i > 0 && i < iDec && (iDec - i) % dspacing == 0)
++                sStr += dchar;
++            sStr += *sz;
++        }
++    }
++
++    // Create padding
++    wchar_t padchar(L' ');
++    int padcount(int(width) - ((sign == 0) ? 0 : 1) - (MAX(iDec, 1)) - ((iMaxPrecision > 0) ? 1 : 0) - iMaxPrecision);
++    if (flags & FMT_PADZERO && !(flags & FMT_ALIGNLEFT))
++        padchar = L'0';
++    if (padcount < 0)
++        padcount = 0;
++
++    // Assemble the parts
++    if (padcount > 0)
++    {
++        wstring padding(padcount, padchar);
++
++        if (sign != 0)
++        {
++            if (flags & FMT_ALIGNLEFT)
++            {
++                sStr = sign + sStr + padding;
++            }
++            else
++            {
++                if (padchar == L'0')
++                    sStr = sign + padding + sStr;
++                else
++                    sStr = padding + sign + sStr;
++            }
++        }
++        else
++        {
++            if (flags & FMT_ALIGNLEFT)
++                sStr = sStr + padding;
++            else
++                sStr = padding + sStr;
++        }
++    }
++    else
++    {
++        if (sign != 0)
++            sStr = sign + sStr;
++    }
++}
++
+ /*====================
+   FormatFloat
+  ====================*/
+@@ -414,7 +552,7 @@
+     // fcvt is buggy when ndigit = 0, so lets just convert this to an int and format it that way
+     if (!precision)
+     {
+-        FormatInt((d < 0 ? -d : d), flags, width, 10, (d < 0 ? L'-' : 0), sStr);
++        FormatInt(ULONGLONG(d < 0 ? -d : d), flags, width, 10, (d < 0 ? L'-' : 0), sStr);
+         return;
+     }
+ #endif
+@@ -670,144 +808,6 @@
+             sStr = sign + sStr;
+     }
+ }
+-
+-void    FormatFloat(double d, int flags, size_t width, int iMinPrecision, int iMaxPrecision, wstring &sStr)
+-{
+-#if defined(__APPLE__)
+-    // fcvt is buggy when ndigit = 0, so lets just convert this to an int and format it that way
+-    if (!iMaxPrecision)
+-    {
+-        FormatInt((d < 0 ? -d : d), flags, width, 10, (d < 0 ? L'-' : 0), sStr);
+-        return;
+-    }
+-#endif
+-    // Determine sign character
+-    wchar_t sign(0);
+-    if (d < 0)
+-    {
+-        sign = L'-';
+-    }
+-    else
+-    {
+-        if (flags & FMT_SIGN)
+-            sign = L'+';
+-        else if (flags & FMT_PADSIGN)
+-            sign = L' ';
+-    }
+-
+-    if (_isnan(d))
+-    {
+-        sStr += L"#NAN";
+-        return;
+-    }
+-
+-    if (!_finite(d))
+-    {
+-        sStr += L"#INF";
+-        return;
+-    }
+-
+-    char szBuffer[256];
+-    wchar_t szBufferW[256];
+-    int iDec;
+-    int iSign;
+-
+-#ifdef _WIN32
+-    _fcvt_s(szBuffer, 256, d, iMaxPrecision, &iDec, &iSign);
+-#else
+-    strncpy((char*)szBuffer, fcvt(d, iMaxPrecision, &iDec, &iSign), 256);
+-#endif
+-    SingleToWide(szBufferW, szBuffer, 256);
+-
+-    int iLength(int(wcslen(szBufferW)));
+-
+-    // Trim trailing zeros up to min precision
+-    while (iLength > iDec && szBufferW[iLength - 1] == L'0' && iMaxPrecision > iMinPrecision)
+-    {
+-        --iLength;
+-        --iMaxPrecision;
+-    }
+-
+-    szBufferW[iLength] = L'\0';
+-
+-    // Set up Delimeter
+-    int dspacing(0);
+-    wchar_t dchar(0);
+-    if (flags & FMT_DELIMIT)
+-    {
+-        dchar = L',';
+-        dspacing = 3;
+-    }
+-
+-    // Build the string of digits
+-    if (iDec <= 0)
+-    {
+-        if (iDec < -iMaxPrecision)
+-            iDec = -iMaxPrecision;
+-
+-        sStr += L'0';
+-        if (iMaxPrecision > 0)
+-            sStr += L'.';
+-        for (int i(iDec); i < 0; ++i)
+-            sStr += L'0';
+-        for (wchar_t *sz(szBufferW); *sz; ++sz)
+-            sStr += *sz;
+-    }
+-    else
+-    {
+-        int i(0);
+-
+-        for (wchar_t *sz(szBufferW); *sz; ++sz, ++i)
+-        {
+-            if (i == iDec && iMaxPrecision > 0)
+-                sStr += L'.';
+-            if (dchar != 0 && i > 0 && i < iDec && (iDec - i) % dspacing == 0)
+-                sStr += dchar;
+-            sStr += *sz;
+-        }
+-    }
+-
+-    // Create padding
+-    wchar_t padchar(L' ');
+-    int padcount(int(width) - ((sign == 0) ? 0 : 1) - (MAX(iDec, 1)) - ((iMaxPrecision > 0) ? 1 : 0) - iMaxPrecision);
+-    if (flags & FMT_PADZERO && !(flags & FMT_ALIGNLEFT))
+-        padchar = L'0';
+-    if (padcount < 0)
+-        padcount = 0;
+-
+-    // Assemble the parts
+-    if (padcount > 0)
+-    {
+-        wstring padding(padcount, padchar);
+-
+-        if (sign != 0)
+-        {
+-            if (flags & FMT_ALIGNLEFT)
+-            {
+-                sStr = sign + sStr + padding;
+-            }
+-            else
+-            {
+-                if (padchar == L'0')
+-                    sStr = sign + padding + sStr;
+-                else
+-                    sStr = padding + sign + sStr;
+-            }
+-        }
+-        else
+-        {
+-            if (flags & FMT_ALIGNLEFT)
+-                sStr = sStr + padding;
+-            else
+-                sStr = padding + sStr;
+-        }
+-    }
+-    else
+-    {
+-        if (sign != 0)
+-            sStr = sign + sStr;
+-    }
+-}
+ 
+ 
+ /*====================
