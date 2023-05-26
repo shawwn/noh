@@ -806,8 +806,8 @@ void    IResourceLibrary::RemoveResourceWatcher(IResourceWatcher* pWatcher, ResH
 
     setWatchers.erase(pWatcher);
 
-    assert(pWatcher->HasAddedWatcher());
-    pWatcher->ClearHasAddedWatcher();
+    assert(pWatcher->HasAddedWatcher(hUnregisterFrom));
+    pWatcher->ClearHasAddedWatcher(hUnregisterFrom);
 
     if (setWatchers.empty())
         m_mapWatchers.erase(itFind);
@@ -849,12 +849,12 @@ void    IResourceLibrary::AddResourceWatcher(IResourceWatcher* pWatcher, ResHand
         return;
 
     // verify that the dependent hasn't already added a watcher.
-    assert(!pWatcher->HasAddedWatcher());
-    if (pWatcher->HasAddedWatcher())
+    assert(!pWatcher->HasAddedWatcher(hRegisterWith));
+    if (pWatcher->HasAddedWatcher(hRegisterWith))
         Console.Err << _T("PROGRAMMER ERROR: IResourceWatcher has added multiple watchers!") << newl;
 
     // register the watcher.
-    pWatcher->MarkHasAddedWatcher();
+    pWatcher->MarkHasAddedWatcher(hRegisterWith);
     setWatchers.insert(pWatcher);
 }
 

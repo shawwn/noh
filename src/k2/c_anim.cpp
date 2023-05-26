@@ -22,8 +22,6 @@
 CAnim::~CAnim()
 {
     K2_DELETE_ARRAY(m_ppMotions);
-
-    g_ResourceManager.RemoveResourceWatcher(this, m_hClip);
 }
 
 

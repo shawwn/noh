@@ -1180,6 +1180,8 @@ set(K2_SOURCES
   src/k2/i_resource.h
   src/k2/i_resourcelibrary.cpp
   src/k2/i_resourcelibrary.h
+  src/k2/i_resourcewatcher2.cpp
+  src/k2/i_resourcewatcher2.h
   src/k2/i_snapshot.cpp
   src/k2/i_snapshot.h
   src/k2/i_tag.cpp

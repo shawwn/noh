@@ -97,8 +97,6 @@ CSkeleton::~CSkeleton()
     }
 
     SkeletonBonePool.Deallocate(cBoneData);
-
-    g_ResourceManager.RemoveResourceWatcher(this, m_hModel);
 }
 
 

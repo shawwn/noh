@@ -39,8 +39,6 @@ CEffectThread::~CEffectThread()
     for (EffectCmdBuffer::iterator itCmd(m_vCmdBuffer.begin()); itCmd != m_vCmdBuffer.end(); ++itCmd)
         K2_DELETE(*itCmd);
 
-    g_ResourceManager.RemoveResourceWatcher(this, m_hEffect);
-
     if (m_uiStartTime != 0xffffffff)
         --efx_activeThreads;
 }
