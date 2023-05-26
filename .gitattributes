@@ -1,0 +1,7 @@
+# https://stackoverflow.com/questions/20496084/git-status-ignore-line-endings-identical-files-windows-linux-environment
+
+# Set the default behavior for all files.
+* text=auto
+
+# Ensure .idea/shelf/*.xml files are in crlf format
+.idea/shelf/*.xml eol=crlf
