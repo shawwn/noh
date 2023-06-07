@@ -25,7 +25,6 @@ protected:
     CRectf      m_rectLabelConstraints;
     ResHandle   m_hFontMap;
     int         m_iDrawFlags;
-    bool        m_bElipse;
     bool        m_bShadow;
     bool        m_bWrap;
     bool        m_bLineRet;
