@@ -161,17 +161,17 @@ tstring CFileArchive::ReadLine()
     if (m_iMode & FILE_WRITE)
     {
         Console.Warn << _T("Cannot read from WRITE file ") << m_sPath << newl;
-        return 0;
+        return TSNULL;
     }
 
     if (m_iMode & FILE_BINARY)
     {
         Console.Warn << _T("Cannot ReadLine from BINARY file ") << m_sPath << newl;
-        return 0;
+        return TSNULL;
     }
 
     if (m_bEOF)
-        return 0;
+        return TSNULL;
 
     tstring sReturn;
     do

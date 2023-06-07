@@ -254,7 +254,7 @@ void    CUpdater::GenerateUpdate(bool bResourceFilesOnly)
     Host.GetHTTPManager()->ReleaseRequest(pRequest);
     if (response.GetVar(_T("error")) != nullptr)
     {
-        Console << _T("[Update Generation] Error: ") << response.GetVar(_T("error"))->GetString(0) << newl;
+        Console << _T("[Update Generation] Error: ") << response.GetVar(_T("error"))->GetString() << newl;
         return;
     }
 
@@ -992,7 +992,7 @@ void    CUpdater::UploadUpdate(const tstring &sAddress, const tstring &sUser, co
     Host.GetHTTPManager()->ReleaseRequest(pRequest);
     if (response.GetVar(_T("error")) != nullptr)
     {
-        Console << _T("[Update Generation] Error: ") << response.GetVar(_T("error"))->GetString(0) << newl;
+        Console << _T("[Update Generation] Error: ") << response.GetVar(_T("error"))->GetString() << newl;
         return;
     }
 
@@ -1370,7 +1370,7 @@ void    CUpdater::UploadPrevious(const tstring &sAddress, const tstring &sUser, 
 
     if (response.GetVar(_T("error")) != nullptr)
     {
-        Console << _T("[Update Generation] Error: ") << response.GetVar(_T("error"))->GetString(0) << newl;
+        Console << _T("[Update Generation] Error: ") << response.GetVar(_T("error"))->GetString() << newl;
         return;
     }
 

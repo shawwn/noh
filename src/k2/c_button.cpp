@@ -487,7 +487,7 @@ UI_VOID_CMD(SetButtonState, 1)
 UI_CMD(GetButtonState, 0)
 {
     if (pThis->GetType() != WIDGET_BUTTON)
-        return 0;
+        return XtoA(0);
 
     return XtoA(static_cast<CButton*>(pThis)->GetState());
 }

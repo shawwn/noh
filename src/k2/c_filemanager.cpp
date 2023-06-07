@@ -949,7 +949,7 @@ tstring CFileManager::FindFilePath(const tstring &sFilename, int iMode, const ts
     try
     {
         if (sPath.empty())
-            return nullptr;
+            return TSNULL;
 
         EFileType eType(FILE_INVALID);
 

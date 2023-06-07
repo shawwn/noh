@@ -850,7 +850,7 @@ void    CChatManager::ProcessAddBuddyLookupIDSuccess(SChatDBRequest *pRequest)
         if (!phpResponse.GetString(_T("error")).empty())
             AddIRCChatMessage(CHAT_MESSAGE_ADD, Translate(_T("chat_failed_buddy_add_reason"), _T("target"), pRequest->sTarget, _T("reason"), phpResponse.GetString(_T("error"))));
         else if (phpResponse.GetVar(_T("error")) != nullptr)
-            AddIRCChatMessage(CHAT_MESSAGE_ADD, Translate(_T("chat_failed_buddy_add_reason"), _T("target"), pRequest->sTarget, _T("reason"), phpResponse.GetVar(_T("error"))->GetString(0)));
+            AddIRCChatMessage(CHAT_MESSAGE_ADD, Translate(_T("chat_failed_buddy_add_reason"), _T("target"), pRequest->sTarget, _T("reason"), phpResponse.GetVar(_T("error"))->GetString()));
         else
             AddIRCChatMessage(CHAT_MESSAGE_ADD, Translate(_T("chat_failed_buddy_add"), _T("target"), pRequest->sTarget));
     }
@@ -887,7 +887,7 @@ void    CChatManager::ProcessAddBuddySuccess(SChatDBRequest *pRequest)
         if (!phpResponse.GetString(_T("error")).empty())
             AddIRCChatMessage(CHAT_MESSAGE_ADD, Translate(_T("chat_failed_buddy_add_reason"), _T("target"), pRequest->sTarget, _T("reason"), phpResponse.GetString(_T("error"))));
         else if (phpResponse.GetVar(_T("error")) != nullptr)
-            AddIRCChatMessage(CHAT_MESSAGE_ADD, Translate(_T("chat_failed_buddy_add_reason"), _T("target"), pRequest->sTarget, _T("reason"), phpResponse.GetVar(_T("error"))->GetString(0)));
+            AddIRCChatMessage(CHAT_MESSAGE_ADD, Translate(_T("chat_failed_buddy_add_reason"), _T("target"), pRequest->sTarget, _T("reason"), phpResponse.GetVar(_T("error"))->GetString()));
         else
             AddIRCChatMessage(CHAT_MESSAGE_ADD, Translate(_T("chat_failed_buddy_add"), _T("target"), pRequest->sTarget));
     }
@@ -1134,7 +1134,7 @@ void    CChatManager::ProcessBanLookupIDSuccess(SChatDBRequest *pRequest)
         if (!phpResponse.GetString(_T("error")).empty())
             AddIRCChatMessage(CHAT_MESSAGE_ADD, Translate(_T("chat_failed_banlist_add_reason"), _T("target"), pRequest->sTarget, _T("reason"), phpResponse.GetString(_T("error"))));
         else if (phpResponse.GetVar(_T("error")) != nullptr)
-            AddIRCChatMessage(CHAT_MESSAGE_ADD, Translate(_T("chat_failed_banlist_add_reason"), _T("target"), pRequest->sTarget, _T("reason"), phpResponse.GetVar(_T("error"))->GetString(0)));
+            AddIRCChatMessage(CHAT_MESSAGE_ADD, Translate(_T("chat_failed_banlist_add_reason"), _T("target"), pRequest->sTarget, _T("reason"), phpResponse.GetVar(_T("error"))->GetString()));
         else
             AddIRCChatMessage(CHAT_MESSAGE_ADD, Translate(_T("chat_failed_banlist_add"), _T("target"), pRequest->sTarget));
     }
@@ -1158,7 +1158,7 @@ void    CChatManager::ProcessAddBanSuccess(SChatDBRequest *pRequest)
         if (!phpResponse.GetString(_T("error")).empty())
             AddIRCChatMessage(CHAT_MESSAGE_ADD, Translate(_T("chat_failed_banlist_add_reason"), _T("target"), pRequest->sTarget, _T("reason"), phpResponse.GetString(_T("error"))));
         else if (phpResponse.GetVar(_T("error")) != nullptr)
-            AddIRCChatMessage(CHAT_MESSAGE_ADD, Translate(_T("chat_failed_banlist_add_reason"), _T("target"), pRequest->sTarget, _T("reason"), phpResponse.GetVar(_T("error"))->GetString(0)));
+            AddIRCChatMessage(CHAT_MESSAGE_ADD, Translate(_T("chat_failed_banlist_add_reason"), _T("target"), pRequest->sTarget, _T("reason"), phpResponse.GetVar(_T("error"))->GetString()));
     }
 }
 
@@ -1214,7 +1214,7 @@ void    CChatManager::ProcessIgnoreLookupIDSuccess(SChatDBRequest *pRequest)
         if (!phpResponse.GetString(_T("error")).empty())
             AddIRCChatMessage(CHAT_MESSAGE_ADD, Translate(_T("chat_failed_ignore_add_reason"), _T("target"), pRequest->sTarget, _T("reason"), phpResponse.GetString(_T("error"))));
         else if (phpResponse.GetVar(_T("error")) != nullptr)
-            AddIRCChatMessage(CHAT_MESSAGE_ADD, Translate(_T("chat_failed_ignore_add_reason"), _T("target"), pRequest->sTarget, _T("reason"), phpResponse.GetVar(_T("error"))->GetString(0)));
+            AddIRCChatMessage(CHAT_MESSAGE_ADD, Translate(_T("chat_failed_ignore_add_reason"), _T("target"), pRequest->sTarget, _T("reason"), phpResponse.GetVar(_T("error"))->GetString()));
         else
             AddIRCChatMessage(CHAT_MESSAGE_ADD, Translate(_T("chat_failed_ignore_add"), _T("target"), pRequest->sTarget));
     }
@@ -1239,7 +1239,7 @@ void    CChatManager::ProcessIgnoreAddSuccess(SChatDBRequest *pRequest)
         if (!phpResponse.GetString(_T("error")).empty())
             AddIRCChatMessage(CHAT_MESSAGE_ADD, Translate(_T("chat_failed_ignore_add_reason"), _T("target"), pRequest->sTarget, _T("reason"), phpResponse.GetString(_T("error"))));
         else if (phpResponse.GetVar(_T("error")) != nullptr)
-            AddIRCChatMessage(CHAT_MESSAGE_ADD, Translate(_T("chat_failed_ignore_add_reason"), _T("target"), pRequest->sTarget, _T("reason"), phpResponse.GetVar(_T("error"))->GetString(0)));
+            AddIRCChatMessage(CHAT_MESSAGE_ADD, Translate(_T("chat_failed_ignore_add_reason"), _T("target"), pRequest->sTarget, _T("reason"), phpResponse.GetVar(_T("error"))->GetString()));
     }
 }
 
