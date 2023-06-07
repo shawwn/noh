@@ -722,7 +722,7 @@ void    CHostServer::ProcessManagerPacket(CPacket &pkt)
     switch (cmd)
     {
     case NETCMD_MANAGER_SLEEP:
-        Host.SetSleeping(true);
+        Host.SetSleeping(true, 25);
         m_uiNextHeartbeat = 0;
         bProcessed = true;
 #ifndef K2_CLIENT

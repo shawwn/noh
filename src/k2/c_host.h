@@ -206,6 +206,7 @@ public:
 
     bool                    IsSleeping() const                  { return m_bSleeping; }
     void                    SetSleeping(bool bSleeping)         { m_bSleeping = bSleeping; }
+    K2_API void             SetSleeping(bool bSleeping, int iSleepMS);
 
     void                    SetNoConfig(bool bNoConfig)         { m_bNoConfig = bNoConfig; }
 

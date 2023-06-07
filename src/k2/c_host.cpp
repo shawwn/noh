@@ -53,12 +53,14 @@ extern IResourceLibrary g_ResLibFontMap;
 //=============================================================================
 // Definitions
 //=============================================================================
-CVAR_BOOL       (host_sleep,                    false);
+CVAR_BOOL       (host_yield,                    false);
 #ifdef _WIN32
-CVAR_INT        (host_sleepMS,                  1);
+CVAR_INT        (host_yieldMS,                  1);
 #else
-CVAR_INT        (host_sleepMS,                  0);
+CVAR_INT        (host_yieldMS,                  0);
 #endif
+CVAR_BOOL       (host_sleep,                    false);
+CVAR_INTF       (host_sleepMS,                  200,        CVAR_SAVECONFIG);
 CVAR_BOOLF      (host_dynamicResReload,         true,       CVAR_SAVECONFIG);
 CVAR_STRINGF    (host_date,                     "",         CVAR_READONLY);
 CVAR_STRINGF    (host_time,                     "",         CVAR_READONLY);
@@ -958,19 +960,21 @@ void    CHost::Execute()
             uint uiFrameMS(SecToMs(1.0f / host_maxFPS));
 
             // Allow time for other processes
-            if (IsSleeping())
-                K2System.Sleep(25);
-            else if (K2System.IsDedicatedServer() || K2System.IsServerManager() || host_sleep)
-            {
+            if (IsSleeping() || host_sleep)
                 K2System.Sleep(host_sleepMS);
+            else if (K2System.IsDedicatedServer() || K2System.IsServerManager() || host_yield)
+            {
+                K2System.Sleep(host_yieldMS);
                 uiFrameMS = 1;
             }
+            else if (!K2System.HasFocus() && (m_pServer == nullptr))
+                K2System.Sleep(host_sleepMS);
 
             // Don't allow frames with a time less than one ms
             do
             {
                 if (!K2System.HasFocus() || !IsConnected())
-                    K2System.Sleep(host_sleepMS);
+                    K2System.Sleep(host_yieldMS);
                 uiThisTick = K2System.Milliseconds();
                 iTickLength = uiThisTick - uiLastTick;
                 iTickLengthTrack = uiThisTick - uiLastTickTrack;
@@ -1652,6 +1656,17 @@ void    CHost::UpdateComplete()
 bool    CHost::IsIgnored(const tstring &sUser)
 {
     return ChatManager.IsIgnored(sUser);
+}
+
+
+/*====================
+  CHost::SetSleeping
+  ====================*/
+void    CHost::SetSleeping(bool bSleeping, int iSleepMS)
+{
+    if (iSleepMS >= 0)
+        host_sleepMS = MAX<int>(iSleepMS, host_yieldMS);
+    SetSleeping(bSleeping);
 }
 
 
