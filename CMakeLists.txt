@@ -25,7 +25,7 @@ endif()
 
 set(K2_NOVID FALSE CACHE BOOL "Whether to build without graphics dependencies (OpenGL, etc)")
 set(K2_NOSOUND FALSE CACHE BOOL "Whether to build without sound dependencies (FMOD)")
-set(K2_NONVCTRL FALSE CACHE BOOL "Whether to build without libXNVCtrl dependencies")
+set(K2_NONVCTRL TRUE CACHE BOOL "Whether to build without libXNVCtrl dependencies")
 
 # C++ 20
 set(CMAKE_CXX_STANDARD 20)
