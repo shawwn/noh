@@ -580,7 +580,7 @@ void    CGameInfo::WriteStringTable(CFileHandle &hFile, size_t zTabStop, size_t 
     hFile << TabPad(_CTS("Mode_CaptainsDraft"), zTabStop, zColumnOffset) << EscapeWhiteSpace(GetGameModeString(GAME_MODE_CAPTAINS_DRAFT)) << newl;
     hFile << TabPad(_CTS("Mode_CaptainsMode"), zTabStop, zColumnOffset) << EscapeWhiteSpace(GetGameModeString(GAME_MODE_CAPTAINS_MODE)) << newl;
     hFile << TabPad(_CTS("Mode_BanningPick"), zTabStop, zColumnOffset) << EscapeWhiteSpace(GetGameModeString(GAME_MODE_BANNING_PICK)) << newl;
-    hFile << TabPad(_CTS("Mode_Invalid"), zTabStop, zColumnOffset) << EscapeWhiteSpace(GetGameModeString(NUM_GAME_MODES)) << newl;
+    hFile << TabPad(_CTS("Mode_Invalid"), zTabStop, zColumnOffset) << EscapeWhiteSpace(GetGameModeString(INVALID_INDEX)) << newl;
 
     hFile << newl;
 
