@@ -61,6 +61,8 @@
 #include "../k2/c_profilemanager.h"
 #include "../k2/c_host.h"
 #include "../k2/c_buffer.h"
+
+#include "game_shared_api.h"
 //=============================================================================
 
 #endif //__GAME_SHARED_COMMON_H__

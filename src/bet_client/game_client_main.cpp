@@ -9,6 +9,7 @@
 
 #include "c_gameclient.h"
 
+#include "../k2/c_uicmd.h"
 #include "../k2/c_clientgamelib.h"
 #include "../k2/c_action.h"
 //=============================================================================

@@ -13,10 +13,6 @@
 
 #include "c_occludertool.h"
 
-#include "../k2/c_brush.h"
-#include "../k2/c_world.h"
-#include "../k2/s_traceinfo.h"
-#include "../k2/c_vid.h"
 #include "../k2/c_input.h"
 #include "../k2/c_draw2d.h"
 #include "../k2/intersection.h"

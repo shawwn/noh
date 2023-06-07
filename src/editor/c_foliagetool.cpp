@@ -14,8 +14,6 @@
 #include "c_foliagetool.h"
 
 #include "../k2/c_brush.h"
-#include "../k2/c_world.h"
-#include "../k2/s_traceinfo.h"
 #include "../k2/c_vid.h"
 #include "../k2/c_texture.h"
 #include "../k2/c_scenemanager.h"

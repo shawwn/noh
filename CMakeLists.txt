@@ -472,10 +472,10 @@ endif()
 
 if(BUILD_STATIC)
   list(APPEND K2_PUBLIC_DEFINITIONS -DK2_LIB)
-  list(APPEND HON_SHARED_PUBLIC_DEFINITIONS -DGAME_SHARED_LIB)
+  list(APPEND GAME_SHARED_PUBLIC_DEFINITIONS -DGAME_SHARED_LIB)
 else()
   list(APPEND K2_PUBLIC_DEFINITIONS -DK2_DLL)
-  list(APPEND HON_SHARED_PUBLIC_DEFINITIONS -DGAME_SHARED_DLL)
+  list(APPEND GAME_SHARED_PUBLIC_DEFINITIONS -DGAME_SHARED_DLL)
 endif()
 
 list(APPEND K2_INCLUDE_DIRS_PUBLIC "${noh_SOURCE_DIR}/lib/k2public")
@@ -1486,6 +1486,7 @@ endif()
 set(GAME_SHARED_SOURCES
   src/game_shared/game_shared_common.cpp
   src/game_shared/game_shared_common.h
+  src/game_shared/game_shared_api.h
   )
 
 add_library(${GAME_SHARED_LIBRARY} SHARED ${GAME_SHARED_SOURCES})
@@ -1689,7 +1690,6 @@ set(HON_SHARED_SOURCES
   src/hon_shared/c_xmlproc_shop.cpp
   src/hon_shared/c_xmlproc_state.cpp
   src/hon_shared/combat_actions.h
-  src/hon_shared/game_shared_api.h
   src/hon_shared/hon_shared_common.cpp
   src/hon_shared/hon_shared_common.h
   src/hon_shared/game_shared_constants.h
@@ -1777,7 +1777,6 @@ set(HON_SHARED_SOURCES
 add_library(${HON_SHARED_LIBRARY} SHARED ${HON_SHARED_SOURCES})
 app_configure_lib(${HON_SHARED_LIBRARY})
 target_compile_definitions(${HON_SHARED_LIBRARY} PRIVATE GAME_SHARED_EXPORTS)
-target_compile_definitions(${HON_SHARED_LIBRARY} PUBLIC ${HON_SHARED_PUBLIC_DEFINITIONS})
 target_precompile_headers(${HON_SHARED_LIBRARY} PRIVATE src/hon_shared/hon_shared_common.h)
 target_link_libraries(${HON_SHARED_LIBRARY}
   ${HON_SHARED_LIBRARIES}

@@ -13,7 +13,6 @@
 #include "game_shared_types.h"
 #include "game_shared_constants.h"
 #include "game_shared_protocol.h"
-#include "game_shared_api.h"
 #include "game_shared_cvars.h"
 #include "game_shared_entities.h"
 
