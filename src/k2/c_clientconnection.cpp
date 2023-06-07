@@ -1411,7 +1411,7 @@ void    CClientConnection::Authenticate()
         return;
 
     // Check if this connection requires authorization
-    if (m_pHostServer->GetPractice() || !svr_requireAuthentication ||
+    if (m_pHostServer->GetPractice() || m_pHostServer->GetLocal() || !svr_requireAuthentication ||
         (HasFlags(CLIENT_CONNECTION_LOCAL) && (GetCookie().empty() || m_pHostServer->GetSessionCookie().empty())) ||
         Host.IsReplay())
     {
