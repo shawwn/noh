@@ -1917,13 +1917,12 @@ void    CGameServer::Remake()
     RegisterShopInfo();
 
     // Spawn game entities for each world entity that requires one
-    WorldEntList &vWorldEnts(GetWorldEntityList());
-    for (WorldEntList_it it(vWorldEnts.begin()), itEnd(vWorldEnts.end()); it != itEnd; ++it)
+    for (PoolHandle hWorldEntity : GetWorldEntityList())
     {
-        if (*it == INVALID_POOL_HANDLE)
+        if (hWorldEntity == INVALID_POOL_HANDLE)
             continue;
 
-        CWorldEntity *pWorldEntity(GetWorldPointer()->GetEntityByHandle(*it));
+        CWorldEntity *pWorldEntity(GetWorldPointer()->GetEntityByHandle(hWorldEntity));
         if (pWorldEntity == nullptr)
             continue;
 
@@ -7926,13 +7925,12 @@ bool    CGameServer::LoadWorld(const tstring &sName, const tstring &sGameSetting
         ClearWaterMarkers();
 
         // Spawn game entities for each world entity that requires one
-        WorldEntList &vWorldEnts(GetWorldEntityList());
-        for (WorldEntList_it it(vWorldEnts.begin()), itEnd(vWorldEnts.end()); it != itEnd; ++it)
+        for (PoolHandle hWorldEntity : GetWorldEntityList())
         {
-            if (*it == INVALID_POOL_HANDLE)
+            if (hWorldEntity == INVALID_POOL_HANDLE)
                 continue;
 
-            CWorldEntity *pWorldEntity(GetWorldPointer()->GetEntityByHandle(*it));
+            CWorldEntity *pWorldEntity(GetWorldPointer()->GetEntityByHandle(hWorldEntity));
             if (pWorldEntity == nullptr)
                 continue;
 
