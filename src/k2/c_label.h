@@ -11,6 +11,12 @@
 #include "i_widget.h"
 //=============================================================================
 
+//=============================================================================
+// Declarations
+//=============================================================================
+class CResourceWatcher;
+//=============================================================================
+
     //MikeG added  bool m_bOutline; float m_fShadowOffsetY; float m_fShadowOffsetX; CVec4f m_v4OutlineColor; int m_iOutlineOffset;
 //=============================================================================
 // CLabel
@@ -18,6 +24,8 @@
 class CLabel : public IWidget
 {
 protected:
+    CResourceWatcher*   m_pWatchContent = nullptr;
+    tstring     m_sContent;
     tstring     m_sText;
     tstring     m_sRenderText;
     float       m_fWrapCount;
@@ -45,7 +53,7 @@ protected:
     fvector     m_vLineCentering;
 
 public:
-    K2_API ~CLabel()    {}
+    K2_API ~CLabel();
     K2_API CLabel(CInterface *pInterface, IWidget *pParent, const CWidgetStyle& style);
 
     tstring         GetValue() const                                    { return m_sText; }

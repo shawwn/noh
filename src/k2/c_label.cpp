@@ -13,25 +13,33 @@
 #include "c_uicmd.h"
 #include "c_widgetstyle.h"
 #include "c_uimanager.h"
-#include "c_cmd.h"
 #include "c_draw2d.h"
 #include "c_fontmap.h"
-#include "c_uiscript.h"
 #include "c_resourcemanager.h"
+#include "c_resourcewatcher.h"
 //=============================================================================
 
 //=============================================================================
 // Declarations
 //=============================================================================
-CVAR_BOOLF( ui_translateLabels, true,   CVAR_SAVECONFIG);
+CVAR_BOOLF(ui_translateLabels, true,   CVAR_SAVECONFIG);
 //=============================================================================
+
+/*====================
+  CLabel::~CLabel
+  ====================*/
+CLabel::~CLabel()
+{
+    SAFE_DELETE(m_pWatchContent);
+}
 
 /*====================
   CLabel::CLabel
   ====================*/
 CLabel::CLabel(CInterface *pInterface, IWidget *pParent, const CWidgetStyle& style) :
 IWidget(pInterface, pParent, WIDGET_LABEL, style),
-m_sText(style.GetProperty(_T("content"))),
+m_sContent(style.GetProperty(_T("content"))),
+m_sText(m_sContent),
 m_hFontMap(g_ResourceManager.LookUpName(style.GetProperty(_T("font"), _T("system_medium")), RES_FONTMAP)),
 m_iDrawFlags(0),
 m_bShadow(style.GetPropertyBool(_T("shadow"), false)),
@@ -64,8 +72,24 @@ m_bLineRet(false)
         m_fShadowOffsetY = m_fShadowOffset;
     }
 
-    if (ui_translateLabels)
-        m_sText = UIManager.Translate(m_sText);
+    if (m_sContent != TSNULL)
+    {
+        if (ui_translateLabels)
+            m_sText = UIManager.Translate(m_sContent);
+
+        // Dynamically reload changes to interface translation string table
+        m_pWatchContent = K2_NEW(ctx_Widgets, CResourceWatcher)(UIManager.GetTranslationStringTable(), [this]() {
+            if (ui_translateLabels)
+            {
+                if (m_sText != TSNULL && m_sContent != TSNULL)
+                {
+                    tstring sText(UIManager.Translate(m_sContent));
+                    if (sText != m_sText)
+                        SetText(sText);
+                }
+            }
+        });
+    }
 
     if (m_hFontMap == INVALID_RESOURCE)
         m_hFontMap = g_ResourceManager.LookUpName(_T("system_medium"), RES_FONTMAP);

@@ -840,6 +840,8 @@ set(K2_SOURCES
   src/k2/c_resourcereference.h
   src/k2/c_resourceinfo.cpp
   src/k2/c_resourceinfo.h
+  src/k2/c_resourcewatcher.cpp
+  src/k2/c_resourcewatcher.h
   src/k2/c_resultgate.h
   src/k2/c_resultsegment.h
   src/k2/c_sample.cpp

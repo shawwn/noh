@@ -12,6 +12,12 @@
 #include "c_table_scrollbar.h"
 
 //=============================================================================
+// Declarations
+//=============================================================================
+class CResourceWatcher;
+//=============================================================================
+
+//=============================================================================
 // Definitions
 //=============================================================================
 typedef struct
@@ -56,9 +62,10 @@ private:
 
     ResHandle       m_hFontMap;
 
-    bool            m_bHasHeadings;
-    tsvector        m_vHeadings;
-    tstring         m_sHeadingID;
+    bool                m_bHasHeadings;
+    tsvector            m_vHeadings;
+    CResourceWatcher*   m_pWatchHeadings = nullptr;
+    tstring             m_sHeadingID;
 
     tstring         m_sOnClear;
 

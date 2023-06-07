@@ -18,6 +18,7 @@
 #include "c_bitmap.h"
 #include "c_uimanager.h"
 #include "c_resourcemanager.h"
+#include "c_resourcewatcher.h"
 //=============================================================================
 
 uint g_uiCompareCol;
@@ -132,6 +133,7 @@ bool CompareColByValueReverse(TableRow vsRow1, TableRow vsRow2)
 CTable::~CTable()
 {
     SAFE_DELETE(m_pScrollbar);
+    SAFE_DELETE(m_pWatchHeadings);
 }
 
     //MikeG added commands Outline OutlineColor Outlineoffset Shadowoffsetx Shadowoffsety
@@ -319,6 +321,19 @@ m_bAutoSort(style.GetPropertyBool(_T("autosort"), true))
         for (tsvector_it it(m_vHeadings.begin()); it != m_vHeadings.end(); ++it)
             *it = UIManager.Translate(*it);
         Data(m_sHeadingID, m_vHeadings, true);
+
+        // Dynamically reload changes to interface translation string table
+        m_pWatchHeadings = K2_NEW(ctx_Widgets, CResourceWatcher)(UIManager.GetTranslationStringTable(), [=, this]() {
+            auto vHeadings = TokenizeString(sHeadings, _T(','));
+            size_t uiCol = 0;
+            for (tsvector_it it(vHeadings.begin()); it != vHeadings.end(); ++it, uiCol += 1)
+            {
+                *it = UIManager.Translate(*it);
+                if (*it != m_vHeadings[uiCol])
+                    SetCell(uiCol, 0, *it);
+            }
+            m_vHeadings = vHeadings;
+        });
     }
 
     while (m_vRowColors.size() < m_uiBaseRows)

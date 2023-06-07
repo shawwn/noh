@@ -123,6 +123,7 @@ public:
     K2_API void         ResetRefresh();
 
     K2_API tstring      Translate(const tstring &sKey, const tsmapts &mapTokens = SMAPS_EMPTY);
+    K2_API ResHandle    GetTranslationStringTable() const { return m_hStringTable; }
 
     K2_API void         UnloadTempInterfaces();
 };
