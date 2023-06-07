@@ -8,16 +8,7 @@
 //=============================================================================
 // Shared modules
 //=============================================================================
-#include "../game_shared/game_shared_common.h"
-
-#include "../hon_shared/game_shared_types.h"
-#include "../hon_shared/game_shared_constants.h"
-#include "../hon_shared/game_shared_entities.h"
-#include "../hon_shared/game_shared_protocol.h"
-
-#include "../hon_shared/i_game.h"
-#include "../hon_shared/i_gameentity.h"
-#include "../hon_shared/c_entityregistry.h"
+#include "../hon_shared/hon_shared_common.h"
 
 #include "c_gameclient.h"
 //=============================================================================

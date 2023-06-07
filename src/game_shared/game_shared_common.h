@@ -63,6 +63,7 @@
 #include "../k2/c_buffer.h"
 
 #include "game_shared_api.h"
+#include "game_shared_types.h"
 //=============================================================================
 
 #endif //__GAME_SHARED_COMMON_H__

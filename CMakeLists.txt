@@ -1487,6 +1487,7 @@ set(GAME_SHARED_SOURCES
   src/game_shared/game_shared_common.cpp
   src/game_shared/game_shared_common.h
   src/game_shared/game_shared_api.h
+  src/game_shared/game_shared_types.h
   )
 
 add_library(${GAME_SHARED_LIBRARY} SHARED ${GAME_SHARED_SOURCES})
@@ -1699,7 +1700,7 @@ set(HON_SHARED_SOURCES
   src/hon_shared/game_shared_entities.h
   src/hon_shared/game_shared_protocol.h
   src/hon_shared/game_shared_states.h
-  src/hon_shared/game_shared_types.h
+  src/hon_shared/hon_shared_types.h
   src/hon_shared/i_areaaffector.cpp
   src/hon_shared/i_areaaffector.h
   src/hon_shared/i_ActionState.h

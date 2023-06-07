@@ -2,8 +2,8 @@
 // game_shared_types.h
 //
 //=============================================================================
-#ifndef __GAME_SHARED_TYPES_H__
-#define __GAME_SHARED_TYPES_H__
+#ifndef __HON_SHARED_TYPES_H__
+#define __HON_SHARED_TYPES_H__
 
 //=============================================================================
 // Definitions
@@ -37,17 +37,6 @@ enum EGameMode
 
     NUM_GAME_MODES
 };
-
-enum EVCType
-{
-    VC_TEAM,
-    VC_ALL
-};
-
-typedef map<int, class CPlayer*>        PlayerMap;
-typedef PlayerMap::iterator             PlayerMap_it;
-typedef PlayerMap::const_iterator       PlayerMap_cit;
-typedef PlayerMap::reverse_iterator     PlayerMap_rit;
 
 // Hero list
 const byte HERO_LIST_NOT_AVAILABLE  (0);
@@ -288,25 +277,12 @@ enum EGameLogEvent
     GAME_LOG_AWARD_PAYBACK
 };
 
-template<class T> T                 GetDefaultEmptyValue()                      {}
-template<> inline float             GetDefaultEmptyValue<float>()               { return 0.0f; }
-template<> inline byte              GetDefaultEmptyValue<byte>()                { return 0; }
-template<> inline int               GetDefaultEmptyValue<int>()                 { return 0; }
-template<> inline uint              GetDefaultEmptyValue<uint>()                { return 0; }
-template<> inline bool              GetDefaultEmptyValue<bool>()                { return false; }
-template<> inline CVec2f            GetDefaultEmptyValue<CVec2f>()              { return V2_ZERO; }
-template<> inline CVec3f            GetDefaultEmptyValue<CVec3f>()              { return V_ZERO; }
-template<> inline CVec4f            GetDefaultEmptyValue<CVec4f>()              { return V4_ZERO; }
-template<> inline tstring           GetDefaultEmptyValue<tstring>()             { return TSNULL; }
-template<> inline const tstring&    GetDefaultEmptyValue<const tstring&>()      { return TSNULL; }
 template<> inline EAttribute        GetDefaultEmptyValue<EAttribute>()          { return ATTRIBUTE_INVALID; }
 template<> inline ETargetSelection  GetDefaultEmptyValue<ETargetSelection>()    { return TARGET_SELECT_NONE; }
 template<> inline EEntityToolAction GetDefaultEmptyValue<EEntityToolAction>()   { return TOOL_ACTION_INVALID; }
 template<> inline EActionTarget     GetDefaultEmptyValue<EActionTarget>()       { return ACTION_TARGET_INVALID; }
 template<> inline EUnitCommand      GetDefaultEmptyValue<EUnitCommand>()        { return UNITCMD_INVALID; }
 template<> inline ESuperType        GetDefaultEmptyValue<ESuperType>()          { return SUPERTYPE_INVALID; }
-template<> inline tsvector          GetDefaultEmptyValue<tsvector>()            { return VSNULL; }
-template<> inline const tsvector&   GetDefaultEmptyValue<const tsvector&>()     { return VSNULL; }
 template<> inline EGamePhase        GetDefaultEmptyValue<EGamePhase>()          { return GAME_PHASE_INVALID; }
 
 inline EGamePhase   GetGamePhaseFromString(const tstring &sGamePhase)
@@ -933,4 +909,4 @@ const ushort VISION_FLAG_MASK               (VISION_BIT | VISION_BIT << 8);
 const ushort PLAYER_SIGHTED_FLAG_MASK       ((ushort)~(SIGHTED_FLAG_MASK | REVEALED_FLAG_MASK | VISION_FLAG_MASK));
 //=============================================================================
 
-#endif //__GAME_SHARED_TYPES_H__
+#endif //__HON_SHARED_TYPES_H__

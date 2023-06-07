@@ -10,7 +10,7 @@
 //=============================================================================
 #include "../game_shared/game_shared_common.h"
 
-#include "game_shared_types.h"
+#include "hon_shared_types.h"
 #include "game_shared_constants.h"
 #include "game_shared_protocol.h"
 #include "game_shared_cvars.h"
