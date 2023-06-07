@@ -1759,7 +1759,7 @@ void    CHostClient::Connect(const tstring &sAddr, bool bSilent, bool bPractice,
 
         tstring sFullAddr(sAddr);
         if (sFullAddr.find(_T(':')) == tstring::npos)
-            sFullAddr += _T(":") + XtoA(DEFAULT_SERVER_PORT);
+            sFullAddr += _T(":") + XtoA(svr_port);
         if (!m_sockGame.SetSendAddr(sFullAddr))
             EX_ERROR(_T("Failed to set the send address"));
 
