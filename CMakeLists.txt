@@ -444,14 +444,8 @@ find_package_for_k2(GIF GIF)
 find_package_for_k2(PNG PNG)
 find_package_for_k2(CURL CURL)
 find_package_for_k2(ZLIB ZLIB)
-if(APPLE)
-  # find_package(JPEG) doesn't seem to locate homebrew jpeg, and there's
-  # no way to specify a root directory like JPEG_ROOT_DIR. Just hardcode
-  # to homebrew for now.
-  set(JPEG_LIBRARY /opt/homebrew/opt/libjpeg/lib/libjpeg.dylib)
-  set(JPEG_INCLUDE_DIR /opt/homebrew/opt/libjpeg/include)
-endif()
 find_package_for_k2(JPEG JPEG)
+message(STATUS "Found JPEG_INCLUDE_DIR: ${JPEG_INCLUDE_DIR}")
 find_package_for_k2(LibXml2 LIBXML2)
 find_package_for_k2(Freetype FREETYPE)
 list(APPEND K2_INCLUDE_DIRS "${noh_SOURCE_DIR}/lib/libpng/include")
