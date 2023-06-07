@@ -15,6 +15,8 @@
 #include <map>
 #include <set>
 #include <stack>
+#include <iterator>
+#include <ranges>
 #if TKTK
 #ifdef __GNUC__
 #if (__GNUC__ > 4) || (__GNUC__ == 4 && __GNUC_MINOR__ > 2) // gcc >= 4.3
@@ -79,7 +81,7 @@ namespace K2
 using std::abs;
 using std::min;
 using std::max;
-using std::insert_iterator;
+using std::views::values;
 using std::pair;
 using std::ostringstream;
 using std::numeric_limits;
