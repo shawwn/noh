@@ -639,11 +639,11 @@ void    CEntityRegistry::WriteDynamicEntities(IBuffer &buffer)
   ====================*/
 void    CEntityRegistry::GetHeroList(const tstring &sTeamName, vector<ushort> &vHeroes, EAttribute eAttribute)
 {
-    for (DynamicEntityTypeIDMap::iterator it(m_mapDynamicTypeIDs.begin()); it != m_mapDynamicTypeIDs.end(); ++it)
+    for (const CDynamicEntityAllocator& it : m_mapDynamicTypeIDs | values)
     {
-        if (it->second.GetBaseType() != ENTITY_BASE_TYPE_HERO)
+        if (it.GetBaseType() != ENTITY_BASE_TYPE_HERO)
             continue;
-        CEntityDefinitionResource *pResource(g_ResourceManager.Get<CEntityDefinitionResource>(it->second.GetDefinitionHandle()));
+        CEntityDefinitionResource *pResource(g_ResourceManager.Get<CEntityDefinitionResource>(it.GetDefinitionHandle()));
         if (pResource == nullptr)
             continue;
         CHeroDefinition *pDefinition(pResource->GetDefinition<CHeroDefinition>());
@@ -667,7 +667,7 @@ void    CEntityRegistry::GetHeroList(const tstring &sTeamName, vector<ushort> &v
             (Game.HasGameOptions(GAME_OPTION_NO_STRENGTH) || (eAttribute != ATTRIBUTE_INVALID && eAttribute != ATTRIBUTE_STRENGTH)))
             continue;
         
-        vHeroes.push_back(it->second.GetTypeID());
+        vHeroes.push_back(it.GetTypeID());
     }
 }
 
@@ -677,11 +677,11 @@ void    CEntityRegistry::GetHeroList(const tstring &sTeamName, vector<ushort> &v
   ====================*/
 void    CEntityRegistry::GetAutoRecipeList(vector<ushort> &vRecipes)
 {
-    for (DynamicEntityTypeIDMap::iterator it(m_mapDynamicTypeIDs.begin()); it != m_mapDynamicTypeIDs.end(); ++it)
+    for (const CDynamicEntityAllocator& it : m_mapDynamicTypeIDs | values)
     {
-        if (it->second.GetBaseType() != ENTITY_BASE_TYPE_ITEM)
+        if (it.GetBaseType() != ENTITY_BASE_TYPE_ITEM)
             continue;
-        CEntityDefinitionResource *pResource(g_ResourceManager.Get<CEntityDefinitionResource>(it->second.GetDefinitionHandle()));
+        CEntityDefinitionResource *pResource(g_ResourceManager.Get<CEntityDefinitionResource>(it.GetDefinitionHandle()));
         if (pResource == nullptr)
             continue;
         CItemDefinition *pDefinition(pResource->GetDefinition<CItemDefinition>());
@@ -690,7 +690,7 @@ void    CEntityRegistry::GetAutoRecipeList(vector<ushort> &vRecipes)
         if (!pDefinition->GetAutoAssemble())
             continue;
         
-        vRecipes.push_back(it->second.GetTypeID());
+        vRecipes.push_back(it.GetTypeID());
     }
 }
 
@@ -700,12 +700,12 @@ void    CEntityRegistry::GetAutoRecipeList(vector<ushort> &vRecipes)
   ====================*/
 void    CEntityRegistry::GetShopList(vector<ushort> &vShops)
 {
-    for (DynamicEntityTypeIDMap::iterator it(m_mapDynamicTypeIDs.begin()); it != m_mapDynamicTypeIDs.end(); ++it)
+    for (const CDynamicEntityAllocator& it : m_mapDynamicTypeIDs | values)
     {
-        if (it->second.GetBaseType() != ENTITY_BASE_TYPE_SHOP)
+        if (it.GetBaseType() != ENTITY_BASE_TYPE_SHOP)
             continue;
         
-        vShops.push_back(it->second.GetTypeID());
+        vShops.push_back(it.GetTypeID());
     }
 }
 
