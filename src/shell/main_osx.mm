@@ -42,7 +42,7 @@
 - (void)applicationWillFinishLaunching:(NSNotification*)aNotification
 {
     // ensure the menu won't freeze: https://stackoverflow.com/questions/34469718/top-left-menu-bar-is-frozen-when-main-window-shows-up
-    [NSApp setActivationPolicy:NSApplicationActivationPolicyRegular];
+    [[NSApplication sharedApplication] setActivationPolicy:NSApplicationActivationPolicyRegular];
     // set up the menu
     NSMenu *pMainMenu = [[NSMenu alloc] init];
     NSMenu *pMenu = [[NSMenu alloc] initWithTitle:@(GAME_TITLE)];
@@ -72,16 +72,16 @@
     [pMainMenu addItem:pMenuItem];
     #if TKTK
     // private method that we need to call to set this to be the main/"apple" menu
-    [NSApp performSelector:NSSelectorFromString(@"setAppleMenu:") withObject:pMenu];
+    [[NSApplication sharedApplication] performSelector:NSSelectorFromString(@"setAppleMenu:") withObject:pMenu];
     #else
-    [NSApp setMainMenu:pMainMenu];
+    [[NSApplication sharedApplication] setMainMenu:pMainMenu];
     #endif
 }
 
 - (void)applicationDidFinishLaunching:(NSNotification*)aNotification
 {
     // ensure the menu won't freeze: https://stackoverflow.com/questions/34469718/top-left-menu-bar-is-frozen-when-main-window-shows-up
-    [NSApp setActivationPolicy:NSApplicationActivationPolicyRegular];
+    [[NSApplication sharedApplication] setActivationPolicy:NSApplicationActivationPolicyRegular];
     [[[NSApplication sharedApplication] mainWindow] makeKeyAndOrderFront:self];
     // bring the window to the front
     #if 1
