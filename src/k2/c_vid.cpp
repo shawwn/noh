@@ -202,7 +202,7 @@ void    CVid::StartDriver()
             {
                 // Subtract a bit of resolution to account for title bar
                 vid_resolution.SetValue(0, MAX(720, vm.iWidth - 160));
-                vid_resolution.SetValue(1, MAX(480, vm.iHeight - 100));
+                vid_resolution.SetValue(1, MAX(480, vm.iHeight - 200));
             }
             vid_bpp = vm.iBpp;
             vid_refreshRate = vm.iRefreshRate;
