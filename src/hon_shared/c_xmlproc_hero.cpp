@@ -6,7 +6,7 @@
 //=============================================================================
 // Headers
 //=============================================================================
-#include "game_shared_common.h"
+#include "hon_shared_common.h"
 
 #include "c_herodefinition.h"
 #include "i_heroentity.h"

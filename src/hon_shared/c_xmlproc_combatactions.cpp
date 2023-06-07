@@ -6,7 +6,7 @@
 //=============================================================================
 // Headers
 //=============================================================================
-#include "game_shared_common.h"
+#include "hon_shared_common.h"
 
 #include "combat_actions.h"
 #include "c_affectordefinition.h"

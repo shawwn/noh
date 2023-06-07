@@ -1474,6 +1474,31 @@ add_dependencies(${VID_GL2_LIBRARY} ${VID_GL2_LIBRARY_DEPENDENCIES})
 endif() # if(NOT K2_NOVID)
 
 #========================================
+# game_shared
+#========================================
+set(GAME_SHARED_LIBRARY game_shared)
+set(GAME_SHARED_LIBRARY_LIB "${GAME_SHARED_LIBRARY}")
+set(GAME_SHARED_LIBRARY_DLL "${BIN_DIR}/${GAME_SHARED_LIBRARY}${DLL_EXT}")
+if (WIN32)
+  set(GAME_SHARED_LIBRARY_LIB "${LIB_DIR}/${GAME_SHARED_LIBRARY}${LIB_EXT}")
+endif()
+
+set(GAME_SHARED_SOURCES
+  src/game_shared/game_shared_common.cpp
+  src/game_shared/game_shared_common.h
+  )
+
+add_library(${GAME_SHARED_LIBRARY} SHARED ${GAME_SHARED_SOURCES})
+app_configure_lib(${GAME_SHARED_LIBRARY})
+target_compile_definitions(${GAME_SHARED_LIBRARY} PRIVATE GAME_SHARED_EXPORTS)
+target_compile_definitions(${GAME_SHARED_LIBRARY} PUBLIC ${GAME_SHARED_PUBLIC_DEFINITIONS})
+target_precompile_headers(${GAME_SHARED_LIBRARY} PRIVATE src/game_shared/game_shared_common.h)
+target_link_libraries(${GAME_SHARED_LIBRARY}
+  ${GAME_SHARED_LIBRARIES}
+  "${K2_LIBRARY}"
+  )
+
+#========================================
 # hon_shared
 #========================================
 set(HON_SHARED_LIBRARY hon_shared)
@@ -1665,8 +1690,8 @@ set(HON_SHARED_SOURCES
   src/hon_shared/c_xmlproc_state.cpp
   src/hon_shared/combat_actions.h
   src/hon_shared/game_shared_api.h
-  src/hon_shared/game_shared_common.cpp
-  src/hon_shared/game_shared_common.h
+  src/hon_shared/hon_shared_common.cpp
+  src/hon_shared/hon_shared_common.h
   src/hon_shared/game_shared_constants.h
   src/hon_shared/game_shared_cvars.cpp
   src/hon_shared/game_shared_cvars.h
@@ -1753,10 +1778,11 @@ add_library(${HON_SHARED_LIBRARY} SHARED ${HON_SHARED_SOURCES})
 app_configure_lib(${HON_SHARED_LIBRARY})
 target_compile_definitions(${HON_SHARED_LIBRARY} PRIVATE GAME_SHARED_EXPORTS)
 target_compile_definitions(${HON_SHARED_LIBRARY} PUBLIC ${HON_SHARED_PUBLIC_DEFINITIONS})
-target_precompile_headers(${HON_SHARED_LIBRARY} PRIVATE src/hon_shared/game_shared_common.h)
+target_precompile_headers(${HON_SHARED_LIBRARY} PRIVATE src/hon_shared/hon_shared_common.h)
 target_link_libraries(${HON_SHARED_LIBRARY}
   ${HON_SHARED_LIBRARIES}
   "${K2_LIBRARY}"
+  "${GAME_SHARED_LIBRARY}"
   )
 
 #========================================

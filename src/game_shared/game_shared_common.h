@@ -29,7 +29,7 @@
 //=============================================================================
 // Standard headers
 //=============================================================================
-#include <float.h>
+#include <cfloat>
 #include <cassert>
 //=============================================================================
 
@@ -61,17 +61,6 @@
 #include "../k2/c_profilemanager.h"
 #include "../k2/c_host.h"
 #include "../k2/c_buffer.h"
-
-#include "game_shared_types.h"
-#include "game_shared_constants.h"
-#include "game_shared_protocol.h"
-#include "game_shared_api.h"
-#include "game_shared_cvars.h"
-#include "game_shared_entities.h"
-
-#include "i_game.h"
-#include "c_entityregistry.h"
-#include "i_unitentity.h"
 //=============================================================================
 
 #endif //__GAME_SHARED_COMMON_H__

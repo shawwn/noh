@@ -6,7 +6,7 @@
 //=============================================================================
 // Headers
 //=============================================================================
-#include "game_shared_common.h"
+#include "hon_shared_common.h"
 
 #include "c_powerupdefinition.h"
 #include "i_powerupentity.h"
