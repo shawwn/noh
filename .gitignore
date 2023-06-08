@@ -1059,6 +1059,7 @@ xcuserdata/
 # https://www.jetbrains.com/help/idea/run-debug-configuration.html#templates
 /.idea/*
 !/.idea/runConfigurations
+!/.idea/fileTemplates
 !/.idea/fileColors.xml
 !/.idea/cmake.xml
 !/.idea/shelf
